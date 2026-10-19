@@ -1,0 +1,24 @@
+import {useEffect,useRef,useState} from 'react';
+import {jsonErrorRange,type EditorRange} from './planErrorLocation';
+type Result={valid:boolean;errors:string[];warnings:string[];nodes:number;json_location:{line:number;column:number}|null;source_text_sha256:string;verification:string;task_changed:boolean;network_requested:boolean;code_executed:boolean;platform_checked:boolean;business_verified:boolean;task_id:string;revision:number;request_nonce:string};
+const keys='business_verified,code_executed,errors,json_location,network_requested,nodes,platform_checked,request_nonce,revision,source_text_sha256,task_changed,task_id,valid,verification,warnings';
+export default function PlanCheckPanel({taskId,revision,appType,text,disabled,onLocate}:{taskId:string;revision:number;appType:string;text:string;disabled:boolean;onLocate?:(source:string,range:EditorRange)=>boolean}){
+ const [result,setResult]=useState<(Result&{checkedText:string})|null>(null),[checking,setChecking]=useState(false),[error,setError]=useState('');const epoch=useRef(0),controller=useRef<AbortController|null>(null);
+ useEffect(()=>{epoch.current++;controller.current?.abort();setResult(null);setChecking(false);setError('');return()=>{epoch.current++;controller.current?.abort()}},[taskId,revision,appType,text,disabled]);
+ async function check(){if(disabled||checking||!text.trim())return;const ticket=++epoch.current,nonce=crypto.randomUUID(),abort=new AbortController();controller.current=abort;setChecking(true);setResult(null);setError('');const timer=setTimeout(()=>abort.abort(),15000);
+  try{const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text))),b=>b.toString(16).padStart(2,'0')).join('');if(ticket!==epoch.current)return;
+   const response=await fetch(`/api/tasks/${encodeURIComponent(taskId)}/plan-check`,{method:'POST',signal:abort.signal,headers:{'Content-Type':'application/json'},body:JSON.stringify({revision,plan_text:text,request_nonce:nonce})});if(ticket!==epoch.current)return;if(!response.ok)throw Error();
+   const v=await response.json() as Result;if(ticket!==epoch.current)return;
+   if(!v||typeof v!=='object'||Array.isArray(v)||Object.keys(v).sort().join(',')!==keys||v.task_id!==taskId||v.revision!==revision||v.request_nonce!==nonce||v.source_text_sha256!==hash||typeof v.valid!=='boolean'||!Number.isSafeInteger(v.nodes)||v.nodes<0||v.verification!=='local_plan_structure_only'||['task_changed','network_requested','code_executed','platform_checked','business_verified'].some(k=>v[k as keyof Result]!==false))throw Error();
+   if(!Array.isArray(v.errors)||!Array.isArray(v.warnings)||v.errors.length+v.warnings.length>200||[...v.errors,...v.warnings].some(m=>typeof m!=='string'||!m.trim()||[...m].length>4000)||v.valid!==(v.errors.length===0)||new TextEncoder().encode(JSON.stringify([...v.errors,...v.warnings])).length>256000)throw Error();
+   if(v.json_location!==null&&(!v.json_location||typeof v.json_location!=='object'||Object.keys(v.json_location).sort().join(',')!=='column,line'||![v.json_location.line,v.json_location.column].every(n=>Number.isSafeInteger(n)&&n>=1&&n<=2000001)))throw Error();
+   setResult({...v,checkedText:text});
+  }catch{if(ticket===epoch.current)setError('草稿检查未完成或响应不匹配，请核对当前任务、修订与原文后主动重试；当前编辑保持。')}
+  finally{clearTimeout(timer);if(ticket===epoch.current)setChecking(false)}
+ }
+ const visible=result&&result.checkedText===text&&result.task_id===taskId&&result.revision===revision&&!disabled?result:null;
+ const position=visible?.json_location?jsonErrorRange(text,visible.json_location):null;
+ return <section className="plan-check-panel configuration-proposal"><div className="listhead"><b>当前草稿静态检查</b><small>只读 · 不保存</small></div><p className="hint">使用当前已保存任务配置检查这份原文；不编译、执行代码、调用模型或请求Dify。通过只表示支持的计划结构通过，不代表资源可用或业务正确。</p><button className="secondary" disabled={disabled||checking||!text.trim()} onClick={()=>void check()}>检查当前草稿（不保存）</button>
+ {checking&&<p role="status">正在检查本机草稿...</p>}{error&&<p role="alert">{error}</p>}{visible&&<div className="plan-check-result"><p role="status">{visible.valid?'计划结构检查通过':'计划结构检查未通过或未完成'} · {visible.nodes} 个节点</p><small>输入修订 v{revision} · SHA256 {visible.source_text_sha256.slice(0,12)}</small>{visible.json_location&&<p>JSON 第{visible.json_location.line}行，第{visible.json_location.column}列附近需要检查。{position&&onLocate&&<button className="secondary" onClick={()=>{if(!onLocate(text,position))setError('原文或编辑器已变化，未定位；当前编辑保持，请重新检查。')}}>定位到 JSON 错误</button>}</p>}{visible.errors.length>0&&<div role="alert"><b>需要处理的问题</b><ul>{visible.errors.map((m,i)=><li key={i}>{m}</li>)}</ul></div>}{visible.warnings.length>0&&<details><summary>范围与未验证事项 · {visible.warnings.length}</summary><ul>{visible.warnings.map((m,i)=><li key={i}>{m}</li>)}</ul></details>}<p className="hint">结果仅对应当前原文和任务修订；编辑后失效。当前草稿、正式方案、确认与试跑记录均未改变，正式保存仍会重新校验。</p></div>}
+ </section>;
+}

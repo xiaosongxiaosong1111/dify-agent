@@ -1,0 +1,266 @@
+{
+  "provenance": "Approved public synthetic after-sales batch; 0.240 first interview returned but not applied. Local regression only, not a new model call.",
+  "task": {
+    "app_type": "workflow",
+    "requirements": {
+      "goal": "创建虚构蓝杉商店的售后知识问答Workflow，明确有检索命中与无命中两条路径。本案例仅用于Sierra公开合成演示。",
+      "audience": "内部开发者与演示用户，不接入客户资料或真实商家服务。",
+      "input": "单个必填query文本，不接文件、会话历史、接口或其他输入。空白输入由入口拒绝，不派发模型。",
+      "output": "返回唯一result字符串；有命中根据FAQ回答并带政策编号；无命中严格返回：知识库暂无相关信息，请联系人工客服。",
+      "rules": "每次先检索本次独立建立的演示资料库。检索结果数组非空才调用一个文字LLM，模型上下文须引用该检索结果；数组为空直接输出固定人工提示，不调用LLM。不得将提示词中的规则冒充实际分支节点。",
+      "knowledge": "仅使用faq-returns.txt和faq-warranty.txt两份公开合成资料。新建一个独立演示知识库，优先经济索引，无Embedding和重排；Top K=3，无分数阈值。尚未建库，不能编造库ID或替换为其他资料库。",
+      "exceptions": "无命中按固定文字转人工；检索或模型执行错误保持失败并保留诊断，不重试、不输出伪造成功。模型不确定或命中资料不足时明确说明并建议人工处理，2xx/节点成功不等于业务正确。",
+      "tests": "命中ZXRET715须回答七天、未拆封并带编号；ZXUNLISTED90371应严格走无命中提示；修改转人工提示后旧确认与成果失效，新版本仍保留检索非空条件和两条路线。"
+    },
+    "materials": [
+      {
+        "id": "0a482abe-91c6-4e28-b136-9ca621ce8bd2",
+        "name": "faq-returns.txt",
+        "status": "parsed",
+        "text": "Sierra公开合成演示资料，虚构蓝杉商店，不是任何真实商家的承诺。\r\n政策编号 ZXRET715：签收后七天内、商品未拆封，可申请退货。拆封后不适用该退货规则。\r\n退款在退货验收通过后三个工作日内原路退回。资料没有定义的情况请转人工，不得编造。\r\n",
+        "reference_mode": "borrow",
+        "preserve_items": "公开合成FAQ，仅作本演示知识来源，尚未上传到Dify。"
+      },
+      {
+        "id": "480e4b3e-b222-4492-932f-d0ee395b99d2",
+        "name": "faq-warranty.txt",
+        "status": "parsed",
+        "text": "Sierra公开合成演示资料，虚构蓝杉商店。\r\n政策编号 ZXWAR180：该演示商品的保修期为签收日起一百八十天。\r\n人为损坏不属于这条保修规则；无法判断损坏原因时请转人工，不得推断审批结果。\r\n",
+        "reference_mode": "borrow",
+        "preserve_items": "公开合成FAQ，仅作本演示知识来源，尚未上传到Dify。"
+      }
+    ],
+    "messages": [
+      {
+        "role": "user",
+        "content": "请按当前资料审核这个公开合成的售后问答Workflow需求，给出需求准入评审与仍需澄清的问题。需求栏和两份FAQ、两条测试样例就是本次已明确的业务范围；知识库尚未建立，后续按已确定的独立演示库准备，不能编造ID。应用模型固定langgenius/deepseek/deepseek / deepseek-flash，Temperature=0.2、Max tokens=512，检索Top K=3、经济索引、不用Embedding或重排。遇到缺少资源请区分待准备条件与业务歧义，不要修改已明确的命中/无命中分支或擅自增加功能。",
+        "created_at": "2026-10-19T06:43:11.663427+00:00"
+      }
+    ]
+  },
+  "response": {
+    "message": "已按当前资料完成准入评审，你已明确的业务范围（单输入 query、检索非空才调用 LLM、无命中固定提示、唯一 result 输出、两份合成 FAQ、两条测试样例、模型与检索参数）均原样保留，未新增或删减功能。\n\n需要澄清的关键点（按优先级）：\n\n1）模型标识「langgenius/deepseek/deepseek / deepseek-flash」写法与常见供应商/型号格式不完全一致（疑似中间多一个“deepseek”），而环境配置里是 provider=langgenius/deepseek/deepseek、model=deepseek-flash。请确认是否就是这一组；我不会替你据猜改成别的型号，也不会声称该型号在当前环境已可用。\n\n2）有两处待准备条件与一个业务歧义需要分开处理，请裁定：\n- 待准备条件（不属歧义）：独立演示知识库尚未建立、两份 FAQ 尚未导入、库 ID 未产生、未验证模型可达。这些在导入与授权试跑前只能标为「待准备」，不构成需求不清。\n- 业务歧义：命中资料但模型判断“资料不足/不确定”时，要求“明确说明并建议人工处理”。请确认它是否要走与「无命中固定提示」相同的文字，还是允许模型自拟措辞？若允许自拟，则第二条验收样例之外的兜底文案会不稳定；若要求固定，请给出固定文字。此点会影响结果唯一性验收。\n- 另一处：空 query 由“入口拒绝、不派发模型”。请确认拒绝方式（入口报错终止并保留诊断，而非返回 result）。\n\n3）尚未明确的可检查细节：\n- 命中且资料充分时，回答必须“带政策编号”；若检索非空但只命中无关片段，是否仍要求输出编号？（与上面第2条兜底文案相关。）\n- 是否接受「模拟/草稿」状态作为本次交付节点：即只生成未保存草稿与静态检查，真实检索命中与模型回答须在资源就绪后另行授权试跑验收。\n- 费用与限流：检索 Top K=3 且无重排可降低费用，但每次命中的一次 LLM 调用仍会产生 Token 费用；请确认这是可接受范围，不作账单硬上限承诺。\n\n未适配/受限项说明（不静默省略）：当前 Sierra 能力目录对本次方案有两点限制——(a) 独立演示知识库的创建、两份 FAQ 的上传与索引、模型路由与参数在目标 Dify 版本的实际可用性，均不在我能验证的范围，只能作为待准备条件列出；(b) 本次不含文件输入、会话历史、重排、分数阈值，这与你已明确的范围一致，因此不列为缺口。\n\n答复后我会把确认内容写入需求，仍不改动命中/无命中两条分支与固定提示文案。",
+    "requirements_patch": {
+      "goal": "创建虚构蓝杉商店的售后知识问答Workflow，明确有检索命中与无命中两条路径。本案例仅用于Sierra公开合成演示，不接入客户资料或真实商家服务。",
+      "audience": "内部开发者与演示用户；具备在Dify中查看Workflow与知识库的基本操作知识，不面向终端客户自助服务。",
+      "input": "单个必填 query 文本，不接文件、会话历史、接口或其他输入。空白输入由入口拒绝并终止、不派发模型、不返回 result（拒绝的具体呈现形式待确认）。",
+      "output": "返回唯一 result 字符串；有命中且资料充分时根据FAQ回答并带政策编号；检索结果数组为空时严格返回固定文字：知识库暂无相关信息，请联系人工客服。",
+      "rules": "每次先检索本次独立建立的演示资料库。检索结果数组非空才调用一个文字LLM，模型上下文须引用该检索结果；数组为空直接输出固定人工提示，不调用LLM。不得将提示词中的规则冒充实际分支节点。模型标识与参数按用户给定：provider=langgenius/deepseek/deepseek、model=deepseek-flash、Temperature=0.2、Max tokens=512（型号写法待用户确认）。",
+      "knowledge": "仅使用faq-returns.txt和faq-warranty.txt两份公开合成资料。新建一个独立演示知识库，优先经济索引，无Embedding和重排；Top K=3，无分数阈值。尚未建库，库ID未产生，不得编造或替换为其他资料库；两份文件尚未上传Dify，属待准备条件。",
+      "exceptions": "无命中按固定文字转人工；检索或模型执行错误保持失败并保留诊断，不重试、不输出伪造成功。模型不确定或命中资料不足时明确说明并建议人工处理（是否使用固定文字待确认）；2xx/节点成功不等于业务正确。",
+      "tests": "命中ZXRET715须回答七天、未拆封并带政策编号；ZXUNLISTED90371应严格走无命中提示；修改转人工提示后旧确认与成果失效，新版本仍保留检索非空条件和两条路线。待补充：命中但资料不足的兜底文案验收、空白输入被拒绝的验收。"
+    },
+    "intake_review": {
+      "schema_version": 1,
+      "checks": [
+        {
+          "topic": "goal",
+          "status": "complete",
+          "detail": "目标为公开合成的售后知识问答Workflow，含命中与无命中两条路径，范围限定为演示、不接真实商家服务。",
+          "evidence": [
+            {
+              "kind": "requirement",
+              "id": "goal",
+              "quote": "创建虚构蓝杉商店的售后知识问答Workflow，明确有检索命中与无命中两条路径。本案例仅用于Sierra公开合成演示。"
+            }
+          ]
+        },
+        {
+          "topic": "audience",
+          "status": "complete",
+          "detail": "内部开发者与演示用户，不接入客户资料或真实商家服务。",
+          "evidence": [
+            {
+              "kind": "requirement",
+              "id": "audience",
+              "quote": "内部开发者与演示用户，不接入客户资料或真实商家服务。"
+            }
+          ]
+        },
+        {
+          "topic": "input",
+          "status": "complete",
+          "detail": "单个必填query文本，不接文件、会话历史、接口；空白输入由入口拒绝且不派发模型。拒绝呈现形式待确认，但输入字段与必填条件已明确。",
+          "evidence": [
+            {
+              "kind": "requirement",
+              "id": "input",
+              "quote": "单个必填query文本，不接文件、会话历史、接口或其他输入。空白输入由入口拒绝，不派发模型。"
+            }
+          ]
+        },
+        {
+          "topic": "output",
+          "status": "complete",
+          "detail": "唯一result字符串；命中时回答并带政策编号；无命中严格返回固定文字。",
+          "evidence": [
+            {
+              "kind": "requirement",
+              "id": "output",
+              "quote": "返回唯一result字符串；有命中根据FAQ回答并带政策编号；无命中严格返回：知识库暂无相关信息，请联系人工客服。"
+            }
+          ]
+        },
+        {
+          "topic": "rules",
+          "status": "complete",
+          "detail": "检索非空才调用一个LLM并须引用检索结果，为空直接固定提示不调用LLM，分支须为真实节点。模型标识写法存在待确认点，但规则本身已明确。",
+          "evidence": [
+            {
+              "kind": "requirement",
+              "id": "rules",
+              "quote": "每次先检索本次独立建立的演示资料库。检索结果数组非空才调用一个文字LLM，模型上下文须引用该检索结果；数组为空直接输出固定人工提示，不调用LLM。"
+            }
+          ]
+        },
+        {
+          "topic": "knowledge",
+          "status": "complete",
+          "detail": "仅两份合成FAQ，新建独立演示库，经济索引、无Embedding与重排、Top K=3、无分数阈值；库未建立属待准备条件而非需求不清。",
+          "evidence": [
+            {
+              "kind": "requirement",
+              "id": "knowledge",
+              "quote": "仅使用faq-returns.txt和faq-warranty.txt两份公开合成资料。新建一个独立演示知识库，优先经济索引，无Embedding和重排；Top K=3，无分数阈值。尚未建库，不能编造库ID或替换为其他资料库。"
+            }
+          ]
+        },
+        {
+          "topic": "exceptions",
+          "status": "complete",
+          "detail": "无命中固定文字转人工，检索或模型错误保持失败并保留诊断、不重试；模型不确定时明确说明并建议人工，措辞是否固定待确认。",
+          "evidence": [
+            {
+              "kind": "requirement",
+              "id": "exceptions",
+              "quote": "无命中按固定文字转人工；检索或模型执行错误保持失败并保留诊断，不重试、不输出伪造成功。"
+            }
+          ]
+        },
+        {
+          "topic": "tests",
+          "status": "complete",
+          "detail": "已给命中、未列出应走无命中、提示修改后旧确认失效三项；命中但资料不足与空白输入的验收样例尚待补充。",
+          "evidence": [
+            {
+              "kind": "requirement",
+              "id": "tests",
+              "quote": "命中ZXRET715须回答七天、未拆封并带编号；ZXUNLISTED90371应严格走无命中提示；修改转人工提示后旧确认与成果失效，新版本仍保留检索非空条件和两条路线。"
+            }
+          ]
+        },
+        {
+          "topic": "batch",
+          "status": "not_applicable",
+          "detail": "输入为单个query文本，不涉及分项、顺序或批次失败汇总。",
+          "evidence": [
+            {
+              "kind": "requirement",
+              "id": "input",
+              "quote": "单个必填query文本，不接文件、会话历史、接口或其他输入。"
+            }
+          ]
+        },
+        {
+          "topic": "retrieval",
+          "status": "complete",
+          "detail": "检索范围为独立演示库、仅两份FAQ，Top K=3无阈值无重排；无命中走固定提示且不引用；选库依据与命中引用要求明确。",
+          "evidence": [
+            {
+              "kind": "requirement",
+              "id": "knowledge",
+              "quote": "仅使用faq-returns.txt和faq-warranty.txt两份公开合成资料。新建一个独立演示知识库，优先经济索引，无Embedding和重排；Top K=3，无分数阈值。尚未建库，不能编造库ID或替换为其他资料库。"
+            },
+            {
+              "kind": "requirement",
+              "id": "rules",
+              "quote": "检索结果数组非空才调用一个文字LLM，模型上下文须引用该检索结果；数组为空直接输出固定人工提示，不调用LLM。"
+            }
+          ]
+        },
+        {
+          "topic": "external",
+          "status": "not_applicable",
+          "detail": "明确不接外部接口，仅用Dify内部知识检索与一个文字LLM节点。",
+          "evidence": [
+            {
+              "kind": "requirement",
+              "id": "input",
+              "quote": "单个必填query文本，不接文件、会话历史、接口或其他输入。"
+            }
+          ]
+        },
+        {
+          "topic": "conversation_state",
+          "status": "not_applicable",
+          "detail": "Workflow无根会话状态且不启用会话记忆，每轮独立处理。",
+          "evidence": [
+            {
+              "kind": "requirement",
+              "id": "input",
+              "quote": "单个必填query文本，不接文件、会话历史、接口或其他输入。"
+            }
+          ]
+        },
+        {
+          "topic": "human_input",
+          "status": "not_applicable",
+          "detail": "无人工审核节点，\"联系人工客服\"仅为输出文字，不是审核流程。",
+          "evidence": [
+            {
+              "kind": "requirement",
+              "id": "output",
+              "quote": "无命中严格返回：知识库暂无相关信息，请联系人工客服。"
+            }
+          ]
+        },
+        {
+          "topic": "materials",
+          "status": "complete",
+          "detail": "两份FAQ已文字提取且未截断，标注为borrow来源、尚未上传Dify；不据此声称OCR或完整业务语义已验证。",
+          "evidence": [
+            {
+              "kind": "material",
+              "id": "faq-returns.txt",
+              "quote": "政策编号 ZXRET715：签收后七天内、商品未拆封，可申请退货。拆封后不适用该退货规则。"
+            },
+            {
+              "kind": "material",
+              "id": "faq-warranty.txt",
+              "quote": "政策编号 ZXWAR180：该演示商品的保修期为签收日起一百八十天。"
+            }
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "topic": "rules",
+          "question": "模型标识请确认：是 langgenius/deepseek/deepseek 下的 deepseek-flash 这一组吗？你给的“deepseek / deepseek-flash”中多出的 deepseek 是否为笔误？",
+          "recommendation": "以环境配置 provider=langgenius/deepseek/deepseek、model=deepseek-flash 为准，不猜测其他型号",
+          "reason": "型号与供应商写法不一致会直接导致模型节点无法命中可用模型",
+          "experience": "确认后模型节点参数可一次配齐，避免生成后返工",
+          "cost": "该模型的实际计费与限流需在目标环境核对，我不能承诺账单上限",
+          "manual_work": "需要在目标Dify确认该型号已接入并给出可用凭据"
+        },
+        {
+          "topic": "exceptions",
+          "question": "检索非空、模型判断资料不足或不确定时，是否也输出与无命中完全相同的固定文字「知识库暂无相关信息，请联系人工客服。」，还是允许模型自拟“资料不足、建议人工”的措辞？",
+          "recommendation": "建议统一为同一句固定文字，以保证结果唯一性与可验收",
+          "reason": "两条兜底路径若措辞不同，result 的唯一性和测试断言会不稳定",
+          "experience": "固定文案让演示输出可预期，便于讲解命中与无命中两分支",
+          "cost": "无额外模型费用差异；固定文案路径不增加调用",
+          "manual_work": "只需你确认一句文案，可不改现有分支结构"
+        },
+        {
+          "topic": "tests",
+          "question": "命中但资料不足的兜底路径、以及空白输入被拒绝，是否也需要各补一条验收样例（期望输出与失败表现）？",
+          "recommendation": "建议补：只命中无关片段时按兜底文案输出；空 query 时入口终止并保留诊断、不返回 result",
+          "reason": "现有两条样例只覆盖命中与未列出，兜底与空输入尚无期望结果",
+          "experience": "补齐后评审可逐条对照，减少试跑时才发现分歧",
+          "cost": "仅为静态样例，不产生额外运行费用",
+          "manual_work": "需要你给出兜底与空输入两处的期望结果"
+        }
+      ]
+    }
+  }
+}

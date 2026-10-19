@@ -1,0 +1,23 @@
+import {useEffect,useRef,useState} from 'react';
+type Row={node_index:number;node_kind:string;source_path:string;declared_retry:string;explicit_settings:string[];issues:string[]};
+type Report={task_id:string;revision:number;source_sha256:string;nodes:Row[];total_nodes:number;decision_nodes:number;issue_count:number;verification:string;platform_checked:boolean;business_verified:boolean;credentials_decrypted:boolean;network_requested:boolean;run_authorized:boolean;note:string};
+const object=(v:unknown):v is Record<string,unknown>=>!!v&&typeof v==='object'&&!Array.isArray(v);
+const labels:Record<string,string>={llm:'大模型',code:'代码',start:'开始','template-transform':'模板','http-request':'HTTP','if-else':'条件','document-extractor':'文档提取',iteration:'迭代',loop:'循环','list-operator':'数组处理','knowledge-retrieval':'知识检索','parameter-extractor':'参数提取','question-classifier':'问题分类','variable-aggregator':'聚合',end:'结束',answer:'回答',assigner:'赋值','human-input':'人工审核','trigger-schedule':'定时触发'};
+const valid=(v:unknown):v is Report=>{
+ if(!object(v)||!Array.isArray(v.nodes)||!Number.isInteger(v.total_nodes)||v.total_nodes!==v.nodes.length||v.nodes.length<1||v.nodes.length>1000)return false;
+ if(v.verification!=='local_execution_policy_only'||['platform_checked','business_verified','credentials_decrypted','network_requested','run_authorized'].some(k=>v[k]!==false)||typeof v.note!=='string'||typeof v.source_sha256!=='string'||!/^[a-f0-9]{64}$/.test(v.source_sha256))return false;
+ if(!v.nodes.every((r,i)=>object(r)&&r.node_index===i&&r.source_path===`/workflow/graph/nodes/${i}/data`&&typeof r.node_kind==='string'&&['unspecified','enabled','disabled','invalid'].includes(String(r.declared_retry))&&Array.isArray(r.explicit_settings)&&new Set(r.explicit_settings).size===r.explicit_settings.length&&r.explicit_settings.every(k=>['retry_config','error_strategy','default_value'].includes(String(k)))&&Array.isArray(r.issues)&&r.issues.length<=20&&r.issues.every(s=>typeof s==='string'&&s.length<=3000)))return false;
+ return v.decision_nodes===v.nodes.filter(r=>(r as Row).issues.length>0).length&&v.issue_count===v.nodes.reduce((n,r)=>n+(r as Row).issues.length,0);
+};
+export default function NodePolicyAudit({taskId,revision,artifactStamp,disabled}:{taskId:string;revision:number;artifactStamp:string;disabled:boolean}){
+ const [report,setReport]=useState<Report|null>(null),[error,setError]=useState(''),[reading,setReading]=useState(false);const epoch=useRef(0);
+ useEffect(()=>{epoch.current++;setReport(null);setError('');setReading(false);return()=>{epoch.current++}},[taskId,revision,artifactStamp]);
+ const read=async()=>{const ticket=++epoch.current;setReading(true);setError('');setReport(null);try{
+  const response=await fetch(`/api/tasks/${taskId}/node-policy-audit?revision=${revision}`,{cache:'no-store'}),value:unknown=await response.json();
+  if(!response.ok)throw Error(object(value)&&typeof value.detail==='string'?value.detail:`读取节点设置失败（HTTP ${response.status}）`);
+  if(!object(value)||value.task_id!==taskId||value.revision!==revision)throw Error('节点设置来自其他任务或修订，请重新读取当前成果。');
+  if(!valid(value))throw Error('节点设置回执的范围、计数或验证等级无效，未显示成功结果。');
+  if(ticket===epoch.current)setReport(value);
+ }catch(e){if(ticket===epoch.current)setError(e instanceof Error?e.message:'节点设置读取失败，请重新核对。')}finally{if(ticket===epoch.current)setReading(false)}};
+ return <section className="node-policy-audit configuration-proposal"><div className="listhead"><b>最终成果的节点执行设置</b><small>本机只读 · 不运行</small></div><p className="hint">一次查看全部节点中需决定的重试、异常默认或失败分支设置。只读当前最终文件，不代改流程，也不授权试跑；文件／平台权限、供应商内部重试和真实费用须另核对。</p><button className="secondary" disabled={disabled||reading} onClick={()=>void read()}>{reading?'正在读取节点设置…':'查看最终成果节点设置'}</button>{error&&<p className="error" role="alert">{error}</p>}{report&&<><p><b>{report.decision_nodes?`${report.decision_nodes}个节点有设置待决定`:'本次未发现未适配的共用执行设置'}</b> · 共{report.total_nodes}个节点</p><p className="hint">{report.note}</p>{report.decision_nodes>0&&<div className="callout amber" style={{display:'block'}}>建议先确认保留原策略还是调整方案。保留未适配策略需要人工验证或继续补适配；关闭重试会减少潜在重复调用，也会改变失败后的恢复体验。移除异常默认可能让整次运行失败。具体费用仍未知，下面检查不代表费用上限或自动批准修改。</div>}{report.nodes.map(row=><details key={row.node_index} open={row.issues.length>0}><summary>节点 {row.node_index+1} · {Object.hasOwn(labels,row.node_kind)?labels[row.node_kind]:'其他节点'} · {row.issues.length?'需决定':'未发现共用策略问题'}</summary><small>{row.source_path}</small><p className="hint">节点重试声明：{row.declared_retry==='enabled'?'已启用（是否适配见下方）':row.declared_retry==='disabled'?'已关闭':row.declared_retry==='invalid'?'结构待核对':'未单独设置，依目标平台默认'}。这里只读声明，不是实际请求次数。</p>{row.issues.map((issue,i)=><p className="error" key={i}>{issue}</p>)}</details>)}</>}</section>;
+}

@@ -1,0 +1,24 @@
+import {useEffect,useRef,useState} from 'react';
+type Row={row_id:string;source_path:string;target:string|null;source_selector:string[]|null;origin:string|null;schema:unknown;supported:boolean;reason:string};
+type Report={task_id:string;revision:number;source_sha256:string;rows:Row[];total_outputs:number;total_nodes:number;candidate_count:number;verification:string;note:string};
+const object=(v:unknown):v is Record<string,unknown>=>!!v&&typeof v==='object'&&!Array.isArray(v);
+const valid=(v:unknown):v is Report=>{
+ if(!object(v)||v.verification!=='declared_schema_draft_only'||typeof v.source_sha256!=='string'||!/^[a-f0-9]{64}$/.test(v.source_sha256)||typeof v.note!=='string'||!Array.isArray(v.rows)||v.total_outputs!==v.rows.length||!v.rows.length||v.rows.length>1000||!Number.isInteger(v.total_nodes)||(v.total_nodes as number)<1||(v.total_nodes as number)>1000)return false;
+ if(['platform_checked','business_verified','credentials_decrypted','network_requested','run_authorized'].some(k=>v[k]!==false))return false;
+ if(new Set(v.rows.map(r=>object(r)?r.row_id:null)).size!==v.rows.length)return false;
+ if(!v.rows.every(r=>object(r)&&typeof r.row_id==='string'&&/^\d+:\d+$/.test(r.row_id)&&Number(r.row_id.split(':')[0])<(v.total_nodes as number)&&r.source_path===`/workflow/graph/nodes/${r.row_id.split(':')[0]}/data/outputs/${r.row_id.split(':')[1]}`&&typeof r.supported==='boolean'&&typeof r.reason==='string'&&(r.target===null||typeof r.target==='string')&&(r.source_selector===null||Array.isArray(r.source_selector)&&r.source_selector.length===2&&r.source_selector.every(x=>typeof x==='string'))&&(r.supported?typeof r.target==='string'&&/^[A-Za-z_][A-Za-z0-9_]{0,63}$/.test(r.target)&&['llm_structured_output','json_object_input'].includes(String(r.origin))&&(typeof r.schema==='string'||object(r.schema)):r.schema===null&&r.origin===null)))return false;
+ return v.candidate_count===v.rows.filter(r=>(r as Row).supported).length;
+};
+export default function SchemaCaseTemplates({taskId,revision,artifactStamp,disabled,onCreate}:{taskId:string;revision:number;artifactStamp:string;disabled:boolean;onCreate:(target:string,schema:unknown)=>void}){
+ const scope=JSON.stringify([taskId,revision,artifactStamp]),epoch=useRef(0),[result,setResult]=useState<{scope:string;value:Report}|null>(null),[error,setError]=useState(''),[reading,setReading]=useState(false),[prepared,setPrepared]=useState<string[]>([]);
+ useEffect(()=>{epoch.current++;setResult(null);setError('');setReading(false);setPrepared([]);return()=>{epoch.current++}},[scope]);
+ const report=result?.scope===scope?result.value:null;
+ const read=async()=>{const ticket=++epoch.current;setReading(true);setError('');setResult(null);setPrepared([]);try{
+  const response=await fetch(`/api/tasks/${taskId}/schema-case-templates?revision=${revision}`,{cache:'no-store'}),value:unknown=await response.json();
+  if(!response.ok)throw Error(object(value)&&typeof value.detail==='string'?value.detail:`读取Schema来源失败（HTTP ${response.status}）`);
+  if(!object(value)||value.task_id!==taskId||value.revision!==revision||!valid(value))throw Error('Schema来源的任务、修订、完整计数或验证范围不符，未采用。');
+  if(ticket===epoch.current)setResult({scope,value});
+ }catch(e){if(ticket===epoch.current)setError(e instanceof Error?e.message:'读取失败，未准备草稿。')}finally{if(ticket===epoch.current)setReading(false)}};
+ const prepare=(row:Row)=>{if(disabled||reading||!report||!row.supported||!row.target||prepared.includes(row.row_id))return;onCreate(row.target,row.schema);setPrepared(v=>[...v,row.row_id])};
+ return <section className="schema-case-templates configuration-proposal"><div className="listhead"><b>从最终Schema准备验收草稿</b><small>本机读取 · 无模型费用</small></div><p className="hint">复用最终Workflow中已有的明确规则，先查看来源与全部Schema，再主动准备一个未保存样例。只适配直接引用根LLM结构化输出或JSON对象入口的结束输出；不会猜代码／聚合／分支规则、覆盖现有样例或试跑。</p><button className="secondary" disabled={disabled||reading} onClick={()=>void read()}>{reading?'读取Schema来源中…':'查看最终Schema来源'}</button>{error&&<p className="error" role="alert">{error}</p>}{report&&<><p>成果 {report.source_sha256.slice(0,12)} · {report.total_outputs}个结束输出 · {report.candidate_count}项可准备</p><p className="hint">{report.note}</p>{report.rows.map(row=><details key={row.row_id}><summary>{row.target||'未明确目标'} · {row.supported?'可准备草稿':'须先讨论规则'}</summary><small>{row.source_path}</small>{row.source_selector&&<p>来源：{row.source_selector.join('.')}</p>}<p className="hint">{row.reason}</p>{row.supported&&<><pre>{typeof row.schema==='string'?row.schema:JSON.stringify(row.schema,null,2)}</pre><button className="secondary" disabled={disabled||reading||prepared.includes(row.row_id)} onClick={()=>prepare(row)}>{prepared.includes(row.row_id)?'已准备，继续补全样例':'准备此规则的验收草稿'}</button></>}</details>)}</>}{prepared.length>0&&<p className="callout amber" style={{display:'block'}}>已追加未保存草稿，原样例保持。请核对场景名称、完整输入及规则是否符合业务，再主动保存与确认；没有实际试跑。</p>}</section>;
+}

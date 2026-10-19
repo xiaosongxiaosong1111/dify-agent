@@ -1,0 +1,5 @@
+export const FILE_FORMATS=[['.txt','TXT'],['.md','Markdown'],['.csv','CSV'],['.json','JSON'],['.yaml','YAML'],['.yml','YML']] as const;
+export const validExtensions=(value:unknown):value is string[]=>Array.isArray(value)&&value.length>0&&value.length<=6&&new Set(value).size===value.length&&value.every(x=>typeof x==='string'&&FILE_FORMATS.some(([ext])=>ext===x));
+export default function FileFormatChoice({value,disabled,onChange}:{value:string[];disabled:boolean;onChange:(v:string[])=>void}){
+ return <fieldset className="file-format-choice" disabled={disabled}><legend>允许的文件后缀范围</legend><p className="hint">沿用原TXT示例，可明确选择其他后缀；不会自动放开所有文档类型。生成后仍须核对配置。</p><div className="file-format-options">{FILE_FORMATS.map(([ext,label])=><label className="file-run-consent" key={ext}><input type="checkbox" aria-label={`允许文件格式${ext}`} checked={value.includes(ext)} onChange={e=>onChange(e.target.checked?[...value,ext]:value.filter(x=>x!==ext))}/><span>{label}（{ext}）</span></label>)}</div><p className="hint">Markdown按文字读取，不渲染或访问链接；CSV转Markdown表格，JSON／YAML解析后重写，可能丢失重复键、注释或改变数值／类型。文字解码也可能忽略无效字节。需要保真时请先调整方案，不能把源文件哈希当作完整提取证明。实际解析结果仍待试跑验收。</p></fieldset>
+}

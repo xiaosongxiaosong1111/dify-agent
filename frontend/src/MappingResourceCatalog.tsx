@@ -1,0 +1,31 @@
+import MappingModelDraft from './MappingModelDraft';
+import {useCallback,useEffect,useRef,useState} from 'react';
+type Model={provider:string;model:string;label:string;selectable:boolean;reason:string};
+type Dataset={id:string;name?:string;description?:string;document_count?:number;available_document_count?:number};
+type Metadata<T>={data:T[];environment_id:string;connection_revision?:string|null;observed_at:string;has_more?:boolean};
+type Target={id:string;name:string;connection_revision?:string|null};
+export default function MappingResourceCatalog({target,disabled,sourceIds,onDataset,onDraftDirty,onModelDraft,modelDraftDisabled=false,modelDraftContext=''}:{target:Target;disabled:boolean;sourceIds:string[];onDataset:(source:string,target:string)=>void;onDraftDirty:(v:boolean)=>void;onModelDraft:(text:string)=>void|boolean;modelDraftDisabled?:boolean;modelDraftContext?:string}){
+ const [draftDirty,setDraftDirty]=useState(false);const reportDraft=useCallback((v:boolean)=>{setDraftDirty(v);onDraftDirty(v)},[onDraftDirty]);
+ const [models,setModels]=useState<Metadata<Model>|null>(null),[datasets,setDatasets]=useState<Metadata<Dataset>|null>(null),[error,setError]=useState(''),[busy,setBusy]=useState(''),[page,setPage]=useState(1),[source,setSource]=useState('console');
+ const [selected,setSelected]=useState<Record<string,string>>({});const live=useRef(true),generation=useRef(0);
+ useEffect(()=>{live.current=true;return()=>{live.current=false;generation.current++}},[]);
+ useEffect(()=>{generation.current++;setModels(null);setDatasets(null);setSelected({});setPage(1);setError('');setBusy('')},[target.id,target.connection_revision]);
+ const read=async(kind:'models'|'datasets',next=page)=>{if(disabled||busy||(kind==='models'&&draftDirty))return;const seq=++generation.current;setBusy(kind);setError('');if(kind==='models')setModels(null);else{setDatasets(null);setSelected({})}
+ try{const path=kind==='models'?'models?model_type=llm':`datasets?source=${source}&page=${next}&limit=100`;const r=await fetch(`/api/environments/${encodeURIComponent(target.id)}/${path}`);const value=await r.json();if(!r.ok)throw Error(typeof value.detail==='string'?value.detail:'目标目录读取失败。');
+ if(value.environment_id!==target.id||(value.connection_revision??null)!==(target.connection_revision??null))throw Error('目标连接上下文已变化，请刷新环境后重新读取目录。');
+ if(!Array.isArray(value.data)||typeof value.observed_at!=='string'||(kind==='datasets'&&typeof value.has_more!=='boolean'))throw Error('目标目录结构不完整，未按空目录处理。');
+ if(value.data.some((row:unknown)=>{if(!row||typeof row!=='object')return true;const v=row as Record<string,unknown>;return kind==='models'?typeof v.provider!=='string'||!v.provider||typeof v.model!=='string'||!v.model||typeof v.label!=='string'||typeof v.selectable!=='boolean'||typeof v.reason!=='string':typeof v.id!=='string'||!v.id||['name','description'].some(k=>v[k]!==undefined&&typeof v[k]!=='string')}))throw Error('目标目录条目结构不完整，不自动采用部分字段。');
+ if(!live.current||seq!==generation.current)return;if(kind==='models')setModels(value);else{setDatasets(value);setPage(next)}
+ }catch(e){if(live.current&&seq===generation.current)setError(e instanceof TypeError?'本机目录接口连接中断，请核对连接后主动重读。':e instanceof SyntaxError?'目录接口没有返回完整JSON，原输入保持。':e instanceof Error?e.message:'目录读取失败。')}finally{if(live.current&&seq===generation.current)setBusy('')}};
+ return <details className="mapping-resource-catalog"><summary>读取目标资源目录（只读，可选）</summary><p className="hint">仅点击后向目标连接读取目录元数据，不发送到大模型，不读取知识库全文，也不创建资源。目录状态不证明资料等价、插件兼容、费用或实际调用成功；原映射未验证标记保持。</p>
+ {error&&<div className="alert error" role="alert">{error}</div>}{busy&&<p role="status">正在读取目标{busy==='models'?'模型':'知识库'}目录…</p>}
+ <div className="actions"><button className="secondary" disabled={disabled||!!busy||draftDirty} onClick={()=>void read('models')}>读取目标模型目录</button><label className="field"><span>知识库目录连接方式</span><select aria-label="映射知识库目录连接方式" disabled={disabled||!!busy} value={source} onChange={e=>{setSource(e.target.value);setDatasets(null);setSelected({});setPage(1)}}><option value="console">管理连接</option><option value="service">知识库 Key</option></select></label><button className="secondary" disabled={disabled||!!busy} onClick={()=>void read('datasets',1)}>读取目标知识库目录</button></div>
+ {models&&<div className="merge-conflict"><b>目标模型目录 · {target.name}</b><p className="hint">读取时间 {models.observed_at}；以下为目录标识，请在完整目标JSON中明确填写并核对参数，不沿用另一型号默认值。</p>{models.data.length===0?<p>目录返回零个模型；没有自动采用替代型号。</p>:models.data.map((m,i)=><div key={`${m.provider}:${m.model}:${i}`}><b>{m.label} · {m.selectable?'目录声明可选':'目录不可选'}</b><p className="hint">{m.reason}</p><pre>{JSON.stringify({provider:m.provider,name:m.model,mode:'chat'},null,2)}</pre></div>)}</div>}
+ <MappingModelDraft target={target} models={models?.data||[]} disabled={disabled||!!busy||modelDraftDisabled} onDirty={reportDraft} onApply={onModelDraft} applicationContext={modelDraftContext}/>
+ {datasets&&<div className="merge-conflict"><b>目标知识库目录 · 第 {page} 页 · {datasets.data.length} 条</b><p className="hint">读取时间 {datasets.observed_at}；每页最多100条。{datasets.has_more?'仍有后续页，当前不是完整目录。':'当前为末页，不代表之前各页已读取或资料覆盖已验证。'}</p>
+ {datasets.data.length===0&&<p>本页无知识库；可以保留已知ID或补齐连接权限，不会默认删库。</p>}
+ {datasets.data.map(d=><div key={d.id}><b>{d.name||'未提供名称'}</b><p className="hint">ID：{d.id}；文档数：{d.document_count??'未知'}；可用数：{d.available_document_count??'未知'}</p>{d.description&&<p>{d.description}</p>}</div>)}
+ {sourceIds.map(id=><div key={id}><label className="field"><span>为来源 {id} 选择本页目标</span><select aria-label={`目录映射来源 ${id}`} disabled={disabled||!!busy} value={selected[id]||''} onChange={e=>setSelected(v=>({...v,[id]:e.target.value}))}><option value="">不自动选择同名库</option>{datasets.data.map(d=><option key={d.id} value={d.id}>{d.name||'未提供名称'} · {d.id}</option>)}</select></label><button className="secondary" disabled={disabled||!!busy||!selected[id]} onClick={()=>onDataset(id,selected[id])}>明确填写此来源的目标 ID：{id}</button></div>)}
+ <div className="actions"><button className="secondary" disabled={disabled||!!busy||page<=1} onClick={()=>void read('datasets',page-1)}>上一页目标知识库</button><button className="secondary" disabled={disabled||!!busy||!datasets.has_more} onClick={()=>void read('datasets',page+1)}>下一页目标知识库</button></div></div>}
+ </details>;
+}

@@ -1,0 +1,27 @@
+export type OptionalFileMeta={start_node_id:string;guard_node_id:string;extract_node_id:string;present_end_node_id:string;missing_end_node_id:string;comparison_operator:string;present_handle:string;missing_handle:string;missing_message_variable:string;missing_message_default:string;missing_message_max_length:number;output_variable:string;verification:string};
+export type FileBranchResolution={file_input_state:string;expected_path:string;expected_node_ids:string[];skipped_node_ids:string[];expected_end_node_id:string;expected_outputs:Record<string,string>|null;actual_path_verified:boolean};
+const object=(v:unknown):v is Record<string,unknown>=>!!v&&typeof v==='object'&&!Array.isArray(v);
+const equal=(a:unknown,b:unknown)=>JSON.stringify(a)===JSON.stringify(b);
+function validMeta(v:unknown):v is OptionalFileMeta{
+ if(!object(v)||!['start_node_id','guard_node_id','extract_node_id','present_end_node_id','missing_end_node_id','present_handle','missing_handle','missing_message_variable','output_variable'].every(k=>typeof v[k]==='string'&&!!v[k])||typeof v.missing_message_default!=='string'||!v.missing_message_default.trim()||v.missing_message_default.includes('\u0000')||!Number.isInteger(v.missing_message_max_length)||Number(v.missing_message_max_length)<1||Number(v.missing_message_max_length)>2000||Array.from(v.missing_message_default).length>Number(v.missing_message_max_length)||v.verification!=='exact_presence_branch_static_only')return false;
+ const ids=['start_node_id','guard_node_id','extract_node_id','present_end_node_id','missing_end_node_id'].map(k=>v[k]);
+ return new Set(ids).size===5&&(v.comparison_operator==='exists'&&v.present_handle!=='false'&&v.missing_handle==='false'||v.comparison_operator==='not exists'&&v.present_handle==='false'&&v.missing_handle!=='false');
+}
+export function validOptionalFlow(v:unknown,validExtraction:(value:unknown)=>boolean):boolean{
+ if(!object(v)||v.schema_version!==4||v.scenario!=='document_optional_extraction'||!validMeta(v.optional_file)||!object(v.resolved_branch)||!validExtraction(v.extraction)||typeof v.file_variable!=='string'||v.file_variable===v.optional_file.missing_message_variable||!equal(v.node_types,['start','if-else','document-extractor','end','end'])||v.model_egress!==false||v.model_node!==null||v.join_policy!==null||!equal(v.prompt_template,[])||!equal(v.prompt_input_variables,[])||v.planned_llm_node_executions!==0||v.provider_endpoint_verified!==false||v.provider_internal_retries_verified!==false||v.cost_estimate_usd!==null||v.hard_cost_cap!==false||v.output_kind!=='text')return false;
+ const o=v.optional_file,r=v.resolved_branch,present=r.file_input_state==='uploaded_file';
+ if(!['omitted','explicit_null','uploaded_file'].includes(String(r.file_input_state))||r.actual_path_verified!==false||r.expected_path!==(present?'file_present':'file_missing')||r.expected_end_node_id!==(present?o.present_end_node_id:o.missing_end_node_id)||!equal(r.expected_node_ids,[o.start_node_id,o.guard_node_id,...(present?[o.extract_node_id,o.present_end_node_id]:[o.missing_end_node_id])])||!equal(r.skipped_node_ids,present?[o.missing_end_node_id]:[o.extract_node_id,o.present_end_node_id]))return false;
+ return present?r.expected_outputs===null:object(r.expected_outputs)&&Object.keys(r.expected_outputs).length===1&&typeof r.expected_outputs[o.output_variable]==='string';
+}
+export function matchingOptionalInput(flow:{file_variable:string;optional_file?:OptionalFileMeta;resolved_branch?:FileBranchResolution|null},input:Record<string,unknown>,files:unknown[]):boolean{
+ const o=flow.optional_file,r=flow.resolved_branch;if(!o||!r)return false;
+ const name=flow.file_variable,state=!Object.hasOwn(input,name)?'omitted':input[name]===null?'explicit_null':'uploaded_file';if(state!==r.file_input_state)return false;
+ const message=input[o.missing_message_variable]??o.missing_message_default;
+ if(typeof message!=='string'||Array.from(message).length>o.missing_message_max_length||message.includes('\u0000'))return false;
+ if(state==='uploaded_file'){const ref=input[name];return object(ref)&&Object.keys(ref).length===1&&typeof ref.sierra_file_id==='string'&&files.length===1&&object(files[0])&&files[0].variable===name&&files[0].id===ref.sierra_file_id}
+ return files.length===0&&typeof message==='string'&&r.expected_outputs?.[o.output_variable]===message;
+}
+export default function OptionalFileBranch({metadata:o,resolution:r}:{metadata:OptionalFileMeta;resolution:FileBranchResolution}){
+ const state=r.file_input_state==='omitted'?'文件字段省略':r.file_input_state==='explicit_null'?'文件字段明确为null':'引用本任务已上传单文件';
+ return <div className="optional-file-branch"><b>完整保留文件存在／缺失两条路径</b><p>当前输入：{state}<br/>条件：{o.comparison_operator==='exists'?'exists（非null）':'not exists（null）'}<br/>预计选择：{r.expected_path==='file_present'?'存在文件，提取后返回文字':'没有文件，跳过提取并返回明确说明'}</p><p className="hint">存在出口：{o.present_handle} → {o.extract_node_id} → {o.present_end_node_id}<br/>缺失出口：{o.missing_handle} → {o.missing_end_node_id}<br/>无文件说明参数：{o.missing_message_variable}，最多{o.missing_message_max_length}字符；输入可覆盖默认文字。</p><details><summary>配置的缺失说明默认值</summary><pre>{JSON.stringify(o.missing_message_default)}</pre></details>{r.expected_outputs&&<details open><summary>按当前输入预计返回的完整说明</summary><pre>{JSON.stringify(r.expected_outputs,null,2)}</pre></details>}<p className="hint">预计经过节点：{r.expected_node_ids.join(' → ')}<br/>预计跳过节点：{r.skipped_node_ids.join('、')}。整张图保持，没有删除未选路径。省略与null原样传入，空串／空对象不能冒充无文件。以上为静态预计，尚无实际节点轨迹证明选路；平台成功终态或说明匹配不代表业务验收。</p></div>
+}
