@@ -58,8 +58,8 @@
       "related_checks": [
         "backend/tests/test_reference_dsl.py"
       ],
-      "known_gap": "三种参考程度须在同一真实修改链路逐项复现。",
-      "final_acceptance_record": null
+      "known_gap": "三种参考程度的真实界面与业务修改链路仍待验收。本次仅验证本地追问、显式选择、持久记录和变更失效；材料保留／严格复现仍不支持自动规划和构建，须明确拒绝，不能用借鉴替代或将结构摘要当作已复现。",
+      "final_acceptance_record": "docs/acceptance-at04-record.md"
     },
     {
       "id": "AT-05",

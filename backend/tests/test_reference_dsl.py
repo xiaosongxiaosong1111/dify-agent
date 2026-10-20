@@ -1,6 +1,7 @@
 import copy
 import json
 
+import httpx
 import pytest
 import yaml
 
@@ -9,6 +10,15 @@ from test_planning import plan
 from app import main
 from app.reference_dsl import summarize, material_text
 from app.workflow_plan import compile_workflow_plan
+
+
+@pytest.fixture(autouse=True)
+def forbid_reference_external_calls(monkeypatch):
+    def forbidden(*args, **kwargs):
+        pytest.fail('参考程度隔离检查不得访问真实 HTTP 或调用真实模型')
+    monkeypatch.setattr(httpx.HTTPTransport, 'handle_request', forbidden)
+    monkeypatch.setattr(httpx.AsyncHTTPTransport, 'handle_async_request', forbidden)
+    monkeypatch.setattr(main, 'call_model', forbidden)
 
 
 def content(task):
@@ -190,3 +200,141 @@ def test_summary_is_in_planning_context_with_limitations(client, monkeypatch):
     assert len(materials) == 1 and materials[0]['reference_mode'] == 'borrow'
     assert '没有执行、导入或复现' in materials[0]['excerpt'] and '代码' in materials[0]['excerpt']
     assert 'source' in materials[0]['excerpt'] and 'nodes' in materials[0]['excerpt']
+
+
+@pytest.mark.parametrize('choice', ['omitted', None, '', 'automatic'])
+def test_at04_preview_requires_explicit_choice_without_side_effects(client, choice):
+    task = approved(client)
+    assert preview(client, task).status_code == 200
+    record = state(client, task)['record']
+    before = main.get_task(task['id'])
+    stored = copy.deepcopy(main.store.get('reference_dsl_preview', record['id']))
+    payload = {'revision': task['revision'], 'preview_id': record['id'],
+               'preview_token': record['preview_token'], 'acknowledge_limits': True}
+    if choice != 'omitted':
+        payload['reference_mode'] = choice
+    response = client.post(f"/api/tasks/{task['id']}/reference-dsl/adopt", json=payload)
+    assert response.status_code == 422, response.text
+    if choice in ('', 'automatic'):
+        assert '请主动选择借鉴、保留指定部分或严格复现' in response.text
+    assert main.get_task(task['id']) == before
+    assert main.store.get('reference_dsl_preview', record['id']) == stored
+    assert not list((main.DATA_ROOT / task['id']).glob('materials/*'))
+    # A rejected attempt must leave the preview usable for a later user choice.
+    response = adopt(client, task)
+    assert response.status_code == 200, response.text
+    assert response.json()['materials'][0]['reference_mode'] == 'borrow'
+
+
+def test_at04_preserve_requires_specific_items_without_consuming_preview(client):
+    task = approved(client)
+    assert preview(client, task).status_code == 200
+    before = main.get_task(task['id'])
+    record = state(client, task)['record']
+    for items in ('', ' \n\t '):
+        response = adopt(client, task, reference_mode='preserve', preserve_items=items)
+        assert response.status_code == 422 and '请明确填写必须保留' in response.text
+        assert main.get_task(task['id']) == before
+        assert state(client, task)['record'] == record
+        assert not list((main.DATA_ROOT / task['id']).glob('materials/*'))
+
+
+@pytest.mark.parametrize('mode', ['borrow', 'preserve', 'replicate'])
+def test_at04_explicit_choices_persist_with_source_and_revision(client, mode, monkeypatch):
+    from app.storage import Store
+    task = approved(client)
+    source = content(task)
+    assert preview(client, task, source).status_code == 200
+    record = state(client, task)['record']
+    items = '保留代码节点的计算规则' if mode == 'preserve' else ''
+    response = adopt(client, task, reference_mode=mode, preserve_items=f' {items} ')
+    assert response.status_code == 200, response.text
+    selected = response.json()
+    monkeypatch.setattr(main, 'store', Store(main.DATA_ROOT))
+    persisted = client.get(f"/api/tasks/{task['id']}").json()
+    assert persisted == selected
+    material = persisted['materials'][0]
+    adopted = state(client, persisted)['record']
+    assert material['reference_mode'] == adopted['reference_mode'] == mode
+    assert material['preserve_items'] == adopted['preserve_items'] == items
+    assert adopted['id'] == record['id'] and adopted['status'] == 'adopted'
+    assert adopted['revision'] == task['revision']
+    assert adopted['applied_revision'] == persisted['revision'] == task['revision'] + 1
+    assert adopted['acknowledge_limits'] is True
+    assert material['sha256'] == record['summary']['source']['sha256']
+    assert material['dsl_summary']['verification'] == 'local_structure_only'
+    assert (main.DATA_ROOT / task['id'] / 'materials' / (material['id'] + '.yaml')).read_text(encoding='utf-8') == source
+    assert persisted['app_type'] == task['app_type'] and persisted['requirements'] == task['requirements']
+    assert not persisted['requirements_confirmed'] and not persisted['configuration_confirmed']
+    assert not persisted['artifact'] and not persisted['dify_app_id'] and not persisted['runs']
+    report = client.get(f"/api/tasks/{task['id']}/report")
+    assert report.status_code == 200 and f'"reference_mode": "{mode}"' in report.text
+    assert '不是已复现或已运行' in report.text
+
+
+def test_at04_uploaded_reference_without_choice_is_questioned_and_blocked(client):
+    task = approved(client)
+    response = client.post(f"/api/tasks/{task['id']}/materials",
+                           files={'file': ('参考.yaml', content(task).encode('utf-8'), 'application/yaml')})
+    assert response.status_code == 200, response.text
+    task = response.json()
+    assert task['materials'][0]['status'] == 'parsed'
+    assert task['materials'][0]['reference_mode'] is None
+    response = client.get(f"/api/tasks/{task['id']}/intake")
+    assert response.status_code == 200, response.text
+    gaps = [g for g in response.json()['gaps'] if g['topic'] == 'materials']
+    assert len(gaps) == 1 and '借鉴、保留指定内容或严格复现' in gaps[0]['question']
+    before = main.get_task(task['id'])
+    response = client.post(f"/api/tasks/{task['id']}/confirm", json={'revision': task['revision'], 'kind': 'requirements'})
+    assert response.status_code == 422 and '确认参考方式' in response.text
+    response = client.post(f"/api/tasks/{task['id']}/plan/generate", json={'revision': task['revision']})
+    assert response.status_code == 422 and '不会自动改为借鉴' in response.text
+    assert client.post(f"/api/tasks/{task['id']}/build", json={'revision': task['revision']}).status_code == 422
+    assert main.get_task(task['id']) == before
+    mid = task['materials'][0]['id']
+    for payload in ({}, {'reference_mode': None}, {'reference_mode': ''}, {'reference_mode': 'automatic'},
+                    {'reference_mode': 'preserve', 'preserve_items': ' \n '}):
+        response = client.patch(f"/api/tasks/{task['id']}/materials/{mid}", json=payload)
+        assert response.status_code == 422, response.text
+        assert main.get_task(task['id']) == before
+    response = client.patch(f"/api/tasks/{task['id']}/materials/{mid}", json={'reference_mode': 'borrow'})
+    assert response.status_code == 200, response.text
+    selected = response.json()
+    assert selected['materials'][0]['reference_mode'] == 'borrow'
+    assert selected['revision'] == task['revision'] + 1
+    assert not [g for g in client.get(f"/api/tasks/{task['id']}/intake").json()['gaps'] if g['topic'] == 'materials']
+    assert client.post(f"/api/tasks/{task['id']}/confirm", json={'revision': selected['revision'], 'kind': 'requirements'}).status_code == 200
+
+
+@pytest.mark.parametrize('mode', ['preserve', 'replicate'])
+def test_at04_changing_choice_invalidates_approvals_and_never_falls_back(client, mode):
+    task = approved(client)
+    assert preview(client, task).status_code == 200
+    task = adopt(client, task).json()
+    for kind in ('requirements', 'configuration'):
+        response = client.post(f"/api/tasks/{task['id']}/confirm", json={'revision': task['revision'], 'kind': kind})
+        assert response.status_code == 200, response.text
+        task = response.json()
+    response = client.post(f"/api/tasks/{task['id']}/build", json={'revision': task['revision']})
+    assert response.status_code == 200, response.text
+    task = response.json()
+    assert task['artifact']['verification'] == 'static_only'
+    mid = task['materials'][0]['id']
+    response = client.patch(f"/api/tasks/{task['id']}/materials/{mid}",
+                            json={'reference_mode': mode, 'preserve_items': '保留代码规则' if mode == 'preserve' else ''})
+    assert response.status_code == 200, response.text
+    changed = response.json()
+    assert changed['revision'] == task['revision'] + 1
+    assert changed['materials'][0]['reference_mode'] == mode
+    assert not changed['requirements_confirmed'] and not changed['configuration_confirmed'] and not changed['artifact']
+    assert client.post(f"/api/tasks/{task['id']}/confirm", json={'revision': task['revision'], 'kind': 'requirements'}).status_code == 409
+    for kind in ('requirements', 'configuration'):
+        response = client.post(f"/api/tasks/{task['id']}/confirm", json={'revision': changed['revision'], 'kind': kind})
+        assert response.status_code == 200, response.text
+        changed = response.json()
+    before = main.get_task(task['id'])
+    for action, message in (('plan/generate', '不会自动改为借鉴'), ('build', '尚未实现指定参考内容保留或严格复现')):
+        response = client.post(f"/api/tasks/{task['id']}/{action}", json={'revision': changed['revision']})
+        assert response.status_code == 422 and message in response.text
+        assert main.get_task(task['id']) == before
+    assert not before['dify_app_id'] and not before['runs']
