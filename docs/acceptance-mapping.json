@@ -66,14 +66,17 @@
       "scenario": "用户所选类型不适合需求",
       "expected": "说明原因与方案，等待决定，不自动换类型。",
       "source": [
-        "backend/app/capabilities.py"
+        "backend/app/capabilities.py",
+        "backend/app/main.py",
+        "backend/app/planning_decisions.py",
+        "frontend/src/PlanningDecision.tsx"
       ],
       "related_checks": [
         "backend/tests/test_capabilities.py",
         "backend/tests/test_planning_capability_context.py"
       ],
-      "known_gap": "应用类型边界已有程序保护；不适用需求的自然语言协商需真实模型验收。 0.199规划输入已绑定当前按类型编译目录并消除旧范围冲突，真实模型输出质量仍待具体授权筛查。",
-      "final_acceptance_record": null
+      "known_gap": "应用类型边界已有程序保护；本次仅用固定模型响应验证类型不适用时的原因／方案记录、暂停、原计划保留和修订隔离。需求不适用的语义识别与方案质量仍依赖模型，未验证任意自然语言需求均能被拦截；真实界面协商、真实模型与Dify业务验收仍待完成。HTTP错误仅为通用暂停提示，具体差异与方案保存在未核实澄清记录中。",
+      "final_acceptance_record": "docs/acceptance-at05-record.md"
     },
     {
       "id": "AT-06",

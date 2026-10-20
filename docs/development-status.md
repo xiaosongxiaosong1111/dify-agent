@@ -6,6 +6,8 @@
 
 ## 当前切片
 
+2026-10-20 AT-05 本地核对（未部署）：[BACKLOG](BACKLOG.md) 第 13 项新增 12 个隔离用例，覆盖三种任务类型禁止改写、六种跨类型计划拒绝且保留原计划，以及类型不适用时原因／方案／体验／费用／人工影响的记录、暂停等待、临时存储重开一致及旧修订拒绝。修复指定测试的旧隔离 fixture 引用，两个文件阻断真实 HTTP／默认模型调用。指定命令 `.venv\Scripts\python.exe -m pytest backend/tests/test_capabilities.py backend/tests/test_planning_capability_context.py -q` 首轮三例误将 HTTP 通用暂停提示当作模型原文，修正断言后 **19 passed、1 warning（4.27s）**；[验收记录](acceptance-at05-record.md) 已登记到 acceptance-mapping。仅补测试和记录，没有产品实现变更、前端运行验收、真实 Dify、付费模型、部署、全量测试或重建。语义适用性判断与协商质量仍依赖模型，固定响应不证明任意不适用需求均被识别，不代表 AT-05 最终业务验收或整个计划完成。
+
 2026-10-20 AT-04 本地核对（未部署）：完成 [BACKLOG](BACKLOG.md) 第 12 项的隔离检查，新增 11 例，覆盖参考程度遗漏／空值／非法值拒绝、保留项必填、三种显式选择与原文／修订持久化、普通上传未选择时的追问及确认／规划／构建拦截，以及从借鉴改为保留／复现后旧确认和静态成果失效。指定命令 `.venv\Scripts\python.exe -m pytest backend/tests/test_reference_dsl.py -q` 首次通过，**41 passed、1 warning（11.79s）**；[验收记录](acceptance-at04-record.md) 已登记到 acceptance-mapping。只补测试和记录，沿用临时存储，阻断真实 HTTP／默认模型调用。保留／复现材料仍不能自动规划或构建；本次没有前端运行验收、真实 Dify、付费模型、部署、全量测试或重建，不代表 AT-04 最终业务验收或整个计划完成。
 
 2026-10-20 AT-03 本地核对（未部署）：完成 [BACKLOG](BACKLOG.md) 第 11 项的隔离检查，新增 8 例，覆盖实际本地文档上传与参考 DSL 预览／采纳后的双来源清单、用户分别选择文档／DSL 规则、裁定与确认持久化、跨任务／未解析／伪造来源拒绝、材料变化后旧裁定确认失效，以及固定模型建议不自动采纳。指定命令 `.venv\Scripts\python.exe -m pytest backend/tests/test_conflicts.py -q` 首次通过，**39 passed、1 warning（13.24s）**；[验收记录](acceptance-at03-record.md) 已登记到 acceptance-mapping。只修改测试和记录，沿用临时存储，阻断真实 HTTP／默认模型调用。冲突检查需显式启用，来源合法不证明语义正确；长材料摘录和真实识别质量待验证，无真实 Dify、付费模型、部署、全量测试或重建，不代表 AT-03 最终业务验收或整个计划完成。
