@@ -247,13 +247,17 @@
       "scenario": "自动触发或人工审核能力不足",
       "expected": "说明环境缺口和替代方案，等待确认。",
       "source": [
-        "backend/app/capabilities.py"
+        "backend/app/capabilities.py",
+        "backend/app/main.py",
+        "backend/app/planning_decisions.py",
+        "backend/app/human_runtime_plan.py",
+        "backend/app/human_runtime_execution.py"
       ],
       "related_checks": [
         "backend/tests/test_human_runtime_execution.py"
       ],
-      "known_gap": "受限定时与人审链存在；Webhook／插件、指定身份、邮件及复杂组合缺口保留。",
-      "final_acceptance_record": null
+      "known_gap": "2026-10-21 新增10例本地隔离检查，指定单文件35通过：按类型披露定时／人工审核限制；固定模型缺口与替代建议保存为待确认问题并暂停，不改类型／需求／计划或派发资源；未适配版本、通用导入／试跑绕过及省略资源批准均拒绝。编译目录不证明环境就绪，语义缺口识别仍依赖模型，未主动探测权限；Webhook／插件、指定身份、邮件及复杂组合缺口保留。没有真实Dify或付费模型调用，不代表真实自然触发、表单权限／恢复或最终业务验收。",
+      "final_acceptance_record": "docs/acceptance-at16-record.md"
     },
     {
       "id": "AT-17",

@@ -1,10 +1,19 @@
 import copy,json,time,uuid
-import pytest,yaml
-from test_api import client
+import httpx,pytest,yaml
+from test_api import client,create,approved,planning_provider
 from test_human_runtime_plan import setup,prepare
 from app import main
 from app.dify import DifyError
 from app.human_runtime_stream import render
+from app.storage import Store
+
+
+@pytest.fixture(autouse=True)
+def forbid_human_runtime_external_calls(monkeypatch):
+ def forbidden(*args,**kwargs):pytest.fail('AT-16 隔离检查不得访问真实 HTTP 或调用真实模型')
+ monkeypatch.setattr(httpx.HTTPTransport,'handle_request',forbidden)
+ monkeypatch.setattr(httpx.AsyncHTTPTransport,'handle_async_request',forbidden)
+ monkeypatch.setattr(main,'call_model',forbidden)
 
 APP=str(uuid.uuid4());WORKFLOW=str(uuid.uuid4());RUN=str(uuid.uuid4());FORM=str(uuid.uuid4());KEYID=str(uuid.uuid4())
 KEY='app-private-new-key-0123456789';TOKEN='form-private-token-0123456789'
@@ -114,3 +123,87 @@ def test_changed_final_execution_graph_does_not_adopt_form_token(client,monkeypa
  assert execute(client,t,p).status_code==502;row=main.store.list('human_runtime_run')[0]
  assert row['state']=='unknown' and row['workflow_run_id']==RUN and not row.get('form')
  assert not main.store.has_secret(row['id'],'form_token') and sum(m=='POST' for m,_ in calls)==4
+
+
+@pytest.mark.parametrize('mode',['workflow','advanced-chat','agent'])
+def test_at16_catalog_explains_trigger_review_limits_without_proving_environment(client,mode):
+ task=create(client,app_type=mode);before=copy.deepcopy(main.get_task(task['id']))
+ response=client.get('/api/capabilities',params={'app_type':mode});assert response.status_code==200
+ value=response.json();types={n['type'] for n in value['root_nodes']};notes=''.join(value['notes']);gaps=''.join(value['not_adapted'])
+ assert value['verification']=='compiler_scope' and value['target_dify_version']=='1.17.1'
+ assert 'Webhook／插件触发' in gaps and '再由用户确认范围' in notes
+ if mode=='workflow':
+  assert {'trigger-schedule','human-input'}<=types
+  assert '真实自然定时业务验收' in gaps and '指定身份、邮件' in gaps
+  assert '发布可能直接激活' in notes and '无自动停用' in notes and '不强制审核人身份' in notes
+ elif mode=='advanced-chat':
+  assert not {'trigger-schedule','human-input'}&types and 'Chatflow定时／人工审核入口' in gaps
+ else:
+  assert not types and 'Workflow定时、人工审核及容器流程' in gaps
+ assert main.get_task(task['id'])==before and main.store.list('human_runtime_plan')==[] and main.store.list('human_runtime_run')==[]
+
+
+@pytest.mark.parametrize('goal,reason,alternative',[
+ ('收到业务 Webhook 后自动触发处理。','当前未适配 Webhook／插件触发，也没有目标环境触发能力证据。','保留 Workflow，由用户人工发起；需要自动触发则另行评估外部系统及授权。'),
+ ('必须由指定财务人员收到邮件后审核。','当前人工审核不强制指定身份，邮件送达尚未适配，不能保证目标环境权限满足要求。','保留需求并暂停；可另行评估 WebApp 人工核对身份方案，由用户决定是否接受。'),
+],ids=['webhook','reviewer-email'])
+def test_at16_capability_gap_and_alternative_persist_as_unapproved_questions(client,monkeypatch,tmp_path,goal,reason,alternative):
+ planning_provider(client);task=approved(client)
+ task=client.patch(f"/api/tasks/{task['id']}",json={'requirements':{'goal':goal}}).json()
+ before=copy.deepcopy(main.get_task(task['id']));calls=[]
+ questions=[{'question':'是否接受人工替代方案及其限制？','reason':reason,'recommendation':alternative,
+             'experience':'需要主动操作，不能保证自动触发或指定身份限制。','cost':'环境与运行费用尚未核对，不因此批准外部调用。','manual_work':'用户需明确范围并自行完成人工步骤。'}]
+ async def controlled(provider,key,messages,**kwargs):
+  context=json.loads(messages[1]['content']);calls.append(context)
+  assert context['requirements']['goal']==goal and context['user_selected_type']=='workflow'
+  catalog=context['capability_catalog'];assert catalog['verification']=='compiler_scope'
+  assert 'Webhook／插件触发' in catalog['not_adapted'] and any('指定身份、邮件' in gap for gap in catalog['not_adapted'])
+  assert '问题和建议不是用户确认，不自动填答案' in messages[0]['content']
+  return json.dumps({'error':reason,'needs_decision':questions},ensure_ascii=False),{'prompt_tokens':90,'completion_tokens':40}
+ monkeypatch.setattr(main,'call_model',controlled)
+ response=client.post(f"/api/tasks/{task['id']}/plan/generate",json={'revision':task['revision']})
+ assert response.status_code==422 and '没有自动删减功能' in response.json()['detail'] and len(calls)==1
+ saved=main.get_task(task['id']);assert saved['status']=='paused'
+ for field in ('revision','app_type','requirements','configuration','requirements_confirmed','configuration_confirmed','confirmations','workflow_plan','artifact','runs','versions','dify_app_id'):
+  assert saved.get(field)==before.get(field),field
+ record=client.get(f"/api/tasks/{task['id']}/planning").json()['runs'][-1]
+ assert record['revision']==task['revision'] and record['status']=='paused' and record['stop_reason']=='needs_decision'
+ assert record['decision_report']=={'schema_version':1,'verification':'model_clarification_only','message':reason,'questions':questions,'incomplete':False,'format_valid':True}
+ assert len(record['attempts'])==1 and 'last_candidate' not in record
+ assert Store(tmp_path).get('task',task['id'])==saved
+ ledger=copy.deepcopy(main.budgets.get(task['id']))
+ assert client.get(f"/api/tasks/{task['id']}").json()==saved and main.budgets.get(task['id'])==ledger and len(calls)==1
+ assert main.store.list('human_runtime_plan')==[] and main.store.list('human_runtime_run')==[]
+
+
+@pytest.mark.parametrize('version',['1.17.0','unknown'])
+def test_at16_unadapted_environment_cannot_prepare_resources(client,version):
+ task,env=setup(client);env['version']=version;main.store.put('environment',env['id'],env)
+ before=copy.deepcopy(main.get_task(task['id']));response=prepare(client,task)
+ assert response.status_code==422 and response.json()['detail']=='当前适配基线为 Dify 1.17.1，请核对环境实际版本。'
+ assert main.get_task(task['id'])==before and main.store.list('human_runtime_plan')==[] and main.store.list('human_runtime_run')==[]
+
+
+@pytest.mark.parametrize('action',['import','run'])
+def test_at16_generic_actions_cannot_bypass_independent_review_approval(client,action):
+ task,_=setup(client);before=copy.deepcopy(main.get_task(task['id']))
+ response=client.post(f"/api/tasks/{task['id']}/{action}",json={'revision':task['revision']})
+ assert response.status_code==422 and '人工审核' in response.json()['detail']
+ assert main.get_task(task['id'])==before and main.store.list('human_runtime_run')==[]
+
+
+def test_at16_preparation_discloses_limits_and_does_not_imply_resource_approval(client,tmp_path):
+ task,_=setup(client);before=copy.deepcopy(main.get_task(task['id']));response=prepare(client,task)
+ assert response.status_code==200,response.text
+ plan=response.json()
+ assert plan['state']=='prepared_unapproved' and plan['execution_available'] and not plan['role_restriction_enforced']
+ assert plan['resource_counts']=={'new_apps':1,'publish_attempts':1,'new_app_keys':1,'workflow_run_attempts':1,'expected_human_forms':1,'human_submissions':0}
+ assert not plan['automatic_retry'] and not plan['overwrites_existing_apps'] and plan['leftovers_possible']
+ assert not plan['paid_dependencies']['model'] and not plan['paid_dependencies']['host_cost_guaranteed_zero']
+ assert '不强制指定审核人' in plan['note'] and '实际平台联调尚未验收' in plan['note']
+ stored=Store(tmp_path).get('human_runtime_plan',plan['id'])
+ assert stored['revision']==task['revision'] and stored['resource_token']==plan['resource_token'] and stored['state']=='prepared_unapproved'
+ response=client.post(f"/api/tasks/{task['id']}/human-runtime/{plan['id']}/execute",json={'revision':task['revision'],'resource_token':plan['resource_token']})
+ assert response.status_code==422
+ assert main.store.get('human_runtime_plan',plan['id'])==stored and main.store.list('human_runtime_run')==[]
+ assert main.get_task(task['id'])==before

@@ -6,6 +6,8 @@
 
 ## 当前切片
 
+2026-10-21 AT-16 本地核对（未部署）：[BACKLOG](BACKLOG.md) 第 22 项新增 10 个隔离用例，覆盖按类型披露触发／审核限制、固定缺口与替代建议持久化为待确认问题并暂停、未适配版本拒绝、通用导入／试跑防绕过及准备不等于资源批准。指定命令 `.venv\Scripts\python.exe -m pytest backend/tests/test_human_runtime_execution.py -q` 首轮因测试准备及文案断言错误为 32 通过、3 失败，修正测试后 **35 passed、1 warning（20.19s）**；[验收记录](acceptance-at16-record.md) 已登记到 acceptance-mapping。仅补测试和记录，临时存储并阻断真实 HTTP／默认模型调用，无真实 Dify、付费调用、部署、全量测试或重建。编译目录不证明环境就绪，固定响应不证明模型自主识别缺口，未探测真实角色权限；Webhook／插件、指定身份、邮件及复杂组合保持未适配，真实自然触发、表单提交／恢复和最终业务仍待验收，不代表整个计划完成。仅处理本队列项。
+
 2026-10-21 AT-15 本地核对（未部署）：[BACKLOG](BACKLOG.md) 第 21 项新增 16 个隔离用例，覆盖 Agent／Chatflow 三轮信息缺失追问、同会话补齐与重跑新建会话、跳过必要追问失败、不完整结果保留未知检查点、上下文重新判定及旧修订／环境排除。指定命令 `.venv\Scripts\python.exe -m pytest backend/tests/test_conversation_cases.py -q` 首次 **43 passed、1 warning（14.66s）**；[验收记录](acceptance-at15-record.md) 已登记到 acceptance-mapping。仅补测试和记录，临时存储并阻断真实 HTTP／默认模型调用，无真实 Dify 或付费调用。固定回答只验证执行及声明规则，不能证明模型会自主追问或记忆生效；真实业务提示词／历史配置、复杂客户对话、前端体验及最终业务仍待验收，不代表整个计划完成。仅处理本队列项。
 
 2026-10-21 AT-13 本地核对（未部署）：[BACKLOG](BACKLOG.md) 第 20 项新增 11 个隔离用例，覆盖原错误消除但其他必选分支失败／未跑／待审／未知、模拟阶段结果、最新失败覆盖旧通过，以及已导入但关键样例失败的汇总与报告。指定命令 `.venv\Scripts\python.exe -m pytest backend/tests/test_repair_verification.py -q` 首次 **39 passed、1 warning（25.49s）**；[验收记录](acceptance-at13-record.md) 已登记到 acceptance-mapping。仅补测试和记录，临时存储并阻断真实 HTTP／默认模型调用，无真实 Dify 或付费调用。任务总状态仍可能为 imported，无统一需修复总状态；自动小修复仅覆盖特定 NameError，成功返回但业务预期不符仍需人工核对。导入／运行／轨迹均为合成证据，真实来源、全关键样例、前端体验及最终业务仍待验收，不代表整个计划完成。仅处理本队列项。
