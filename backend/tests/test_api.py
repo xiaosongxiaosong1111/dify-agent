@@ -3,12 +3,23 @@ import sys
 from pathlib import Path
 
 import pytest
+import httpx
+import yaml
 from fastapi.testclient import TestClient
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from app import main
 from app.storage import Store
 from app.dify import DifyError
+
+
+@pytest.fixture(autouse=True)
+def forbid_api_external_calls(monkeypatch):
+    def forbidden(*args, **kwargs):
+        pytest.fail("API 隔离检查不得访问真实 HTTP 或调用真实模型")
+    monkeypatch.setattr(httpx.HTTPTransport, "handle_request", forbidden)
+    monkeypatch.setattr(httpx.AsyncHTTPTransport, "handle_async_request", forbidden)
+    monkeypatch.setattr(main, "call_model", forbidden)
 
 
 @pytest.fixture
@@ -605,3 +616,123 @@ def test_report_distinguishes_current_real_import_from_stale_evidence(client):
     report = client.get(f"/api/tasks/{tid}/report").text
     assert "当前修订尚无匹配的真实导入记录" in report
     assert "成功运行返回 1 次" not in report
+
+
+MOCK_ORDER = "订单查询接口：用户接受固定样例；模拟位置 code 节点；真实接入待办：补接口地址和鉴权、替换样例并重验"
+
+
+@pytest.mark.parametrize("app_type", ["workflow", "advanced-chat", "agent"])
+def test_at10_new_task_does_not_invent_mock_consent(client, app_type):
+    response = client.post("/api/tasks", json={"name": "Sierra 模拟声明核对", "app_type": app_type})
+    assert response.status_code == 201, response.text
+    task = response.json()
+    assert task["app_type"] == app_type
+    assert task["configuration"]["mock_dependencies"] == []
+    assert not task["configuration_confirmed"] and not task["artifact"] and not task["runs"]
+    assert Store(main.store.root).get("task", task["id"])["configuration"]["mock_dependencies"] == []
+
+
+@pytest.mark.parametrize("app_type", ["workflow", "advanced-chat"])
+def test_at10_legacy_template_carries_explicit_declaration_to_downloads(client, app_type):
+    # This exercises the legacy template only, not new-task intake or an executable mock service.
+    task = approved(client, app_type=app_type)
+    tid = task["id"]
+    response = client.patch(f"/api/tasks/{tid}", json={"configuration": {"mock_dependencies": [MOCK_ORDER]}})
+    assert response.status_code == 200, response.text
+    task = response.json()
+    assert task["requirements_confirmed"] and not task["configuration_confirmed"]
+    assert client.post(f"/api/tasks/{tid}/build", json={"revision": task["revision"]}).status_code == 422
+    response = client.post(f"/api/tasks/{tid}/confirm", json={"kind": "configuration", "revision": task["revision"]})
+    assert response.status_code == 200, response.text
+    assert response.json()["confirmations"][-1]["revision"] == task["revision"]
+    response = client.post(f"/api/tasks/{tid}/build", json={"revision": task["revision"]})
+    assert response.status_code == 200, response.text
+    built = response.json()
+    assert built["artifact"]["verification"] == "static_only"
+    assert any("包含模拟依赖" in warning for warning in built["artifact"]["validation"]["warnings"])
+    download = client.get(f"/api/tasks/{tid}/artifact")
+    assert download.status_code == 200, download.text
+    dsl = yaml.safe_load(download.text)
+    assert dsl["app"]["mode"] == app_type
+    assert "模拟依赖（未接入真实服务）" in dsl["app"]["description"]
+    assert MOCK_ORDER in dsl["app"]["description"]
+    assert all(node["data"]["type"] != "http-request" for node in dsl["workflow"]["graph"]["nodes"])
+    report = client.get(f"/api/tasks/{tid}/report")
+    assert report.status_code == 200, report.text
+    assert MOCK_ORDER in report.text
+    assert "替换所有已确认的模拟依赖，并重新验证" in report.text
+    assert "静态检查不等于真实导入或业务验收" in report.text
+    saved = Store(main.store.root).get("task", tid)
+    assert saved["configuration"]["mock_dependencies"] == [MOCK_ORDER]
+    assert saved["versions"][-1]["configuration"]["mock_dependencies"] == [MOCK_ORDER]
+    assert not saved["dify_app_id"] and not saved["runs"]
+
+
+@pytest.mark.parametrize("invalid", ["自动模拟", [None], [{"name": "接口"}]])
+def test_at10_bad_mock_declaration_does_not_mutate_task(client, invalid):
+    task = approved(client)
+    tid = task["id"]
+    before = client.get(f"/api/tasks/{tid}").json()
+    response = client.patch(f"/api/tasks/{tid}", json={"configuration": {"mock_dependencies": invalid}})
+    assert response.status_code == 422 and "mock_dependencies 必须为字符串列表" in response.text
+    assert client.get(f"/api/tasks/{tid}").json() == before
+    assert Store(main.store.root).get("task", tid)["configuration"] == before["configuration"]
+
+
+@pytest.mark.parametrize("replacement", [[], ["订单接口改用另一份样例，仍未真实接入"]])
+def test_at10_mock_change_invalidates_approval_and_download(client, replacement):
+    task = approved(client)
+    tid = task["id"]
+    task = client.patch(f"/api/tasks/{tid}", json={"configuration": {"mock_dependencies": [MOCK_ORDER]}}).json()
+    assert client.post(f"/api/tasks/{tid}/confirm", json={"kind": "configuration", "revision": task["revision"]}).status_code == 200
+    response = client.post(f"/api/tasks/{tid}/build", json={"revision": task["revision"]})
+    assert response.status_code == 200, response.text
+    old_version = response.json()["versions"][-1]
+    changed = client.patch(f"/api/tasks/{tid}", json={"configuration": {"mock_dependencies": replacement}}).json()
+    assert changed["revision"] == task["revision"] + 1
+    assert changed["requirements_confirmed"] and not changed["configuration_confirmed"]
+    assert not changed["artifact"] and not changed["dify_app_id"] and not changed["runs"]
+    assert client.get(f"/api/tasks/{tid}/artifact").status_code == 404
+    assert client.post(f"/api/tasks/{tid}/confirm", json={"kind": "configuration", "revision": task["revision"]}).status_code == 409
+    assert client.post(f"/api/tasks/{tid}/build", json={"revision": changed["revision"]}).status_code == 422
+    saved = Store(main.store.root).get("task", tid)
+    assert saved["configuration"]["mock_dependencies"] == replacement
+    assert next(v for v in saved["versions"] if v["id"] == old_version["id"]) == old_version
+
+
+def test_at10_proposal_requires_separate_mock_consent_and_persists_it(client):
+    task = approved(client)
+    tid = task["id"]
+    # No environment: the real local discovery path records resources as unverified without HTTP.
+    response = client.post(f"/api/tasks/{tid}/configuration-proposal/resources", json={"revision": task["revision"]})
+    assert response.status_code == 200, response.text
+    candidate = {"schema_version": 1, "configuration": {"mock_dependencies": [MOCK_ORDER]},
+                 "reasons": [{"field": "mock_dependencies", "reason": "接口未提供，拟用固定样例",
+                              "experience": "只能展示样例", "cost": "真实接口费用待核对", "manual_work": "补鉴权并替换重验"}],
+                 "open_issues": [], "notes": "合成候选，仅检查明确采纳门禁"}
+    assert main.configuration_proposals.validate(task, candidate)["valid"]
+    main.configuration_proposals.save(task, candidate)
+    state = client.get(f"/api/tasks/{tid}/configuration-proposal").json()
+    record = state["record"]
+    assert state["can_adopt"]
+    before = client.get(f"/api/tasks/{tid}").json()
+    assert before["configuration"]["mock_dependencies"] == []
+    payload = {"revision": task["revision"], "proposal_id": record["id"], "proposal_token": record["proposal_token"],
+               "acknowledge_changes": True, "acknowledge_unverified_resources": True}
+    url = f"/api/tasks/{tid}/configuration-proposal/adopt"
+    response = client.post(url, json=payload)
+    assert response.status_code == 422 and "单独明确接受" in response.text
+    assert client.get(f"/api/tasks/{tid}").json() == before
+    assert Store(main.store.root).get("configuration_proposal", record["id"])["status"] == "proposed"
+    response = client.post(url, json={**payload, "acknowledge_mock_changes": True})
+    assert response.status_code == 200, response.text
+    adopted = response.json()
+    assert adopted["revision"] == task["revision"] + 1
+    assert adopted["configuration"]["mock_dependencies"] == [MOCK_ORDER]
+    assert not adopted["configuration_confirmed"] and not adopted["artifact"] and not adopted["runs"]
+    saved = Store(main.store.root)
+    receipt = saved.get("configuration_proposal", record["id"])
+    assert receipt["status"] == "adopted" and receipt["applied_revision"] == adopted["revision"]
+    assert receipt["acknowledgements"]["mock_changes"] is True
+    assert saved.get("task", tid)["configuration"]["mock_dependencies"] == [MOCK_ORDER]
+    assert client.post(url, json={**payload, "acknowledge_mock_changes": True}).status_code == 409

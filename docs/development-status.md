@@ -6,6 +6,8 @@
 
 ## 当前切片
 
+2026-10-20 AT-10 本地核对（未部署）：[BACKLOG](BACKLOG.md) 第 18 项新增 11 个隔离用例，覆盖三种应用类型不默认接受模拟、基础 Workflow／Chatflow 模板的声明与警告传至下载及报告、临时存储和版本保留、非法声明拒绝、声明变更／清空后的修订失效，以及集中方案单独模拟同意和采纳回执。指定命令 `.venv\Scripts\python.exe -m pytest backend/tests/test_api.py -q` 首次 **56 passed、1 warning（16.08s）**；[验收记录](acceptance-at10-record.md) 已登记到 acceptance-mapping。仅修改测试与记录，阻断真实 HTTP／默认模型调用，无真实 Dify 或付费调用。模拟位置与待办为未核验自由文本，模板不生成模拟执行节点；显式流程及 Agent 下载未统一附加标记，手动配置不要求单独模拟同意字段。真实接入替换、业务样例及前端体验仍待验收，不代表 AT-10 最终业务通过或整个计划完成。仅处理本队列项。
+
 2026-10-20 AT-09 本地核对（未部署）：[BACKLOG](BACKLOG.md) 第 17 项新增 13 个隔离用例，覆盖文本／JSON 与工具能力状态隔离、合成工具失败标记保留、五类模型身份变化后的旧证据失效、两种协议仅工具响应拒绝及 Agent 未适配工具计划拒绝且保留原计划和类型。指定命令 `.venv\Scripts\python.exe -m pytest backend/tests/test_node_models.py -q` 最终 **42 passed、1 warning（2.10s）**；首轮两例比较了不同接口的字段，修正为同一 GET 前后完整状态比较后通过。[验收记录](acceptance-at09-record.md) 已登记到 acceptance-mapping。仅补测试与记录，临时存储并阻断真实 HTTP／默认模型调用，无产品实现变更或真实资源调用。当前缺少通用工具探测、自动诊断及针对性调整建议、统一工具执行门禁；合成 failed 不代表已有探测，聊天成功不证明工具可用，并发旧回执与真实业务仍待核对。不代表 AT-09 最终业务通过或整个计划完成。仅处理本队列项。
 
 2026-10-20 AT-08 本地核对（未部署）：[BACKLOG](BACKLOG.md) 第 16 项新增 9 个隔离用例，覆盖两份业务资料在不同上传顺序下的显式裁定、双来源及原文件持久保留、同一材料内部矛盾、错误来源拒绝，以及模型推荐不自动生效、用户可选择非推荐项。指定命令 `.venv\Scripts\python.exe -m pytest backend/tests/test_conflicts.py -q` 首次通过，**48 passed、1 warning（18.24s）**；[验收记录](acceptance-at08-record.md) 已登记到 acceptance-mapping。仅补测试和记录，临时存储并阻断真实 HTTP／默认模型调用，无产品实现变更、部署、全量测试、重建、真实 Dify 或付费模型调用。冲突检查须显式启用，合法引文不证明语义矛盾或事实正确；长材料截断、真实识别质量、前端体验及业务验收仍待验证，不代表 AT-08 最终业务通过或整个计划完成。仅处理本队列项。
