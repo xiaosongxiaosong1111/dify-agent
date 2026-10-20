@@ -28,7 +28,28 @@
 | 7 | 专用 Dify 环境登录 | 用户登录后 `/api/health` 与专用连接可用 | need-user | blocked | `connection-stage-receipt.json`：credentials_copied=false |
 | 8 | 整批真实联调（已获批，限 14 次调用） | 有命中/无命中各一次真实运行回执 | codex | blocked | 等第 7 项 |
 
-| 9 | 核对 AT-01「用户只给模糊目标」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_intake.py backend/tests/test_planning_capability_context.py backend/tests/test_planning_decisions.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | done | 65 passed、1 warning（11.56s）；新增10例；[记录](acceptance-at01-record.md)，与测试同次提交；仅本地隔离通过，真实业务待验收 |
+| 9 | 核对 AT-01「用户只给模糊目标」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_intake.py backend/tests/test_planning_capability_context.py backend/tests/test_planning_decisions.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | done | commit 0594e1a |
+| 10 | 核对 AT-02「用户不知道分类规则」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_intake.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 11 | 核对 AT-03「文档与参考 DSL 冲突」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_conflicts.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 12 | 核对 AT-04「参考程度未明确」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_reference_dsl.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 13 | 核对 AT-05「用户所选类型不适合需求」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_capabilities.py backend/tests/test_planning_capability_context.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 14 | 核对 AT-06「只有原始知识资料」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_knowledge.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 15 | 核对 AT-07「多个知识库可选」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_configuration_proposals.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 16 | 核对 AT-08「资料业务事实矛盾」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_conflicts.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 17 | 核对 AT-09「模型简单聊天可用但工具能力不足」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_node_models.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 18 | 核对 AT-10「接口未提供且用户接受模拟」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_api.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 19 | 核对 AT-11「未确认配置或资源操作」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_api.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 20 | 核对 AT-13「已导入但关键样例失败」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_repair_verification.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 21 | 核对 AT-15「连续对话信息不完整」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_conversation_cases.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 22 | 核对 AT-16「自动触发或人工审核能力不足」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_human_runtime_execution.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 23 | 核对 AT-17「切换到客户环境」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_conversation_source_read.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 24 | 核对 AT-18「用户在 Dify 手动修改后继续」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_dsl_roundtrip.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 25 | 核对 AT-19「修改配置或需求」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_api.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 26 | 核对 AT-20「执行中暂停并关闭程序」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_task_budget.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 27 | 核对 AT-21「同一错误反复无进展或到达上限」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_execution_limits.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 28 | 核对 AT-22「Dify 断开」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_api.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 29 | 核对 AT-23「需求需要新建外部系统」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_intake.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
+| 30 | 核对 AT-25「启用轻量模型分工」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_assistant_routing.py backend/tests/test_assistant_usage_groups.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
 
 ## 已完成（本轮之前）
 
