@@ -203,6 +203,8 @@
         "frontend/src/TypedChainStages.tsx"
       ],
       "related_checks": [
+        "backend/tests/test_at14_partial_failures.py",
+        "backend/tests/test_iteration.py",
         "backend/tests/test_parallel_iteration.py",
         "backend/tests/test_iteration_outcomes.py",
         "backend/tests/test_iteration_summary.py",
@@ -214,8 +216,8 @@
         "backend/tests/test_iteration_chain_upstream.py",
         "backend/tests/test_iteration_chain_objects.py"
       ],
-      "known_gap": "已实现单步文字／数值／明确Schema对象逐项记录与汇总；2—8步顺序纯Python链支持逐步Schema对象中间态、首次失败步骤及后继原计算跳过、完整上游图保留和精确重建追加汇总。0.198完整隔离回归及实际部署核对通过；链正文混合模型／HTTP／DAG／嵌套的通用失败继续、恢复执行、其它下游消费者及真实复杂批量业务仍未验收。",
-      "final_acceptance_record": null
+      "known_gap": "2026-10-20 新增21例本地隔离检查：文字／数值／明确Schema对象的生成代码连续执行至最终End失败清单，首／中／末项失败、全失败、空批次，原生停止策略与拒绝静默继续／丢弃，以及预览接受、保存后确认失效和旧修订拒绝；相关12文件439通过。已有2—8步纯Python链首次失败及后继跳过检查。本地执行仅固定开发样例；停止路径尚无完整失败项清单输出证据，平台实际停止／并发取消、真实确认到执行闭环、混合模型／HTTP／DAG／嵌套通用继续、恢复执行、其它消费者及真实业务仍未验收，不代表AT-14最终通过。",
+      "final_acceptance_record": "docs/acceptance-at14-record.md"
     },
     {
       "id": "AT-15",

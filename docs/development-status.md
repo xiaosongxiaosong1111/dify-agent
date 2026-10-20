@@ -6,6 +6,8 @@
 
 ## 当前切片
 
+2026-10-20 AT-14 本地核对（未部署）：完成 [BACKLOG](BACKLOG.md) 第 4 项，新增 `backend/tests/test_at14_partial_failures.py` 的 21 个隔离用例，贯通固定开发样例生成的解析、逐项结果、汇总代码与最终 End 失败清单，覆盖文字/数值/对象、首/中/末项失败、全失败和空批次；另核对原生停止策略、拒绝静默继续/丢弃、接受协议与保存后修订/确认门禁。相关十二文件验收 **439 passed、1 warning（18.64s）**；[验收结论记录](acceptance-at14-record.md) 已登记到 acceptance-mapping。未修改产品实现，新增用例使用临时存储并禁止真实 HTTP/模型调用。停止路径完整失败清单、平台实际停止/并发取消、真实确认到执行及复杂正文业务验收仍缺证据，不代表 AT-14 最终业务通过或整个计划完成。
+
 2026-10-20 AT-12 本地核对（未部署）：完成 [BACKLOG](BACKLOG.md) 第 3 项，新增 `backend/tests/test_at12_variable_references.py` 的 20 个隔离用例，覆盖 Workflow/Chatflow 的计划草稿接口与最终 YAML；逐项验证缺节点、无效变量、兄弟分支、条件及终点引用错误的节点/字段定位，手动修正后重检通过，完整双分支及业务配置保留。相关五文件验收 **112 passed、1 warning（16.50s）**；[验收结论记录](acceptance-at12-record.md) 已登记到 acceptance-mapping。未修改产品代码，使用临时存储并阻断真实 HTTP/模型调用；通用自动修复、真实 Dify 导入/试跑及业务验收缺口保持，不代表 AT-12 真实业务闭环或整个计划完成。
 
 2026-10-20 本地回归补充（未部署）：仅完成 [BACKLOG](BACKLOG.md) 第 1 项。`backend/tests/test_intake.py` 新增三组参数化隔离回归，分别验证多余话题、用文件名冒充素材 ID、检查全为 complete 却仍追问时，候选未应用、需求与修订未改写、准入及确认受阻，并核对具体失败原因。指定文件验收 27 passed、1 warning（10.62s）；[反向验证脚本](../work/check-intake-contract-regression.py) 逐项仅在子进程内放宽对应校验，三组均在需求未改写断言处失败（各 1 failed、26 deselected），脚本退出 0。全程临时存储与模型 mock，无真实模型付费调用、Dify交互、全量测试或重建；不代表真实业务验收或 136 项计划完成。
