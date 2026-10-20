@@ -15,12 +15,14 @@ from app.dify import DifyError
 
 @pytest.fixture(autouse=True)
 def forbid_api_external_calls(monkeypatch):
+    original_request = main.DifyClient.request
     def forbidden(*args, **kwargs):
         pytest.fail("API 隔离检查不得访问真实 HTTP 或调用真实模型")
     monkeypatch.setattr(httpx.HTTPTransport, "handle_request", forbidden)
     monkeypatch.setattr(httpx.AsyncHTTPTransport, "handle_async_request", forbidden)
     monkeypatch.setattr(main.DifyClient, "request", forbidden)
     monkeypatch.setattr(main, "call_model", forbidden)
+    return original_request
 
 
 @pytest.fixture
@@ -321,6 +323,162 @@ def example_case(mode="contains"):
     if mode == "manual":
         expectation = {"mode": "manual", "description": "人工确认回答是否符合保修规则"}
     return {"id": "warranty", "name": "保修规则", "input": {"query": "保修多久"}, "expectation": expectation, "required": True}
+
+
+def at22_static_task(client, app_type="workflow", env_id=None):
+    # Legacy intake bypass isolates offline delivery, not a complete new-task intake.
+    task = approved(client, app_type=app_type, env_id=env_id)
+    tid = task["id"]
+    case = example_case()
+    if app_type == "advanced-chat":
+        case["expectation"]["target"] = "answer"
+    response = client.post(f"/api/tasks/{tid}/test-cases", json={
+        "revision": task["revision"], "cases": [case]})
+    assert response.status_code == 200, response.text
+    task = response.json()
+    if app_type == "workflow":
+        response = client.post(f"/api/tasks/{tid}/plan", json={
+            "revision": task["revision"], "plan": code_only_plan()})
+        assert response.status_code == 200, response.text
+        task = response.json()
+    for kind in ("requirements", "configuration"):
+        response = client.post(f"/api/tasks/{tid}/confirm", json={
+            "revision": task["revision"], "kind": kind})
+        assert response.status_code == 200, response.text
+    response = client.post(f"/api/tasks/{tid}/build", json={"revision": task["revision"]})
+    assert response.status_code == 200, response.text
+    return response.json()
+
+
+def at22_assert_delivery(client, task, original_bytes):
+    tid = task["id"]
+    assert task["artifact"]["revision"] == task["revision"]
+    assert task["artifact"]["verification"] == "static_only"
+    assert task["artifact"]["validation"]["valid"]
+    download = client.get(f"/api/tasks/{tid}/artifact")
+    assert download.status_code == 200
+    assert download.content == original_bytes
+    assert f"r{task['revision']}.yaml" in download.headers["content-disposition"]
+    dsl = client.get(f"/api/tasks/{tid}/dsl")
+    assert dsl.status_code == 200 and dsl.json()["revision"] == task["revision"]
+    # The text endpoint uses universal newlines; the file download preserves bytes.
+    assert dsl.json()["content"] == original_bytes.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
+    summary = client.get(f"/api/tasks/{tid}/acceptance").json()
+    assert summary["verification"] == "declared_checks_only"
+    assert not summary["all_required_passed"] and summary["required"]["passed"] == 0
+    report = client.get(f"/api/tasks/{tid}/report")
+    assert report.status_code == 200
+    assert "静态检查不等于真实导入或业务验收" in report.text
+    assert Store(main.store.root).get("task", tid) == task
+    return report.text, summary
+
+
+@pytest.mark.parametrize("app_type", ["workflow", "advanced-chat"])
+@pytest.mark.parametrize("configured", [False, True])
+def test_at22_offline_build_and_download_do_not_invent_import_or_run(client, app_type, configured):
+    env_id = None
+    if configured:
+        response = client.post("/api/environments", json={
+            "name": "未连接隔离环境", "base_url": "https://dify.example", "version": "1.17.1"})
+        assert response.status_code == 201, response.text
+        env_id = response.json()["id"]
+        assert not main.store.has_secret(env_id, "console_token")
+    task = at22_static_task(client, app_type, env_id)
+    tid = task["id"]
+    content = main.artifact_path(task).read_bytes()
+    assert yaml.safe_load(content)["app"]["mode"] == app_type
+    assert task["app_type"] == app_type and task["status"] == "draft_ready"
+    assert not task["dify_app_id"] and not task["runs"]
+    report, summary = at22_assert_delivery(client, task, content)
+    assert "当前修订尚无匹配的真实导入记录" in report
+    assert "当前应用标识：未导入" in report
+    assert "成功运行返回" not in report
+    assert summary["required"]["not_run"] == 1
+    assert summary["cases"][0]["details"] == "当前修订尚未试跑此样例。"
+    # Missing environment and missing import binding are local gates, not failed runs.
+    response = client.post(f"/api/tasks/{tid}/run", json={"revision": task["revision"], "case_id": "warranty"})
+    assert response.status_code == 422
+    assert ("尚未真实导入" if configured else "仍可生成待验证文件") in response.text
+    assert client.get(f"/api/tasks/{tid}").json() == task
+
+
+@pytest.mark.parametrize("kind", ["import", "run"])
+@pytest.mark.parametrize("failure", ["connection", "timeout"])
+def test_at22_disconnected_adapter_preserves_delivery_and_truthful_evidence(
+        client, monkeypatch, forbid_api_external_calls, kind, failure):
+    env = create_env(client)
+    task = at22_static_task(client, env_id=env["id"])
+    tid = task["id"]
+    content = main.artifact_path(task).read_bytes()
+    dispatched = []
+    if kind == "run":
+        # Synthetic import receipt establishes only the local run preconditions.
+        async def controlled_import(self, content, name):
+            return {"status": "completed", "app_id": "at22-synthetic-app"}
+        monkeypatch.setattr(main.DifyClient, "import_new", controlled_import)
+        response = client.post(f"/api/tasks/{tid}/import", json={"revision": task["revision"]})
+        assert response.status_code == 200, response.text
+        task = response.json()
+        response = client.patch(f"/api/environments/{env['id']}", json={
+            "service_app_id": "at22-synthetic-app", "service_api_key": "at22-not-a-real-key"})
+        assert response.status_code == 200, response.text
+
+    async def disconnected_transport(self, request):
+        dispatched.append((request.method, request.url.path))
+        assert request.url.host == "dify.example"
+        error = httpx.ConnectError if failure == "connection" else httpx.ReadTimeout
+        raise error("仅隔离测试的传输故障", request=request)
+
+    # Restore the actual request/error adapter only behind a transport that always raises.
+    monkeypatch.setattr(main.DifyClient, "request", forbid_api_external_calls)
+    monkeypatch.setattr(httpx.AsyncHTTPTransport, "handle_async_request", disconnected_transport)
+    payload = {"revision": task["revision"], **({"case_id": "warranty"} if kind == "run" else {})}
+    response = client.post(f"/api/tasks/{tid}/{kind}", json=payload)
+    assert response.status_code == 502, response.text
+    message = "可以继续生成待验证 DSL" if failure == "connection" else "结果可能未知"
+    assert message in response.json()["detail"]
+    expected_path = "/console/api/apps/imports" if kind == "import" else "/v1/workflows/run"
+    assert dispatched == [("POST", expected_path)]  # No automatic retry.
+    current = client.get(f"/api/tasks/{tid}").json()
+    assert current["revision"] == task["revision"] and current["app_type"] == "workflow"
+    assert current["status"] == "error" and current["artifact"] == task["artifact"]
+    assert current["dify_app_id"] == ("at22-synthetic-app" if kind == "run" else None)
+    record = current["runs"][-1]
+    expected_status = "failed" if failure == "connection" else "unknown"
+    assert record["kind"] == kind and record["status"] == expected_status
+    assert record["revision"] == current["revision"] and record["environment_id"] == env["id"]
+    assert record["error"] == response.json()["detail"] and record["completed_at"]
+    assert "result" not in record and "evaluation" not in record
+    report, summary = at22_assert_delivery(client, current, content)
+    assert f"{kind} / r{current['revision']} / {expected_status}" in report
+    assert "成功运行返回 1 次" not in report
+    if kind == "import":
+        assert len(current["runs"]) == 1
+        assert "当前修订尚无匹配的真实导入记录" in report
+        assert summary["required"]["not_run"] == 1
+    else:
+        assert len(current["runs"]) == 2 and current["runs"][0] == task["runs"][0]
+        assert "成功运行返回 0 次" in report
+        assert summary["cases"][0]["status"] == expected_status
+
+    # Reopen the isolated database and run normal startup recovery; no redispatch.
+    monkeypatch.setattr(main, "store", Store(main.store.root))
+    main.recover_external_actions()
+    assert client.get(f"/api/tasks/{tid}").json() == current
+    assert dispatched == [("POST", expected_path)]
+    rebuilt = client.post(f"/api/tasks/{tid}/build", json={"revision": current["revision"]})
+    assert rebuilt.status_code == 200, rebuilt.text
+    rebuilt_task = rebuilt.json()
+    assert rebuilt_task["status"] == "draft_ready"
+    assert rebuilt_task["runs"] == current["runs"]
+    assert rebuilt_task["dify_app_id"] == current["dify_app_id"]
+    at22_assert_delivery(client, rebuilt_task, content)
+    assert dispatched == [("POST", expected_path)]
+    if failure == "timeout":
+        repeated = client.post(f"/api/tasks/{tid}/{kind}", json=payload)
+        assert repeated.status_code == 409 and "禁止盲目重复执行" in repeated.text
+        assert client.get(f"/api/tasks/{tid}").json() == rebuilt_task
+        assert dispatched == [("POST", expected_path)]
 
 
 def test_cases_change_invalidates_approvals_and_restores_snapshot(client):

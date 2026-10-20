@@ -340,13 +340,15 @@
       "scenario": "Dify 断开",
       "expected": "可以生成待验证成果，明确未完成导入和试跑。",
       "source": [
-        "backend/app/main.py"
+        "backend/app/main.py",
+        "backend/app/dify.py",
+        "backend/app/acceptance.py"
       ],
       "related_checks": [
         "backend/tests/test_api.py"
       ],
-      "known_gap": "断连不能冒充成功的状态保护存在；真实断连的完整交付及恢复仍需综合验收。",
-      "final_acceptance_record": null
+      "known_gap": "2026-10-21 新增8例隔离检查，指定文件91 passed：Workflow／旧模板Chatflow无环境或无凭据静态生成、下载与报告、试跑门禁；实际请求适配器在固定传输故障下的导入／Workflow试跑连接失败与超时、持久化、重开、重建保留未知防重试。仅临时存储、合成导入回执及必定抛错的transport，无真实Dify／付费调用。连接错误记failed且允许主动再试，超时记unknown并阻止盲重试，分类依赖提示文字；总状态draft_ready不证明导入／试跑。单独YAML无统一实际验证状态，合成回执未自动标mock；新任务准入、Agent、前端、真实断连完整交付和恢复仍待验收，不代表最终业务通过。",
+      "final_acceptance_record": "docs/acceptance-at22-record.md"
     },
     {
       "id": "AT-23",
