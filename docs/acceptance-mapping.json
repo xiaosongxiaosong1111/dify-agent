@@ -45,8 +45,8 @@
       "related_checks": [
         "backend/tests/test_conflicts.py"
       ],
-      "known_gap": "跨材料与参考DSL语义冲突的完整识别仍待真实混合资料验收。",
-      "final_acceptance_record": null
+      "known_gap": "跨材料与参考DSL语义冲突的完整识别仍待真实混合资料验收。此次仅补固定文档与未执行DSL的本地来源、裁定和修订隔离检查；冲突检查须显式启用，合法引文不证明语义冲突或事实正确，模型摘录可能截断。",
+      "final_acceptance_record": "docs/acceptance-at03-record.md"
     },
     {
       "id": "AT-04",
