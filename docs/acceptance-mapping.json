@@ -299,8 +299,8 @@
       "related_checks": [
         "backend/tests/test_api.py"
       ],
-      "known_gap": "修订失效保护已多处实现，完整业务变更到重新试跑交付仍需综合验收。",
-      "final_acceptance_record": null
+      "known_gap": "2026-10-21 新增10例本地隔离检查，指定文件83 passed：配置／需求／同时变更后撤销相关确认、清空当前成果与App绑定，保留历史但排除旧自动通过／人工意见；重新确认、计划复核、静态构建和模拟导入均不恢复样例通过，须新试跑及必要的人工复核。相同值不失效，非法混合修改不部分保存。仅核对Workflow明确计划、固定响应及本机持久化，沿用旧测试准入豁免；未覆盖全部配置／材料入口、Agent／Chatflow、前端、并发边界或真实平台业务。无真实Dify或付费模型调用，不代表AT-19最终业务通过。",
+      "final_acceptance_record": "docs/acceptance-at19-record.md"
     },
     {
       "id": "AT-20",

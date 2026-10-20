@@ -19,6 +19,7 @@ def forbid_api_external_calls(monkeypatch):
         pytest.fail("API 隔离检查不得访问真实 HTTP 或调用真实模型")
     monkeypatch.setattr(httpx.HTTPTransport, "handle_request", forbidden)
     monkeypatch.setattr(httpx.AsyncHTTPTransport, "handle_async_request", forbidden)
+    monkeypatch.setattr(main.DifyClient, "request", forbidden)
     monkeypatch.setattr(main, "call_model", forbidden)
 
 
@@ -929,3 +930,185 @@ def test_at11_knowledge_confirmation_is_bound_to_task_and_connection(client, mon
     assert client.get(f"/api/tasks/{task['id']}").json() == before
     assert Store(main.store.root).get("knowledge_job", job["id"]) == saved
     assert not saved["operations"] and not saved["dataset_id"]
+
+
+def at19_checked_task(client, monkeypatch, mode="contains"):
+    # Fixed adapters and legacy intake bypass isolate revision gates, not platform acceptance.
+    env = create_env(client)
+    response = client.patch(f"/api/environments/{env['id']}", json={
+        "service_app_id": "at19-synthetic-app", "service_api_key": "at19-not-a-real-key"})
+    assert response.status_code == 200, response.text
+    dispatched = []
+
+    async def controlled_import(self, content, name):
+        assert yaml.safe_load(content)["app"]["mode"] == "workflow"
+        dispatched.append("import_new")
+        return {"status": "completed", "app_id": "at19-synthetic-app"}
+
+    async def controlled_run(self, inputs):
+        assert inputs == example_case(mode)["input"]
+        dispatched.append("run")
+        return {"data": {"status": "succeeded", "outputs": {"result": "保修一年"}}}
+
+    monkeypatch.setattr(main.DifyClient, "import_new", controlled_import)
+    monkeypatch.setattr(main.DifyClient, "run_workflow", controlled_run)
+    task = approved(client, env_id=env["id"])
+    tid = task["id"]
+    response = client.post(f"/api/tasks/{tid}/test-cases", json={
+        "revision": task["revision"], "cases": [example_case(mode)]})
+    assert response.status_code == 200, response.text
+    task = response.json()
+    response = client.post(f"/api/tasks/{tid}/plan", json={
+        "revision": task["revision"], "plan": code_only_plan()})
+    assert response.status_code == 200, response.text
+    task = response.json()
+    for kind in ("requirements", "configuration"):
+        response = client.post(f"/api/tasks/{tid}/confirm", json={"revision": task["revision"], "kind": kind})
+        assert response.status_code == 200, response.text
+    for action in ("build", "import", "run"):
+        response = client.post(f"/api/tasks/{tid}/{action}", json={
+            "revision": task["revision"], **({"case_id": "warranty"} if action == "run" else {})})
+        assert response.status_code == 200, response.text
+    task = response.json()
+    if mode == "manual":
+        response = client.post(f"/api/tasks/{tid}/runs/{task['runs'][-1]['id']}/review", json={
+            "revision": task["revision"], "decision": "passed", "reason": "仅人工核对固定隔离样例"})
+        assert response.status_code == 200, response.text
+        task = response.json()
+    assert client.get(f"/api/tasks/{tid}/acceptance").json()["all_required_passed"]
+    assert dispatched == ["import_new", "run"]
+    return task, dispatched
+
+
+@pytest.mark.parametrize("mode", ["contains", "manual"])
+@pytest.mark.parametrize("change", ["configuration", "requirements", "both"])
+def test_at19_change_excludes_old_pass_until_reconfirmed_and_rerun(client, monkeypatch, mode, change):
+    old, dispatched = at19_checked_task(client, monkeypatch, mode)
+    tid, old_revision = old["id"], old["revision"]
+    old_artifact = main.artifact_path(old)
+    old_bytes = old_artifact.read_bytes()
+    patch = {}
+    if change in {"requirements", "both"}:
+        patch["requirements"] = {"rules": "修改保修例外规则，须重新核对"}
+    if change in {"configuration", "both"}:
+        patch["configuration"] = {"temperature": 0.5}
+    response = client.patch(f"/api/tasks/{tid}", json=patch)
+    assert response.status_code == 200, response.text
+    changed = response.json()
+    assert changed["revision"] == old_revision + 1
+    assert changed["app_type"] == old["app_type"]
+    assert changed["requirements_confirmed"] is (change == "configuration")
+    assert not changed["configuration_confirmed"] and not changed["artifact"] and not changed["dify_app_id"]
+    assert changed["plan_stale"] is (change != "configuration")
+    assert changed["workflow_plan"] == old["workflow_plan"]
+    assert changed["test_cases"] == old["test_cases"] and changed["runs"] == old["runs"]
+    assert changed["confirmations"][:len(old["confirmations"])] == old["confirmations"]
+    assert changed["versions"][:len(old["versions"])] == old["versions"]
+    assert changed["versions"][-1]["artifact"] == old["artifact"]
+    if change == "configuration":
+        assert changed["confirmations"][-1]["carried_from_revision"] == old_revision
+        assert changed["confirmations"][-1]["revision"] == changed["revision"]
+    else:
+        assert changed["confirmations"] == old["confirmations"]
+    assert old_artifact.read_bytes() == old_bytes
+    assert Store(main.store.root).get("task", tid) == changed
+
+    def assert_not_run():
+        summary = client.get(f"/api/tasks/{tid}/acceptance").json()
+        assert summary["required"]["not_run"] == 1 and summary["required"]["passed"] == 0
+        assert not summary["all_required_passed"] and summary["cases"][0]["run_id"] is None
+
+    assert_not_run()
+    assert client.get(f"/api/tasks/{tid}/artifact").status_code == 404
+    assert "当前修订尚无匹配的真实导入记录" in client.get(f"/api/tasks/{tid}/report").text
+    for kind in ("requirements", "configuration"):
+        response = client.post(f"/api/tasks/{tid}/confirm", json={"revision": old_revision, "kind": kind})
+        assert response.status_code == 409
+    for action in ("build", "import"):
+        assert client.post(f"/api/tasks/{tid}/{action}", json={"revision": old_revision}).status_code == 409
+        assert client.post(f"/api/tasks/{tid}/{action}", json={"revision": changed["revision"]}).status_code == 422
+    # The run entry checks missing App binding before its revision gate.
+    for revision in (old_revision, changed["revision"]):
+        response = client.post(f"/api/tasks/{tid}/run", json={"revision": revision, "case_id": "warranty"})
+        assert response.status_code == 422 and response.json()["detail"] == "当前版本尚未真实导入。"
+    if mode == "manual":
+        response = client.post(f"/api/tasks/{tid}/runs/{old['runs'][-1]['id']}/review", json={
+            "revision": changed["revision"], "decision": "passed", "reason": "不能复用旧修订意见"})
+        assert response.status_code == 409
+    assert client.get(f"/api/tasks/{tid}").json() == changed
+    assert Store(main.store.root).get("task", tid) == changed
+    assert dispatched == ["import_new", "run"]
+
+    if change != "configuration":
+        response = client.post(f"/api/tasks/{tid}/confirm", json={"revision": changed["revision"], "kind": "configuration"})
+        assert response.status_code == 422 and "请先确认" in response.json()["detail"]
+        response = client.post(f"/api/tasks/{tid}/confirm", json={"revision": changed["revision"], "kind": "requirements"})
+        assert response.status_code == 200, response.text
+        response = client.post(f"/api/tasks/{tid}/confirm", json={"revision": changed["revision"], "kind": "configuration"})
+        assert response.status_code == 422 and "流程计划已过期" in response.json()["detail"]
+        response = client.post(f"/api/tasks/{tid}/plan", json={"revision": changed["revision"], "plan": old["workflow_plan"]})
+        assert response.status_code == 200, response.text
+        changed = response.json()
+        assert changed["revision"] > old_revision and not changed["plan_stale"]
+    revision = changed["revision"]
+    response = client.post(f"/api/tasks/{tid}/confirm", json={"revision": revision, "kind": "configuration"})
+    assert response.status_code == 200, response.text
+    assert response.json()["confirmations"][-1]["revision"] == revision
+    assert_not_run()
+    for action in ("build", "import"):
+        response = client.post(f"/api/tasks/{tid}/{action}", json={"revision": revision})
+        assert response.status_code == 200, response.text
+        assert_not_run()
+    assert response.json()["artifact"]["verification"] == "static_only"
+    assert dispatched == ["import_new", "run", "import_new"]
+    # With the binding restored, old run requests must reach and fail the revision gate.
+    response = client.post(f"/api/tasks/{tid}/run", json={"revision": old_revision, "case_id": "warranty"})
+    assert response.status_code == 409
+    assert dispatched == ["import_new", "run", "import_new"]
+    response = client.post(f"/api/tasks/{tid}/run", json={"revision": revision, "case_id": "warranty"})
+    assert response.status_code == 200, response.text
+    rerun = response.json()
+    assert rerun["runs"][:len(old["runs"])] == old["runs"]
+    new_run = rerun["runs"][-1]
+    assert new_run["revision"] == revision and new_run["id"] != old["runs"][-1]["id"]
+    assert new_run["test_case"] == old["test_cases"][0]
+    if mode == "manual":
+        summary = client.get(f"/api/tasks/{tid}/acceptance").json()
+        assert not summary["all_required_passed"] and summary["required"]["needs_review"] == 1
+        assert not new_run.get("manual_review")
+        response = client.post(f"/api/tasks/{tid}/runs/{new_run['id']}/review", json={
+            "revision": revision, "decision": "passed", "reason": "重新核对本次固定响应"})
+        assert response.status_code == 200, response.text
+    summary = client.get(f"/api/tasks/{tid}/acceptance").json()
+    assert summary["all_required_passed"] and summary["cases"][0]["run_id"] == new_run["id"]
+    assert summary["verification"] == "declared_checks_only"
+    assert Store(main.store.root).get("task", tid)["runs"] == client.get(f"/api/tasks/{tid}").json()["runs"]
+    assert dispatched == ["import_new", "run", "import_new", "run"]
+
+
+@pytest.mark.parametrize("kind", ["requirements", "configuration"])
+def test_at19_unchanged_values_keep_confirmations_and_case_evidence(client, monkeypatch, kind):
+    old, dispatched = at19_checked_task(client, monkeypatch)
+    value = ({"rules": "  " + old["requirements"]["rules"] + "  "} if kind == "requirements"
+             else {"temperature": old["configuration"]["temperature"]})
+    response = client.patch(f"/api/tasks/{old['id']}", json={kind: value})
+    assert response.status_code == 200, response.text
+    current = response.json()
+    assert {k: v for k, v in current.items() if k != "updated_at"} == {k: v for k, v in old.items() if k != "updated_at"}
+    assert client.get(f"/api/tasks/{old['id']}/acceptance").json()["all_required_passed"]
+    assert Store(main.store.root).get("task", old["id"])["revision"] == old["revision"]
+    assert dispatched == ["import_new", "run"]
+
+
+@pytest.mark.parametrize("invalid", [{"temperature": 3}, {"unknown_setting": "不能保存"}])
+def test_at19_rejected_mixed_patch_preserves_confirmations_and_history(client, monkeypatch, invalid):
+    old, dispatched = at19_checked_task(client, monkeypatch)
+    artifact = main.artifact_path(old).read_bytes()
+    response = client.patch(f"/api/tasks/{old['id']}", json={
+        "requirements": {"rules": "不应部分保存的需求"}, "configuration": invalid})
+    assert response.status_code == 422
+    assert client.get(f"/api/tasks/{old['id']}").json() == old
+    assert Store(main.store.root).get("task", old["id"]) == old
+    assert main.artifact_path(old).read_bytes() == artifact
+    assert client.get(f"/api/tasks/{old['id']}/acceptance").json()["all_required_passed"]
+    assert dispatched == ["import_new", "run"]
