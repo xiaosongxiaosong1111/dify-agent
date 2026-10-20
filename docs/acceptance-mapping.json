@@ -101,8 +101,8 @@
       "related_checks": [
         "backend/tests/test_configuration_proposals.py"
       ],
-      "known_gap": "多知识库真实质量／费用对比及选择理由仍需实际场景复现。",
-      "final_acceptance_record": null
+      "known_gap": "本地隔离检查已覆盖多页同名库的具体 ID 选择、理由与影响传递、明确采纳、持久化及跨任务／非法 ID 拒绝；固定目录与模型响应不证明真实选择质量。结构校验不判断理由语义，真实资料授权、正文、检索命中、费用比较、前端体验及 Dify 业务运行仍待验收；独立检索节点须另行核对。",
+      "final_acceptance_record": "docs/acceptance-at07-record.md"
     },
     {
       "id": "AT-08",
