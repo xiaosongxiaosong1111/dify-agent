@@ -10,9 +10,9 @@ from app.intake import topics,summary,validate_review,sources
 REQ={'goal':'将单条文本转成大写，范围仅文本转换。','audience':'内部同事使用。','input':'单条必填文本 query；空白时提示重新输入。','output':'返回 result 字符串，不保存到外部。','rules':'去除首尾空白再转大写，不改内部空白。','knowledge':'无额外资料或服务，纯文本处理。','exceptions':'输入空白返回明确提示；调用失败提示重试，不伪造成功。','tests':'输入 abc 输出 ABC；输入空白显示输入错误。'}
 
 @pytest.fixture(autouse=True)
-def forbid_at01_external_calls(monkeypatch):
+def forbid_intake_external_calls(monkeypatch):
     def forbidden(*args, **kwargs):
-        pytest.fail('AT-01 隔离检查不得访问真实 HTTP 或调用真实模型')
+        pytest.fail('准入隔离检查不得访问真实 HTTP 或调用真实模型')
 
     monkeypatch.setattr(httpx.HTTPTransport, 'handle_request', forbidden)
     monkeypatch.setattr(httpx.AsyncHTTPTransport, 'handle_async_request', forbidden)
@@ -126,6 +126,168 @@ def test_at01_nonempty_but_unresolved_topic_blocks_confirmation(client, monkeypa
     rejected = client.post(f"/api/tasks/{t['id']}/confirm", json={'revision': saved['revision'], 'kind': 'requirements'})
     assert rejected.status_code == 422 and '需求准入未通过' in rejected.text
     assert not client.get(f"/api/tasks/{t['id']}").json()['requirements_confirmed']
+
+
+AT02_RULES = '含“退款”归退款类；否则含“物流”归物流类；其余归其他类；同时含两词时退款优先。'
+AT02_EXAMPLES = '“我要退款”→退款类；“查物流”→物流类；“退款并查物流”→退款类；“你好”→其他类。'
+
+
+def at02_task(client, app_type='workflow'):
+    t = new(client, app_type, filled=False)
+    response = client.patch(f"/api/tasks/{t['id']}", json={'requirements': {
+        **REQ, 'goal': '把单条咨询文本分类，仅返回类别，不处理实际业务。',
+        'input': '必填文本 query，空白时提示重新输入。',
+        'output': '返回退款类、物流类或其他类的一个类别名称。',
+        'rules': '待确认：我不知道如何分类，请先建议规则和例子。',
+        'knowledge': '无额外资料或服务，纯文本处理。不记住上下文，每轮独立分类，指代不清时追问；不设置开场白和建议问题，不使用工具，输出类别后结束本轮。',
+        'tests': '需要核对正常、重叠关键词和其他类的分类样例。',
+    }})
+    assert response.status_code == 200, response.text
+    return response.json()
+
+
+def at02_suggestion(t):
+    value = review(t, 'rules')
+    value['questions'][0].update({
+        'question': '是否接受以下分类规则和例子，尤其是重叠关键词时退款优先？',
+        'recommendation': AT02_RULES + AT02_EXAMPLES,
+        'reason': '先明确互斥分类和优先级，避免重叠输入产生多个类别。',
+        'experience': '每条输入只返回一个类别，未命中归其他类。',
+        'cost': '这是固定测试建议，未调用真实模型，实际费用待核对。',
+        'manual_work': '用户需要核对规则和每个例子的期望类别后明确确认。',
+    })
+    return value
+
+
+@pytest.mark.parametrize('app_type', ['workflow', 'advanced-chat', 'agent'])
+def test_at02_rules_and_examples_wait_for_user_then_require_revision_confirmation(client, monkeypatch, app_type):
+    t = at02_task(client, app_type)
+    provider(client)
+    original = copy.deepcopy(t['requirements'])
+    calls = []
+    acceptance = '我确认采用以下分类规则和例子：' + AT02_RULES + AT02_EXAMPLES
+
+    async def controlled(*args, **kwargs):
+        current = main.get_task(t['id'])
+        context = json.loads(args[2][1]['content'].split('当前任务资料：', 1)[1])
+        assert context['user_selected_type'] == app_type
+        assert context['requirements'] == original
+        calls.append(context)
+        if len(calls) < 3:
+            value = at02_suggestion(current)
+            patch = {}
+            message = '建议如下，尚未采用，请确认：' + AT02_RULES + AT02_EXAMPLES
+        else:
+            assert current['messages'][-1]['content'] == acceptance
+            patch = {'rules': AT02_RULES, 'tests': AT02_EXAMPLES}
+            proposed = copy.deepcopy(current)
+            proposed['requirements'].update(patch)
+            value = review(proposed)
+            for row in value['checks']:
+                if row['topic'] in patch:
+                    row['evidence'] = [{'kind': 'message', 'id': str(len(current['messages']) - 1),
+                                        'quote': patch[row['topic']]}]
+                elif row['topic'] not in original:
+                    row['evidence'] = [{'kind': 'requirement', 'id': 'knowledge',
+                                        'quote': original['knowledge']}]
+            message = '已根据你的明确答复整理规则与例子，请复核当前修订并确认需求。'
+        return json.dumps({'message': message, 'requirements_patch': patch, 'intake_review': value},
+                          ensure_ascii=False), {'prompt_tokens': 10, 'completion_tokens': 10}
+
+    monkeypatch.setattr(main, 'call_model', controlled)
+    for message in ('我不知道分类规则，请先提出规则和例子。', '暂不采用，退款优先还需要考虑，请保留待确认。'):
+        response = client.post(f"/api/tasks/{t['id']}/messages", json={'content': message})
+        assert response.status_code == 200, response.text
+        saved = client.get(f"/api/tasks/{t['id']}").json()
+        current = state(client, saved)
+        assert saved['requirements'] == original and saved['revision'] == t['revision']
+        assert not saved['requirements_confirmed'] and not current['can_confirm']
+        assert current['reviewed'] and {g['topic'] for g in current['gaps']} == {'rules'}
+        question = current['questions'][0]
+        assert question == at02_suggestion(saved)['questions'][0]
+        assert AT02_RULES in saved['messages'][-1]['content'] and AT02_EXAMPLES in saved['messages'][-1]['content']
+        assert ('message', str(len(saved['messages']) - 1)) not in sources(saved)
+        before = copy.deepcopy(saved)
+        ledger = copy.deepcopy(main.budgets.get(t['id']))
+        rejected = client.post(f"/api/tasks/{t['id']}/confirm", json={'revision': saved['revision'], 'kind': 'requirements'})
+        assert rejected.status_code == 422 and '需求准入未通过' in rejected.text
+        assert client.post(f"/api/tasks/{t['id']}/build", json={'revision': saved['revision']}).status_code == 422
+        assert client.get(f"/api/tasks/{t['id']}").json() == before
+        assert main.budgets.get(t['id']) == ledger
+
+    response = client.post(f"/api/tasks/{t['id']}/messages", json={'content': acceptance})
+    assert response.status_code == 200, response.text
+    saved = client.get(f"/api/tasks/{t['id']}").json()
+    assert saved['requirements'] == {**original, 'rules': AT02_RULES, 'tests': AT02_EXAMPLES}
+    assert saved['revision'] == t['revision'] + 1 and not saved['requirements_confirmed']
+    current = state(client, saved)
+    assert current['can_confirm'] and not current['questions'] and not current['gaps']
+    assert current['record']['origin_revision'] == saved['revision']
+    assert calls[2]['previous_intake']['questions'][0]['recommendation'] == AT02_RULES + AT02_EXAMPLES
+    for row in current['record']['review']['checks']:
+        if row['topic'] in {'rules', 'tests'}:
+            ref = row['evidence'][0]
+            assert ref['kind'] == 'message' and ref['quote'] in sources(saved)[('message', ref['id'])]
+    assert client.post(f"/api/tasks/{t['id']}/confirm", json={'revision': t['revision'], 'kind': 'requirements'}).status_code == 409
+    confirmed = client.post(f"/api/tasks/{t['id']}/confirm", json={'revision': saved['revision'], 'kind': 'requirements'})
+    assert confirmed.status_code == 200, confirmed.text
+    confirmed = confirmed.json()
+    assert confirmed['requirements_confirmed']
+    assert confirmed['confirmations'][-1]['revision'] == saved['revision']
+    assert confirmed['app_type'] == app_type and not confirmed['configuration_confirmed']
+    assert not confirmed.get('workflow_plan') and not confirmed.get('agent_plan')
+    assert not confirmed['artifact'] and not confirmed['runs'] and not confirmed.get('dify_app_id')
+    assert not confirmed.get('interview_attempts')
+    assert len(calls) == 3 and len(main.budgets.get(t['id'])['entries']) == 3
+    changed = client.patch(f"/api/tasks/{t['id']}", json={'requirements': {
+        'rules': '待确认：重叠关键词时改为物流优先，例子需要重新核对。',
+    }}).json()
+    assert not changed['requirements_confirmed'] and state(client, changed)['stale']
+    assert not state(client, changed)['can_confirm']
+    assert client.post(f"/api/tasks/{t['id']}/confirm", json={'revision': changed['revision'], 'kind': 'requirements'}).status_code == 422
+
+
+@pytest.mark.parametrize('evidence_kind', ['requirement', 'message'])
+def test_at02_model_proposal_is_not_user_acceptance_evidence(client, monkeypatch, evidence_kind):
+    t = at02_task(client)
+    provider(client)
+    calls = []
+
+    async def controlled(*args, **kwargs):
+        current = main.get_task(t['id'])
+        calls.append(True)
+        if len(calls) == 1:
+            patch, value = {}, at02_suggestion(current)
+        else:
+            patch = {'rules': AT02_RULES}
+            proposed = copy.deepcopy(current)
+            proposed['requirements'].update(patch)
+            value = review(proposed)
+            assistant_id = next(str(i) for i, m in enumerate(current['messages']) if m.get('source') == 'model')
+            next(row for row in value['checks'] if row['topic'] == 'rules')['evidence'] = [{
+                'kind': evidence_kind, 'id': 'rules' if evidence_kind == 'requirement' else assistant_id,
+                'quote': AT02_RULES,
+            }]
+        return json.dumps({'message': '候选规则：' + AT02_RULES + AT02_EXAMPLES,
+                           'requirements_patch': patch, 'intake_review': value}, ensure_ascii=False), {
+            'prompt_tokens': 10, 'completion_tokens': 10,
+        }
+
+    monkeypatch.setattr(main, 'call_model', controlled)
+    assert client.post(f"/api/tasks/{t['id']}/messages", json={'content': '请先提出分类规则与例子。'}).status_code == 200
+    prior = client.get(f"/api/tasks/{t['id']}").json()
+    response = client.post(f"/api/tasks/{t['id']}/messages", json={'content': '我还没有确认，请不要采用。'})
+    assert response.status_code == 200, response.text
+    saved = client.get(f"/api/tasks/{t['id']}").json()
+    assert saved['requirements'] == t['requirements'] and saved['revision'] == t['revision']
+    assert saved['intake_review'] == prior['intake_review']
+    assert len(saved['interview_attempts']) == 1
+    attempt = saved['interview_attempts'][0]
+    assert not attempt['applied'] and '需求来源引文不存在' in attempt['reason']
+    assert not saved['requirements_confirmed'] and not state(client, saved)['can_confirm']
+    assert not saved['artifact'] and not saved['runs'] and not saved.get('dify_app_id')
+    assert client.post(f"/api/tasks/{t['id']}/confirm", json={'revision': saved['revision'], 'kind': 'requirements'}).status_code == 422
+    assert len(calls) == 2 and len(main.budgets.get(t['id'])['entries']) == 2
 
 @pytest.mark.parametrize('app_type,expected',[('workflow',set()),('advanced-chat',{'memory','dialogue'}),('agent',{'memory','dialogue','agent_tools'})])
 def test_type_specific_standard(client,app_type,expected):

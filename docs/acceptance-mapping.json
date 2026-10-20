@@ -32,8 +32,8 @@
       "related_checks": [
         "backend/tests/test_intake.py"
       ],
-      "known_gap": "分类规则的具体建议与用户裁定须真实案例验证，不把格式通过当业务规则正确。",
-      "final_acceptance_record": null
+      "known_gap": "分类规则的具体建议与用户裁定须真实案例验证，不把格式通过当业务规则正确。建议和例子质量、用户是否语义同意仍依赖模型；来源引文合法不证明用户同意。此次仅补固定响应的本地隔离检查。",
+      "final_acceptance_record": "docs/acceptance-at02-record.md"
     },
     {
       "id": "AT-03",
