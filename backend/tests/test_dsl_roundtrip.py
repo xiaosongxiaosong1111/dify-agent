@@ -1,12 +1,25 @@
+import asyncio
 import copy,json
+import httpx
 import pytest,yaml
 from test_api import client,approved,create_env
 from app import main
 from app.dify import DifyClient,DifyError
 from app.dsl_roundtrip import parse,merge,digest,validate_preserved
+from app.storage import Store
 
 APP='a161d921-8f76-4a42-ad1e-6150a54cf0d8'
 CODE='def main(query: str) -> dict:\n    return {"result": query.strip()}\n'
+
+
+@pytest.fixture(autouse=True)
+def forbid_external_calls(monkeypatch):
+    def forbidden(*args, **kwargs):
+        pytest.fail('AT-18 隔离检查不得访问真实 HTTP、Dify 请求或调用真实模型')
+    monkeypatch.setattr(httpx.HTTPTransport, 'handle_request', forbidden)
+    monkeypatch.setattr(httpx.AsyncHTTPTransport, 'handle_async_request', forbidden)
+    monkeypatch.setattr(main, 'call_model', forbidden)
+    monkeypatch.setattr(DifyClient, 'request', forbidden)
 
 
 def prepared(client):
@@ -180,3 +193,177 @@ def test_confirmed_file_tampering_blocks_import_before_any_dispatch(client,monke
     async def forbidden(*args):pytest.fail('Unapproved artifact dispatched')
     monkeypatch.setattr(DifyClient,'import_new',forbidden)
     response=client.post(f"/api/tasks/{task['id']}/import",json={'revision':task['revision']});assert response.status_code==422 and len(main.get_task(task['id'])['runs'])==1
+
+
+def confirm_and_build(client, task):
+    for kind in ('requirements', 'configuration'):
+        response = client.post(f"/api/tasks/{task['id']}/confirm", json={'revision': task['revision'], 'kind': kind})
+        assert response.status_code == 200, response.text
+    response = client.post(f"/api/tasks/{task['id']}/build", json={'revision': task['revision']})
+    assert response.status_code == 200, response.text
+    return response.json()
+
+
+def test_manual_changes_plus_new_requirement_survive_reopen_build_and_new_import(client, monkeypatch):
+    task, root = prepared(client)
+    original_task = copy.deepcopy(task)
+    original_file = main.artifact_path(task)
+    original_bytes = original_file.read_bytes()
+    current = changed(root)
+    seen = []
+
+    async def exported(self, app_id):
+        seen.append(('export', app_id))
+        return yaml.safe_dump(current, allow_unicode=True)
+
+    async def imported(self, content, name):
+        seen.append(('import_new', parse(content, 'workflow')))
+        return {'app_id': 'isolated-new-app', 'status': 'completed'}
+
+    monkeypatch.setattr(DifyClient, 'export_dsl', exported)
+    monkeypatch.setattr(DifyClient, 'import_new', imported)
+    response = client.post(f"/api/tasks/{task['id']}/dsl-reference", json={'revision': task['revision']})
+    assert response.status_code == 200, response.text
+    task = response.json()['task']
+    assert task['artifact'] is None and task['dify_app_id'] is None
+    assert not task['requirements_confirmed'] and not task['configuration_confirmed']
+    assert task['runs'] == original_task['runs']
+    reference_id = task['dsl_reference']['id']
+    response = client.patch(f"/api/tasks/{task['id']}", json={'requirements': {'rules': '新增要求：输出保留处理结果标题'}})
+    assert response.status_code == 200, response.text
+    task = response.json()
+    plan = copy.deepcopy(task['workflow_plan'])
+    plan['nodes'][2]['title'] = '新增要求的处理结果'
+    response = client.post(f"/api/tasks/{task['id']}/plan", json={'revision': task['revision'], 'plan': plan})
+    assert response.status_code == 200, response.text
+    task = response.json()
+    before_preview = copy.deepcopy(main.get_task(task['id']))
+    preview = client.get(f"/api/tasks/{task['id']}/dsl-merge").json()
+    assert preview['unresolved'] == 0 and preview['preserved'] and preview['generated_changes']
+    assert main.get_task(task['id']) == before_preview
+    result, _ = apply(client, task)
+    assert result.status_code == 200, result.text
+    task = result.json()
+    assert not task['requirements_confirmed'] and not task['configuration_confirmed']
+    monkeypatch.setattr(main, 'store', Store(main.store.root))
+    assert main.get_task(task['id']) == task
+    assert main.store.get('dsl_reference', reference_id)['current'] == current
+    task = confirm_and_build(client, task)
+    final_root = parse(main.artifact_path(task).read_text(encoding='utf-8'), 'workflow')
+    assert digest(final_root) == digest(parse(preview['content'], 'workflow'))
+    nodes = {node['id']: node for node in final_root['workflow']['graph']['nodes']}
+    assert nodes['code'] == current['workflow']['graph']['nodes'][1]
+    assert nodes['end']['data']['title'] == '新增要求的处理结果'
+    assert task['artifact']['verification'] == 'static_only'
+    response = client.post(f"/api/tasks/{task['id']}/import", json={'revision': task['revision']})
+    assert response.status_code == 200, response.text
+    assert seen == [('export', APP), ('export', APP), ('import_new', final_root)]
+    assert response.json()['dify_app_id'] == 'isolated-new-app'
+    assert response.json()['runs'][0] == original_task['runs'][0]
+    assert original_file.read_bytes() == original_bytes
+    assert main.store.get('dsl_reference', reference_id)['current'] == current
+
+
+@pytest.mark.parametrize('change', ['revision', 'reference', 'generated'])
+def test_preview_bound_to_revision_reference_and_generated_content(client, change):
+    task, root = prepared(client)
+    task = capture(client, task, changed(root))
+    preview = client.get(f"/api/tasks/{task['id']}/dsl-merge").json()
+    payload = {'revision': task['revision'], 'reference_id': preview['reference_id'], 'merge_token': preview['merge_token'], 'choices': {}}
+    if change == 'reference':
+        task = capture(client, task, root)
+        payload['revision'] = task['revision']
+    else:
+        plan = copy.deepcopy(task['workflow_plan'])
+        plan['nodes'][2]['title'] = '本次新增要求'
+        response = client.post(f"/api/tasks/{task['id']}/plan", json={'revision': task['revision'], 'plan': plan})
+        assert response.status_code == 200, response.text
+        task = response.json()
+        if change == 'generated':
+            payload['revision'] = task['revision']
+    before = copy.deepcopy(main.get_task(task['id']))
+    response = client.post(f"/api/tasks/{task['id']}/dsl-merge/apply", json=payload)
+    assert response.status_code == 409, response.text
+    assert main.get_task(task['id']) == before and not before.get('dsl_overlay')
+    assert not list((main.DATA_ROOT / task['id']).glob('preserved-*.yaml'))
+
+
+@pytest.mark.parametrize('mismatch', ['missing_baseline', 'wrong_app', 'wrong_environment'])
+def test_missing_or_foreign_import_baseline_rejected_before_export(client, monkeypatch, mismatch):
+    task, _ = prepared(client)
+    if mismatch == 'missing_baseline':
+        task['runs'] = []
+    elif mismatch == 'wrong_app':
+        task['runs'][0]['result']['app_id'] = 'other-app'
+    else:
+        task['runs'][0]['environment_id'] = 'other-environment'
+    main.save_task(task)
+    before = copy.deepcopy(main.get_task(task['id']))
+
+    async def forbidden(*args):
+        pytest.fail('缺少匹配基线时不能读取外部草稿')
+
+    monkeypatch.setattr(DifyClient, 'export_dsl', forbidden)
+    response = client.post(f"/api/tasks/{task['id']}/dsl-reference", json={'revision': task['revision']})
+    assert response.status_code == 422 and '基线' in response.text
+    assert main.get_task(task['id']) == before and not main.store.list('dsl_reference')
+
+
+@pytest.mark.parametrize('failure', ['permission', 'timeout', 'invalid_yaml'])
+def test_import_source_recheck_failure_keeps_reference_and_never_creates_app(client, monkeypatch, failure):
+    task, root = prepared(client)
+    current = changed(root)
+
+    async def exported(*args):
+        return yaml.safe_dump(current)
+
+    monkeypatch.setattr(DifyClient, 'export_dsl', exported)
+    response = client.post(f"/api/tasks/{task['id']}/dsl-reference", json={'revision': task['revision']})
+    assert response.status_code == 200, response.text
+    task = response.json()['task']
+    result, _ = apply(client, task)
+    assert result.status_code == 200, result.text
+    task = confirm_and_build(client, result.json())
+    reference = main.store.get('dsl_reference', task['dsl_reference']['id'])
+    artifact_bytes = main.artifact_path(task).read_bytes()
+
+    async def failed_export(*args):
+        if failure == 'invalid_yaml':
+            return 'invalid: [yaml'
+        raise DifyError('权限不足' if failure == 'permission' else '读取超时')
+
+    async def forbidden(*args):
+        pytest.fail('无法核对最新草稿时不得创建应用')
+
+    monkeypatch.setattr(DifyClient, 'export_dsl', failed_export)
+    monkeypatch.setattr(DifyClient, 'import_new', forbidden)
+    response = client.post(f"/api/tasks/{task['id']}/import", json={'revision': task['revision']})
+    assert response.status_code == 502 and '本次未创建应用' in response.text
+    saved = main.get_task(task['id'])
+    assert saved['dify_app_id'] is None and saved['runs'][:-1] == task['runs']
+    assert saved['runs'][-1]['status'] == 'failed' and saved['runs'][-1]['revision'] == task['revision']
+    assert main.artifact_path(saved).read_bytes() == artifact_bytes
+    assert main.store.get('dsl_reference', reference['id']) == reference
+
+
+@pytest.mark.parametrize('change', ['revision', 'environment_address'])
+def test_changes_during_draft_read_never_persist_stale_reference(client, monkeypatch, change):
+    task, root = prepared(client)
+    concurrent = []
+
+    async def exported(*args):
+        if change == 'revision':
+            response = await asyncio.to_thread(client.patch, f"/api/tasks/{task['id']}", json={'requirements': {'rules': '读取期间的新要求'}})
+            assert response.status_code == 200, response.text
+        else:
+            env = main.store.get('environment', task['environment_id'])
+            env['base_url'] = 'https://changed.invalid'
+            main.store.put('environment', env['id'], env)
+        concurrent.append(copy.deepcopy(main.get_task(task['id'])))
+        return yaml.safe_dump(changed(root))
+
+    monkeypatch.setattr(DifyClient, 'export_dsl', exported)
+    response = client.post(f"/api/tasks/{task['id']}/dsl-reference", json={'revision': task['revision']})
+    assert response.status_code == 409, response.text
+    assert not main.store.list('dsl_reference')
+    assert main.get_task(task['id']) == concurrent[0]

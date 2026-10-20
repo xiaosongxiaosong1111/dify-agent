@@ -280,13 +280,14 @@
       "scenario": "用户在 Dify 手动修改后继续",
       "expected": "获取／接收最新版本，保留改动再处理新增要求。",
       "source": [
-        "backend/app/dsl_roundtrip.py"
+        "backend/app/dsl_roundtrip.py",
+        "backend/app/main.py"
       ],
       "related_checks": [
         "backend/tests/test_dsl_roundtrip.py"
       ],
-      "known_gap": "许多同结构手改已有保留；通用复杂节点反解与跨环境手改往返未齐。",
-      "final_acceptance_record": null
+      "known_gap": "2026-10-21 新增12例本地隔离检查，指定文件32 passed：手改代码／布局叠加明确新增要求后持久化、重新确认构建及模拟新建导入；旧预览、基线不匹配、导入前重读失败和读取期间变化均拒绝。全部真实HTTP／Dify请求／默认模型已阻断，静态构建与固定导入响应不代表平台或业务通过。上传归属和最新性未在线核对；真实Dify手改往返／发布／试跑、前端体验、模型理解新增需求、通用复杂节点反解与跨环境资源映射仍待验收，不代表AT-18最终业务通过。",
+      "final_acceptance_record": "docs/acceptance-at18-record.md"
     },
     {
       "id": "AT-19",
