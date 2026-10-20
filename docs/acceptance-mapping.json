@@ -323,13 +323,17 @@
       "scenario": "同一错误反复无进展或到达上限",
       "expected": "暂停、汇报证据和下一步，不无限重试。",
       "source": [
-        "backend/app/execution_limits.py"
+        "backend/app/execution_limits.py",
+        "backend/app/failure_watch.py",
+        "backend/app/execution_report.py",
+        "backend/app/main.py",
+        "backend/app/model_repairs.py"
       ],
       "related_checks": [
         "backend/tests/test_execution_limits.py"
       ],
-      "known_gap": "次数／耗时／报价阈值及无进展暂停已有；供应商账单硬上限和所有失败种类未齐。",
-      "final_acceptance_record": null
+      "known_gap": "2026-10-21 新增20例本地隔离检查，指定文件31 passed：重复可信失败在公开运行／模型候选入口阻断、证据和下一步持久化、一次许可不续期、次数／耗时／报价阈值不被许可绕过、旧修订／来源决定拒绝、报告与在途请求边界。仅固定响应、合成轨迹及临时存储，无真实Dify或付费调用；只暂停匹配输入的操作，任务总状态不一定为paused；连续两次为现有实现值，正式默认值仍未确认。不同摘要不证明有进展，多轮／Agent／未知或不完整证据未形成通用无进展检测；阈值仅阻止后续启动，不取消在途请求或保证供应商账单硬上限，前端及真实业务仍待验收。",
+      "final_acceptance_record": "docs/acceptance-at21-record.md"
     },
     {
       "id": "AT-22",

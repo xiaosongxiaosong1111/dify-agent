@@ -6,6 +6,8 @@
 
 ## 当前切片
 
+2026-10-21 AT-21 本地核对（未部署）：[BACKLOG](BACKLOG.md) 第 27 项新增 20 个隔离用例，覆盖公开运行／模型候选入口的重复失败暂停、持久证据与下一步、一次许可不续期、上限优先且不消耗许可、旧决定拒绝、不完整证据不误报、报告及在途请求边界。指定命令 `.venv\Scripts\python.exe -m pytest backend/tests/test_execution_limits.py -q` 首轮因新增用例未配置模拟服务凭据为 9 失败、22 通过，补齐测试准备后 **31 passed、1 warning（15.66s）**；[验收记录](acceptance-at21-record.md) 已登记到 acceptance-mapping。仅补测试与记录，临时存储并阻断真实 HTTP／Dify 底层请求／默认模型，无真实 Dify 或付费调用。匹配输入暂停不一定修改任务总状态；两次是现有实现值，正式默认值仍待确认；报价阈值不等于供应商账单硬上限，通用语义无进展、多轮／Agent 和前端／真实业务待验收，不代表整个计划完成。按用户要求仅处理第 27 项。
+
 2026-10-21 AT-20 本地核对（未部署）：[BACKLOG](BACKLOG.md) 第 26 项新增 13 个隔离用例，覆盖三种应用类型的暂停／迟到候选、在途数据库快照重开和完整启动恢复、费用未知及既有结果保留、重复启动不重发、人工模拟核对后显式继续，以及合成导入／试跑检查点转未知。指定命令 `.venv\Scripts\python.exe -m pytest backend/tests/test_task_budget.py -q` 首轮因新增测试线程调用、类型标识和默认字段断言问题失败，修正后 **38 passed、1 warning（11.72s）**；[验收记录](acceptance-at20-record.md) 已登记到 acceptance-mapping。仅补测试与记录，阻断真实 HTTP／Dify 请求／默认模型，无产品实现变更或真实外部调用。快照并非实际杀进程，合成检查点不证明真实资源取消、幂等或恢复业务；前端及其他恢复分支待验收，不代表 AT-20 最终业务或整个计划完成。按用户要求仅处理第 26 项。
 
 2026-10-21 AT-19 本地核对（未部署）：[BACKLOG](BACKLOG.md) 第 25 项新增 10 个隔离用例，覆盖配置／需求／同时变更后相关确认失效、成果与 App 绑定清空、旧自动通过／人工意见排除且历史保留，以及重新确认、计划复核、构建、模拟导入到新试跑／人工复核的链路；相同值保存不失效，非法混合修改不部分保存。指定命令 `.venv\Scripts\python.exe -m pytest backend/tests/test_api.py -q` 首次 **83 passed、1 warning（30.43s）**；[验收记录](acceptance-at19-record.md) 已登记到 acceptance-mapping。仅补测试与记录，临时存储并阻断真实 HTTP／Dify 底层请求／默认模型，无真实 Dify 或付费调用。固定响应与本机 Workflow 修订检查不证明平台或业务通过；全部配置入口、Agent／Chatflow、前端与并发边界仍待验收，不代表整个计划完成。按用户要求仅处理第 25 项。
