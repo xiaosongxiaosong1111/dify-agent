@@ -307,13 +307,16 @@
       "scenario": "执行中暂停并关闭程序",
       "expected": "保存阶段及结果，恢复后不盲目重复外部操作。",
       "source": [
-        "backend/app/task_budget.py"
+        "backend/app/task_budget.py",
+        "backend/app/main.py",
+        "backend/app/interview_progress.py",
+        "backend/app/storage.py"
       ],
       "related_checks": [
         "backend/tests/test_task_budget.py"
       ],
-      "known_gap": "重启／未知费用恢复有隔离检查；真实在途资源的关闭程序与恢复仍需具体方案验收。",
-      "final_acceptance_record": null
+      "known_gap": "2026-10-21 新增13例本地隔离检查，指定文件38 passed：三种应用类型暂停及迟到候选隔离、在途SQLite快照重开与完整启动恢复、未知费用预留和已结算结果保留、重复启动不重发、核对后显式继续；合成导入／试跑检查点重开后标未知且不派发。仅固定响应与临时存储，无真实Dify或付费调用；快照不是实际杀进程，外部检查点为直接构造，不证明真实资源取消／幂等／结果核对。未设置上限时不承诺未知费用阻止手动继续；前端及其他恢复分支仍待验收，不代表AT-20最终业务通过。",
+      "final_acceptance_record": "docs/acceptance-at20-record.md"
     },
     {
       "id": "AT-21",

@@ -1,6 +1,9 @@
 import asyncio,copy,json
+import shutil
 from decimal import Decimal
+import httpx
 import pytest
+from fastapi.testclient import TestClient
 from test_api import client,create,approved
 from test_planning import plan
 from test_coverage import items
@@ -8,6 +11,17 @@ from app import main
 from app.task_budget import money
 from app.planning import PlanningStopped
 from app.providers import ProviderError
+from app.storage import Store
+
+
+@pytest.fixture(autouse=True)
+def forbid_budget_external_calls(monkeypatch):
+ def forbidden(*args,**kwargs):
+  pytest.fail('AT-20 隔离检查不得访问真实 HTTP、Dify 或付费模型')
+ monkeypatch.setattr(httpx.HTTPTransport,'handle_request',forbidden)
+ monkeypatch.setattr(httpx.AsyncHTTPTransport,'handle_async_request',forbidden)
+ monkeypatch.setattr(main.DifyClient,'request',forbidden)
+ monkeypatch.setattr(main,'call_model',forbidden)
 
 RATES={'input_per_million_usd':1,'output_per_million_usd':2,'cached_input_per_million_usd':.1}
 USAGE={'prompt_tokens':100,'completion_tokens':20}
@@ -174,3 +188,135 @@ def test_interrupted_stream_partial_cumulative_usage_is_not_final_charge(client,
  assert entry['partial_reported_usage']=={'prompt_tokens':100,'completion_tokens':5} and entry['partial_usage_is_final'] is False
  assert Decimal(ledger(client,t)['held_estimated_usd'])>0 and 'private' not in json.dumps(entry)
  with pytest.raises(PlanningStopped):asyncio.run(call(t,p))
+
+
+@pytest.mark.parametrize('app_type',['workflow','advanced-chat','agent'])
+def test_at20_pause_api_preserves_late_candidate_and_settlement(client,monkeypatch,app_type):
+ t=create(client,app_type);provider(client);assert policy(client,t).status_code==200
+ calls=[]
+ candidate={'message':'隔离迟到候选','requirements_patch':{'goal':'不得应用的迟到目标'}}
+ async def model(*args,**kwargs):
+  calls.append('mock')
+  paused=await asyncio.to_thread(client.post,f"/api/tasks/{t['id']}/pause")
+  assert paused.status_code==200
+  saved=Store(main.DATA_ROOT).get('task',t['id'])
+  assert saved['status']=='paused' and saved['active_interview_id']
+  assert saved['pause_generation']==1 and saved['requirements']==t['requirements']
+  assert '可能仍在执行' in saved['messages'][-1]['content']
+  assert (await asyncio.to_thread(ledger,client,t))['pending_count']==1
+  duplicate=await asyncio.to_thread(client.post,f"/api/tasks/{t['id']}/messages",json={'content':'重复请求'})
+  assert duplicate.status_code==409
+  return json.dumps(candidate,ensure_ascii=False),USAGE
+ monkeypatch.setattr(main,'call_model',model)
+ response=client.post(f"/api/tasks/{t['id']}/messages",json={'content':'继续隔离访谈'})
+ assert response.status_code==200,response.text
+ current=response.json();b=ledger(client,t)
+ assert calls==['mock'] and current['status']=='paused' and not current.get('active_interview_id')
+ assert current['app_type']==app_type and current['revision']==t['revision']
+ assert current['requirements']==t['requirements']
+ attempt=current['interview_attempts'][-1]
+ assert attempt['applied'] is False and json.loads(attempt['response_excerpt'])==candidate
+ assert attempt['usage']==USAGE and '迟到回复未应用' in attempt['reason']
+ assert b['pending_count']==b['unknown_count']==0 and len(b['entries'])==1
+ assert b['entries'][0]['status']=='settled' and b['entries'][0]['usage']==USAGE
+ assert Decimal(b['known_estimated_usd'])>0
+ assert Store(main.DATA_ROOT).get('task',t['id'])==current
+
+
+@pytest.mark.parametrize('app_type',['workflow','advanced-chat','agent'])
+@pytest.mark.parametrize('pause_first',[False,True],ids=['interviewing','paused'])
+def test_at20_inflight_database_snapshot_reopens_without_replay(client,monkeypatch,tmp_path,app_type,pause_first):
+ # Capture the real persisted in-flight API checkpoint; the source request then
+ # finishes normally. This models lost process memory, not an OS process kill.
+ t=create(client,app_type);p=provider(client);assert policy(client,t).status_code==200
+ async def completed(*args,**kwargs):return '已完成的隔离调用',USAGE
+ monkeypatch.setattr(main,'call_model',completed);asyncio.run(call(t,p))
+ settled=copy.deepcopy(ledger(client,t)['entries'][0])
+ snapshot_root=tmp_path/'restart-snapshot';checkpoint={};calls=[]
+ async def inflight(*args,**kwargs):
+  calls.append('mock')
+  if pause_first:
+   assert (await asyncio.to_thread(client.post,f"/api/tasks/{t['id']}/pause")).status_code==200
+  checkpoint['task']=main.get_task(t['id'])
+  checkpoint['budget']=await asyncio.to_thread(ledger,client,t)
+  assert checkpoint['task']['active_interview_id']
+  assert checkpoint['budget']['entries'][-1]['status']=='reserved'
+  snapshot=Store(snapshot_root)
+  shutil.copyfile(main.DATA_ROOT/'.credential-key',snapshot_root/'.credential-key')
+  with main.store.connect() as source,snapshot.connect() as destination:
+   source.backup(destination)
+  return json.dumps({'message':'源请求结束','requirements_patch':{'goal':'快照之后的结果'}}),USAGE
+ monkeypatch.setattr(main,'call_model',inflight)
+ assert client.post(f"/api/tasks/{t['id']}/messages",json={'content':'隔离在途请求'}).status_code==200
+ assert calls==['mock']
+ def no_replay(*args,**kwargs):pytest.fail('启动恢复或费用核对前不得重发调用')
+ monkeypatch.setattr(main,'call_model',no_replay)
+ monkeypatch.setattr(main,'store',Store(snapshot_root));monkeypatch.setattr(main,'DATA_ROOT',snapshot_root)
+ operation_id=checkpoint['task']['active_interview_id']
+ with TestClient(main.app) as restarted:
+  current=restarted.get(f"/api/tasks/{t['id']}").json();b=ledger(restarted,t)
+  assert current['status']=='paused' and not current.get('active_interview_id')
+  for field in ('app_type','revision','requirements','configuration','runs','planning_runs'):
+   assert current[field]==checkpoint['task'][field]
+  assert current['messages'][:len(checkpoint['task']['messages'])]==checkpoint['task']['messages']
+  assert b['entries'][0]==settled and len(b['entries'])==2
+  old=checkpoint['budget']['entries'][-1];entry=b['entries'][-1]
+  for field in ('id','operation_id','revision','provider_id','reserved_usd','pricing','policy_revision'):
+   assert entry[field]==old[field]
+  assert entry['status']=='unknown' and entry['call_status']=='interrupted_by_restart'
+  assert entry['charged_usd'] is None and b['unknown_count']==1 and b['pending_count']==0
+  assert b['known_estimated_usd']==checkpoint['budget']['known_estimated_usd']
+  assert Decimal(b['held_estimated_usd'])==Decimal(old['reserved_usd'])>0 and b['blocker']
+  progress=restarted.get(f"/api/tasks/{t['id']}/interviews/{operation_id}").json()
+  assert progress['status']=='interrupted' and progress['applied'] is False
+  saved_task=copy.deepcopy(current);saved_budget=copy.deepcopy(b)
+ # Run the complete startup a second time: no duplicate notes or ledger entries.
+ with TestClient(main.app) as restarted:
+  assert restarted.get(f"/api/tasks/{t['id']}").json()==saved_task
+  assert ledger(restarted,t)==saved_budget
+  assert restarted.post(f"/api/tasks/{t['id']}/messages",json={'content':'未核对前继续'}).status_code==200
+  assert ledger(restarted,t)['entries']==saved_budget['entries']
+  assert policy(restarted,t,'2').status_code==200
+  with pytest.raises(PlanningStopped):asyncio.run(call(t,p))
+  assert len(ledger(restarted,t)['entries'])==2
+  b=ledger(restarted,t)
+  response=restarted.post(f"/api/tasks/{t['id']}/budget/entries/{entry['id']}/reconcile",json={
+   'revision':t['revision'],'policy_revision':b['policy_revision'],'actual_cost_usd':'.002',
+   'acknowledge_actual_bill':True,'note':'隔离模拟人工核对，非真实账单'})
+  assert response.status_code==200,response.text
+  assert ledger(restarted,t)['entries'][0]==settled and ledger(restarted,t)['unknown_count']==0
+  assert calls==['mock']
+  async def explicit_continue(*args,**kwargs):
+   calls.append('explicit_mock');return json.dumps({'message':'核对后明确继续','requirements_patch':{}}),USAGE
+  monkeypatch.setattr(main,'call_model',explicit_continue)
+  response=restarted.post(f"/api/tasks/{t['id']}/messages",json={'content':'已核对，明确继续'})
+  assert response.status_code==200,response.text
+  assert calls==['mock','explicit_mock'] and len(ledger(restarted,t)['entries'])==3
+  assert ledger(restarted,t)['entries'][1]['status']=='reconciled'
+  assert ledger(restarted,t)['entries'][2]['id']!=entry['id']
+
+
+@pytest.mark.parametrize('kind',['import','run'])
+@pytest.mark.parametrize('pause_first',[False,True],ids=['busy','paused'])
+def test_at20_external_checkpoint_restart_is_unknown_without_dispatch(client,monkeypatch,kind,pause_first):
+ # Synthetic external checkpoints only: no Dify import/run is dispatched.
+ t=create(client);finished={'id':'mock-finished','kind':kind,'status':'passed','revision':t['revision'],'outputs':{'fixture':'已保存结果'}}
+ pending={'id':'mock-pending','kind':kind,'status':'pending','revision':t['revision'],'inputs':{'fixture':'隔离检查点'}}
+ t.update(status='importing' if kind=='import' else 'running',runs=[finished,pending],planning_runs=[])
+ main.save_task(t)
+ if pause_first:assert client.post(f"/api/tasks/{t['id']}/pause").status_code==200
+ before=main.get_task(t['id'])
+ monkeypatch.setattr(main,'store',Store(main.DATA_ROOT))
+ with TestClient(main.app) as restarted:
+  current=restarted.get(f"/api/tasks/{t['id']}").json()
+  assert current['status']==('paused' if pause_first else 'error')
+  assert current['runs'][0]==finished and len(current['runs'])==2
+  recovered=current['runs'][1]
+  assert recovered['id']==pending['id'] and recovered['inputs']==pending['inputs']
+  assert recovered['status']=='unknown' and recovered['completed_at']
+  assert '不自动重复派发' in recovered['error']
+  for field in ('revision','app_type','requirements','configuration','dify_app_id','artifact','messages'):
+   assert current[field]==before[field]
+ with TestClient(main.app) as restarted:
+  assert restarted.get(f"/api/tasks/{t['id']}").json()==current
+  assert Store(main.DATA_ROOT).get('task',t['id'])==current
