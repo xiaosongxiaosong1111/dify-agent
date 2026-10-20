@@ -19,8 +19,8 @@
 
 | # | 任务 | 验收命令 | 执行者 | 状态 | 证据 |
 |---|---|---|---|---|---|
-| 1 | 为访谈契约失败补一个能复现的隔离回归：多余话题、无效素材ID、带未答问题就完成检查 | `.venv\Scripts\python.exe -m pytest backend/tests/test_intake.py -q` 新增用例通过，且该用例在断言被还原时必须失败 | codex | done | 新增三组单缺陷隔离回归；本机指定命令 27 passed、1 warning（最终 5.42s）；`.venv\Scripts\python.exe work/check-intake-contract-regression.py` 逐项在子进程内放宽校验，三组均在需求未改写断言处失败（各 1 failed、26 deselected），脚本退出 0；无真实模型／Dify调用；与本行同次提交 |
-| 2 | 用 claude 核对 `test_planning_decisions.py` 里是否已有等价断言，列出缺口 | 输出缺口清单到 `work/intake-gap-notes.md`；不改产品代码 | claude | pending | — |
+| 1 | 为访谈契约失败补一个能复现的隔离回归：多余话题、无效素材ID、带未答问题就完成检查 | `.venv\Scripts\python.exe -m pytest backend/tests/test_intake.py -q` 新增用例通过，且该用例在断言被还原时必须失败 | codex | done | commit 9a8d781 |
+| 2 | 用 claude 核对 `test_planning_decisions.py` 里是否已有等价断言，列出缺口 | 输出缺口清单到 `work/intake-gap-notes.md`；不改产品代码 | claude | done | 静态核对 24 个用例：三类访谈契约失败均无等价断言（主题集合、来源真实性、complete/问题互斥），另列 GAP-01 至 GAP-09 及隔离语义缺口；无产品代码改动，见 `work/intake-gap-notes.md` |
 | 3 | 核对 AT-12「DSL 变量引用错误」现状并补隔离检查 | `backend/tests/` 相关全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | pending | — |
 | 4 | 核对 AT-14「批量任务部分失败」现状并补隔离检查 | 同上 | codex | pending | — |
 | 5 | 核对 AT-24「用户恢复旧版本」现状并补隔离检查 | 同上 | codex | pending | — |
