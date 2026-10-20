@@ -114,8 +114,8 @@
       "related_checks": [
         "backend/tests/test_conflicts.py"
       ],
-      "known_gap": "来源保留与确认机制存在，真实业务事实矛盾的完整识别仍待人工裁定。",
-      "final_acceptance_record": null
+      "known_gap": "本地隔离检查覆盖两份业务资料及单份资料内不同引文的来源保留、上传顺序无优先级、明确裁定与持久化、非法来源拒绝、模型推荐不自动采用。固定模型响应不证明真实语义识别或事实正确；冲突检查须显式启用，长材料可能截断，完整替换语义、前端体验及真实业务验收仍待人工核对。",
+      "final_acceptance_record": "docs/acceptance-at08-record.md"
     },
     {
       "id": "AT-09",

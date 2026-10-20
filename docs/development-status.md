@@ -6,6 +6,8 @@
 
 ## 当前切片
 
+2026-10-20 AT-08 本地核对（未部署）：[BACKLOG](BACKLOG.md) 第 16 项新增 9 个隔离用例，覆盖两份业务资料在不同上传顺序下的显式裁定、双来源及原文件持久保留、同一材料内部矛盾、错误来源拒绝，以及模型推荐不自动生效、用户可选择非推荐项。指定命令 `.venv\Scripts\python.exe -m pytest backend/tests/test_conflicts.py -q` 首次通过，**48 passed、1 warning（18.24s）**；[验收记录](acceptance-at08-record.md) 已登记到 acceptance-mapping。仅补测试和记录，临时存储并阻断真实 HTTP／默认模型调用，无产品实现变更、部署、全量测试、重建、真实 Dify 或付费模型调用。冲突检查须显式启用，合法引文不证明语义矛盾或事实正确；长材料截断、真实识别质量、前端体验及业务验收仍待验证，不代表 AT-08 最终业务通过或整个计划完成。仅处理本队列项。
+
 2026-10-20 AT-07 本地核对（未部署）：[BACKLOG](BACKLOG.md) 第 15 项新增 15 个隔离用例，覆盖三种应用类型的多页同名库目录、固定选库理由与影响传递、具体 ID 显式采纳及持久化、遗漏保留／明确移除、非法及跨任务 ID 拒绝、未验证库单独接受和待决定门禁。指定命令 `.venv\Scripts\python.exe -m pytest backend/tests/test_configuration_proposals.py -q` 最终 **47 passed、1 warning（21.90s）**；首轮三例使用人工复核前的旧修订失败，修正测试后通过。[验收记录](acceptance-at07-record.md) 已登记到 acceptance-mapping。仅补测试与记录，临时存储并阻断真实 HTTP／默认模型调用，无产品实现修改、部署、全量测试、重建、真实 Dify 或付费模型调用。结构校验不判断理由语义，真实多库选择质量、资料授权／正文、检索命中、费用、前端体验及最终业务运行仍待验收，不代表 AT-07 最终业务通过或整个计划完成。
 
 2026-10-20 AT-06 本地核对（未部署）：[BACKLOG](BACKLOG.md) 第 14 项新增 12 个隔离用例，覆盖三种应用类型的原始文本实际上传、全文方案与确认持久化、索引等待／完成及显式加入配置；另核对不可读／空白／超限资料、跨任务素材拒绝、模型失效不降级、任务／连接修订隔离、采纳前索引重查和多文档完成门禁。指定命令 `.venv\Scripts\python.exe -m pytest backend/tests/test_knowledge.py -q` 最终 **38 passed、1 warning（13.03s）**；前两轮新增测试的长参数 ID 和 Chatflow 接口类型写法问题修正后通过。[验收记录](acceptance-at06-record.md) 已登记到 acceptance-mapping。仅补测试和记录，临时存储并阻断真实 HTTP／默认模型调用，无产品实现变更、部署、全量测试、重建、真实 Dify 或付费模型调用。当前方案保留完整原文，不提供自动语义整理；真实资料整理、索引、费用、客户命中与界面体验仍待验收，不代表 AT-06 最终业务验收或整个计划完成。

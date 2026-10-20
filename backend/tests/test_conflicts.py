@@ -284,3 +284,133 @@ def test_at03_model_sees_document_and_reference_but_cannot_choose(client,monkeyp
  assert proposed['app_type']==task['app_type'] and not proposed.get('conflict_decisions')
  assert not proposed['conflict_review']['confirmation'] and not proposed['requirements_confirmed']
  assert not proposed['artifact'] and not proposed['dify_app_id'] and not proposed['runs']
+
+
+def business_documents(client,reverse=False,same_material=False):
+ """固定业务原文经本地上传进入；日期、上传顺序均不代表事实优先级。"""
+ task=prepared(client)
+ documents=[('2025退款制度.md','退款期限为 7 天；其他规则保留。'),('2026退款说明.md','退款期限为 30 天；其他规则保留。')]
+ if same_material:documents=[('内部矛盾.md','\n'.join(text for _,text in documents))]
+ elif reverse:documents.reverse()
+ for name,text in documents:
+  response=client.post(f"/api/tasks/{task['id']}/materials",files={'file':(name,text.encode('utf-8'),'text/markdown')})
+  assert response.status_code==200,response.text
+  task=response.json();material=task['materials'][-1]
+  assert material['status']=='parsed' and material['text']==text
+  response=client.patch(f"/api/tasks/{task['id']}/materials/{material['id']}",json={'reference_mode':'borrow'})
+  assert response.status_code==200,response.text
+  task=response.json()
+ candidate=review(task)
+ candidate['conflicts'][0]['sources']=[
+  {'kind':'material','id':next(m['id'] for m in task['materials'] if text in m['text']),'quote':text}
+  for text in ('退款期限为 7 天；其他规则保留。','退款期限为 30 天；其他规则保留。')
+ ]
+ candidate['notes']='固定业务资料中的期限矛盾，事实由用户裁定；不按日期或上传顺序判真。'
+ return task,candidate,documents
+
+
+@pytest.mark.parametrize('reverse',[False,True],ids=['old_first','new_first'])
+@pytest.mark.parametrize('option_id,days',[('A',7),('B',30)])
+def test_at08_business_facts_wait_for_user_and_keep_both_originals(client,reverse,option_id,days):
+ from app.storage import Store
+ task,candidate,documents=business_documents(client,reverse)
+ original=copy.deepcopy(task)
+ response=save(client,task,candidate);assert response.status_code==200,response.text
+ task=response.json();state=client.get(f"/api/tasks/{task['id']}/conflicts").json()
+ assert state['record']['review']==candidate and state['verification']=='source_quote_and_user_decision_only'
+ assert task['requirements']==original['requirements'] and task['materials']==original['materials']
+ assert not task.get('conflict_decisions') and not summary(task)['confirmed']
+ before=main.get_task(task['id'])
+ assert confirm(client,task).status_code==422
+ for kind in ('requirements','configuration'):
+  assert client.post(f"/api/tasks/{task['id']}/confirm",json={'revision':task['revision'],'kind':kind}).status_code==422
+ for action in ('build','import','run'):
+  assert client.post(f"/api/tasks/{task['id']}/{action}",json={'revision':task['revision']}).status_code==422
+ assert main.get_task(task['id'])==before
+ response=choose(client,task,option_id=option_id);assert response.status_code==200,response.text
+ selected=response.json();decision=selected['conflict_decisions'][-1]
+ assert selected['requirements']=={**original['requirements'],'rules':f'退款期限为 {days} 天；其他规则保留。'}
+ assert selected['materials']==original['materials'] and selected['app_type']==original['app_type']
+ assert decision['conflict']==candidate['conflicts'][0]
+ assert decision['selected_option']==candidate['conflicts'][0]['options'][0 if option_id=='A' else 1]
+ assert decision['before']=={'rules':original['requirements']['rules']} and decision['after']=={'rules':selected['requirements']['rules']}
+ assert decision['source_revision']==task['revision'] and decision['result_revision']==selected['revision']==task['revision']+1
+ assert not selected['requirements_confirmed'] and not selected['configuration_confirmed'] and not summary(selected)['confirmed']
+ assert choose(client,selected,review_token=state['review_token']).status_code==409
+ assert confirm(client,selected).status_code==200
+ response=client.post(f"/api/tasks/{task['id']}/confirm",json={'revision':selected['revision'],'kind':'requirements'})
+ assert response.status_code==200,response.text
+ confirmed=response.json();main.store=Store(main.DATA_ROOT)
+ persisted=client.get(f"/api/tasks/{task['id']}").json()
+ assert persisted==confirmed and summary(persisted)['confirmed'] and persisted['conflict_decisions']==[decision]
+ folder=main.DATA_ROOT/task['id']/'materials'
+ for material,(name,text) in zip(persisted['materials'],documents):
+  assert material['name']==name and (folder/(material['id']+'.md')).read_text(encoding='utf-8')==text
+ report=client.get(f"/api/tasks/{task['id']}/report")
+ assert report.status_code==200 and all(ref['id'] in report.text for ref in candidate['conflicts'][0]['sources'])
+ assert not persisted['artifact'] and not persisted['dify_app_id'] and not persisted['runs']
+
+
+def test_at08_two_conflicting_facts_in_one_material_remain_distinct(client):
+ task,candidate,_=business_documents(client,same_material=True)
+ refs=candidate['conflicts'][0]['sources']
+ assert refs[0]['id']==refs[1]['id'] and refs[0]['quote']!=refs[1]['quote']
+ response=save(client,task,candidate);assert response.status_code==200,response.text
+ saved=response.json()
+ assert saved['conflict_review']['review']==candidate and saved['requirements']==task['requirements']
+ assert not saved.get('conflict_decisions') and confirm(client,saved).status_code==422
+ duplicate=copy.deepcopy(candidate);duplicate['conflicts'][0]['sources']=[refs[0],refs[0]]
+ before=main.get_task(task['id']);response=save(client,saved,duplicate)
+ assert response.status_code==422 and '不能重复同一引文' in response.text
+ assert main.get_task(task['id'])==before
+
+
+@pytest.mark.parametrize('invalid_source',['foreign_task','swapped_quote','unparsed'])
+def test_at08_business_fact_sources_cannot_be_substituted(client,invalid_source):
+ task,candidate,_=business_documents(client)
+ ref=candidate['conflicts'][0]['sources'][0]
+ if invalid_source=='foreign_task':
+  _,other,_=business_documents(client)
+  ref['id']=other['conflicts'][0]['sources'][0]['id']
+ elif invalid_source=='swapped_quote':ref['quote']=candidate['conflicts'][0]['sources'][1]['quote']
+ else:
+  response=client.post(f"/api/tasks/{task['id']}/materials",files={'file':('未读.bin',b'fixture','application/octet-stream')})
+  assert response.status_code==200,response.text
+  task=response.json();assert task['materials'][-1]['status']=='needs_input'
+  ref['id']=task['materials'][-1]['id']
+ before=main.get_task(task['id']);response=save(client,task,candidate)
+ assert response.status_code==422 and '引文不是本任务当前资料或已确认历史中的原文' in response.text
+ assert main.get_task(task['id'])==before
+
+
+def test_at08_model_recommendation_keeps_facts_unresolved_until_user_decides(client,monkeypatch):
+ task,candidate,_=business_documents(client)
+ # 推荐新资料的 30 天，用户仍可明确选择旧资料的 7 天。
+ candidate['conflicts'][0]['recommended_option_id']='B'
+ candidate['conflicts'][0]['recommendation_reason']='建议 30 天但适用范围待用户核对，不以资料日期判断事实。'
+ response=client.post('/api/providers',json={'name':'隔离业务事实模型','provider':'openai-compatible','base_url':'https://model.invalid/v1','model':'fixture-model','api_key':'fixture-only','pricing':{'input_per_million_usd':1,'output_per_million_usd':1}})
+ assert response.status_code==201,response.text
+ task=client.patch(f"/api/tasks/{task['id']}",json={'configuration':{'assistant_provider_id':response.json()['id']}}).json()
+ calls=[]
+ async def model(*args,**kwargs):
+  calls.append(copy.deepcopy(args[2]))
+  return json.dumps(candidate,ensure_ascii=False),{'prompt_tokens':50,'completion_tokens':80}
+ monkeypatch.setattr(main,'call_model',model)
+ response=client.post(f"/api/tasks/{task['id']}/conflicts/generate",json={'revision':task['revision']})
+ assert response.status_code==200,response.text
+ proposed=response.json();assert len(calls)==1
+ prompt=json.loads(calls[0][-1]['content']);available={(s['kind'],s['id']):s for s in prompt['sources']}
+ for ref in candidate['conflicts'][0]['sources']:
+  source=available[(ref['kind'],ref['id'])]
+  assert source['text']==ref['quote'] and not source['excerpt_truncated']
+ assert proposed['conflict_review']['source']=='model' and proposed['conflict_review']['review']==candidate
+ assert proposed['requirements']==task['requirements'] and proposed['materials']==task['materials']
+ assert not proposed.get('conflict_decisions') and not proposed['conflict_review']['confirmation']
+ assert not proposed['requirements_confirmed'] and not proposed['configuration_confirmed']
+ assert confirm(client,proposed).status_code==422
+ response=choose(client,proposed,option_id='A');assert response.status_code==200,response.text
+ selected=response.json()
+ assert selected['requirements']['rules']==candidate['conflicts'][0]['options'][0]['requirements_patch']['rules']
+ assert selected['conflict_decisions'][-1]['selected_option']['id']=='A'
+ assert selected['materials']==task['materials'] and not summary(selected)['confirmed']
+ assert not selected['artifact'] and not selected['dify_app_id'] and not selected['runs']
