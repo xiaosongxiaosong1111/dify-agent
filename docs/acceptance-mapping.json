@@ -88,8 +88,8 @@
       "related_checks": [
         "backend/tests/test_knowledge.py"
       ],
-      "known_gap": "真实资料整理、高质量索引、成本与客户知识命中仍未全面验收。",
-      "final_acceptance_record": null
+      "known_gap": "本地隔离检查覆盖原始资料上传、可读性与范围检查、建库方案、确认后主动执行、索引状态核对及加入配置；使用固定 Dify 适配响应，不代表实际建库或检索效果通过。当前流程保留全文快照，不提供自动语义整理；真实资料整理、高质量索引、成本与客户知识命中仍未全面验收。",
+      "final_acceptance_record": "docs/acceptance-at06-record.md"
     },
     {
       "id": "AT-07",

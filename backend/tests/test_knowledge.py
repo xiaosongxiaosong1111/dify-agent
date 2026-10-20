@@ -1,14 +1,25 @@
 import asyncio
 import copy
+import hashlib
 import json
 import uuid
 from datetime import datetime,timezone,timedelta
 import pytest
+import httpx
 from test_api import client,create,create_env
 from app import main
 from app.dify import DifyClient,DifyError
+from app.storage import Store
 
 WORKSPACE=str(uuid.uuid4());DATASET=str(uuid.uuid4());DOCUMENT=str(uuid.uuid4())
+
+@pytest.fixture(autouse=True)
+def forbid_knowledge_external_calls(monkeypatch):
+    def forbidden(*args, **kwargs):
+        pytest.fail('知识资料隔离检查不得访问真实 HTTP 或调用真实模型')
+    monkeypatch.setattr(httpx.HTTPTransport, 'handle_request', forbidden)
+    monkeypatch.setattr(httpx.AsyncHTTPTransport, 'handle_async_request', forbidden)
+    monkeypatch.setattr(main, 'call_model', forbidden)
 
 @pytest.fixture
 def adapter(monkeypatch):
@@ -207,3 +218,155 @@ def test_index_error_does_not_expose_job_key(client,adapter,monkeypatch):
     response=client.post(f"/api/knowledge-jobs/{job['id']}/execute",json={})
     assert response.json()['status']=='needs_input' and 'dataset-private-unit-key' not in response.text
     assert '[已脱敏]' in response.json()['documents'][0]['indexing']['error']
+
+
+@pytest.mark.parametrize('app_type', ['workflow', 'advanced-chat', 'agent'])
+def test_raw_upload_plan_confirm_restart_index_and_apply(client, adapter, monkeypatch, app_type):
+    env = create_env(client)
+    response = client.post('/api/tasks', json={'name': '只有原始知识资料', 'app_type': app_type, 'environment_id': env['id']})
+    assert response.status_code == 201, response.text
+    task = response.json()  # 保留新任务真实准入门禁，不使用旧版 create fixture。
+    raw = '  退货政策：七天内可退。\n来源：公开合成资料。  '
+    response = client.post(f"/api/tasks/{task['id']}/materials", files={'file': ('原始政策.txt', raw.encode(), 'text/plain')})
+    assert response.status_code == 200, response.text
+    task = response.json()
+    material = task['materials'][0]
+    assert material['status'] == 'parsed' and material['text'] == raw
+    before = copy.deepcopy(main.get_task(task['id']))
+    response = propose(client, task, text='', material_ids=[material['id']])
+    assert response.status_code == 201, response.text
+    job = response.json()
+    doc = job['documents'][0]
+    assert job['status'] == 'draft' and job['task_revision'] == task['revision']
+    assert job['purpose'] == '开发联调知识库准备，核对已授权资料范围。'
+    assert job['indexing_technique'] == 'economy' and '不调用 Embedding' in job['cost_note']
+    assert doc['source'] == 'material' and doc['material_id'] == material['id']
+    assert doc['text'] == raw and doc['sha256'] == hashlib.sha256(raw.encode()).hexdigest()
+    assert adapter['writes'] == [] and main.get_task(task['id']) == before
+    response = client.post(f"/api/knowledge-jobs/{job['id']}/confirm", json={'task_revision': task['revision']})
+    assert response.status_code == 200, response.text
+    approved = response.json()
+    assert approved['status'] == 'approved' and adapter['writes'] == []
+    assert main.get_task(task['id']) == before
+    monkeypatch.setattr(main, 'store', Store(main.store.root))
+    assert client.get(f"/api/knowledge-jobs/{job['id']}").json() == approved
+    assert client.get(f"/api/tasks/{task['id']}/knowledge-jobs").json() == [approved]
+    assert main.get_task(task['id']) == before and adapter['writes'] == []
+    adapter.update(indexing_status='waiting', completed_segments=0, total_segments=0)
+    response = client.post(f"/api/knowledge-jobs/{job['id']}/execute", json={})
+    assert response.status_code == 200, response.text
+    assert response.json()['status'] == 'indexing'
+    assert adapter['writes'] == ['dataset', 'key', 'document'] and adapter['last_text'] == raw
+    assert client.post(f"/api/knowledge-jobs/{job['id']}/apply", json={'revision': task['revision']}).status_code == 409
+    assert main.get_task(task['id']) == before
+    adapter.update(indexing_status='completed', completed_segments=1, total_segments=1)
+    response = client.post(f"/api/knowledge-jobs/{job['id']}/refresh")
+    assert response.status_code == 200 and response.json()['status'] == 'ready'
+    assert '不等于检索效果已验收' in response.json()['message']
+    response = client.post(f"/api/knowledge-jobs/{job['id']}/apply", json={'revision': task['revision']})
+    assert response.status_code == 200, response.text
+    applied = response.json()
+    assert applied['app_type'] == app_type and applied['revision'] == task['revision'] + 1
+    assert applied['configuration']['dataset_ids'] == [DATASET]
+    assert not applied['configuration_confirmed'] and not applied['requirements_confirmed']
+    assert not applied['artifact'] and not applied['dify_app_id'] and not applied['runs']
+    assert applied['materials'] == before['materials']
+    persisted = Store(main.store.root)
+    assert persisted.get('task', task['id']) == main.get_task(task['id'])
+    assert persisted.get('knowledge_job', job['id'])['applied_revision'] == applied['revision']
+    assert adapter['writes'] == ['dataset', 'key', 'document']
+
+
+@pytest.mark.parametrize('filename,raw', [('图片.png', b'not-an-image'), ('空文档.txt', b'   '), ('超限.txt', b'x' * 100001)], ids=['unsupported-image', 'empty-text', 'oversized-text'])
+def test_unreadable_raw_upload_cannot_propose_or_write(client, adapter, filename, raw):
+    task, _ = task_with_env(client)
+    response = client.post(f"/api/tasks/{task['id']}/materials", files={'file': (filename, raw)})
+    assert response.status_code == 200, response.text
+    task = response.json()
+    material = task['materials'][0]
+    assert material['status'] == 'needs_input' and material['error'] and material['text'] == ''
+    before = copy.deepcopy(main.get_task(task['id']))
+    response = propose(client, task, text='', material_ids=[material['id']])
+    assert response.status_code == 422 and '完整文本' in response.text
+    assert adapter['writes'] == [] and main.get_task(task['id']) == before
+    assert client.get(f"/api/tasks/{task['id']}/knowledge-jobs").json() == []
+
+
+def test_foreign_material_cannot_be_used_for_current_task(client, adapter):
+    task, _ = task_with_env(client)
+    other, _ = task_with_env(client)
+    response = client.post(f"/api/tasks/{other['id']}/materials", files={'file': ('其他任务.txt', '其他任务资料'.encode())})
+    assert response.status_code == 200, response.text
+    material = response.json()['materials'][0]
+    before = copy.deepcopy(main.get_task(task['id']))
+    response = propose(client, task, text='', material_ids=[material['id']])
+    assert response.status_code == 422 and '完整文本' in response.text
+    assert adapter['writes'] == [] and main.get_task(task['id']) == before
+    assert main.store.list('knowledge_job') == []
+
+
+def test_disabled_embedding_after_approval_never_downgrades_or_writes(client, adapter):
+    task, _ = task_with_env(client)
+    job = approved_job(client, task, indexing_technique='high_quality', embedding_provider='langgenius/embed/embed', embedding_model='embedding-exact')
+    adapter['model_active'] = False
+    response = client.post(f"/api/knowledge-jobs/{job['id']}/execute", json={})
+    assert response.status_code == 200, response.text
+    paused = response.json()
+    assert paused['status'] == 'paused' and '未自动替换索引方式' in paused['message']
+    assert paused['indexing_technique'] == 'high_quality' and paused['embedding_model'] == 'embedding-exact'
+    assert adapter['writes'] == [] and paused['operations'] == []
+    assert main.get_task(task['id'])['configuration']['dataset_ids'] == []
+
+
+@pytest.mark.parametrize('change', ['task', 'connection'])
+def test_approved_plan_cannot_execute_after_bound_revision_changes(client, adapter, change):
+    task, env = task_with_env(client)
+    job = approved_job(client, task)
+    path, body = (f"/api/tasks/{task['id']}", {'name': '新任务修订'}) if change == 'task' else (f"/api/environments/{env['id']}", {'console_token': 'new-unit-token'})
+    response = client.patch(path, json=body)
+    assert response.status_code == 200, response.text
+    before = copy.deepcopy(main.get_task(task['id']))
+    response = client.post(f"/api/knowledge-jobs/{job['id']}/execute", json={})
+    assert response.status_code == 409 and '变化' in response.text
+    assert adapter['writes'] == [] and main.get_task(task['id']) == before
+
+
+def test_ready_job_is_rechecked_before_apply(client, adapter):
+    task, _ = task_with_env(client)
+    job = approved_job(client, task)
+    assert client.post(f"/api/knowledge-jobs/{job['id']}/execute", json={}).json()['status'] == 'ready'
+    before = copy.deepcopy(main.get_task(task['id']))
+    adapter.update(indexing_status='error', completed_segments=0)
+    response = client.post(f"/api/knowledge-jobs/{job['id']}/apply", json={'revision': task['revision']})
+    assert response.status_code == 409 and '索引不是可用状态' in response.text
+    assert main.get_task(task['id']) == before
+    assert main.knowledge.job(job['id'])['status'] == 'needs_input'
+    assert adapter['writes'] == ['dataset', 'key', 'document']
+
+
+def test_every_document_must_finish_before_ready(client, adapter, monkeypatch):
+    task, _ = task_with_env(client)
+    response = client.post(f"/api/tasks/{task['id']}/materials", files={'file': ('原始资料.txt', '独立资料全文'.encode())})
+    assert response.status_code == 200, response.text
+    task = response.json()
+    job = approved_job(client, task, material_ids=[task['materials'][0]['id']])
+    document_ids = [str(uuid.uuid4()), str(uuid.uuid4())]
+    original = DifyClient.create_text_document
+    async def upload(self, *args, **kwargs):
+        result = await original(self, *args, **kwargs)
+        result['document']['id'] = document_ids[len(adapter['writes']) - 3]
+        return result
+    async def status(self, dataset, document):
+        finished = document == document_ids[0] or adapter.get('all_finished', False)
+        return {'id': document, 'indexing_status': 'completed' if finished else 'waiting', 'completed_segments': int(finished), 'total_segments': 1}
+    monkeypatch.setattr(DifyClient, 'create_text_document', upload)
+    monkeypatch.setattr(DifyClient, 'document_status', status)
+    response = client.post(f"/api/knowledge-jobs/{job['id']}/execute", json={})
+    assert response.status_code == 200, response.text
+    assert response.json()['status'] == 'indexing' and len(response.json()['documents']) == 2
+    assert client.post(f"/api/knowledge-jobs/{job['id']}/apply", json={'revision': task['revision']}).status_code == 409
+    assert main.get_task(task['id'])['configuration']['dataset_ids'] == []
+    adapter['all_finished'] = True
+    response = client.post(f"/api/knowledge-jobs/{job['id']}/refresh")
+    assert response.status_code == 200 and response.json()['status'] == 'ready'
+    assert adapter['writes'] == ['dataset', 'key', 'document', 'document']
