@@ -16,9 +16,17 @@
 - API key 不得进浏览器存储、日志、导出 DSL、Git。
 - 产品 UI 与用户可见错误一律中文。
 
-## 3. 下一步（本轮已验收）
+## 3. 下一步
 
-**`work/workflow-progress-235.cjs` 已一次跑绿，退出码 0，14 项检查全部通过。此项无待修错误；下一轮等待用户指定新的单项验收目标，不重复执行本轮检查或自行扩大范围。**
+**待办查 `docs/BACKLOG.md` 队列表，不要问用户下一项做什么。** 取编号最小的 `pending` 行执行；完成一项改状态、写证据、commit，然后继续下一行。只有三种情况停：额度耗尽、连续两项失败、剩余全是 `blocked`/`need-user`。
+
+- 队列里 `need-user` 的行（专用 Dify 登录、真实联调）不自己做，也不要降级成“本地通过”。
+- `docs/development-tasks.md` 的 136 项是需求侧任务表（现有状态：进行中 67 / 等待验证 46 / 受阻 23 / 已完成 0），它**不是**取活顺序；取活只看 BACKLOG。
+- 每项完成都是“本地隔离检查通过”，不等于真实 Dify 平台验收。证据栏要写明这个边界。
+
+### 上一轮已验收（仅作背景，不需要重跑）
+
+`work/workflow-progress-235.cjs` 已跑绿，退出码 0，14 项检查全部通过。结果：`work/workflow-progress-235-source.json`，`checks = 14`，`actual_writes = 0`，`external_requests = 0`。
 
 本轮实际执行命令：
 
@@ -56,5 +64,6 @@ node work\workflow-progress-235.cjs "C:\Users\Administrator\.cache\codex-runtime
 ## 6. 边界
 
 - 只修指定检查暴露的实质错误，不顺带重构、不重建项目、不重跑全量测试。
-- 撞额度立即停，将当前进度写入本文件后报告；不重试、不换账号。
-- 一次会话只交付一件可验收产物；完成后 commit 并整份重写本文件，不追加历史。
+- 撞额度立即停，将当前进度写入 `docs/BACKLOG.md` 后报告；不重试、不换账号。
+- 不 `git push`、不删目录、不做 docker 操作、不改 `.venv`。
+- 每次完成一项就整份重写本文件，不追加历史。

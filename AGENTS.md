@@ -2,6 +2,17 @@
 
 - Product name: Sierra, chosen by the user on 2026-10-10. Use it consistently in the UI and generated product descriptions.
 
+## Where work comes from
+
+- The single source of pending work is `docs/BACKLOG.md`. Its queue table is authoritative; do not substitute the ordering or numbering of `docs/development-tasks.md` for it.
+- If `docs/BACKLOG.md` exists and has a `pending` row, the default action is to do that row. Do not stop to ask which item to take next.
+- One row at a time, top-down by number. Only act on the first `pending` row; skip `done`, `blocked`, `need-user`.
+- A row may only be marked `done` after its acceptance command has actually passed and a commit exists. Never mark `done` from intention or partial work.
+- After finishing a row, update its status and evidence in `docs/BACKLOG.md`, commit that change, then continue to the next `pending` row.
+- Stop the whole queue only when: quota is exhausted, two consecutive items fail, or every remaining row is `blocked`/`need-user`. Report which case applies.
+- Items that need a human (login, real Dify authorisation, paid model calls) are marked `need-user`; do not attempt them and do not silently downgrade them.
+- Local isolated green tests do not equal real Dify platform acceptance. Record that boundary in the evidence cell rather than implying the business scenario passed.
+
 - Target Dify stable release 1.17.1, verified 2026-10-09. Consult the tagged source, not main, for DSL and console interfaces.
 - Product baseline: docs/requirements-v1.0.md. Preserve all explicit user decisions.
 - User selects app type. Never silently change it. Unsupported features must return a precise limitation.
