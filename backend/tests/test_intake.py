@@ -114,6 +114,62 @@ def test_invalid_model_review_rejected_before_apply(client,monkeypatch,bad):
  monkeypatch.setattr(main,'call_model',model);r=client.post(f"/api/tasks/{t['id']}/messages",json={'content':'检查'});assert r.status_code==200,r.text
  assert r.json()['requirements']==REQ and r.json()['interview_attempts'] and not state(client,t)['can_confirm']
 
+@pytest.mark.parametrize('bad,reason', [
+    ('extra_topic', '需求检查主题数量不匹配'),
+    ('invalid_material_id', '需求来源引文不存在'),
+    ('complete_with_question', '已齐全时不能仍有待答问题'),
+])
+def test_interview_contract_failures_are_isolated(client, monkeypatch, bad, reason):
+    t = new(client)
+    provider(client)
+    material = {'id': 'material-1', 'name': '文本规则.txt', 'status': 'parsed',
+                'reference_mode': 'reference', 'text': REQ['rules']}
+    t['materials'] = [material]
+    main.save_task(t)
+    valid = review(t)
+    rules = next(row for row in valid['checks'] if row['topic'] == 'rules')
+    rules['evidence'] = [{'kind': 'material', 'id': material['id'], 'quote': material['text']}]
+    # Start from an accepted review; each parameter introduces exactly one defect.
+    assert validate_review(t, valid) == valid
+    value = copy.deepcopy(valid)
+    if bad == 'extra_topic':
+        extra = copy.deepcopy(value['checks'][0])
+        extra['topic'] = 'agent_tools'  # This workflow does not trigger Agent topics.
+        value['checks'].append(extra)
+    elif bad == 'invalid_material_id':
+        next(row for row in value['checks'] if row['topic'] == 'rules')['evidence'][0]['id'] = material['name']
+    else:
+        # Full, otherwise valid question fields prevent a schema error masking the defect.
+        value['questions'] = review(t, 'exceptions')['questions']
+        assert all(row['status'] == 'complete' for row in value['checks'])
+
+    calls = []
+    async def model(*args, **kwargs):
+        calls.append(True)
+        return json.dumps({'message': '检查全部完成', 'requirements_patch': {'goal': '错误结果'},
+                           'intake_review': value}), {'prompt_tokens': 1, 'completion_tokens': 1}
+
+    monkeypatch.setattr(main, 'call_model', model)
+    response = client.post(f"/api/tasks/{t['id']}/messages", json={'content': '检查当前说明'})
+    assert response.status_code == 200, response.text
+    saved = client.get(f"/api/tasks/{t['id']}").json()
+    assert calls == [True]  # No automatic retry or external model call.
+    assert saved['requirements'] == REQ
+    assert saved['revision'] == t['revision']
+    assert len(saved['interview_attempts']) == 1
+    attempt = saved['interview_attempts'][0]
+    assert attempt['applied'] is False and reason in attempt['reason']
+    assert json.loads(attempt['response_excerpt'])['intake_review'] == value
+    assert saved['messages'][-1]['source'] == 'system'
+    assert reason in saved['messages'][-1]['content']
+    current = state(client, saved)
+    assert not current['reviewed'] and not current['can_confirm'] and not current['record']
+    assert not saved['requirements_confirmed']
+    assert client.post(f"/api/tasks/{t['id']}/confirm", json={
+        'revision': saved['revision'], 'kind': 'requirements',
+    }).status_code == 422
+
+
 def test_restore_never_disables_new_task_gate(client):
  t=new(client);before=t['versions'][0];t=manual(client,t).json();t=client.post(f"/api/tasks/{t['id']}/restore",json=restore_payload(client, t['id'], before['id'])).json()
  assert t['intake_required'] and not state(client,t)['can_confirm']
