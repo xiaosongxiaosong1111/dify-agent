@@ -183,13 +183,15 @@
       "scenario": "已导入但关键样例失败",
       "expected": "标为需修复或阶段成果，不宣称完成。",
       "source": [
-        "backend/app/acceptance.py"
+        "backend/app/acceptance.py",
+        "backend/app/repair_verification.py",
+        "backend/app/main.py"
       ],
       "related_checks": [
         "backend/tests/test_repair_verification.py"
       ],
-      "known_gap": "已有样例及阶段结果状态；跨真实修复、全关键样例和最终交付仍需验收。",
-      "final_acceptance_record": null
+      "known_gap": "本地隔离检查覆盖已导入但关键样例失败的汇总与报告、原错误消除但其他必选样例未通过、模拟阶段结果及最新失败覆盖旧通过。任务总状态仍可能保留 imported，失败由样例汇总／修复跟进单独表达；无统一需修复总状态。自动小修复仅支持明确失败的特定标准库 NameError，成功返回但业务预期不匹配需人工核对。真实 Dify 导入／轨迹、全关键样例覆盖、前端体验和最终交付仍待验收。",
+      "final_acceptance_record": "docs/acceptance-at13-record.md"
     },
     {
       "id": "AT-14",

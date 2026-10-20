@@ -1,10 +1,12 @@
 # 开发进度
 
-更新日期：2026-10-20。目标适配 Dify 稳定版 1.17.1，App DSL 0.7.0。详细的 136 项计划及逐项状态、证据与未关闭条件见 [development-tasks.md](development-tasks.md)；局部实现或隔离验证不计为整个任务完成。
+更新日期：2026-10-21。目标适配 Dify 稳定版 1.17.1，App DSL 0.7.0。详细的 136 项计划及逐项状态、证据与未关闭条件见 [development-tasks.md](development-tasks.md)；局部实现或隔离验证不计为整个任务完成。
 
 此前 **55%—60%** 是历史工程粗估，未按 136 项重新完整核算，不能每次沿用为最新准确进度。当前按功能闭环、验证等级及剩余缺口报告，见 [完成度说明](completion-assessment.md)。
 
 ## 当前切片
+
+2026-10-21 AT-13 本地核对（未部署）：[BACKLOG](BACKLOG.md) 第 20 项新增 11 个隔离用例，覆盖原错误消除但其他必选分支失败／未跑／待审／未知、模拟阶段结果、最新失败覆盖旧通过，以及已导入但关键样例失败的汇总与报告。指定命令 `.venv\Scripts\python.exe -m pytest backend/tests/test_repair_verification.py -q` 首次 **39 passed、1 warning（25.49s）**；[验收记录](acceptance-at13-record.md) 已登记到 acceptance-mapping。仅补测试和记录，临时存储并阻断真实 HTTP／默认模型调用，无真实 Dify 或付费调用。任务总状态仍可能为 imported，无统一需修复总状态；自动小修复仅覆盖特定 NameError，成功返回但业务预期不符仍需人工核对。导入／运行／轨迹均为合成证据，真实来源、全关键样例、前端体验及最终业务仍待验收，不代表整个计划完成。仅处理本队列项。
 
 2026-10-20 AT-11 本地核对（未部署）：[BACKLOG](BACKLOG.md) 第 19 项新增 17 个隔离用例，覆盖三类应用未确认构建拒绝、导入／试跑各确认标记门禁、空白资源方案拒绝、资源方案变更及旧修订失效、知识库独立批准与未知 Embedding 费用同意，以及任务修订／环境连接变化后的旧方案拒绝。指定命令 `.venv\Scripts\python.exe -m pytest backend/tests/test_api.py -q` 最终 **73 passed、1 warning（21.05s）**；首轮 72 过、1 失败，修正连接 PATCH 同时提升任务修订时的提示预期后通过。[验收记录](acceptance-at11-record.md) 已登记到 acceptance-mapping。仅补测试与记录，临时存储、阻断真实 HTTP／默认模型及资源写入，无真实 Dify 或付费调用。拒绝提示没有统一待确认明细，资源方案自由文本仅检查非空；合成任务状态及固定目录响应不等于真实授权或导入回执。前端体验、所有资源类型及真实平台／业务仍待验收，不代表整个计划完成。仅处理本队列项。
 
