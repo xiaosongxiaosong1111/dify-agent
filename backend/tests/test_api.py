@@ -736,3 +736,196 @@ def test_at10_proposal_requires_separate_mock_consent_and_persists_it(client):
     assert receipt["acknowledgements"]["mock_changes"] is True
     assert saved.get("task", tid)["configuration"]["mock_dependencies"] == [MOCK_ORDER]
     assert client.post(url, json={**payload, "acknowledge_mock_changes": True}).status_code == 409
+
+
+@pytest.mark.parametrize("app_type", ["workflow", "advanced-chat", "agent"])
+@pytest.mark.parametrize("confirm_requirements", [False, True])
+def test_at11_build_requires_current_confirmations(client, monkeypatch, app_type, confirm_requirements):
+    # Legacy intake bypass isolates this gate; it does not prove new-task intake acceptance.
+    task = create(client, app_type=app_type)
+    tid = task["id"]
+    task = client.patch(f"/api/tasks/{tid}", json={
+        "requirements": {k: "明确的测试规则" for k in main.REQ_KEYS},
+        "configuration": {"dify_model_provider": "test/provider", "dify_model": "test-model",
+                          "resource_plan": "仅新建 Sierra 测试应用，不覆盖已有资源。"},
+    }).json()
+    if confirm_requirements:
+        response = client.post(f"/api/tasks/{tid}/confirm", json={"kind": "requirements", "revision": task["revision"]})
+        assert response.status_code == 200, response.text
+
+    def forbidden_compile(*args, **kwargs):
+        pytest.fail("未确认配置和资源操作时不得编译成果")
+    monkeypatch.setattr(main, "compile_current", forbidden_compile)
+    before = client.get(f"/api/tasks/{tid}").json()
+    saved = Store(main.store.root).get("task", tid)
+    response = client.post(f"/api/tasks/{tid}/build", json={"revision": task["revision"]})
+    assert response.status_code == 422
+    assert response.json()["detail"] == "需求、具体配置和资源操作尚未全部确认。"
+    assert before["requirements_confirmed"] is confirm_requirements
+    assert not before["configuration_confirmed"]
+    assert before["configuration"]["resource_plan"] == "仅新建 Sierra 测试应用，不覆盖已有资源。"
+    assert not before["artifact"] and not before["runs"] and not before["dify_app_id"]
+    assert client.get(f"/api/tasks/{tid}").json() == before
+    assert Store(main.store.root).get("task", tid) == saved
+    assert not list((main.DATA_ROOT / tid).glob("artifact-*.yaml"))
+
+
+@pytest.mark.parametrize("action", ["import", "run"])
+@pytest.mark.parametrize("missing", ["requirements_confirmed", "configuration_confirmed"])
+def test_at11_external_gate_precedes_adapter_and_operation_record(client, monkeypatch, action, missing):
+    env = create_env(client)
+    task = approved(client, env_id=env["id"])
+    tid = task["id"]
+    response = client.post(f"/api/tasks/{tid}/build", json={"revision": task["revision"]})
+    assert response.status_code == 200, response.text
+    # A synthetic ready artifact/binding isolates each missing flag from earlier run prerequisites.
+    # This is not an import receipt or a naturally reachable partially approved state.
+    task = main.get_task(tid)
+    task[missing] = False
+    if action == "run":
+        task["dify_app_id"] = "at11-synthetic-app"
+        response = client.patch(f"/api/environments/{env['id']}", json={
+            "service_app_id": task["dify_app_id"], "service_api_key": "at11-not-a-real-key"})
+        assert response.status_code == 200, response.text
+    main.save_task(task)
+
+    async def forbidden_adapter(*args, **kwargs):
+        pytest.fail("未确认时不得派发导入或试跑适配器")
+    monkeypatch.setattr(main.DifyClient, "import_new", forbidden_adapter)
+    monkeypatch.setattr(main.DifyClient, "run_workflow", forbidden_adapter)
+    before = client.get(f"/api/tasks/{tid}").json()
+    saved = Store(main.store.root).get("task", tid)
+    artifact = main.artifact_path(task).read_bytes()
+    response = client.post(f"/api/tasks/{tid}/{action}", json={"revision": task["revision"],
+                           **({"input": {"query": "隔离测试"}} if action == "run" else {})})
+    assert response.status_code == 422
+    assert response.json()["detail"] == "当前版本尚未确认需求、配置和资源操作。"
+    assert client.get(f"/api/tasks/{tid}").json() == before
+    assert Store(main.store.root).get("task", tid) == saved
+    assert main.artifact_path(task).read_bytes() == artifact
+    assert not before["runs"]
+
+
+def test_at11_blank_resource_plan_cannot_be_confirmed(client):
+    task = approved(client)
+    tid = task["id"]
+    task = client.patch(f"/api/tasks/{tid}", json={"configuration": {"resource_plan": "   "}}).json()
+    before = client.get(f"/api/tasks/{tid}").json()
+    saved = Store(main.store.root).get("task", tid)
+    assert before["requirements_confirmed"] and not before["configuration_confirmed"]
+    response = client.post(f"/api/tasks/{tid}/confirm", json={"kind": "configuration", "revision": task["revision"]})
+    assert response.status_code == 422
+    assert "请填写具体资源操作方案" in response.json()["detail"]
+    assert client.get(f"/api/tasks/{tid}").json() == before
+    assert Store(main.store.root).get("task", tid) == saved
+
+
+def test_at11_resource_plan_change_requires_reconfirmation(client):
+    env = create_env(client)
+    task = approved(client, env_id=env["id"])
+    tid, old_revision = task["id"], task["revision"]
+    response = client.post(f"/api/tasks/{tid}/build", json={"revision": old_revision})
+    assert response.status_code == 200, response.text
+    old_version = response.json()["versions"][-1]
+    plan = "仅新建另一个 Sierra 应用；保留所有已有应用和知识库。"
+    task = client.patch(f"/api/tasks/{tid}", json={"configuration": {"resource_plan": plan}}).json()
+    assert task["revision"] == old_revision + 1
+    assert task["requirements_confirmed"] and not task["configuration_confirmed"]
+    assert not task["artifact"] and not task["dify_app_id"] and not task["runs"]
+    before = client.get(f"/api/tasks/{tid}").json()
+    saved = Store(main.store.root).get("task", tid)
+    for action in ("confirm", "build", "import"):
+        payload = {"revision": old_revision, **({"kind": "configuration"} if action == "confirm" else {})}
+        response = client.post(f"/api/tasks/{tid}/{action}", json=payload)
+        assert response.status_code == 409
+        assert response.json()["detail"] == "方案已变化，请刷新并确认当前版本。"
+    for action in ("build", "import"):
+        response = client.post(f"/api/tasks/{tid}/{action}", json={"revision": task["revision"]})
+        assert response.status_code == 422 and "尚未" in response.json()["detail"]
+    assert client.get(f"/api/tasks/{tid}/artifact").status_code == 404
+    assert client.get(f"/api/tasks/{tid}").json() == before
+    assert Store(main.store.root).get("task", tid) == saved
+    assert next(v for v in saved["versions"] if v["id"] == old_version["id"]) == old_version
+    response = client.post(f"/api/tasks/{tid}/confirm", json={"kind": "configuration", "revision": task["revision"]})
+    assert response.status_code == 200, response.text
+    assert response.json()["confirmations"][-1]["revision"] == task["revision"]
+    response = client.post(f"/api/tasks/{tid}/build", json={"revision": task["revision"]})
+    assert response.status_code == 200, response.text
+    assert response.json()["artifact"]["verification"] == "static_only"
+    assert not response.json()["runs"] and not response.json()["dify_app_id"]
+
+
+def at11_knowledge_draft(client, monkeypatch, *, strategy="economy"):
+    env = create_env(client)
+    task = approved(client, env_id=env["id"])
+
+    async def workspace(*args, **kwargs):
+        return {"id": "at11-synthetic-workspace", "name": "Sierra 隔离空间"}
+    async def models(*args, **kwargs):
+        return {"data": [{"provider": "test/embed", "models": [{"model": "test-embedding", "status": "active"}]}]}
+    async def forbidden_write(*args, **kwargs):
+        pytest.fail("本次 AT-11 核对不得创建知识库、Key 或文档")
+    monkeypatch.setattr(main.DifyClient, "workspace", workspace)
+    monkeypatch.setattr(main.DifyClient, "models", models)
+    for name in ("create_dataset", "create_scoped_dataset_key", "create_text_document"):
+        monkeypatch.setattr(main.DifyClient, name, forbidden_write)
+    response = client.post(f"/api/tasks/{task['id']}/knowledge-jobs", json={
+        "revision": task["revision"], "name": "Sierra 隔离资料库", "purpose": "只核对方案门禁",
+        "text": "合成资料，不涉及客户数据。", "indexing_technique": strategy,
+        **({"embedding_provider": "test/embed", "embedding_model": "test-embedding"} if strategy == "high_quality" else {})})
+    assert response.status_code == 201, response.text
+    return task, env, response.json()
+
+
+@pytest.mark.parametrize("strategy", ["economy", "high_quality"])
+def test_at11_configuration_confirmation_does_not_approve_knowledge_job(client, monkeypatch, strategy):
+    task, env, job = at11_knowledge_draft(client, monkeypatch, strategy=strategy)
+    assert task["configuration_confirmed"] and job["status"] == "draft"
+    assert job["name"] == "Sierra 隔离资料库" and job["purpose"] == "只核对方案门禁"
+    assert job["workspace"]["id"] == "at11-synthetic-workspace"
+    assert job["indexing_technique"] == strategy and job["cost_note"]
+    assert not job.get("confirmation") and not job["operations"] and not job["dataset_id"]
+    before = client.get(f"/api/tasks/{task['id']}").json()
+    saved = Store(main.store.root).get("knowledge_job", job["id"])
+    response = client.post(f"/api/knowledge-jobs/{job['id']}/execute", json={})
+    assert response.status_code == 409 and "须先确认未执行方案" in response.json()["detail"]
+    if strategy == "high_quality":
+        response = client.post(f"/api/knowledge-jobs/{job['id']}/confirm", json={"task_revision": task["revision"]})
+        assert response.status_code == 422 and "费用未明确接受" in response.json()["detail"]
+    assert Store(main.store.root).get("knowledge_job", job["id"]) == saved
+    assert client.get(f"/api/tasks/{task['id']}").json() == before
+    response = client.post(f"/api/knowledge-jobs/{job['id']}/confirm", json={
+        "task_revision": task["revision"], "accept_unknown_embedding_cost": strategy == "high_quality"})
+    assert response.status_code == 200, response.text
+    confirmed = response.json()
+    assert confirmed["status"] == "approved" and not confirmed["operations"] and not confirmed["dataset_id"]
+    assert confirmed["confirmation"]["task_revision"] == task["revision"]
+    assert confirmed["confirmation"]["workspace_id"] == job["workspace"]["id"]
+    assert confirmed["confirmation"]["accepted_unknown_embedding_cost"] is (strategy == "high_quality")
+    assert Store(main.store.root).get("knowledge_job", job["id"])["confirmation"] == confirmed["confirmation"]
+    assert client.get(f"/api/tasks/{task['id']}").json() == before
+    assert not main.store.has_secret(job["id"], "dataset_api_key")
+
+
+@pytest.mark.parametrize("approved_first,change", [(False, "revision"), (True, "revision"), (True, "connection")])
+def test_at11_knowledge_confirmation_is_bound_to_task_and_connection(client, monkeypatch, approved_first, change):
+    task, env, job = at11_knowledge_draft(client, monkeypatch)
+    if approved_first:
+        response = client.post(f"/api/knowledge-jobs/{job['id']}/confirm", json={"task_revision": task["revision"]})
+        assert response.status_code == 200, response.text
+    if change == "revision":
+        response = client.patch(f"/api/tasks/{task['id']}", json={"configuration": {"resource_plan": "修改后的资源范围，须重新复核。"}})
+    else:
+        response = client.patch(f"/api/environments/{env['id']}", json={"base_url": "https://changed.example"})
+    assert response.status_code == 200, response.text
+    before = client.get(f"/api/tasks/{task['id']}").json()
+    # The environment PATCH also invalidates bound tasks, so task revision is checked first.
+    assert before["revision"] > task["revision"] and not before["configuration_confirmed"]
+    saved = Store(main.store.root).get("knowledge_job", job["id"])
+    action = "execute" if approved_first else "confirm"
+    response = client.post(f"/api/knowledge-jobs/{job['id']}/{action}", json={} if approved_first else {"task_revision": task["revision"]})
+    assert response.status_code == 409
+    assert response.json()["detail"] == "任务修订或目标环境已变化；旧方案不继续派发或自动加入配置。"
+    assert client.get(f"/api/tasks/{task['id']}").json() == before
+    assert Store(main.store.root).get("knowledge_job", job["id"]) == saved
+    assert not saved["operations"] and not saved["dataset_id"]

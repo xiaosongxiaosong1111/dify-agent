@@ -155,8 +155,8 @@
       "related_checks": [
         "backend/tests/test_api.py"
       ],
-      "known_gap": "已有多类批准门禁，所有资源类型的真实拒绝／过期／修订场景仍需综合验收。",
-      "final_acceptance_record": null
+      "known_gap": "本地检查覆盖确认缺失的构建／导入／试跑拒绝、资源方案变更修订失效、知识库独立方案和费用批准及旧方案拒绝。拒绝响应无统一逐字段待确认明细，资源方案自由文本仅检查非空；所有资源类型的完整方案、授权过期／并发变化、前端体验及真实平台场景仍待验收。",
+      "final_acceptance_record": "docs/acceptance-at11-record.md"
     },
     {
       "id": "AT-12",
