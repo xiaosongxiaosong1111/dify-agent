@@ -3,9 +3,21 @@ import json
 from uuid import uuid4
 
 import pytest
+import httpx
 from test_api import client, approved, code_only_plan, restore_payload
 from app import main
+from app.storage import Store
 from app.version_restore import preview, node_changes
+
+
+@pytest.fixture(autouse=True)
+def forbid_external_calls(monkeypatch):
+    def forbidden(*args, **kwargs):
+        pytest.fail('AT-24 隔离检查不得访问真实 HTTP 或调用模型')
+
+    monkeypatch.setattr(httpx.HTTPTransport, 'handle_request', forbidden)
+    monkeypatch.setattr(httpx.AsyncHTTPTransport, 'handle_async_request', forbidden)
+    monkeypatch.setattr(main, 'call_model', forbidden)
 
 
 def seeded(client):
@@ -182,3 +194,151 @@ def test_stale_revision_and_unknown_target_fail_without_values(client):
     task, version = seeded(client)
     assert client.get(f"/api/tasks/{task['id']}/versions/{version['id']}/restore-preview", params={'revision': task['revision'] + 1}).status_code == 409
     assert client.get(f"/api/tasks/{task['id']}/versions/{uuid4()}/restore-preview", params={'revision': task['revision']}).status_code == 404
+
+
+def test_restore_reconfirm_rebuild_keeps_history_but_never_revives_old_pass(client, monkeypatch):
+    task = approved(client)
+    tid = task['id']
+    task['workflow_plan'] = code_only_plan()
+    case = {'id': 'fixed-case', 'name': '固定回归样例', 'required': True,
+            'input': {'query': 'hello'}, 'expectation': {'mode': 'equals', 'expected': 'hello'}}
+    task['test_cases'] = [case]
+    task['runs'] = [{'id': str(uuid4()), 'kind': 'run', 'status': 'success',
+                     'revision': task['revision'], 'environment_id': None,
+                     'test_case': copy.deepcopy(case), 'input': copy.deepcopy(case['input']),
+                     'evaluation': {'status': 'passed', 'mode': 'equals'}}]
+    main.store.put('task', tid, task)
+    response = client.post(f'/api/tasks/{tid}/build', json={'revision': task['revision']})
+    assert response.status_code == 200, response.text
+    task = response.json()
+    version = copy.deepcopy(task['versions'][-1])
+    old_artifact = main.DATA_ROOT / tid / task['artifact']['filename']
+    old_bytes = old_artifact.read_bytes()
+    assert client.get(f'/api/tasks/{tid}/acceptance').json()['all_required_passed']
+
+    response = client.patch(f'/api/tasks/{tid}', json={'requirements': {'goal': '恢复前的新目标'}})
+    assert response.status_code == 200, response.text
+    task = response.json()
+    changed_plan = code_only_plan()
+    changed_plan['nodes'][1]['config']['code'] += '\n# 恢复前的修改'
+    response = client.post(f'/api/tasks/{tid}/plan', json={'revision': task['revision'], 'plan': changed_plan})
+    assert response.status_code == 200, response.text
+    task = response.json()
+    for kind in ('requirements', 'configuration'):
+        response = client.post(f'/api/tasks/{tid}/confirm', json={'kind': kind, 'revision': task['revision']})
+        assert response.status_code == 200, response.text
+        task = response.json()
+    task['dify_app_id'] = 'fixture-only-bound-app'
+    main.store.put('task', tid, task)
+    before = copy.deepcopy(task)
+    ledger = copy.deepcopy(main.store.get('task_budget', tid))
+    payload = restore_payload(client, tid, version['id'])
+    response = client.post(f'/api/tasks/{tid}/restore', json=payload)
+    assert response.status_code == 200, response.text
+    restored = response.json()
+    revision = restored['revision']
+    assert revision == before['revision'] + 1
+    assert restored['app_type'] == before['app_type'] == 'workflow'
+    assert restored['requirements'] == version['requirements']
+    assert restored['workflow_plan'] == version['workflow_plan']
+    assert restored['test_cases'] == [case]
+    assert not restored['requirements_confirmed'] and not restored['configuration_confirmed']
+    assert restored['artifact'] is None and restored['dify_app_id'] is None
+    assert restored['confirmations'] == before['confirmations']
+    assert restored['runs'] == before['runs']
+    assert restored['versions'][:-1] == before['versions']
+    saved_current = restored['versions'][-1]
+    assert saved_current['label'] == '恢复前保存' and saved_current['revision'] == before['revision']
+    assert saved_current['requirements'] == before['requirements']
+    assert saved_current['workflow_plan'] == changed_plan
+
+    # Reopen only the fixture database: persistence must not depend on response objects.
+    monkeypatch.setattr(main, 'store', Store(main.store.root))
+    assert client.get(f'/api/tasks/{tid}').json() == restored
+    for kind in ('requirements', 'configuration'):
+        assert client.post(f'/api/tasks/{tid}/confirm', json={'kind': kind, 'revision': before['revision']}).status_code == 409
+    assert client.post(f'/api/tasks/{tid}/build', json={'revision': revision}).status_code == 422
+    assert client.get(f'/api/tasks/{tid}/artifact').status_code == 404
+    assert client.post(f'/api/tasks/{tid}/confirm', json={'kind': 'configuration', 'revision': revision}).status_code == 422
+    assert client.get(f'/api/tasks/{tid}').json() == restored
+
+    for kind in ('requirements', 'configuration'):
+        response = client.post(f'/api/tasks/{tid}/confirm', json={'kind': kind, 'revision': revision})
+        assert response.status_code == 200, response.text
+    response = client.post(f'/api/tasks/{tid}/build', json={'revision': revision})
+    assert response.status_code == 200, response.text
+    rebuilt = response.json()
+    assert rebuilt['artifact']['revision'] == revision
+    assert rebuilt['artifact']['verification'] == 'static_only'
+    assert rebuilt['dify_app_id'] is None and rebuilt['runs'] == before['runs']
+    assert rebuilt['confirmations'][-2:][0]['revision'] == revision
+    assert [row['kind'] for row in rebuilt['confirmations'][-2:]] == ['requirements', 'configuration']
+    assert all(row['revision'] == revision for row in rebuilt['confirmations'][-2:])
+    assert rebuilt['versions'][:len(restored['versions'])] == restored['versions']
+    summary = client.get(f'/api/tasks/{tid}/acceptance').json()
+    assert summary['revision'] == revision and not summary['all_required_passed']
+    assert summary['required']['passed'] == 0 and summary['required']['not_run'] == 1
+    assert summary['cases'][0]['run_id'] is None
+    assert old_artifact.read_bytes() == old_bytes
+    assert main.store.get('task_budget', tid) == ledger
+    # The original preview remains consumed even after confirmation and build.
+    persisted = copy.deepcopy(main.store.get('task', tid))
+    assert client.post(f'/api/tasks/{tid}/restore', json=payload).status_code == 409
+    assert main.store.get('task', tid) == persisted
+
+
+def test_restore_keeps_credentials_and_policy_and_clears_historical_conflict_confirmation(client):
+    task, version = seeded(client)
+    task['plan_review_required'] = True
+    task['intake_required'] = True
+    task['environment_id'] = 'fixture-current-environment'
+    historical = task['versions'][0]
+    historical['environment_id'] = 'fixture-historical-environment'
+    historical['conflict_review'] = {'confirmation': {'revision': version['revision'], 'accepted': True}}
+    historical['plan_review_required'] = False
+    historical['requirements_confirmed'] = True
+    historical['configuration_confirmed'] = True
+    historical['dify_app_id'] = 'fixture-historical-app'
+    for kind, identity, key in [('environment', 'fixture-historical-environment', 'console_token'),
+                                ('provider', 'fixture-provider', 'api_key')]:
+        main.store.put(kind, identity, {'id': identity, 'name': '隔离连接'})
+        main.store.set_secret(identity, key, 'fixture-current-secret')
+    records = {kind: copy.deepcopy(main.store.list(kind)) for kind in ('environment', 'provider')}
+    with main.store.connect() as connection:
+        secrets = connection.execute('SELECT id, value FROM secrets ORDER BY id').fetchall()
+    original_history = copy.deepcopy(task['versions'])
+    main.store.put('task', task['id'], task)
+    response = client.post(f"/api/tasks/{task['id']}/restore", json=restore_payload(client, task['id'], version['id']))
+    assert response.status_code == 200, response.text
+    restored = response.json()
+    assert restored['environment_id'] == 'fixture-historical-environment'
+    assert restored['plan_review_required'] is True and restored['intake_required'] is True
+    assert restored['conflict_enabled'] is True
+    assert restored['conflict_review']['confirmation'] == {}
+    assert restored['versions'][:-1] == original_history
+    assert not restored['requirements_confirmed'] and not restored['configuration_confirmed']
+    assert restored['artifact'] is None and restored['dify_app_id'] is None
+    assert 'fixture-current-secret' not in response.text
+    assert all(main.store.list(kind) == rows for kind, rows in records.items())
+    with main.store.connect() as connection:
+        assert connection.execute('SELECT id, value FROM secrets ORDER BY id').fetchall() == secrets
+
+
+@pytest.mark.parametrize('pending', ['run', 'budget'])
+def test_restore_blocks_pending_work_without_mutating_task_or_ledger(client, pending):
+    task, version = seeded(client)
+    payload = restore_payload(client, task['id'], version['id'])
+    if pending == 'run':
+        task['runs'] = [{'id': str(uuid4()), 'kind': 'run', 'status': 'pending', 'revision': task['revision']}]
+        main.store.put('task', task['id'], task)
+    else:
+        ledger = main.store.get('task_budget', task['id']) or {}
+        ledger['entries'] = [{'id': 'fixture-reservation', 'status': 'reserved'}]
+        main.store.put('task_budget', task['id'], ledger)
+    before = copy.deepcopy(main.store.get('task', task['id']))
+    ledger = copy.deepcopy(main.store.get('task_budget', task['id']))
+    assert read(client, task, version).status_code == 200
+    response = client.post(f"/api/tasks/{task['id']}/restore", json=payload)
+    assert response.status_code == 409 and '任务正在执行' in response.json()['detail']
+    assert main.store.get('task', task['id']) == before
+    assert main.store.get('task_budget', task['id']) == ledger

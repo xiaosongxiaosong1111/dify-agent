@@ -350,10 +350,11 @@
       "related_checks": [
         "backend/tests/test_api.py",
         "backend/tests/test_version_restore.py",
-        "backend/tests/test_version_node_changes.py"
+        "backend/tests/test_version_node_changes.py",
+        "backend/tests/test_runtime_snapshot.py"
       ],
-      "known_gap": "历史结构及节点位置／固定字段明细、完整快照绑定恢复和确认失效已有隔离与部署核对，后续完整回归覆盖相关检查。通用复杂手改、缺文件依赖及跨目标恢复后的真实业务仍未验收。",
-      "final_acceptance_record": null
+      "known_gap": "2026-10-20 指定三文件54项本地隔离检查通过；新增4例核对恢复后持久化、原历史与恢复前快照保留、旧运行通过不计入新修订、重新确认和静态构建、凭据与强制复核策略保留、历史分歧确认清空，以及待完成运行／预算预留阻止恢复。静态构建不代表真实导入或运行；通用复杂手改、缺文件依赖、跨目标依赖重新核对及恢复后的真实业务仍未验收，不代表AT-24最终业务通过。",
+      "final_acceptance_record": "docs/acceptance-at24-record.md"
     },
     {
       "id": "AT-25",

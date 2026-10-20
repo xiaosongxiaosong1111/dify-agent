@@ -6,6 +6,8 @@
 
 ## 当前切片
 
+2026-10-20 AT-24 本地核对（未部署）：完成 [BACKLOG](BACKLOG.md) 第 5 项，在 `backend/tests/test_version_restore.py` 新增 4 个隔离用例，覆盖恢复后重新打开临时数据库、历史与恢复前快照保留、确认／成果／应用绑定失效、重新确认和静态构建后旧运行仍不计通过、连接凭据与强制复核策略保留、历史分歧确认清空，以及待完成运行／预算预留阻止恢复。指定三个文件验收 **54 passed、1 warning（10.07s）**；[验收记录](acceptance-at24-record.md) 已登记到 acceptance-mapping。未修改产品代码，恢复测试阻断真实 HTTP 与模型调用；运行通过记录仅为固定 fixture。真实 Dify 导入／试跑、通用复杂手改、缺文件依赖及跨目标恢复业务仍未验收，不代表 AT-24 最终业务通过或整个计划完成。
+
 2026-10-20 AT-14 本地核对（未部署）：完成 [BACKLOG](BACKLOG.md) 第 4 项，新增 `backend/tests/test_at14_partial_failures.py` 的 21 个隔离用例，贯通固定开发样例生成的解析、逐项结果、汇总代码与最终 End 失败清单，覆盖文字/数值/对象、首/中/末项失败、全失败和空批次；另核对原生停止策略、拒绝静默继续/丢弃、接受协议与保存后修订/确认门禁。相关十二文件验收 **439 passed、1 warning（18.64s）**；[验收结论记录](acceptance-at14-record.md) 已登记到 acceptance-mapping。未修改产品实现，新增用例使用临时存储并禁止真实 HTTP/模型调用。停止路径完整失败清单、平台实际停止/并发取消、真实确认到执行及复杂正文业务验收仍缺证据，不代表 AT-14 最终业务通过或整个计划完成。
 
 2026-10-20 AT-12 本地核对（未部署）：完成 [BACKLOG](BACKLOG.md) 第 3 项，新增 `backend/tests/test_at12_variable_references.py` 的 20 个隔离用例，覆盖 Workflow/Chatflow 的计划草稿接口与最终 YAML；逐项验证缺节点、无效变量、兄弟分支、条件及终点引用错误的节点/字段定位，手动修正后重检通过，完整双分支及业务配置保留。相关五文件验收 **112 passed、1 warning（16.50s）**；[验收结论记录](acceptance-at12-record.md) 已登记到 acceptance-mapping。未修改产品代码，使用临时存储并阻断真实 HTTP/模型调用；通用自动修复、真实 Dify 导入/试跑及业务验收缺口保持，不代表 AT-12 真实业务闭环或整个计划完成。
