@@ -231,13 +231,16 @@
       "scenario": "连续对话信息不完整",
       "expected": "按规则追问，验证上下文行为。",
       "source": [
-        "backend/app/conversation.py"
+        "backend/app/conversation.py",
+        "backend/app/conversation_cases.py",
+        "backend/app/acceptance.py",
+        "backend/app/main.py"
       ],
       "related_checks": [
         "backend/tests/test_conversation_cases.py"
       ],
-      "known_gap": "原参数及新会话／多轮保护存在；复杂真实客户追问与上下文质量仍未全面验收。",
-      "final_acceptance_record": null
+      "known_gap": "2026-10-21 新增16例本地隔离检查，覆盖Agent／Chatflow三轮信息缺失追问、同会话补齐、重复运行新建会话、跳过必要追问失败、缺回答／会话ID／串会话保留未知检查点及禁止盲重跑、保存通过标签下的上下文重算与旧修订／环境排除；指定文件43 passed。固定响应只验证执行及声明规则，不证明模型会自主按业务规则追问或正确使用历史。真实提示词／记忆配置、复杂客户追问、前端体验与最终业务仍待验收；本次未进行真实Dify或付费模型调用，不代表AT-15最终业务通过。",
+      "final_acceptance_record": "docs/acceptance-at15-record.md"
     },
     {
       "id": "AT-16",
