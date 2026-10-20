@@ -6,6 +6,7 @@ from test_api import client
 from test_task_budget import provider
 from app import main
 from app.intake import topics,summary,validate_review,sources
+from app.storage import Store
 
 REQ={'goal':'将单条文本转成大写，范围仅文本转换。','audience':'内部同事使用。','input':'单条必填文本 query；空白时提示重新输入。','output':'返回 result 字符串，不保存到外部。','rules':'去除首尾空白再转大写，不改内部空白。','knowledge':'无额外资料或服务，纯文本处理。','exceptions':'输入空白返回明确提示；调用失败提示重试，不伪造成功。','tests':'输入 abc 输出 ABC；输入空白显示输入错误。'}
 
@@ -16,6 +17,7 @@ def forbid_intake_external_calls(monkeypatch):
 
     monkeypatch.setattr(httpx.HTTPTransport, 'handle_request', forbidden)
     monkeypatch.setattr(httpx.AsyncHTTPTransport, 'handle_async_request', forbidden)
+    monkeypatch.setattr(main.DifyClient, 'request', forbidden)
     monkeypatch.setattr(main, 'call_model', forbidden)
 
 def new(client,app_type='workflow',filled=True):
@@ -288,6 +290,205 @@ def test_at02_model_proposal_is_not_user_acceptance_evidence(client, monkeypatch
     assert not saved['artifact'] and not saved['runs'] and not saved.get('dify_app_id')
     assert client.post(f"/api/tasks/{t['id']}/confirm", json={'revision': saved['revision'], 'kind': 'requirements'}).status_code == 422
     assert len(calls) == 2 and len(main.budgets.get(t['id'])['entries']) == 2
+
+AT23_SCOPE = '本次 Sierra 只交付外部订单查询系统的接入方案与条件清单；新建网站、服务端、数据库及部署由客户另行开发，不属于本次开发范围。'
+AT23_CONDITIONS = '外部订单查询系统尚不存在，未连接、未验证，也未接受模拟。客户需提供只读查询接口、订单号输入、订单状态输出、地址、超时及错误约定，并通过加密配置入口提供认证凭据；不得在对话填写密钥。无接口时只交付待接入方案，不执行查询。'
+AT23_BEHAVIOR = '每轮独立处理，不记住上下文，指代不清时追问；无开场白或建议问题，输出后结束。本阶段不调用工具。'
+
+
+def at23_task(client, app_type='workflow'):
+    t = new(client, app_type, filled=False)
+    response = client.patch(f"/api/tasks/{t['id']}", json={'requirements': {
+        **REQ,
+        'goal': '希望查询订单，但需要新建外部系统；先讨论范围，尚未决定额外开发。',
+        'input': '订单号文本 query，空白时提示重新输入。',
+        'output': '本阶段返回接入方案和待补条件，不返回虚构订单状态。',
+        'rules': '只讨论方案，范围和接入条件等用户决定，不执行查询或开发外部系统。',
+        'knowledge': '没有现成订单服务，尚未提供任何接口，是否接受模拟尚未决定。' + AT23_BEHAVIOR,
+        'exceptions': '缺少订单服务时列出待接入条件，不伪造查询成功，不自动重试。',
+        'tests': '订单服务缺失时返回方案及待补条件，不声称已完成查询。',
+    }})
+    assert response.status_code == 200, response.text
+    return response.json()
+
+
+def at23_suggestion(t):
+    value = review(t, 'external')
+    value['questions'][0].update({
+        'question': '是否接受本次只给接入方案，由客户另行开发订单系统并补齐接入条件？',
+        'recommendation': AT23_SCOPE + AT23_CONDITIONS,
+        'reason': '所需订单服务尚不存在，新建业务系统属于额外开发，需用户明确范围。',
+        'experience': '本阶段只能查看方案，不能查询真实订单；模拟也未获接受。',
+        'cost': '外部开发、部署运维及接口费用需另行估算，本测试没有真实模型费用。',
+        'manual_work': '客户需另行安排开发负责人、提供接口契约并配置凭据后再核对接入。',
+    })
+    return value
+
+
+@pytest.mark.parametrize('app_type', ['workflow', 'advanced-chat', 'agent'])
+@pytest.mark.parametrize('source', ['requirement', 'message'])
+def test_at23_external_system_triggers_interface_check_without_model(client, app_type, source):
+    t = new(client, app_type)
+    if source == 'requirement':
+        t = client.patch(f"/api/tasks/{t['id']}", json={'requirements': {
+            'goal': '需要新建外部系统处理订单，本次开发范围尚未决定。',
+        }}).json()
+    else:
+        # No provider: the actual user message still triggers the standard, without a model call.
+        response = client.post(f"/api/tasks/{t['id']}/messages", json={
+            'content': '需要新建外部系统处理订单，本次开发范围尚未决定。',
+        })
+        assert response.status_code == 200, response.text
+        t = response.json()
+    current = state(client, t)
+    question = next(row['question'] for row in current['standard'] if row['id'] == 'external')
+    assert all(word in question for word in ('输入输出', '认证', '可用性', '失败', '模拟'))
+    assert current['state'] == 'unreviewed' and not current['can_confirm']
+    assert t['app_type'] == app_type and not t['requirements_confirmed']
+    assert not t['artifact'] and not t['runs'] and not t.get('dify_app_id')
+    assert not main.budgets.get(t['id'])['entries']
+
+
+@pytest.mark.parametrize('app_type', ['workflow', 'advanced-chat', 'agent'])
+def test_at23_scope_proposal_waits_for_user_and_persists_conditions(client, monkeypatch, app_type):
+    t = at23_task(client, app_type)
+    provider(client)
+    original = copy.deepcopy(t['requirements'])
+    calls = []
+    acceptance = '我明确接受以下范围和接入条件：' + AT23_SCOPE + AT23_CONDITIONS
+
+    async def controlled(*args, **kwargs):
+        assert '外部系统额外开发只给接入方案，不承诺替用户完成。' in args[2][0]['content']
+        context = json.loads(args[2][1]['content'].split('当前任务资料：', 1)[1])
+        assert context['user_selected_type'] == app_type
+        assert context['requirements'] == original
+        assert 'external' in {row['id'] for row in context['intake_standard']}
+        calls.append(context)
+        current = main.get_task(t['id'])
+        if len(calls) < 3:
+            patch, value = {}, at23_suggestion(current)
+            message = '以下是待确认建议，尚未开发或接入：' + AT23_SCOPE + AT23_CONDITIONS
+        else:
+            assert current['messages'][-1]['content'] == acceptance
+            patch = {'goal': AT23_SCOPE, 'knowledge': AT23_CONDITIONS + AT23_BEHAVIOR}
+            proposed = copy.deepcopy(current)
+            proposed['requirements'].update(patch)
+            value = review(proposed)
+            for row in value['checks']:
+                if row['topic'] in {'goal', 'knowledge', 'external'}:
+                    row['evidence'] = [{'kind': 'message', 'id': str(len(current['messages']) - 1),
+                                        'quote': AT23_SCOPE if row['topic'] == 'goal' else AT23_CONDITIONS}]
+            message = '已整理用户明确接受的方案范围；外部系统未开发、未连接、未验证，需另行复核当前修订。'
+        return json.dumps({'message': message, 'requirements_patch': patch, 'intake_review': value},
+                          ensure_ascii=False), {'prompt_tokens': 10, 'completion_tokens': 10}
+
+    monkeypatch.setattr(main, 'call_model', controlled)
+    for message in ('没有现成订单服务，请先给方案与接入条件。', '暂不接受，请保留范围和模拟选择待确认。'):
+        response = client.post(f"/api/tasks/{t['id']}/messages", json={'content': message})
+        assert response.status_code == 200, response.text
+        saved = client.get(f"/api/tasks/{t['id']}").json()
+        current = state(client, saved)
+        assert saved['requirements'] == original and saved['revision'] == t['revision']
+        assert current['reviewed'] and not current['can_confirm']
+        assert {row['topic'] for row in current['gaps']} == {'external'}
+        assert current['questions'] == at23_suggestion(saved)['questions']
+        assert AT23_SCOPE in saved['messages'][-1]['content']
+        assert AT23_CONDITIONS in saved['messages'][-1]['content']
+        assert ('message', str(len(saved['messages']) - 1)) not in sources(saved)
+        ledger = copy.deepcopy(main.budgets.get(t['id']))
+        rejected = client.post(f"/api/tasks/{t['id']}/confirm", json={'revision': saved['revision'], 'kind': 'requirements'})
+        assert rejected.status_code == 422 and '需求准入未通过' in rejected.text
+        assert client.post(f"/api/tasks/{t['id']}/build", json={'revision': saved['revision']}).status_code == 422
+        assert client.get(f"/api/tasks/{t['id']}").json() == saved
+        assert main.budgets.get(t['id']) == ledger
+        # Reopen only the temporary SQLite store; do not touch a real project database.
+        monkeypatch.setattr(main, 'store', Store(main.store.root))
+        assert client.get(f"/api/tasks/{t['id']}").json() == saved
+        assert state(client, saved) == current
+
+    response = client.post(f"/api/tasks/{t['id']}/messages", json={'content': acceptance})
+    assert response.status_code == 200, response.text
+    saved = client.get(f"/api/tasks/{t['id']}").json()
+    current = state(client, saved)
+    assert saved['requirements'] == {**original, 'goal': AT23_SCOPE, 'knowledge': AT23_CONDITIONS + AT23_BEHAVIOR}
+    assert saved['revision'] == t['revision'] + 1 and not saved['requirements_confirmed']
+    assert current['can_confirm'] and not current['questions'] and not current['gaps']
+    assert current['record']['origin_revision'] == saved['revision']
+    assert calls[2]['previous_intake']['questions'] == at23_suggestion(t)['questions']
+    for row in current['record']['review']['checks']:
+        if row['topic'] in {'goal', 'knowledge', 'external'}:
+            ref = row['evidence'][0]
+            assert ref['kind'] == 'message' and ref['quote'] in sources(saved)[('message', ref['id'])]
+    assert client.post(f"/api/tasks/{t['id']}/confirm", json={'revision': t['revision'], 'kind': 'requirements'}).status_code == 409
+    response = client.post(f"/api/tasks/{t['id']}/confirm", json={'revision': saved['revision'], 'kind': 'requirements'})
+    assert response.status_code == 200, response.text
+    confirmed = response.json()
+    assert confirmed['requirements_confirmed'] and not confirmed['configuration_confirmed']
+    assert confirmed['app_type'] == app_type
+    assert not confirmed.get('workflow_plan') and not confirmed.get('agent_plan')
+    assert not confirmed['artifact'] and not confirmed['runs'] and not confirmed.get('dify_app_id')
+    assert not confirmed.get('interview_attempts')
+    report = client.get(f"/api/tasks/{t['id']}/report").text
+    assert AT23_SCOPE in report and AT23_CONDITIONS in report
+    assert len(calls) == 3 and len(main.budgets.get(t['id'])['entries']) == 3
+    monkeypatch.setattr(main, 'store', Store(main.store.root))
+    assert client.get(f"/api/tasks/{t['id']}").json() == confirmed
+    changed = client.patch(f"/api/tasks/{t['id']}", json={'requirements': {
+        'goal': '待确认：改为要求 Sierra 同时新建外部系统和部署网站，范围须重新讨论。',
+    }}).json()
+    assert not changed['requirements_confirmed'] and state(client, changed)['stale']
+    assert not state(client, changed)['can_confirm']
+    assert client.post(f"/api/tasks/{t['id']}/confirm", json={'revision': changed['revision'], 'kind': 'requirements'}).status_code == 422
+
+
+@pytest.mark.parametrize('evidence_kind', ['requirement', 'message'])
+def test_at23_proposal_cannot_supply_its_own_scope_approval(client, monkeypatch, evidence_kind):
+    t = at23_task(client)
+    provider(client)
+    calls = []
+
+    async def controlled(*args, **kwargs):
+        current = main.get_task(t['id'])
+        calls.append(True)
+        patch, value = {}, at23_suggestion(current)
+        if len(calls) == 2:
+            patch = {'goal': AT23_SCOPE}
+            proposed = copy.deepcopy(current)
+            proposed['requirements'].update(patch)
+            value = review(proposed)
+            assistant_id = next(str(i) for i, m in enumerate(current['messages']) if m.get('source') == 'model')
+            for row in value['checks']:
+                if row['topic'] in {'goal', 'external'}:
+                    row['evidence'] = [{'kind': evidence_kind,
+                                        'id': 'goal' if evidence_kind == 'requirement' else assistant_id,
+                                        'quote': AT23_SCOPE}]
+        return json.dumps({'message': '待确认方案：' + AT23_SCOPE + AT23_CONDITIONS,
+                           'requirements_patch': patch, 'intake_review': value}, ensure_ascii=False), {
+            'prompt_tokens': 10, 'completion_tokens': 10,
+        }
+
+    monkeypatch.setattr(main, 'call_model', controlled)
+    assert client.post(f"/api/tasks/{t['id']}/messages", json={'content': '请先给方案，不要开发外部系统。'}).status_code == 200
+    prior = client.get(f"/api/tasks/{t['id']}").json()
+    assert {row['topic'] for row in state(client, prior)['gaps']} == {'external'}
+    response = client.post(f"/api/tasks/{t['id']}/messages", json={'content': '我尚未接受这个范围，请继续等我决定。'})
+    assert response.status_code == 200, response.text
+    saved = client.get(f"/api/tasks/{t['id']}").json()
+    assert saved['requirements'] == t['requirements'] and saved['revision'] == t['revision']
+    assert saved['intake_review'] == prior['intake_review']
+    assert len(saved['interview_attempts']) == 1
+    assert not saved['interview_attempts'][0]['applied']
+    assert '需求来源引文不存在' in saved['interview_attempts'][0]['reason']
+    # The new user message makes the unchanged prior review stale; its gap remains in history.
+    current = state(client, saved)
+    assert current['stale'] and not current['reviewed']
+    assert any(row['topic'] == 'external' and row['status'] == 'needs_input'
+               for row in current['record']['review']['checks'])
+    assert not saved['requirements_confirmed'] and not state(client, saved)['can_confirm']
+    assert not saved['artifact'] and not saved['runs'] and not saved.get('dify_app_id')
+    assert client.post(f"/api/tasks/{t['id']}/confirm", json={'revision': saved['revision'], 'kind': 'requirements'}).status_code == 422
+    assert len(calls) == 2 and len(main.budgets.get(t['id'])['entries']) == 2
+
 
 @pytest.mark.parametrize('app_type,expected',[('workflow',set()),('advanced-chat',{'memory','dialogue'}),('agent',{'memory','dialogue','agent_tools'})])
 def test_type_specific_standard(client,app_type,expected):

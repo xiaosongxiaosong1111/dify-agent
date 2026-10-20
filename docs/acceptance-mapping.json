@@ -355,13 +355,15 @@
       "scenario": "需求需要新建外部系统",
       "expected": "提出方案及接入条件，不擅自扩大开发范围。",
       "source": [
-        "backend/app/intake.py"
+        "backend/app/intake.py",
+        "backend/app/main.py",
+        "backend/app/assistant_scope_prompt.py"
       ],
       "related_checks": [
         "backend/tests/test_intake.py"
       ],
-      "known_gap": "额外系统只讨论方案不开发的边界须在真实需求中验证，不能仅靠提示词认定通过。",
-      "final_acceptance_record": null
+      "known_gap": "2026-10-21 新增11例隔离检查，指定文件50 passed：三种类型的需求／消息触发外部专项、固定接入方案及影响留待确认、临时存储重开、用户明确接受后当前修订单独确认、报告保留待接入条件、范围再改失效及两类自证来源拒绝。仅临时存储与固定模型替身，阻断真实HTTP／Dify请求／默认模型，无真实资源或付费调用。识别依赖关键词与模型语义，来源合法不证明范围获准；新消息使旧检查过期。真实范围判断、方案质量、前端与外部接入仍待验收，不代表最终业务通过。",
+      "final_acceptance_record": "docs/acceptance-at23-record.md"
     },
     {
       "id": "AT-24",
