@@ -23,7 +23,7 @@
 | 2 | 用 claude 核对 `test_planning_decisions.py` 里是否已有等价断言，列出缺口 | 输出缺口清单到 `work/intake-gap-notes.md`；不改产品代码 | claude | done | commit 2ec4b98 |
 | 3 | 核对 AT-12「DSL 变量引用错误」现状并补隔离检查 | `backend/tests/` 相关全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | done | commit c24453c |
 | 4 | 核对 AT-14「批量任务部分失败」现状并补隔离检查 | 同上 | codex | done | commit 81958d9 |
-| 5 | 核对 AT-24「用户恢复旧版本」现状并补隔离检查 | `.venv\Scripts\python.exe -m pytest backend/tests/test_version_restore.py backend/tests/test_version_node_changes.py backend/tests/test_runtime_snapshot.py -q` 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | done | 54 passed、1 warning（10.07s）；[验收记录](acceptance-at24-record.md)，随本项提交归档 |
+| 5 | 核对 AT-24「用户恢复旧版本」现状并补隔离检查 | `.venv\Scripts\python.exe -m pytest backend/tests/test_version_restore.py backend/tests/test_version_node_changes.py backend/tests/test_runtime_snapshot.py -q` 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | done | commit cc7054e |
 | 6 | 整理 `development-tasks.md` 状态列：136 项逐项标真实状态 | 表内每行有状态，且不凭猜测填 | codex | pending | — |
 | 7 | 专用 Dify 环境登录 | 用户登录后 `/api/health` 与专用连接可用 | need-user | blocked | `connection-stage-receipt.json`：credentials_copied=false |
 | 8 | 整批真实联调（已获批，限 14 次调用） | 有命中/无命中各一次真实运行回执 | codex | blocked | 等第 7 项 |
