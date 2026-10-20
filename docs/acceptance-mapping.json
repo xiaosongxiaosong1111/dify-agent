@@ -160,14 +160,18 @@
       "source": [
         "backend/app/workflow_plan.py",
         "backend/app/plan_inspection.py",
+        "backend/app/dsl_roundtrip.py",
         "frontend/src/PlanCheckPanel.tsx"
       ],
       "related_checks": [
         "backend/tests/test_workflow_plan.py",
-        "backend/tests/test_plan_inspection.py"
+        "backend/tests/test_plan_inspection.py",
+        "backend/tests/test_dsl.py",
+        "backend/tests/test_dsl_roundtrip.py",
+        "backend/tests/test_at12_variable_references.py"
       ],
-      "known_gap": "变量错误可静态定位，通用自动修复及不删业务分支的真实闭环仍有缺口。 0.204新增不保存的计划草稿检查与引用/缺节点定位，原文变化失效；这是计划结构静态证据，不能代替最终手改DSL及实际平台/业务验证。",
-      "final_acceptance_record": null
+      "known_gap": "2026-10-20 已补 Workflow/Chatflow 计划草稿与最终 YAML 的变量错误定位、手动修正后重检、完整双分支保留隔离回归；检查不修改任务或确认，计划原文变化绑定新摘要。通用自动修复、真实 Dify 导入/试跑及业务闭环仍未验收，本地静态通过不能替代这些证据。",
+      "final_acceptance_record": "docs/acceptance-at12-record.md"
     },
     {
       "id": "AT-13",
