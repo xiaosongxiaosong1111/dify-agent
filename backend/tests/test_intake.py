@@ -1,5 +1,6 @@
 from test_api import restore_payload
 import copy,json
+import httpx
 import pytest
 from test_api import client
 from test_task_budget import provider
@@ -7,6 +8,15 @@ from app import main
 from app.intake import topics,summary,validate_review,sources
 
 REQ={'goal':'将单条文本转成大写，范围仅文本转换。','audience':'内部同事使用。','input':'单条必填文本 query；空白时提示重新输入。','output':'返回 result 字符串，不保存到外部。','rules':'去除首尾空白再转大写，不改内部空白。','knowledge':'无额外资料或服务，纯文本处理。','exceptions':'输入空白返回明确提示；调用失败提示重试，不伪造成功。','tests':'输入 abc 输出 ABC；输入空白显示输入错误。'}
+
+@pytest.fixture(autouse=True)
+def forbid_at01_external_calls(monkeypatch):
+    def forbidden(*args, **kwargs):
+        pytest.fail('AT-01 隔离检查不得访问真实 HTTP 或调用真实模型')
+
+    monkeypatch.setattr(httpx.HTTPTransport, 'handle_request', forbidden)
+    monkeypatch.setattr(httpx.AsyncHTTPTransport, 'handle_async_request', forbidden)
+    monkeypatch.setattr(main, 'call_model', forbidden)
 
 def new(client,app_type='workflow',filled=True):
  t=client.post('/api/tasks',json={'name':'新准入任务','app_type':app_type}).json();assert t['intake_required']
@@ -32,6 +42,90 @@ def test_blank_task_questions_prioritized_without_model_charge(client):
  t=new(client,filled=False);value=state(client,t);assert len(value['gaps'])==8 and len(value['questions'])==3
  assert [q['topic'] for q in value['questions']]==['goal','audience','input']
  assert not main.budgets.get(t['id'])['entries']
+
+@pytest.mark.parametrize('app_type', ['workflow', 'advanced-chat', 'agent'])
+def test_at01_vague_goal_questions_persist_without_early_build(client, monkeypatch, app_type):
+    t = new(client, app_type, filled=False)
+    t = client.patch(f"/api/tasks/{t['id']}", json={
+        'requirements': {'goal': '想做一个提高工作效率的助手。'},
+    }).json()
+    provider(client)
+    calls = []
+    rounds = [('goal', 'input', 'output'), ('rules',)]
+
+    async def controlled(*args, **kwargs):
+        context = json.loads(args[2][1]['content'].split('当前任务资料：', 1)[1])
+        assert context['user_selected_type'] == app_type
+        assert context['requirements'] == t['requirements']
+        assert {row['id'] for row in context['intake_standard']} >= set(REQ)
+        asked = rounds[len(calls)]
+        calls.append(context)
+        checks = [{'topic': row['id'], 'status': 'needs_input',
+                   'detail': '目标仍模糊，需用户补充，不能默认补齐。', 'evidence': []}
+                  for row in context['intake_standard']]
+        questions = [{'topic': key, 'question': next(row['question'] for row in topics(t) if row['id'] == key),
+                      'recommendation': '请先补充具体说明。', 'reason': '避免猜测业务。',
+                      'experience': '补充后继续规划。', 'cost': '未发生真实模型费用。',
+                      'manual_work': '需用户回答。'} for key in asked]
+        return json.dumps({'message': '请先回答这些问题，尚未搭建。', 'requirements_patch': {},
+                           'intake_review': {'schema_version': 1, 'checks': checks, 'questions': questions}},
+                          ensure_ascii=False), {'prompt_tokens': 10, 'completion_tokens': 10}
+
+    monkeypatch.setattr(main, 'call_model', controlled)
+    for asked in rounds:
+        response = client.post(f"/api/tasks/{t['id']}/messages", json={'content': '请检查还需要明确什么。'})
+        assert response.status_code == 200, response.text
+        saved = client.get(f"/api/tasks/{t['id']}").json()
+        current = state(client, saved)
+        assert current['reviewed'] and not current['can_confirm']
+        assert [q['topic'] for q in current['questions']] == list(asked)
+        assert {'goal', 'input', 'output', 'rules'} <= {gap['topic'] for gap in current['gaps']}
+        assert current['record']['source'] == 'model'
+        assert not saved.get('interview_attempts')
+        before = copy.deepcopy(saved)
+        ledger = copy.deepcopy(main.budgets.get(t['id']))
+        for kind in ('requirements', 'configuration'):
+            rejected = client.post(f"/api/tasks/{t['id']}/confirm", json={'revision': saved['revision'], 'kind': kind})
+            assert rejected.status_code == 422, rejected.text
+        rejected = client.post(f"/api/tasks/{t['id']}/plan/generate", json={'revision': saved['revision']})
+        assert rejected.status_code == 422 and '八项需求' in rejected.text
+        assert client.post(f"/api/tasks/{t['id']}/build", json={'revision': saved['revision']}).status_code == 422
+        assert client.get(f"/api/tasks/{t['id']}/artifact").status_code == 404
+        assert client.get(f"/api/tasks/{t['id']}").json() == before
+        assert main.budgets.get(t['id']) == ledger
+        assert saved['app_type'] == app_type and saved['revision'] == t['revision']
+        assert saved['requirements'] == t['requirements']
+        assert not saved['requirements_confirmed'] and not saved['configuration_confirmed']
+        assert not saved.get('workflow_plan') and not saved.get('agent_plan')
+        assert not saved['artifact'] and not saved['runs'] and not saved.get('dify_app_id')
+        assert not saved['planning_runs']
+    assert len(calls) == 2 and len(main.budgets.get(t['id'])['entries']) == 2
+    assert calls[1]['previous_intake']['questions'][0]['topic'] == 'goal'
+
+
+@pytest.mark.parametrize('gap', ['goal', 'input', 'output', 'rules'])
+def test_at01_nonempty_but_unresolved_topic_blocks_confirmation(client, monkeypatch, gap):
+    t = new(client)
+    provider(client)
+
+    async def controlled(*args, **kwargs):
+        value = review(main.get_task(t['id']), gap)
+        value['questions'][0]['question'] = next(row['question'] for row in topics(t) if row['id'] == gap)
+        return json.dumps({'message': '仍需补充具体说明。', 'requirements_patch': {},
+                           'intake_review': value}), {'prompt_tokens': 10, 'completion_tokens': 10}
+
+    monkeypatch.setattr(main, 'call_model', controlled)
+    response = client.post(f"/api/tasks/{t['id']}/messages", json={'content': '请检查说明是否具体。'})
+    assert response.status_code == 200, response.text
+    saved = response.json()
+    current = state(client, saved)
+    assert current['reviewed'] and not current['can_confirm']
+    assert [row['topic'] for row in current['gaps']] == [gap]
+    assert current['questions'][0]['topic'] == gap
+    assert saved['requirements'] == REQ and saved['revision'] == t['revision']
+    rejected = client.post(f"/api/tasks/{t['id']}/confirm", json={'revision': saved['revision'], 'kind': 'requirements'})
+    assert rejected.status_code == 422 and '需求准入未通过' in rejected.text
+    assert not client.get(f"/api/tasks/{t['id']}").json()['requirements_confirmed']
 
 @pytest.mark.parametrize('app_type,expected',[('workflow',set()),('advanced-chat',{'memory','dialogue'}),('agent',{'memory','dialogue','agent_tools'})])
 def test_type_specific_standard(client,app_type,expected):

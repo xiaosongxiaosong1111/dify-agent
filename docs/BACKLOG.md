@@ -28,6 +28,8 @@
 | 7 | 专用 Dify 环境登录 | 用户登录后 `/api/health` 与专用连接可用 | need-user | blocked | `connection-stage-receipt.json`：credentials_copied=false |
 | 8 | 整批真实联调（已获批，限 14 次调用） | 有命中/无命中各一次真实运行回执 | codex | blocked | 等第 7 项 |
 
+| 9 | 核对 AT-01「用户只给模糊目标」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_intake.py backend/tests/test_planning_capability_context.py backend/tests/test_planning_decisions.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | done | 65 passed、1 warning（11.56s）；新增10例；[记录](acceptance-at01-record.md)，与测试同次提交；仅本地隔离通过，真实业务待验收 |
+
 ## 已完成（本轮之前）
 
 | 事项 | 证据 |

@@ -7,6 +7,54 @@ from app.planning_decisions import summarize, FIELDS
 from test_planning import run, USAGE
 from test_workflow_plan import base_plan
 from app import main
+from test_intake import forbid_at01_external_calls, new, manual, state
+
+
+@pytest.mark.parametrize('app_type', ['workflow', 'advanced-chat', 'agent'])
+def test_at01_new_task_planning_clarification_never_adopts_or_builds(client, monkeypatch, app_type):
+    planning_provider(client)
+    task = new(client, app_type)
+    response = manual(client, task)
+    assert response.status_code == 200, response.text
+    task = response.json()
+    assert task['intake_required']
+    assert task['plan_review_required'] == (app_type != 'agent')
+    assert state(client, task)['can_confirm'] and not task['requirements_confirmed']
+    before = copy.deepcopy(task)
+    calls = []
+    questions = [{'question': question, 'recommendation': '请由用户明确后继续。',
+                  'reason': '不能猜测业务。', 'experience': '补充后规划。',
+                  'cost': '仅固定测试用量。', 'manual_work': '需用户回答。'}
+                 for question in ('具体目标与范围是什么？', '输入输出字段是什么？', '关键处理规则是什么？')]
+
+    async def controlled(provider, key, messages, **kwargs):
+        context = json.loads(messages[1]['content'])
+        calls.append(context)
+        assert context['user_selected_type'] == context['capability_catalog']['app_type'] == app_type
+        assert context['intake_assessment']['record']['source'] == 'user_declared'
+        return json.dumps({'error': '细节仍需用户决定，暂不生成方案。', 'needs_decision': questions}), USAGE
+
+    monkeypatch.setattr(main, 'call_model', controlled)
+    response = client.post(f"/api/tasks/{task['id']}/plan/generate", json={'revision': task['revision']})
+    assert response.status_code == 422 and len(calls) == 1
+    saved = client.get(f"/api/tasks/{task['id']}").json()
+    for field in ('revision', 'app_type', 'requirements', 'configuration', 'requirements_confirmed',
+                  'configuration_confirmed', 'workflow_plan', 'agent_plan', 'artifact', 'runs', 'versions', 'confirmations'):
+        assert saved.get(field) == before.get(field), field
+    assert not saved.get('dify_app_id')
+    record = client.get(f"/api/tasks/{task['id']}/planning").json()['runs'][-1]
+    assert record['revision'] == task['revision'] and record['status'] == 'paused'
+    assert record['stop_reason'] == 'needs_decision' and len(record['attempts']) == 1
+    assert record['decision_report']['verification'] == 'model_clarification_only'
+    assert record['decision_report']['questions'] == questions
+    assert record['decision_report']['format_valid'] and not record['decision_report']['incomplete']
+    assert 'last_candidate' not in record and record['attempts'][0]['usage'] == USAGE
+    ledger = copy.deepcopy(main.budgets.get(task['id']))
+    assert len(ledger['entries']) == 1
+    assert client.post(f"/api/tasks/{task['id']}/build", json={'revision': task['revision']}).status_code == 422
+    assert client.get(f"/api/tasks/{task['id']}/artifact").status_code == 404
+    assert client.get(f"/api/tasks/{task['id']}").json() == saved
+    assert main.budgets.get(task['id']) == ledger and len(calls) == 1
 
 
 def test_rich_decision_survives_pause_without_another_call_or_validation():

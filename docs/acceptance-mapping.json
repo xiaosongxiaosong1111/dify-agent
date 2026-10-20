@@ -20,7 +20,7 @@
         "backend/tests/test_planning_decisions.py"
       ],
       "known_gap": "真实多需求澄清稳定性及完整业务验收仍待完成。0.199八个公开合成真实模型响应已复核，5静态候选/1无效文件图/2澄清，不能算全部业务成功；0.200据反馈补澄清清单及coverage启用状态，已部署并完成本机验证，尚未付费复测，源证据见work/semantic-acceptance-plan/summary.md。",
-      "final_acceptance_record": null
+      "final_acceptance_record": "docs/acceptance-at01-record.md"
     },
     {
       "id": "AT-02",

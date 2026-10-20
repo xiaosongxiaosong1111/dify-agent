@@ -6,6 +6,7 @@ from test_api import client,approved,planning_provider
 from test_workflow_plan import base_plan
 from test_agent_plan import prepare as agent_task
 from app import main
+from test_intake import forbid_at01_external_calls
 
 
 @pytest.mark.parametrize('mode',['workflow','advanced-chat','agent'])
