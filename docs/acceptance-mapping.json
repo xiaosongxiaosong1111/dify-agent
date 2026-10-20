@@ -122,13 +122,15 @@
       "scenario": "模型简单聊天可用但工具能力不足",
       "expected": "标记能力不足，提供调整建议，不继续当全能模型使用。",
       "source": [
-        "backend/app/agent_plan.py"
+        "backend/app/agent_plan.py",
+        "backend/app/main.py",
+        "backend/app/providers.py"
       ],
       "related_checks": [
         "backend/tests/test_node_models.py"
       ],
-      "known_gap": "通用工具／插件能力验证未齐，聊天连通不证明工具调用可用。",
-      "final_acceptance_record": null
+      "known_gap": "本地隔离检查覆盖文本／JSON 成功不提升工具能力、已有工具失败标记保留、模型身份变化后旧能力失效、仅工具响应拒绝及 Agent 未适配工具计划拒绝。工具失败状态为人工构造的测试数据，当前没有通用工具探测、自动判定能力不足或针对性调整建议，也未证明所有工具依赖执行路径均有能力门禁；聊天连通不证明工具调用可用。真实工具／插件、Dify 运行和最终业务验收仍待完成。",
+      "final_acceptance_record": "docs/acceptance-at09-record.md"
     },
     {
       "id": "AT-10",

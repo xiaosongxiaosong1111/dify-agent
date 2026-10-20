@@ -1,12 +1,26 @@
+import asyncio
 import copy
+import json
+import httpx
 import pytest
 import yaml
-from test_api import client, approved
+from test_api import client, approved, create
 from test_iteration import batch_plan, llm_body, iteration
 from app import main
 from app.workflow_plan import compile_workflow_plan, validate_plan
 from app.model_parameters import needs_task_model
 from app.dsl_roundtrip import validate_preserved
+from app import providers
+from app.storage import Store
+
+
+@pytest.fixture(autouse=True)
+def forbid_node_model_external_calls(monkeypatch):
+    def forbidden(*args, **kwargs):
+        pytest.fail('节点模型隔离检查不得访问真实 HTTP 或调用真实模型')
+    monkeypatch.setattr(httpx.HTTPTransport, 'handle_request', forbidden)
+    monkeypatch.setattr(httpx.AsyncHTTPTransport, 'handle_async_request', forbidden)
+    monkeypatch.setattr(main, 'call_model', forbidden)
 
 
 def chosen(provider='actual/provider',name='small-model',**params):
@@ -147,3 +161,132 @@ def test_global_configuration_proposal_does_not_imply_changing_independent_nodes
     value={'app_type':'workflow','configuration':{'dify_model':'','dify_model_provider':'','dataset_ids':[]},'workflow_plan':plan()}
     warnings=main.configuration_proposals.warnings(value,{'configuration':{}},{'models':[],'datasets':[]})
     assert any('独立模型节点保持其流程配置' in text and 'classify' in text and 'answer' in text for text in warnings)
+
+
+def at09_provider(client):
+    response = client.post('/api/providers', json={
+        'name': 'AT-09 隔离模型', 'provider': 'custom',
+        'base_url': 'https://model.example.test/v1', 'model': 'chat-only',
+        'api_key': 'synthetic-at09-key',
+    })
+    assert response.status_code == 201, response.text
+    value = response.json()
+    assert value['capabilities'] == dict.fromkeys(
+        ('text', 'tools', 'structured_output', 'vision'), 'untested')
+    return value
+
+
+@pytest.mark.parametrize('tools_state', ['untested', 'failed'])
+@pytest.mark.parametrize('json_ok', [True, False])
+def test_at09_chat_and_json_checks_never_promote_tool_capability(client, monkeypatch, tools_state, json_ok):
+    provider = at09_provider(client)
+    # A synthetic stored failure tests preservation, not an implemented tool probe.
+    saved = main.store.get('provider', provider['id'])
+    saved['capabilities']['tools'] = tools_state
+    main.store.put('provider', provider['id'], saved)
+    calls = []
+
+    async def controlled_call(current, key, messages, **kwargs):
+        assert current['id'] == provider['id'] and key == 'synthetic-at09-key'
+        calls.append((messages, kwargs))
+        return ('连接成功' if len(calls) == 1 else '{"ok":true}' if json_ok else '不能返回 JSON'), {
+            'prompt_tokens': 3, 'completion_tokens': 2}
+
+    monkeypatch.setattr(main, 'call_model', controlled_call)
+    text = client.post(f"/api/providers/{provider['id']}/test")
+    assert text.status_code == 200, text.text
+    assert text.json()['capabilities'] == {
+        'text': 'verified', 'tools': tools_state,
+        'structured_output': 'untested', 'vision': 'untested'}
+    assert '工具、结构化和图片能力尚未分别验证' in text.json()['message']
+    checked = client.post(f"/api/providers/{provider['id']}/test-json")
+    assert checked.status_code == (200 if json_ok else 502), checked.text
+    if json_ok:
+        assert '工具、图片能力和复杂业务规划质量仍需分别验证' in checked.json()['message']
+    else:
+        assert 'JSON 输出检查未通过' in checked.json()['detail']
+    expected = {'text': 'verified', 'tools': tools_state,
+                'structured_output': 'verified' if json_ok else 'failed', 'vision': 'untested'}
+    public = client.get('/api/providers')
+    assert public.json()[0]['capabilities'] == expected
+    assert 'synthetic-at09-key' not in public.text
+    assert Store(main.store.root).get('provider', provider['id'])['capabilities'] == expected
+    assert len(calls) == 2
+    assert calls[0][1].get('json_mode', False) is False
+    assert calls[1][1]['json_mode'] is True
+    assert all('tools' not in kwargs and 'tool_choice' not in kwargs for _, kwargs in calls)
+
+
+@pytest.mark.parametrize('patch', [
+    {'model': 'another-model'}, {'provider': 'another-provider'},
+    {'base_url': 'https://model.example.test/another/v1'},
+    {'protocol': 'anthropic'}, {'api_key': 'synthetic-new-at09-key'},
+], ids=['model', 'provider', 'url', 'protocol', 'key'])
+def test_at09_model_identity_change_clears_old_capability_evidence(client, patch):
+    provider = at09_provider(client)
+    saved = main.store.get('provider', provider['id'])
+    saved['capabilities'].update(text='verified', structured_output='verified', tools='failed')
+    saved['checks'] = {'structured_output': {'created_at': 'synthetic-old-check'}}
+    main.store.put('provider', provider['id'], saved)
+    changed = client.patch(f"/api/providers/{provider['id']}", json=patch)
+    assert changed.status_code == 200, changed.text
+    value = changed.json()
+    assert value['configuration_revision'] == provider['configuration_revision'] + 1
+    assert value['capabilities'] == dict.fromkeys(saved['capabilities'], 'untested')
+    assert value['checks'] == {}
+    reopened = Store(main.store.root).get('provider', provider['id'])
+    assert reopened['capabilities'] == value['capabilities'] and reopened['checks'] == {}
+
+
+@pytest.mark.parametrize('protocol', ['openai-compatible', 'anthropic'])
+def test_at09_tool_only_response_is_not_text_success_or_an_executed_tool(monkeypatch, protocol):
+    observed = []
+    original_client = httpx.AsyncClient
+    usage = {'prompt_tokens': 4, 'completion_tokens': 1}
+
+    def handler(request):
+        observed.append(json.loads(request.content))
+        if protocol == 'anthropic':
+            payload = {'content': [{'type': 'tool_use', 'id': 'call-1', 'name': 'unsupported',
+                                    'input': {'private': 'synthetic-private-argument'}}], 'usage': usage}
+        else:
+            payload = {'choices': [{'finish_reason': 'tool_calls', 'message': {'content': None,
+                       'tool_calls': [{'id': 'call-1', 'type': 'function', 'function': {
+                           'name': 'unsupported', 'arguments': '{"private":"synthetic-private-argument"}'}}]}}],
+                       'usage': usage}
+        return httpx.Response(200, json=payload)
+
+    monkeypatch.setattr(providers.httpx, 'AsyncClient',
+                        lambda **kwargs: original_client(transport=httpx.MockTransport(handler), **kwargs))
+    with pytest.raises(providers.ProviderError, match='可能仅返回工具调用或不支持当前请求') as error:
+        asyncio.run(providers.call_model(
+            {'base_url': 'https://model.example.test/v1', 'model': 'chat-only', 'protocol': protocol},
+            'synthetic-at09-key', [{'role': 'user', 'content': '隔离检查'}]))
+    assert error.value.usage == usage
+    assert error.value.finish_reason == ('tool_calls' if protocol == 'openai-compatible' else None)
+    assert 'synthetic-private-argument' not in str(error.value)
+    assert len(observed) == 1  # No retry, follow-up tool request or tool execution.
+    assert 'tools' not in observed[0] and 'tool_choice' not in observed[0]
+
+
+@pytest.mark.parametrize('patch,reason', [
+    ({'scope': 'tools'}, '当前原生 Agent 只支持 text 或 knowledge 范围'),
+    ({'tools': [{'name': 'unsupported-tool'}]}, '未支持的功能不能静默忽略'),
+], ids=['tool-scope', 'custom-tools'])
+def test_at09_unsupported_agent_tools_keep_previous_plan_and_user_app_type(client, patch, reason):
+    value = create(client, app_type='agent')
+    base = {'schema_version': 1, 'scope': 'text', 'system_prompt': '只做纯文本回答。'}
+    response = client.post(f"/api/tasks/{value['id']}/plan",
+                           json={'revision': value['revision'], 'plan': base})
+    assert response.status_code == 200, response.text
+    before = client.get(f"/api/tasks/{value['id']}").json()
+    assert '当前不配置自定义工具' in before['messages'][-1]['content']
+    rejected = client.post(f"/api/tasks/{value['id']}/plan",
+                           json={'revision': before['revision'], 'plan': {**base, **patch}})
+    assert rejected.status_code == 422 and reason in rejected.json()['detail']
+    after = client.get(f"/api/tasks/{value['id']}").json()
+    assert after == before
+    assert after['app_type'] == 'agent' and after['agent_plan'] == base
+    assert after['workflow_plan'] is None and after['artifact'] is None
+    assert not after['dify_app_id'] and not after['runs']
+    assert Store(main.store.root).get('task', value['id'])['agent_plan'] == base
