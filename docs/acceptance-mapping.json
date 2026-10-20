@@ -398,8 +398,8 @@
         "backend/tests/test_assistant_routing.py",
         "backend/tests/test_assistant_usage_groups.py"
       ],
-      "known_gap": "已有轻量路由、累计预算及历史分组；同案例全链路质量、总用量、重试与费用受控对比未完成。",
-      "final_acceptance_record": null
+      "known_gap": "2026-10-21 新增8例隔离检查，指定两文件49 passed：旧范围及缺密钥阻止派发且不回退、任务级策略持久化、JSON重试成功／重复无进展／供应商失败逐次记账，以及主／轻量共享账本在改价、删服务、旧修订和存储重开后保留历史。仅临时存储与固定模型替身，真实HTTP／Dify／默认模型均拦截；返回正文不等于候选合法或业务成功，未证明节省。当前仅cases可分工，同案例全链路成功率、总用量、重试开销及真实费用受控对比、前端和真实平台验收仍未完成，不代表AT-25最终业务通过。",
+      "final_acceptance_record": "docs/acceptance-at25-record.md"
     }
   ]
 }

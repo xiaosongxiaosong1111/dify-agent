@@ -1,8 +1,21 @@
 import copy,json
+from decimal import Decimal
+import httpx
 import pytest
 from test_api import client,create
 from app import main
 from app.assistant_usage_groups import summarize
+from app.storage import Store
+
+
+@pytest.fixture(autouse=True)
+def forbid_usage_external_calls(monkeypatch):
+    def forbidden(*args, **kwargs):
+        pytest.fail('AT-25 用量隔离检查不得访问真实 HTTP、Dify 或付费模型')
+    monkeypatch.setattr(httpx.HTTPTransport, 'handle_request', forbidden)
+    monkeypatch.setattr(httpx.AsyncHTTPTransport, 'handle_async_request', forbidden)
+    monkeypatch.setattr(main.DifyClient, 'request', forbidden)
+    monkeypatch.setattr(main, 'call_model', forbidden)
 
 
 def row(identity='a',**patch):
@@ -85,3 +98,61 @@ def test_usage_endpoint_is_revision_bound_read_only_and_task_isolated(client,mon
     assert client.get(url,params={'revision':t['revision']+1}).status_code==409
     empty=client.get(f"/api/tasks/{other['id']}/budget/usage-summary",params={'revision':other['revision']}).json();assert empty['state']=='ready' and empty['record_count']==0 and empty['groups']==[]
     assert main.get_task(t['id'])==before and main.budgets.get(t['id'])==old
+
+
+def test_main_and_light_retry_share_saved_totals_after_repricing_revision_and_reopen(client, monkeypatch):
+    from test_assistant_routing import setup, enable
+    from test_case_proposals import candidate
+    t, primary, light = setup(client)
+    monkeypatch.setattr(main, 'get_settings', lambda: {'max_retries': 2, 'max_minutes': 1, 'max_cost_usd': 1})
+    seen = []
+    async def model(selected, key, messages, **kwargs):
+        seen.append(selected['id'])
+        return ('无效 JSON' if len(seen) == 2 else json.dumps(candidate())), {
+            'prompt_tokens': 100, 'completion_tokens': 10, 'total_tokens': 110}
+    monkeypatch.setattr(main, 'call_model', model)
+    url = f"/api/tasks/{t['id']}/case-proposal/generate"
+    assert client.post(url, json={'revision': t['revision']}).status_code == 200
+    assert enable(client, t, light).status_code == 200
+    assert client.post(url, json={'revision': t['revision']}).status_code == 200
+    response = client.patch(f"/api/tasks/{t['id']}/assistant-routing", json={
+        'revision': t['revision'], 'policy_revision': 1, 'enabled': False,
+        'scope_version': 18, 'acknowledge_scope': True, 'note': '关闭轻量路由，保留两次历史调用。'})
+    assert response.status_code == 200, response.text
+    assert client.patch(f"/api/providers/{primary['id']}", json={
+        'pricing': {'input_per_million_usd': 3, 'output_per_million_usd': 4}}).status_code == 200
+    assert client.post(url, json={'revision': t['revision']}).status_code == 200
+    assert seen == [primary['id'], light['id'], light['id'], primary['id']]
+    old_revision = t['revision']
+    t = client.patch(f"/api/tasks/{t['id']}", json={'requirements': {'goal': '本地新修订'}}).json()
+    assert t['revision'] > old_revision
+    ledger = copy.deepcopy(main.budgets.get(t['id']))
+    assert len(ledger['entries']) == 4 and all(e['revision'] == old_revision for e in ledger['entries'])
+    assert client.delete(f"/api/providers/{light['id']}").status_code == 200
+    monkeypatch.setattr(main, 'store', Store(main.store.root))
+    def forbidden(*args, **kwargs):
+        pytest.fail('汇总不得查当前模型、解密或重新派发')
+    monkeypatch.setattr(main.store, 'secret', forbidden)
+    monkeypatch.setattr(main, 'call_model', forbidden)
+    monkeypatch.setattr(main, 'provider_public', forbidden)
+    original_get = main.store.get
+    def saved_only(kind, identity):
+        assert kind != 'provider', '历史分组不能查当前服务配置'
+        return original_get(kind, identity)
+    monkeypatch.setattr(main.store, 'get', saved_only)
+    summary_url = f"/api/tasks/{t['id']}/budget/usage-summary"
+    assert client.get(summary_url, params={'revision': old_revision}).status_code == 409
+    response = client.get(summary_url, params={'revision': t['revision']})
+    assert response.status_code == 200, response.text
+    value = response.json()
+    assert value['state'] == 'ready' and value['record_count'] == 4 and len(value['groups']) == 3
+    totals = value['totals']
+    assert totals['calls'] == totals['returned'] == 4  # 返回正文包含一次不合法候选，不能视为业务成功率。
+    assert totals['tokens'] == {name: {'known': count, 'missing': 0}
+                                for name, count in [('input', 400), ('output', 40), ('total', 440)]}
+    assert Decimal(totals['estimated_usd']) == Decimal('0.000484')
+    light_group = next(group for group in value['groups'] if group['provider_id'] == light['id'])
+    assert light_group['metrics']['calls'] == 2 and light_group['pricing']['input_per_million_usd'] == '0.1'
+    assert not value['business_quality_verified'] and not value['savings_verified'] and not value['network_requested']
+    assert main.budgets.get(t['id']) == ledger and main.get_task(t['id']) == t
+    assert 'fake-light-key' not in response.text and 'not-a-real-key' not in response.text

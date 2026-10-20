@@ -1,10 +1,23 @@
 import copy,json
+from decimal import Decimal
+import httpx
 import pytest
 from test_api import client,approved
 from test_task_budget import provider,policy
 from test_case_proposals import candidate
 from app import main
 from app.providers import ProviderError
+from app.storage import Store
+
+
+@pytest.fixture(autouse=True)
+def forbid_routing_external_calls(monkeypatch):
+    def forbidden(*args, **kwargs):
+        pytest.fail('AT-25 隔离检查不得访问真实 HTTP、Dify 或付费模型')
+    monkeypatch.setattr(httpx.HTTPTransport, 'handle_request', forbidden)
+    monkeypatch.setattr(httpx.AsyncHTTPTransport, 'handle_async_request', forbidden)
+    monkeypatch.setattr(main.DifyClient, 'request', forbidden)
+    monkeypatch.setattr(main, 'call_model', forbidden)
 
 
 def setup(client):
@@ -134,3 +147,102 @@ def test_route_change_changes_next_preview_not_existing_candidate_source_or_vali
     after=client.get(f"/api/tasks/{t['id']}/case-proposal").json()
     assert after['generation_route']['provider']['id']==p['id'] and after['generation_route']['role']=='main'
     assert after['record']==before['record'] and after['can_adopt'] and not after['stale']
+
+
+@pytest.mark.parametrize('old_scope', [1, 17])
+def test_old_scope_blocks_without_decryption_or_charge_until_explicit_reconfirmation(client, monkeypatch, old_scope):
+    t, p, light = setup(client)
+    assert enable(client, t, light).status_code == 200
+    saved = main.routing.get(t['id'])
+    saved['scope_version'] = old_scope
+    main.store.put('assistant_routing', t['id'], saved)
+    before = copy.deepcopy(main.get_task(t['id']))
+    ledger = copy.deepcopy(main.budgets.get(t['id']))
+    with monkeypatch.context() as guard:
+        def forbidden(*args, **kwargs):
+            pytest.fail('过期范围确认不得解密凭据或派发')
+        guard.setattr(main.store, 'secret', forbidden)
+        assert state(client, t)['blocker']
+        response = client.post(f"/api/tasks/{t['id']}/case-proposal/generate", json={'revision': t['revision']})
+        assert response.status_code == 422 and '重新核对' in response.json()['detail']
+        assert enable(client, t, light, scope_version=old_scope).status_code == 409
+    assert main.get_task(t['id']) == before
+    assert main.budgets.get(t['id']) == ledger
+    assert main.routing.get(t['id']) == saved
+    result = enable(client, t, light)
+    assert result.status_code == 200, result.text
+    assert not result.json()['blocker'] and result.json()['policy_revision'] == 2
+    assert result.json()['history'][-1]['before']['scope_version'] == old_scope
+
+
+def test_route_policy_is_task_local_and_survives_store_reopen(client, monkeypatch):
+    t, p, light = setup(client)
+    other, other_main, _ = setup(client)
+    before = copy.deepcopy(main.get_task(t['id']))
+    other_before = copy.deepcopy(main.get_task(other['id']))
+    assert enable(client, t, light).status_code == 200
+    saved = state(client, t)
+    monkeypatch.setattr(main, 'store', Store(main.store.root))
+    assert state(client, t) == saved
+    assert main.routing.provider(t, 'cases')['id'] == light['id']
+    assert not state(client, other)['enabled'] and not state(client, other)['history']
+    assert main.routing.provider(other, 'cases')['id'] == other_main['id']
+    assert main.get_task(t['id']) == before and main.get_task(other['id']) == other_before
+    assert not main.budgets.get(t['id'])['entries'] and not main.budgets.get(other['id'])['entries']
+
+
+def test_removed_light_key_blocks_dispatch_without_main_fallback_or_charge(client):
+    t, p, light = setup(client)
+    assert enable(client, t, light).status_code == 200
+    record = main.store.get('provider', light['id'])
+    main.store.put_with_secrets('provider', light['id'], record, {'api_key': ''})
+    before = copy.deepcopy(main.get_task(t['id']))
+    assert '无密钥' in state(client, t)['blocker']
+    response = client.post(f"/api/tasks/{t['id']}/case-proposal/generate", json={'revision': t['revision']})
+    assert response.status_code == 422 and '不会换到主模型' in response.json()['detail']
+    assert main.get_task(t['id']) == before and not main.budgets.get(t['id'])['entries']
+
+
+@pytest.mark.parametrize('outcome', ['repaired', 'invalid_again', 'provider_failure'])
+def test_light_json_retry_accounts_every_attempt_without_fallback_or_business_success(client, monkeypatch, outcome):
+    t, p, light = setup(client)
+    assert enable(client, t, light).status_code == 200
+    assert policy(client, t, '1').status_code == 200
+    monkeypatch.setattr(main, 'get_settings', lambda: {'max_retries': 2, 'max_minutes': 1, 'max_cost_usd': 1})
+    seen = []
+    usage = {'prompt_tokens': 100, 'completion_tokens': 10, 'total_tokens': 110}
+    async def model(selected, key, messages, **kwargs):
+        seen.append((selected['id'], key, copy.deepcopy(messages)))
+        if len(seen) == 1:
+            return '这不是 JSON', usage
+        if outcome == 'provider_failure':
+            raise ProviderError('固定测试失败', usage=usage)
+        return (json.dumps(candidate()) if outcome == 'repaired' else '仍不是 JSON'), usage
+    monkeypatch.setattr(main, 'call_model', model)
+    response = client.post(f"/api/tasks/{t['id']}/case-proposal/generate", json={'revision': t['revision']})
+    assert response.status_code == (200 if outcome == 'repaired' else 422), response.text
+    assert [(pid, key) for pid, key, _ in seen] == [(light['id'], 'fake-light-key')] * 2
+    assert len(seen[1][2]) == len(seen[0][2]) + 2
+    assert '只修复 JSON 格式' in seen[1][2][-1]['content']
+    saved = main.get_task(t['id'])
+    op = saved['planning_runs'][-1]
+    assert op['routing'] == {'operation': 'cases', 'selected_role': 'light', 'policy_revision': 1}
+    assert len(op['attempts']) == 2 and op['attempts'][0]['status'] == 'invalid'
+    assert op['status'] == ('succeeded' if outcome == 'repaired' else 'paused')
+    if outcome != 'repaired':
+        assert op['stop_reason'] == ('no_progress' if outcome == 'invalid_again' else 'provider_error')
+    entries = main.budgets.get(t['id'])['entries']
+    assert len(entries) == 2 and {entry['operation_id'] for entry in entries} == {op['id']}
+    assert all(entry['provider_id'] == light['id'] and entry['status'] == 'settled' for entry in entries)
+    assert sum(Decimal(entry['charged_usd']) for entry in entries) == Decimal('0.000024')
+    summary = client.get(f"/api/tasks/{t['id']}/budget/usage-summary", params={'revision': t['revision']}).json()
+    assert summary['state'] == 'ready' and summary['totals']['calls'] == 2
+    assert summary['totals']['returned'] == (1 if outcome == 'provider_failure' else 2)
+    assert summary['totals']['failed_or_interrupted'] == (1 if outcome == 'provider_failure' else 0)
+    assert summary['totals']['tokens']['total'] == {'known': 220, 'missing': 0}
+    assert Decimal(summary['totals']['estimated_usd']) == Decimal('0.000024')
+    assert not summary['business_quality_verified'] and not summary['savings_verified']
+    proposal = client.get(f"/api/tasks/{t['id']}/case-proposal").json()
+    assert bool(proposal['record']) == (outcome == 'repaired')
+    assert saved['revision'] == t['revision'] and not saved['test_cases'] and not saved['runs'] and not saved['dify_app_id']
+    assert 'fake-light-key' not in json.dumps([saved, entries, summary, proposal])
