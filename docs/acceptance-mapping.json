@@ -264,13 +264,16 @@
       "scenario": "切换到客户环境",
       "expected": "重新核对版本、认证和资源映射。",
       "source": [
-        "backend/app/main.py"
+        "backend/app/main.py",
+        "backend/app/conversation_source_read.py",
+        "backend/app/conversation_inputs.py",
+        "backend/app/run_diagnostics.py"
       ],
       "related_checks": [
         "backend/tests/test_conversation_source_read.py"
       ],
-      "known_gap": "目标与凭据绑定已有检查，真实公司到客户的跨环境版本及资源映射仍需验收。",
-      "final_acceptance_record": null
+      "known_gap": "2026-10-21 新增13例本地隔离检查，指定文件27 passed：切换环境／地址／登记版本使配置确认、成果与App绑定失效；旧环境来源及运行Key／App变更后的复用拒绝；本机匹配不等于平台认证或资源核验。原配置含知识库ID仍保留，不能视为已完成客户资源映射；登记版本不是实际探测。仅核对Chatflow自定义参数来源与本机失效路径，真实版本、认证／角色权限、模型／知识库／插件映射、前端及迁移后业务仍待验收。未进行真实Dify或付费模型调用，不代表AT-17最终业务通过。",
+      "final_acceptance_record": "docs/acceptance-at17-record.md"
     },
     {
       "id": "AT-18",
