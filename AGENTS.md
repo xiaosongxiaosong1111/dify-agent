@@ -8,6 +8,8 @@
 - Reuse the dedicated Dify connection's encrypted credentials. The user authorizes obtaining a new token with their supplied login when it expires; do not repeatedly request manual login if secure credentials are available. Never write the password into Git, handoffs, logs, or browser storage. The current implementation stores tokens, not the login password; persistent encrypted login storage and automatic reauthentication remain to be implemented. Do not claim that they already work or treat chat history as a permanent credential store.
 - Prioritize the complete public after-sales case in `docs/core-delivery-focus.md`. Continue from the existing implementation and regression tests; local isolated acceptance records do not close real platform or business acceptance.
 
+- Delegate simple, repetitive independent work through the existing Claude Code gateway as a subagent. The user explicitly selected that gateway (actual model DeepSeek) and authorized sending necessary private code snippets, excluding credentials, customer data, and the whole repository. Report actual model identity; root agent owns design, integration, and verification. A worker budget failure is not success and must not be automatically retried.
+
 ## Where work comes from
 
 - The single source of pending work is `docs/BACKLOG.md`. Its queue table is authoritative; do not substitute the ordering or numbering of `docs/development-tasks.md` for it.
