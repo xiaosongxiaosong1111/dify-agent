@@ -68,3 +68,7 @@
 | 31 | 已授权安全保存Dify邮箱密码及过期重新认证；只绑定原环境，不循环登录/重放写入 | `.venv\Scripts\python.exe -m pytest backend/tests/test_login.py backend/tests/test_dify_reauth.py -q`，相关UI检查 | codex | done | commit 1d69700；规定命令41 passed、6项隔离UI与构建通过；0.245专用连接实际加密记住200；自然到期续期仅隔离证据，无新工作流运行 |
 
 | 32 | 重新生成现有流程时展示相对原方案的非目标变化摘要，保留完整候选供复核，不把提示词当自动保留证明 | `.venv\Scripts\python.exe -m pytest backend/tests/test_replanning_changes.py -q`，对应隔离UI检查 | codex | done | commit c347f4e；规定7项/相关共59项、5项UI与构建通过；0.246部署12任务/密文保持，变更候选不自动替换，0外部调用 |
+
+| 33 | 修复知识准备及目录读取自动续期导致的假连接变化409，保留真实连接/旧job边界 | `.venv\Scripts\python.exe -m pytest backend/tests/test_knowledge_reauth.py backend/tests/test_knowledge.py backend/tests/test_resources.py -q` | codex | done | commit 18394dd；规定三文件76 passed；0.247最终快照部署12任务/全部密文保持，知识/模型/参数/库目录假409已修复，0外部调用 |
+
+| 34 | 自动登录续期绑定原Dify工作空间；不同空间令牌不提交/不派发原请求，旧授权连接只读核对身份 | `.venv\Scripts\python.exe -m pytest backend/tests/test_dify_reauth.py backend/tests/test_login.py backend/tests/test_knowledge_reauth.py -q` | codex | pending | 新加密登录已启用，补充同实例不同空间身份边界，最多1次已知空间只读核对，不登录/建资源/运行 |
