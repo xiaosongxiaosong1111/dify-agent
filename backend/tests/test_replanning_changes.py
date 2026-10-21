@@ -71,3 +71,28 @@ def test_identical_regeneration_and_initial_generation_do_not_create_false_chang
     first=approved(client);calls=respond(monkeypatch,plan)
     r=client.post(f"/api/tasks/{first['id']}/plan/generate",json={'revision':first['revision']});assert r.status_code==200,r.text
     assert len(calls)==1 and r.json()['workflow_plan']==plan and 'scope_change_summary' not in r.json()['planning_runs'][-1]
+
+
+@pytest.mark.parametrize('mode',['advanced-chat','agent'])
+def test_other_app_types_keep_their_saved_plan_until_explicit_review(client,monkeypatch,mode):
+    planning_provider(client)
+    if mode=='agent':
+        from test_agent_plan import prepare
+        task=prepare(client);key='agent_plan'
+    else:
+        task=approved(client,app_type=mode);plan=base_plan(mode)
+        result=client.post(f"/api/tasks/{task['id']}/plan",json={'revision':task['revision'],'plan':plan})
+        assert result.status_code==200,result.text
+        task=result.json();key='workflow_plan'
+    old=copy.deepcopy(task[key]);candidate=copy.deepcopy(old)
+    if mode=='agent':candidate['system_prompt']='只改文字指令，保留原生Agent类型。'
+    else:candidate['nodes'][1]['config']['system_prompt']='只改文字指令，保留Chatflow会话入口。'
+    calls=respond(monkeypatch,candidate)
+    result=client.post(f"/api/tasks/{task['id']}/plan/generate",json={'revision':task['revision']})
+    assert result.status_code==422,result.text
+    current=client.get(f"/api/tasks/{task['id']}").json()
+    assert current['app_type']==mode and current['revision']==task['revision'] and current[key]==old
+    assert current['planning_runs'][-1]['stop_reason']=='replanning_review' and len(calls)==1
+    run=current['planning_runs'][-1]
+    retained=client.get(f"/api/tasks/{task['id']}/planning/{run['id']}/candidate").json()
+    assert retained['app_type']==mode and json.loads(retained['plan_text'])==candidate and not retained['formal_plan_changed']
