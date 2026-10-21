@@ -114,6 +114,22 @@ class DifyClient:
                 raise
             raise DifyError("Dify 登录接口返回不兼容的内容；原有凭据未替换。") from exc
 
+    async def login_workspace(self,tokens):
+        """Verify fresh login tokens before committing them to a pinned connection."""
+        try:
+            csrf=tokens['csrf_token']
+            headers={'Authorization':'Bearer '+tokens['console_token'],'X-CSRF-Token':csrf,
+                     'Cookie':f'csrf_token={csrf}; __Host-csrf_token={csrf}'}
+            async with httpx.AsyncClient(timeout=30,follow_redirects=False) as client:
+                response=await client.get(self.base+'/console/api/workspaces/current/summary',headers=headers)
+            value=response.json() if response.status_code==200 else None
+            ident=value.get('id') if isinstance(value,dict) else None
+            if not isinstance(ident,str) or not 1<=len(ident)<=200 or any(c.isspace() for c in ident):
+                raise DifyError('无法核对新登录令牌的工作空间，原凭据未替换。')
+            return ident
+        except (httpx.RequestError,ValueError,KeyError,TypeError):
+            raise DifyError('新登录的工作空间核对未通过，原凭据未替换；不会自动重试。') from None
+
     async def test(self):
         # Authenticated console query, not just public health.
         return await self.request("GET", "/console/api/apps", credential="console_token", params={"page": 1, "limit": 1})

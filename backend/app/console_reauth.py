@@ -7,8 +7,11 @@ _locks=weakref.WeakKeyDictionary()
 
 
 def available(store,env):
-    return (not env.get('console_login_blocked')
-            and env.get(BINDING)=={k:env.get(k) for k in ('base_url','version')}
+    binding=env.get(BINDING)
+    return (not env.get('console_login_blocked') and isinstance(binding,dict)
+            and all(binding.get(k)==env.get(k) for k in ('base_url','version'))
+            and isinstance(binding.get('workspace_id'),str) and bool(binding['workspace_id'])
+            and binding['workspace_id']==env.get('console_workspace_id')
             and env.get('version')=='1.17.1'
             and store.has_secret(env['id'],EMAIL) and store.has_secret(env['id'],PASSWORD))
 
@@ -33,6 +36,8 @@ async def refresh(client,rejected_token):
             stamp=current.copy()
         try:
             tokens=await client.login(email,password)
+            if await client.login_workspace(tokens)!=stamp[BINDING]['workspace_id']:
+                raise DifyError('新登录的工作空间与保存授权不同，未替换凭据或派发原操作。')
         except DifyError:
             with store.lock:
                 latest=store.get('environment',env['id'])

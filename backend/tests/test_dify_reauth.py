@@ -16,7 +16,7 @@ def expired():
 def saved(tmp_path,token=None):
     store=Store(tmp_path)
     target={'id':'env','base_url':'http://dify.test','version':'1.17.1','connection_revision':'r1',
-            BINDING:{'base_url':'http://dify.test','version':'1.17.1'},'capabilities':{}}
+            BINDING:{'base_url':'http://dify.test','version':'1.17.1','workspace_id':'workspace-test'},'console_workspace_id':'workspace-test','capabilities':{}}
     store.put_with_secrets('environment','env',target,{EMAIL:'user@test.local',PASSWORD:'PASSWORD-PRIVATE','console_token':expired() if token is None else token,'csrf_token':'old-csrf','service_api_key':'independent-service'})
     return store,target,dify.DifyClient(target,store)
 
@@ -28,6 +28,8 @@ def mock_login(monkeypatch,action=None):
         if action:await action(self)
         return {'console_token':'new-access','csrf_token':'new-csrf'}
     monkeypatch.setattr(dify.DifyClient,'login',login)
+    async def workspace(self,tokens):return 'workspace-test'
+    monkeypatch.setattr(dify.DifyClient,'login_workspace',workspace)
     return calls
 
 
@@ -170,3 +172,68 @@ def test_environment_read_probe_can_succeed_after_auto_refresh_without_false_con
     result=client.post(f"/api/environments/{target['id']}/test",json={})
     assert result.status_code==200,result.text
     assert main.store.secret(target['id'],'console_token')=='new-access'
+
+
+def test_auto_login_to_another_workspace_never_commits_or_dispatches_original(monkeypatch,tmp_path):
+    store,target,adapter=saved(tmp_path);calls=mock_login(monkeypatch);seen=[]
+    async def other(self,tokens):return 'other-workspace'
+    monkeypatch.setattr(dify.DifyClient,'login_workspace',other)
+    transport_client(monkeypatch,dify,lambda req:seen.append(req) or httpx.Response(200,json={}))
+    for _ in range(2):
+        with pytest.raises(dify.DifyError):asyncio.run(adapter.import_new('kind: app','demo'))
+    assert len(calls)==1 and not seen and store.secret('env','console_token')==expired()
+    assert store.get('environment','env')['console_login_blocked']
+
+
+def test_explicit_login_cannot_repoint_a_pinned_workspace_or_replace_prior_secrets(client,monkeypatch):
+    target=env(client);mock_login(monkeypatch)
+    r=client.post(f"/api/environments/{target['id']}/login",json={'email':'user@test.local','password':'PASSWORD-PRIVATE','remember_login':True})
+    assert r.status_code==200
+    before=copy.deepcopy(main.store.get('environment',target['id']))
+    async def login(self,email,password):return {'console_token':'other-access','csrf_token':'other-csrf'}
+    async def workspace(self,tokens):return 'other-workspace'
+    monkeypatch.setattr(dify.DifyClient,'login',login);monkeypatch.setattr(dify.DifyClient,'login_workspace',workspace)
+    r=client.post(f"/api/environments/{target['id']}/login",json={'email':'user@test.local','password':'PASSWORD-PRIVATE','remember_login':False})
+    assert r.status_code==502 and 'other-workspace' not in r.text
+    assert main.store.get('environment',target['id'])==before
+    assert main.store.secret(target['id'],'console_token')=='new-access' and main.store.has_secret(target['id'],PASSWORD)
+    forgotten=client.delete(f"/api/environments/{target['id']}/saved-login").json()['environment']
+    assert forgotten['console_workspace_id']=='workspace-test' and not forgotten['automatic_login_enabled']
+
+
+def test_legacy_saved_login_without_workspace_does_not_silently_reauthenticate(monkeypatch,tmp_path):
+    store,target,adapter=saved(tmp_path);target[BINDING].pop('workspace_id');target.pop('console_workspace_id');store.put('environment','env',target)
+    async def forbidden(*a,**kw):pytest.fail('missing workspace identity must not send saved login')
+    monkeypatch.setattr(dify.DifyClient,'login',forbidden)
+    with pytest.raises(dify.DifyError):asyncio.run(adapter.test())
+    assert not available(store,target) and store.has_secret('env',PASSWORD)
+
+
+@pytest.mark.parametrize('variant',['ok','unauthorized','redirect','malformed','bad_id'])
+def test_fresh_login_workspace_probe_is_bounded_sanitized_and_has_no_redirect(monkeypatch,tmp_path,variant):
+    store,target,adapter=saved(tmp_path);seen=[]
+    def handler(request):
+        seen.append(request);assert request.url.path=='/console/api/workspaces/current/summary'
+        assert request.headers['authorization']=='Bearer NEW-PRIVATE' and request.headers['x-csrf-token']=='CSRF-PRIVATE'
+        if variant=='unauthorized':return httpx.Response(401,json={'message':'PRIVATE'})
+        if variant=='redirect':return httpx.Response(302,headers={'location':'https://foreign.test/PRIVATE'})
+        if variant=='malformed':return httpx.Response(200,text='PRIVATE')
+        return httpx.Response(200,json={'id':'workspace-test' if variant=='ok' else ' '})
+    transport_client(monkeypatch,dify,handler)
+    async def check():return await adapter.login_workspace({'console_token':'NEW-PRIVATE','csrf_token':'CSRF-PRIVATE'})
+    if variant=='ok':assert asyncio.run(check())=='workspace-test'
+    else:
+        with pytest.raises(dify.DifyError) as error:asyncio.run(check())
+        assert 'PRIVATE' not in str(error.value)
+    assert len(seen)==1 and store.secret('env','console_token')==expired()
+
+
+def test_connection_change_during_workspace_probe_prevents_token_commit(monkeypatch,tmp_path):
+    store,target,adapter=saved(tmp_path);calls=mock_login(monkeypatch);seen=[]
+    async def workspace(self,tokens):
+        value=store.get('environment','env');value['connection_revision']='changed';store.put('environment','env',value)
+        return 'workspace-test'
+    monkeypatch.setattr(dify.DifyClient,'login_workspace',workspace)
+    transport_client(monkeypatch,dify,lambda req:seen.append(req) or httpx.Response(200,json={}))
+    with pytest.raises(dify.DifyError):asyncio.run(adapter.import_new('kind: app','demo'))
+    assert len(calls)==1 and not seen and store.secret('env','console_token')==expired()

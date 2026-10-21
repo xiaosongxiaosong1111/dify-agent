@@ -11,7 +11,7 @@ from app.console_reauth import EMAIL,PASSWORD,BINDING
 @pytest.mark.parametrize('change',[None,'base_url','version','connection_revision'])
 def test_knowledge_preparation_accepts_auth_only_refresh_but_not_changed_connection(client,monkeypatch,change):
     task,target=task_with_env(client);env=main.store.get('environment',target['id'])
-    env[BINDING]={k:env[k] for k in ('base_url','version')}
+    env[BINDING]={**{k:env[k] for k in ('base_url','version')},'workspace_id':'workspace-test'};env['console_workspace_id']='workspace-test'
     main.store.put_with_secrets('environment',env['id'],env,{EMAIL:'user@test.local',PASSWORD:'PASSWORD-PRIVATE','console_token':expired()})
     before=copy.deepcopy(main.get_task(task['id']));calls=mock_login(monkeypatch);seen=[]
     def handler(request):
@@ -37,7 +37,7 @@ def test_knowledge_preparation_accepts_auth_only_refresh_but_not_changed_connect
 def test_resource_directory_accepts_only_auth_metadata_refresh(client,monkeypatch,endpoint,connection_changed):
     from test_resources import catalog
     from test_api import create_env
-    target=create_env(client);env=main.store.get('environment',target['id']);env[BINDING]={k:env[k] for k in ('base_url','version')}
+    target=create_env(client);env=main.store.get('environment',target['id']);env[BINDING]={**{k:env[k] for k in ('base_url','version')},'workspace_id':'workspace-test'};env['console_workspace_id']='workspace-test'
     main.store.put_with_secrets('environment',env['id'],env,{EMAIL:'user@test.local',PASSWORD:'PASSWORD-PRIVATE','console_token':expired()})
     calls=mock_login(monkeypatch);seen=[]
     def handler(request):

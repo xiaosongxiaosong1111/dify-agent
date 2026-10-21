@@ -80,7 +80,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.247.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.248.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1729,6 +1729,7 @@ def save_environment(payload, existing=None):
         out.pop("console_checked_at", None)
     if existing and any(out.get(k)!=existing.get(k) for k in ('base_url','version')):
         out.pop('console_login_binding',None)
+        out.pop('console_workspace_id',None)
         out.pop('console_login_blocked',None)
         secrets.update(console_login_email='',console_login_password='')
     store.put_with_secrets("environment", out["id"], out, secrets)
@@ -1796,7 +1797,11 @@ async def login_environment(item_id: str, request: Request):
             raise HTTPException(409, "该环境正在执行任务，暂不能替换管理连接。")
     try:
         try:
-            tokens = await DifyClient(env, store).login(email,password)
+            adapter=DifyClient(env,store)
+            tokens=await adapter.login(email,password)
+            workspace=await adapter.login_workspace(tokens) if remember_login or env.get('console_workspace_id') else None
+            if env.get('console_workspace_id') and workspace!=env['console_workspace_id']:
+                raise DifyError('登录后的工作空间与此连接不同，原凭据未替换；请为其他工作空间另建连接。')
         except DifyError as exc:
             raise HTTPException(502,str(exc)) from exc
         with store.lock:
@@ -1808,7 +1813,8 @@ async def login_environment(item_id: str, request: Request):
             current['console_auth_mode']='email_password'
             current.pop('console_login_blocked',None)
             if remember_login:
-                current['console_login_binding']={k:current[k] for k in ('base_url','version')}
+                current['console_workspace_id']=workspace
+                current['console_login_binding']={**{k:current[k] for k in ('base_url','version')},'workspace_id':workspace}
             else:
                 current.pop('console_login_binding',None)
             tokens.update(console_login_email=email if remember_login else '',console_login_password=password if remember_login else '')
