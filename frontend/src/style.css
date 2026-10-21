@@ -129,3 +129,5 @@
 .planning-progress:has(.candidate-field-selection){flex-shrink:0}.candidate-field-selection{border-top:1px solid #e4dcf2;margin-top:10px;padding-top:8px}.candidate-field-change{padding:8px 0;border-bottom:1px solid #e4dcf2}.candidate-field-change details{margin-left:4px}
 
 .candidate-text-mapping{border-top:1px solid #e4dcf2;margin-top:10px;padding-top:8px}
+
+.batch-run-preflight .callout{display:block}.batch-run-preflight .callout p{margin:8px 0}

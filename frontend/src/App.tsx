@@ -1,6 +1,7 @@
 import SavedConsoleReconnect from './SavedConsoleReconnect';
 import TaskRuntimeKey from './TaskRuntimeKey';
 import AppRuntimeKeyCreation from './AppRuntimeKeyCreation';
+import BatchRunPreflight from './BatchRunPreflight';
 import WorkflowPublication from './WorkflowPublication';
 import ModelNumberDraftPanel from './ModelNumberDraftPanel';
 import ManualModelNumberFields,{useManualModelNumbers} from './useManualModelNumbers';
@@ -239,6 +240,7 @@ export default function App(){
    {task.app_type==='agent'&&<div className="callout amber">原生文本 Agent 使用 SSE 采集最终回答；连接中断或未支持事件时不会计为成功。支持从已保存成功记录继续自由对话；文件与人工介入尚待适配。</div>}
    {hasUnsaved&&<div className="callout amber">有未保存修改，请先保存并确认。</div>}
    {!task.dify_app_id&&<div className="callout amber">请先完成当前修订的导入和发布，再登记该应用的运行 API Key。定义样例无需模型 Key 或 Dify 凭据。</div>}
+   <BatchRunPreflight key={`batch-preflight:${task.id}:${task.revision}`} taskId={task.id} revision={task.revision} scope={JSON.stringify([task.runs,task.status])} initialRuns={Math.min(100,Math.max(1,(task.test_cases||[]).filter(c=>c.required!==false).length))} blocked={hasUnsaved||!!busy}/>
    {task.app_type==='workflow'&&task.dify_app_id&&<WorkflowPublication taskId={task.id} revision={task.revision} appId={task.dify_app_id} scope={JSON.stringify([task.artifact,task.environment_id,runEnvironment?.connection_revision,task.status])} disabled={hasUnsaved||!!busy||planIsStale||!task.requirements_confirmed||!task.configuration_confirmed} onCompleted={()=>{void refreshOne(task.id);void api<Env[]>('/environments').then(setEnvs).catch(()=>setNotice('操作已返回，环境连接状态未刷新，请重新读取。'))}}/>}
    {task.dify_app_id&&['workflow','advanced-chat'].includes(task.app_type)&&<AppRuntimeKeyCreation taskId={task.id} revision={task.revision} appId={task.dify_app_id} scope={JSON.stringify([task.artifact,task.environment_id,runEnvironment?.connection_revision,task.status])} disabled={hasUnsaved||!!busy||planIsStale||!task.requirements_confirmed||!task.configuration_confirmed} onCreated={()=>{setNotice('当前App运行Key已创建并加密保存，原运行Key已留档；实际可用性须另按已批准样例试跑。');void refreshOne(task.id);void api<Env[]>('/environments').then(setEnvs).catch(()=>setNotice('创建已返回，环境未刷新，请读取本机记录；勿重复创建。'))}}/>}
    {task.dify_app_id&&['workflow','advanced-chat','agent'].includes(task.app_type)&&<TaskRuntimeKey taskId={task.id} revision={task.revision} appId={task.dify_app_id} scope={JSON.stringify([task.artifact,task.environment_id,runEnvironment?.connection_revision,task.status])} disabled={hasUnsaved||!!busy||planIsStale} onSaved={()=>{setNotice('当前App运行Key已加密登记；未请求Dify，实际可用性须另按样例试跑核对。');void refreshOne(task.id);void api<Env[]>('/environments').then(setEnvs).catch(()=>setNotice('运行Key已保存，但环境列表未刷新，请重新读取后再试跑。'))}}/>}
