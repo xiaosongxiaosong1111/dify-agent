@@ -80,7 +80,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.246.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.247.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1861,7 +1861,8 @@ def resource_environment(item_id):
 
 
 def require_resource_connection(env):
-    if store.get("environment", env["id"]) != env:
+    current=store.get('environment',env['id'])
+    if not current or env_snapshot(current)!=env_snapshot(env):
         raise HTTPException(409, "读取期间环境配置变化，请刷新后重新读取资源。")
 
 

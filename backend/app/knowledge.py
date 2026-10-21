@@ -111,7 +111,8 @@ class KnowledgeManager:
         except DifyError as exc:raise HTTPException(502,str(exc)) from exc
         with self.store.lock:
             current=self.host.get_task(task_id);self.host.require_idle(current);self.host.require_revision(current,task['revision'])
-            if self.store.get('environment',env['id'])!=env:raise HTTPException(409,'读取期间环境变化，方案未保存，请重新生成。')
+            current_env=self.store.get('environment',env['id'])
+            if not current_env or self.host.env_snapshot(current_env)!=self.host.env_snapshot(env):raise HTTPException(409,'读取期间环境变化，方案未保存，请重新生成。')
             if any(j['environment_id']==env['id'] and j['name']==name.strip() and j['status']=='unknown' for j in self.store.list('knowledge_job')):raise HTTPException(409,'同名资源有结果未知的准备记录，请先核对，不能盲目重建。')
             job={'id':str(uuid.uuid4()),'task_id':task_id,'task_revision':task['revision'],'environment_id':env['id'],'connection':{k:env.get(k) for k in ('base_url','version','connection_revision')},'workspace':workspace,'name':name.strip(),'purpose':purpose.strip(),'description':description,'indexing_technique':strategy,'embedding_provider':ep,'embedding_model':em,'documents':documents,'max_minutes':minutes,'status':'draft','operations':[],'dataset_id':None,'message':'仅生成方案，尚未创建资源。','created_at':now(),'updated_at':now(),'cost_note':'经济关键词索引不调用 Embedding 模型；仍占用 Dify 的存储与计算资源。' if strategy=='economy' else '会调用所选 Embedding 模型。此流程没有供应商账单硬上限和可靠费用估算，须明确接受未知模型费用后才派发；时间上限不能取消已提交索引。'}
             self.store.put('knowledge_job',job['id'],job)
