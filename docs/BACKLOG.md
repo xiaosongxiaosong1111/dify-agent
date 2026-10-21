@@ -83,4 +83,6 @@
 
 | 39 | 修复登录/空间核对失败诊断丢失：持久安全分类、界面显示原因及阶段，旧失败保持未知，不重试/不回显凭据 | `.venv\Scripts\python.exe -m pytest backend/tests/test_console_failures.py backend/tests/test_login.py backend/tests/test_dify_reauth.py backend/tests/test_workflow_publication.py -q`，相关隔离UI/构建 | codex（claude审查超时） | done | commit 060ad77；指定103 passed、诊断UI6/受影响发布UI7及构建通过；0.251部署12任务/模型设置/密文保持，旧失败实际只读呈现legacy_unclassified且暂停保留，0外部请求 |
 
-| 40 | 用已加密保存的登录资料明确重新连接：单次登录/原空间核对，绑定当前凭据及连接，失败暂停、不重放原操作 | `.venv\Scripts\python.exe -m pytest backend/tests/test_saved_console_reconnect.py backend/tests/test_dify_reauth.py backend/tests/test_login.py backend/tests/test_console_failures.py -q`，对应隔离UI/构建 | codex | pending | 先本地实现；不执行真实重连，不重放37或解除现有暂停 |
+| 40 | 用已加密保存的登录资料明确重新连接：单次登录/原空间核对，绑定当前凭据及连接，失败暂停、不重放原操作 | `.venv\Scripts\python.exe -m pytest backend/tests/test_saved_console_reconnect.py backend/tests/test_dify_reauth.py backend/tests/test_login.py backend/tests/test_console_failures.py -q`，对应隔离UI/构建 | codex | done | commit 40f7a9c；指定相关四文件101 passed、重连UI8及构建通过；0.252部署12任务/模型/密文保持，截图布局复核通过，真实重连0，实际暂停保持 |
+
+| 41 | 新明确重连后单次核对售后2已有发布被拒绝；旧37失败不重放 | 用户批准docs/console-reconnect-live-plan-20261021.md后执行冻结新包check.py | need-user | need-user | 包绑定0.252原实例/空间/随机密文指纹，--plan-only只创建本机方案且无外部请求；新批次最多10读取/3登录，0发布资源Key模型运行，旧59+8预留保持 |
