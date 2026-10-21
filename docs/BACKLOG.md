@@ -81,4 +81,6 @@
 
 | 38 | 运行页直接绑定当前导入App的运行Key；本机状态与确认绑定修订/环境，密钥不回显/不进浏览器存储，不访问Dify | `.venv\Scripts\python.exe -m pytest backend/tests/test_task_runtime_key.py -q`，前端构建与定向隔离UI检查 | codex（claude任务预算失败） | done | commit df0f1db；规定26 passed、8项拦截UI与构建通过。0.250部署12任务/用户模型设置/全部密文保持；真实本机GET确认当前App已有配对Key，0外部调用/0实际凭据替换，不代表真实可用性验证 |
 
-| 39 | 修复登录/空间核对失败诊断丢失：持久安全分类、界面显示原因及阶段，旧失败保持未知，不重试/不回显凭据 | `.venv\Scripts\python.exe -m pytest backend/tests/test_console_failures.py backend/tests/test_login.py backend/tests/test_dify_reauth.py backend/tests/test_workflow_publication.py -q`，相关隔离UI/构建 | codex+claude分类审查 | pending | 仅本地实现和替身验证，不重放37、不清除真实暂停，不访问Dify |
+| 39 | 修复登录/空间核对失败诊断丢失：持久安全分类、界面显示原因及阶段，旧失败保持未知，不重试/不回显凭据 | `.venv\Scripts\python.exe -m pytest backend/tests/test_console_failures.py backend/tests/test_login.py backend/tests/test_dify_reauth.py backend/tests/test_workflow_publication.py -q`，相关隔离UI/构建 | codex（claude审查超时） | done | commit 060ad77；指定103 passed、诊断UI6/受影响发布UI7及构建通过；0.251部署12任务/模型设置/密文保持，旧失败实际只读呈现legacy_unclassified且暂停保留，0外部请求 |
+
+| 40 | 用已加密保存的登录资料明确重新连接：单次登录/原空间核对，绑定当前凭据及连接，失败暂停、不重放原操作 | `.venv\Scripts\python.exe -m pytest backend/tests/test_saved_console_reconnect.py backend/tests/test_dify_reauth.py backend/tests/test_login.py -q`，对应隔离UI/构建 | codex | pending | 先本地实现；不执行真实重连，不重放37或解除现有暂停 |
