@@ -75,4 +75,6 @@
 
 | 35 | 核对新候选复核门禁对Chatflow/原生Agent保持用户选择类型与原正式方案 | `.venv\Scripts\python.exe -m pytest backend/tests/test_replanning_changes.py -q -k other_app_types` | codex | done | commit b04a248；规定2 passed、7 deselected；类型/原正式方案保持、完整候选只读留存，0真实网络 |
 
-| 36 | 主链Workflow发布前核对及明确确认入口；绑定当前新建导入App/修订/环境/成果/草稿，未知不重发 | `.venv\Scripts\python.exe -m pytest backend/tests/test_workflow_publication.py -q`，前端构建与定向隔离UI检查 | codex+claude审查 | pending | 本地实现中；0真实Dify读取/写入/运行，旧批次上限保持 |
+| 36 | 主链Workflow发布前核对及明确确认入口；绑定当前新建导入App/修订/环境/成果/草稿，未知不重发 | `.venv\Scripts\python.exe -m pytest backend/tests/test_workflow_publication.py -q`，前端构建与定向隔离UI检查 | codex（claude审查连接失败） | done | commit 4e8e523；规定27 passed、7项拦截UI与构建通过；0.249部署12任务/全部密文保持，0真实Dify调用。非首次真实发布验收 |
+
+| 37 | 新批次只读核对发布准备入口拒绝覆盖现有售后2应用 | 用户批准固定方案后运行 `work/workflow-publication-249-live/check.py`，仅明确已有发布的409算通过 | need-user | need-user | 方案docs/workflow-publication-live-review-20261021.md已冻结并本机绑定核对；需新增最多8管理读取/2登录，0发布/资源/模型/运行，旧批次剩1读取不足，不复用旧许可 |
