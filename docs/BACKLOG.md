@@ -85,4 +85,6 @@
 
 | 40 | 用已加密保存的登录资料明确重新连接：单次登录/原空间核对，绑定当前凭据及连接，失败暂停、不重放原操作 | `.venv\Scripts\python.exe -m pytest backend/tests/test_saved_console_reconnect.py backend/tests/test_dify_reauth.py backend/tests/test_login.py backend/tests/test_console_failures.py -q`，对应隔离UI/构建 | codex | done | commit 40f7a9c；指定相关四文件101 passed、重连UI8及构建通过；0.252部署12任务/模型/密文保持，截图布局复核通过，真实重连0，实际暂停保持 |
 
-| 41 | 新明确重连后单次核对售后2已有发布被拒绝；旧37失败不重放 | 用户批准docs/console-reconnect-live-plan-20261021.md后执行冻结新包check.py | need-user | need-user | 包绑定0.252原实例/空间/随机密文指纹，--plan-only只创建本机方案且无外部请求；新批次最多10读取/3登录，0发布资源Key模型运行，旧59+8预留保持 |
+| 41 | 新明确重连后单次核对售后2已有发布被拒绝；旧37失败不重放 | 用户批准docs/console-reconnect-live-plan-20261021.md后执行冻结新包check.py | codex | done | commit cdb3e12；直接批准后冻结check.py一次退出0/receipt passed：原空间重连成功、售后2已有发布409；12任务/模型/非管理凭据/旧计数保持，0发布资源Key模型运行；新10读取/3登录保守预留保持，合并上界77，旧37失败不改不重放 |
+
+| 42 | 运行页明确确认后创建当前App运行Key并加密保存，绑定原空间/修订/成果/共享影响，未知结果不重发 | `.venv\Scripts\python.exe -m pytest backend/tests/test_app_runtime_key_creation.py backend/tests/test_task_runtime_key.py -q`，对应隔离UI与构建 | codex | pending | 先完成本地实现和隔离验证，真实Key创建未授权、不执行；现有配对Key保留 |
