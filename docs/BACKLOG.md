@@ -89,4 +89,6 @@
 
 | 42 | 运行页明确确认后创建当前App运行Key并加密保存，绑定原空间/修订/成果/共享影响，未知结果不重发 | `.venv\Scripts\python.exe -m pytest backend/tests/test_app_runtime_key_creation.py backend/tests/test_task_runtime_key.py -q`，对应隔离UI与构建 | codex | done | commit 6fd5515；规定59 passed，新UI8/手工登记UI8及构建通过；0.253部署快照258fa6e815deb59a7f90，12任务/模型/全部密文保持，源码匹配快照。0真实Key创建；Claude设计审查超时未采用 |
 
-| 43 | 对已保留的改动候选按字段明确选择，生成只包含选中变化的未保存草稿，避免手工还原非目标变化 | `.venv\Scripts\python.exe -m pytest backend/tests/test_planning_candidate_selection.py backend/tests/test_replanning_changes.py -q`，对应隔离UI和构建 | codex | pending | 只本机比较/合成草稿，不自动判定语义范围、不保存正式方案、不发模型或Dify；保留完整候选及原计划 |
+| 43 | 对已保留的改动候选按字段明确选择，生成只包含选中变化的未保存草稿，避免手工还原非目标变化 | `.venv\Scripts\python.exe -m pytest backend/tests/test_planning_candidate_selection.py backend/tests/test_replanning_changes.py -q`，对应隔离UI和构建 | codex | done | commit4162464；规定34 passed，新UI8/原完整候选UI5及构建通过；0.254快照3d1031e5b1272ad6bd37部署12任务/模型/全部密文保持，源码匹配。节点ID改变只作整组，不猜配对；旧售后历史未自动修改 |
+
+| 44 | 节点重命名后明确从候选选择一个文字字段映射到原方案同类型字段，只替换该值形成未确认草稿 | `.venv\Scripts\python.exe -m pytest backend/tests/test_candidate_text_mapping.py backend/tests/test_planning_candidate_selection.py -q`，对应隔离UI及构建；旧公开案例只读离线回放 | codex | pending | 仅同修订停止候选；用户明确源/目标且同节点类型及字段，不推测映射、不执行代码、不保存正式方案、不发模型/Dify |
