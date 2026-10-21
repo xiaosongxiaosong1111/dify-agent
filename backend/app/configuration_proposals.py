@@ -156,6 +156,48 @@ class ConfigurationManager:
                 field=row['field'];diffs.append({**row,'before':record['before'][field],'after':record['candidate']['configuration'][field],'changed':record['before'][field]!=record['candidate']['configuration'][field]})
         return {'revision':task['revision'],'snapshot':snap,'snapshot_current':current,'discovery':self.h.store.get('configuration_discovery',task['id']),'record':record,'stale':stale,'diffs':diffs,'can_adopt':bool(record and record['status']=='proposed' and not stale and current and not record['candidate']['open_issues'] and any(d['changed'] for d in diffs)),'history':[{'id':r['id'],'status':r['status'],'origin_revision':r['origin_revision'],'created_at':r['created_at'],'applied_revision':r.get('applied_revision')} for r in records],'scope_note':'方案是本任务全局配置建议；检索为 multiple／Top K、关闭重排与阈值。节点级模型、复杂检索和凭据自动配置尚未支持。采纳只写本地配置，不执行 Dify 资源操作，也不代表已验证交付。'}
 
+    def knowledge_preparations(self, task):
+        """Expose recent, source-bound indexing observations, never document text or keys."""
+        from .knowledge import document_ready
+        env = self.h.store.get('environment', task.get('environment_id') or '')
+        if not env:
+            return []
+        selected = set(task['configuration']['dataset_ids'])
+        materials = {m['id']: m for m in task.get('materials', [])}
+        result = []
+        for job in self.h.store.list('knowledge_job'):
+            if (job.get('task_id') != task['id'] or job.get('environment_id') != env['id']
+                    or job.get('status') != 'applied' or job.get('dataset_id') not in selected):
+                continue
+            connection = job.get('connection') or {}
+            if any(connection.get(key) != env.get(key) for key in ('base_url', 'version', 'connection_revision')):
+                continue
+            try:
+                age = (datetime.now(timezone.utc) - datetime.fromisoformat(job['observed_at'])).total_seconds()
+            except (KeyError, ValueError, TypeError, OverflowError):
+                continue
+            documents = job.get('documents') or []
+            if not 0 <= age <= 900 or not documents or not all(document_ready(doc) for doc in documents):
+                continue
+            evidence = []
+            for doc in documents:
+                material = materials.get(doc.get('material_id'))
+                if (not material or material.get('status') != 'parsed' or not isinstance(material.get('text'), str)
+                        or material.get('name') != doc.get('name')
+                        or material.get('sha256') != doc.get('sha256')
+                        or hashlib.sha256(material['text'].encode()).hexdigest() != doc.get('sha256')):
+                    break
+                evidence.append({'name': doc['name'], 'sha256': doc['sha256'],
+                                 'indexing': {key: doc['indexing'][key] for key in
+                                              ('indexing_status', 'completed_segments', 'total_segments')}})
+            if len(evidence) != len(documents):
+                continue
+            result.append({'job_id': job['id'], 'dataset_id': job['dataset_id'],
+                           'indexing_technique': job['indexing_technique'], 'observed_at': job['observed_at'],
+                           'documents': evidence, 'verification': 'current_connection_and_material_bound_indexing_observation',
+                           'note': '本任务此前已确认并执行的资料准备观察，仅证明该次索引就绪，不证明检索命中、模型答案或应用交付。'})
+        return result
+
     def save(self,task,value):
         record={'id':str(uuid.uuid4()),'task_id':task['id'],'origin_revision':task['revision'],'created_at':self.h.now(),'status':'proposed','context_stamp':context_stamp(self.h,task),'candidate':copy.deepcopy(value),'before':copy.deepcopy(task['configuration']),'resource_warnings':self.warnings(task,value,self.snapshot(task['id']))}
         record['proposal_token']=hash_value(record);self.h.store.put('configuration_proposal',record['id'],record)
@@ -176,7 +218,7 @@ class ConfigurationManager:
                 snap=self.snapshot(item_id)
                 if not self.snapshot_current(task,snap):raise HTTPException(422,'请先读取本任务的配置依据；目录快照有效期为 15 分钟。')
                 prompt=load_contract(h.PROJECT_ROOT,'configuration-model-contract.md')
-                return [{'role':'system','content':prompt},{'role':'user','content':json.dumps({'app_type':task['app_type'],'requirements':task['requirements'],'intake':intake_summary(task),'configuration':task['configuration'],'user_discussion':[m.get('content','')[:6000] for m in task['messages'] if requirement_user(m)][-12:],'workflow_plan':task.get('workflow_plan'),'agent_plan':task.get('agent_plan'),'resources':snap},ensure_ascii=False)}]
+                return [{'role':'system','content':prompt},{'role':'user','content':json.dumps({'app_type':task['app_type'],'requirements':task['requirements'],'intake':intake_summary(task),'configuration':task['configuration'],'user_discussion':[m.get('content','')[:6000] for m in task['messages'] if requirement_user(m)][-12:],'workflow_plan':task.get('workflow_plan'),'agent_plan':task.get('agent_plan'),'resources':snap,'knowledge_preparations':self.knowledge_preparations(task)},ensure_ascii=False)}]
             return await suggest(h,item_id,payload.revision,'configuration',messages,self.validate,self.save)
         @h.app.post('/api/tasks/{item_id}/configuration-proposal/adopt')
         def adopt(item_id:str,payload:Adopt):

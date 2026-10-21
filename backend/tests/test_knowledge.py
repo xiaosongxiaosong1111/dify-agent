@@ -370,3 +370,47 @@ def test_every_document_must_finish_before_ready(client, adapter, monkeypatch):
     response = client.post(f"/api/knowledge-jobs/{job['id']}/refresh")
     assert response.status_code == 200 and response.json()['status'] == 'ready'
     assert adapter['writes'] == ['dataset', 'key', 'document', 'document']
+
+
+@pytest.mark.parametrize('later_revision', [False, True])
+def test_applied_job_can_refresh_selected_dataset_without_new_writes(client, adapter, later_revision):
+    task, _ = task_with_env(client)
+    job = approved_job(client, task)
+    ready = client.post(f"/api/knowledge-jobs/{job['id']}/execute", json={})
+    assert ready.status_code == 200 and ready.json()['status'] == 'ready'
+    applied = client.post(f"/api/knowledge-jobs/{job['id']}/apply", json={'revision': task['revision']})
+    assert applied.status_code == 200, applied.text
+    current = applied.json()
+    if later_revision:
+        current = client.patch(f"/api/tasks/{task['id']}", json={'configuration': {'temperature': 0.1}}).json()
+    writes = list(adapter['writes'])
+    response = client.post(f"/api/knowledge-jobs/{job['id']}/refresh")
+    assert response.status_code == 200, response.text
+    assert response.json()['status'] == 'applied'
+    assert response.json()['documents'][0]['indexing']['indexing_status'] == 'completed'
+    assert client.get(f"/api/tasks/{task['id']}").json() == current
+    assert adapter['writes'] == writes
+    assert client.post(f"/api/knowledge-jobs/{job['id']}/execute", json={}).status_code == 409
+    assert client.post(f"/api/knowledge-jobs/{job['id']}/apply", json={'revision': current['revision']}).status_code == 409
+    assert adapter['writes'] == writes
+
+
+@pytest.mark.parametrize('change', ['unselected', 'environment', 'connection'])
+def test_applied_refresh_still_rejects_removed_or_moved_resource(client, adapter, change):
+    task, env = task_with_env(client)
+    job = approved_job(client, task)
+    assert client.post(f"/api/knowledge-jobs/{job['id']}/execute", json={}).json()['status'] == 'ready'
+    current = client.post(f"/api/knowledge-jobs/{job['id']}/apply", json={'revision': task['revision']}).json()
+    if change == 'unselected':
+        client.patch(f"/api/tasks/{task['id']}", json={'configuration': {'dataset_ids': []}})
+    elif change == 'environment':
+        other = create_env(client)
+        client.patch(f"/api/tasks/{task['id']}", json={'environment_id': other['id']})
+    else:
+        connection = main.store.get('environment', env['id'])
+        connection['connection_revision'] = 'changed'
+        main.store.put('environment', env['id'], connection)
+    writes = list(adapter['writes'])
+    response = client.post(f"/api/knowledge-jobs/{job['id']}/refresh")
+    assert response.status_code == 409, response.text
+    assert adapter['writes'] == writes

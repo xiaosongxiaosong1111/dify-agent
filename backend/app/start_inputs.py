@@ -70,6 +70,16 @@ def validate_variable(row):
     return errors
 
 
+def check_required_text(rows, values):
+    if not isinstance(values, dict):
+        raise ValueError('试跑输入须为对象，未派发。')
+    for row in rows:
+        if row.get('type', 'text-input') in {'text-input', 'paragraph'} and row.get('required', True):
+            value = values.get(row['variable'])
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(f"输入 {row['variable']} 为必填非空文本，不能派发空白输入。")
+
+
 def check_values(rows, values, *, file_validator=None):
     """Validate omission/default semantics without changing input or run identity."""
     from .file_inputs import has_files,RUNTIME_LIMIT
@@ -77,6 +87,7 @@ def check_values(rows, values, *, file_validator=None):
     names = {row['variable'] for row in rows}
     if not isinstance(values, dict) or set(values) - names:
         raise ValueError('试跑输入包含未声明变量；不会忽略后派发。')
+    check_required_text(rows, values)
     for row in rows:
         name, kind = row['variable'], row.get('type', 'text-input')
         value = values.get(name)
@@ -126,7 +137,9 @@ def preflight(root, values, *, source_inputs=None, file_validator=None):
     metadata_errors=[message for row in rows for message in text_metadata_errors(row)]
     if metadata_errors:raise ValueError('最终DSL文字入口声明未适配：'+'；'.join(metadata_errors))
     # Preserve legacy text-only runtime behavior; typed forms use the final artifact.
-    if not any(isinstance(row, dict) and row.get('type') in {'number', 'select', 'checkbox', 'json_object','file','file-list'} for row in rows): return
+    if not any(isinstance(row, dict) and row.get('type') in {'number', 'select', 'checkbox', 'json_object','file','file-list'} for row in rows):
+        check_required_text(rows, values)
+        return
     if len(starts) != 1 or any(not isinstance(row, dict) or not isinstance(row.get('variable'), str) for row in rows):
         raise ValueError('最终 DSL 入口声明结构不完整。')
     for row in rows:

@@ -49,9 +49,13 @@ class KnowledgeManager:
             if secrets is not None:self.store.put_with_secrets('knowledge_job',job_id,job,secrets)
             else:self.store.put('knowledge_job',job_id,job)
             return job
-    def bound(self,job, *, allow_pause=False, check_time=False):
+    def bound(self,job, *, allow_pause=False, check_time=False, read_applied=False):
         task=self.host.get_task(job['task_id']);env=self.store.get('environment',job['environment_id'])
-        if task['revision']!=job['task_revision'] or task.get('environment_id')!=job['environment_id']:raise StopProvision('任务修订或目标环境已变化；旧方案不继续派发或自动加入配置。')
+        applied_read = (read_applied and job['status']=='applied'
+                        and type(job.get('applied_revision')) is int
+                        and task['revision']>=job['applied_revision']
+                        and job.get('dataset_id') in task['configuration']['dataset_ids'])
+        if (task['revision']!=job['task_revision'] and not applied_read) or task.get('environment_id')!=job['environment_id']:raise StopProvision('任务修订或目标环境已变化；旧方案不继续派发或自动加入配置。')
         if not env or any(env.get(k)!=job['connection'].get(k) for k in ('base_url','version','connection_revision')):raise StopProvision('目标连接已变化，请复核资源方案；未自动迁移到新环境。')
         if task['status'] in self.host.BUSY or any(x.get('status')=='pending' for x in task.get('runs',[])):raise StopProvision('任务正在进行其他外部操作，知识库准备暂停。')
         if not allow_pause and job['status']=='paused':raise StopProvision('已按用户要求暂停后续派发；Dify 已接收的索引可能仍在执行。')
@@ -208,7 +212,7 @@ class KnowledgeManager:
     async def refresh(self,job_id):
         job=self.job(job_id)
         if job['status'] not in {'indexing','paused','ready','applied','needs_input'} or not job.get('dataset_id'):raise HTTPException(409,'尚无可核对的索引记录，或存在结果未知的写入。')
-        try:_,env=self.bound(job,allow_pause=True)
+        try:_,env=self.bound(job,allow_pause=True,read_applied=True)
         except StopProvision as exc:raise HTTPException(409,str(exc)) from exc
         adapter=DifyClient(env,self.store)
         try:
@@ -223,7 +227,7 @@ class KnowledgeManager:
         except DifyError as exc:
             self.checkpoint(job_id,lambda j:j.update(message=self.safe_error(str(exc),j)))
             raise HTTPException(502,str(exc)) from exc
-        try:self.bound(self.job(job_id),allow_pause=True)
+        try:self.bound(self.job(job_id),allow_pause=True,read_applied=True)
         except StopProvision as exc:raise HTTPException(409,str(exc)) from exc
         def update(j):
             for doc in j['documents']:

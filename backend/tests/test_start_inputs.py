@@ -116,3 +116,56 @@ def test_model_case_candidate_checks_typed_inputs(client,inputs,valid):
     value=candidate();value['items'][0]['case']['input']=inputs
     checked=main.case_proposals.validate(saved,value)
     assert checked['valid']==valid,checked
+
+
+@pytest.mark.parametrize('kind', ['text-input', 'paragraph'])
+@pytest.mark.parametrize('value', ['', '   ', '\t\r\n', '\u3000', None])
+def test_required_text_rejects_blank_without_changing_values(kind, value):
+    values = {'query': value}
+    before = copy.deepcopy(values)
+    with pytest.raises(ValueError, match='必填非空文本'):
+        check_values([{'variable': 'query', 'type': kind, 'required': True}], values)
+    assert values == before
+
+
+@pytest.mark.parametrize('kind', ['text-input', 'paragraph'])
+@pytest.mark.parametrize('value', ['', '  ', '  genuine question  '])
+def test_optional_text_and_nonblank_original_spacing_are_preserved(kind, value):
+    rows = [{'variable': 'query', 'type': kind, 'required': False}]
+    values = {'query': value}
+    check_values(rows, values)
+    assert values == {'query': value}
+    if value.strip():
+        rows[0]['required'] = True
+        check_values(rows, values)
+        assert values == {'query': value}
+
+
+@pytest.mark.parametrize('value', ['', '  ', '\t', None])
+def test_workflow_text_only_runtime_refuses_blank_before_dispatch(client, monkeypatch, value):
+    env = create_env(client)
+    task = approved(client, env_id=env['id'])
+    workflow = base_plan()
+    workflow['nodes'][0]['config']['variables'] = [
+        {'variable': 'query', 'type': 'paragraph', 'required': True}]
+    task['workflow_plan'] = workflow
+    main.save_task(task)
+    response = client.post(f"/api/tasks/{task['id']}/build", json={'revision': task['revision']})
+    assert response.status_code == 200, response.text
+    saved = response.json()
+    saved['dify_app_id'] = 'bound-test-app'
+    main.save_task(saved)
+    connection = main.store.get('environment', env['id'])
+    connection['service_app_id'] = 'bound-test-app'
+    main.store.put('environment', env['id'], connection)
+    calls = []
+    async def run(*args, **kwargs):
+        calls.append(True)
+        return {'data': {'status': 'succeeded', 'outputs': {'result': 'unexpected'}}}
+    monkeypatch.setattr(main.DifyClient, 'run_workflow', run)
+    before = copy.deepcopy(main.get_task(task['id']))
+    response = client.post(f"/api/tasks/{task['id']}/run", json={
+        'revision': saved['revision'], 'input': {'query': value}})
+    assert response.status_code == 422, response.text
+    assert '必填非空文本' in response.json()['detail']
+    assert calls == [] and main.get_task(task['id']) == before
