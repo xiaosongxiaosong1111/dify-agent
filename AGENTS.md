@@ -2,6 +2,12 @@
 
 - Product name: Sierra, chosen by the user on 2026-10-10. Use it consistently in the UI and generated product descriptions.
 
+## Standing user instructions (2026-10-21)
+
+- For major updates, commit the reviewed changes and push to `https://github.com/xiaosongxiaosong1111/dify-agent.git`. This explicit user instruction supersedes earlier blanket no-push instructions. Verify the remote, exclude secrets, and do not force-push.
+- Reuse the dedicated Dify connection's encrypted credentials. The user authorizes obtaining a new token with their supplied login when it expires; do not repeatedly request manual login if secure credentials are available. Never write the password into Git, handoffs, logs, or browser storage. The current implementation stores tokens, not the login password; persistent encrypted login storage and automatic reauthentication remain to be implemented. Do not claim that they already work or treat chat history as a permanent credential store.
+- Prioritize the complete public after-sales case in `docs/core-delivery-focus.md`. Continue from the existing implementation and regression tests; local isolated acceptance records do not close real platform or business acceptance.
+
 ## Where work comes from
 
 - The single source of pending work is `docs/BACKLOG.md`. Its queue table is authoritative; do not substitute the ordering or numbering of `docs/development-tasks.md` for it.

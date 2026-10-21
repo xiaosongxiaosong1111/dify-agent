@@ -1,69 +1,55 @@
-# HANDOFF — Sierra（2026-10-20）
+# HANDOFF — Sierra（2026-10-21）
 
-## 1. 现状
+## 1. 当前状态
 
-- 项目：`E:\workSpace\dify-agent`（Sierra，FastAPI + Vue，目标 Dify 1.17.1）。本轮已确认在项目根目录执行。
-- 验收基线：`f85a8bf`；本轮仅提交此交接文件，未修改产品源码、检查脚本或仓库设置。最新提交号以 `git log -1` 为准。
-- 已执行 `powershell -ExecutionPolicy Bypass -File .\start.ps1`，并独立确认 `http://127.0.0.1:8765/api/health` 返回 200。
-- 验收前后端已有 12 个任务，本轮未新建任务；后端保留运行。检查使用 `frontend/dist`，未另起 18760 服务。
+- 项目根：`E:\workSpace\dify-agent`；产品 Sierra，目标 Dify 1.17.1。
+- 本轮开始代码 HEAD：`bff5490`。已实际查询 GitHub，远端 main 与本机 HEAD 相同；昨晚工作已同步，不再沿用“未推送”的旧结论。
+- 远端：`https://github.com/xiaosongxiaosong1111/dify-agent.git`。用户已要求每次大更新提交并推送，替代此前笼统的禁止 push。
+- 已按用户指示启动 Docker Desktop；现有 Dify 容器自动恢复。Dify 登录页 200，API `/health` 返回 `ok`、1.17.1。
+- Sierra `/api/health` 正常，运行快照 `0.241.0-4ebe348d1c94e1cc72be`。
+- 专用连接 `202bfb35-2f92-47c1-bc1b-eac32082181d`（Sierra售后主链专用）已有加密管理令牌，`POST /api/environments/{id}/test` 实际 Console 读取成功。
+- 本轮没有付费模型调用、建库、导入、发布或工作流试跑；没有修改产品代码或重跑全量测试。
 
 ## 2. 不可动前提
 
-- 目标 Dify 固定 **1.17.1**，查 tagged source，不看 main。
-- 用户选的 app type **不得静默更改**；不支持的功能返回精确限制。
-- 静态 YAML 校验 **不等于** 真实 import/run，UI、API、下载三处都要标注。
-- 真实外部写入前必须有具体的已批准资源方案；**不得静默覆盖**已有 Dify 应用。
-- API key 不得进浏览器存储、日志、导出 DSL、Git。
-- 产品 UI 与用户可见错误一律中文。
+- 固定 Dify 1.17.1，查 tagged source；用户选择的应用类型不得静默替换。
+- 静态检查、固定响应和本地隔离测试不等于真实模型、Dify 或业务验收。
+- 保留原任务、凭据和已有 Dify 应用。真实资源操作按具体已批准方案执行，不静默覆盖或扩大范围。
+- 密钥、密码不得写入 Git、日志、交接、DSL 或浏览器存储。产品界面与用户可见错误使用中文。
+- 额度耗尽立即停止，保存进度后报告，不重试、不换账号。
 
-## 3. 下一步
+## 3. 下一步：恢复完整售后案例主链
 
-**待办查 `docs/BACKLOG.md` 队列表，不要问用户下一项做什么。** 取编号最小的 `pending` 行执行；完成一项改状态、写证据、commit，然后继续下一行。只有三种情况停：额度耗尽、连续两项失败、剩余全是 `blocked`/`need-user`。
+**在昨晚实现和回归测试基础上继续，优先完成同一个真实案例，不再以测试数、版本数或队列 done 数代替交付。**
 
-- 队列里 `need-user` 的行（专用 Dify 登录、真实联调）不自己做，也不要降级成“本地通过”。
-- `docs/development-tasks.md` 的 136 项是需求侧任务表（现有状态：进行中 67 / 等待验证 46 / 受阻 23 / 已完成 0），它**不是**取活顺序；取活只看 BACKLOG。
-- 每项完成都是“本地隔离检查通过”，不等于真实 Dify 平台验收。证据栏要写明这个边界。
+1. 先审查 0.240 到 0.241 的访谈修复与运行差异，准备有明确范围的续接记录。原冻结联调包绑定 0.240，而当前运行 0.241；不要改冻结文件或绕过校验来运行旧脚本。
+2. 原首次访谈失败已消耗 1 次请求，状态为 `paused_after_initial_interview_contract_failure`；不重播初始阶段。核对失败修复及允许的继续位置，再进入剩余批次。
+3. 沿原公开案例完成确认配置、生成 DSL、真实建库与导入、有命中／无命中试跑、修改一项业务要求后再次生成和试跑，保存真实轨迹、费用与失败。
+4. 本轮连接鉴权已验证，但资源模型可用性、完整配置与业务链尚未验收；不能直接改所有相关任务为完成。
 
-### 上一轮已验收（仅作背景，不需要重跑）
+原批次：`work/after-sales-mainline/approval.json` 记录已批准；manifest 为 `bbb99aec319d15e8aed313ed6895237cf1c173333e0b59833fddd479dd80a96b`。最多14次Sierra模型请求，首次已用1次；最多1库、2文档、2新应用、4次试跑、60次资源读取，估算0.5 USD（非账单硬上限）。续接必须核对现有账本和读取记录，不能按旧摘要重置计数。
 
-`work/workflow-progress-235.cjs` 已跑绿，退出码 0，14 项检查全部通过。结果：`work/workflow-progress-235-source.json`，`checks = 14`，`actual_writes = 0`，`external_requests = 0`。
+## 4. 用户的持续要求
 
-本轮实际执行命令：
+- 大更新核对、commit 后推送指定 GitHub，不需要重复询问是否推送；不强推、不提交秘密。
+- 令牌有效时复用加密凭据；过期后用户已授权使用其登录凭据重新认证，避免反复要求手动登录。
+- 当前只加密保存令牌，没有保存登录密码，跨会话自动重新认证尚未实现。后续需接入安全的本机凭据存储及有界重新认证，不能把密码写入本文件或代码，也不能声称已长期记住密码。
 
-```powershell
-cd E:\workSpace\dify-agent
-powershell -ExecutionPolicy Bypass -File .\start.ps1
-# 独立确认 /api/health 返回 200，且 /api/tasks 非空后执行：
-node work\workflow-progress-235.cjs "C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\node_modules\playwright"
-```
+## 5. 剩余工作口径
 
-- 结果：`work/workflow-progress-235-source.json`，`checks = 14`，`fake_progress_writes = 2`，`actual_writes = 0`，`external_requests = 0`，`original_task_unchanged = true`，`static_source = true`。
-- 覆盖输入保护、明确恢复、历史只读、保存回执丢失后的只读核对、外国任务回执拒绝等行为；实际任务快照在检查前后相同。
-- 结果中的“实际11任务”是脚本固定文案；本轮接口实查已有 12 个任务，检查仅比对其选中任务的前后快照，不代表逐一核对所有任务或真实 Dify import/run。
-- 未修改源码、未重新 build、未重跑全量测试；结果文件在被忽略的 `work/` 中，本次验收摘要保存在此文件。
+- 136项表结构／证据引用检查通过；记录状态：进行中67、等待验证46、受阻23、已完成0。表尚未反映本轮新登录成功，状态不是当前功能的精确完成比例。
+- 已完成0表示没有逐项关闭当前修订的完整验收，不代表功能为零；不能把67项算作完全未开发，也不能把46项算作仅点一下验收即可关闭。
+- 25个最终验收场景已有本地记录，但仍保留真实语义、平台和业务缺口。
+- 优先剩余：真实主链、真实访谈／规划质量、修改后保留与重验证、复杂流程／Agent工具范围、断连／重复外部操作恢复、安装复现及最终交付。
+- 用户要求的是当前还差什么；不要用早期55%—60%粗估或测试通过数推算剩余工期／比例。
 
-## 4. 证据指针（需要时再读，不要预先通读）
+## 6. 证据入口与执行边界
 
-| 用途 | 路径 |
-|---|---|
-| 本轮定向检查 | `work/workflow-progress-235.cjs` |
-| 本轮通过结果（本机文件） | `work/workflow-progress-235-source.json` |
-| 对应界面实现 | `frontend/src/WorkflowMappingProgress.tsx` |
-| 交付优先级与下一阶段目标 | `docs/core-delivery-focus.md` |
-| 历史检查点（290KB，只按编号 grep 单段） | `work/development-resume.md` |
-| 最近基线测试输出（本轮未重跑） | `work/backend-240-full.txt` |
-
-## 5. 已知坑
-
-- 后端必须用 `.venv\Scripts\python.exe`；全局 python 缺 `typing_extensions`。
-- 本机没有全局 playwright，检查脚本必须传上述绝对模块路径。
-- 检查脚本自行从 `frontend/dist` 提供静态文件，不需要另起 18760；需要真实后端至少一个任务。
-- 本机没有 sh，不要用 bash 语法或 `&&`。
-- 本轮 Git 遇到 ownership 检查，使用单次命令参数 `git -c safe.directory=E:/workSpace/dify-agent ...`；未改全局或仓库设置。
-
-## 6. 边界
-
-- 只修指定检查暴露的实质错误，不顺带重构、不重建项目、不重跑全量测试。
-- 撞额度立即停，将当前进度写入 `docs/BACKLOG.md` 后报告；不重试、不换账号。
-- 不 `git push`、不删目录、不做 docker 操作、不改 `.venv`。
-- 每次完成一项就整份重写本文件，不追加历史。
+- 原始需求：`docs/requirements-v1.0.md`；优先级：`docs/core-delivery-focus.md`。
+- 批次文件：`work/after-sales-mainline/` 下的 `resource-plan.md`、`execution-binding.json`、`approval.json`、`live-state.json`、`preflight.py`、`live_batch.py`。
+- 队列：`docs/BACKLOG.md` 目前28 done、2 blocked；登录阻断已变化，历史队列状态不能代替当前判断。
+- 历史 `work/development-resume.md` 只按编号／目标 grep 单段，不通读。
+- `workflow-progress-235.cjs` 已14项通过，不重复跑。只有源码变化和具体风险才运行相关定向检查。
+- 大更新可 push；此前 Docker 启动也已获用户授权。其余不删目录、不改 `.venv` 或仓库设置，不擅自安装或替换组件。
+- Git ownership 用命令级 `-c safe.directory=E:/workSpace/dify-agent`，不改全局设置。
+- 全文件重写交接，不追加历史。最新提交号以 `git log -1` 为准。
