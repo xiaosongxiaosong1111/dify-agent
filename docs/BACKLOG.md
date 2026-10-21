@@ -95,4 +95,6 @@
 
 | 45 | 新一批完整入口真实验收：现有售后任务另存新修订、新建App首次发布、创建Key及两例试跑 | 已批准冻结check.py只执行一次，异常即停 | codex | blocked | 重连/r21/新App导入/首次发布/新Key均成功；首个试跑入口因本机累计4/4上限409，未派发Dify，无r21运行记录，不重试。receipt stopped_needs_review；原计划/旧记录/其余11任务/模型/非允许密文/旧计数保护通过。48读/14登录预留保持，合并上界125；预演遗漏持久策略，需补本机预检后另批准仅运行批次 |
 
-| 46 | 在创建资源前只读预检本批试跑次数与已保存执行限制，界面提前显示累计上限，策略/历史不自动调整或重置 | `.venv\Scripts\python.exe -m pytest backend/tests/test_run_batch_preflight.py backend/tests/test_execution_limits.py -q`，对应隔离UI/构建与真实本机只读4/4核对 | codex | pending | 只本机读状态，不派发Dify，不重试45；预检不是额度预留或资源批准，未知耗时/报价保持阻断 |
+| 46 | 在创建资源前只读预检本批试跑次数与已保存执行限制，界面提前显示累计上限，策略/历史不自动调整或重置 | `.venv\Scripts\python.exe -m pytest backend/tests/test_run_batch_preflight.py backend/tests/test_execution_limits.py -q`，对应隔离UI/构建与真实本机只读4/4核对 | codex | done | commita5ba1de；规定44 passed、新UI7/构建/截图通过；0.256快照72871c7742f0993dd782部署12任务/模型/全部密文保持。真实本机只读预检明确4/4+计划2需最小6；0外部，原策略和45失败回执保持 |
+
+| 47 | 仅完成r21现有新App两例：明确调整累计次数4到6、耗时10分钟保持，预检后命中/无命中各运行一次 | 先冻结只运行新批次及持久策略完整复制的隔离预演，经直接许可后一次执行 | codex | pending | 不创建App/发布/Key，不重放45；新管理读取/登录0，Sierra模型0，Dify新增估算0.01USD；未执行策略调整或运行 |
