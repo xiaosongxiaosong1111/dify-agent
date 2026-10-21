@@ -124,8 +124,9 @@ def register(h):
             binding, env, graph = source(task)
         try:
             draft = await remote(h.DifyClient(env, h.store), binding['app_id'], graph)
-        except DifyError:
-            raise HTTPException(502, '发布前只读核对未通过，请核对Dify连接；未发送发布。') from None
+        except DifyError as exc:
+            from .console_failures import error_message, code
+            raise HTTPException(502, '发布前只读核对未通过。' + error_message(exc) + ' 未发送发布。', headers={'X-Sierra-Dify-Code':code(exc)}) from None
         with h.store.lock:
             task, env, _ = check(item_id, binding); h.require_idle(task)
             row = {'id': str(uuid.uuid4()), 'task_id': item_id, 'revision': payload.revision,

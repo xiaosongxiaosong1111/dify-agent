@@ -80,7 +80,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.250.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.251.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -159,7 +159,7 @@ def provider_public(provider):
 
 
 def env_public(env):
-    out = {k: v for k, v in env.items() if k not in {*SECRET_FIELDS,"console_login_email","console_login_password","console_login_binding"}}
+    out = {k: v for k, v in env.items() if k not in {*SECRET_FIELDS,"console_login_email","console_login_password","console_login_binding","console_failure_id"}}
     from .console_reauth import available
     out["has_saved_login"] = bool(env.get("console_login_binding") and store.has_secret(env["id"],"console_login_password"))
     out["automatic_login_enabled"] = available(store,env)
@@ -168,6 +168,8 @@ def env_public(env):
     from .console_connection import summary as console_summary
     out['console_connection'] = console_summary(store.secret(env['id'], 'console_token'), store.has_secret(env['id'], 'csrf_token'))
     out['console_connection']['automatic_login_enabled'] = out['automatic_login_enabled']
+    from .console_failures import public as console_failure_public
+    out['console_connection']['failure'] = console_failure_public(store, env)
     return out
 
 
@@ -1732,6 +1734,7 @@ def save_environment(payload, existing=None):
         out.pop('console_login_binding',None)
         out.pop('console_workspace_id',None)
         out.pop('console_login_blocked',None)
+        out.pop('console_failure_id',None)
         secrets.update(console_login_email='',console_login_password='')
     store.put_with_secrets("environment", out["id"], out, secrets)
     return env_public(out)
@@ -1802,9 +1805,11 @@ async def login_environment(item_id: str, request: Request):
             tokens=await adapter.login(email,password)
             workspace=await adapter.login_workspace(tokens) if remember_login or env.get('console_workspace_id') else None
             if env.get('console_workspace_id') and workspace!=env['console_workspace_id']:
-                raise DifyError('登录后的工作空间与此连接不同，原凭据未替换；请为其他工作空间另建连接。')
+                raise DifyError('登录后的工作空间与此连接不同，原凭据未替换；请为其他工作空间另建连接。', code='workspace_mismatch')
         except DifyError as exc:
-            raise HTTPException(502,str(exc)) from exc
+            from .console_failures import record, error_message, code
+            record(store, env, exc, automatic=False)
+            raise HTTPException(502, error_message(exc), headers={'X-Sierra-Dify-Code':code(exc)}) from None
         with store.lock:
             current=store.get('environment',item_id)
             if current!=env or environment_busy(item_id):
@@ -1813,6 +1818,7 @@ async def login_environment(item_id: str, request: Request):
             current['console_checked_at']=now()
             current['console_auth_mode']='email_password'
             current.pop('console_login_blocked',None)
+            current.pop('console_failure_id',None)
             if remember_login:
                 current['console_workspace_id']=workspace
                 current['console_login_binding']={**{k:current[k] for k in ('base_url','version')},'workspace_id':workspace}
@@ -1835,6 +1841,7 @@ def forget_environment_login(item_id:str):
         if not current:raise HTTPException(404,'环境不存在。')
         current.pop('console_login_binding',None)
         current.pop('console_login_blocked',None)
+        current.pop('console_failure_id',None)
         store.put_with_secrets('environment',item_id,current,{'console_login_email':'','console_login_password':''})
         return {'environment':env_public(current),'message':'已删除本机保存的登录资料，当前令牌和独立应用/知识库Key保持。'}
 

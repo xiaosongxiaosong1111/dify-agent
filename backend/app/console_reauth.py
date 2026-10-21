@@ -37,14 +37,11 @@ async def refresh(client,rejected_token):
         try:
             tokens=await client.login(email,password)
             if await client.login_workspace(tokens)!=stamp[BINDING]['workspace_id']:
-                raise DifyError('新登录的工作空间与保存授权不同，未替换凭据或派发原操作。')
-        except DifyError:
-            with store.lock:
-                latest=store.get('environment',env['id'])
-                if latest==stamp:
-                    latest['console_login_blocked']=True
-                    store.put('environment',env['id'],latest)
-            raise DifyError('自动登录未成功，已暂停此环境的自动登录；没有重试或重发原操作。请核对账号后重新连接。') from None
+                raise DifyError('新登录的工作空间与保存授权不同，未替换凭据或派发原操作。', code='workspace_mismatch')
+        except DifyError as exc:
+            from .console_failures import record, error_message, code
+            record(store, stamp, exc, automatic=True)
+            raise DifyError('自动登录未成功，已暂停此环境的自动登录；没有重试或重发原操作。' + error_message(exc), code=code(exc), http_status=exc.http_status) from None
         finally:
             email=password=''
         with store.lock:
@@ -53,6 +50,7 @@ async def refresh(client,rejected_token):
             if (current!=stamp or latest_secrets!=secret_stamp
                     or not available(store,current)):
                 raise DifyError('自动登录期间环境或保存授权变化，未替换管理凭据。')
+            current.pop('console_failure_id',None)
             current['console_auth_mode']='email_password'
             current['console_checked_at']=datetime.now(timezone.utc).isoformat()
             current.setdefault('capabilities',{})['console']='verified'

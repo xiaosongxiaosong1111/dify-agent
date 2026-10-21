@@ -7,12 +7,13 @@ from .providers import checked_url
 
 
 class DifyError(ValueError):
-    def __init__(self, message, *, result=None, http_status=None):
+    def __init__(self, message, *, result=None, http_status=None, code=None):
         super().__init__(message)
         # A successful HTTP response can still describe a failed workflow.
         # Keep that known result separately; never append bodies to public errors.
         self.result = result
         self.http_status = http_status
+        self.code = code
 
 
 class DifyClient:
@@ -40,7 +41,9 @@ class DifyClient:
                     key=self.store.secret(self.env['id'],credential)
                     expires=expiry(key)
                 if not key or (expires is not None and expires <= time.time()):
-                    raise DifyError('Sierra 保存的 Dify 管理令牌已过期或缺失，未发送本次请求。请在 Sierra 环境中连接并选择加密保存登录资料；在 Dify 页面登录不会更新此连接。')
+                    if current and current.get('console_login_blocked'):
+                        raise DifyError('此环境自动登录已暂停；请查看最近失败诊断，原操作不会重发。', code='automatic_login_paused')
+                    raise DifyError('Sierra 保存的 Dify 管理令牌已过期或缺失，未发送本次请求。请在 Sierra 环境中连接并选择加密保存登录资料；在 Dify 页面登录不会更新此连接。', code='console_credentials_missing')
         if not key:
             raise DifyError(f'缺少 {credential} 凭据；管理、应用运行和知识库访问使用不同凭据。')
         headers = {"Authorization": "Bearer " + key}
@@ -66,69 +69,79 @@ class DifyClient:
                             current=self.store.get('environment',self.env['id'])
                             if (current and all(current.get(k)==self.env.get(k) for k in ('base_url','version','connection_revision'))
                                     and self.store.secret(self.env['id'],'console_token')==key and available(self.store,current)):
-                                current['console_login_blocked']=True
-                                self.store.put('environment',self.env['id'],current)
-                        raise DifyError('自动登录后的管理令牌仍返回 HTTP 401，已暂停自动登录；未再次登录或重发。请核对原环境权限。',http_status=401)
-                    raise DifyError('Dify 管理连接返回 HTTP 401，当前管理凭据不可用。请在 Sierra 的 Dify 环境中重新使用邮箱密码连接；在 Dify 页面登录不会更新此连接。没有自动重新登录或重发本次操作。', http_status=401)
-                raise DifyError(f"Dify 返回 HTTP {response.status_code}。请核对所选环境的接口权限、凭据类型及版本。", http_status=response.status_code)
+                                from .console_failures import record
+                                record(self.store, current, DifyError('fresh token rejected', code='refreshed_token_rejected', http_status=401), automatic=True)
+                        raise DifyError('自动登录后的管理令牌仍返回 HTTP 401，已暂停自动登录；未再次登录或重发。请核对原环境权限。',http_status=401,code='refreshed_token_rejected')
+                    raise DifyError('Dify 管理连接返回 HTTP 401，当前管理凭据不可用。请在 Sierra 的 Dify 环境中重新使用邮箱密码连接；在 Dify 页面登录不会更新此连接。没有自动重新登录或重发本次操作。', http_status=401, code='console_http_error')
+                raise DifyError(f"Dify 返回 HTTP {response.status_code}。请核对所选环境的接口权限、凭据类型及版本。", http_status=response.status_code, code="console_http_error")
             if response.status_code == 204:
                 return {}
             return response.json()
         except httpx.TimeoutException as exc:
-            raise DifyError("Dify 请求超时。外部写入结果可能未知，请先核对，不要直接重复创建。") from exc
+            raise DifyError("Dify 请求超时。外部写入结果可能未知，请先核对，不要直接重复创建。", code="console_timeout") from exc
         except httpx.RequestError as exc:
-            raise DifyError("无法连接目标 Dify 环境。可以继续生成待验证 DSL。") from exc
+            raise DifyError("无法连接目标 Dify 环境。可以继续生成待验证 DSL。", code="console_unreachable") from exc
         except ValueError as exc:
             if isinstance(exc, DifyError):
                 raise
-            raise DifyError("Dify 返回的内容不是预期 JSON，可能是登录页面或接口不兼容。") from exc
+            raise DifyError("Dify 返回的内容不是预期 JSON，可能是登录页面或接口不兼容。", code="console_response_invalid") from exc
 
     async def login(self, email: str, password: str):
         """Authenticate once and verify console access before returning transient tokens."""
+        phase = 'login'
         try:
             async with httpx.AsyncClient(timeout=30, follow_redirects=False) as client:
                 response = await client.post(self.base + "/console/api/login", json={
                     "email": email, "password": base64.b64encode(password.encode("utf-8")).decode("ascii"),
                     "remember_me": False,
                 })
-                if response.status_code != 200 or response.json().get("result") != "success":
-                    raise DifyError(f"Dify 登录未成功（HTTP {response.status_code}）。请检查管理员初始化、邮箱密码及邮箱密码登录是否启用；不会自动注册或重试。")
+                if response.status_code != 200:
+                    raise DifyError(f"Dify 登录未成功（HTTP {response.status_code}）。不会自动注册或重试。", code='login_rejected', http_status=response.status_code)
+                if response.json().get("result") != "success":
+                    raise DifyError("Dify 登录未成功，请核对账号权限及登录方式。", code='login_rejected', http_status=response.status_code)
                 cookies = {c.name: c.value for c in response.cookies.jar}
                 prefix = "__Host-" if "__Host-access_token" in cookies else ""
                 access = cookies.get(prefix + "access_token", "")
                 csrf = cookies.get(prefix + "csrf_token", "")
                 if not access or not csrf or any(len(t) > 16384 or any(c.isspace() or c in ';,\r\n' for c in t) for t in (access, csrf)):
-                    raise DifyError("Dify 未返回完整、有效的登录 Cookie；当前仅适配 1.17.1 邮箱密码登录。")
+                    raise DifyError("Dify 未返回完整、有效的登录 Cookie；当前仅适配 1.17.1 邮箱密码登录。", code='login_cookies_invalid')
+                phase = 'probe'
                 probe = await client.get(self.base + "/console/api/apps", params={"page": 1, "limit": 1},
                     headers={"Authorization": "Bearer " + access, "X-CSRF-Token": csrf,
                              "Cookie": f"{prefix}access_token={access}; {prefix}csrf_token={csrf}"})
                 if probe.status_code != 200 or not isinstance(probe.json().get("data"), list):
-                    raise DifyError("登录后的应用列表读取未通过；原有连接凭据保留，请检查工作空间权限。")
+                    raise DifyError("登录后的应用列表读取未通过；原有连接凭据保留，请检查工作空间权限。", code='login_probe_failed', http_status=probe.status_code)
                 return {"console_token": access, "csrf_token": csrf}
         except httpx.TimeoutException as exc:
-            raise DifyError("Dify 登录连接超时。不会自动重试，请检查连接后再次操作。") from exc
+            raise DifyError("Dify 登录连接超时。不会自动重试。", code='login_timeout' if phase == 'login' else 'login_probe_timeout') from exc
         except httpx.RequestError as exc:
-            raise DifyError("无法连接目标 Dify 登录接口，请核对环境地址。") from exc
+            raise DifyError("无法连接目标 Dify 登录接口或登录核对接口。", code='login_unreachable' if phase == 'login' else 'login_probe_unreachable') from exc
         except (ValueError, AttributeError) as exc:
-            if isinstance(exc, DifyError):
-                raise
-            raise DifyError("Dify 登录接口返回不兼容的内容；原有凭据未替换。") from exc
+            if isinstance(exc, DifyError): raise
+            raise DifyError("Dify 登录接口返回不兼容的内容；原有凭据未替换。", code='login_response_invalid' if phase == 'login' else 'login_probe_response_invalid') from exc
 
-    async def login_workspace(self,tokens):
+    async def login_workspace(self, tokens):
         """Verify fresh login tokens before committing them to a pinned connection."""
         try:
-            csrf=tokens['csrf_token']
-            headers={'Authorization':'Bearer '+tokens['console_token'],'X-CSRF-Token':csrf,
-                     'Cookie':f'csrf_token={csrf}; __Host-csrf_token={csrf}'}
-            async with httpx.AsyncClient(timeout=30,follow_redirects=False) as client:
-                response=await client.get(self.base+'/console/api/workspaces/current/summary',headers=headers)
-            value=response.json() if response.status_code==200 else None
-            ident=value.get('id') if isinstance(value,dict) else None
-            if not isinstance(ident,str) or not 1<=len(ident)<=200 or any(c.isspace() for c in ident):
-                raise DifyError('无法核对新登录令牌的工作空间，原凭据未替换。')
+            csrf = tokens['csrf_token']
+            headers = {'Authorization': 'Bearer ' + tokens['console_token'], 'X-CSRF-Token': csrf,
+                       'Cookie': f'csrf_token={csrf}; __Host-csrf_token={csrf}'}
+            async with httpx.AsyncClient(timeout=30, follow_redirects=False) as client:
+                response = await client.get(self.base + '/console/api/workspaces/current/summary', headers=headers)
+            if response.status_code != 200:
+                raise DifyError('工作空间身份接口未成功返回，原凭据未替换。', code='workspace_probe_failed', http_status=response.status_code)
+            value = response.json()
+            ident = value.get('id') if isinstance(value, dict) else None
+            if not isinstance(ident, str) or not 1 <= len(ident) <= 200 or any(c.isspace() for c in ident):
+                raise DifyError('无法核对新登录令牌的工作空间，原凭据未替换。', code='workspace_response_invalid')
             return ident
-        except (httpx.RequestError,ValueError,KeyError,TypeError):
-            raise DifyError('新登录的工作空间核对未通过，原凭据未替换；不会自动重试。') from None
+        except httpx.TimeoutException:
+            raise DifyError('工作空间核对超时，原凭据未替换。', code='workspace_timeout') from None
+        except httpx.RequestError:
+            raise DifyError('无法连接工作空间身份接口，原凭据未替换。', code='workspace_unreachable') from None
+        except (ValueError, KeyError, TypeError) as exc:
+            if isinstance(exc, DifyError): raise
+            raise DifyError('新登录的工作空间核对未通过，原凭据未替换；不会自动重试。', code='workspace_response_invalid') from None
 
     async def test(self):
         # Authenticated console query, not just public health.
