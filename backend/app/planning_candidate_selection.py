@@ -106,4 +106,6 @@ def register(h):
             if state != 'json_object': raise HTTPException(422, '所选变化未形成完整对象，未返回草稿。')
             return metadata(task, run_id, token, candidate_sha) | {'verification': 'selected_candidate_unconfirmed_draft', 'plan_text': text, 'source_sha256': hashlib.sha256(text.encode()).hexdigest(),
                     'byte_count': size, 'selected_ids': selected, 'selected_count': len(selected), 'unselected_count': len(rows) - len(selected), 'static_validated': False}
+    from .candidate_text_mapping import register as register_text_mapping
+    register_text_mapping(h, router, source, metadata)
     h.app.include_router(router)

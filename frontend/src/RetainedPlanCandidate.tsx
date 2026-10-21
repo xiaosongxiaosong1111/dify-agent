@@ -1,5 +1,6 @@
 import {useEffect,useRef,useState} from 'react';
 import CandidateFieldSelection from './CandidateFieldSelection';
+import CandidateTextMapping from './CandidateTextMapping';
 type Candidate={task_id:string;planning_run_id:string;input_revision:number;current_revision:number;is_current_revision:boolean;app_type:string;plan_text:string;source_sha256:string;byte_count:number;verification:string;formal_plan_changed:boolean;network_requested:boolean;platform_checked:boolean;business_verified:boolean};
 export type RetainedDraft={taskId:string;revision:number;text:string};
 const keys='app_type,business_verified,byte_count,current_revision,formal_plan_changed,input_revision,is_current_revision,network_requested,plan_text,planning_run_id,platform_checked,source_sha256,task_id,verification';
@@ -22,6 +23,6 @@ export default function RetainedPlanCandidate({taskId,revision,runId,inputRevisi
  {reading&&<p role="status">正在读取本机候选...</p>}{error&&<p role="alert">{error}</p>}{notice&&<p role="status">{notice}</p>}
  {visible&&<><p>输入修订 v{visible.input_revision} · {visible.byte_count} 字节 · SHA256 {visible.source_sha256.slice(0,12)}</p>{!visible.is_current_revision&&<p>这是历史修订候选，仅供查看，不能放入当前草稿。</p>}
  <details><summary>查看候选原文（未验证）</summary><pre>{visible.plan_text}</pre></details>
- <button className="secondary" disabled={blocked||reading||!visible.is_current_revision} onClick={()=>{if(onLoad({taskId,revision,text:visible.plan_text}))setNotice('已放入未保存流程草稿；请修正并后台校验，尚未保存或确认。')}}>放入未保存流程草稿</button>{visible.is_current_revision&&<CandidateFieldSelection taskId={taskId} revision={revision} runId={runId} appType={appType} candidateSha={visible.source_sha256} blocked={blocked||reading} onLoad={onLoad}/>}</>}
+ <button className="secondary" disabled={blocked||reading||!visible.is_current_revision} onClick={()=>{if(onLoad({taskId,revision,text:visible.plan_text}))setNotice('已放入未保存流程草稿；请修正并后台校验，尚未保存或确认。')}}>放入未保存流程草稿</button>{visible.is_current_revision&&<><CandidateFieldSelection taskId={taskId} revision={revision} runId={runId} appType={appType} candidateSha={visible.source_sha256} blocked={blocked||reading} onLoad={onLoad}/><CandidateTextMapping taskId={taskId} revision={revision} runId={runId} appType={appType} candidateSha={visible.source_sha256} blocked={blocked||reading} onLoad={onLoad}/></>}</>}
  </div>;
 }
