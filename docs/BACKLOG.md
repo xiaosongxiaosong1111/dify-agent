@@ -71,4 +71,4 @@
 
 | 33 | 修复知识准备及目录读取自动续期导致的假连接变化409，保留真实连接/旧job边界 | `.venv\Scripts\python.exe -m pytest backend/tests/test_knowledge_reauth.py backend/tests/test_knowledge.py backend/tests/test_resources.py -q` | codex | done | commit 18394dd；规定三文件76 passed；0.247最终快照部署12任务/全部密文保持，知识/模型/参数/库目录假409已修复，0外部调用 |
 
-| 34 | 自动登录续期绑定原Dify工作空间；不同空间令牌不提交/不派发原请求，旧授权连接只读核对身份 | `.venv\Scripts\python.exe -m pytest backend/tests/test_dify_reauth.py backend/tests/test_login.py backend/tests/test_knowledge_reauth.py -q` | codex | pending | 新加密登录已启用，补充同实例不同空间身份边界，最多1次已知空间只读核对，不登录/建资源/运行 |
+| 34 | 自动登录续期绑定原Dify工作空间；不同空间令牌不提交/不派发原请求，旧授权连接只读核对身份 | `.venv\Scripts\python.exe -m pytest backend/tests/test_dify_reauth.py backend/tests/test_login.py backend/tests/test_knowledge_reauth.py -q` | codex | done | commit c4ef9ae；规定三文件60 passed，0.248部署12任务/全部密文保持；已实际匹配原空间并启用自动登录。收口局部变量错误后独立核对，共2读取计入59/60，0登录/资源写入/运行 |
