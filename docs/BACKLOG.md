@@ -79,4 +79,4 @@
 
 | 37 | 新批次只读核对发布准备入口拒绝覆盖现有售后2应用 | 用户批准固定方案后运行 `work/workflow-publication-249-live/check.py`，仅明确已有发布的409算通过 | codex | blocked | 用户已批准；一次执行返回502/自动登录暂停，非预期已有发布409，原回执保留、未重试；12任务保持/无发布资源模型运行。读取保守预留8保持，具体登录失败原因未证明；系统权限下Docker/8080正常 |
 
-| 38 | 运行页直接绑定当前导入App的运行Key；本机状态与确认绑定修订/环境，密钥不回显/不进浏览器存储，不访问Dify | `.venv\Scripts\python.exe -m pytest backend/tests/test_task_runtime_key.py -q`，前端构建与定向隔离UI检查 | codex+claude契约核对 | pending | 本地实现；不改已有凭据、不新建Key、不做真实试跑 |
+| 38 | 运行页直接绑定当前导入App的运行Key；本机状态与确认绑定修订/环境，密钥不回显/不进浏览器存储，不访问Dify | `.venv\Scripts\python.exe -m pytest backend/tests/test_task_runtime_key.py -q`，前端构建与定向隔离UI检查 | codex（claude任务预算失败） | done | commit df0f1db；规定26 passed、8项拦截UI与构建通过。0.250部署12任务/用户模型设置/全部密文保持；真实本机GET确认当前App已有配对Key，0外部调用/0实际凭据替换，不代表真实可用性验证 |
