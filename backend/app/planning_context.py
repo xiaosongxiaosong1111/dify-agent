@@ -1,5 +1,6 @@
 """Current saved plan and matching prior inputs for bounded regeneration context."""
 import copy
+from .acceptance import same_json
 
 
 def replanning_context(task):
@@ -8,7 +9,7 @@ def replanning_context(task):
     if not isinstance(plan, dict):
         return None
     matches = [v for v in reversed(task.get('versions', []))
-               if isinstance(v, dict) and v.get(key) == plan]
+               if isinstance(v, dict) and same_json(v.get(key),plan)]
     # Recent snapshots often only differ in name/cases. Find the latest actual
     # requirements/configuration transition against this exact saved plan.
     baseline = next((v for v in matches if any(

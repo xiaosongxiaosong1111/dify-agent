@@ -54,3 +54,9 @@ def test_same_inputs_can_be_baseline_without_invented_change():
 def test_initial_generation_has_no_invented_existing_plan(plan):
     task=source();task['workflow_plan']=plan
     assert replanning_context(task) is None
+
+
+def test_boolean_and_number_parameter_do_not_match_as_same_historical_plan():
+    task=source();foreign=copy.deepcopy(task['workflow_plan']);foreign['nodes'][0]['config']['model']['completion_params']['thinking']=0
+    task['versions']=[{'revision':8,'workflow_plan':foreign,'requirements':{'output':'旧输入'},'configuration':task['configuration']}]
+    assert not replanning_context(task)['baseline_available']

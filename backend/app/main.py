@@ -80,7 +80,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.245.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.246.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -617,6 +617,14 @@ async def generate_plan(item_id: str, payload: Revision):
         plan = await draft_plan(task, provider, messages, settings, operation, invoke, lambda p: validate_plan(task, p), checkpoint, guard)
         with store.lock:
             guard()
+            from .acceptance import same_json
+            if existing_plan_context is not None and not same_json(existing_plan_context['plan'],plan):
+                from .planning_scope_summary import summarize
+                report=summarize(existing_plan_context['plan'],plan)
+                report.update(verification='replanning_review_summary',note='仅比较本次完整候选与生成前已存方案；不自动判断哪些属于目标修改。原正式方案未替换，请查看完整候选并明确载入、保存后重新确认；摘要不证明语义保留或真实运行。')
+                operation['scope_change_summary']=report
+                operation['last_candidate']=copy.deepcopy(plan)
+                raise PlanningStopped('replanning_review','重新生成候选相对已存方案有变化，已保留完整候选和变化摘要，未替换原正式方案。请核对后明确载入草稿并保存，再重新确认。')
             result = store_plan(item_id, payload.revision, plan, "model", planning_run=operation)
             result["messages"].append({"role": "assistant", "source": "model", "content": "模型流程建议已检查，具体配置仍按修订确认。修复记录与费用估算已保留；估算不是供应商账单。", "provider_id": provider["id"], "usage": operation["attempts"][-1].get("usage"), "planning_run_id": operation["id"], "estimated_cost_usd": operation["estimated_cost_usd"], "created_at": now()})
             return save_task(result)
