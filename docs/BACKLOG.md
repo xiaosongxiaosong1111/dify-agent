@@ -93,4 +93,4 @@
 
 | 44 | 节点重命名后明确从候选选择一个文字字段映射到原方案同类型字段，只替换该值形成未确认草稿 | `.venv\Scripts\python.exe -m pytest backend/tests/test_candidate_text_mapping.py backend/tests/test_planning_candidate_selection.py -q`，对应隔离UI及构建；旧公开案例只读离线回放 | codex | done | committedf12b7；规定42 passed，新UI8/相邻字段UI8及构建通过，0.255快照ca5665da30a37a507deb部署12任务/模型/全部密文保持。旧公开r18候选no_hit/template到原answer_miss/template的只读离线合成精确等于人工r20计划；不改旧记录，不当新平台验收 |
 
-| 45 | 新一批完整入口真实验收：现有售后任务另存新修订、新建App首次发布、创建Key及两例试跑 | 先冻结整批具体资源方案与本机隔离预演；经直接人类批准后执行一次性验收包 | codex | pending | 当前仅准备，不派发外部。原两App/旧运行与读取计数保留；新资源、两次运行及连接切换必须单独明确授权 |
+| 45 | 新一批完整入口真实验收：现有售后任务另存新修订、新建App首次发布、创建Key及两例试跑 | 先冻结整批具体资源方案与本机隔离预演；经直接人类批准后执行一次性验收包 | need-user | need-user | docs/entry-mainline-live-plan-20261021.md及冻结包就绪；同flow临时库全链路预演/发布失败及首样例失败停止通过，0真实请求，未批准执行已拒绝；新App1/发布1/Key1/运行2、Sierra模型0、Dify新增估算0.01USD、保守48读取/14登录，原77计数不变，连接切换影响待明确批准 |
