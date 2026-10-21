@@ -12,6 +12,7 @@ class CredentialSnapshot:
     """Transient same-environment credentials; never persist or cross owners."""
     def __init__(self,store,owner):
         self.owner=owner
+        self.connection_store=store
         self.values={key:store.secret(owner,key) for key in ('console_token','csrf_token')}
 
     def secret(self,owner,key):return self.values.get(key) if owner==self.owner else None

@@ -29,6 +29,9 @@ class DifyClient:
             raise DifyError("独立资源凭据只允许用于该知识库服务 API。")
         key = self.store.secret(secret_owner or self.env["id"], credential)
         if credential == 'console_token':
+            from .saved_console_reconnect import busy as reconnect_busy
+            if reconnect_busy(self.store, self.env['id']):
+                raise DifyError('环境正在明确重新连接，未派发本次管理请求。', code='reconnect_in_progress')
             from .console_connection import expiry
             from .console_reauth import available,refresh
             import time

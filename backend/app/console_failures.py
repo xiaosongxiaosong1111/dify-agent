@@ -26,6 +26,9 @@ CODES = {
     'console_timeout': ('管理接口请求', 'Dify管理接口请求超时。', '可能已派发的写入须先核对，不自动重发。'),
     'console_http_error': ('管理接口请求', 'Dify管理接口返回错误状态。', '按记录状态码核对权限和接口，不自动重发写入。'),
     'console_response_invalid': ('管理接口请求', 'Dify管理接口返回非预期JSON。', '核对代理、版本及登录状态，不记录返回正文。'),
+    'reconnect_binding_changed': ('明确重新连接', '重新连接期间原目标或保存资料已变化。', '未提交旧登录结果，请读取当前连接并重新核对。'),
+    'reconnect_interrupted': ('明确重新连接', '上次重新连接在服务重启前未确认结束。', '保持原凭据并暂停自动登录，不重放；需要新的明确连接操作。'),
+    'reconnect_in_progress': ('明确重新连接', '此环境正在明确重新连接。', '等待并核对原记录，不并发派发管理请求。'),
     'automatic_login_paused': ('自动登录', '此连接的自动登录已暂停。', '先查看最近失败诊断；需要明确重新连接，原操作不会重放。'),
     'unclassified': ('连接核对', '连接操作失败，未取得可公开的细分原因。', '核对本机操作记录；不要据此猜测密码错误或服务停止。'),
     'legacy_unclassified': ('历史自动登录', '旧失败没有保留分类原因，当前无法追溯。', '保持暂停；新的明确连接操作会记录原因，不重放旧批次。'),
@@ -56,11 +59,11 @@ def error_message(exc):
     return value['message'] + ' 诊断代码：' + value['code'] + '。' + value['next_action']
 
 
-def record(store, original, exc, *, automatic):
+def record(store, original, exc, *, automatic, mode=None):
     value = describe(exc)
     row = {'id': str(uuid.uuid4()), 'environment_id': original['id'], 'scope_digest': scope(original),
            'connection_revision': original.get('connection_revision'), 'code': value['code'],
-           'http_status': value['http_status'], 'mode': 'automatic' if automatic else 'manual',
+           'http_status': value['http_status'], 'mode': 'saved_reconnect' if mode == 'saved_reconnect' else ('automatic' if automatic else 'manual'),
            'occurred_at': datetime.now(timezone.utc).isoformat()}
     with store.lock:
         current = store.get('environment', original['id'])
@@ -95,5 +98,5 @@ def view(row):
     except ValueError: pass
     return {'code': ident, 'stage': stage, 'message': message, 'next_action': action,
             'http_status': status(row.get('http_status')), 'occurred_at': occurred,
-            'mode': row.get('mode') if row.get('mode') in ('automatic', 'manual') else 'unrecorded',
+            'mode': row.get('mode') if row.get('mode') in ('automatic', 'manual', 'saved_reconnect') else 'unrecorded',
             'automatic_retry': False, 'credentials_exposed': False}

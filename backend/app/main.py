@@ -68,6 +68,7 @@ async def lifespan(application):
     model_repairs.recover()
     knowledge.recover()
     recover_external_actions()
+    saved_console_reconnect_recover()
     image_executions.recover()
     interview_progress.recover()
     schedule_stops.recover()
@@ -80,7 +81,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.251.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.252.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -118,6 +119,8 @@ def require_revision(task, revision):
 
 
 def require_idle(task):
+    from .saved_console_reconnect import busy as reconnect_busy
+    if reconnect_busy(store, task.get('environment_id')): raise HTTPException(409, '目标环境正在明确重新连接，请等待并核对原记录。')
     if runtime_files.busy(task["id"]):raise HTTPException(409,"文件上传仍在执行，请等原操作返回；不并发修改或重复派发。")
     if configuration_proposals.busy(task["id"]):raise HTTPException(409,"正在读取配置依据，请等待结果或先暂停并核对。")
     if knowledge.busy(task["id"]):
@@ -1768,6 +1771,8 @@ def patch_environment(item_id: str, payload: dict):
 
 
 def environment_busy(item_id):
+    from .saved_console_reconnect import busy as reconnect_busy
+    if reconnect_busy(store, item_id): return True
     if any(j["environment_id"]==item_id and (j["status"]=="running" or any(o["status"]=="pending" for o in j["operations"])) for j in store.list("knowledge_job")):
         return True
     return any(t.get("environment_id") == item_id and (t["status"] in BUSY or any(r.get("status") == "pending" for r in t.get("runs", []))) for t in store.list("task"))
@@ -2219,3 +2224,6 @@ register_workflow_publication(sys.modules[__name__])
 
 from .task_runtime_key import register as register_task_runtime_key
 register_task_runtime_key(sys.modules[__name__])
+
+from .saved_console_reconnect import register as register_saved_console_reconnect
+register_saved_console_reconnect(sys.modules[__name__])

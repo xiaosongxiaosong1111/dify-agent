@@ -72,6 +72,16 @@ class Store:
                 else:
                     conn.execute("INSERT INTO secrets(id,value) VALUES(?,?) ON CONFLICT(id) DO UPDATE SET value=excluded.value", (item_id + ":" + key, token))
 
+    def put_many_with_secrets(self, records, item_id: str, secrets: dict[str, str]):
+        """Atomically commit an explicit connection receipt and its encrypted tokens."""
+        encrypted = {key: self.cipher.encrypt(value.encode()) if value else None for key, value in secrets.items()}
+        with self.lock, self.connect() as conn:
+            for kind, ident, value in records:
+                conn.execute("INSERT INTO objects(kind,id,value) VALUES(?,?,?) ON CONFLICT(kind,id) DO UPDATE SET value=excluded.value", (kind, ident, json.dumps(value, ensure_ascii=False)))
+            for key, value in encrypted.items():
+                if value is None: conn.execute("DELETE FROM secrets WHERE id=?", (item_id + ':' + key,))
+                else: conn.execute("INSERT INTO secrets(id,value) VALUES(?,?) ON CONFLICT(id) DO UPDATE SET value=excluded.value", (item_id + ':' + key, value))
+
     def delete(self, kind: str, item_id: str):
         with self.lock, self.connect() as conn:
             conn.execute("DELETE FROM objects WHERE kind=? AND id=?", (kind, item_id))
