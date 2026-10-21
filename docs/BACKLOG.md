@@ -87,4 +87,6 @@
 
 | 41 | 新明确重连后单次核对售后2已有发布被拒绝；旧37失败不重放 | 用户批准docs/console-reconnect-live-plan-20261021.md后执行冻结新包check.py | codex | done | commit cdb3e12；直接批准后冻结check.py一次退出0/receipt passed：原空间重连成功、售后2已有发布409；12任务/模型/非管理凭据/旧计数保持，0发布资源Key模型运行；新10读取/3登录保守预留保持，合并上界77，旧37失败不改不重放 |
 
-| 42 | 运行页明确确认后创建当前App运行Key并加密保存，绑定原空间/修订/成果/共享影响，未知结果不重发 | `.venv\Scripts\python.exe -m pytest backend/tests/test_app_runtime_key_creation.py backend/tests/test_task_runtime_key.py -q`，对应隔离UI与构建 | codex | pending | 先完成本地实现和隔离验证，真实Key创建未授权、不执行；现有配对Key保留 |
+| 42 | 运行页明确确认后创建当前App运行Key并加密保存，绑定原空间/修订/成果/共享影响，未知结果不重发 | `.venv\Scripts\python.exe -m pytest backend/tests/test_app_runtime_key_creation.py backend/tests/test_task_runtime_key.py -q`，对应隔离UI与构建 | codex | done | commit 6fd5515；规定59 passed，新UI8/手工登记UI8及构建通过；0.253部署快照258fa6e815deb59a7f90，12任务/模型/全部密文保持，源码匹配快照。0真实Key创建；Claude设计审查超时未采用 |
+
+| 43 | 对已保留的改动候选按字段明确选择，生成只包含选中变化的未保存草稿，避免手工还原非目标变化 | `.venv\Scripts\python.exe -m pytest backend/tests/test_planning_candidate_selection.py backend/tests/test_replanning_changes.py -q`，对应隔离UI和构建 | codex | pending | 只本机比较/合成草稿，不自动判定语义范围、不保存正式方案、不发模型或Dify；保留完整候选及原计划 |
