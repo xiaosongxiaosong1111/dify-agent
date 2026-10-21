@@ -80,7 +80,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.244.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.245.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -159,17 +159,23 @@ def provider_public(provider):
 
 
 def env_public(env):
-    out = {k: v for k, v in env.items() if k not in SECRET_FIELDS}
+    out = {k: v for k, v in env.items() if k not in {*SECRET_FIELDS,"console_login_email","console_login_password","console_login_binding"}}
+    from .console_reauth import available
+    out["has_saved_login"] = bool(env.get("console_login_binding") and store.has_secret(env["id"],"console_login_password"))
+    out["automatic_login_enabled"] = available(store,env)
     for key in ("console_token", "service_api_key", "dataset_api_key"):
         out["has_" + key] = store.has_secret(env["id"], key)
     from .console_connection import summary as console_summary
     out['console_connection'] = console_summary(store.secret(env['id'], 'console_token'), store.has_secret(env['id'], 'csrf_token'))
+    out['console_connection']['automatic_login_enabled'] = out['automatic_login_enabled']
     return out
 
 
 def env_snapshot(env):
     # Countdown is display-only; it must never invalidate a revision-bound proposal.
-    return {key: value for key, value in env_public(env).items() if key != 'console_connection'}
+    out={key:value for key,value in env_public(env).items() if key not in {'console_connection','console_checked_at','console_auth_mode','has_saved_login','automatic_login_enabled','console_login_blocked'}}
+    if isinstance(out.get('capabilities'),dict):out['capabilities']={k:v for k,v in out['capabilities'].items() if k!='console'}
+    return out
 
 
 def environment(task):
@@ -1713,6 +1719,10 @@ def save_environment(payload, existing=None):
     if changed_host:
         out.pop("console_auth_mode", None)
         out.pop("console_checked_at", None)
+    if existing and any(out.get(k)!=existing.get(k) for k in ('base_url','version')):
+        out.pop('console_login_binding',None)
+        out.pop('console_login_blocked',None)
+        secrets.update(console_login_email='',console_login_password='')
     store.put_with_secrets("environment", out["id"], out, secrets)
     return env_public(out)
 
@@ -1760,13 +1770,14 @@ async def login_environment(item_id: str, request: Request):
         if len(body) > 40000:
             raise ValueError()
         payload = json.loads(body)
-        if not isinstance(payload, dict) or set(payload) != {"email", "password"}:
+        if not isinstance(payload, dict) or set(payload)-{"email","password","remember_login"} or not {"email","password"}<=set(payload) or type(payload.get("remember_login",False)) is not bool:
             raise ValueError()
         email, password = payload["email"], payload["password"]
+        remember_login = payload.get("remember_login",False)
         if not isinstance(email, str) or not isinstance(password, str) or not 1 <= len(password) <= 4096 or not 3 <= len(email) <= 320 or "@" not in email or any(c.isspace() for c in email):
             raise ValueError()
     except (ValueError, TypeError, KeyError):
-        raise HTTPException(422, "请填写有效邮箱及非空密码，只接受 email 和 password。") from None
+        raise HTTPException(422, "请填写有效邮箱及非空密码，仅接受 email、password 和布尔 remember_login。") from None
     with store.lock:
         env = store.get("environment", item_id)
         if not env:
@@ -1776,22 +1787,41 @@ async def login_environment(item_id: str, request: Request):
         if environment_busy(item_id):
             raise HTTPException(409, "该环境正在执行任务，暂不能替换管理连接。")
     try:
-        tokens = await DifyClient(env, store).login(email, password)
-    except DifyError as exc:
-        raise HTTPException(502, str(exc)) from exc
+        try:
+            tokens = await DifyClient(env, store).login(email,password)
+        except DifyError as exc:
+            raise HTTPException(502,str(exc)) from exc
+        with store.lock:
+            current=store.get('environment',item_id)
+            if current!=env or environment_busy(item_id):
+                raise HTTPException(409,'登录期间环境配置或执行状态变化，未替换凭据，请刷新后重试。')
+            current.setdefault('capabilities',{})['console']='verified'
+            current['console_checked_at']=now()
+            current['console_auth_mode']='email_password'
+            current.pop('console_login_blocked',None)
+            if remember_login:
+                current['console_login_binding']={k:current[k] for k in ('base_url','version')}
+            else:
+                current.pop('console_login_binding',None)
+            tokens.update(console_login_email=email if remember_login else '',console_login_password=password if remember_login else '')
+            store.put_with_secrets('environment',item_id,current,tokens)
+        message=('登录及应用列表读取成功，登录资料已在本机加密保存；令牌过期会仅向原环境自动登录一次，失败暂停，写入不自动重放。' if remember_login else '登录及应用列表读取成功，管理凭据已加密保存；密码未保存，登录过期需重新连接。')
+        return {'ok':True,'environment':env_public(current),'message':message+' 应用运行和知识库仍需独立 Key。'}
     finally:
-        # No password or email enters the store, task history or response.
-        password = ""
+        email=password=''
         payload.clear()
+
+
+
+@app.delete('/api/environments/{item_id}/saved-login')
+def forget_environment_login(item_id:str):
     with store.lock:
-        current = store.get("environment", item_id)
-        if current != env or environment_busy(item_id):
-            raise HTTPException(409, "登录期间环境配置或执行状态变化，未替换凭据，请刷新后重试。")
-        current.setdefault("capabilities", {})["console"] = "verified"
-        current["console_checked_at"] = now()
-        current["console_auth_mode"] = "email_password"
-        store.put_with_secrets("environment", item_id, current, tokens)
-    return {"ok": True, "environment": env_public(current), "message": "登录及应用列表读取成功，管理凭据已加密保存；密码未保存。登录过期后需重新连接，应用运行和知识库仍需独立 Key。"}
+        current=store.get('environment',item_id)
+        if not current:raise HTTPException(404,'环境不存在。')
+        current.pop('console_login_binding',None)
+        current.pop('console_login_blocked',None)
+        store.put_with_secrets('environment',item_id,current,{'console_login_email':'','console_login_password':''})
+        return {'environment':env_public(current),'message':'已删除本机保存的登录资料，当前令牌和独立应用/知识库Key保持。'}
 
 
 @app.post("/api/environments/{item_id}/test")
@@ -1804,8 +1834,10 @@ async def test_environment(item_id: str):
     except DifyError as exc:
         raise HTTPException(502, str(exc)) from exc
     with store.lock:
-        if store.get("environment", item_id) != env:
+        current=store.get('environment',item_id)
+        if not current or any(current.get(k)!=env.get(k) for k in ('base_url','version','connection_revision')):
             raise HTTPException(409, "测试期间环境配置变化，请刷新后重新测试。")
+        env=current
         env["capabilities"]["console"] = "verified"
         store.put("environment", item_id, env)
     return {"ok": True, "message": "实际 Console 读取成功；声明版本需与实例核对，写入和运行仍须单独验证。", "capabilities": env["capabilities"]}

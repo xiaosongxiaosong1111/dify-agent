@@ -23,18 +23,26 @@ class DifyClient:
         # Environment points to the instance root, not an arbitrary API endpoint.
         self.base = base.rstrip("/")
 
-    async def request(self, method, path, *, credential, secret_owner=None, **kwargs):
+    async def request(self, method, path, *, credential, secret_owner=None, _console_refreshed=False, **kwargs):
         if secret_owner is not None and credential != "dataset_api_key":
             raise DifyError("独立资源凭据只允许用于该知识库服务 API。")
         key = self.store.secret(secret_owner or self.env["id"], credential)
-        if not key:
-            raise DifyError(f"缺少 {credential} 凭据；管理、应用运行和知识库访问使用不同凭据。")
         if credential == 'console_token':
             from .console_connection import expiry
+            from .console_reauth import available,refresh
             import time
             expires = expiry(key)
-            if expires is not None and expires <= time.time():
-                raise DifyError('Sierra 保存的 Dify 管理令牌已过期，未发送本次请求。请在 Sierra 的 Dify 环境中重新使用邮箱密码连接；在 Dify 页面登录不会更新此连接。')
+            if not key or (expires is not None and expires <= time.time()):
+                current = self.store.get('environment', self.env['id'])
+                if not _console_refreshed and current and available(self.store,current):
+                    await refresh(self,key)
+                    _console_refreshed=True
+                    key=self.store.secret(self.env['id'],credential)
+                    expires=expiry(key)
+                if not key or (expires is not None and expires <= time.time()):
+                    raise DifyError('Sierra 保存的 Dify 管理令牌已过期或缺失，未发送本次请求。请在 Sierra 环境中连接并选择加密保存登录资料；在 Dify 页面登录不会更新此连接。')
+        if not key:
+            raise DifyError(f'缺少 {credential} 凭据；管理、应用运行和知识库访问使用不同凭据。')
         headers = {"Authorization": "Bearer " + key}
         csrf = self.store.secret(self.env["id"], "csrf_token")
         if credential == "console_token" and csrf:
@@ -46,6 +54,21 @@ class DifyClient:
                 response = await client.request(method, self.base + path, headers=headers, **kwargs)
             if response.is_error:
                 if credential == 'console_token' and response.status_code == 401:
+                    from .console_reauth import available,refresh
+                    current=self.store.get('environment',self.env['id'])
+                    if not _console_refreshed and current and available(self.store,current):
+                        await refresh(self,key)
+                        if method.upper()=='GET':
+                            return await self.request(method,path,credential=credential,_console_refreshed=True,**kwargs)
+                        raise DifyError('Dify 管理请求返回 HTTP 401，已更新管理凭据；原写入未自动重发，请先核对操作状态。',http_status=401)
+                    if _console_refreshed:
+                        with self.store.lock:
+                            current=self.store.get('environment',self.env['id'])
+                            if (current and all(current.get(k)==self.env.get(k) for k in ('base_url','version','connection_revision'))
+                                    and self.store.secret(self.env['id'],'console_token')==key and available(self.store,current)):
+                                current['console_login_blocked']=True
+                                self.store.put('environment',self.env['id'],current)
+                        raise DifyError('自动登录后的管理令牌仍返回 HTTP 401，已暂停自动登录；未再次登录或重发。请核对原环境权限。',http_status=401)
                     raise DifyError('Dify 管理连接返回 HTTP 401，当前管理凭据不可用。请在 Sierra 的 Dify 环境中重新使用邮箱密码连接；在 Dify 页面登录不会更新此连接。没有自动重新登录或重发本次操作。', http_status=401)
                 raise DifyError(f"Dify 返回 HTTP {response.status_code}。请核对所选环境的接口权限、凭据类型及版本。", http_status=response.status_code)
             if response.status_code == 204:
