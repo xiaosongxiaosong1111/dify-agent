@@ -65,4 +65,6 @@
 - 不猜 136 项完成度；不确定就写 `blocked` 并说明缺什么证据
 - 撞额度立即停，把进度写进本文件
 
-| 31 | 已授权安全保存Dify邮箱密码及过期重新认证；只绑定原环境，不循环登录/重放写入 | `.venv\Scripts\python.exe -m pytest backend/tests/test_login.py backend/tests/test_dify_reauth.py -q`，相关UI检查 | codex | pending | 用户明确要求记住并自行获取token；当前仅保存令牌，待实现 |
+| 31 | 已授权安全保存Dify邮箱密码及过期重新认证；只绑定原环境，不循环登录/重放写入 | `.venv\Scripts\python.exe -m pytest backend/tests/test_login.py backend/tests/test_dify_reauth.py -q`，相关UI检查 | codex | done | commit 1d69700；规定命令41 passed、6项隔离UI与构建通过；0.245专用连接实际加密记住200；自然到期续期仅隔离证据，无新工作流运行 |
+
+| 32 | 重新生成现有流程时展示相对原方案的非目标变化摘要，保留完整候选供复核，不把提示词当自动保留证明 | `.venv\Scripts\python.exe -m pytest backend/tests/test_replanning_changes.py -q`，对应隔离UI检查 | codex | pending | 两版真实主链发现模型扩改，0.244已补上下文，当前界面缺明确变化摘要 |
