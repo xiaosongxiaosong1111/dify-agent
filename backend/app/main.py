@@ -80,7 +80,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.243.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.244.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -583,8 +583,12 @@ async def generate_plan(item_id: str, payload: Revision):
         if excerpt:
             snippets.append({"name": material["name"], "reference_mode": material["reference_mode"], "excerpt": excerpt, "excerpt_truncated": len(excerpt) < len(source), **material_source_metadata(material)})
             remaining -= len(excerpt)
+    from .planning_context import replanning_context
+    existing_plan_context = replanning_context(task)
+    if existing_plan_context is not None:
+        prompt += " 当前存在existing_plan_context：这是本任务已保存的完整计划及相同计划对应的历史需求／配置。以它为修改基线，只改当前明确变更所需字段；保留无关节点ID、输入类型、提示词、模型独立参数、知识库、分支及连接。不得顺带重排或重建。若必须改变其他结构或无法判断目标范围，返回error/needs_decision明确说明，不自行裁定。旧审批和运行结果不代表本版已获批或已验证。"
     coverage = coverage_summary(task)
-    messages = [{"role": "system", "content": prompt}, {"role": "user", "content": json.dumps({"user_selected_type": task["app_type"], "capability_catalog": compiler_capabilities(task["app_type"]), "requirements": task["requirements"], "configuration": task["configuration"], "reference_materials": snippets, "intake_assessment": intake_summary(task), "coverage_scope": {"enabled": coverage['enabled'], "confirmed": coverage['confirmed'], "stale": coverage['stale'], "blockers": coverage['blockers'], "items": (task.get("coverage_review") or {}).get("items", [])}}, ensure_ascii=False)}]
+    messages = [{"role": "system", "content": prompt}, {"role": "user", "content": json.dumps({"user_selected_type": task["app_type"], "capability_catalog": compiler_capabilities(task["app_type"]), "requirements": task["requirements"], "configuration": task["configuration"], "existing_plan_context": existing_plan_context, "reference_materials": snippets, "intake_assessment": intake_summary(task), "coverage_scope": {"enabled": coverage['enabled'], "confirmed": coverage['confirmed'], "stale": coverage['stale'], "blockers": coverage['blockers'], "items": (task.get("coverage_review") or {}).get("items", [])}}, ensure_ascii=False)}]
 
     def checkpoint():
         with store.lock:

@@ -25,8 +25,8 @@
 | 4 | 核对 AT-14「批量任务部分失败」现状并补隔离检查 | 同上 | codex | done | commit 81958d9 |
 | 5 | 核对 AT-24「用户恢复旧版本」现状并补隔离检查 | `.venv\Scripts\python.exe -m pytest backend/tests/test_version_restore.py backend/tests/test_version_node_changes.py backend/tests/test_runtime_snapshot.py -q` 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | done | commit cc7054e |
 | 6 | 整理 `development-tasks.md` 状态列：136 项逐项标真实状态 | `.venv\Scripts\python.exe tools/check_development_task_status.py`；表内每行有状态，且不凭猜测填 | codex | done | commit d8da2f7 |
-| 7 | 专用 Dify 环境登录 | 用户登录后 `/api/health` 与专用连接可用 | need-user | blocked | `connection-stage-receipt.json`：credentials_copied=false |
-| 8 | 整批真实联调（已获批，限 14 次调用） | 有命中/无命中各一次真实运行回执 | codex | blocked | 等第 7 项 |
+| 7 | 专用 Dify 环境登录 | 用户登录后 `/api/health` 与专用连接可用 | need-user | done | 用户已登录专用连接，真实导入/发布/轨迹读取成功；9daf074，历史阻断已解决 |
+| 8 | 整批真实联调（已获批，限 14 次调用） | 有命中/无命中各一次真实运行回执 | codex | done | 9daf074：2个新App各命中/无命中共4次真实运行；v1原断言路径失败保留/离线核对，v2两个正式样例passed，人工纠正边界见真实记录 |
 
 | 9 | 核对 AT-01「用户只给模糊目标」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_intake.py backend/tests/test_planning_capability_context.py backend/tests/test_planning_decisions.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | done | commit 0594e1a |
 | 10 | 核对 AT-02「用户不知道分类规则」现状并补隔离检查 | .venv\Scripts\python.exe -m pytest backend/tests/test_intake.py -q 全绿 + 在 acceptance-mapping 填 final_acceptance_record | codex | done | commit 5cd1668 |
@@ -64,3 +64,5 @@
 - 不重建项目、不改仓库设置、不改 `.gitignore`
 - 不猜 136 项完成度；不确定就写 `blocked` 并说明缺什么证据
 - 撞额度立即停，把进度写进本文件
+
+| 31 | 已授权安全保存Dify邮箱密码及过期重新认证；只绑定原环境，不循环登录/重放写入 | `.venv\Scripts\python.exe -m pytest backend/tests/test_login.py backend/tests/test_dify_reauth.py -q`，相关UI检查 | codex | pending | 用户明确要求记住并自行获取token；当前仅保存令牌，待实现 |
