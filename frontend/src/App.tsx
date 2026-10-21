@@ -1,3 +1,4 @@
+import TaskRuntimeKey from './TaskRuntimeKey';
 import WorkflowPublication from './WorkflowPublication';
 import ModelNumberDraftPanel from './ModelNumberDraftPanel';
 import ManualModelNumberFields,{useManualModelNumbers} from './useManualModelNumbers';
@@ -237,6 +238,7 @@ export default function App(){
    {hasUnsaved&&<div className="callout amber">有未保存修改，请先保存并确认。</div>}
    {!task.dify_app_id&&<div className="callout amber">请先完成当前修订的导入和发布，再登记该应用的运行 API Key。定义样例无需模型 Key 或 Dify 凭据。</div>}
    {task.app_type==='workflow'&&task.dify_app_id&&<WorkflowPublication taskId={task.id} revision={task.revision} appId={task.dify_app_id} scope={JSON.stringify([task.artifact,task.environment_id,runEnvironment?.connection_revision,task.status])} disabled={hasUnsaved||!!busy||planIsStale||!task.requirements_confirmed||!task.configuration_confirmed} onCompleted={()=>{void refreshOne(task.id)}}/>}
+   {task.dify_app_id&&['workflow','advanced-chat','agent'].includes(task.app_type)&&<TaskRuntimeKey taskId={task.id} revision={task.revision} appId={task.dify_app_id} scope={JSON.stringify([task.artifact,task.environment_id,runEnvironment?.connection_revision,task.status])} disabled={hasUnsaved||!!busy||planIsStale} onSaved={()=>{setNotice('当前App运行Key已加密登记；未请求Dify，实际可用性须另按样例试跑核对。');void refreshOne(task.id);void api<Env[]>('/environments').then(setEnvs).catch(()=>setNotice('运行Key已保存，但环境列表未刷新，请重新读取后再试跑。'))}}/>}
    {task.dify_app_id&&<div className="callout">已导入 Dify App ID：{task.dify_app_id}。请先核对发布状态，再登记此App专属的Service API Key。</div>}
    {runEnvironment?.service_app_id&&runEnvironment.service_app_id!==task.dify_app_id&&<div className="callout amber">当前运行 Key 绑定的 App ID 与此任务不一致，不能试跑。</div>}
    <label className="field"><span>选择试跑样例</span><select aria-label="选择试跑样例" value={selectedCaseId} onChange={e=>{setSelectedCaseId(e.target.value);setConversationSource('')}}><option value="">自由试跑（不计入验收样例）</option>{(task.test_cases||[]).map(c=><option key={c.id} value={c.id}>{c.name}{c.required?' · 必选':' · 可选'}</option>)}</select></label>

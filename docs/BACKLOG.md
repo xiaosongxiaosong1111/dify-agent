@@ -77,4 +77,6 @@
 
 | 36 | 主链Workflow发布前核对及明确确认入口；绑定当前新建导入App/修订/环境/成果/草稿，未知不重发 | `.venv\Scripts\python.exe -m pytest backend/tests/test_workflow_publication.py -q`，前端构建与定向隔离UI检查 | codex（claude审查连接失败） | done | commit 4e8e523；规定27 passed、7项拦截UI与构建通过；0.249部署12任务/全部密文保持，0真实Dify调用。非首次真实发布验收 |
 
-| 37 | 新批次只读核对发布准备入口拒绝覆盖现有售后2应用 | 用户批准固定方案后运行 `work/workflow-publication-249-live/check.py`，仅明确已有发布的409算通过 | need-user | need-user | 方案docs/workflow-publication-live-review-20261021.md已冻结并本机绑定核对；需新增最多8管理读取/2登录，0发布/资源/模型/运行，旧批次剩1读取不足，不复用旧许可 |
+| 37 | 新批次只读核对发布准备入口拒绝覆盖现有售后2应用 | 用户批准固定方案后运行 `work/workflow-publication-249-live/check.py`，仅明确已有发布的409算通过 | codex | blocked | 用户已批准；一次执行返回502/自动登录暂停，非预期已有发布409，原回执保留、未重试；12任务保持/无发布资源模型运行。读取保守预留8保持，具体登录失败原因未证明；系统权限下Docker/8080正常 |
+
+| 38 | 运行页直接绑定当前导入App的运行Key；本机状态与确认绑定修订/环境，密钥不回显/不进浏览器存储，不访问Dify | `.venv\Scripts\python.exe -m pytest backend/tests/test_task_runtime_key.py -q`，前端构建与定向隔离UI检查 | codex+claude契约核对 | pending | 本地实现；不改已有凭据、不新建Key、不做真实试跑 |
