@@ -91,4 +91,6 @@
 
 | 43 | 对已保留的改动候选按字段明确选择，生成只包含选中变化的未保存草稿，避免手工还原非目标变化 | `.venv\Scripts\python.exe -m pytest backend/tests/test_planning_candidate_selection.py backend/tests/test_replanning_changes.py -q`，对应隔离UI和构建 | codex | done | commit4162464；规定34 passed，新UI8/原完整候选UI5及构建通过；0.254快照3d1031e5b1272ad6bd37部署12任务/模型/全部密文保持，源码匹配。节点ID改变只作整组，不猜配对；旧售后历史未自动修改 |
 
-| 44 | 节点重命名后明确从候选选择一个文字字段映射到原方案同类型字段，只替换该值形成未确认草稿 | `.venv\Scripts\python.exe -m pytest backend/tests/test_candidate_text_mapping.py backend/tests/test_planning_candidate_selection.py -q`，对应隔离UI及构建；旧公开案例只读离线回放 | codex | pending | 仅同修订停止候选；用户明确源/目标且同节点类型及字段，不推测映射、不执行代码、不保存正式方案、不发模型/Dify |
+| 44 | 节点重命名后明确从候选选择一个文字字段映射到原方案同类型字段，只替换该值形成未确认草稿 | `.venv\Scripts\python.exe -m pytest backend/tests/test_candidate_text_mapping.py backend/tests/test_planning_candidate_selection.py -q`，对应隔离UI及构建；旧公开案例只读离线回放 | codex | done | committedf12b7；规定42 passed，新UI8/相邻字段UI8及构建通过，0.255快照ca5665da30a37a507deb部署12任务/模型/全部密文保持。旧公开r18候选no_hit/template到原answer_miss/template的只读离线合成精确等于人工r20计划；不改旧记录，不当新平台验收 |
+
+| 45 | 新一批完整入口真实验收：现有售后任务另存新修订、新建App首次发布、创建Key及两例试跑 | 先冻结整批具体资源方案与本机隔离预演；经直接人类批准后执行一次性验收包 | codex | pending | 当前仅准备，不派发外部。原两App/旧运行与读取计数保留；新资源、两次运行及连接切换必须单独明确授权 |
