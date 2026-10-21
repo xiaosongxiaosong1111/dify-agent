@@ -74,3 +74,5 @@
 | 34 | 自动登录续期绑定原Dify工作空间；不同空间令牌不提交/不派发原请求，旧授权连接只读核对身份 | `.venv\Scripts\python.exe -m pytest backend/tests/test_dify_reauth.py backend/tests/test_login.py backend/tests/test_knowledge_reauth.py -q` | codex | done | commit c4ef9ae；规定三文件60 passed，0.248部署12任务/全部密文保持；已实际匹配原空间并启用自动登录。收口局部变量错误后独立核对，共2读取计入59/60，0登录/资源写入/运行 |
 
 | 35 | 核对新候选复核门禁对Chatflow/原生Agent保持用户选择类型与原正式方案 | `.venv\Scripts\python.exe -m pytest backend/tests/test_replanning_changes.py -q -k other_app_types` | codex | done | commit b04a248；规定2 passed、7 deselected；类型/原正式方案保持、完整候选只读留存，0真实网络 |
+
+| 36 | 主链Workflow发布前核对及明确确认入口；绑定当前新建导入App/修订/环境/成果/草稿，未知不重发 | `.venv\Scripts\python.exe -m pytest backend/tests/test_workflow_publication.py -q`，前端构建与定向隔离UI检查 | codex+claude审查 | pending | 本地实现中；0真实Dify读取/写入/运行，旧批次上限保持 |

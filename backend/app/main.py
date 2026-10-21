@@ -80,7 +80,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.248.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.249.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1263,11 +1263,12 @@ def pause(item_id: str):
 
 
 def recover_external_actions():
+    workflow_publication_recover()
     with store.lock:
         for task in store.list('task'):
             changed = False
             for record in task.get('runs', []):
-                if record.get('status') == 'pending' and record.get('kind') in {'run', 'import'}:
+                if record.get('status') == 'pending' and record.get('kind') in {'run', 'import', 'publish'}:
                     record.update(status='unknown', completed_at=now(), error='服务重启时外部操作尚未确认结束，结果可能未知；已保留运行检查点，请先到 Dify 核对，不自动重复派发。')
                     changed = True
             if changed:
@@ -2205,3 +2206,6 @@ register_missing_extractor(sys.modules[__name__])
 
 from .plan_review import register as register_plan_review
 register_plan_review(sys.modules[__name__])
+
+from .workflow_publication import register as register_workflow_publication
+register_workflow_publication(sys.modules[__name__])
