@@ -82,7 +82,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.258.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.259.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1239,7 +1239,10 @@ def report(item_id: str):
     if task.get('test_cases') or file_catalog:
         lines += ["", "## 当前修订的样例汇总", "", "仅汇总已声明规则，不自动判定完整业务已验收。", "```json", json.dumps(summary, ensure_ascii=False, indent=2), "```"]
     lines += ["", "## 费用依据", "", "模型规划估算与实际 Dify 运行费用分开；Dify 插件返回价格为 0 不证明供应商免费，实际账单尚未核对。"]
-    lines += ["", "## 待办", "", "- 静态检查不等于真实导入或业务验收。", "- 核对实际目标环境资源、插件和模型。", "- 导入后在 Dify 确认发布状态并配置该应用专属的运行 API Key。", "- 执行已确认的主流程与关键分支样例；本版本不自动判定全量业务完成。", "- 替换所有已确认的模拟依赖，并重新验证。"]
+    from .delivery_next_steps import describe as delivery_todos
+    delivery_env = store.get('environment', task['environment_id']) if task.get('environment_id') else None
+    runtime_key_paired = bool(task.get('dify_app_id') and delivery_env and delivery_env.get('service_app_id') == task['dify_app_id'] and store.has_secret(delivery_env['id'], 'service_api_key'))
+    lines += ["", "## 待办", ""] + ["- " + line for line in delivery_todos(task, summary, runtime_key_paired=runtime_key_paired)]
     content = "\n".join(lines)
     content = re.sub(r"\bsk-[A-Za-z0-9_-]{12,}\b", "[已脱敏]", content)
     return Response(content, media_type="text/markdown", headers={"Content-Disposition": f'attachment; filename="report-r{task["revision"]}.md"'})
