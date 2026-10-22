@@ -1,0 +1,115 @@
+{
+  "date": "2026-10-22",
+  "runtime": "0.256.0-72871c7742f0993dd782",
+  "source_commit": "a5ba1de",
+  "reviewed_plan_commit": "ad0ba86",
+  "task_id": "4eb52689-3f3d-4e18-8bfd-1bb744a2c8f0",
+  "revision": 21,
+  "task_status": "run_completed",
+  "app_id": "4ce034da-0765-4279-8294-8f9d4c6be8ca",
+  "published_workflow_id": "3352882e-d036-4d4d-a315-75fc83592f11",
+  "plan_sha256": "0db981a171d38bb0477ec89699160eba2a7d4c4e607309950221dc24d4ca736b",
+  "manifest_sha256": "38f60eeaa5b6ed110a7890596c0476987a984e1c9dd7dd59ac2eb45abad3ac96",
+  "receipt_sha256": "056ca3ce0fcbdac7de0c53d2941bca986500f096733a3558a73346f85869d5f3",
+  "direct_human_approval": "允许仅运行这两例并调整到6",
+  "receipt": {
+    "state": "passed",
+    "stage": "completed",
+    "steps": [
+      {
+        "stage": "policy_adjustment",
+        "state": "dispatching"
+      },
+      {
+        "stage": "policy_adjustment",
+        "state": "returned"
+      },
+      {
+        "stage": "case_1",
+        "state": "dispatching"
+      },
+      {
+        "stage": "case_1",
+        "state": "returned"
+      },
+      {
+        "stage": "case_2",
+        "state": "dispatching"
+      },
+      {
+        "stage": "case_2",
+        "state": "returned"
+      }
+    ],
+    "workflow_request_limit": 2,
+    "management_read_limit": 0,
+    "login_limit": 0,
+    "new_apps": 0,
+    "publish_posts": 0,
+    "new_keys": 0,
+    "sierra_model_calls": 0,
+    "old_failed45_replayed": false,
+    "automatic_stage_retry": false,
+    "last_http_status": 200,
+    "completed_cases": 2,
+    "protected_state": {
+      "other11_tasks_unchanged": true,
+      "original_task_fields_kept": true,
+      "old_run_records_kept": true,
+      "all_credentials_and_key_unchanged": true,
+      "providers_and_connections_unchanged": true,
+      "other_policies_unchanged": true,
+      "old_policy_history_kept": true,
+      "minutes_and_quote_limits_kept": true,
+      "no_new_sierra_budget_or_resource_records": true,
+      "old_counter_and_receipts_unchanged": true
+    },
+    "runs": [
+      {
+        "run_id": "242e5605-1bfd-4fc8-ad04-d32fea2cba40",
+        "case_id": "after-sales-hit",
+        "evaluation": "passed",
+        "reported_tokens": 306
+      },
+      {
+        "run_id": "73c4a290-19cc-4920-a164-6b149286df91",
+        "case_id": "after-sales-miss",
+        "evaluation": "passed",
+        "reported_tokens": 0
+      }
+    ],
+    "new_run_records": 2,
+    "policy_max_started_runs": 6,
+    "final_actual_started_runs": 6,
+    "management_reads": 0,
+    "login_posts": 0,
+    "cost_estimate_is_invoice": false,
+    "full_continuous_interview_ui_verified": false
+  },
+  "total_reported_tokens_this_batch": 306,
+  "node_trace_reads": 0,
+  "node_level_llm_path_verified_this_batch": false,
+  "business_and_25_scenarios_complete": false,
+  "runs": [
+    {
+      "sierra_run_id": "242e5605-1bfd-4fc8-ad04-d32fea2cba40",
+      "dify_run_id": "c283c0e9-e54e-4ebe-b6ca-13f8214c5918",
+      "case_id": "after-sales-hit",
+      "revision": 21,
+      "status": "succeeded",
+      "workflow_id": "3352882e-d036-4d4d-a315-75fc83592f11",
+      "evaluation": "passed",
+      "reported_tokens": 306
+    },
+    {
+      "sierra_run_id": "73c4a290-19cc-4920-a164-6b149286df91",
+      "dify_run_id": "5b8b0e2b-86b1-491f-b261-56696ea51443",
+      "case_id": "after-sales-miss",
+      "revision": 21,
+      "status": "succeeded",
+      "workflow_id": "3352882e-d036-4d4d-a315-75fc83592f11",
+      "evaluation": "passed",
+      "reported_tokens": 0
+    }
+  ]
+}
