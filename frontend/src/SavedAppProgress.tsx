@@ -1,8 +1,10 @@
 import type {AcceptanceSummary,RunRecord} from './AcceptancePanel';
 const object=(v:unknown):v is Record<string,unknown>=>!!v&&typeof v==='object'&&!Array.isArray(v);
 const result=(r:RunRecord)=>object(r.result)?r.result:{};
-type Scope={revision:number;environment_id:string|null;dify_app_id?:string|null;runs:RunRecord[]};
+type Scope={artifact?:unknown;requirements_confirmed?:boolean;configuration_confirmed?:boolean;plan_stale?:boolean;revision:number;environment_id:string|null;dify_app_id?:string|null;runs:RunRecord[]};
 export function savedAppProgress(task:Scope){
+ const artifact=object(task.artifact)?task.artifact:null;
+ const built=task.requirements_confirmed===true&&task.configuration_confirmed===true&&task.plan_stale!==true&&!!artifact&&artifact.revision===task.revision&&object(artifact.validation)&&artifact.validation.valid===true;
  const appId=task.dify_app_id||'';
  const bound=!!appId.trim()&&!!task.environment_id;
  const rows=bound?task.runs.filter(r=>r.revision===task.revision&&r.environment_id===task.environment_id):[];
@@ -13,7 +15,7 @@ export function savedAppProgress(task:Scope){
  const publicationUncertain=!!last&&['pending','unknown'].includes(last.status||'');
  const successfulRunIds=rows.filter(r=>r.kind==='run'&&r.app_id===appId&&r.status==='success').map(r=>r.id);
  const successfulRuns=successfulRunIds.length;
- return {appId,revision:task.revision,imported,publishedWorkflowId,publicationUncertain,successfulRuns,successfulRunIds};
+ return {appId,revision:task.revision,built,imported,publishedWorkflowId,publicationUncertain,successfulRuns,successfulRunIds};
 }
 export default function SavedAppProgress({value,runtimeKeyPaired,summary,blocked,onReport}:{value:ReturnType<typeof savedAppProgress>;runtimeKeyPaired:boolean;summary:AcceptanceSummary|null;blocked:boolean;onReport:()=>void}){
  const current=summary?.revision===value.revision&&summary.cases.filter(c=>c.status==='passed').every(c=>!!c.run_id&&value.successfulRunIds.includes(c.run_id))?summary:null;
