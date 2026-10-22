@@ -97,4 +97,4 @@
 
 | 46 | 在创建资源前只读预检本批试跑次数与已保存执行限制，界面提前显示累计上限，策略/历史不自动调整或重置 | `.venv\Scripts\python.exe -m pytest backend/tests/test_run_batch_preflight.py backend/tests/test_execution_limits.py -q`，对应隔离UI/构建与真实本机只读4/4核对 | codex | done | commita5ba1de；规定44 passed、新UI7/构建/截图通过；0.256快照72871c7742f0993dd782部署12任务/模型/全部密文保持。真实本机只读预检明确4/4+计划2需最小6；0外部，原策略和45失败回执保持 |
 
-| 47 | 仅完成r21现有新App两例：明确调整累计次数4到6、耗时10分钟保持，预检后命中/无命中各运行一次 | 先冻结只运行新批次及持久策略完整复制的隔离预演，经直接许可后一次执行 | need-user | need-user | docs/entry-run-live-plan-20261021.md及冻结包就绪；复制真实持久策略的临时预演验证4/4先阻断、明确调6后两合成例passed，首例失败停止；未批准门禁拒绝，真实策略仍4/4。仅2个Service运行/明确策略4到6，管理读取/登录/资源/Sierra模型0，Dify估算0.01USD；原45不重放 |
+| 47 | 仅完成r21现有新App两例：明确调整累计次数4到6、耗时10分钟保持，预检后命中/无命中各运行一次 | 直接批准后冻结check.py一次退出0，receipt passed，保护证明全部通过 | codex | done | 证据commit b4490ee；两正式例succeeded且原生evaluation passed，workflow_id匹配当前发布，报告306/0tokens。累计实际6/6、策略v2，原4次及10分钟/报价阈值保持；其余11任务/模型/全部密文/旧计数资源回执保持，0管理读取/登录/新App/发布/Key/Sierra模型，旧45不重放。未读节点轨迹、不当完整连续界面或最终业务验收 |
