@@ -82,7 +82,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.256.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.257.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1164,7 +1164,8 @@ def report(item_id: str):
     compilation_note = "原生 Agent 生成路径；实际范围以当前产物及已确认保留文件为准。" if task["app_type"] == "agent" else "当前使用已保存的多节点计划。" if task.get("workflow_plan") else "当前使用基础线性模板。"
     current_runs = [r for r in task.get("runs", []) if r.get("revision") == task["revision"] and r.get("environment_id") == task.get("environment_id")]
     imported = bool(task.get("dify_app_id")) and any(r.get("kind") == "import" and r.get("status") == "success" and (r.get("result") or {}).get("app_id") == task["dify_app_id"] for r in current_runs)
-    successful_runs = sum(r.get("kind") == "run" and r.get("status") == "success" for r in current_runs) if imported else 0
+    from .acceptance import matches_current_app
+    successful_runs = sum(r.get("kind") == "run" and r.get("status") == "success" and matches_current_app(task, r) for r in current_runs) if imported else 0
     from .acceptance import summarize_acceptance
     from .file_cases import summary as file_case_summary
     summary = summarize_acceptance(task,file_case_summary(sys.modules[__name__],task))

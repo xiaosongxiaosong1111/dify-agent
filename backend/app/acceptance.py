@@ -21,14 +21,21 @@ def matches_case(case: dict, run: dict) -> bool:
     )
 
 
+def matches_current_app(task: dict, run: dict) -> bool:
+    """Missing App identity cannot establish evidence for the current import."""
+    app_id = task.get("dify_app_id")
+    return isinstance(app_id, str) and bool(app_id.strip()) and run.get("app_id") == app_id
+
+
 def summarize_acceptance(task: dict, file_rows=None) -> dict:
     rows = []
     for case in task.get("test_cases", []):
         run = next((r for r in reversed(task.get("runs", []))
                     if r.get("kind") == "run" and r.get("revision") == task["revision"]
                     and r.get("environment_id") == task.get("environment_id")
+                    and matches_current_app(task, r)
                     and (r.get("test_case") or {}).get("id") == case["id"]), None)
-        status, method, detail = "not_run", "none", "当前修订尚未试跑此样例。"
+        status, method, detail = "not_run", "none", "当前修订尚无与当前App匹配的此样例试跑；旧App或缺少App归属的记录不计入。"
         if run:
             if not matches_case(case, run):
                 status, detail = "needs_review", "记录的输入或预期与当前样例不一致，不能计为通过。"

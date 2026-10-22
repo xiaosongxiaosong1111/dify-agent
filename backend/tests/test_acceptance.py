@@ -11,14 +11,14 @@ from app.acceptance import summarize_acceptance, same_json
 def task():
     case = {"id": "case", "name": "标准场景", "input": {"query": "x"}, "required": True,
             "expectation": {"mode": "contains", "target": "result", "expected": "x"}}
-    return {"revision": 4, "environment_id": "env", "test_cases": [case], "runs": [],
+    return {"revision": 4, "environment_id": "env", "dify_app_id": "fixture-app", "test_cases": [case], "runs": [],
             "requirements_confirmed": True, "configuration_confirmed": True, "configuration": {}}
 
 
 def record(t, **changes):
     case = copy.deepcopy(t["test_cases"][0])
     return {"id": "run", "kind": "run", "revision": t["revision"], "environment_id": t["environment_id"],
-            "status": "success", "input": copy.deepcopy(case["input"]), "test_case": case,
+            "status": "success", "app_id": t.get("dify_app_id"), "input": copy.deepcopy(case["input"]), "test_case": case,
             "evaluation": {"status": "passed", "mode": "contains", "details": "关键词满足"}, **changes}
 
 
@@ -98,3 +98,44 @@ def test_invalid_metadata_cannot_break_case_serialization():
     case["metadata"] = {"score": float("nan")}
     result = validate_test_cases([case])
     assert not result["valid"] and any("有限" in e for e in result["errors"])
+
+
+@pytest.mark.parametrize("app_id", ["old-app", None, ""])
+def test_other_or_unidentified_app_cannot_pass_current_cases(app_id):
+    t = task()
+    t["dify_app_id"] = "current-app"
+    t["runs"] = [record(t, app_id=app_id)]
+    before = copy.deepcopy(t)
+    result = summarize_acceptance(t)
+    assert not result["all_required_passed"]
+    assert result["cases"][0]["status"] == "not_run"
+    assert result["cases"][0]["run_id"] is None
+    assert t == before
+
+
+def test_missing_current_app_cannot_reuse_unidentified_success():
+    t = task()
+    t["dify_app_id"] = None
+    t["runs"] = [record(t)]
+    assert not summarize_acceptance(t)["all_required_passed"]
+
+
+def test_latest_other_app_run_does_not_replace_current_app_evidence():
+    t = task()
+    t["dify_app_id"] = "current-app"
+    t["runs"] = [record(t, id="current", app_id="current-app"),
+                 record(t, id="other", app_id="other-app", status="failed")]
+    result = summarize_acceptance(t)
+    assert result["all_required_passed"]
+    assert result["cases"][0]["run_id"] == "current"
+    t["runs"].append(record(t, id="new-current-failure", app_id="current-app", status="failed"))
+    assert summarize_acceptance(t)["cases"][0]["status"] == "failed"
+
+
+def test_other_app_manual_approval_cannot_satisfy_current_app():
+    t = task()
+    t["dify_app_id"] = "current-app"
+    t["test_cases"][0]["expectation"] = {"mode":"manual", "description":"人工核对"}
+    t["runs"] = [record(t, app_id="old-app", evaluation={"mode":"manual","status":"needs_review"},
+                        manual_review={"source":"user","decision":"passed","reason":"旧App已检查"})]
+    assert not summarize_acceptance(t)["all_required_passed"]

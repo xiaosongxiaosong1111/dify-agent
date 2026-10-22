@@ -765,7 +765,7 @@ def test_report_distinguishes_current_real_import_from_stale_evidence(client):
     task = approved(client, env_id=env["id"])
     tid = task["id"]
     task["dify_app_id"] = "report-app"
-    task["runs"] = [{"id": "i", "kind": "import", "revision": task["revision"], "environment_id": env['id'], "status": "success", "result": {"app_id": "report-app"}}, {"id": "r", "kind": "run", "revision": task["revision"], "environment_id": env['id'], "status": "success", "result": {"data": {"status": "succeeded"}}}]
+    task["runs"] = [{"id": "i", "kind": "import", "revision": task["revision"], "environment_id": env['id'], "status": "success", "result": {"app_id": "report-app"}}, {"id": "r", "kind": "run", "app_id": "report-app", "revision": task["revision"], "environment_id": env['id'], "status": "success", "result": {"data": {"status": "succeeded"}}}]
     main.save_task(task)
     report = client.get(f"/api/tasks/{tid}/report").text
     assert "当前修订有匹配的真实导入记录" in report and "成功运行返回 1 次" in report
@@ -1270,3 +1270,25 @@ def test_at19_rejected_mixed_patch_preserves_confirmations_and_history(client, m
     assert main.artifact_path(old).read_bytes() == artifact
     assert client.get(f"/api/tasks/{old['id']}/acceptance").json()["all_required_passed"]
     assert dispatched == ["import_new", "run"]
+
+
+@pytest.mark.parametrize("app_id", ["other-app", None, ""])
+def test_report_does_not_count_success_from_another_or_unidentified_app(client, app_id):
+    import copy
+    env = create_env(client)
+    task = approved(client, env_id=env["id"])
+    task["dify_app_id"] = "report-app"
+    task["runs"] = [
+        {"id":"import", "kind":"import", "revision":task["revision"], "environment_id":env["id"],
+         "status":"success", "result":{"app_id":"report-app"}},
+        {"id":"current", "kind":"run", "revision":task["revision"], "environment_id":env["id"],
+         "app_id":"report-app", "status":"success", "result":{"data":{"status":"succeeded"}}},
+        {"id":"unrelated", "kind":"run", "revision":task["revision"], "environment_id":env["id"],
+         "app_id":app_id, "status":"success", "result":{"data":{"status":"succeeded"}}}]
+    main.save_task(task)
+    before = copy.deepcopy(task)
+    response = client.get(f"/api/tasks/{task['id']}/report")
+    assert response.status_code == 200
+    assert "成功运行返回 1 次" in response.text
+    assert "成功运行返回 2 次" not in response.text
+    assert main.get_task(task["id"]) == before
