@@ -23,7 +23,7 @@ export type AcceptanceSummary = {
 export type RunRecord = {
   diagnostics?:Diagnostic[];
   waiting_state?:{platform_status?:string;checked_at?:string;note?:string};
-  id: string; label?: string; status?: string; kind?: string; revision?: number; environment_id?:string; conversation_context?:{source_run_id:string;conversation_id:string;revision:number;environment_id:string};
+  id: string; label?: string; status?: string; kind?: string; revision?: number; app_id?:string|null; environment_id?:string; conversation_context?:{source_run_id:string;conversation_id:string;revision:number;environment_id:string};
   input?: unknown; result?: unknown; error?: string | null; output?: unknown; created_at?: string;
   test_case?: TestCase;
   evaluation?: { status: string; mode: string; details: string; actual?: unknown };
