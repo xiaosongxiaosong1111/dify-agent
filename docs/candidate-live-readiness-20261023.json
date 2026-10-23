@@ -1,0 +1,64 @@
+{
+  "rehearsal-proof": {
+    "verification": "temporary_store_and_synthetic_adapter_only",
+    "exact_flow_passed": true,
+    "formal_mock_cases_passed": 2,
+    "old12_tasks_and_run_policy_unchanged": true,
+    "new_local_task_count": 1,
+    "new_task_run_cap": 2,
+    "new_task_revision": 5,
+    "console_reads": 11,
+    "login_posts": 1,
+    "import_posts": 1,
+    "publish_posts": 1,
+    "key_create_posts": 1,
+    "workflow_posts": 2,
+    "real_task_changed": false,
+    "real_dify_requests": 0,
+    "real_model_calls": 0,
+    "not_platform_acceptance": true
+  },
+  "blocked-policy-proof": {
+    "expected_failure_stopped": true,
+    "workflow_calls": 0,
+    "real_requests": 0,
+    "no_stage_retry": true,
+    "source_unchanged": true,
+    "verified_stop_stage": "whole_batch_preflight",
+    "verified_stop_state": "returned",
+    "expected_http_status": null
+  },
+  "fail-publication-proof": {
+    "expected_failure_stopped": true,
+    "workflow_calls": 0,
+    "real_requests": 0,
+    "no_stage_retry": true,
+    "source_unchanged": true,
+    "verified_stop_stage": "publication_confirm",
+    "verified_stop_state": "dispatching",
+    "expected_http_status": 502
+  },
+  "fail-first-case-proof": {
+    "expected_failure_stopped": true,
+    "workflow_calls": 1,
+    "real_requests": 0,
+    "no_stage_retry": true,
+    "source_unchanged": true,
+    "verified_stop_stage": "case_1",
+    "verified_stop_state": "dispatching",
+    "expected_http_status": 502
+  },
+  "readiness": {
+    "unapproved_entry_rejected": true,
+    "real_receipt_created": false,
+    "new_local_task_created": false,
+    "real_requests": 0,
+    "source_all_objects_credentials_key_unchanged": true
+  },
+  "date": "2026-10-23",
+  "plan_sha256": "d247ed3737b22b0cead413423cd592b562a9f8244bda96a8dc4fae19bcad6142",
+  "manifest_sha256": "a3a4af6d3034bd10d858d58b7dc16df0c1071f7b7180c0708d1cb9c4f59f5fa0",
+  "live_executed": false,
+  "new_resources": 0,
+  "real_model_or_dify_requests": 0
+}

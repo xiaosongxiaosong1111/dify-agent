@@ -1,0 +1,256 @@
+{
+  "batch": "candidate-live-260",
+  "name": "Sierra售后改文案验收",
+  "source_task_id": "4eb52689-3f3d-4e18-8bfd-1bb744a2c8f0",
+  "environment_id": "202bfb35-2f92-47c1-bc1b-eac32082181d",
+  "workspace_id": "c3306c18-ceb2-4bee-b2d1-796ce2048f17",
+  "requirements": {
+    "goal": "创建虚构蓝杉商店的售后知识问答Workflow，明确有检索命中与无命中两条路径。本案例仅用于Sierra公开合成演示。",
+    "audience": "内部开发者与演示用户，不接入客户资料或真实商家服务。",
+    "input": "单个必填query文本，不接文件、会话历史、接口或其他输入。空白输入由入口拒绝，不派发模型。",
+    "output": "返回唯一result字符串；有命中根据FAQ回答并带政策编号；无命中严格返回：知识库暂无相关信息，请联系人工客服并提供订单号。",
+    "rules": "每次先检索本次独立建立的演示资料库。检索结果数组非空才调用一个文字LLM，模型上下文须引用该检索结果；数组为空直接输出固定人工提示，不调用LLM。不得将提示词中的规则冒充实际分支节点。检索结果数组仅用于是否调用LLM的判断，不表示批量任务。\n本轮唯一业务变化：只把answer_miss节点的固定无命中提示替换为“知识库暂无相关信息，请联系人工客服并提供订单号。”。除该文字外，原节点ID、节点顺序、输入、模型提示、参数、检索库、分支及边全部保持；不能完成时说明缺少条件，不扩改。",
+    "knowledge": "仅使用独立演示库d12cf081-5c52-41e3-b869-e94e6f8d37b1中faq-returns.txt与faq-warranty.txt两份公开合成资料，不再新建库。经济索引，无Embedding和重排；Top K=3，无分数阈值。两文档已完成索引；这不等于检索或业务验收。",
+    "exceptions": "无命中按固定文字转人工；检索或模型执行错误保持失败并保留诊断，不重试、不输出伪造成功。模型不确定或命中资料不足时明确说明并建议人工处理，2xx/节点成功不等于业务正确。",
+    "tests": "命中ZXRET715须回答七天、未拆封并带编号；ZXUNLISTED90371应严格返回无命中提示“知识库暂无相关信息，请联系人工客服并提供订单号。”，目标为输出内result；修改转人工提示后旧确认与成果失效，新版本仍保留检索非空条件和两条路线。"
+  },
+  "configuration": {
+    "assistant_provider_id": "9513f594-c256-46b7-882a-35d9871bf9d0",
+    "dify_model_provider": "langgenius/deepseek/deepseek",
+    "dify_model": "deepseek-flash",
+    "temperature": 0.2,
+    "max_tokens": 512,
+    "model_parameters": {
+      "thinking": false
+    },
+    "opening_statement": "",
+    "suggested_questions": [],
+    "conversation_memory": false,
+    "memory_turns": 5,
+    "dataset_ids": [
+      "d12cf081-5c52-41e3-b869-e94e6f8d37b1"
+    ],
+    "retrieval_top_k": 3,
+    "mock_dependencies": [],
+    "resource_plan": "新批改文案验收：新增独立本机任务1、Workflow App1、首次发布1、专用运行Key1并加密切换专用连接；旧3个App及原12任务保持，旧Key加密留档。复用原公开FAQ库；命中/无命中各1次，总真实运行6到最多8，Sierra模型0；异常即停不重试。"
+  },
+  "manual_answers": {
+    "goal": "创建虚构蓝杉商店的售后知识问答Workflow，明确有检索命中与无命中两条路径。本案例仅用于Sierra公开合成演示。",
+    "audience": "内部开发者与演示用户，不接入客户资料或真实商家服务。",
+    "input": "单个必填query文本，不接文件、会话历史、接口或其他输入。空白输入由入口拒绝，不派发模型。",
+    "output": "返回唯一result字符串；有命中根据FAQ回答并带政策编号；无命中严格返回：知识库暂无相关信息，请联系人工客服并提供订单号。",
+    "rules": "每次先检索本次独立建立的演示资料库。检索结果数组非空才调用一个文字LLM，模型上下文须引用该检索结果；数组为空直接输出固定人工提示，不调用LLM。不得将提示词中的规则冒充实际分支节点。检索结果数组仅用于是否调用LLM的判断，不表示批量任务。\n本轮唯一业务变化：只把answer_miss节点的固定无命中提示替换为“知识库暂无相关信息，请联系人工客服并提供订单号。”。除该文字外，原节点ID、节点顺序、输入、模型提示、参数、检索库、分支及边全部保持；不能完成时说明缺少条件，不扩改。",
+    "knowledge": "仅使用独立演示库d12cf081-5c52-41e3-b869-e94e6f8d37b1中faq-returns.txt与faq-warranty.txt两份公开合成资料，不再新建库。经济索引，无Embedding和重排；Top K=3，无分数阈值。两文档已完成索引；这不等于检索或业务验收。",
+    "exceptions": "无命中按固定文字转人工；检索或模型执行错误保持失败并保留诊断，不重试、不输出伪造成功。模型不确定或命中资料不足时明确说明并建议人工处理，2xx/节点成功不等于业务正确。",
+    "tests": "命中ZXRET715须回答七天、未拆封并带编号；ZXUNLISTED90371应严格返回无命中提示“知识库暂无相关信息，请联系人工客服并提供订单号。”，目标为输出内result；修改转人工提示后旧确认与成果失效，新版本仍保留检索非空条件和两条路线。",
+    "batch": "用户已明确检索结果数组不表示批量任务，本案无分项批量处理。",
+    "retrieval": "检索已明确：仅检索独立演示库，Top K=3、经济索引、无Embedding与重排、无分数阈值；数组为空走固定无命中提示、不调用LLM；命中回答须带政策编号。",
+    "external": "用户已明确本案不接外部业务接口，无外部调用；本版无命中提示提及提交工单但不接真实接口。"
+  },
+  "candidate": {
+    "schema_version": 1,
+    "nodes": [
+      {
+        "id": "start",
+        "type": "start",
+        "title": "开始",
+        "config": {
+          "variables": [
+            {
+              "variable": "query",
+              "type": "paragraph",
+              "required": true,
+              "label": "问题",
+              "hide": false,
+              "options": [],
+              "max_length": null
+            }
+          ]
+        }
+      },
+      {
+        "id": "retrieve",
+        "type": "knowledge-retrieval",
+        "title": "检索售后FAQ",
+        "config": {
+          "dataset_source": "node",
+          "dataset_ids": [
+            "d12cf081-5c52-41e3-b869-e94e6f8d37b1"
+          ],
+          "query_variable_selector": [
+            "start",
+            "query"
+          ],
+          "top_k": 3,
+          "score_threshold": null,
+          "reranking_enable": false
+        }
+      },
+      {
+        "id": "check_hit",
+        "type": "if-else",
+        "title": "是否有检索命中",
+        "config": {
+          "cases": [
+            {
+              "case_id": "case1",
+              "logical_operator": "and",
+              "conditions": [
+                {
+                  "variable_selector": [
+                    "retrieve",
+                    "result"
+                  ],
+                  "comparison_operator": "not empty",
+                  "value": "",
+                  "varType": "array[object]"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "answer_llm",
+        "type": "llm",
+        "title": "依据FAQ回答",
+        "config": {
+          "system_prompt": "你是虚构蓝杉商店的售后知识问答助手，本演示不接入任何真实商家服务。\n只依据给定的检索上下文回答，不得编造政策、编号、天数或审批结果。\n规则：\n1. 回答必须引用命中的政策编号（例如 ZXRET715、ZXWAR180）。\n2. 若检索资料未覆盖用户问题，或被拆封、人为损坏等条件无法判断，明确说明资料不足并建议转人工，不得推断结论。\n3. 使用简体中文，简明作答。",
+          "user_prompt": "用户问题：{{#start.query#}}\n\n检索上下文：\n{{#context#}}",
+          "context_variable_selector": [
+            "retrieve",
+            "result"
+          ],
+          "model": {
+            "provider": "langgenius/deepseek/deepseek",
+            "name": "deepseek-flash",
+            "mode": "chat",
+            "completion_params": {
+              "temperature": 0.2,
+              "max_tokens": 512,
+              "thinking": false
+            }
+          }
+        }
+      },
+      {
+        "id": "answer_hit",
+        "type": "end",
+        "title": "命中输出",
+        "config": {
+          "outputs": [
+            {
+              "variable": "result",
+              "value_selector": [
+                "answer_llm",
+                "text"
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "answer_miss",
+        "type": "template-transform",
+        "title": "无命中固定提示",
+        "config": {
+          "template": "知识库暂无相关信息，请联系人工客服并提供订单号。",
+          "variables": []
+        }
+      },
+      {
+        "id": "end_miss",
+        "type": "end",
+        "title": "无命中输出",
+        "config": {
+          "outputs": [
+            {
+              "variable": "result",
+              "value_selector": [
+                "answer_miss",
+                "output"
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "edges": [
+      {
+        "source": "start",
+        "target": "retrieve"
+      },
+      {
+        "source": "retrieve",
+        "target": "check_hit"
+      },
+      {
+        "source": "check_hit",
+        "target": "answer_llm",
+        "source_handle": "case1"
+      },
+      {
+        "source": "check_hit",
+        "target": "answer_miss",
+        "source_handle": "false"
+      },
+      {
+        "source": "answer_llm",
+        "target": "answer_hit"
+      },
+      {
+        "source": "answer_miss",
+        "target": "end_miss"
+      }
+    ]
+  },
+  "source_cases": [
+    {
+      "id": "after-sales-hit",
+      "name": "有命中：七天未拆封退货",
+      "required": true,
+      "input": {
+        "query": "ZXRET715：签收后三天且未拆封能否退货？请给出政策编号。"
+      },
+      "expectation": {
+        "mode": "contains",
+        "target": "result",
+        "expected": [
+          "ZXRET715",
+          "七天",
+          "未拆封"
+        ]
+      }
+    },
+    {
+      "id": "after-sales-miss",
+      "name": "无命中：固定人工提示",
+      "required": true,
+      "input": {
+        "query": "ZXUNLISTED90371"
+      },
+      "expectation": {
+        "mode": "equals",
+        "target": "result",
+        "expected": "知识库暂无相关信息，请联系人工客服并提供订单号。"
+      }
+    }
+  ],
+  "protected_existing_apps": [
+    "297b4d4e-b9be-414f-a37d-c41632320650",
+    "4ce034da-0765-4279-8294-8f9d4c6be8ca",
+    "5856ed13-06cd-4772-b50c-d217f78473df",
+    "67f157db-96b5-4b53-8129-01b8c7df4033",
+    "714ceb37-130e-4037-af7f-62ecc713fe96",
+    "768a1de7-5135-4b81-9aff-777b066f1849",
+    "9f7a93fc-0432-429a-921f-b19d4c336986",
+    "c27d523d-fead-4f84-b2b7-50b046427098",
+    "d731897e-cd0f-45b1-89ef-c7257282b360",
+    "e43179aa-25a8-4864-b480-14d30f42cf94",
+    "ed9de529-bccc-41cc-81be-d67ffea6780f",
+    "f24ab15d-f559-4e12-bfc2-28e93e73cada"
+  ],
+  "runtime": "0.260.0-edbbe14534cae74cdda2",
+  "expected_graph_digest": "370b3a6f6f9597cc8f9d65b058ebea61efa4966ed141cf634db76fff501c8575",
+  "manual_review_source_note": "冻结的公开合成要求；执行者依据本整批批准代为填写，不是新增人类逐项答复或模型审查。"
+}
