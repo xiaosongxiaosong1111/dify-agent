@@ -10,6 +10,11 @@
 
 - Delegate simple, repetitive independent work through the existing Claude Code gateway as a subagent. The user explicitly selected that gateway (actual model DeepSeek) and authorized sending necessary private code snippets, excluding credentials, customer data, and the whole repository. Report actual model identity; root agent owns design, integration, and verification. A worker budget failure is not success and must not be automatically retried.
 
+## Delegated routine decisions (2026-10-23)
+
+- The user explicitly said routine work does not need repeated questions and delegated decisions to the agent. Proceed autonomously with normal development, reversible local fixes, isolated verification, commits/pushes, and necessary verification within existing explicit resource and cost bounds. Reuse authorization already given in this session.
+- Record a delegated decision as an agent decision under that standing user instruction, never as a fabricated direct human answer. Consumed one-shot batches remain consumed; failure/no-retry rules and explicit resource/cost limits still apply. Ask only when the concrete next action cannot be covered by existing authorization and would exceed those boundaries. This updates the earlier blanket need-user rule for routine work already covered by the user's delegation.
+
 ## Where work comes from
 
 - The single source of pending work is `docs/BACKLOG.md`. Its queue table is authoritative; do not substitute the ordering or numbering of `docs/development-tasks.md` for it.

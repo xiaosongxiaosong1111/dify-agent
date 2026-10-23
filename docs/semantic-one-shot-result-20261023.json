@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-23",
+  "reviewed_plan_commit": "3bc00dc",
+  "source_runtime": "0.260.0-edbbe14534cae74cdda2",
+  "direct_human_reply": "允许这1次隔离模型核对",
+  "receipt_sha256": "c768e8c5e15727d551644ed74acbb77db46129991005130be373855280f2ea5e",
+  "candidate_sha256": "2358d41b1f474a01c90db90c1094ff2a030be913bfe332ee0e5a08b6a953af32",
+  "only_changed_path": "nodes[5].config.template",
+  "candidate_exact_expected": true,
+  "receipt": {
+    "state": "passed",
+    "mode": "live",
+    "model_http_requests": 1,
+    "provider_invocations": 1,
+    "model_http_limit": 1,
+    "dify_requests": 0,
+    "original_task_changes": 0,
+    "original_settings_changes": 0,
+    "automatic_retry": false,
+    "isolation_is_live_ui_acceptance": false,
+    "message_sha256": "44c0e14c4dfa094ef6d9e57cef6bbf4bb0f18b3511a1496f6a4249ad957844fe",
+    "reserved_estimate_usd": "0.0475581",
+    "local_api_status": 422,
+    "planning_stop_reason": "replanning_review",
+    "isolated_attempts": 1,
+    "candidate_exact_expected": true,
+    "formal_plan_kept": true,
+    "old_model_entries_kept": true,
+    "new_model_entries": 1,
+    "prior_model_entries": 6,
+    "conservative_combined_sierra_calls": 7,
+    "new_model_cost_records": [
+      {
+        "status": "settled",
+        "call_status": "returned",
+        "reserved_usd": "0.0475581",
+        "charged_usd": "0.009580368",
+        "cost_basis": "reported_usage",
+        "usage": {
+          "prompt_tokens": 29432,
+          "completion_tokens": 657,
+          "total_tokens": 30089,
+          "prompt_cache_hit_tokens": 128,
+          "prompt_cache_miss_tokens": 29304,
+          "prompt_tokens_details": {
+            "cached_tokens": 128
+          }
+        },
+        "elapsed_seconds": 3.226
+      }
+    ],
+    "original_source_kept": true,
+    "reported_usage": {
+      "prompt_tokens": 29432,
+      "completion_tokens": 657,
+      "total_tokens": 30089,
+      "prompt_cache_hit_tokens": 128,
+      "prompt_cache_miss_tokens": 29304,
+      "prompt_tokens_details": {
+        "cached_tokens": 128
+      }
+    }
+  },
+  "original_sierra_configured_estimate_usd": "0.026526696",
+  "combined_sierra_configured_estimate_usd": "0.036107064",
+  "estimate_is_supplier_invoice": false,
+  "main_task_ledger_remains_original_six_entries": true,
+  "new_cost_saved_separately": true,
+  "general_semantic_preservation_proven": false,
+  "live_ui_or_dify_acceptance_proven": false
+}
