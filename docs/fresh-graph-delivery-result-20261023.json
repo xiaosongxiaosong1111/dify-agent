@@ -1,0 +1,43 @@
+{
+  "state": "passed_static_and_isolated_failure_boundary_only",
+  "runtime": "0.263.0-169da3097967a3828842",
+  "input_graph": "67 actual model saved graph, unchanged",
+  "ui_checks": [
+    "载入67实际保存图，完整JSON未用53图替换或手改",
+    "通过界面确认当前配置和图，需求与完整图保持",
+    "静态构建通过，未自动导入/发布/创建Key/运行",
+    "实际下载新DSL和静态报告，未把两条未运行样例当平台通过",
+    "刷新恢复确认和成果，不重复构建或发送模型"
+  ],
+  "compiled_dsl_and_local_boundary_checks": [
+    "实际67完整图编译为对应七节点、精确分支与result出口",
+    "最终DSL知识库/TopK3/无阈值重排/指定模型参数/资料上下文/固定回复正确",
+    "未写错误转无命中或启用重试；不据此证明平台异常运行",
+    "最终成果本机输入核对拒绝四类空白且不写任务，非空检查保持平台未验证",
+    "四类空白在模拟已配对运行入口也拒绝，零派发/零新记录",
+    "两种标记的模拟平台失败终态保留为error，不当无命中成功；非实际节点故障传播验收"
+  ],
+  "detailed_boundary": "Synthetic platform failed responses return502; local task becomeserror and each recordfailed with platform diagnostics preserved. These are simulated whole-platform terminal failures, not actual retrieval/LLM node failure propagation.",
+  "blank_checks": {
+    "local_input_check_rejected": 4,
+    "mock_paired_run_before_dispatch_rejected": 4,
+    "source_or_temp_task_input_unchanged": true,
+    "dify_direct_entry_verified": false
+  },
+  "mock_runtime_fixture_added_only_after_static_report_download": true,
+  "mock_failed_runtime_requests": 2,
+  "actual_http_model_dify": 0,
+  "source_key_reads": 0,
+  "source_all13_tasks_objects_credentials_key_kept": true,
+  "old67_receipt_ledger_and_review_kept": true,
+  "temporary_data_removed": true,
+  "new_product_changes": false,
+  "full_suite_run": false,
+  "check_script_corrections": "Corrected expected DSL optional fields and failure HTTP/status assertions, enforced server final proof instead of relying only on UI exit, readUTF8 explicitly in WindowsPowerShell; all replays isolated/no external requests.",
+  "evidence_sha256": {
+    "artifact.yaml": "17059f4b55d4d9de6657a23034530149637df36a75dbb924be5039884c075d07",
+    "report.md": "1b6d31db436a8840b6ce8f0bb18de969073bef798dda4ff96e7f4e646286a8db",
+    "receipt.json": "6ec88190c78901b4e306265cb21c7b8550f44e68b03d1ddce7ad50ce86325d11",
+    "ui-proof.json": "9f787d7a628841242ed7cbfda6529afae27903184255652b7cb2bf1a2f714881"
+  }
+}
