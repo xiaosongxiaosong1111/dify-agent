@@ -17,3 +17,5 @@ powershell -ExecutionPolicy Bypass -File work\continuous-model-ui-263\run.ps1 li
 ```
 
 实际执行将在live-intake-stage.json和live-plan-stage.json分别暂停，待根代理检查后绑定对应*-review.json继续。600秒进程保护到期自动停止；这不是稍后自动继续或重新请求。未获对应阶段核对时不得越过门禁。
+
+实际结果：首次实际访谈HTTP1/调用器1，9283tokens/配置估算0.004581636USD；返回八项草案但rules为needs_input，UI按准入停下，第二HTTP/规划/构建均0。根代理事后发现output/tests固定回复丢末尾句号，并把相关性风险建议列成阻塞及插入草案；没有手改或强行放行，receipt stopped_needs_review保留，本包消耗不重放。源14任务/全部密文及旧包保持，临时清理。已知实际Sierra11/保守13/14，已知估算0.050029296USD，保留旧启动0.05及本批未派发第二阶段0.05后为0.150029296USD非账单。[失败与保护结果](continuous-model-ui-result-20261023.json)。

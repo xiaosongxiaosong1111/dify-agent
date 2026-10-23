@@ -1,0 +1,71 @@
+{
+  "state": "blocked_at_intake_admission_and_content",
+  "frozen_commit": "cc212ee",
+  "runtime": "0.263.0-169da3097967a3828842",
+  "actual_model_http": 1,
+  "second_model_http": 0,
+  "source_key_reads_in_memory": 1,
+  "dify_http": 0,
+  "root_stage_continue_files_created": false,
+  "requirements_confirmed": false,
+  "configuration_confirmed": false,
+  "no_plan_build_app_or_runs": true,
+  "candidate_manually_modified": false,
+  "source14_all_objects_credentials_and_old_batches_kept": true,
+  "temporary_data_removed": true,
+  "root_review": {
+    "state": "failed_intake_content_and_admission",
+    "candidate_manually_modified": false,
+    "human_business_signoff": false,
+    "planning_http_sent": false,
+    "findings": [
+      {
+        "field": "requirements.output/tests",
+        "expected_exact_literal": "知识库暂无相关信息，请联系人工客服并提供订单号。",
+        "literal_preserved": false,
+        "issue": "固定无命中回复丢失末尾句号，不能视为严格相等"
+      },
+      {
+        "field": "intake_review.rules",
+        "issue": "已给空/非空分支和无阈值/重排要求，模型将相关性提醒变为needs_input并插入草案建议；需保留风险提醒但不能把建议误当已改变的需求",
+        "classification": "root_review_finding; no forced answer or review override"
+      }
+    ],
+    "old_live_batch_replayed": false
+  },
+  "ledger": {
+    "scope": "failed continuous-model-ui263 consumed, no retry",
+    "actual_model_http": 1,
+    "second_model_http": 0,
+    "batch_conservative_allocated_slots": 2,
+    "known_actual_sierra_http_after_batch": 11,
+    "conservative_allocated_after_batch": 13,
+    "limit": 14,
+    "batch_configuration_estimate_usd": "0.004581636",
+    "combined_known_configuration_estimate_usd": "0.050029296",
+    "retained_old_startup_estimate_usd": "0.05",
+    "retained_unused_second_phase_estimate_usd": "0.05",
+    "combined_known_plus_retained_estimate_usd": "0.150029296",
+    "usage": {
+      "prompt_tokens": 7203,
+      "completion_tokens": 2080,
+      "total_tokens": 9283,
+      "prompt_cache_hit_tokens": 256,
+      "prompt_cache_miss_tokens": 6947,
+      "prompt_tokens_details": {
+        "cached_tokens": 256
+      }
+    },
+    "invoice_verified": false,
+    "old_ledgers_unchanged": true
+  },
+  "actual_requirement_fields_for_review": {
+    "output": "仅输出 result 字符串。命中时根据检索资料回答并带政策编号；无命中时 result 严格等于“知识库暂无相关信息，请联系人工客服并提供订单号”。",
+    "rules": "先检索；检索结果非空才调用一次回答 LLM，提示中只使用检索资料；结果为空直接走固定文字分支，不调用 LLM，不编造政策。政策内容：ZXRET715 为签收后七天内且商品未拆封可申请退货，运费不含在该政策；ZXWAR180 为签收起 180 天保修。回答模型 deepseek-flash，thinking=false，温度 0.2，最大输出 512（资源条件，不代表已可用）。【建议待确认】“检索结果为空”是否仅指检索返回零条，还是需同时考虑低相关条目的判定口径——在 TopK=3 且无分数阈值、不重排的设定下，仅按“零条”判定可能让无关条目触发 LLM 回答。",
+    "tests": "样例 1：输入“ZXRET715在签收后七天内且未拆封，能否退货？请给出政策编号。”，期望 result 包含 ZXRET715、七天、未拆封。样例 2：输入 ZXUNLISTED90371，期望 result 严格等于“知识库暂无相关信息，请联系人工客服并提供订单号”。以上两条仅为声明样例，不代表完整业务验收；检索失败、模型失败与空白输入的期望结果尚未给出（建议待补）。"
+  },
+  "receipt_state_kept": "stopped_needs_review",
+  "receipt_sha256": "6da285a16f3816da7bec1d0a998c3227b3f158b523f0286a38f20a9533196ae9",
+  "retry": false,
+  "consumed_do_not_replay": true
+}
