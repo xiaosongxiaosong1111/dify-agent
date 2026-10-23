@@ -1,0 +1,116 @@
+{
+  "state": "passed",
+  "runtime": "0.263.0-169da3097967a3828842",
+  "direct_user_approval": {
+    "question_call_id": "call_235330dd01f7434dafb69069220637f7",
+    "question_index": 0,
+    "answer": "允许这整批新范围",
+    "plan_sha256": "ba34c65571c56f883649d33e13dc925fcc35017aa1ed293b4c2638c2aa665ea9",
+    "manifest_sha256": "78bf8f9d4e272e5e9826469c2fb8f169930da910535b87c3847e0489f59d1074"
+  },
+  "task": {
+    "id": "5a37368d-3d6b-4708-829c-9e8dcedaf356",
+    "name": "Sierra新需求图平台验收",
+    "revision": 5,
+    "status": "run_completed",
+    "app_id": "0ec579c4-fae3-4f7e-80d3-f8508846c91c",
+    "published_workflow_id": "a3df4f40-acd4-40a3-9b0d-dc023ac0ef8d",
+    "key_operation_id": "8feb49b9-fb7f-4e80-88bc-af4bc45a4b9f"
+  },
+  "cases": [
+    {
+      "local_run_id": "7b8d03a8-cb48-4d91-9cb1-2555f7c38bbf",
+      "case_id": "after-sales-hit",
+      "input": {
+        "query": "ZXRET715：签收后三天且未拆封能否退货？请给出政策编号。"
+      },
+      "status": "succeeded",
+      "evaluation": "passed",
+      "workflow_id": "a3df4f40-acd4-40a3-9b0d-dc023ac0ef8d",
+      "outputs": {
+        "result": "可以。依据政策编号 ZXRET715：签收后七天内、商品未拆封，可申请退货。签收后三天且未拆封在七天内且未拆封，符合该退货规则。"
+      },
+      "reported_tokens": 268
+    },
+    {
+      "local_run_id": "d507360d-ad73-404f-ad6a-90e4bbbd8a2f",
+      "case_id": "after-sales-miss",
+      "input": {
+        "query": "ZXUNLISTED90371"
+      },
+      "status": "succeeded",
+      "evaluation": "passed",
+      "workflow_id": "a3df4f40-acd4-40a3-9b0d-dc023ac0ef8d",
+      "outputs": {
+        "result": "知识库暂无相关信息，请联系人工客服并提供订单号。"
+      },
+      "reported_tokens": 0
+    }
+  ],
+  "limits": {
+    "task_started_runs": 2,
+    "task_max_started_runs": 2,
+    "task_max_minutes": 10,
+    "task_max_reported_cost_usd": null,
+    "old_actual_workflow_requests": 8,
+    "new_actual_workflow_requests": 2,
+    "combined_actual_workflow_requests": 10,
+    "old_failure_history_kept": true,
+    "formal_passed_cases_total": 8,
+    "resource_app_publish_key_totals": 5,
+    "task_total": 14,
+    "sierra_model_http_added": 0,
+    "sierra_actual_http_kept": 10,
+    "sierra_conservative_allocation_kept": 11,
+    "sierra_limit_kept": 14,
+    "sierra_known_plus_failed_reservation_estimate_usd_kept": "0.095447660",
+    "new_dify_estimate_usd": "0.01",
+    "invoice_hard_cap": false,
+    "console_reads_reserved": 48,
+    "login_posts_reserved": 14,
+    "combined_management_read_conservative_upper_bound": 221,
+    "actual_management_reads_instrumented": false,
+    "reported_dify_tokens_added": 268,
+    "combined_reported_dify_tokens": 1499
+  },
+  "protected_state": {
+    "original13_tasks_and_old_policies_and_model_settings_kept": true,
+    "old_credentials_except_approved_console_and_active_runtime_kept": true,
+    "master_key_kept": true,
+    "old_receipts_ledgers_kept": true,
+    "exactly_one_new_task_total14": true,
+    "original_space_and_target_preserved": true,
+    "new_task_exact_graph_requirements_cases": true,
+    "new_task_budget_has_no_model_entries": true,
+    "current_key_bound_to_new_app": true,
+    "previous_r5_key_encrypted_archive_matches_its_existing_credential": true,
+    "new_active_key_matches_encrypted_app_specific_credential": true
+  },
+  "read_only_ui": {
+    "state": "passed",
+    "checks": [
+      "实际新任务r5在运行页恢复新App/发布图/配对Key及2/2正式样例",
+      "新App已有发布/Key时重复入口停用，2/2运行耗尽停用，未派发额外请求",
+      "运行页实际下载新案例交付报告，包含新固定回复和匹配的两例成功证据",
+      "新任务六页连续只读切换正常，当前构建完成状态保留",
+      "原改文案r5仍显示自身旧App/两例记录，但不把新连接Key误当旧App配对Key",
+      "刷新恢复真实进度，全部14任务与连接保持，无写入或浏览器错误"
+    ],
+    "writes": 0,
+    "errors": [],
+    "blockedReads": [
+      "/api/tasks/5a37368d-3d6b-4708-829c-9e8dcedaf356/knowledge-jobs"
+    ],
+    "dify_requests": 0,
+    "model_requests": 0
+  },
+  "receipt_sha256": "cc59bc1540decd1b432f2b2a7c48d9a61df307aa31080cffb90430e6bd7f8ddd",
+  "executions": 1,
+  "retry": false,
+  "boundaries": [
+    "No additional node trace reads; tokens alone do not prove node traversal or free calls",
+    "Reviewed63 draft and67 actual graph copied with honest manual re-review; ordinary task APIs, not same-session fresh natural language full live browser chain",
+    "Only two declared synthetic after-sales cases; final25 business scenarios still open",
+    "Supplier actual billing not established"
+  ]
+}

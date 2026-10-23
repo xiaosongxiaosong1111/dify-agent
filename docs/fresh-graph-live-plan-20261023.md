@@ -19,3 +19,5 @@ Sierra模型调用0，已知实际10/保守11/14及原0.45/0.5USD估算界限保
 批准后首次且仅一次执行，核对两例原生passed和目标发布workflow_id，逐阶段安全回执；公开证据不含凭据，work不入Git。批次通过仍只是已审查新图经普通任务API的真实交付，不冒称新自然输入经两次模型到平台的同次连续真实浏览器链或25场景最终签收。
 
 可审查：[准备结果](fresh-graph-live-readiness-20261023.json)、[输入和图](fresh-graph-live-input-20261023.json)、[预期DSL](fresh-graph-live-expected-20261023.yaml)。
+
+实际结果：直接批准“允许这整批新范围”后，冻结check.py首次且仅一次执行passed。新任务r5/App/首次发布/Key及两例原生passed，报告268/0tokens，workflow_id均匹配当前发布；11项保护、只读UI6通过，原13任务及旧策略/密文/账本保持，当前14任务/实际10次（含原失败）、资源各5。管理读取保守上界221，不作实际统计；本包已消耗不可重放。[安全结果](fresh-graph-live-result-20261023.json)。
