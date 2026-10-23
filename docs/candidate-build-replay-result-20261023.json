@@ -1,0 +1,62 @@
+{
+  "state": "passed",
+  "checks": [
+    "读取真实完整候选不改正式计划、原确认、成果或App绑定",
+    "载入未保存草稿精确保持真实候选全图，只有指定无命中文字变化",
+    "跨流程和运行页面保留未保存候选，未保存前旧确认及成果不变",
+    "一次明确保存生成r23，旧配置确认/成果/App失效，旧r22方案存档且需求确认保留",
+    "刷新持久化新方案与失效状态，旧r22候选仅供查看不可直接载入",
+    "仅固定响应回放1次/临时计划保存1次，模型HTTP及Dify0，无其他写入或浏览器错误",
+    "修改过测试要求的副本拒绝沿用过期需求准入，先重新复核",
+    "通过界面逐项复核公开合成要求，固定无命中文字同步一致，不伪造模型审查",
+    "重新确认需求后明确复核并保存过期流程，候选全图未改，生成r25",
+    "新修订通过实际配置确认入口，不沿用旧确认或额外改变完整计划",
+    "连续静态构建保存r25有效成果，保持完整计划且不冒充已导入App",
+    "两个交付按钮实际下载当前静态成果及报告",
+    "刷新保留构建成果，仅显式临时复核/保存/确认/构建10次请求（含一次预期拒绝），无导入或运行",
+    "完整DSL对比仅answer_miss模板变化，类型/节点/连线/知识库/模型/参数等保持",
+    "额外隔离模拟旧r22导入和两例passed记录保持，但r25报告不计导入、Key或样例通过"
+  ],
+  "isolated_task_save_requests": 10,
+  "original_revision": 22,
+  "saved_revision": 25,
+  "expected_stale_admission_rejection": 422,
+  "manual_review_is_synthetic_fixture_declaration": true,
+  "simulated_old_approvals_artifact_and_app": true,
+  "source_candidate": "semantic-one-shot-260",
+  "fixed_model_replays": 1,
+  "real_model_http_requests": 0,
+  "real_dify_requests": 0,
+  "isolated": true,
+  "dsl_full_comparison_passed": true,
+  "dsl_changed_paths": [
+    "workflow.graph.nodes[5].data.template"
+  ],
+  "artifact_sha256": "2da8e22869b5b90378739498cbb9adae0c38d345c1fb60f856b67cd131a8cc96",
+  "simulated_old_revision_records": 3,
+  "old_history_current_required_passed": 0,
+  "old_history_current_required_not_run": 2,
+  "old_records_retained": true,
+  "source_all_objects_credentials_key_old_receipts_unchanged": true,
+  "temporary_data_removed": true,
+  "production_health": {
+    "status": "ok",
+    "dify_version": "1.17.1",
+    "dsl_version": "0.7.0"
+  },
+  "date": "2026-10-23",
+  "production_version": "0.260.0-edbbe14534cae74cdda2",
+  "verification": "isolated_actual_candidate_ui_and_static_delivery_only",
+  "harness_sha256": {
+    "server.py": "e8476bf4c2a9ea95bd4a4a7c6f0b1d3859087b87d97962715383d978d858806d",
+    "ui.cjs": "bc8bbb1ff9b3e33b9a7633ac78682c95359df84e57f56895ba3db36e2b1fd2e1",
+    "validate-delivery.py": "046a245bd8ede930be1eea6664b248ca9af7f23a4c54142cdef2339a876fae55",
+    "finish.py": "a591eb1f5d4dc6b1e84c56bb097dbec7a3f1419238c0662b198097a19d76a5d1"
+  },
+  "not_verified": [
+    "真实新App导入/发布/运行",
+    "一般模型语义保留",
+    "自然过期续期",
+    "25场景最终业务验收"
+  ]
+}
