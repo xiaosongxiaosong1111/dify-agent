@@ -15,7 +15,7 @@ from app.storage import Store
 def test_planning_uses_server_current_catalog_not_cross_app_inheritance(client,monkeypatch,mode):
     planning_provider(client);task=agent_task(client) if mode=='agent' else approved(client,app_type=mode);calls=[]
     expected=client.get('/api/capabilities',params={'app_type':mode}).json()
-    plan={'schema_version':1,'scope':'text','system_prompt':'按已明确规则回答，不编造未提供事实。'} if mode=='agent' else base_plan(mode)
+    plan=copy.deepcopy(task['agent_plan']) if mode=='agent' else base_plan(mode)
     async def controlled(provider,key,messages,**kwargs):
         calls.append(messages);context=json.loads(messages[1]['content']);catalog=context['capability_catalog']
         assert catalog==expected and catalog['app_type']==context['user_selected_type']==mode

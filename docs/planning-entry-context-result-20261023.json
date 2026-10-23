@@ -1,0 +1,28 @@
+{
+  "state": "passed_local_context_verification_only",
+  "version": "0.263.0",
+  "runtime_build_id": "0.263.0-169da3097967a3828842",
+  "reproduction": "Planning API model message did not include the existing local required-text blank rejection contract;65 asked how entry blank rejection works and generated no plan",
+  "targeted_tests": {
+    "new_context_and_real_dispatch_cases": 4,
+    "existing_capability_and_true_missing_decision_cases": 7,
+    "full_suite_run": false
+  },
+  "verified_behaviors": [
+    "Planning message includes Sierra-only final-artifact required text-input/paragraph blank rejection and explicit direct-Dify-unverified scope",
+    "Empty, spaces, tabs/newlines and ideographic space rejected before dispatch and run records; input not mutated",
+    "Nonblank leading/trailing spaces and optional blank text preserved without normalization",
+    "Actual missing business policy decision still returns needs_decision once, without replacing plan or answering it",
+    "Workflow entry guarantee not exported as an Agent platform guarantee"
+  ],
+  "product_changes": [
+    "Planning system instruction distinguishes already specified business rules from real missing choices",
+    "Workflow-only sierra_runtime_entry context describes existing local behavior, no run validation logic changes"
+  ],
+  "existing_test_fixture_adjustment": "Capability Agent mock now returns its already saved plan so catalog test does not inadvertently invoke changed-plan approval gate",
+  "all13_tasks_objects_credentials_key_and_consumed_receipts_unchanged": true,
+  "source_matches_snapshot": true,
+  "real_model_dify_added": 0,
+  "model_improvement_verified": false,
+  "old65_failure_kept": true
+}
