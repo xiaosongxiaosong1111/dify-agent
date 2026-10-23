@@ -1,0 +1,25 @@
+{
+  "state": "ready_needs_direct_model_scope_expansion",
+  "runtime": "0.265.0-da8b6413b9a732bf0ce1",
+  "plan_sha256": "9f7dce7e1ba1af2b35424f52a0aa271422d7b8e5288821b7d5ec66e24e31665f",
+  "manifest_sha256": "6144ac6303c367bf646c8dfcfcb134574c92a78f0002bf753710d8da56cb2962",
+  "intake_message_sha256": "3990b02c593fae0d6284b4ae4d02ada25de0c6b5e926efc0c875b71d4a56277c",
+  "normal_mock_ui_checks": 6,
+  "first_failure_mock_ui_checks": 3,
+  "second_failure_mock_ui_checks": 5,
+  "third_or_unexpected_http_rejected_before_dispatch": true,
+  "root_stage_gate_bound_to_current_actual_content": true,
+  "full_dependency_startup_before_live_receipt": true,
+  "source14_all_objects_credentials_key_and_old71_73_packages_kept": true,
+  "temporary_data_removed": true,
+  "real_model_dify_http_so_far": 0,
+  "proposed_model_conservative_cap_change": [
+    14,
+    16
+  ],
+  "max_new_model_http": 2,
+  "max_new_configuration_estimate_usd": "0.10",
+  "after_known_plus_retained_max_estimate_usd": "0.254816264",
+  "invoice_hard_cap": false,
+  "production_writes_dify_resources_runs": 0
+}
