@@ -1,0 +1,17 @@
+{
+  "state": "ready",
+  "actual_startup_defect_fixed_and_verified": true,
+  "full_dependencies_and_empty_asgi_before_receipt": true,
+  "cold_parent_imports_before_receipt": true,
+  "normal_and_failure_ui_passed": true,
+  "second_http_rejected_before_dispatch": true,
+  "unbound_live_gate_rejected_before_network_receipt_decryption": true,
+  "old_failed_receipt_and_all13_source_objects_credentials_kept": true,
+  "real_model_dify_requests": 0,
+  "reserved_new_estimate_usd": "0.0169365",
+  "original_model_call_limit_kept": 14,
+  "conservative_model_allocation_upper_bound_if_started": 9,
+  "known_actual_model_http_upper_bound_if_sent": 8,
+  "plan_sha256": "348f5bd39972954d7f46427e18431af483f099aa508740ef78fc2cc14ce1f770",
+  "manifest_sha256": "e18451d0bf216778b4557ca7cce209c26cb7a8fa7fee71bd020a368283a0ffbb"
+}

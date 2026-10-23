@@ -24,8 +24,9 @@
 5. 60已准备全新空需求→一次真实模型检查→未确认草案的隔离UI方案：正常/供应商失败两条UI各4项合成检查通过，第二HTTP发送前拒绝，原13任务及全部对象/密文/主密钥/旧文件保持，临时数据已清理；未绑定委托决定live门禁在回执/网络/解密前拒绝，真实请求0。docs/fresh-intake-plan-20261023.md及公开输入/readiness，work/fresh-intake-261完整包。plan SHA256 27c45c6516b8e687c46444ff7d6c34dbdc0f54eafea3da3b86be4ca007eab0af，manifest SHA256 6ce9280e6ea791035d9ad9b0be5fea2ba7ef67d8af74421cd4522c8f43eea269，消息SHA256 2bc85011f94e93594f60924c6f37e04bb9b9b8c4438db23525f4c2a054f0192f。
 6. 60证据8ec8cac、队列be00277已提交推送。61按常规委托绑定代理决定后live启动失败：本目录后建queue.py遮蔽Python标准库queue，uvicorn导入时断言；模型HTTP/调用器/源Key解密/Dify均0，真实UI发送未开始。原13任务、全部对象/密文/主密钥/旧文件保持，临时数据清理。原work/fresh-intake-261/receipt.json仍preflight且SHA256 4c9a734dff935aad69ee583994f0e42879b10429500b09c16fe7e3ae5ccb3459保持，独立startup-followup.json记录已停止，不当仍在运行；原包不重放，61不能记成功，失败证据162f29a、队列75bc3e6。docs/fresh-intake-startup-result-20261023.json为公开证明。
 7. 保守保留61的1次/0.05USD预留，work/after-sales-startup-reservations-261.json单列；已知实际SierraHTTP仍7、保守分配上界8/14，已知配置估算仍0.036107064USD，加失败预留上界0.086107064USD；不是实际供应商收费。62已修实际冲突辅助名queue.py→update-backlog.py，新增work/isolation-startup-preflight-261.py，正向完整依赖导入及临时ASGI health/meta/空任务检查通过，注入queue.py在执行前拒绝；全部源对象及61原receipt保持，0真实请求。docs/isolation-startup.md及结果留证。下一步将预检接入新执行器的真实回执之前，并为未处理异常记录安全终态；原61包封存、预留保留。新执行器若继续首次实际模型HTTP，须新冻结输入/源码/决定，原失败批预留不退回；保守8→最多9/14，已知实际7→最多8，费用最坏0.136107064USD仍低于原0.45/0.5，资源/Dify/生产写入仍0。不能仅换目录绕过，必须先证明实际启动缺陷已修复。
-8. 用户委托常规开发/隔离验证/修复/提交推送自主处理，AGENTS有记录；不伪造直接人类回答、不重放已消耗包、不扩大明确边界。遇真正新范围先备可审查完整方案，一次整批确认；不是重复登录或常规代码改动都问。
-9. 持续开发直到实际Codex额度不足或有实质验收/队列边界；不足尽力整份更新本交接后立即停止，不重试/换账号/购买或用重置券。当前未遇Codex额度不足。
+8. 62修复证据da8fadc、队列9b5deb5已push。63新执行器work/verified-intake-261已把完整临时ASGI预检和父进程冷依赖导入放在真实receipt之前，并有安全未处理异常终态；正常/失败UI各4项通过，原61封存及全部源数据保持。plan SHA256 348f5bd39972954d7f46427e18431af483f099aa508740ef78fc2cc14ce1f770，manifest SHA256 e18451d0bf216778b4557ca7cce209c26cb7a8fa7fee71bd020a368283a0ffbb。docs/verified-intake-plan-20261023.md及readiness可审查。下一步按既有委托记录代理决定（非直接人类批次回答），同一命令隐藏启动后立即UI发送最多1次，Dify/生产写入0；原实际7/保守8最多到实际8/保守9，原14及0.45/0.5上限不扩大。尚无新实际receipt。原失败预留0.05不退回。新执行器失败预演曾因工具审核等待触发210秒自动关闭，后将启动/UI放同一命令完成，真实请求一直0。
+9. 用户委托常规开发/隔离验证/修复/提交推送自主处理，AGENTS有记录；不伪造直接人类回答、不重放已消耗包、不扩大明确边界。遇真正新范围先备可审查完整方案，一次整批确认；不是重复登录或常规代码改动都问。
+10. 持续开发直到实际Codex额度不足或有实质验收/队列边界；不足尽力整份更新本交接后立即停止，不重试/换账号/购买或用重置券。当前未遇Codex额度不足。
 
 ## 4. 预算与历史保护
 
