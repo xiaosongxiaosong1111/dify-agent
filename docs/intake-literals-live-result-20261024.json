@@ -1,0 +1,81 @@
+{
+  "state": "blocked_admission_with_partial_literal_improvement",
+  "frozen_commit": "8bec573",
+  "runtime": "0.264.0-75e7b81dad5f0c709f6a",
+  "actual_model_http": 1,
+  "source_key_reads_in_memory": 1,
+  "dify_http": 0,
+  "no_auto_confirmation_plan_artifact_app_or_runs": true,
+  "source14_all_objects_credentials_key_and_old71_files_kept": true,
+  "temporary_data_removed": true,
+  "root_review": {
+    "state": "partial_literal_fixed_but_admission_blocked",
+    "candidate_manually_modified": false,
+    "human_business_signoff": false,
+    "exact_literal_in_output_and_tests": true,
+    "old_relevance_advice_not_added_to_rules": true,
+    "blocking_topics": [
+      "input",
+      "knowledge",
+      "exceptions"
+    ],
+    "questions": [
+      {
+        "topic": "input",
+        "question": "“空白输入”的判定范围如何界定：仅空字符串，还是包含纯空格／制表符等仅空白字符？拒绝时返回什么内容（result文字或报错结构）？",
+        "recommendation": "建议入口拒绝空串与仅空白字符，返回固定提示；但需要你给出准确文案后方可写入规则",
+        "reason": "入口拒绝行为与向下游派发模型的条件直接相关",
+        "experience": "可避免空白问题进入检索与模型调用",
+        "cost": "入口校验本身不产生模型费用；若采用特殊报错结构可能影响调用方处理",
+        "manual_work": "需你提供拒绝文案或确认沿用现有输出约定"
+      },
+      {
+        "topic": "exceptions",
+        "question": "检索失败与回答模型失败时“明确报错并停止”的具体输出文字与结构是什么？是否与无命中固定回复区分？",
+        "recommendation": "建议给出独立错误文案并在result中体现失败，与无命中固定回复严格区分；具体文字待你确认",
+        "reason": "你的规则要求不把失败伪装为无命中，需要可检查的失败输出",
+        "experience": "调用方可以区分无资料与系统故障",
+        "cost": "不额外产生费用；错误处理实现复杂度略增",
+        "manual_work": "需你确认错误文案与字段"
+      },
+      {
+        "topic": "knowledge",
+        "question": "deepseek-flash 回答模型与知识库 d12cf081-5c52-41e3-b869-e94e6f8d37b1 是否可在目标Dify 1.17.1环境核对存在与可用？若暂不可用，是否接受以资源待补条件继续需求草案？",
+        "recommendation": "建议把存在性与可用性列为后续资源核对项，需求描述保留你给定的ID与参数原文",
+        "reason": "资源可用性影响后续方案与验收，但不改变你已明确的业务规则",
+        "experience": "先确认需求、后核对资源可减少返工",
+        "cost": "实际调用模型与检索会产生费用与限流，具体金额本轮未知",
+        "manual_work": "需在目标环境核对模型供应商配置与知识库可访问性"
+      }
+    ],
+    "finding": "精确文案和已知规则保留已有改善，但访谈缺少Sierra实际入口契约（required文本strip/派发前422、平台失败HTTP502与失败记录），并把用户明确给为条件的资源尚未实时核对又列为需求缺口。保留问题，不强制解除准入；整体仍失败。"
+  },
+  "ledger": {
+    "scope": "single actual intake after264; consumed, no retry",
+    "actual_model_http": 1,
+    "known_actual_sierra_http_after_batch": 12,
+    "conservative_allocated_after_batch": 14,
+    "limit": 14,
+    "batch_configuration_estimate_usd": "0.004786968",
+    "combined_known_configuration_estimate_usd": "0.054816264",
+    "retained_startup_reservation_usd": "0.05",
+    "retained_unused71_phase_reservation_usd": "0.05",
+    "combined_known_plus_retained_estimate_usd": "0.154816264",
+    "usage": {
+      "prompt_tokens": 7510,
+      "completion_tokens": 2143,
+      "total_tokens": 9653,
+      "prompt_cache_hit_tokens": 128,
+      "prompt_cache_miss_tokens": 7382,
+      "prompt_tokens_details": {
+        "cached_tokens": 128
+      }
+    },
+    "invoice_verified": false,
+    "old_ledgers_kept": true
+  },
+  "receipt_state_kept": "stopped_needs_review",
+  "receipt_sha256": "4cd7927d9d0e065f954e468f8d11207b37bafd756752dfece53d0fa2e95e99bf",
+  "retry": false,
+  "consumed_do_not_replay": true
+}

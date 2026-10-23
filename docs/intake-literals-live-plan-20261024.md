@@ -15,3 +15,5 @@ powershell -ExecutionPolicy Bypass -File work\intake-literals-live-264\run.ps1 l
 ```
 
 本项只是单次实际访谈，不把它说成71连续模型链、真实Dify全浏览器链或25场景最终签收。[公开输入与检查点](intake-literals-live-input-20261024.json)。
+
+实际结果：首次HTTP1/9653tokens/配置估算0.004786968USD，output/tests固定回复含原句号、rules未插入相关性建议，局部改善通过；但input/knowledge/exceptions为needs_input，整体准入未通过。未强行放行或手改，receipt stopped_needs_review、原失败保留，不重试。源14任务/全部对象密文及旧71包保持，临时清理，Dify0。当前已知实际12/保守14/14；已知估算0.054816264USD，加两项0.05保留预留为0.154816264USD非账单。不得自动扩大模型次数。[部分改善与阻断结果](intake-literals-live-result-20261024.json)。
