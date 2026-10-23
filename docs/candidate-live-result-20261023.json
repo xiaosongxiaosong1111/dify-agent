@@ -1,0 +1,94 @@
+{
+  "date": "2026-10-23",
+  "state": "passed",
+  "batch": "candidate-live-260",
+  "plan_sha256": "d247ed3737b22b0cead413423cd592b562a9f8244bda96a8dc4fae19bcad6142",
+  "manifest_sha256": "a3a4af6d3034bd10d858d58b7dc16df0c1071f7b7180c0708d1cb9c4f59f5fa0",
+  "receipt_sha256": "ee2e1ffc0f8243639a50bb212242700da89250492c4b7a946ec2faf40bd79c20",
+  "new_task_id": "1febbd15-9b76-49cb-b4fc-0dea7cc6c27e",
+  "revision": 5,
+  "new_app_id": "3f7ed3ea-6cc3-4582-8246-2ccba04972a3",
+  "published_workflow_id": "ff2d1cd6-3884-4171-b0ae-e0d8a4eef321",
+  "key_operation_id": "c65e8dcd-8028-4342-bd56-1be60d504fb1",
+  "formal_cases": [
+    {
+      "run_id": "0c002df9-e53e-454a-9743-34c6895d50c5",
+      "case_id": "after-sales-hit",
+      "status": "success",
+      "evaluation": "passed",
+      "published_workflow_id": "ff2d1cd6-3884-4171-b0ae-e0d8a4eef321",
+      "reported_tokens": 307,
+      "reported_price": null,
+      "reported_currency": null,
+      "output_matches_expected_rule": true
+    },
+    {
+      "run_id": "ed704519-1a55-4431-93a9-16ae2723e168",
+      "case_id": "after-sales-miss",
+      "status": "success",
+      "evaluation": "passed",
+      "published_workflow_id": "ff2d1cd6-3884-4171-b0ae-e0d8a4eef321",
+      "reported_tokens": 0,
+      "reported_price": null,
+      "reported_currency": null,
+      "output_matches_expected_rule": true
+    }
+  ],
+  "new_sierra_model_calls": 0,
+  "old_sierra_calls_conservative": 7,
+  "new_resource_limits_used": {
+    "local_tasks": 1,
+    "apps": 1,
+    "first_publications": 1,
+    "runtime_keys": 1,
+    "workflow_runs": 2
+  },
+  "old_real_runs": 6,
+  "combined_real_runs": 8,
+  "new_task_run_policy": {
+    "max_started_runs": 2,
+    "max_total_minutes": 10,
+    "max_reported_cost_usd": null
+  },
+  "old_policy_unchanged": true,
+  "management_reads_reserved": 48,
+  "login_posts_reserved": 14,
+  "management_reads_actual": "not_instrumented",
+  "combined_management_reads_upper_bound": 173,
+  "new_dify_estimate_usd": ".01",
+  "supplier_invoice_verified": false,
+  "model_node_trace_read": false,
+  "protected_state": {
+    "all_original12_tasks_kept": true,
+    "old_run_policy_6_kept": true,
+    "old_model_ledgers_kept": true,
+    "encryption_key_kept": true,
+    "new_task_count13": true,
+    "shared_runtime_key_bound_new_app": true,
+    "original_policy10_minutes_kept": true,
+    "all_other_original_ciphertexts_kept": true,
+    "previous_binding_archive_present": true,
+    "new_runtime_credential_encrypted": true
+  },
+  "local_readonly_report_checks_passed": true,
+  "full_natural_language_ui_acceptance": false,
+  "whole_project_business_acceptance": false,
+  "readonly_ui": {
+    "state": "passed",
+    "checks": [
+      "实际新任务r5在运行页恢复新App/发布图/配对Key及2/2正式样例",
+      "新App已有发布和Key时重复入口停用，未派发额外请求",
+      "运行页实际下载新案例交付报告，包含新固定回复和匹配的两例成功证据",
+      "新任务六页连续只读切换正常，当前构建完成状态保留",
+      "原r21仍显示自身旧App/两例记录，但不把新连接Key误当旧App配对Key",
+      "刷新恢复真实进度，全部13任务与连接保持，无写入或浏览器错误"
+    ],
+    "writes": 0,
+    "errors": [],
+    "blockedReads": [
+      "/api/tasks/1febbd15-9b76-49cb-b4fc-0dea7cc6c27e/knowledge-jobs"
+    ],
+    "dify_requests": 0,
+    "model_requests": 0
+  }
+}
