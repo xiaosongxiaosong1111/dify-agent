@@ -1,0 +1,17 @@
+{
+  "state": "ready_not_executed",
+  "plan_sha256": "cf292630cc5052efb405fc8a2de60ac8b603442146cc8b3bb440f2bd3a0a62f4",
+  "manifest_sha256": "338690e9e29fd8e1c634c007fdacf9b228ecf7d501191468a8d9c4906dbb6598",
+  "runtime": "0.262.0-dab832fdb2a7f56e9cef",
+  "normal_mock_ui_checks": 6,
+  "provider_failure_mock_ui_checks": 6,
+  "real_http_so_far": 0,
+  "second_request_rejected_before_dispatch": true,
+  "same_message_hash_in_both_mocks": true,
+  "message_sha256": "dbff2cd4964bcf579b82e69dc4479767ebbe1833d46621888968781276440950",
+  "reserved_configuration_estimate_usd": "0.0447654",
+  "max_estimate_usd": "0.05",
+  "source_all13_tasks_objects_credentials_unchanged": true,
+  "temp_data_removed": true,
+  "helper_shutdown_note": "One normal mock helper failed to finish promptly; only owned helper processes/data were removed, then bounded graceful shutdown and clean normal/failure replays both passed. No live request had occurred."
+}
