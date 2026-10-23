@@ -27,3 +27,11 @@ Dify请求、管理读取、登录、新真实任务、新App/发布/Key、资�
 固定合成响应的真实UI正常/失败各4项通过：一次发送、未确认/未建资源、成功时九项来源准备就绪、失败时空需求保持、刷新不重发。第二HTTP边界预演拒绝，原所有对象/密文/旧文件保持，临时服务和数据已清理。真实模型/Dify0。未绑定委托决定时live入口在回执/网络/解密前拒绝。见[就绪证明](fresh-intake-readiness-20261023.json)。
 
 冻结包work/fresh-intake-261（不入Git），plan SHA256 **27c45c6516b8e687c46444ff7d6c34dbdc0f54eafea3da3b86be4ca007eab0af**，manifest SHA256 **6ce9280e6ea791035d9ad9b0be5fea2ba7ef67d8af74421cd4522c8f43eea269**，消息SHA256 **2bc85011f94e93594f60924c6f37e04bb9b9b8c4438db23525f4c2a054f0192f**。运行快照0.261.0-543f513d5bd404f72bc3，源码及源数据摘要变化即拒绝。只有绑定上述摘要、明确标记standing_user_delegation及explicit_human_batch_reply=false的决定后才能启动live一次；receipt存在一律不重放。当前尚未执行真实请求。
+
+## 启动阶段中断（2026-10-23）
+
+根代理依据用户常规委托如实记录代理决定（explicit_human_batch_reply=false），没有伪造直接批准。live启动后导入uvicorn的logging.handlers时，本目录后来生成的辅助queue.py遮蔽Python标准库queue并触发断言，进程退出。是根代理放置辅助脚本的实现错误。
+
+模型HTTP0、调用器0、源Key解密0、Dify0；实际UI发送尚未开始。原13任务及所有对象/密文/主密钥/旧文件保持，临时目录已清理。原receipt仍为preflight且摘要保留，不改成成功或当作仍在运行；独立startup-followup.json说明真实停止原因。包已开始，原包不重放。其1次及0.05USD保守预留保留不退回，因此模型已知真实7次、保守分配上界8/14，不能说新发了第8次真实请求。
+
+详见[启动结果](fresh-intake-startup-result-20261023.json)。下一步只修辅助命名及创建一次性回执前的完整依赖启动检查；修复不证明新自然要求实际模型检查已通过。
