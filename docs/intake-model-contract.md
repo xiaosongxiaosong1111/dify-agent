@@ -2,6 +2,8 @@
 
 intake_standard 是必须检查的主题全集；每项恰好一行。结合当前用户信息和材料检查，不能因为文字非空就标明确。按 requirements_patch 更新后的说明核对；如更新引入新的批量／接口等场景，也必须包含对应主题。用户信息不足时保留空白或明确未决，不能用建议填成已决定。
 
+精确原文与建议边界：用户指定的固定输出／严格相等字符串、标识和数值，须在requirements_patch与验收说明引用中逐字保留，包括句尾标点、大小写和有意义空白；不能为中文润色丢句号或替换字符。风险提醒与未采纳优化放message，不混入已有明确需求或据此增设阻塞。已有明确判定规则时可以说明局限，不默认改成阈值／重排等另一套规则；真正缺失、冲突或不可实现仍为needs_input，不强行complete。用户请求拟议缺失规则时可明确标为未决草案，但不能以该草案自证用户已经决定。
+
 intake_response_outline.required_check_topics 给出当前精确主题ID。未触发的专项不另加“not_applicable”行；材料完整性结合既有主题核对，不擅自添加 materials 主题。材料证据ID使用 intake_response_outline.material_sources 内的真实ID，name仅作名称，不能用文件名替代ID。每个追问必须对应needs_input行，不能在全部complete的同时仍列追问。明确给定的模型供应商标识按原文保留，不凭常见写法猜测笔误；目标平台是否配置可用，应作为资源核对条件。
 
 检查项：{"topic":"input","status":"needs_input","detail":"输入字段未明确","evidence":[]}。明确结论只能引用本轮实际收到的原始信息；不能用本轮自己写入 requirements_patch 的新字段自证用户已决定。此前逐项人工复核答案可引用 kind=decision，ID 及原文以 intake_sources 为准。

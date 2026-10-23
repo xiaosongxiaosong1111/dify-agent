@@ -1,0 +1,42 @@
+{
+  "state": "passed_local_prompt_routing_and_admission_only",
+  "runtime": "0.264.0-75e7b81dad5f0c709f6a",
+  "product_changes": [
+    "Interview system and contract request exact fixed output/identifier/number preservation including punctuation",
+    "Optional risk/optimization goes in message, not into already specified requirements or new blockers; genuine missing decisions remain needs_input"
+  ],
+  "targeted_existing_tests": {
+    "passed": 22,
+    "deselected": 38,
+    "full_suite_run": false
+  },
+  "real_interview_api_substitute_replays": [
+    {
+      "mode": "old_failure_kept",
+      "model_substitute_calls": 1,
+      "admission_can_confirm": false,
+      "system_sha256": "91289dbd1e43cd08b01d57f13d2df6c7c5ea59805296a5be23a97b4f8d1a5439",
+      "returned_requirements_not_rewritten": true,
+      "no_automatic_confirmation_or_resources": true
+    },
+    {
+      "mode": "fixed_literal_with_optional_advice",
+      "model_substitute_calls": 1,
+      "admission_can_confirm": true,
+      "system_sha256": "91289dbd1e43cd08b01d57f13d2df6c7c5ea59805296a5be23a97b4f8d1a5439",
+      "returned_requirements_not_rewritten": true,
+      "no_automatic_confirmation_or_resources": true
+    }
+  ],
+  "old71_failure_not_edited_or_reclassified": true,
+  "actual_model_semantic_improvement_verified": false,
+  "source14_tasks_all_objects_credentials_and_master_key_unchanged": true,
+  "old_consumed_receipts_and_ledgers_kept": true,
+  "source_matches_runtime_snapshot": true,
+  "runtime_changed_files": [
+    "backend/app/assistant_scope_prompt.py",
+    "backend/app/main.py",
+    "docs/intake-model-contract.md"
+  ],
+  "real_model_dify_requests_added": 0
+}

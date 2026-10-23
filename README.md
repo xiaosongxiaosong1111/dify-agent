@@ -1,8 +1,10 @@
-# 当前部署：Sierra 0.263
+# 当前部署：Sierra 0.264
 
-本机运行 **0.263.0-169da3097967a3828842**：[打开 Sierra](http://127.0.0.1:8765/)。
+本机运行 **0.264.0-75e7b81dad5f0c709f6a**：[打开 Sierra](http://127.0.0.1:8765/)。
 
 当前公开售后案例：选择“Sierra新需求图平台验收”（r5），67实际模型新图已完成新App发布和两例真实试跑。查看步骤、旧任务和Key切换影响见[案例交付说明](docs/public-after-sales-delivery.md)。原13任务保持，当前14任务；累计10次Dify请求含原失败历史，不代表全部项目完成。
+
+当前访谈修复：[精确文字及未采纳建议边界](docs/intake-literals.md)；旧71失败保留，实际效果待独立核对。
 
 当前规划修复：[向模型说明Sierra本机空白输入门禁](docs/planning-entry-context.md)，不外推Dify直接入口，修复后独立单次实际规划已生成合规图（[证据](docs/fresh-planning263-result-20261023.json)），仍非一般语义保证。
 
