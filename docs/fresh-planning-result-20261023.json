@@ -1,0 +1,85 @@
+{
+  "state": "blocked_needs_decision_not_graph_success",
+  "frozen_commit": "d79726d",
+  "runtime": "0.262.0-dab832fdb2a7f56e9cef",
+  "actual_model_http": 1,
+  "provider_invocations": 1,
+  "source_key_reads_in_memory": 1,
+  "dify_requests": 0,
+  "model_plan_candidate": null,
+  "ui_checks": 6,
+  "ui_checks_are_not_graph_acceptance": true,
+  "stop_reason": "needs_decision",
+  "requirements_unchanged": true,
+  "configuration_unconfirmed": true,
+  "no_artifact_app_or_runs": true,
+  "source_all13_objects_credentials_key_and_old_files_unchanged": true,
+  "temporary_data_removed": true,
+  "root_review": {
+    "state": "failed_no_graph_candidate",
+    "root_reviewed": true,
+    "actual_model_plan_generated": false,
+    "questions": [
+      {
+        "question": "检索结果“非空”的判定规则是什么？knowledge-retrieval 输出是 array[object]（含可能空数组），是否需要显式 if-else 用 empty/not empty 判断检索结果数组？未命中（空数组）走固定文字分支。",
+        "recommendation": "用 if-else 对 knowledge-retrieval.result 做 array[object] 的 empty/not empty 判定：not empty → LLM 回答；empty → 固定文字输出。",
+        "reason": "检索节点不保证有命中，必须显式定义空结果分支，否则无法保证不调用 LLM 且不编造政策。",
+        "experience": "无命中时无需等待模型即返回固定文字。",
+        "cost": "",
+        "manual_work": ""
+      },
+      {
+        "question": "入口空白 query 拒绝如何实现？当前 start 的 text-input 只有 required（缺失/null 拒绝），明确空白字符串（如空格）需业务判定。",
+        "recommendation": "在 start 之后加 if-else：query 字符串 empty/not empty；empty → 结束输出明确拒绝提示文字；not empty → 继续检索。",
+        "reason": "required 不覆盖空字符串，需显式分支区分空白输入。",
+        "experience": "空白输入得到明确提示而非进入检索与模型。",
+        "cost": "",
+        "manual_work": ""
+      },
+      {
+        "question": "检索或回答模型运行时失败时的处理方式是什么？当前工作流节点默认失败即整次运行终止，需确认该行为即视为“明确报错并停止”。",
+        "recommendation": "保持默认：节点失败导致整个 Workflow 失败（无 error_strategy/default_value/retry），不伪装为无命中。",
+        "reason": "用户规则要求失败明确报错停止，不伪装无命中。",
+        "experience": "",
+        "cost": "失败即终止不会产生替代输出，可能已有模型调用费用。",
+        "manual_work": ""
+      },
+      {
+        "question": "命中分支回答是否要求引用来源/政策编号格式？两条政策编号（ZXRET715、ZXWAR180）已在提示中声明，模型需据资料回答并带编号。",
+        "recommendation": "在 LLM 系统提示中要求：仅使用检索资料，回答必须包含对应政策编号；不编造资料外内容。",
+        "reason": "明确输出含政策编号的规则。",
+        "experience": "",
+        "cost": "",
+        "manual_work": ""
+      }
+    ],
+    "finding": "检索数组空/非空分支、根据资料回答并引用编号已在需求中；模型重复请求这些决定。空白校验问题还揭示未向规划模型说明Sierra既有required文本在派发前strip拒绝空白的本机入口行为；不能把此保证外推到直接Dify入口。失败默认行为的具体边界仍须准确区分。",
+    "candidate_manually_modified": false,
+    "batch_replayed": false
+  },
+  "usage_and_estimates": {
+    "source": "separate supplemental ledger for consumed fresh-planning262 only",
+    "actual_http": 1,
+    "conservative_allocated_after_batch": 10,
+    "known_actual_sierra_http_after_batch": 9,
+    "prior_known_configuration_estimate_usd": "0.040002300",
+    "batch_configuration_estimate_usd": "0.002626380",
+    "combined_known_configuration_estimate_usd": "0.042628680",
+    "retained_prior_failed_estimate_usd": "0.05",
+    "combined_known_plus_retained_estimate_usd": "0.092628680",
+    "invoice_verified": false,
+    "usage": {
+      "prompt_tokens": 26873,
+      "completion_tokens": 488,
+      "total_tokens": 27361,
+      "prompt_cache_hit_tokens": 20480,
+      "prompt_cache_miss_tokens": 6393,
+      "prompt_tokens_details": {
+        "cached_tokens": 20480
+      }
+    },
+    "source_ledger_unchanged": true
+  },
+  "receipt_sha256": "f8dae37715959b1411ab43324f02f7e81e3de2142681b069b245c2bad33e53f8",
+  "receipt_kept_no_retry": true
+}
