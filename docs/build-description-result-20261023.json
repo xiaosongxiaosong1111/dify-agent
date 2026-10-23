@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-23",
+  "state": "passed",
+  "runtime": {
+    "version": "0.261.0",
+    "mode": "snapshot",
+    "build_id": "0.261.0-543f513d5bd404f72bc3",
+    "content_sha256": "543f513d5bd404f72bc3829d7ec80f89cd79ed3e53a9494808f3576d7974bf82",
+    "file_count": 241,
+    "task_data_inside_snapshot": false,
+    "note": "后端、模型契约及前端资源来自启动时固定快照；任务数据与凭据独立使用原目录。Python依赖环境仍共用，不是完整依赖隔离。"
+  },
+  "reproduced_before": {
+    "reproduced": true,
+    "task_id": "1febbd15-9b76-49cb-b4fc-0dea7cc6c27e",
+    "actual_imported_app": "3f7ed3ea-6cc3-4582-8246-2ccba04972a3",
+    "misleading_build_heading": "静态校验与构建\n仅后台结果，未导入真实 Dify"
+  },
+  "source_ui": {
+    "state": "passed",
+    "heading": "静态校验与构建\n静态检查结果；导入与运行记录请到运行页核对",
+    "current_build_mark_kept": true,
+    "existing_import_duplicate_disabled": true,
+    "current_app_and_two_cases_kept": true,
+    "task_unchanged": true,
+    "writes": 0,
+    "errors": [],
+    "external_requests": 0
+  },
+  "deployed_ui": {
+    "state": "passed",
+    "heading": "静态校验与构建\n静态检查结果；导入与运行记录请到运行页核对",
+    "current_build_mark_kept": true,
+    "existing_import_duplicate_disabled": true,
+    "current_app_and_two_cases_kept": true,
+    "task_unchanged": true,
+    "writes": 0,
+    "errors": [],
+    "external_requests": 0
+  },
+  "frontend_build": "tsc -b && vite build passed",
+  "all13_tasks_and_all_other_objects_unchanged": true,
+  "all_credentials_and_encryption_key_unchanged": true,
+  "source_matches_snapshot": true,
+  "backend_version_only": true,
+  "runtime_changes_only": [
+    "backend/app/main.py version",
+    "frontend/dist"
+  ],
+  "additional_model_dify_requests": 0
+}
