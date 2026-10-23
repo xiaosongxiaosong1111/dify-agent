@@ -1,0 +1,19 @@
+{
+  "state": "ready_not_executed",
+  "runtime": "0.264.0-75e7b81dad5f0c709f6a",
+  "plan_sha256": "eb638baccebd1806e07a8234ff9f63b7a9b73d881da06d47e6aafb2e3866d091",
+  "manifest_sha256": "11ec52dd091d3550208ee5a089cf5dff099fad384bfe3e3df22518b337245709",
+  "message_sha256": "39e1f81170f0927f08073c9287fbe678f3d66c012e5acf6e27cbe9a43ffd0642",
+  "configuration_price_reserved_estimate_usd": "0.01737",
+  "normal_mock_ui_checks": 4,
+  "failure_mock_ui_checks": 4,
+  "complete_dependency_startup_before_live_receipt": true,
+  "second_http_rejected_before_dispatch": true,
+  "source14_all_objects_credentials_and_old71_files_kept": true,
+  "temporary_data_removed": true,
+  "real_http_added": 0,
+  "max_real_model_http": 1,
+  "after_conservative_calls": 14,
+  "max_known_plus_retained_estimate_usd_after_batch": "0.200029296",
+  "invoice_hard_cap": false
+}
