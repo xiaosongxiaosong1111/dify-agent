@@ -1,0 +1,84 @@
+{
+  "state": "ready_needs_new_scope_approval",
+  "runtime": "0.263.0-169da3097967a3828842",
+  "plan_sha256": "ba34c65571c56f883649d33e13dc925fcc35017aa1ed293b4c2638c2aa665ea9",
+  "manifest_sha256": "78bf8f9d4e272e5e9826469c2fb8f169930da910535b87c3847e0489f59d1074",
+  "normal_exact_future_flow": {
+    "verification": "temporary_store_and_synthetic_adapter_only",
+    "exact_flow_passed": true,
+    "formal_mock_cases_passed": 2,
+    "old13_tasks_and_all_original_policies_unchanged": true,
+    "new_local_task_count": 1,
+    "new_task_run_cap": 2,
+    "new_task_revision": 5,
+    "console_reads": 11,
+    "login_posts": 1,
+    "import_posts": 1,
+    "publish_posts": 1,
+    "key_create_posts": 1,
+    "workflow_posts": 2,
+    "real_task_changed": false,
+    "real_dify_requests": 0,
+    "real_model_calls": 0,
+    "not_platform_acceptance": true
+  },
+  "failure_stop_stages": [
+    {
+      "expected_failure_stopped": true,
+      "workflow_calls": 0,
+      "real_requests": 0,
+      "no_stage_retry": true,
+      "source_unchanged": true,
+      "verified_stop_stage": "whole_batch_preflight",
+      "verified_stop_state": "returned",
+      "expected_http_status": null
+    },
+    {
+      "expected_failure_stopped": true,
+      "workflow_calls": 0,
+      "real_requests": 0,
+      "no_stage_retry": true,
+      "source_unchanged": true,
+      "verified_stop_stage": "publication_confirm",
+      "verified_stop_state": "dispatching",
+      "expected_http_status": 502
+    },
+    {
+      "expected_failure_stopped": true,
+      "workflow_calls": 1,
+      "real_requests": 0,
+      "no_stage_retry": true,
+      "source_unchanged": true,
+      "verified_stop_stage": "case_1",
+      "verified_stop_state": "dispatching",
+      "expected_http_status": 502
+    }
+  ],
+  "source_all13_tasks_objects_credentials_key_old_model_files_kept": true,
+  "temporary_data_removed": true,
+  "model_or_dify_requests_added": 0,
+  "proposal_limits": {
+    "new_production_task": 1,
+    "new_app": 1,
+    "first_publish": 1,
+    "new_runtime_key": 1,
+    "new_workflow_runs": 2,
+    "workflow_cumulative_old_to_new": [
+      8,
+      10
+    ],
+    "app_publish_key_cumulative_old_to_new": [
+      4,
+      5
+    ],
+    "new_task_run_cap": 2,
+    "minutes_cap": 10,
+    "console_reads_reserved": 48,
+    "login_posts_reserved": 14,
+    "management_read_conservative_upper_bound_after_batch": 221,
+    "sierra_model_calls": 0,
+    "estimated_new_dify_usd": "0.01",
+    "invoice_hard_cap": false
+  },
+  "limitations": "Uses reviewed63 draft and67 actual graph with explicit manual re-review; ordinary task APIs, not a new same-session natural-language model interview or complete real browser chain; only two cases, not final25."
+}

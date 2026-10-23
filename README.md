@@ -4,7 +4,7 @@
 
 当前公开售后案例：选择“Sierra售后改文案验收”（r5），已完成新App发布和两例真实试跑，新固定回复已验证。查看步骤、旧版与Key切换影响、费用和未完成范围见[案例交付说明](docs/public-after-sales-delivery.md)。原12任务保留，当前13任务；累计8次真实运行含原失败历史，不是全部项目完成。
 
-当前规划修复：[向模型说明Sierra本机空白输入门禁](docs/planning-entry-context.md)，不外推Dify直接入口，实际模型改善待新批核对。
+当前规划修复：[向模型说明Sierra本机空白输入门禁](docs/planning-entry-context.md)，不外推Dify直接入口，修复后独立单次实际规划已生成合规图（[证据](docs/fresh-planning263-result-20261023.json)），仍非一般语义保证。
 
 当前修复：耗尽执行上限时禁用运行，未知状态等待本机预检；[连续隔离界面验证及边界](docs/continuous-ui-replay.md)。
 
