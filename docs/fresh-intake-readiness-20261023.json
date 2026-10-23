@@ -1,0 +1,12 @@
+{
+  "frozen_message_sha256": "2bc85011f94e93594f60924c6f37e04bb9b9b8c4438db23525f4c2a054f0192f",
+  "reserved_estimate_usd": "0.0169365",
+  "normal_ui_passed": true,
+  "failure_ui_stops_without_retry": true,
+  "second_http_rejected_before_dispatch": true,
+  "source_all13_tasks_objects_credentials_key_and_old_files_kept": true,
+  "unbound_live_gate_rejected_before_receipt_network_credential": true,
+  "real_model_dify_requests": 0,
+  "plan_sha256": "27c45c6516b8e687c46444ff7d6c34dbdc0f54eafea3da3b86be4ca007eab0af",
+  "manifest_sha256": "6ce9280e6ea791035d9ad9b0be5fea2ba7ef67d8af74421cd4522c8f43eea269"
+}

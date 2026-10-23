@@ -1,0 +1,27 @@
+{
+  "content": "我主动选择Workflow。请根据下面完整公开合成要求整理未确认需求草案并做来源核对的标准检查。仅本轮需求检查，不生成流程、不请求Dify、不创建资源或试跑，不替我确认需求或配置。\ngoal：为内部演示用户制作蓝杉商店公开合成售后知识问答Workflow；仅处理退货和保修政策问答。\naudience：内部开发与演示用户，不接入真实客户资料。\ninput：单个必填query文本，每次只处理一个问题；空白输入由入口拒绝且不派发模型。\noutput：只输出result字符串；命中时根据资料回答并带政策编号；无命中严格返回：知识库暂无相关信息，请联系人工客服并提供订单号。\nrules：先检索；检索结果非空才调用一次回答LLM，提示中只使用检索资料；结果为空直接走固定文字分支，不调用LLM，不编造政策。\nknowledge：仅使用现有公开合成FAQ库d12cf081-5c52-41e3-b869-e94e6f8d37b1，TopK3，无分数阈值、不重排；ZXRET715为签收后七天内且商品未拆封可申请退货，运费不含在该政策；ZXWAR180为签收起180天保修。后续回答模型deepseek-flash、thinking=false、温度0.2、最大输出512；这些是资源条件，不代表现在执行或证明实时可用。\nexceptions：query空白直接拒绝；检索失败或回答模型失败必须明确报错并停止，不把失败伪装为无命中；转人工仅为固定提示文字，不接入客服系统。\ntests：命中输入“ZXRET715在签收后七天内且未拆封，能否退货？请给出政策编号。”应在result包含ZXRET715、七天、未拆封；无命中输入ZXUNLISTED90371应在result严格等于固定回复。仅这两条声明不代表完整业务验收。\n请只核对实际触发主题；已有清楚说明时不要发明业务或省略条件。返回契约JSON。",
+  "selected_app_type": "workflow",
+  "actual_model": "deepseek-flash",
+  "required_topics": [
+    "goal",
+    "audience",
+    "input",
+    "output",
+    "rules",
+    "knowledge",
+    "exceptions",
+    "tests",
+    "retrieval"
+  ],
+  "expected_requirements_for_synthetic_replay": {
+    "goal": "为内部演示用户制作蓝杉商店公开合成售后知识问答Workflow；仅处理退货和保修政策问答。",
+    "audience": "内部开发与演示用户，不接入真实客户资料。",
+    "input": "单个必填query文本，每次只处理一个问题；空白输入由入口拒绝且不派发模型。",
+    "output": "只输出result字符串；命中时根据资料回答并带政策编号；无命中严格返回：知识库暂无相关信息，请联系人工客服并提供订单号。",
+    "rules": "先检索；检索结果非空才调用一次回答LLM，提示中只使用检索资料；结果为空直接走固定文字分支，不调用LLM，不编造政策。",
+    "knowledge": "仅使用现有公开合成FAQ库d12cf081-5c52-41e3-b869-e94e6f8d37b1，TopK3，无分数阈值、不重排；ZXRET715为签收后七天内且商品未拆封可申请退货，运费不含在该政策；ZXWAR180为签收起180天保修。后续回答模型deepseek-flash、thinking=false、温度0.2、最大输出512；这些是资源条件，不代表现在执行或证明实时可用。",
+    "exceptions": "query空白直接拒绝；检索失败或回答模型失败必须明确报错并停止，不把失败伪装为无命中；转人工仅为固定提示文字，不接入客服系统。",
+    "tests": "命中输入“ZXRET715在签收后七天内且未拆封，能否退货？请给出政策编号。”应在result包含ZXRET715、七天、未拆封；无命中输入ZXUNLISTED90371应在result严格等于固定回复。仅这两条声明不代表完整业务验收。"
+  },
+  "synthetic_not_real_model_response": true
+}
