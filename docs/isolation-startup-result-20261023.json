@@ -1,0 +1,21 @@
+{
+  "state": "passed",
+  "module": "queue",
+  "queue_origin_is_stdlib": true,
+  "runtime_dependencies_imported": [
+    "httpx",
+    "uvicorn",
+    "fastapi",
+    "app.main"
+  ],
+  "temporary_asgi_health_meta_empty_tasks_passed": true,
+  "source_credentials_read": false,
+  "real_http_or_model_dify": 0,
+  "real_one_shot_receipt_created": false,
+  "temporary_data_removed": true,
+  "shadow_module_rejected_before_execution": true,
+  "original_failed_receipt_unchanged": true,
+  "original13_tasks_all_objects_credentials_key_old_files_kept": true,
+  "original_failed_batch_replayed": false,
+  "preflight_script_sha256": "f89d7130892779445098c12a0d0b34871fa1cbfee90d09984b6bb240457f39f6"
+}
