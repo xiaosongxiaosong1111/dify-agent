@@ -1,0 +1,69 @@
+{
+  "state": "passed",
+  "version": "0.262.0",
+  "runtime_build_id": "0.262.0-dab832fdb2a7f56e9cef",
+  "reproduction": {
+    "saved_started_runs": 2,
+    "saved_start_cap": 2,
+    "backend_can_start": false,
+    "old_button_enabled": true,
+    "fixed_deployed_button_enabled": false
+  },
+  "capacity_branches": {
+    "unknown_disabled": true,
+    "one_remaining_allows_single_even_when_two_case_batch_does_not_fit": true,
+    "invalid_preflight_count_disables": true,
+    "exhausted_disabled": true
+  },
+  "continuous_ui_checks": [
+    "空需求界面发送公开自然要求，固定回放63已存草案，保持未确认",
+    "通过界面新增并保存命中/无命中两例，保留声明期望与result路径",
+    "已存来源核对允许通过界面确认草案，未绕过准入",
+    "界面设置显式模拟连接和资源计划，模型参数及知识库保持声明值",
+    "规划按钮固定回放第53完整图，非本次新需求重新模型推理",
+    "配置确认后静态构建通过，当前图保留thinking=false与新固定回复",
+    "导入→核对发布→确认→Key方案→确认切换均经过界面，适配器只执行各一次模拟写入",
+    "首次模拟运行后整批2次不再容纳，但剩余1次仍允许单例启动",
+    "两例原生比较通过后2/2按钮停用，不自动扩大上限或发第三次",
+    "下载交付说明含当前假App和输出，刷新恢复2/2且无重复写入"
+  ],
+  "response_provenance": {
+    "interview": "row63 saved parsed model draft, reconstructed contract response",
+    "plan": "row53 saved full model candidate from a different prior context",
+    "outputs": "row57 saved real outputs replayed through synthetic Dify adapter"
+  },
+  "mock_only_counts": {
+    "fixed_model_responses": 2,
+    "new_app": 1,
+    "publish": 1,
+    "runtime_key": 1,
+    "workflow_runs": 2,
+    "native_case_comparisons_passed": 2
+  },
+  "real_added_counts": {
+    "model_http": 0,
+    "dify_http": 0,
+    "source_credential_reads": 0,
+    "production_tasks": 0
+  },
+  "source_all13_tasks_all_objects_ciphertexts_and_master_key_preserved": true,
+  "temporary_data_removed": true,
+  "deployed_source_hashes_match_snapshot": true,
+  "backend_version_only": true,
+  "scope": "mixed recorded response and synthetic adapter UI replay; not fresh model planning or live browser business acceptance",
+  "known_limits": [
+    "Same-session fresh natural input to actual planning model and real Dify is still unproven",
+    "Only the two declared after-sales cases are checked; final25 business scenarios remain open",
+    "Dify actual run scope remains exhausted8/8; model conservative allocation remains9/14",
+    "No full test suite or unrelated refactor"
+  ],
+  "evidence_sha256": {
+    "run-capacity-262-before.json": "88cce3d669a479dcab5779549739f7842479530d2cc9962f33e184a1575cccac",
+    "run-capacity-262-after.json": "3aec4eb24931fc8fe038c1139e5ce2681e1bd661d7a26eefc52262f591b77d5a",
+    "run-capacity-262-branches.json": "a0e725d53f99c4c3b2be843af9fc8908da2e33c9204441f2f8408c94a2d090da",
+    "run-capacity-262-deployed.json": "3aec4eb24931fc8fe038c1139e5ce2681e1bd661d7a26eefc52262f591b77d5a",
+    "continuous-ui-replay-262/receipt.json": "4ec5de724444b399027b1db824927bca2e0a99cc8752cba0bef1a623cda9a9a6",
+    "continuous-ui-replay-262/ui-proof.json": "50e8a04ea6149609ac9beb85dd2d868e0948ec2d0296b51625dd183f97c0b2a5",
+    "workspace262-deployed-check.json": "89c23c8860ecce849046c1ae70b9d47f77ca89fbf07d62c366af69ca07ec4c55"
+  }
+}
