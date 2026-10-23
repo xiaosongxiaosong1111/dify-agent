@@ -13,3 +13,5 @@ powershell -ExecutionPolicy Bypass -File work\fresh-planning-263\run.ps1 live
 ```
 
 必须根代理核对整个图及声明要求；传输/UI通过本身不代表业务图通过。Sierra本机空白保证不外推Dify直接入口，发布平台与25场景最终签收保持未完成。
+
+实际结果：首次HTTP1/尝试1/界面6项，完整七节点图保存为未确认状态，根代理12项图内容核对通过，未手改需求或候选；27709tokens/配置估算0.00281898USD非账单。原13任务/全部对象密文及旧65失败/账本保持，临时清理，Dify0；当前已知实际10/保守11/14，已知估算加旧失败0.05为0.095447660USD。[安全结果](fresh-planning263-result-20261023.json)，[公开图](fresh-planning263-graph-20261023.json)。本包已消耗不重放，原receipt待核对状态保持、独立content-review记图内容通过；非平台或最终业务签收。

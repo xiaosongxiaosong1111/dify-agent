@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "nodes": [
+    {
+      "id": "start",
+      "type": "start",
+      "title": "开始",
+      "config": {
+        "variables": [
+          {
+            "variable": "query",
+            "type": "text-input",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "retrieve",
+      "type": "knowledge-retrieval",
+      "title": "检索售后政策",
+      "config": {
+        "query_variable_selector": [
+          "start",
+          "query"
+        ],
+        "dataset_ids": [
+          "d12cf081-5c52-41e3-b869-e94e6f8d37b1"
+        ],
+        "top_k": 3,
+        "score_threshold": null,
+        "reranking_enable": false
+      }
+    },
+    {
+      "id": "check_hits",
+      "type": "if-else",
+      "title": "是否有检索结果",
+      "config": {
+        "cases": [
+          {
+            "case_id": "case1",
+            "logical_operator": "and",
+            "conditions": [
+              {
+                "variable_selector": [
+                  "retrieve",
+                  "result"
+                ],
+                "comparison_operator": "not empty",
+                "value": "",
+                "varType": "array[object]"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "answer_llm",
+      "type": "llm",
+      "title": "依据资料回答",
+      "config": {
+        "system_prompt": "你是蓝杉商店售后政策问答助手。只能依据提供的检索资料回答，不得编造资料中没有的政策内容；回答中必须给出所依据的政策编号（如 ZXRET715、ZXWAR180）。若资料不足以回答该问题，只回复：知识库暂无相关信息，请联系人工客服并提供订单号。\n\n检索资料：\n{{#context#}}",
+        "user_prompt": "{{#start.query#}}",
+        "context_variable_selector": [
+          "retrieve",
+          "result"
+        ],
+        "model": {
+          "provider": "langgenius/deepseek/deepseek",
+          "name": "deepseek-flash",
+          "mode": "chat",
+          "completion_params": {
+            "temperature": 0.2,
+            "max_tokens": 512,
+            "thinking": false
+          }
+        }
+      }
+    },
+    {
+      "id": "no_hit_end",
+      "type": "end",
+      "title": "无命中输出",
+      "config": {
+        "outputs": [
+          {
+            "variable": "result",
+            "value_selector": [
+              "no_hit_text",
+              "output"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "no_hit_text",
+      "type": "template-transform",
+      "title": "固定无命中回复",
+      "config": {
+        "template": "知识库暂无相关信息，请联系人工客服并提供订单号。",
+        "variables": []
+      }
+    },
+    {
+      "id": "hit_end",
+      "type": "end",
+      "title": "命中输出",
+      "config": {
+        "outputs": [
+          {
+            "variable": "result",
+            "value_selector": [
+              "answer_llm",
+              "text"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "start",
+      "target": "retrieve"
+    },
+    {
+      "source": "retrieve",
+      "target": "check_hits"
+    },
+    {
+      "source": "check_hits",
+      "target": "answer_llm",
+      "source_handle": "case1"
+    },
+    {
+      "source": "check_hits",
+      "target": "no_hit_text",
+      "source_handle": "false"
+    },
+    {
+      "source": "answer_llm",
+      "target": "hit_end"
+    },
+    {
+      "source": "no_hit_text",
+      "target": "no_hit_end"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "state": "passed_declared_graph_content_only",
+  "frozen_commit": "f1dc9db",
+  "version": "0.263.0",
+  "runtime": "0.263.0-169da3097967a3828842",
+  "model_http_requests": 1,
+  "provider_invocations": 1,
+  "source_key_memory_reads": 1,
+  "dify_requests": 0,
+  "ui_checks": 6,
+  "root_content_review": {
+    "state": "passed_declared_graph_content_only",
+    "root_reviewed_checks": [
+      "单次实际HTTP/一次尝试，无澄清重发，API保存未确认图",
+      "完整七节点业务图，引用目标均存在",
+      "只声明单个必填query文本，不添加业务输入",
+      "只检索声明公开库，TopK3/无阈值/不重排",
+      "检索结果数组显式not empty分支",
+      "完整边只让命中分支经过一个LLM，无命中绕过LLM且无循环",
+      "回答模型与三个参数精确符合声明",
+      "模型仅据检索上下文并要求政策编号，不编造规则",
+      "无命中固定新回复严格匹配，没有模型生成替代",
+      "两分支统一输出result字符串",
+      "未添加错误转无命中/重试或外部业务动作；平台失败路径仍待实际验证",
+      "需求原样、确认与资源边界及全部源数据保护通过"
+    ],
+    "candidate_manually_modified": false,
+    "human_business_signoff": false,
+    "limitations": [
+      "没有真实执行检索/LLM节点或平台异常路径",
+      "Sierra入口required文本空白拒绝已本机验证；Dify直接入口空白行为仍未知",
+      "不是63访谈到67规划到新真实Dify的同次连续浏览器验收",
+      "未核对25场景最终业务，不代表一般模型语义保证"
+    ],
+    "graph_sha256": "cfc1d73791f6027c7beff1034766d9416e443fa74b81533fc52a52841ff01c44"
+  },
+  "ledger": {
+    "scope": "separate263 single model HTTP; original and65 ledgers unchanged",
+    "known_actual_sierra_http_after_batch": 10,
+    "conservative_allocated_after_batch": 11,
+    "limit": 14,
+    "batch_configuration_estimate_usd": "0.002818980",
+    "combined_known_configuration_estimate_usd": "0.045447660",
+    "retained_failed_startup_reservation_usd": "0.05",
+    "combined_known_plus_retained_estimate_usd": "0.095447660",
+    "invoice_verified": false,
+    "usage": {
+      "prompt_tokens": 27123,
+      "completion_tokens": 586,
+      "total_tokens": 27709,
+      "prompt_cache_hit_tokens": 20480,
+      "prompt_cache_miss_tokens": 6643,
+      "prompt_tokens_details": {
+        "cached_tokens": 20480
+      }
+    }
+  },
+  "requirements_unchanged": true,
+  "configuration_unconfirmed": true,
+  "no_build_app_or_runs": true,
+  "source13_tasks_all_objects_credentials_key_and_old65_files_kept": true,
+  "temporary_data_removed": true,
+  "original_receipt_state_kept": "passed_pending_content_review",
+  "receipt_sha256": "b014ff41637dab04fb68117f8530b71827b613c8b6ab242521927309809e9e4f",
+  "consumed_do_not_replay": true
+}
