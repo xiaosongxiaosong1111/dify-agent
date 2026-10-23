@@ -1,0 +1,86 @@
+{
+  "date": "2026-10-23",
+  "state": "passed",
+  "authorization_type": "standing_user_delegation",
+  "explicit_human_batch_reply": false,
+  "plan_sha256": "348f5bd39972954d7f46427e18431af483f099aa508740ef78fc2cc14ce1f770",
+  "manifest_sha256": "e18451d0bf216778b4557ca7cce209c26cb7a8fa7fee71bd020a368283a0ffbb",
+  "receipt_sha256": "8c67290ab6b4537ab4b14e3de10775ee05f6e6d74ffdf5843d3de3ad33ce051e",
+  "model": "deepseek-flash",
+  "model_http_requests": 1,
+  "provider_invocations": 1,
+  "startup_before_receipt_verified": true,
+  "ui_checks": [
+    "从空需求任务在真实界面一次发送冻结公开自然要求，访谈模式/非流式/正文严格绑定",
+    "需求检查没有自动确认需求/配置、生成流程、构建或创建资源",
+    "完整八项需求在界面展示，九项来源核对通过且仍待用户确认",
+    "刷新恢复已保存草案/失败状态，不自动再次发送，浏览器无错误或外部访问"
+  ],
+  "source_checked_topics": [
+    "goal",
+    "audience",
+    "input",
+    "output",
+    "rules",
+    "knowledge",
+    "exceptions",
+    "tests",
+    "retrieval"
+  ],
+  "content_review": {
+    "state": "passed",
+    "reviewer": "Codex root agent under standing user delegation",
+    "human_business_signoff": false,
+    "model_candidate_manually_edited": false,
+    "critical_content_checks": {
+      "workflow_type_kept": true,
+      "public_demo_no_customer_scope_kept": true,
+      "single_required_query_and_blank_rejection_kept": true,
+      "only_result_and_exact_no_hit_text_kept": true,
+      "retrieve_then_one_hit_llm_no_miss_llm_kept": true,
+      "knowledge_and_policy_ids_kept": true,
+      "model_parameters_and_retrieval_conditions_kept": true,
+      "errors_not_misrepresented_as_no_hit_kept": true,
+      "two_declared_cases_and_business_boundary_kept": true,
+      "no_automatic_confirmation_or_resources": true,
+      "source_checked_nine_topics_ready": true
+    },
+    "scope_note": "公开单输入的一次需求草案与来源核对；异常场景提醒未被当成完整业务验收，不证明一般语义或端到端业务"
+  },
+  "accounting": {
+    "batch": "verified-intake-261",
+    "source_ledgers_unchanged": true,
+    "prior_known_model_http_requests": 7,
+    "new_model_http_requests": 1,
+    "known_model_http_requests": 8,
+    "old_failed_startup_slot_reservation_kept": 1,
+    "conservative_model_allocated_upper_bound": 9,
+    "original_model_slot_cap": 14,
+    "new_usage": {
+      "prompt_tokens": 7203,
+      "completion_tokens": 1508,
+      "total_tokens": 8711,
+      "prompt_cache_hit_tokens": 256,
+      "prompt_cache_miss_tokens": 6947,
+      "prompt_tokens_details": {
+        "cached_tokens": 256
+      }
+    },
+    "new_configured_price_estimate_usd": "0.003895236",
+    "known_configured_price_estimate_usd": "0.040002300",
+    "old_failed_estimate_reservation_kept_usd": ".05",
+    "known_estimate_plus_retained_failed_reserve_usd": "0.090002300",
+    "supplier_invoice_verified": false
+  },
+  "source_all13_tasks_objects_credentials_key_old_files_kept": true,
+  "temporary_data_removed": true,
+  "production_new_tasks": 0,
+  "dify_requests": 0,
+  "new_resources_runs": 0,
+  "not_proven": [
+    "从全新需求到新Dify试跑全程连续浏览器操作",
+    "一般需求语义保留",
+    "自然过期续期",
+    "25场景最终业务签收"
+  ]
+}

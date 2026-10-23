@@ -1,0 +1,27 @@
+{
+  "source": "single real model response parsed by intake API, not raw supplier body",
+  "status": "unconfirmed_isolated_draft_only",
+  "requirements": {
+    "goal": "建议草案：为内部演示用户制作蓝杉商店公开合成售后知识问答 Workflow，仅处理退货与保修政策问答；不接入真实客户资料。本轮不生成流程、不请求Dify、不创建资源、不试跑。",
+    "audience": "建议草案：内部开发与演示用户使用；不接入真实客户资料。",
+    "input": "建议草案：单一必填 query 文本，每次只处理一个问题；空白输入由入口拒绝且不派发模型。",
+    "output": "建议草案：只输出 result 字符串。命中时依据资料回答并带政策编号；无命中严格返回固定文字“知识库暂无相关信息，请联系人工客服并提供订单号。”",
+    "rules": "建议草案：先检索；检索结果非空才调用一次回答 LLM，提示中只使用检索资料；结果为空直接走固定文字分支，不调用 LLM、不编造政策。政策内容按用户说明：ZXRET715 为签收后七天内且商品未拆封可申请退货，运费不含在该政策；ZXWAR180 为签收起180天保修。回答模型 deepseek-flash、thinking=false、温度0.2、最大输出512 作为资源条件待环境核对，不表示可用或已执行。",
+    "knowledge": "建议草案：仅使用用户声明的公开合成 FAQ 库 d12cf081-5c52-41e3-b869-e94e6f8d37b1，TopK3，无分数阈值、不重排；该库存在性与内容一致性待资源核对。转人工仅为固定提示文字，不接入客服系统。",
+    "exceptions": "建议草案：query 空白直接拒绝；检索失败或回答模型失败必须明确报错并停止，不伪装为无命中；转人工仅为固定提示文字，不接入客服系统。",
+    "tests": "建议草案（用户声明两条，不构成完整业务验收）：命中输入“ZXRET715在签收后七天内且未拆封，能否退货？请给出政策编号。”，result 应包含 ZXRET715、七天、未拆封；无命中输入 ZXUNLISTED90371，result 应严格等于固定回复“知识库暂无相关信息，请联系人工客服并提供订单号。”。另有空白输入拒绝分支及检索/模型失败停止分支待补充期望结果。"
+  },
+  "intake_review_source": "model",
+  "required_topic_statuses": {
+    "goal": "complete",
+    "audience": "complete",
+    "input": "complete",
+    "output": "complete",
+    "rules": "complete",
+    "knowledge": "complete",
+    "exceptions": "complete",
+    "tests": "complete",
+    "retrieval": "complete"
+  },
+  "human_business_signoff": false
+}
