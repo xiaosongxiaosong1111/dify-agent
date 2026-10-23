@@ -19,6 +19,12 @@ def test_current_type_catalog_reaches_actual_interview_not_only_ui(client,monkey
         messages=args[2];calls.append(messages);system=messages[0]['content'];scope=sent_catalog(system)
         assert scope==catalog(app_type,main.app.version)
         assert scope['verification']=='compiler_scope' and scope['app_type']==app_type
+        context=json.loads(messages[1]['content'].split('当前任务资料：',1)[1]);entry=context['sierra_runtime_entry']
+        if app_type=='workflow':
+            assert entry==main.workflow_runtime_entry(main.get_task(t['id']))
+            assert entry['scope']=='sierra_manual_workflow_run' and entry['direct_dify_entry_verified'] is False
+            assert entry['blank_input_rejection']['http_status']==422 and entry['known_platform_failed_terminal']['http_status']==502
+        else:assert entry is None
         assert '嵌套、触发、人工审核与写入HTTP正文仍待适配' not in system
         assert '最多追问3个关键问题' in system
         assert '本目录也不是外部写入或付费调用授权' in system

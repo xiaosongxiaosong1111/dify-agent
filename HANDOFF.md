@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（2026-10-24，0.264访谈精确原文修复已部署）
+# HANDOFF — Sierra（2026-10-24，0.265访谈入口上下文已部署）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main；GitHub https://github.com/xiaosongxiaosong1111/dify-agent.git。生产0.264.0-75e7b81dad5f0c709f6a，health200，Dify1.17.1。70为数据/验收与交付文档更新，无产品代码变化，不重跑全量。
+- 项目E:\workSpace\dify-agent，main；GitHub https://github.com/xiaosongxiaosong1111/dify-agent.git。生产0.265.0-da8b6413b9a732bf0ce1，health200，Dify1.17.1。70为数据/验收与交付文档更新，无产品代码变化，不重跑全量。
 - 当前最新任务5a37368d-3d6b-4708-829c-9e8dcedaf356，Sierra新需求图平台验收/r5，App0ec579c4-fae3-4f7e-80d3-f8508846c91c，发布图a3df4f40-acd4-40a3-9b0d-dc023ac0ef8d，Key操作8feb49b9-fb7f-4e80-88bc-af4bc45a4b9f。需求/配置确认，run_completed，两例原生passed；无命中严格“知识库暂无相关信息，请联系人工客服并提供订单号。”。
 - 原13任务/旧策略/模型设置和全部旧对象（除批准连接）保持，现14任务。原改文案任务1febbd15-9b76-49cb-b4fc-0dea7cc6c27e/r5/App3f7ed3ea-6cc3-4582-8246-2ccba04972a3，原入口4eb52689-3f3d-4e18-8bfd-1bb744a2c8f0/r21/App4ce034da-0765-4279-8294-8f9d4c6be8ca及原v1/v2应用、失败历史全部保持。
 - 专用连接202bfb35-2f92-47c1-bc1b-eac32082181d，空间c3306c18-ceb2-4bee-b2d1-796ce2048f17。按70批准切新App Key，原改文案r5 Key加密归档且核对与其原凭据一致；新当前Key与新App专属密文一致，其他归档/密文与主密钥保持。旧App界面不会误认为当前配对。复用已有加密登录，不从聊天复制密码。
@@ -23,9 +23,10 @@
 4. 72已修访谈提示/契约：固定输出、标识和数值连同句尾标点逐字保留，风险建议放message、不混入已有明确需求/缺口；真正未知仍需澄清，未在处理器强改模型答案。相关22项（38未选）和两条实际API替身回放通过：旧71坏响应原样保留且确认仍422；好文字+可选风险不改需求。0.264.0-75e7b81dad5f0c709f6a部署、源码匹配、原14任务/全部对象密文/旧71回执账本保持，模型/Dify0。docs/intake-literals.md；实际改善仍待新批，不将替身通过当模型成功。
 5. 73冻结8bec573，work/intake-literals-live-264 planeb638baccebd1806e07a8234ff9f63b7a9b73d881da06d47e6aafb2e3866d091/manifest11ec52dd091d3550208ee5a089cf5dff099fad384bfe3e3df22518b337245709。首次实际HTTP1后output/tests精确文案含句号、rules未混入相关性建议，局部改善；但input/knowledge/exceptions needs_input，UI准入停下，整体仍blocked，不手改放行、不重试。缺少访谈Sierra入口上下文导致模型又追问空白拒绝/错误返回方式，并将条件资源未联网核对列缺口。原receipt stopped_needs_review保留，root content-review另记部分改善；源14任务全部对象密文/旧71等包保持，临时清理，Dify0。公开docs/intake-literals-live-result-20261024.json。
 6. 73报告7510输入（缓存128）/2143输出/9653tokens，配置估算0.004786968USD，独立model-ledger不改旧账本。当前实际Sierra12、保守14/14：已知估算0.054816264USD，加61启动0.05及71未派发第二阶段0.05保留为0.154816264USD，非账单。最后槽已消耗，不得按常规委托继续付费模型或自动退预留。
-7. 下一74仅本机修复访谈入口上下文：准确说明Sierra普通Workflow最终DSL required文本strip空白在派发前422、平台明确失败502/保留失败记录、成功result与HTTP错误区分；仅Sierra入口、不保证Dify直调或实际节点路径。用户已给定ID/参数且明确是后续资源条件时，未联网核对属于资源待验，不单独变为需求缺口；真正缺值/冲突仍澄清。先定向API消息与真实入口行为对照，保持原14任务/旧包，0模型/Dify。新实际语义验证需完成可审查方案后直接扩大14次边界，不自行批准超界。
+7. 74已修复并部署0.265.0-da8b6413b9a732bf0ce1：访谈和规划共享Sierra普通Workflow最终DSL required文本strip/派发前422、明确平台失败502/任务error/记录failed、未知结果unknown及保存诊断；成功result与HTTP错误分开，不外推Dify直调或实际节点路径。用户已给ID参数且作为后续条件时未实时核对不单列需求缺口，不宣称就绪，真正未知仍澄清。相关23项（41未选）、两条API替身（旧73问题原样且仍阻确认）、源与快照及14任务/全部密文/旧73包保护通过，模型/Dify0；实际模型效果未验证。docs/intake-entry-context.md。
+8. 下一75只准备0.265修复后新的两阶段同界面核对：在临时Store从空需求实际访谈→根代理检查→确认配置和一次规划→根代理检查→静态构建下载；Dify/生产写入0。当前保守14/14已经用满，新2HTTP会扩大到最多16/16，估算新增0.10USD/后保守0.254816264USD非账单（0.45/0.5USD范围不变），必须先完整正常/失败模拟及冻结可审查包后取得直接次数扩大批准，不能用常规委托自行扩大。旧71/73失败和预留保持，不重试旧包。
 
-8. 遭实际Codex额度不足立即尽力整份交接后停，不重试/换账号/购买；当前未遇额度不足。按BACKLOG首pending继续，不因小模块完成停止，也不用无意义调用耗额度。
+9. 遭实际Codex额度不足立即尽力整份交接后停，不重试/换账号/购买；当前未遇额度不足。按BACKLOG首pending继续，不因小模块完成停止，也不用无意义调用耗额度。
 
 ## 4. 已有实质修复与语义证据
 

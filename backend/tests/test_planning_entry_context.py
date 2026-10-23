@@ -41,6 +41,17 @@ def test_workflow_planner_gets_only_the_existing_local_required_text_guarantee(c
     r=client.post(f"/api/tasks/{task['id']}/run",json={'revision':task['revision'],'input':inputs})
     assert r.status_code==200,r.text
     assert calls==[inputs] and r.json()['runs'][-1]['input']==inputs
+    gate=seen[0]['sierra_runtime_entry']
+    for terminal,label in [('failed','known_platform_failed_terminal'),(None,'unknown_platform_terminal')]:
+        async def failed_remote(self,values):
+            calls.append(copy.deepcopy(values));return {'data':{'status':terminal,'error':'synthetic failure','outputs':{}}}
+        monkeypatch.setattr(main.DifyClient,'run_workflow',failed_remote)
+        response=client.post(f"/api/tasks/{task['id']}/run",json={'revision':task['revision'],'input':{'query':'failure-'+label}})
+        assert response.status_code==gate[label]['http_status']
+        assert set(response.json())=={'detail'} and gate[label]['http_success_result'] is False
+        saved=main.get_task(task['id']);record=saved['runs'][-1]
+        assert saved['status']==gate[label]['task_status'] and record['status']==gate[label]['run_status']
+        assert record['result']['data']['status']==terminal and record.get('evaluation',{}).get('status')!='passed'
 
 
 def test_new_entry_context_does_not_answer_or_remove_real_missing_business_decisions(client,monkeypatch):

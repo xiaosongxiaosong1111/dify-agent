@@ -1,0 +1,44 @@
+{
+  "state": "passed_local_context_and_runtime_behavior_only",
+  "runtime": "0.265.0-da8b6413b9a732bf0ce1",
+  "targeted_tests": {
+    "passed": 23,
+    "deselected": 41,
+    "full_suite_run": false
+  },
+  "changes": [
+    "Shared existing Workflow runtime contract included in interview and planning messages",
+    "Required final-artifact text blank rejection is pre-dispatch422/no new run record; input unchanged",
+    "Explicit platform failed terminal yields502/taskerror/runfailed with diagnostics; unknown terminal remainsunknown rather than success",
+    "Successful Workflow outputs and Sierra HTTP errors distinguished; direct Dify entry unverified",
+    "Given resource IDs/model parameters accepted as declared conditions; live readiness still checked before execution and genuine missing values still clarified"
+  ],
+  "actual_api_substitute_replays": [
+    {
+      "mode": "old73_questions_kept",
+      "model_substitute_calls": 1,
+      "admission_can_confirm": false,
+      "system_sha256": "97305fb4470c1eed7332789ae38e50bde9b5b7e1efa318ecaf88d9003095383a",
+      "returned_requirements_not_rewritten": true,
+      "no_automatic_confirmation_or_resources": true
+    },
+    {
+      "mode": "fixed_literal_with_optional_advice",
+      "model_substitute_calls": 1,
+      "admission_can_confirm": true,
+      "system_sha256": "97305fb4470c1eed7332789ae38e50bde9b5b7e1efa318ecaf88d9003095383a",
+      "returned_requirements_not_rewritten": true,
+      "no_automatic_confirmation_or_resources": true
+    }
+  ],
+  "old73_questions_not_automatically_removed_or_admission_overridden": true,
+  "all14_tasks_objects_credentials_key_and_old73_files_kept": true,
+  "source_matches_snapshot": true,
+  "runtime_changed_files": [
+    "backend/app/main.py",
+    "docs/intake-model-contract.md"
+  ],
+  "real_model_dify_requests_added": 0,
+  "actual_model_effect_after265_verified": false,
+  "model_scope_remains_conservative14_of14": true
+}
