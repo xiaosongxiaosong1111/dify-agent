@@ -1,0 +1,17 @@
+{
+  "state": "ready_not_executed",
+  "runtime": "0.263.0-169da3097967a3828842",
+  "plan_sha256": "0c05aaa36c3d51e7ce9c9cc634536086803dfe80d4f07e13a137407ea0ec0e91",
+  "manifest_sha256": "1cec28ce02dd8a2a76e44e019c30c24dbc28f0ae64ccb19ac6ccd940cc98d88b",
+  "message_sha256": "0197784ab6a00e7bce698eb6705d6b8f58c1430ac67e93cb2594bfa120dd7c2c",
+  "reserved_configuration_estimate_usd": "0.0450936",
+  "normal_and_failure_ui_checks": [
+    6,
+    6
+  ],
+  "all_source_objects_credentials_and_old65_files_kept": true,
+  "temporary_data_removed": true,
+  "real_requests": 0,
+  "boundary": "one new model HTTP max; no Dify/resources/runs; no retry",
+  "startup_note": "Before freeze mock wrapper retained old information/output path; only new owned mock helpers were cleaned, paths corrected, clean normal/failure replays passed. Old65 receipt/ledger/frozen files kept; no live request occurred."
+}
