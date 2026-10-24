@@ -1,5 +1,10 @@
 # Initial API contract
 
+## 0.283：订单支路样例草稿
+
+POST after-sales-cases-preview绑定revision/dependency/UUID nonce及当前完整图/成果摘要；verification=declared_mock_order_case_drafts_only，所有执行/写库/模型标记false。仅匹配售后模板，逐项追加未保存样例，旧样例/预算不改。详细契约和范围见[说明](after-sales-cases.md)。
+
+
 ## 0.282：导出所见运行对照
 
 原run-comparison响应新增export_token（64hex或null，完整有界来源标记）。GET run-comparison/report须revision、before_run_id、after_run_id、snapshot_token及export_token，变化409，报告200KB，text/markdown/no-store及观察头。契约见[说明](run-comparison-report.md)。无模型/Dify/写库或验收升级。

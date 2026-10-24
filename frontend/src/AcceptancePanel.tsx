@@ -4,6 +4,7 @@ import ConversationCaseResult from './ConversationCaseResult';
 import RunDiagnosticPanel, {type Diagnostic} from './RunDiagnosticPanel';
 import RunComparisonPanel from './RunComparisonPanel';
 import SavedRunInputCopy,{type InputCopyDraft} from './SavedRunInputCopy';
+import AfterSalesCaseDrafts from './AfterSalesCaseDrafts';
 import {LazyWaitingRunPanel,LazySchemaCaseTemplates} from './LazyNodeEditors';
 
 export type ExpectationMode = 'contains' | 'equals' | 'json_keys' | 'json_schema' | 'manual';
@@ -93,7 +94,8 @@ export function draftsToCases(drafts:CaseDraft[]):TestCase[]{
  });
 }
 
-export function AcceptancePanel({ taskId,revision,artifactStamp,drafts, appType, dirty, busy, canSave, onChange, onSave, onDiscard, summary }: {
+export function AcceptancePanel({ taskId,revision,artifactStamp,drafts, appType, dirty, busy, canSave, onChange, onSave, onDiscard, summary,mockDependencies=[] }: {
+  mockDependencies?:string[];
   taskId:string;revision:number;artifactStamp:string;
   drafts: CaseDraft[]; appType: string; dirty: boolean; busy: boolean; canSave: boolean;
   onChange: (drafts: CaseDraft[]) => void; onSave: () => void; onDiscard: () => void;
@@ -103,6 +105,11 @@ export function AcceptancePanel({ taskId,revision,artifactStamp,drafts, appType,
   return <section className="acceptance-panel">
     <div className="paneltitle"><CheckCircle2 size={17}/><span><b>验收样例</b><small>定义输入、预期和关键分支</small></span></div>
     <div className="callout">保存样例后需要重新确认需求与配置；已有流程计划也需复核。关键词或结构通过只证明已声明的规则。</div>
+    {appType==='advanced-chat'&&<AfterSalesCaseDrafts taskId={taskId} revision={revision} scope={artifactStamp} dependencies={mockDependencies} disabled={busy||!canSave||dirty} onAppend={rows=>{
+      const duplicate=rows.some(row=>drafts.some(d=>{try{const input=JSON.parse(d.inputText),expected=JSON.parse(d.expectedText);return d.mode==='equals'&&d.target==='answer'&&input&&typeof input==='object'&&Object.keys(input).length===1&&input.query===row.input.query&&expected===row.expectation.expected&&!d.followups?.length}catch{return false}}));
+      if(duplicate)return false;
+      onChange([...drafts,...rows.map(row=>({...newCaseDraft(appType),name:row.name,inputText:JSON.stringify(row.input,null,2),mode:'equals' as const,target:'answer',expectedText:JSON.stringify(row.expectation.expected)}))]);return true;
+    }}/>}
     {drafts.map((c, i) => <fieldset className="case-card" key={c.id} disabled={busy}>
       <legend>样例 {i + 1}</legend>
       <label className="field"><span>场景名称</span><input value={c.name} placeholder="例如：知识库无结果时说明不足" onChange={e => update(c.id, { name: e.target.value })}/></label>

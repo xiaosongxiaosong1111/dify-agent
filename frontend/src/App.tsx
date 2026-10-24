@@ -246,7 +246,7 @@ export default function App(){
    {savedProgress&&<SavedAppProgress value={savedProgress} runtimeKeyPaired={runtimeKeyPaired} summary={acceptance} blocked={hasUnsaved||!!busy||planIsStale||!task.requirements_confirmed||!task.configuration_confirmed} onReport={()=>void dl('report')}/>}
    <DeliveryBundleDownload key={`bundle:${task.id}`} taskId={task.id} revision={task.revision} appType={task.app_type} artifactStamp={JSON.stringify(task.artifact)} disabled={hasUnsaved||!!busy||planIsStale||!savedProgress?.built}/>
    <LazyResourceProgressPanel taskId={task.id} revision={task.revision}/>
-   <AcceptancePanel taskId={task.id} revision={task.revision} artifactStamp={JSON.stringify(task.artifact)||''} drafts={caseDrafts} appType={task.app_type} dirty={caseDirty} busy={!!busy} canSave={!taskDraftUnsaved&&!planDirty} onChange={setCaseDraft} onSave={()=>void saveCases()} onDiscard={discardCases} summary={acceptance?.revision===task.revision?acceptance:null}/>
+   <AcceptancePanel taskId={task.id} mockDependencies={task.configuration.mock_dependencies} revision={task.revision} artifactStamp={JSON.stringify(task.artifact)||''} drafts={caseDrafts} appType={task.app_type} dirty={caseDirty} busy={!!busy} canSave={!taskDraftUnsaved&&!planDirty} onChange={setCaseDraft} onSave={()=>void saveCases()} onDiscard={discardCases} summary={acceptance?.revision===task.revision?acceptance:null}/>
    <hr/><div className="paneltitle"><Play size={17}/><span><b>{types[task.app_type]||task.app_type} 运行</b><small>真实导入后调用 Dify Service API</small></span></div>
    {task.app_type==='agent'&&<div className="callout amber">原生文本 Agent 使用 SSE 采集最终回答；连接中断或未支持事件时不会计为成功。支持从已保存成功记录继续自由对话；文件与人工介入尚待适配。</div>}
    {hasUnsaved&&<div className="callout amber">有未保存修改，请先保存并确认。</div>}

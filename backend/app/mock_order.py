@@ -10,6 +10,7 @@ from .plan_text_codec import parse, render, unique
 from .workflow_plan import validate_plan
 
 PREFIX = '【模拟订单查询，非真实订单】'
+NOT_FOUND_REPLY = PREFIX + '合成样例中没有该订单，请核对订单号或联系人工客服。'
 
 
 def template(records):
@@ -26,7 +27,7 @@ def template(records):
         '    if not key:\n'
         f'        return {{"result": {PREFIX + "请提供订单号。"!r}, "status": "mock_missing_order_id"}}\n'
         '    if key not in orders:\n'
-        f'        return {{"result": {PREFIX + "合成样例中没有该订单，请核对订单号或联系人工客服。"!r}, "status": "mock_not_found"}}\n'
+        f'        return {{"result": {NOT_FOUND_REPLY!r}, "status": "mock_not_found"}}\n'
         f'    return {{"result": {PREFIX!r} + orders[key], "status": "mock_found"}}\n'
     )
 

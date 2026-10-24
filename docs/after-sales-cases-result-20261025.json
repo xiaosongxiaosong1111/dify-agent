@@ -1,0 +1,50 @@
+{
+  "state": "passed",
+  "runtime": {
+    "version": "0.283.0",
+    "mode": "snapshot",
+    "build_id": "0.283.0-772b7571bcb5aec4f572",
+    "content_sha256": "772b7571bcb5aec4f572940cf70a6e4419cd5444780c0451d36a5bad643c39fa",
+    "file_count": 251,
+    "task_data_inside_snapshot": false,
+    "note": "后端、模型契约及前端资源来自启动时固定快照；任务数据与凭据独立使用原目录。Python依赖环境仍共用，不是完整依赖隔离。"
+  },
+  "new_backend_tests": 13,
+  "related_backend_tests": 52,
+  "ui": {
+    "state": "passed",
+    "checks": [
+      "wrong artifact observation refused without altering cases",
+      "readonly proposal exposes exact synthetic hit/miss/missing drafts, none preselected",
+      "duplicate input/expectation refuses entire append and preserves existing case",
+      "only selected nonduplicates append to unsaved editor, keeping saved case intact",
+      "explicit save creates unverified revision, invalidates confirmations/artifact and dispatches no runs",
+      "old artifact cannot yield new drafts; refresh keeps saved cases with no execution"
+    ],
+    "browser_errors": [],
+    "local_posts": [
+      "/api/tasks/8603dbab-bb5c-4c06-a91a-2aa6656ded66/after-sales-cases-preview",
+      "/api/tasks/8603dbab-bb5c-4c06-a91a-2aa6656ded66/after-sales-cases-preview",
+      "/api/tasks/8603dbab-bb5c-4c06-a91a-2aa6656ded66/test-cases",
+      "/api/tasks/8603dbab-bb5c-4c06-a91a-2aa6656ded66/after-sales-cases-preview"
+    ],
+    "physical_upstream": 0,
+    "synthetic_task": true
+  },
+  "typescript_build_and_case_card_screenshot_passed": true,
+  "source_full_graph_and_current_artifact_exactly_bound": true,
+  "all_synthetic_hits_noncolliding_unknown_id_and_missing_order_proposed_only": true,
+  "existing_cases_preserved_duplicates_and_unselected_rows_not_appended": true,
+  "case_save_invalidates_confirmations_and_artifact_without_dispatch": true,
+  "all16_objects_ciphertexts_masterkey_old_receipts_unknown_reserves_kept": true,
+  "runtime_all_files_match_source": true,
+  "health_frontend_http": 200,
+  "temporary_store_cleaned": true,
+  "actual_model_dify_added": 0,
+  "limitations": [
+    "Only complete matching manual after-sales Chatflow starter and current confirmed static artifact.",
+    "Only order branch drafts; FAQ and clarification path coverage not inferred.",
+    "Actual classifier/extractor may fail intended cases; no quality or native runtime acceptance claim.",
+    "Draft count is not a run budget or cost approval, old resource and failure boundaries remain."
+  ]
+}
