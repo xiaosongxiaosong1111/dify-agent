@@ -1,5 +1,12 @@
 # Initial API contract
 
+## 0.278：保存运行结果对照
+
+GET /api/tasks/{id}/run-comparison?revision=当前整数&before_run_id=左记录&after_run_id=右记录：只读本任务两条唯一普通单轮记录，同ID422、外任务/非普通记录/重复归属404、旧修订409，多轮/复用会话/文件/缺类型旧记录或不同类型422。响应schema_version=1，绑定任务/修订/两记录ID及snapshot_token，records为安全来源元数据，conditions_same各字段为true/false/null（缺依据），sections固定input/expectation/output，comparison为same/changed/missing/unavailable；before/after的state为saved/missing/unavailable，text保留JSON文字，避免大整数前端损失。单字段16000字节，已识别敏感字段/模式、超限或非法JSON不比较。
+
+verification=saved_single_turn_records_only，task_changed/network_requested/automatic_execution/business_verified均false，Cache-Control:no-store。只读Store，不解密或重新评价、不修改样例汇总/预算、不发模型/Dify；同条件不代表完整发布图或实时服务一致，未知片段不代表完成，旧通过不继承。页面仅列最近200普通记录，未保存编辑禁用，换选择/来源/作用域或离开页面取消迟到响应，对照选择不持久化。
+
+
 ## 0.277：同版交付包
 
 GET /api/tasks/{id}/delivery-bundle?revision=当前整数修订：只读打包当前有效静态成果及现有报告。须有本修订确认且计划未过期；旧修订409，缺成果404或准入不符422。返回application/zip、Cache-Control:no-store、X-Sierra-Revision，固定文件名sierra-{type}-r{revision}-delivery.zip。包内DSL、report、README和manifest.json；清单绑定任务/环境/App/类型/修订、目标Dify/DSL版本、时间及原始文件大小/SHA256。清单不签名，不证明平台状态或业务通过。

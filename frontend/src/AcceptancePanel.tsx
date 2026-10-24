@@ -2,6 +2,7 @@ import { CheckCircle2, Plus, Trash2 } from 'lucide-react';
 import ConversationCaseEditor, {type TurnDraft} from './ConversationCaseEditor';
 import ConversationCaseResult from './ConversationCaseResult';
 import RunDiagnosticPanel, {type Diagnostic} from './RunDiagnosticPanel';
+import RunComparisonPanel from './RunComparisonPanel';
 import {LazyWaitingRunPanel,LazySchemaCaseTemplates} from './LazyNodeEditors';
 
 export type ExpectationMode = 'contains' | 'equals' | 'json_keys' | 'json_schema' | 'manual';
@@ -133,7 +134,7 @@ export function RunHistory({ currentAppId, runs, revision, busy, hasUnsaved, rea
   reasons: Record<string, string>; onReason: (id: string, reason: string) => void;
   onReview: (id: string, decision: 'passed' | 'failed') => void;
 }) {
-  return <div className="history run-history">{[...runs].reverse().map(run => <details key={run.id} data-run-id={run.id}>
+  return <div className="history run-history">{taskId&&<RunComparisonPanel taskId={taskId} revision={revision} runs={runs} blocked={busy||hasUnsaved}/>} {[...runs].reverse().map(run => <details key={run.id} data-run-id={run.id}>
     <summary>{run.test_case?.name || run.label || (run.kind === 'import' ? '导入记录' : '自由试跑')} · v{run.revision ?? '未知'} · {stateNames[run.status || ''] || run.status || '未知'}</summary>
     {run.revision !== revision && <div className="callout amber">旧修订记录，仅作参考，不计入当前样例汇总。</div>}
     {run.error && <div className="alert error">{run.error}</div>}

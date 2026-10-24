@@ -1,0 +1,57 @@
+{
+  "state": "passed",
+  "runtime": {
+    "version": "0.278.0",
+    "mode": "snapshot",
+    "build_id": "0.278.0-381d1f0c2343333cd678",
+    "content_sha256": "381d1f0c2343333cd678431c6fe927f2fd65cf32e5246a1a83d2088b0aab6db8",
+    "file_count": 247,
+    "task_data_inside_snapshot": false,
+    "note": "后端、模型契约及前端资源来自启动时固定快照；任务数据与凭据独立使用原目录。Python依赖环境仍共用，不是完整依赖隔离。"
+  },
+  "new_backend_tests": 19,
+  "related_backend_tests": 32,
+  "targeted_tests": "test_run_comparison.py + test_post_import_navigation.py",
+  "ui": {
+    "state": "passed",
+    "checks": [
+      "explicit pair required; opening panel reads no comparison automatically",
+      "actual API shows input expectation output differences, scope warning, and exact large integers",
+      "selection invalidates old response; unknown missing result not treated as equal or completed",
+      "multi-turn data refused rather than flattened",
+      "wrong record response refused",
+      "leaving page during request prevents late result from appearing",
+      "unsaved edits disable comparison without writing task",
+      "refresh resets explicit selection and does not dispatch comparison or writes"
+    ],
+    "browser_errors": [],
+    "browser_operation_writes": [],
+    "comparison_reads": 5,
+    "physical_model_dify_http": 0,
+    "synthetic_saved_records": true,
+    "actual_platform_acceptance": false
+  },
+  "typescript_frontend_build_passed": true,
+  "input_expectation_scope_and_output_screenshots_reviewed": true,
+  "all_three_app_types_tested_without_type_substitution": true,
+  "strict_json_types_and_large_integer_display_lossless": true,
+  "missing_not_null_unknown_not_completed": true,
+  "oversize_sensitive_and_non_json_values_not_compared": true,
+  "multiturn_reused_conversation_file_and_untyped_records_not_flattened": true,
+  "no_re_evaluation_no_acceptance_inheritance_or_store_writes": true,
+  "comparison_response_query_revision_and_selected_ids_bound": true,
+  "source_matches_all_runtime_files": true,
+  "health_and_frontend_asset_http": 200,
+  "all16_production_objects_ciphertexts_master_key_old_receipts_kept": true,
+  "original95_unknown_and_all_reserved_scopes_kept": true,
+  "temporary_ui_store_removed": true,
+  "actual_dify_reads_login_publish_keys_runs_and_model_added": 0,
+  "actual_platform_or_business_acceptance": false,
+  "limitations": [
+    "Explicit local single-turn comparison only; not a controlled quality experiment or automatic attribution.",
+    "Only recent 200 ordinary runs listed in UI; all original history preserved.",
+    "Same recorded conditions do not prove same published graph/model/live service context.",
+    "Known credential patterns and secret fields are withheld, not a general business-data privacy detector.",
+    "No automatic rerun, new evaluation, persisted comparison selection, cost comparison or full FR-41/T096 acceptance."
+  ]
+}
