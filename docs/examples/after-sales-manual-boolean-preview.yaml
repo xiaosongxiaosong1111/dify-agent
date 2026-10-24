@@ -1,0 +1,340 @@
+app:
+  description: 由 Sierra 工作流计划生成，目标 Dify 1.17.1。静态验证通过前不会导入。
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: Sierra人工格式修正预览（隔离）
+  use_icon_as_answer_icon: false
+dependencies: []
+kind: app
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      enabled: false
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: start
+        targetType: knowledge-retrieval
+      id: start-source-retrieve
+      source: start
+      sourceHandle: source
+      target: retrieve
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        sourceType: knowledge-retrieval
+        targetType: code
+      id: retrieve-source-collect_docs
+      source: retrieve
+      sourceHandle: source
+      target: collect_docs
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        sourceType: code
+        targetType: if-else
+      id: collect_docs-source-check_hit
+      source: collect_docs
+      sourceHandle: source
+      target: check_hit
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        sourceType: if-else
+        targetType: llm
+      id: check_hit-case1-answer_llm
+      source: check_hit
+      sourceHandle: case1
+      target: answer_llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        sourceType: if-else
+        targetType: template-transform
+      id: check_hit-false-fixed_text
+      source: check_hit
+      sourceHandle: 'false'
+      target: fixed_text
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        sourceType: llm
+        targetType: end
+      id: answer_llm-source-end_answer
+      source: answer_llm
+      sourceHandle: source
+      target: end_answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        sourceType: template-transform
+        targetType: end
+      id: fixed_text-source-end_fixed
+      source: fixed_text
+      sourceHandle: source
+      target: end_fixed
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - variable: query
+          label: query
+          type: text-input
+          required: true
+          max_length: 50000
+          options: []
+      height: 100
+      id: start
+      position:
+        x: 80
+        y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        selected: false
+        title: 检索售后FAQ
+        type: knowledge-retrieval
+        query_variable_selector:
+        - start
+        - query
+        query_attachment_selector: []
+        dataset_ids:
+        - d12cf081-5c52-41e3-b869-e94e6f8d37b1
+        retrieval_mode: multiple
+        multiple_retrieval_config:
+          top_k: 3
+          score_threshold: null
+          reranking_enable: false
+        metadata_filtering_mode: disabled
+        vision:
+          enabled: false
+      height: 100
+      id: retrieve
+      position:
+        x: 380
+        y: 282
+      positionAbsolute:
+        x: 380
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        selected: false
+        title: 判断检索结果是否为空
+        type: code
+        code_language: python3
+        code: "def main(result: list) -> dict:\n    items = result if isinstance(result,\
+          \ list) else []\n    return {\"has_result\": len(items) > 0, \"hit_count\"\
+          : len(items)}\n"
+        variables:
+        - variable: result
+          value_selector:
+          - retrieve
+          - result
+        outputs:
+          has_result:
+            type: boolean
+            children: null
+          hit_count:
+            type: number
+            children: null
+      height: 100
+      id: collect_docs
+      position:
+        x: 680
+        y: 282
+      positionAbsolute:
+        x: 680
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        selected: false
+        title: 是否有检索结果
+        type: if-else
+        _targetBranches:
+        - id: case1
+          name: IF
+        - id: 'false'
+          name: ELSE
+        cases:
+        - case_id: case1
+          logical_operator: and
+          conditions:
+          - id: condition_0_0
+            varType: boolean
+            variable_selector:
+            - collect_docs
+            - has_result
+            comparison_operator: is
+            value: true
+      height: 100
+      id: check_hit
+      position:
+        x: 980
+        y: 282
+      positionAbsolute:
+        x: 980
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        selected: false
+        title: 依据检索资料回答
+        type: llm
+        model:
+          provider: langgenius/deepseek/deepseek
+          name: deepseek-flash
+          mode: chat
+          completion_params:
+            temperature: 0.2
+            max_tokens: 512
+            thinking: false
+        prompt_template:
+        - role: system
+          text: 你是蓝杉商店售后政策问答助手。只能使用下方检索资料{{#context#}}中的内容回答用户问题，不得使用任何其他政策知识。检索资料之外的信息一律不得补充或推断。回答必须写明所依据的政策编号（例如
+            ZXRET715、ZXWAR180）。若检索资料不足以回答该问题，只输出：知识库暂无相关信息，请联系人工客服并提供订单号。
+        - role: user
+          text: 用户问题：{{#start.query#}}
+        context:
+          enabled: true
+          variable_selector:
+          - retrieve
+          - result
+        vision:
+          enabled: false
+        variables: []
+      height: 100
+      id: answer_llm
+      position:
+        x: 1280
+        y: 282
+      positionAbsolute:
+        x: 1280
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        selected: false
+        title: 无命中固定回复
+        type: template-transform
+        template: 知识库暂无相关信息，请联系人工客服并提供订单号。
+        variables: []
+      height: 100
+      id: fixed_text
+      position:
+        x: 1580
+        y: 282
+      positionAbsolute:
+        x: 1580
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        selected: false
+        title: 输出回答
+        type: end
+        outputs:
+        - variable: result
+          value_selector:
+          - answer_llm
+          - text
+      height: 100
+      id: end_answer
+      position:
+        x: 1880
+        y: 282
+      positionAbsolute:
+        x: 1880
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        selected: false
+        title: 输出固定回复
+        type: end
+        outputs:
+        - variable: result
+          value_selector:
+          - fixed_text
+          - output
+      height: 100
+      id: end_fixed
+      position:
+        x: 2180
+        y: 282
+      positionAbsolute:
+        x: 2180
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 0
+      y: 0
+      zoom: 1
+  rag_pipeline_variables: []

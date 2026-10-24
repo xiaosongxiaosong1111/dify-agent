@@ -1,0 +1,35 @@
+{
+  "state": "passed_offline_manual_format_preview_only",
+  "decision_source": "agent_routine_local_work_delegation_20261023",
+  "human_business_signoff": false,
+  "source84_batch_stays_failed": true,
+  "source84_candidate_and_receipt_not_modified": true,
+  "source_candidate_sha256": "62485321bda2d63c644f5221beb0e5b5b2cd23e03137ed09796a1f2a477c9a70",
+  "preview_candidate_sha256": "e68041df55b5d917d5acf5bcaa94fb09de7af438e473af0fcc5e84f28f5893b4",
+  "exact_change": {
+    "path": "nodes[3].config.cases[0].conditions[0].value",
+    "before": "true",
+    "before_type": "string",
+    "after": true,
+    "after_type": "boolean"
+  },
+  "all_other_plan_fields_equal": true,
+  "requirements_unchanged": true,
+  "manual_plan_source_explicit": true,
+  "original_invalid_plan_save_rejected": true,
+  "manual_preview_saved_confirmed_and_static_built": true,
+  "artifact_sha256": "1c021e44df3e1fbb04183daee6ca0522cdb00660f3d384bbb8df58316ff95543",
+  "model_and_dify_http": 0,
+  "source14_objects_credentials_key_and_old84_files_kept": true,
+  "temporary_store_removed": true,
+  "generated_code_executed": false,
+  "not_claimed": [
+    "model-only success or original84 green",
+    "actual retrieval/model node execution or error propagation",
+    "original79 browser continuity",
+    "Dify or final business acceptance"
+  ],
+  "limitations": [
+    "retrieval result non-list fallback to empty in generated code remains an unverified defensive branch; no retrieval failure behavior guarantee from static checks"
+  ]
+}
