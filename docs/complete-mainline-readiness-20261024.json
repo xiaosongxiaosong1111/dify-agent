@@ -1,0 +1,147 @@
+{
+  "state": "prepared_synthetic_only",
+  "runtime": "0.270.0-293ea298357356cf04db",
+  "plan_sha256": "3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf",
+  "manifest_sha256": "744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58",
+  "rehearsal_ui_checks": [
+    "同一界面从空需求一次发送冻结公开描述，不用旧模型结果代替实际调用",
+    "first：同一界面两例输出及完整节点轨迹核对，命中1个LLM/无命中0个LLM，三份核心图匹配，下载实际交付说明",
+    "固定一条业务变更使原确认/成果失效，首次App和两次历史运行保留",
+    "固定变更按逐项人工复核明确声明，非新增模型访谈，不自动接受建议",
+    "重新生成被变更保护暂停，根代理核对后明确载入原候选并保存，未手改图或自动覆盖",
+    "changed：同一界面两例输出及完整节点轨迹核对，命中1个LLM/无命中0个LLM，三份核心图匹配，下载实际交付说明",
+    "修改版两例只归第二App，首次结果精确保留，累计4/4耗尽后禁止第五运行"
+  ],
+  "normal_stub_invocations": {
+    "model": 3,
+    "login": 0,
+    "read": 30,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 4
+  },
+  "failure_stops": {
+    "fail_intake": {
+      "stub_invocations": {
+        "model": 1,
+        "login": 0,
+        "read": 0,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "temporary_store_removed": true
+    },
+    "fail_first_plan": {
+      "stub_invocations": {
+        "model": 2,
+        "login": 0,
+        "read": 0,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "temporary_store_removed": true
+    },
+    "fail_changed_plan": {
+      "stub_invocations": {
+        "model": 3,
+        "login": 0,
+        "read": 15,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 2
+      },
+      "temporary_store_removed": true
+    },
+    "fail_publish": {
+      "stub_invocations": {
+        "model": 2,
+        "login": 0,
+        "read": 4,
+        "import": 1,
+        "publish": 1,
+        "key": 0,
+        "run": 0
+      },
+      "temporary_store_removed": true
+    },
+    "fail_run": {
+      "stub_invocations": {
+        "model": 2,
+        "login": 0,
+        "read": 9,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 1
+      },
+      "temporary_store_removed": true
+    },
+    "fail_trace": {
+      "stub_invocations": {
+        "model": 2,
+        "login": 0,
+        "read": 10,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 1
+      },
+      "temporary_store_removed": true
+    },
+    "fail_browser": {
+      "stub_invocations": {
+        "model": 0,
+        "login": 0,
+        "read": 0,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "temporary_store_removed": true
+    }
+  },
+  "boundary_checks": [
+    "before-dispatch cap model",
+    "before-dispatch cap run",
+    "before-dispatch cap login",
+    "before-dispatch cap read",
+    "before-dispatch cap import",
+    "all known original App IDs and duplicate imports refused",
+    "trace reads bound to observed new App and run",
+    "no overwrite/repeated publish/key/other app/delete",
+    "old tasks/provider ciphers/unbound writes refused",
+    "all originals/receipts/master key protected",
+    "missing approval/stale hash/rejected or synthetic root gate refused",
+    "actual live entry refuses before Store/credentials/network/receipt",
+    "optimized Python refused before all actions"
+  ],
+  "all_model_and_dify_responses_in_rehearsal_are_fixed_stubs": true,
+  "all15_production_tasks_objects_ciphertexts_master_key_old_receipts_kept": true,
+  "both_new_runtime_keys_and_previous_archives_paired_in_memory_in_rehearsal": true,
+  "existing_production_tasks": 15,
+  "new_real_tasks_apps_keys_runs_models": 0,
+  "actual_external_http": 0,
+  "live_approval_absent": true,
+  "live_receipt_absent": true,
+  "not_real_platform_or_final_business_acceptance": true,
+  "proposed_new_scope": {
+    "max_model_http": 3,
+    "new_conservative_model_upper": 23,
+    "new_task_limit": 1,
+    "new_apps_publications_keys_each": 2,
+    "new_workflow_runs": 4,
+    "new_actual_workflow_run_upper": 16,
+    "new_management_reads_limit": 96,
+    "new_login_posts_limit": 28,
+    "combined_management_read_upper": 413,
+    "new_combined_estimate_usd": "0.17",
+    "invoice_hard_cap": false
+  }
+}
