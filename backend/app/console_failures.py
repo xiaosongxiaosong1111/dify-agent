@@ -8,6 +8,7 @@ KIND = 'console_connection_failure'
 CODES = {
     'login_unreachable': ('登录接口', '无法连接Dify登录接口。', '先核对Dify服务、地址和本机连接，再明确重新连接。'),
     'login_timeout': ('登录接口', 'Dify登录连接超时。', '核对服务响应；本次没有自动重试。'),
+    'login_service_error': ('登录接口', 'Dify登录服务返回服务端错误，无法据此判断账号密码是否正确。', '先核对Dify服务和反向代理状态，再明确重新连接；原凭据保持，不自动重试。'),
     'login_rejected': ('登录接口', 'Dify未接受本次登录。', '核对登录方式、账号权限及服务端登录限制；不要循环尝试。'),
     'login_response_invalid': ('登录响应', 'Dify登录响应格式不兼容。', '核对实例版本及反向代理响应，不使用返回正文作为诊断。'),
     'login_cookies_invalid': ('登录响应', '登录没有返回完整有效的管理Cookie。', '核对Dify版本、登录方式及Cookie设置。'),

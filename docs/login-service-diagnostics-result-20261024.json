@@ -1,0 +1,46 @@
+{
+  "state": "passed_isolated_diagnostics_and_protected_deployment",
+  "runtime": "0.270.0-293ea298357356cf04db",
+  "observed_source_failure": "batch88 login_rejected/http502 kept unchanged",
+  "new_code_for_future_login_http_5xx": "login_service_error",
+  "credential_rejection_code_unchanged": "login_rejected",
+  "targeted_tests_passed": 78,
+  "ui_checks": [
+    "502显示登录服务错误而非密码错误判定，并保留安全HTTP状态",
+    "新失败显示记录时间及不重发说明，没有后台探测",
+    "旧失败明确原因和时间未记录，不猜密码错误",
+    "空间核对失败与登录网络失败区分，并展示安全HTTP状态",
+    "非法诊断结构不作为可显示记录",
+    "只读展示，无登录、重试、发布、真实写入和任务变化"
+  ],
+  "all15_production_objects_ciphertexts_master_key_and_consumed_receipts_unchanged": true,
+  "source_matches_snapshot": true,
+  "changed_runtime_files": [
+    "backend/app/console_failures.py",
+    "backend/app/dify.py",
+    "backend/app/main.py"
+  ],
+  "frontend_unchanged": true,
+  "real_login_posts": 0,
+  "new_model_http": 0,
+  "new_dify_http": 0,
+  "automatic_retry": false,
+  "original_operation_replayed": false,
+  "historical_receipts_rewritten": false,
+  "credentials_or_response_bodies_in_diagnostics": false,
+  "limits_unchanged": {
+    "sierra_known_http": 16,
+    "sierra_conservative_upper": 20,
+    "held_slots": 4,
+    "held_estimate_usd": "0.20",
+    "dify_actual_runs": 12,
+    "formal_passed": 10,
+    "case_apps_publications_keys_each": 6,
+    "management_read_conservative_reserved": 317
+  },
+  "not_proven": [
+    "specific cause of historical502",
+    "historical password validity",
+    "new real failure/recovery acceptance"
+  ]
+}

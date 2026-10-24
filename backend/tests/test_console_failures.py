@@ -23,6 +23,7 @@ def forbid_real_transport(monkeypatch):
 @pytest.mark.parametrize('scenario,expected', [
     ('network', 'login_unreachable'), ('timeout', 'login_timeout'), ('rejected', 'login_rejected'),
     ('http403', 'login_rejected'), ('json', 'login_response_invalid'), ('cookies', 'login_cookies_invalid'),
+    ('http500', 'login_service_error'), ('http502', 'login_service_error'), ('http503', 'login_service_error'),
     ('probe403', 'login_probe_failed'), ('probe_network', 'login_probe_unreachable'),
     ('probe_timeout', 'login_probe_timeout'), ('probe_json', 'login_probe_response_invalid'),
 ])
@@ -35,6 +36,7 @@ def test_login_failure_codes_are_specific_and_never_echo_body(monkeypatch, tmp_p
             if scenario == 'timeout': raise httpx.ReadTimeout('PRIVATE-TIMEOUT', request=request)
             if scenario == 'rejected': return httpx.Response(200, json={'result': 'fail', 'password': 'PRIVATE-BODY'})
             if scenario == 'http403': return httpx.Response(403, text='PRIVATE-BODY')
+            if scenario in ('http500', 'http502', 'http503'): return httpx.Response(int(scenario[4:]), text='PRIVATE-BODY PRIVATE-PASSWORD')
             if scenario == 'json': return httpx.Response(200, text='PRIVATE-BODY')
             headers = [] if scenario == 'cookies' else [('set-cookie', 'access_token=new-access; Path=/'), ('set-cookie', 'csrf_token=new-csrf; Path=/')]
             return httpx.Response(200, json={'result': 'success'}, headers=headers)

@@ -99,6 +99,8 @@ class DifyClient:
                     "remember_me": False,
                 })
                 if response.status_code != 200:
+                    if 500 <= response.status_code <= 599:
+                        raise DifyError(f"Dify 登录服务返回 HTTP {response.status_code}，无法据此判断账号密码是否正确。请核对服务状态；不会自动重试。", code='login_service_error', http_status=response.status_code)
                     raise DifyError(f"Dify 登录未成功（HTTP {response.status_code}）。不会自动注册或重试。", code='login_rejected', http_status=response.status_code)
                 if response.json().get("result") != "success":
                     raise DifyError("Dify 登录未成功，请核对账号权限及登录方式。", code='login_rejected', http_status=response.status_code)
