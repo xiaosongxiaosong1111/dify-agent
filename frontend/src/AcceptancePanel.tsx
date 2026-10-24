@@ -3,6 +3,7 @@ import ConversationCaseEditor, {type TurnDraft} from './ConversationCaseEditor';
 import ConversationCaseResult from './ConversationCaseResult';
 import RunDiagnosticPanel, {type Diagnostic} from './RunDiagnosticPanel';
 import RunComparisonPanel from './RunComparisonPanel';
+import SavedRunInputCopy,{type InputCopyDraft} from './SavedRunInputCopy';
 import {LazyWaitingRunPanel,LazySchemaCaseTemplates} from './LazyNodeEditors';
 
 export type ExpectationMode = 'contains' | 'equals' | 'json_keys' | 'json_schema' | 'manual';
@@ -128,7 +129,8 @@ export function AcceptancePanel({ taskId,revision,artifactStamp,drafts, appType,
   </section>;
 }
 
-export function RunHistory({ currentAppId, runs, revision, busy, hasUnsaved, reasons, onReason, onReview, taskId, onActivity, onUpdated, onLocateNode,onPrepareRun }: {
+export function RunHistory({ currentAppId, runs, revision, busy, hasUnsaved, reasons, onReason, onReview, taskId, onActivity, onUpdated, onLocateNode,onPrepareRun,inputDraft,inputSelectionScope,onCopyInput }: {
+  inputDraft?:string;inputSelectionScope?:string;onCopyInput?:(draft:InputCopyDraft)=>boolean;
   currentAppId?:string|null;taskId?:string;onLocateNode?:(nodeId:string,section?:string)=>void;onActivity?:(label:string)=>void;onUpdated?:(task:unknown)=>void;onPrepareRun?:(recipe:{input:Record<string,unknown>;case_id:string|null})=>void;
   runs: RunRecord[]; revision: number; busy: boolean; hasUnsaved: boolean;
   reasons: Record<string, string>; onReason: (id: string, reason: string) => void;
@@ -140,6 +142,7 @@ export function RunHistory({ currentAppId, runs, revision, busy, hasUnsaved, rea
     {run.error && <div className="alert error">{run.error}</div>}
     {run.conversation_context&&<div className="callout">本轮复用会话 {run.conversation_context.conversation_id}，来源记录 {run.conversation_context.source_run_id}。上下文属于实际输入，不作为固定样例通过数。</div>}
     {run.test_case && <><b>运行时样例与输入快照</b><pre>{JSON.stringify(run.test_case, null, 2)}</pre></>}
+    {taskId&&onCopyInput&&inputDraft!==undefined&&<SavedRunInputCopy taskId={taskId} revision={revision} run={run} input={inputDraft} selectionScope={inputSelectionScope||''} blocked={busy||hasUnsaved} onAdopt={onCopyInput}/>}
     {run.kind==='run'&&<p className="hint">用量及价格来自 Dify 返回。插件价格为 0 不证明供应商免费；实际费用需核对供应商账单，本次规划上限不覆盖这些运行费用。</p>}
     {taskId&&onUpdated&&['waiting_platform','platform_finished'].includes(run.status||'')&&<LazyWaitingRunPanel taskId={taskId} run={run} blocked={busy||hasUnsaved} onUpdated={onUpdated}/>}
     <ConversationCaseResult value={run.result}/>

@@ -1,5 +1,10 @@
 # Initial API contract
 
+## 0.281：历史输入准备
+
+GET /api/tasks/{id}/runs/{run_id}/input-copy-preview?revision=当前修订，契约及大小/上下文边界见[saved-run-input](saved-run-input.md)。只读、不解密、无自动试跑或旧样例/会话继承。
+
+
 ## 0.280：读取已有订单模拟表
 
 POST /api/tasks/{id}/mock-order-template/read：严格revision、plan_text（最多2MB）、node_id、dependency、UUID request_nonce，无额外/重复键。只读当前编辑原稿，须当前修订空闲；根代码须与v1模板及输入输出声明匹配，仅允许代码CRLF/LF差异。最多64KB代码/2000 AST节点，只读唯一orders字典中的文字常量；不求值、不执行、不推断手改逻辑，复用原prepare完整图/依赖/绑定/提取保护及表限制，后台处理后重核修订。
