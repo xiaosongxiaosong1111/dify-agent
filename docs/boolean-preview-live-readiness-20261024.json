@@ -1,0 +1,37 @@
+{
+  "state": "ready_needs_direct_dify_resource_and_run_expansion",
+  "runtime": "0.268.0-6b739828b437b14f1469",
+  "plan_sha256": "950aa7881550f7e5de42c162eac06fa8ebe2e15b95d503a95c4872c78dda3231",
+  "manifest_sha256": "6703a9e91af47cf3f1f4412fc0b56b31431d30316c6581e9e009945b5019f7bb",
+  "preview_graph_sha256": "e68041df55b5d917d5acf5bcaa94fb09de7af438e473af0fcc5e84f28f5893b4",
+  "native_workflow_core_sha256": "aea088585993edd42bb253bd7dbe724f5e6ea92a228ba6a815ec372d83fd4d1d",
+  "source_tasks_kept": 14,
+  "original_objects_credentials_key_and_old84_preview_files_kept": true,
+  "exact_future_flow_mock_passed": true,
+  "mock_cases_passed": 2,
+  "new_task_revision_in_mock": 5,
+  "missing_cases_rejected_before_task_and_network": true,
+  "capacity_failure_stopped_before_external_writes": true,
+  "publication_failure_stopped_before_key_and_runs": true,
+  "first_case_failure_stopped_without_second_case": true,
+  "temporary_stores_removed": true,
+  "actual_dify_and_sierra_model_http_added": 0,
+  "proposed_workflow_http_total_cap": [
+    10,
+    12
+  ],
+  "proposed_resource_total_cap_each": [
+    5,
+    6
+  ],
+  "new_task_app_first_publication_key_each": 1,
+  "new_workflow_http_max": 2,
+  "new_sierra_model_http": 0,
+  "management_read_reservation_new": 48,
+  "login_post_reservation_new": 14,
+  "management_read_conservative_upper_after": 269,
+  "estimated_new_dify_usd": "0.01",
+  "invoice_hard_cap": false,
+  "manual_format_correction_explicit": true,
+  "model_only_success_not_claimed": true
+}
