@@ -1,0 +1,45 @@
+{
+  "state": "stopped_on_root_semantic_review",
+  "runtime": "0.266.0-80e68e15c4f9cb2cd3e2",
+  "approval": "direct_user_reply:call_6d7cc3b3abf74201b167a3c34f0126e4/question0",
+  "frozen_commit": "df4f321",
+  "plan_sha256": "b896b3d5d596427009ede5f6366e6386ed22e2dedb898c9264278f395385e95e",
+  "manifest_sha256": "c2b2d1e95c70f399314468012d0c985cf1196fd6fd9f1dd8d8d7c68b2d8add37",
+  "model_http": 1,
+  "new_intake_model_http": 0,
+  "provider_attempts": 1,
+  "dify_production_writes": 0,
+  "structural_plan_valid": true,
+  "root_semantic_review_passed": false,
+  "finding": "Answer LLM prompt embeds policy facts as supplemental material outside retrieved context despite retrieval-only instruction.",
+  "graph_manually_modified": false,
+  "configuration_confirmed": false,
+  "artifact_created": false,
+  "source14_all_objects_credentials_key_old79_and_prior_packages_kept": true,
+  "temporary_data_removed": true,
+  "automatic_retry": false,
+  "usage": {
+    "prompt_tokens": 27193,
+    "completion_tokens": 720,
+    "total_tokens": 27913,
+    "prompt_cache_hit_tokens": 20736,
+    "prompt_cache_miss_tokens": 6457,
+    "prompt_tokens_details": {
+      "cached_tokens": 20736
+    }
+  },
+  "configuration_estimate_usd": "0.002925516",
+  "known_actual_sierra_http_after": 15,
+  "conservative_allocated_after": 19,
+  "conservative_limit": 19,
+  "known_estimate_usd": "0.067262220",
+  "retained_reservations_usd": "0.20",
+  "known_plus_retained_estimate_usd": "0.267262220",
+  "invoice_verified": false,
+  "not_claimed": [
+    "static delivery passed",
+    "original79 browser chain complete",
+    "actual Dify execution",
+    "business acceptance"
+  ]
+}

@@ -6,6 +6,8 @@
 
 当前访谈修复：[区分已有技术契约、实现细节与业务决定](docs/intake-implementation-boundary.md)。24项定向检查及旧失败原样保留回放通过，0.266新批首轮实际访谈／内容核对通过；随后验证进程中断，第二模型未调用，完整连续链未完成。[最新实际结果](docs/continuous-model266-result-20261024.json)。模型已知实际14次／保守18/18，原失败和未用预留保持。
 
+后续仅规划批已调用一次，结构有效但提示词硬编码政策事实，违反只使用检索资料，根代理在构建前拒绝；[实际结果](docs/reviewed-intake-planning-result-20261024.json)。当前已知实际模型15次／保守19/19；没有新构建、Dify或生产写入，旧回执保持。
+
 当前访谈修复：[精确文字及未采纳建议边界](docs/intake-literals.md)；旧71失败保留，实际效果待独立核对。
 
 当前规划修复：[向模型说明Sierra本机空白输入门禁](docs/planning-entry-context.md)，不外推Dify直接入口，修复后独立单次实际规划已生成合规图（[证据](docs/fresh-planning263-result-20261023.json)），仍非一般语义保证。
