@@ -82,7 +82,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.265.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.266.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -768,7 +768,7 @@ async def send_message(item_id: str, payload: Message):
         else:
             provider = next((p for p in providers if p.get("role") in {"main", "主 Agent", "primary", "assistant"}), None)
         contract = (DISCUSSION_CONTRACT if payload.mode=="discussion" else load_contract(PROJECT_ROOT, "intake-model-contract.md")) if provider else None
-        model_scope = scope_prompt(task["app_type"],app.version) if provider else None
+        model_scope = scope_prompt(task["app_type"],app.version,runtime_entry=workflow_runtime_entry(task) if payload.mode=="review" else None) if provider else None
         model_progress = progress_context(task) if provider and payload.mode=="discussion" else None
         if payload.stream_response and (not provider or not store.secret(provider['id'],'api_key')):raise HTTPException(422,'流式访谈需要明确可用的助手模型与Key，未记录或派发。')
         if payload.stream_response and ((provider.get('capabilities') or {}).get('stream')=='failed' or provider.get('protocol','openai-compatible') not in {'openai-compatible','anthropic'}):raise HTTPException(422,'该服务流式能力失败或协议未适配，不自动回退或重发。')
