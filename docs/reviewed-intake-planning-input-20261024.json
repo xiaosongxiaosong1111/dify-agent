@@ -1,0 +1,66 @@
+{
+  "source": "79 actual intake task, source-checked and root-reviewed, not manually edited",
+  "actual_source_sha256": "e182b857971387258d5d0b725cce96f1ef17b358cf0ba37fc033c6eec26a6ac6",
+  "requirements": {
+    "goal": "为内部演示用户制作蓝杉商店公开合成售后知识问答 Workflow；仅处理退货和保修政策问答。",
+    "audience": "内部开发与演示用户；不接入真实客户资料。",
+    "input": "单个必填 query 文本；每次只处理一个问题；空白输入由入口拒绝且不派发模型。",
+    "output": "只输出 result 字符串；命中时根据资料回答并带政策编号；无命中严格返回：知识库暂无相关信息，请联系人工客服并提供订单号。",
+    "rules": "先检索；检索结果非空才调用一次回答 LLM，提示中只使用检索资料；结果为空直接走固定文字分支，不调用 LLM，不编造政策。政策内容：ZXRET715 为签收后七天内且商品未拆封可申请退货，运费不含在该政策；ZXWAR180 为签收起180天保修。",
+    "knowledge": "仅使用现有公开合成 FAQ 库 d12cf081-5c52-41e3-b869-e94e6f8d37b1，TopK3，无分数阈值、不重排。后续回答模型 deepseek-flash、thinking=false、温度0.2、最大输出512；这些是资源条件，不代表现在执行或证明实时可用。",
+    "exceptions": "query 空白直接拒绝；检索失败或回答模型失败必须明确报错并停止，不把失败伪装为无命中；转人工仅为固定提示文字，不接入客服系统。",
+    "tests": "命中输入“ZXRET715在签收后七天内且未拆封，能否退货？请给出政策编号。”应在 result 包含 ZXRET715、七天、未拆封；无命中输入 ZXUNLISTED90371 应在 result 严格等于固定回复。仅这两条声明不代表完整业务验收。"
+  },
+  "configuration": {
+    "assistant_provider_id": "9513f594-c256-46b7-882a-35d9871bf9d0",
+    "dify_model_provider": "langgenius/deepseek/deepseek",
+    "dify_model": "deepseek-flash",
+    "temperature": 0.2,
+    "max_tokens": 512,
+    "model_parameters": {},
+    "opening_statement": "",
+    "suggested_questions": [],
+    "conversation_memory": false,
+    "memory_turns": 5,
+    "dataset_ids": [
+      "d12cf081-5c52-41e3-b869-e94e6f8d37b1"
+    ],
+    "retrieval_top_k": 3,
+    "mock_dependencies": [],
+    "resource_plan": "当前进入需求确认后的单次规划与静态交付阶段。首轮需求访谈不生成流程仅指首轮；本轮真实Dify/新生产任务/资源/运行0。只复用已声明公开库与模型参数，图未实际部署，不把Sierra本机空白输入保障外推为Dify直接入口已验证。"
+  },
+  "declared_test_cases": [
+    {
+      "id": "after-sales-hit",
+      "name": "有命中：七天未拆封退货",
+      "required": true,
+      "input": {
+        "query": "ZXRET715：签收后三天且未拆封能否退货？请给出政策编号。"
+      },
+      "expectation": {
+        "mode": "contains",
+        "target": "result",
+        "expected": [
+          "ZXRET715",
+          "七天",
+          "未拆封"
+        ]
+      }
+    },
+    {
+      "id": "after-sales-miss",
+      "name": "无命中：固定人工提示",
+      "required": true,
+      "input": {
+        "query": "ZXUNLISTED90371"
+      },
+      "expectation": {
+        "mode": "equals",
+        "target": "result",
+        "expected": "知识库暂无相关信息，请联系人工客服并提供订单号。"
+      }
+    }
+  ],
+  "new_model_phase": "planning only; no repeated intake",
+  "not_claimed": "original79 browser continuity or real Dify delivery"
+}

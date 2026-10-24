@@ -1,0 +1,27 @@
+{
+  "state": "ready_needs_direct_model_scope_expansion",
+  "runtime": "0.266.0-80e68e15c4f9cb2cd3e2",
+  "plan_sha256": "b896b3d5d596427009ede5f6366e6386ed22e2dedb898c9264278f395385e95e",
+  "manifest_sha256": "c2b2d1e95c70f399314468012d0c985cf1196fd6fd9f1dd8d8d7c68b2d8add37",
+  "planning_message_sha256": "bc3f7e6d83dc5c16aed220bdb35f751324b11e79b8bfc382d439d3793f7758dd",
+  "actual_intake_task_sha256": "e182b857971387258d5d0b725cce96f1ef17b358cf0ba37fc033c6eec26a6ac6",
+  "normal_mock_ui_checks": 6,
+  "planning_failure_mock_ui_checks": 5,
+  "browser_launch_failure_owned_cleanup_passed": true,
+  "second_or_unexpected_http_rejected_before_dispatch": true,
+  "source14_objects_credentials_key_old79_and_prior_files_kept": true,
+  "temporary_data_removed": true,
+  "actual_model_or_dify_http_added": 0,
+  "new_intake_model_calls": 0,
+  "proposed_conservative_model_cap": [
+    18,
+    19
+  ],
+  "max_new_model_http": 1,
+  "max_new_configuration_estimate_usd": "0.05",
+  "reserved_estimate_usd_for_frozen_input": "0.0451173",
+  "after_known_plus_retained_max_estimate_usd": "0.314336704",
+  "invoice_hard_cap": false,
+  "production_tasks_resources_runs_dify_writes": 0,
+  "not_original79_same_browser_chain": true
+}
