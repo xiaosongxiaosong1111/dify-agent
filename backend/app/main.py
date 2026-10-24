@@ -82,11 +82,11 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.271.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.272.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
-CONFIG_DEFAULT = {"assistant_provider_id": None, "dify_model_provider": "", "dify_model": "", "temperature": 0.2, "max_tokens": 2048, "model_parameters": {}, "opening_statement": "", "suggested_questions": [], "conversation_memory": False, "memory_turns": 5, "dataset_ids": [], "retrieval_top_k": 3, "mock_dependencies": [], "resource_plan": "只创建新的应用，不覆盖已有应用或知识库。"}
+CONFIG_DEFAULT = {"assistant_provider_id": None, "dify_model_provider": "", "dify_model": "", "temperature": 0.2, "max_tokens": 2048, "model_parameters": {}, "opening_statement": "", "suggested_questions": [], "conversation_memory": False, "memory_turns": 5, "dataset_ids": [], "retrieval_top_k": 3, "mock_dependencies": [], "mock_dependency_bindings": [], "resource_plan": "只创建新的应用，不覆盖已有应用或知识库。"}
 BUSY = {"importing", "running", "building", "planning", "interviewing"}
 SECRET_FIELDS = ("api_key", "console_token", "csrf_token", "service_api_key", "dataset_api_key")
 
@@ -328,6 +328,12 @@ def validate_config(config):
     if "model_parameters" in config:
         try:
             validate_model_parameters(config["model_parameters"])
+        except ValueError as exc:
+            raise HTTPException(422, str(exc)) from exc
+    if 'mock_dependency_bindings' in config:
+        from .mock_handoffs import validate_bindings
+        try:
+            validate_bindings(config['mock_dependency_bindings'])
         except ValueError as exc:
             raise HTTPException(422, str(exc)) from exc
     unknown = set(config) - set(CONFIG_DEFAULT)
@@ -1125,7 +1131,9 @@ def build(item_id: str, payload: Revision):
                 overlay=task['dsl_overlay'];content=(DATA_ROOT/task['id']/overlay['filename']).read_text(encoding='utf-8')
                 from .dsl_roundtrip import digest,parse
                 if digest(parse(content,task['app_type']))!=overlay['digest']:raise ValueError('已确认合并文件内容变化，请重新分析并确认。')
-                validation=overlay['validation']
+                validation=copy.deepcopy(overlay['validation'])
+                from .mock_handoffs import verify_preserved
+                verify_preserved(task, parse(content, task['app_type']), validation)
             else:content,validation=compile_current(task)
         except (ValueError,OSError) as exc:
             raise HTTPException(422, str(exc)) from exc
@@ -1236,6 +1244,10 @@ def report(item_id: str):
     coverage = coverage_summary(task)
     lines += ["", "## 需求与方案覆盖", "", "清单仅为按当前方案声明并复核的安排，不等于完整业务验证。" if coverage["enabled"] else "尚未启用逐项覆盖清单，原有八类需求确认不证明全部功能已覆盖。", json.dumps({"confirmed": coverage["confirmed"], "stale": coverage["stale"], "blockers": coverage["blockers"], "review": coverage["review"]}, ensure_ascii=False, indent=2)]
     lines += ["", "## 配置与资源方案", "", json.dumps(task["configuration"], ensure_ascii=False, indent=2), "", "## 静态校验", "", json.dumps(validation, ensure_ascii=False, indent=2), "", "## 实际导入和运行", "", f"当前应用标识：{task.get('dify_app_id') or '未导入'}"]
+    from .mock_handoffs import delivery_lines
+    mock_lines = delivery_lines(task)
+    if mock_lines:
+        lines += ['', '## 模拟依赖逐项接入待办', ''] + mock_lines
     if task.get('dsl_reference'):
         lines += ['', '## 实际 DSL 保留来源', '', '任务配置与流程计划作为生成建议，最终代码、模型和节点以已确认合并 DSL 为准；变化后须重分析，旧运行证据不能计新修订。', json.dumps({'reference':task['dsl_reference'],'preservation':task.get('dsl_overlay')},ensure_ascii=False), '', '## 操作记录']
     for run in task["runs"]:

@@ -110,4 +110,8 @@ def compile_agent_plan(task):
         root['app']['description'] += '\n' + mock_note
         package['metadata']['description'] += '\n' + mock_note
         result['warnings'].append(MOCK_DEPENDENCY_WARNING)
+    from .mock_handoffs import apply_to_export
+    apply_to_export(task, root, result)
+    if not result['valid']:
+        raise ValueError('Agent 模拟依赖检查失败：' + '; '.join(result['errors']))
     return yaml.safe_dump(root, allow_unicode=True, sort_keys=False), result

@@ -1,0 +1,50 @@
+{
+  "state": "passed",
+  "runtime": {
+    "version": "0.272.0",
+    "mode": "snapshot",
+    "build_id": "0.272.0-39c6e6c3ca6aacd30214",
+    "content_sha256": "39c6e6c3ca6aacd302142b1e77bbc91afc587cc876637073da395df9bbabb8c4",
+    "file_count": 243,
+    "task_data_inside_snapshot": false,
+    "note": "后端、模型契约及前端资源来自启动时固定快照；任务数据与凭据独立使用原目录。Python依赖环境仍共用，不是完整依赖隔离。"
+  },
+  "new_backend_tests": 25,
+  "isolated_ui": {
+    "state": "passed",
+    "checks": [
+      "UI saves location/todo through real API and invalidates old confirmation/artifact",
+      "refresh restores saved values",
+      "new static YAML and delivery report retain todo without claiming live connection",
+      "removed graph node remains visible as stale; never silently rebinds",
+      "explicit reselection restores valid static build",
+      "explicit removal saves without removing dependency declaration"
+    ],
+    "browser_errors": [],
+    "real_model_dify_http": 0
+  },
+  "typescript_and_frontend_build_passed": true,
+  "layout_screenshot_reviewed": true,
+  "health_and_new_frontend_asset_http": 200,
+  "source_matches_runtime_snapshot": true,
+  "all16_production_objects_ciphertexts_master_key_consumed_receipts_kept": true,
+  "original95_unknown_entry_and_all_held_reservations_kept": true,
+  "temporary_ui_stores_removed": true,
+  "new_real_model_and_dify_http": 0,
+  "not_real_mock_behavior_or_interface_integration_acceptance": true,
+  "limits": [
+    "one location per declared dependency; split declarations for multiple locations",
+    "UI selects saved explicit root nodes or Agent system prompt; unsupported locations not invented",
+    "static existence check cannot prove simulation behavior or service access",
+    "existing declarations without bindings remain buildable and explicitly marked incomplete",
+    "stale/orphan bindings block a new artifact until explicitly corrected",
+    "no real Dify import/run or external request authorization added"
+  ],
+  "targeted_backend_test_groups": {
+    "initial_exports_and_compilers": 93,
+    "final_preserved_file_and_handoffs": 57,
+    "groups_overlap": true
+  },
+  "final_preserved_dsl_checked_without_modification": true,
+  "preserved_file_missing_current_note_blocks_build": true
+}

@@ -4,6 +4,16 @@ Backend FastAPI on 127.0.0.1:8765; frontend Vite on 127.0.0.1:5173 proxies /api.
 
 JSON errors: HTTP status plus {detail: string}. No provider key values in responses. All endpoints below are prefixed /api.
 
+## 模拟依赖逐项接入待办（0.272）
+
+PATCH `/tasks/{id}` 的configuration可保存 `mock_dependency_bindings`（默认空列表）：
+
+```json
+{"configuration":{"mock_dependency_bindings":[{"dependency":"订单接口","node_id":"order-mock","replacement_todo":"补充真实服务与鉴权引用，替换后验证正常、缺少订单和接口故障。"}]}}
+```
+
+最多50项、每依赖一个位置；只接受上述三个字段。依赖/节点ID/待办须非空，分别最多2000/128/4000字；非法结构422且不写入。保存后原配置确认及成果失效。构建时dependency须精确对应当前mock_dependencies，node_id须对应本次编译后的实际节点；原生Agent仅接受agent.system_prompt。失效引用阻止新成果，未填写绑定的旧声明保持并附待补提示。DSL描述/Agent metadata及报告保留待办，检查不证明模拟实现或真实接入，没有可自行声明完成的字段。保留实际DSL路径会核对最终文件；缺当前待办说明时422，不写成果、不修改已确认文件/合并记录。
+
 ## Task
 
 Task object:

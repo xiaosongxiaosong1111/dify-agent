@@ -262,6 +262,11 @@ def compile_dsl(task: dict) -> tuple[str, dict]:
     validation = validate_dsl(content)
     if mock_note:
         validation["warnings"].append(MOCK_DEPENDENCY_WARNING)
+    from .mock_handoffs import apply_to_export
+    apply_to_export(task, dsl, validation)
+    if not validation['valid']:
+        return '', validation
+    content = yaml.safe_dump(dsl, allow_unicode=True, sort_keys=False)
     validation["warnings"].append("此结果仅将已收集需求写入线性提示词模板；分支、循环、审批、批量策略和外部接口等复杂业务语义未展开，仍需人工设计与 Dify 实测。")
     validation["warnings"].append("DSL 静态检查不等于目标 Dify 导入或运行验证。")
     return content, validation

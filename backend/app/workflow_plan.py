@@ -1033,5 +1033,9 @@ def compile_workflow_plan(task: dict) -> tuple[str, dict]:
     if mock_note:
         dsl['app']['description'] += '\n' + mock_note
         validation['warnings'].append(MOCK_DEPENDENCY_WARNING)
+    from .mock_handoffs import apply_to_export
+    apply_to_export(task, dsl, validation)
+    if not validation['valid']:
+        return '', validation
     content = yaml.safe_dump(dsl, allow_unicode=True, sort_keys=False)
     return content, validation
