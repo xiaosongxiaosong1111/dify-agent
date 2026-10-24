@@ -2,7 +2,7 @@
 
 ## 1. 当前工作与运行
 
-- 项目E:\workSpace\dify-agent，main，原GitHub https://github.com/xiaosongxiaosong1111/dify-agent.git。生产0.268.0-6b739828b437b14f1469，health200，Dify1.17.1；85诊断修复e3088f0、86人工预览474efac、队列1fc13ef。87准备证据待本次提交，再87 done／88 need-user并push。未跑全量。
+- 项目E:\workSpace\dify-agent，main，原GitHub https://github.com/xiaosongxiaosong1111/dify-agent.git。生产0.268.0-6b739828b437b14f1469，health200，Dify1.17.1；85诊断修复e3088f0、86人工预览474efac、队列1fc13ef。87准备证据5c380d6；87 done／88 need-user，队列提交后push。未跑全量。
 - 仍14生产任务，最新5a37368d-3d6b-4708-829c-9e8dcedaf356／Sierra新需求图平台验收／r5／run_completed；App0ec579c4-fae3-4f7e-80d3-f8508846c91c，发布图a3df4f40-acd4-40a3-9b0d-dc023ac0ef8d，两正式例passed，原13任务保持。
 - 专用连接202bfb35-2f92-47c1-bc1b-eac32082181d固定原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17；当前Key配最新App，旧改文案Key加密归档且已内存核对一致，其他密文／主Key保持。复用加密登录，不从聊天复制密码或输出／提交凭据。新平台批会再次切Key，旧App不能沿用新Key。
 
@@ -22,7 +22,7 @@
 3. 新增预留48管理读取／14登录（含认证内置重读），旧221保守读取保持，合并269，非实际仪表计数；新Dify估算0.01USD非账单硬限。当前Sierra实际16／保守20/20及四项预留0.20USD完全保持，本批模型0。
 4. 新plan SHA256950aa7881550f7e5de42c162eac06fa8ebe2e15b95d503a95c4872c78dda3231，manifest SHA2566703a9e91af47cf3f1f4412fc0b56b31431d30316c6581e9e009945b5019f7bb；native workflow core摘要aea088585993edd42bb253bd7dbe724f5e6ea92a228ba6a815ec372d83fd4d1d，运行必须0.268.0-6b739828b437b14f1469且源码匹配。公开docs/boolean-preview-live-plan-20261024.md、input及readiness。
 5. 同一未来flow在临时Store正常两例、容量前置、发布502、首例502停止均通过，原14任务／所有策略／密文／主Key及旧84和人工预览保护、临时清理，实际模型／Dify0。首次准备误从静态预览空test_cases取样例，已改用冻结公开两例并增加缺两例在建任务／网络前拒绝；恢复完整两例后r5和最终2/2严格断言通过，不降低次数检查。
-6. 先提交87准备证据，再87 done／88 need-user并push，提供固定commit方案请求一次外部范围扩大。无绑定新plan／manifest直接人类批准approval.json时，在回执／任务／网络前拒绝；已有receipt不重放。当前没有直接新平台批准，常规委托不能扩大已满资源／10次运行边界。
+6. 87准备证据5c380d6已提交；队列87 done／88 need-user，队列提交并push后，提供固定5c380d6方案链接请求一次外部范围扩大。无绑定新plan／manifest直接人类批准approval.json时，在回执／任务／网络前拒绝；已有receipt不重放。当前没有直接新平台批准，常规委托不能扩大已满资源／10次运行边界。
 7. 直接批准后仅首次运行check.py；成功后仍须内存核对新旧Key配对／加密归档、保护证明、只读界面／报告。两例不能证明节点失败传播、非list防御分支、自然续期或25场景最终业务。实际Codex额度未触发不足；全部剩余blocked／need-user时停队列。实际Codex不足立即尽力整份交接后停，不重试／换账号／购买。
 ## 4. 真实平台与费用事实
 
