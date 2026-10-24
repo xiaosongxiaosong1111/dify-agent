@@ -1,0 +1,72 @@
+{
+  "state": "passed_declared_two_case_platform_acceptance",
+  "runtime": "0.268.0-6b739828b437b14f1469",
+  "approval": "direct_user_reply:call_0dfffe8b285c40f2a47b3c52b02c8aa9/question0",
+  "frozen_commit": "3b7445a",
+  "plan_sha256": "be94ac616c9f17233a10dc30e329c58897471444b521d4750e883399673466e8",
+  "manifest_sha256": "a9255f05d3c29a06eb3f243f5702e5ad643bdd437019e80afca49d348b82e0aa",
+  "task_id": "e764003b-00d4-404c-8b94-e22c29201823",
+  "task_name": "Sierra布尔格式修正图验收",
+  "revision": 5,
+  "new_local_task_count": 0,
+  "source_task_count_after": 15,
+  "new_app_id": "0ea01eb4-4ed1-4c70-bdac-db17a9cc4a97",
+  "published_workflow_id": "50d1bb9c-df9d-4f19-9929-ac4727d229e1",
+  "key_operation_id": "b0396261-07fd-4f90-86bd-e6fc671bc257",
+  "runs": [
+    {
+      "id": "d1f05536-a04f-4639-9002-53c7581c4fce",
+      "case_id": "after-sales-hit",
+      "platform_status": "succeeded",
+      "native_evaluation": "passed",
+      "workflow_id": "50d1bb9c-df9d-4f19-9929-ac4727d229e1",
+      "reported_tokens": 280
+    },
+    {
+      "id": "69ffaf3b-2f7b-4e6f-b675-7757b7e8c8f1",
+      "case_id": "after-sales-miss",
+      "platform_status": "succeeded",
+      "native_evaluation": "passed",
+      "workflow_id": "50d1bb9c-df9d-4f19-9929-ac4727d229e1",
+      "reported_tokens": 0
+    }
+  ],
+  "new_dify_workflow_requests": 2,
+  "actual_cumulative_workflow_requests": 12,
+  "formal_passed_cumulative": 10,
+  "original_failed_assertions_retained": 2,
+  "case_app_publication_key_count_each": 6,
+  "sierra_model_calls_added": 0,
+  "management_read_reserved_upper": 317,
+  "management_actual_not_instrumented": true,
+  "new_login_posts_reserved": 14,
+  "new_dify_estimate_usd": "0.01",
+  "invoice_hard_cap": false,
+  "protected_state": {
+    "state": "passed",
+    "all_other14_tasks_and_original_objects_except_connection_and_target_kept": true,
+    "no_new_local_task_still15": true,
+    "all_old_ciphertexts_except_allowed_console_csrf_active_key_kept": true,
+    "encryption_master_key_kept": true,
+    "old88_and_all_prior_failed_receipts_kept": true,
+    "requirements_full_manual_preview_graph_cases_configuration_unchanged": true,
+    "new_task_model_budget_entries_empty": true,
+    "original_workspace_verified": true,
+    "active_key_matches_new_app_specific_key": true,
+    "previous_key_archive_matches_old_app_specific_key": true,
+    "keys_compared_only_in_memory": true,
+    "automatic_login_pause_cleared_only_by_approved_reconnect": true,
+    "two_native_cases_passed_matching_publication": true
+  },
+  "readonly_ui_checks": 6,
+  "readonly_ui_writes_and_external_requests": 0,
+  "source84_model_failure_and88_login_failure_kept": true,
+  "manual_boolean_format_correction_explicit": true,
+  "not_claimed": [
+    "model-only no-edit success",
+    "original79 continuous browser chain",
+    "real node exception propagation",
+    "free requests from0 tokens",
+    "final25 business acceptance"
+  ]
+}

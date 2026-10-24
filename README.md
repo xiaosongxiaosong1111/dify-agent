@@ -2,7 +2,7 @@
 
 本机运行 **0.268.0-6b739828b437b14f1469**：[打开 Sierra](http://127.0.0.1:8765/)。
 
-当前公开售后案例：选择“Sierra新需求图平台验收”（r5），67实际模型新图已完成新App发布和两例真实试跑。查看步骤、旧任务和Key切换影响见[案例交付说明](docs/public-after-sales-delivery.md)。原13任务保持，当前14任务；累计10次Dify请求含原失败历史，不代表全部项目完成。
+当前公开售后案例：选择“Sierra布尔格式修正图验收”（r5），含明确单字段人工格式修正的八节点图已完成新App发布和两例真实试跑。查看下载、来源及旧任务/Key影响见[案例交付说明](docs/public-after-sales-delivery.md)。原14其他任务保持，当前15任务；实际12次Dify请求含原2次失败，正式passed10，不代表整个项目完成。
 
 当前访谈修复：[区分已有技术契约、实现细节与业务决定](docs/intake-implementation-boundary.md)。24项定向检查及旧失败原样保留回放通过，0.266新批首轮实际访谈／内容核对通过；随后验证进程中断，第二模型未调用，完整连续链未完成。[最新实际结果](docs/continuous-model266-result-20261024.json)。模型已知实际14次／保守18/18，原失败和未用预留保持。
 
@@ -14,7 +14,7 @@
 
 已另备[单字段人工格式修正预览](docs/after-sales-boolean-preview.md)：原84失败保持，新副本仅把字符串true改为JSON布尔true，已静态构建并可下载YAML；没有新增模型或Dify调用，不当模型纯生成或业务验收通过。
 
-第88平台批在重连HTTP502停止，仅留下“Sierra布尔格式修正图验收”r5草稿（现15任务），App／发布／Key／运行0；[失败记录](docs/boolean-preview-live-result-20261024.json)。原Docker／Dify服务已恢复，登录暂停保持；[独立复用草稿方案](docs/existing-preview-live-plan-20261024.md)已冻结，未执行真实后续操作。
+第88重连HTTP502失败保持；恢复服务后，第91新独立批准复用同一r5完成发布／Key和两例原生passed，新任务0。当前Key配新App，旧Key加密留档，[实际结果](docs/existing-preview-live-result-20261024.json)。
 
 当前访谈修复：[精确文字及未采纳建议边界](docs/intake-literals.md)；旧71失败保留，实际效果待独立核对。
 
