@@ -2,7 +2,7 @@
 
 ## 1. 当前工作与运行
 
-- 项目E:\workSpace\dify-agent，main，原GitHub https://github.com/xiaosongxiaosong1111/dify-agent.git。生产0.267.0-6a994909219eb1f54944，health200，Dify1.17.1；82修复a41ebd8、队列2a42290，83准备证据待本次提交，随后队列83 done／84 need-user并push。未跑全量。
+- 项目E:\workSpace\dify-agent，main，原GitHub https://github.com/xiaosongxiaosong1111/dify-agent.git。生产0.267.0-6a994909219eb1f54944，health200，Dify1.17.1；82修复a41ebd8、队列2a42290，83准备证据7c648e8；83 done／84 need-user，队列提交后push。未跑全量。
 - 仍14生产任务。最新5a37368d-3d6b-4708-829c-9e8dcedaf356／Sierra新需求图平台验收／r5／run_completed；App0ec579c4-fae3-4f7e-80d3-f8508846c91c，发布图a3df4f40-acd4-40a3-9b0d-dc023ac0ef8d，两例原生passed，原13任务保持。
 - 专用连接202bfb35-2f92-47c1-bc1b-eac32082181d固定原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17；当前Key配最新App，旧改文案Key加密留档且内存核对一致。其他密文／主Key不改，旧App不能沿用当前Key。复用加密登录，不从聊天复制密码，不输出／提交凭据。
 
@@ -22,7 +22,7 @@
 4. 当前模型保守19/19已满；84拟19→20，最多新增1规划HTTP／6000输出tokens／120秒，固定消息配置预留0.0455316USD、估算上界0.05USD非账单硬限；后已知加保留保守最多0.317262220USD，原0.45／0.5估算边界保持。新访谈／Dify／生产任务／App／发布／Key／运行0，原四项预留不退。异常整批停，不重试／换账号／买额度。
 5. 两道内容核对绑定实际阶段原始SHA、decision及human_business_signoff=false；服务在唯一HTTP前验证来源草案门禁，界面在构建前验证完整实际图门禁。仅有结构合法或检索绑定不证明事实来源正确，须看LLM提示是否又引入静态事实。600秒拥有者服务保护，不保证外部强杀时finally运行。
 6. 使用有Windows浏览器临时目录权限的提升执行环境，正常／失败预演已在该环境通过。未有绑定新plan／manifest、直接批准19→20的approval.json时，在回执／源Key读取／HTTP前拒绝；已有receipt不重放。不能用常规委托扩大已满次数。
-7. 先提交83准备证据，再队列83 done／84 need-user并push，提供固定commit方案请求一次新规划范围。当前没有实际Codex额度不足，等待原因是模型明确范围；全部剩余blocked／need-user时停队列。实际Codex不足即尽力整份交接后停，不重试／换账号／购买。
+7. 83准备证据7c648e8已提交，队列83 done／84 need-user；队列提交并push后提供固定7c648e8方案链接，请求一次19→20的新规划范围。当前没有实际Codex额度不足，等待原因是模型明确范围；全部剩余blocked／need-user时停队列。实际Codex不足即尽力整份交接后停，不重试／换账号／购买。
 ## 4. 真实平台与费用事实
 
 - 70直接批准后一次passed，不重放。冻结9cd9c92、结果3c22b44，work/fresh-graph-live-263/receipt passed；命中run7b8d03a8-cb48-4d91-9cb1-2555f7c38bbf／268tokens，无命中d507360d-ad73-404f-ad6a-90e4bbbd8a2f／0tokens，succeeded／evaluation passed且匹配发布图。固定回复严格“知识库暂无相关信息，请联系人工客服并提供订单号。”，保护11／只读UI6通过。
