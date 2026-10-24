@@ -219,3 +219,7 @@
 | 106 | 空白Chatflow显式准备售后资料问答/无命中/订单提取失败/合成订单查询分支草稿 | 定向完整图/三类固定回复/提取成功保护/资料来源/既有源拒绝/只读及静态编译；隔离实际界面预览→主动采用→保存确认→构建下载和草稿失效，原16保持，日志后push | codex | done | commit6b2619b；新19/相关35后端、隔离实际界面8及完整预览→主动采用→保存确认→构建下载/原生图核对、构建截图通过。17节点/16连接、检索非空与提取成功保护、精确固定回复和模拟标记；只复用原模型/库/声明，不覆盖已有源。0.279部署health/主包/面板200及249文件匹配，原16对象密文主Key/旧回执unknown保持，真实模型/Dify0；manual固定范围模板，不是模型纯生成或真实业务验收 |
 
 | 107 | 从已有原生订单模拟模板载入合成表及原输入来源，支持继续修改并保留手改代码 | `.venv\Scripts\python.exe -m pytest backend/tests/test_mock_order_read.py backend/tests/test_mock_order.py backend/tests/test_after_sales_starter.py -q`、`npm --prefix frontend run build`及隔离UI载入编辑保存构建/旧历史保护，原16保持，日志后push | codex | done | commitfaba3d1；新20/相关73后端、隔离实际界面9和刷新载入→修改→保存确认→构建下载通过；仅选中代码配置变化，旧成果文件/历史及其它分支保持。匹配v1当前代码/声明才载入，手改/重复键/表达式拒绝，有界AST不求值不执行，迟到读不覆盖编辑。0.280部署health/主包/面板200及249文件匹配，原16对象密文主Key/旧回执unknown保持，真实模型/Dify0；不是通用Python解析或真实业务验收 |
+
+| 108 | 历史单轮输入显式预览并载入当前自由试跑草稿，避免修改后手工复制或沿用旧会话/样例 | `.venv\Scripts\python.exe -m pytest backend/tests/test_saved_run_input.py -q`及前端构建/隔离UI；只读、数字无损、来源/上下文/旧修订拒绝，原16保持，日志后push | codex | done | commitcb26626；新22/相关41、UI6、构建截图及0.281部署通过，输入文字无损/来源上下文拒绝/迟到失效和旧选择清除；原16全部对象密文主Key/旧回执unknown保持，真实模型/Dify0；不代表实际重跑验收 |
+
+| 109 | 将已选择的两次试跑对照导出为绑定观察快照的说明，供修改交付核对 | `.venv\Scripts\python.exe -m pytest backend/tests/test_run_comparison_report.py -q`及前端构建/隔离下载核对；输入/输出需脱敏仍不回显，变化409，原16保持，日志后push | codex | pending | 沿用105只读对照，导出不重跑、不评分、不扩大费用或资源范围；解决现有对照只能临时查看的交付缺口 |
