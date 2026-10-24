@@ -149,3 +149,5 @@ export function LazyMappingCopiesPanel(props:ComponentProps<typeof MappingHistor
 
 const LinearStarter=lazy(()=>import('./LinearPlanStarter'));
 export function LazyLinearPlanStarter(props:ComponentProps<typeof LinearStarter>){return ['workflow','advanced-chat'].includes(props.appType)?boundary('linear-starter','基础线性流程草稿',<LinearStarter {...props}/>):null}
+const AfterSalesStarter=lazy(()=>import('./AfterSalesStarter'));
+export function LazyAfterSalesStarter(props:ComponentProps<typeof AfterSalesStarter>){return props.appType==='advanced-chat'?boundary('after-sales-starter','售后分支草稿',<AfterSalesStarter {...props}/>):null}

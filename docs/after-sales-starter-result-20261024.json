@@ -1,0 +1,76 @@
+{
+  "state": "passed",
+  "runtime": {
+    "version": "0.279.0",
+    "mode": "snapshot",
+    "build_id": "0.279.0-e976b14f0c4762b73311",
+    "content_sha256": "e976b14f0c4762b733119faf1065870b739b6a135a396bd764673437e1b9e8cd",
+    "file_count": 249,
+    "task_data_inside_snapshot": false,
+    "note": "后端、模型契约及前端资源来自启动时固定快照；任务数据与凭据独立使用原目录。Python依赖环境仍共用，不是完整依赖隔离。"
+  },
+  "new_backend_tests": 19,
+  "related_backend_tests": 35,
+  "targeted_tests": [
+    "test_after_sales_starter.py",
+    "test_extracted_mock_order.py",
+    "test_question_classifier.py::test_classifier_compiles_native_model_classes_handles_and_outputs",
+    "test_parameter_extractor.py::test_text_extraction_compiles_with_explicit_failure_gate"
+  ],
+  "ui": {
+    "state": "passed",
+    "checks": [
+      "empty Chatflow offers opt-in scoped starter and does not prepare automatically",
+      "wrong-type preview response cannot be adopted or saved",
+      "full preview stays readonly and shows future model-cost and mock limitations",
+      "editing chosen reply invalidates full preview and acknowledgment",
+      "explicit adoption fills only unsaved editor with all branches and exact fixed reply",
+      "saving full plan records manual source, invalidates confirmation, and blocks replacement",
+      "same UI confirms saved configuration then builds and downloads native Chatflow DSL",
+      "refresh preserves saved full graph without external actions or automatic regeneration"
+    ],
+    "browser_errors": [],
+    "local_api_writes": [
+      "/api/tasks/d4b1299b-ecdc-4952-b28a-769e68768f0d/after-sales-plan-preview",
+      "/api/tasks/d4b1299b-ecdc-4952-b28a-769e68768f0d/after-sales-plan-preview",
+      "/api/tasks/d4b1299b-ecdc-4952-b28a-769e68768f0d/after-sales-plan-preview",
+      "/api/tasks/d4b1299b-ecdc-4952-b28a-769e68768f0d/plan",
+      "/api/tasks/d4b1299b-ecdc-4952-b28a-769e68768f0d",
+      "/api/tasks/d4b1299b-ecdc-4952-b28a-769e68768f0d/confirm",
+      "/api/tasks/d4b1299b-ecdc-4952-b28a-769e68768f0d/build"
+    ],
+    "physical_model_dify_http": 0,
+    "synthetic_task": true,
+    "native_download_checked_by_python": true,
+    "actual_platform_acceptance": false
+  },
+  "typescript_frontend_build_passed": true,
+  "input_fields_and_explicit_adoption_screenshots_reviewed": true,
+  "chatflow_only_existing_sources_never_overwritten": true,
+  "node_count": 17,
+  "edge_count": 16,
+  "intent_clarification_faq_hit_no_hit_order_extraction_success_failure_paths_static_checked": true,
+  "retrieval_nonempty_guard_uses_actual_boolean_not_string": true,
+  "only_success_guarded_extracted_order_string_reaches_mock_code": true,
+  "selected_model_dataset_ids_and_parameters_reused_without_new_resources": true,
+  "original_requirements_configuration_and_type_kept_in_isolated_ui": true,
+  "native_download_mode_guards_fixed_replies_mock_markers_checked": true,
+  "preview_no_writes_decryption_code_execution_or_model_calls": true,
+  "collector_code_executed_only_in_trusted_local_unit_test": true,
+  "preview_inputs_nonce_type_hash_and_revision_bound": true,
+  "source_matches_all_runtime_files": true,
+  "health_main_and_lazy_panel_asset_http": 200,
+  "all16_production_objects_ciphertexts_master_key_old_receipts_kept": true,
+  "original95_unknown_and_all_reserved_scopes_kept": true,
+  "temporary_ui_store_removed": true,
+  "actual_dify_reads_login_publish_keys_runs_and_model_added": 0,
+  "actual_platform_or_business_acceptance": false,
+  "limitations": [
+    "Opt-in fixed-scope manual template for an empty Chatflow, not model-generated semantic planning or general requirement coverage.",
+    "Actual intent classification, extraction, retrieval relevance, grounded answer quality and Dify Sandbox execution are unverified.",
+    "Future native runs can call selected models and retrieval services and require original scope/budget gates.",
+    "Technical failures may still terminate; not all exceptions automatically transfer to a human.",
+    "Mock order data remain synthetic; dependency node binding and real service handoff still need user review.",
+    "No existing task migration, automatic import/publication/Key/run, or full business acceptance."
+  ]
+}

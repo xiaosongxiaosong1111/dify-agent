@@ -1,5 +1,12 @@
 # Initial API contract
 
+## 0.279：空白Chatflow售后分支草稿
+
+POST /api/tasks/{id}/after-sales-plan-preview：严格revision、UUID request_nonce、source_text、dependency、records_text、no_hit_reply、missing_order_reply、clarify_reply、acknowledge_scope=true，无额外/重复键；source_text最多2MB且须空白，合成表最多20KB，固定回复各1—500字，不支持模板表达式。仅advanced-chat，已有计划/来源/成果/App或非空编辑拒绝，不换类型；须先保存模型/知识库ID及所选模拟声明，忙或旧修订拒绝。
+
+返回task_id/revision/app_type/nonce、input_sha256（六输入字段按键排序、UTF8 JSON紧凑编码）、plan_text/plan_sha256、node_count=17、verification=local_after_sales_template_preview、note/warnings及task_changed/model_called/network_requested/code_executed/platform_checked/business_verified均false。仅静态编译完整17节点/16连接，复用订单模板校验，预览无写库/解密/模型/代码执行/Dify。前端核对摘要与当前作用域，主动采用仅填编辑器，后续原plan/confirm/build流程；来源manual，不自动接受其它需求覆盖或执行授权。
+
+
 ## 0.278：保存运行结果对照
 
 GET /api/tasks/{id}/run-comparison?revision=当前整数&before_run_id=左记录&after_run_id=右记录：只读本任务两条唯一普通单轮记录，同ID422、外任务/非普通记录/重复归属404、旧修订409，多轮/复用会话/文件/缺类型旧记录或不同类型422。响应schema_version=1，绑定任务/修订/两记录ID及snapshot_token，records为安全来源元数据，conditions_same各字段为true/false/null（缺依据），sections固定input/expectation/output，comparison为same/changed/missing/unavailable；before/after的state为saved/missing/unavailable，text保留JSON文字，避免大整数前端损失。单字段16000字节，已识别敏感字段/模式、超限或非法JSON不比较。
