@@ -1,0 +1,53 @@
+{
+  "state": "interrupted_after_successful_intake_before_next_ui_stage",
+  "original_receipt_state_kept": "request_dispatched",
+  "original_receipt_sha256": "a391a8651054a76f51a68641fe5f35f1a4a054a7a538c1cffe16920f3a5f6ecd",
+  "observations": [
+    "execution session50167 no longer available after tool environment transition",
+    "owned isolated server connection refused and no owned process remained",
+    "production backend also unavailable; start.ps1 restored same runtime",
+    "temporary task persisted at revision3 with both confirmations false and no planning operations",
+    "exactly one transport dispatch recorded and one settled model budget entry",
+    "first actual intake has9 complete source-checked topics and root content review12 checks",
+    "root gate file exists; no evidence server read it or any second dispatch occurred"
+  ],
+  "cause_proven": false,
+  "actual_model_http": 1,
+  "second_model_http_recorded": 0,
+  "dify_http": 0,
+  "all14_source_objects_credentials_master_key_and_old76_files_kept": true,
+  "forensic_task_and_usage_captured_before_owned_cleanup": true,
+  "temporary_data_removed": true,
+  "model_or_ui_replayed": false,
+  "production_runtime_restored": "0.266.0-80e68e15c4f9cb2cd3e2",
+  "first_intake_passed": true,
+  "complete_two_stage_ui_chain_passed": false,
+  "usage": {
+    "prompt_tokens": 8621,
+    "completion_tokens": 1713,
+    "total_tokens": 10334,
+    "prompt_cache_hit_tokens": 256,
+    "prompt_cache_miss_tokens": 8365,
+    "prompt_tokens_details": {
+      "cached_tokens": 256
+    }
+  },
+  "configuration_estimate_usd": "0.004566636",
+  "known_actual_model_http_after": 14,
+  "conservative_allocated_after": 18,
+  "conservative_limit": 18,
+  "known_estimate_usd": "0.064336704",
+  "retained_reservations_usd": "0.20",
+  "known_plus_retained_estimate_usd": "0.264336704",
+  "invoice_verified": false,
+  "unused_second_phase_reservation_kept_usd": "0.05",
+  "approval": "direct_user_reply:call_a0baedc7b59148ccbfe02e2f5795ae0a/question0",
+  "frozen_commit": "5350a1b",
+  "plan_sha256": "02f9ef3f60ee919042b9e52928b0604caf8a68f3488b3ca96f6297fc6f6a9a7f",
+  "manifest_sha256": "eb36340c5f9074bd87dbbbe988f4e1c7cb081b3cbea2a7734808f1bb66da8510",
+  "not_claimed": [
+    "completed continuous two-stage model UI",
+    "any new Dify operation",
+    "final business acceptance"
+  ]
+}

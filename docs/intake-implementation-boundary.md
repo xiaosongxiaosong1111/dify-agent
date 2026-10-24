@@ -13,4 +13,4 @@
 .venv\Scripts\python.exe work/intake-boundary266-check.py
 ```
 
-测试使用专用空FLOWCRAFT_DATA_DIR和未存在basetemp。第76项已停止、不重放，其第二阶段0.05USD／一槽预留保留；模型保守16/16已满，新的实际核对需独立范围批准。[安全结果](intake-implementation-boundary-result-20261024.json)。
+测试使用专用空FLOWCRAFT_DATA_DIR和未存在basetemp。[本机安全结果](intake-implementation-boundary-result-20261024.json)。随后第79项新范围直接批准后，首轮实际访谈九主题和根代理12项内容核对通过，未再索要已有技术规则，精确回复／原规则／资源条件保持。这是当前公开合成单例的实际改善，不是一般语义保证；随后验证进程中断，第二模型未调用、完整连续链未完成。原回执及失败／未用预留保持，保守18/18，详见[实际结果](continuous-model266-result-20261024.json)。
