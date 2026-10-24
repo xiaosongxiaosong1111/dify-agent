@@ -14,6 +14,9 @@ def test_workflow_planner_gets_only_the_existing_local_required_text_guarantee(c
     plan['nodes'][0]['config']['variables'].append({'variable':'note','type':kind,'required':False})
     async def model(provider,key,messages,**kwargs):
         context=json.loads(messages[1]['content']);seen.append(context)
+        assert '检索事实来源边界' in messages[0]['content']
+        assert '即使它们在requirements.rules中' in messages[0]['content']
+        assert '用户明确允许独立静态事实来源时按其范围处理' in messages[0]['content']
         gate=context['sierra_runtime_entry']
         assert gate['scope']=='sierra_manual_workflow_run' and gate['based_on']=='final_artifact_start_variables'
         assert gate['required_text_types']==['text-input','paragraph'] and gate['reject_blank_before_dispatch'] is True
@@ -58,6 +61,7 @@ def test_new_entry_context_does_not_answer_or_remove_real_missing_business_decis
     planning_provider(client);task=approved(client);before=copy.deepcopy(task);calls=[]
     async def model(provider,key,messages,**kwargs):
         calls.append(messages)
+        assert '冲突则返回needs_decision' in messages[0]['content']
         return json.dumps({'error':'未指定哪套退款规则','needs_decision':['适用哪个退款政策版本？']}),{'prompt_tokens':100,'completion_tokens':30}
     monkeypatch.setattr(main,'call_model',model)
     r=client.post(f"/api/tasks/{task['id']}/plan/generate",json={'revision':task['revision']})
@@ -73,6 +77,7 @@ def test_workflow_entry_guarantee_is_not_exported_as_agent_platform_capability(c
     async def model(provider,key,messages,**kwargs):
         context=json.loads(messages[1]['content']);calls.append(context)
         assert context['sierra_runtime_entry'] is None
+        assert '检索事实来源边界' not in messages[0]['content']
         return json.dumps(task['agent_plan']),{'prompt_tokens':100,'completion_tokens':30}
     monkeypatch.setattr(main,'call_model',model)
     r=client.post(f"/api/tasks/{task['id']}/plan/generate",json={'revision':task['revision']})

@@ -1,0 +1,28 @@
+{
+  "state": "passed",
+  "runtime": {
+    "version": "0.267.0",
+    "mode": "snapshot",
+    "build_id": "0.267.0-6a994909219eb1f54944",
+    "content_sha256": "6a994909219eb1f54944caad941c45875f17a971b6780c97254b6c5dc1015496",
+    "file_count": 241,
+    "task_data_inside_snapshot": false,
+    "note": "后端、模型契约及前端资源来自启动时固定快照；任务数据与凭据独立使用原目录。Python依赖环境仍共用，不是完整依赖隔离。"
+  },
+  "all14_tasks_and_all_other_objects_unchanged": true,
+  "all_credentials_and_encryption_key_unchanged": true,
+  "all_consumed_receipts_and_ledgers_kept": true,
+  "source_matches_snapshot": true,
+  "changed_runtime_files": [
+    "backend/app/main.py",
+    "docs/workflow-plan-contract.md"
+  ],
+  "model_and_dify_requests_added": 0,
+  "targeted_tests_passed": 24,
+  "targeted_tests_deselected": 41,
+  "full_suite_run": false,
+  "old81_candidate_kept_unmodified": true,
+  "unconfirmed_build_still_rejected": true,
+  "actual_semantic_improvement_verified": false,
+  "no_keyword_semantic_rewriter_added": true
+}
