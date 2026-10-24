@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（2026-10-24，0.269／91平台通过，92格式预览已部署，93登录服务故障诊断待做）
+# HANDOFF — Sierra（2026-10-24，0.270／91平台通过，92格式预览和93服务故障诊断已部署）
 
 ## 1. 当前状态
 
-- 工作目录 E:\workSpace\dify-agent，main，远端 https://github.com/xiaosongxiaosong1111/dify-agent.git。运行0.269.0-eb8457978df95b61fc2f／health200，Dify1.17.1。第91证据6683558及队列7d88a0b已push；第92产品/证据da7bda3已提交，本次队列交接后push。未跑全量。
+- 工作目录 E:\workSpace\dify-agent，main，远端 https://github.com/xiaosongxiaosong1111/dify-agent.git。运行0.270.0-293ea298357356cf04db／health200，Dify1.17.1。第91证据6683558及第92产品da7bda3/队列c9cadaf已push；第93产品/证据b1384d5已提交，本次队列交接后push。未跑全量。
 - 共15任务。Sierra布尔格式修正图验收 e764003b-00d4-404c-8b94-e22c29201823／r5／run_completed，新App0ea01eb4-4ed1-4c70-bdac-db17a9cc4a97，发布图50d1bb9c-df9d-4f19-9929-ac4727d229e1，正式命中/无命中均passed，策略2/2、10分钟、USD阈值null。其他14任务未改。
 - 专用连接202bfb35-2f92-47c1-bc1b-eac32082181d明确重连验证原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17成功，登录暂停仅由这次获准操作清除；当前Key配新App，旧App0ec579c4-fae3-4f7e-80d3-f8508846c91c的旧Key加密归档。新旧配对只在内存解密比较，未输出密钥，也未改origin_verified元数据。
 
@@ -16,9 +16,12 @@
 
 ## 3. 下一步
 
-1. 第91/92均done，不再运行任何已消费live包。首个pending为93：第88真实HTTP502被标成login_rejected，不能区分服务故障与明确凭据拒绝。只修改未来服务错误诊断，保留登录失败后暂停/单次派发/不重试/原空间匹配与密文不变；不改旧88回执，不重新登录。先按错误码定位console登录适配器及相关调用/显示，再定向502/503、401/403和隐私边界核对，必要部署。
-2. 第92新增retained_boolean_preview.py及BooleanFormatPreview.tsx，GET只读预览/POST只读compose来源重核，当前修订仅一处true/false字符串且其余完整图有效；明确载入未保存草稿，后续保存仍manual并重新确认。60相关定向及另1Chatflow、构建、实际84 API回放、隔离UI12、真实本机API完整界面6、部署只读UI6通过。work/boolean-preview269下证据、临时Store已清理；docs/retained-boolean-format-preview.md及result公开。原15任务/全部对象密文主Key/91及旧回执保持，运行源码匹配快照，模型/Dify新增0。
-3. 简单工作既有Claude网关上次超时未返回，不为形式重试，也不冒充子审查完成。重要成果commit/push原main，不force，不提交work/凭据/供应商原始响应。实际Codex额度失败立即停止并尽力整份更新本文件，不重试/换账号/购买。本次尚无实际Codex额度失败。
+1. 第91/92/93均done，当前无pending，剩余为历史已消费的blocked项，不重放。实际Codex额度尚未报不足；不是项目全部验收完成。现有模型保守20/20、Dify12/资源各6范围均消费完；完整新的实际模型连续链或新增平台请求须先准备具体可审查独立方案并取得直接新范围，不能用常规委托扩大旧边界，也不以无意义调用耗额度。
+2. 可继续开发的主线是完整公开售后交付，仍欠同次实际访谈/规划到Dify连续浏览器链、一般语义及异常路径、自然过期和25场景业务签收。新增本机工作应由实际检查暴露的问题进入BACKLOG首个pending，不猜完成百分比，不顺带重构/全量测试。
+3. 第92新增retained_boolean_preview.py及BooleanFormatPreview.tsx，GET只读预览/POST只读compose来源重核，当前修订仅一处true/false字符串且其余完整图有效；明确载入未保存草稿，后续保存仍manual并重新确认。60相关定向及另1Chatflow、构建、实际84 API回放、隔离UI12、真实本机API完整界面6、部署只读UI6通过。work/boolean-preview269证据、临时Store清理；docs/retained-boolean-format-preview.md及result公开，da7bda3。原失败不改，不当模型纯生成成功。
+4. 第93针对88实际502诊断误导：dify.py的未来登录POST HTTP500–599记login_service_error，console_failures.py固定服务故障/非密码判定文案；401/403及明确拒绝保持login_rejected。78定向/只读UI6通过，自动失败后第二请求不再登录、明确重连仅一次/重复确认409、原空间和全部密文保持；未改旧88/重放/实际登录。仅dify.py、console_failures.py、main.py部署变化，前端保持，work/login-service270与docs/login-service-diagnostics.md/result，b1384d5。
+5. 0.270部署与之后核对全部15任务/对象/密文/主Key、91成功/88及其他旧失败和92证据相等，运行源码匹配快照。真实模型/Dify/登录新增0。简单工作既有Claude网关上次超时未返回，不为形式重试，也不冒充子审查完成。重要成果commit/push原main，不force，不提交work/凭据/供应商原始响应。
+6. 实际Codex额度失败立即停止并尽力整份更新本文件，不重试/换账号/购买。本次无实际Codex额度失败；不要把现有外部次数边界耗尽误称Codex额度耗尽。
 
 ## 4. 外部边界与账本
 
