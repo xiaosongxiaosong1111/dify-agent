@@ -1,5 +1,12 @@
 # Initial API contract
 
+## 0.280：读取已有订单模拟表
+
+POST /api/tasks/{id}/mock-order-template/read：严格revision、plan_text（最多2MB）、node_id、dependency、UUID request_nonce，无额外/重复键。只读当前编辑原稿，须当前修订空闲；根代码须与v1模板及输入输出声明匹配，仅允许代码CRLF/LF差异。最多64KB代码/2000 AST节点，只读唯一orders字典中的文字常量；不求值、不执行、不推断手改逻辑，复用原prepare完整图/依赖/绑定/提取保护及表限制，后台处理后重核修订。
+
+响应绑定task_id/revision/nonce/node/dependency、input_selector、records_text/record_count、source_text_sha256/records_text_sha256，verification=read_exact_mock_order_template_v1，task_changed/network_requested/code_executed/platform_checked/business_verified均false。字段源或作用域变化取消迟到响应，前端明确点击后仅替换本页表单并清旧确认；不写任务预算、不解密或请求模型/Dify，后续编辑仍须原预览/采用/保存确认。匹配只说明当前内容结构，不证明历史来源或业务效果。
+
+
 ## 0.279：空白Chatflow售后分支草稿
 
 POST /api/tasks/{id}/after-sales-plan-preview：严格revision、UUID request_nonce、source_text、dependency、records_text、no_hit_reply、missing_order_reply、clarify_reply、acknowledge_scope=true，无额外/重复键；source_text最多2MB且须空白，合成表最多20KB，固定回复各1—500字，不支持模板表达式。仅advanced-chat，已有计划/来源/成果/App或非空编辑拒绝，不换类型；须先保存模型/知识库ID及所选模拟声明，忙或旧修订拒绝。

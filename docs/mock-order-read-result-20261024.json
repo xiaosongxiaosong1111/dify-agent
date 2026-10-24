@@ -1,0 +1,79 @@
+{
+  "state": "passed",
+  "runtime": {
+    "version": "0.280.0",
+    "mode": "snapshot",
+    "build_id": "0.280.0-75a2eda01d7c74f7c20b",
+    "content_sha256": "75a2eda01d7c74f7c20b7a66ec14852cad054dd52e43109d2fddb4f6479b6340",
+    "file_count": 249,
+    "task_data_inside_snapshot": false,
+    "note": "后端、模型契约及前端资源来自启动时固定快照；任务数据与凭据独立使用原目录。Python依赖环境仍共用，不是完整依赖隔离。"
+  },
+  "new_backend_tests": 20,
+  "related_backend_tests": 73,
+  "targeted_tests": [
+    "test_mock_order_read.py",
+    "test_mock_order.py",
+    "test_after_sales_starter.py"
+  ],
+  "ui": {
+    "state": "passed",
+    "checks": [
+      "refreshed saved template remains in plan; no automatic table loading or code execution",
+      "wrong-node response rejected without replacing local fields or saved task",
+      "exact existing table and extracted order source fill only local form; confirmation resets",
+      "editing source while reading cancels stale form replacement",
+      "manually changed logic cannot be treated as original template; editor and saved plan preserved",
+      "modified records preview and adoption change only unsaved selected config, keeping all other branches",
+      "explicit save creates new revision, preserves old artifact history, and invalidates confirmation",
+      "same UI confirms configuration and downloads rebuilt native Chatflow with changed mock table",
+      "refresh can read updated canonical table again; no external action dispatched"
+    ],
+    "browser_errors": [],
+    "local_api_posts": [
+      "/api/tasks/a4a476be-b4b4-4aab-b72c-dad0af8cbceb/mock-order-template/read",
+      "/api/tasks/a4a476be-b4b4-4aab-b72c-dad0af8cbceb/mock-order-template/read",
+      "/api/tasks/a4a476be-b4b4-4aab-b72c-dad0af8cbceb/mock-order-template/read",
+      "/api/tasks/a4a476be-b4b4-4aab-b72c-dad0af8cbceb/mock-order-template/read",
+      "/api/tasks/a4a476be-b4b4-4aab-b72c-dad0af8cbceb/mock-order-template/read",
+      "/api/tasks/a4a476be-b4b4-4aab-b72c-dad0af8cbceb/mock-order-template",
+      "/api/tasks/a4a476be-b4b4-4aab-b72c-dad0af8cbceb/plan",
+      "/api/tasks/a4a476be-b4b4-4aab-b72c-dad0af8cbceb",
+      "/api/tasks/a4a476be-b4b4-4aab-b72c-dad0af8cbceb/confirm",
+      "/api/tasks/a4a476be-b4b4-4aab-b72c-dad0af8cbceb/build",
+      "/api/tasks/a4a476be-b4b4-4aab-b72c-dad0af8cbceb/mock-order-template/read"
+    ],
+    "physical_model_dify_http": 0,
+    "synthetic_task": true,
+    "native_download_and_old_artifact_checked_by_python": true,
+    "actual_platform_acceptance": false
+  },
+  "typescript_frontend_build_passed": true,
+  "loaded_table_screenshot_reviewed": true,
+  "workflow_chatflow_start_and_extracted_sources_recovered": true,
+  "exact_v1_code_and_declarations_required_not_historical_provenance_claim": true,
+  "bounded_ast_constant_strings_only_no_eval_literal_eval_or_exec": true,
+  "manual_logic_comments_or_declarations_not_silently_reinterpreted": true,
+  "duplicate_keys_expressions_unpacking_and_nontext_literals_refused": true,
+  "unicode_500_codepoints_escaped_text_and_crlf_code_recovered_losslessly": true,
+  "complete_plan_extraction_guard_dependency_and_binding_limits_reused": true,
+  "read_route_no_writes_decryption_code_execution_or_external_requests": true,
+  "revision_rechecked_after_background_parsing": true,
+  "response_source_hash_nonce_node_and_returned_records_hash_bound": true,
+  "late_read_never_overwrites_new_editor_source": true,
+  "isolated_edit_roundtrip_only_selected_config_changed_old_artifact_file_and_version_kept": true,
+  "source_matches_all_runtime_files": true,
+  "health_main_and_lazy_panel_asset_http": 200,
+  "all16_production_objects_ciphertexts_master_key_old_receipts_kept": true,
+  "original95_unknown_and_all_reserved_scopes_kept": true,
+  "temporary_ui_store_removed": true,
+  "actual_dify_reads_login_publish_keys_runs_and_model_added": 0,
+  "actual_platform_or_business_acceptance": false,
+  "limitations": [
+    "Current exact-v1 content match only, not proof of origin or historical absence of edits.",
+    "Manual logic/comment/declaration changes are conservatively refused; no general Python-to-table importer.",
+    "Only existing root code templates and previously declared dependency/source; no arbitrary code or container extraction.",
+    "Explicit read replaces current local form fields, not the graph; a new preview, adoption, save and confirmation remain necessary.",
+    "Synthetic order data and static native rebuild, not real order service or Dify Sandbox/business acceptance."
+  ]
+}

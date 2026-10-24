@@ -1,5 +1,6 @@
 """Explicit single-node simulated order lookup proposal; never run or save it."""
 import copy
+import ast
 import hashlib
 import json
 import re
@@ -86,6 +87,47 @@ def prepare(task, text, node_id, selector, records_text, dependency):
         'task_changed': False, 'network_requested': False, 'code_executed': False, 'platform_checked': False, 'business_verified': False}
 
 
+def read_existing(task, text, node_id, dependency):
+    """Read only literal data from our exact v1 code; never eval user Python."""
+    inspect_text(text); plan = parse(text)
+    target = next((node for node in plan['nodes'] if node['id'] == node_id), None)
+    if not target or target.get('type') != 'code':
+        raise ValueError('请选择已有根代码节点；不从其它节点或容器中猜测订单表。')
+    cfg = target.get('config') or {}; code = cfg.get('code')
+    if cfg.get('code_language') != 'python3' or not isinstance(code,str) or len(code.encode()) > 64000:
+        raise ValueError('所选节点不是可识别的有界Python3订单模板，原代码保持。')
+    try:
+        tree = ast.parse(code)
+        if sum(1 for _ in ast.walk(tree)) > 2000:raise ValueError()
+        functions = [n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='main']
+        if len(functions)!=1:raise ValueError()
+        tables = [n.value for n in functions[0].body if isinstance(n,ast.Assign)
+            and len(n.targets)==1 and isinstance(n.targets[0],ast.Name) and n.targets[0].id=='orders']
+        if len(tables)!=1 or not isinstance(tables[0],ast.Dict) or not 1<=len(tables[0].keys)<=10:raise ValueError()
+        records = {}
+        for key,value in zip(tables[0].keys,tables[0].values):
+            if not isinstance(key,ast.Constant) or type(key.value) is not str or not isinstance(value,ast.Constant) or type(value.value) is not str or key.value in records:raise ValueError()
+            records[key.value]=value.value
+    except (ValueError,SyntaxError,RecursionError,MemoryError):
+        raise ValueError('无法确认原生模板中的唯一文字合成表；不求值表达式、不选重复值，原代码保持。') from None
+    if code.replace('\r\n','\n') != template(records):
+        raise ValueError('代码已人工修改或不是Sierra原生订单模板；请保留手改，不能按原模板载入或推断行为。')
+    bindings = cfg.get('variables')
+    if not isinstance(bindings,list) or len(bindings)!=1 or not isinstance(bindings[0],dict):
+        raise ValueError('订单模板输入声明已变化，不能猜测原订单号来源。')
+    selector = bindings[0].get('value_selector')
+    expected_outputs = {'result':{'type':'string','children':None},'status':{'type':'string','children':None}}
+    if bindings != [{'variable':'order_id','value_selector':selector}] or cfg.get('outputs') != expected_outputs:
+        raise ValueError('订单模板输入或输出声明已人工修改，不能按原模板载入。')
+    records_text = json.dumps(records,ensure_ascii=False,indent=2)
+    # Reuse the existing complete-plan, declared-source, guard and record limits.
+    prepare(task,text,node_id,selector,records_text,dependency)
+    return {'node_id':node_id,'dependency':dependency,'input_selector':selector,'records_text':records_text,
+        'record_count':len(records),'records_text_sha256':hashlib.sha256(records_text.encode()).hexdigest(),
+        'source_text_sha256':hashlib.sha256(text.encode()).hexdigest(),'verification':'read_exact_mock_order_template_v1',
+        'task_changed':False,'network_requested':False,'code_executed':False,'platform_checked':False,'business_verified':False}
+
+
 def register(h):
     import asyncio
     from uuid import UUID
@@ -100,6 +142,13 @@ def register(h):
         records_text: StrictStr = Field(max_length=20000)
         dependency: StrictStr = Field(min_length=1, max_length=2000)
         acknowledge_mock: StrictBool
+        request_nonce: UUID
+    class ReadPayload(BaseModel):
+        model_config = ConfigDict(extra='forbid')
+        revision: StrictInt = Field(ge=1)
+        plan_text: StrictStr = Field(max_length=2000000)
+        node_id: StrictStr = Field(min_length=1,max_length=256)
+        dependency: StrictStr = Field(min_length=1,max_length=2000)
         request_nonce: UUID
     router = APIRouter(route_class=DraftRoute)
     @router.post('/api/tasks/{item_id}/mock-order-template')
@@ -125,4 +174,24 @@ def register(h):
         with h.store.lock:
             task = h.get_task(item_id); h.require_revision(task, payload.revision); h.require_idle(task)
         return {**value, 'task_id': item_id, 'revision': payload.revision, 'request_nonce': str(payload.request_nonce)}
+    @router.post('/api/tasks/{item_id}/mock-order-template/read')
+    async def read(item_id:str,payload:ReadPayload,request:Request):
+        try:
+            raw=await request.body()
+            if len(raw)>4100000:raise ValueError()
+            json.loads(raw,object_pairs_hook=unique,parse_constant=lambda _:(_ for _ in ()).throw(ValueError()))
+        except (ValueError,TypeError,UnicodeError,RecursionError):
+            raise HTTPException(422,'请求须为有界且无重复键的完整JSON，不回显原文。') from None
+        with h.store.lock:
+            task=h.get_task(item_id);h.require_revision(task,payload.revision);h.require_idle(task)
+            context=copy.deepcopy(task)
+        try:
+            value=await asyncio.to_thread(read_existing,context,payload.plan_text,payload.node_id,payload.dependency)
+        except ValueError as exc:
+            raise HTTPException(422,str(exc)) from None
+        except (TypeError,KeyError,IndexError,RecursionError,OverflowError):
+            raise HTTPException(422,'无法完整识别当前原生模板及绑定；原计划保持，不载入部分内容。') from None
+        with h.store.lock:
+            task=h.get_task(item_id);h.require_revision(task,payload.revision);h.require_idle(task)
+        return {**value,'task_id':item_id,'revision':payload.revision,'request_nonce':str(payload.request_nonce)}
     h.app.include_router(router)
