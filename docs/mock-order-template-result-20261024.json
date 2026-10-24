@@ -1,0 +1,56 @@
+{
+  "state": "passed",
+  "runtime": {
+    "version": "0.273.0",
+    "mode": "snapshot",
+    "build_id": "0.273.0-454589462d47d64d6c93",
+    "content_sha256": "454589462d47d64d6c93bf495abbd9f9ff5402651fa9e777d454826cb2cd8a0b",
+    "file_count": 245,
+    "task_data_inside_snapshot": false,
+    "note": "后端、模型契约及前端资源来自启动时固定快照；任务数据与凭据独立使用原目录。Python依赖环境仍共用，不是完整依赖隔离。"
+  },
+  "new_backend_tests": 34,
+  "targeted_backend_tests_with_workflow_compiler": 60,
+  "isolated_ui": {
+    "state": "passed",
+    "checks": [
+      "preview requires explicit node, source, mock declaration, table and acceptance",
+      "actual preview API does not change task, confirmation or artifact",
+      "editing invalidates proposal; duplicate record ID refused without writes",
+      "mismatched nonce response cannot be adopted",
+      "changing full plan text removes prior proposal",
+      "explicit adoption changes unsaved editor only",
+      "normal manual save changes revision and invalidates old confirmation/artifact without rebuilding edges",
+      "static artifact download retains actual mock code and labels; no Dify run or import"
+    ],
+    "browser_errors": [],
+    "real_model_dify_http": 0,
+    "preview_code_executed": false
+  },
+  "typescript_frontend_build_passed": true,
+  "new_panel_screenshot_reviewed": true,
+  "reviewed_deterministic_template_executed_only_in_unit_tests": true,
+  "unit_test_statuses": [
+    "mock_found",
+    "mock_not_found",
+    "mock_missing_order_id"
+  ],
+  "all_returned_messages_marked_simulated_not_real_order": true,
+  "preview_api_readonly_no_code_execution_or_budget_entry_change": true,
+  "only_selected_code_config_changed_other_graph_content_kept": true,
+  "health_and_new_lazy_frontend_asset_http": 200,
+  "source_matches_runtime_snapshot": true,
+  "all16_production_objects_ciphertexts_master_key_consumed_receipts_kept": true,
+  "original95_unknown_and_all_held_reservations_kept": true,
+  "temporary_ui_stores_removed": true,
+  "new_real_model_dify_http": 0,
+  "not_real_order_service_or_Dify_sandbox_or_final_business_acceptance": true,
+  "limits": [
+    "only existing root code node in Workflow/Chatflow; no new nodes or Agent tools",
+    "only explicit start text input or entire Chatflow query; no natural-language order extraction",
+    "1-10 public synthetic order records with fixed text; exact case-sensitive lookup after trim",
+    "real input gate may reject missing required input before template dispatch",
+    "downstream incompatible outputs refuse proposal; no silent rewiring",
+    "all actual Dify resources, model calls and run authorization boundaries unchanged"
+  ]
+}

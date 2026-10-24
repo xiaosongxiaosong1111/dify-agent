@@ -47,6 +47,8 @@ function contains(plan:Plan|null,types:string[]){
  return plan?.nodes.some(node=>types.includes(node.type)||['iteration','loop'].includes(node.type)&&Array.isArray(node.config?.nodes)&&(node.config.nodes as Node[]).slice(0,12).some(child=>types.includes(child.type)));
 }
 function boundary(editor:string,label:string,child:ReactNode){return <EditorBoundary editor={editor} label={label}><Suspense fallback={<p className="hint" role="status" data-node-editor-loading={editor}>正在载入{label}，草稿保持...</p>}>{child}</Suspense></EditorBoundary>}
+const MockOrder=lazy(()=>import('./MockOrderTemplatePanel'));
+export function LazyMockOrderPanel(props:ComponentProps<typeof MockOrder>){return ['workflow','advanced-chat'].includes(props.appType)&&props.plan?.nodes.some(node=>node.type==='code')?boundary('mock-order','订单模拟模板',<MockOrder {...props}/>):null}
 export function LazyCodeTemplatePanel(props:Props&{appType:string}){return contains(props.plan,['code','template-transform'])?boundary('code','代码与模板编辑器',<CodeEditor {...props}/>):null}
 export function LazyConditionNodePanel(props:Props&{appType:string}){return contains(props.plan,['if-else'])?boundary('condition','条件编辑器',<ConditionEditor {...props}/>):null}
 export function LazyPromptNodePanel(props:Props&{scope?:string}){return contains(props.plan,['llm'])?boundary('prompt','提示词编辑器',<PromptEditor {...props}/>):null}

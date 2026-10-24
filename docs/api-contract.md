@@ -14,6 +14,14 @@ PATCH `/tasks/{id}` 的configuration可保存 `mock_dependency_bindings`（默�
 
 最多50项、每依赖一个位置；只接受上述三个字段。依赖/节点ID/待办须非空，分别最多2000/128/4000字；非法结构422且不写入。保存后原配置确认及成果失效。构建时dependency须精确对应当前mock_dependencies，node_id须对应本次编译后的实际节点；原生Agent仅接受agent.system_prompt。失效引用阻止新成果，未填写绑定的旧声明保持并附待补提示。DSL描述/Agent metadata及报告保留待办，检查不证明模拟实现或真实接入，没有可自行声明完成的字段。保留实际DSL路径会核对最终文件；缺当前待办说明时422，不写成果、不修改已确认文件/合并记录。
 
+## 订单模拟模板只读预览（0.273）
+
+POST `/tasks/{id}/mock-order-template`：`{revision,plan_text,node_id,input_selector,records_text,dependency,acknowledge_mock,request_nonce}`。revision为当前正整数，plan_text是保留精确原文的完整计划，input_selector是两个文字项，records_text是无重复订单号的合成JSON对象字符串，dependency须已明确保存到mock_dependencies，acknowledge_mock须true，request_nonce为新UUID。
+
+只接受Workflow/Chatflow已有根代码节点和开始文字字段（Chatflow可选sys.query）；订单表1—10项、编号1—64位字母/数字/横线/下划线、固定说明1—500字。严格拒绝未知字段、重复键、疑似明文凭据、未接受/未声明范围、旧修订或不兼容下游引用；不回显坏输入。
+
+返回完整plan_text、目标节点/依赖/selector、源原文/订单表原文/候选的SHA256、task_id/revision/request_nonce及verification=local_mock_order_template，only_selected_code_config_changed=true；task_changed/network_requested/code_executed/platform_checked/business_verified均false。建议不持久化，采用后须经既有计划保存/确认/构建接口，固定输出result与status；不是运行、接口接入或资源批准。
+
 ## Task
 
 Task object:

@@ -142,7 +142,7 @@
       "related_checks": [
         "backend/tests/test_api.py"
       ],
-      "known_gap": "模拟声明为自由文本，位置和接入待办不核验，不生成模拟接口；显式流程及 Agent 产物未统一附加模拟标记。手动配置无单独模拟同意字段，集中方案采纳有单独门禁。真实替换接入、关键业务样例和平台运行交付链仍待验收。 2026-10-24/0.271已补显式Workflow/Chatflow及Agent导出的模拟依赖说明和静态警告，见docs/mock-dependency-exports.md；仍缺可核验的位置绑定、逐依赖替换完成证据及完整实际业务验收，不能当AT-10全完成。 0.272已补逐项节点引用检查、配置待办及导出/报告保留，docs/mock-dependency-handoffs.md；仅证明引用存在，仍缺模拟行为、真实替换完成证据及完整实际验收。",
+      "known_gap": "模拟声明为自由文本，位置和接入待办不核验，不生成模拟接口；显式流程及 Agent 产物未统一附加模拟标记。手动配置无单独模拟同意字段，集中方案采纳有单独门禁。真实替换接入、关键业务样例和平台运行交付链仍待验收。 2026-10-24/0.271已补显式Workflow/Chatflow及Agent导出的模拟依赖说明和静态警告，见docs/mock-dependency-exports.md；仍缺可核验的位置绑定、逐依赖替换完成证据及完整实际业务验收，不能当AT-10全完成。 0.272已补逐项节点引用检查、配置待办及导出/报告保留，docs/mock-dependency-handoffs.md；仅证明引用存在，仍缺模拟行为、真实替换完成证据及完整实际验收。 0.273已补单个根代码节点的订单模拟模板/明确预览采纳，三类返回仅本机单元验证，docs/mock-order-template.md；不代表真实订单接口、Dify Sandbox或AT-10最终通过。",
       "final_acceptance_record": "docs/acceptance-at10-record.md"
     },
     {

@@ -82,7 +82,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.272.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.273.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -2279,3 +2279,6 @@ register_app_runtime_key_creation(sys.modules[__name__])
 
 from .planning_candidate_selection import register as register_planning_candidate_selection
 register_planning_candidate_selection(sys.modules[__name__])
+
+from .mock_order import register as register_mock_order
+register_mock_order(sys.modules[__name__])
