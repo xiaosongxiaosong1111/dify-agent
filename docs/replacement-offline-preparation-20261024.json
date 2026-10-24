@@ -1,0 +1,160 @@
+{
+  "state": "offline_preparation_passed_not_frozen_for_live",
+  "priority_decision": "2026-10-24 user asked to prioritize remaining product development; retain draft, defer final live freeze and authorization request",
+  "runtime": "0.270.0-293ea298357356cf04db",
+  "normal_mock_counts": {
+    "model": 3,
+    "login": 0,
+    "read": 30,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 4
+  },
+  "normal_ui_checks": [
+    "同一界面从空需求一次发送冻结公开描述，不用旧模型结果代替实际调用",
+    "first：同一界面两例输出及完整节点轨迹核对，命中1个LLM/无命中0个LLM，三份核心图匹配，下载实际交付说明",
+    "固定一条业务变更使原确认/成果失效，首次App和两次历史运行保留",
+    "固定变更按逐项人工复核明确声明，非新增模型访谈，不自动接受建议",
+    "重新生成被变更保护暂停，根代理核对后明确载入原候选并保存，未手改图或自动覆盖",
+    "changed：同一界面两例输出及完整节点轨迹核对，命中1个LLM/无命中0个LLM，三份核心图匹配，下载实际交付说明",
+    "修改版两例只归第二App，首次结果精确保留，累计4/4耗尽后禁止第五运行"
+  ],
+  "failure_stops": {
+    "fail_intake": {
+      "model_builder_and_mock_transport_invocations": 1,
+      "mock_counts": {
+        "model": 1,
+        "login": 0,
+        "read": 0,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "temporary_store_removed": true
+    },
+    "fail_first_plan": {
+      "model_builder_and_mock_transport_invocations": 2,
+      "mock_counts": {
+        "model": 2,
+        "login": 0,
+        "read": 0,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "temporary_store_removed": true
+    },
+    "fail_changed_plan": {
+      "model_builder_and_mock_transport_invocations": 3,
+      "mock_counts": {
+        "model": 3,
+        "login": 0,
+        "read": 15,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 2
+      },
+      "temporary_store_removed": true
+    },
+    "fail_publish": {
+      "model_builder_and_mock_transport_invocations": 2,
+      "mock_counts": {
+        "model": 2,
+        "login": 0,
+        "read": 4,
+        "import": 1,
+        "publish": 1,
+        "key": 0,
+        "run": 0
+      },
+      "temporary_store_removed": true
+    },
+    "fail_run": {
+      "model_builder_and_mock_transport_invocations": 2,
+      "mock_counts": {
+        "model": 2,
+        "login": 0,
+        "read": 9,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 1
+      },
+      "temporary_store_removed": true
+    },
+    "fail_trace": {
+      "model_builder_and_mock_transport_invocations": 2,
+      "mock_counts": {
+        "model": 2,
+        "login": 0,
+        "read": 10,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 1
+      },
+      "temporary_store_removed": true
+    },
+    "fail_browser": {
+      "model_builder_and_mock_transport_invocations": 0,
+      "mock_counts": {
+        "model": 0,
+        "login": 0,
+        "read": 0,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "temporary_store_removed": true
+    }
+  },
+  "protocol_preflight": {
+    "state": "passed",
+    "exact_server_sha256": "2df53f2dbd0dd3c330aa952be672a90b9abe0f055b7e84f80e79d5292959bb33",
+    "real_provider_builder_httpx_and_parser": true,
+    "model_mock_http": 3,
+    "real_dify_login_workspace_request_and_trace_to_fake_native_forward": true,
+    "dify_wire_mock_http": 7,
+    "fourth_refused_before_mock": true,
+    "real_http": 0,
+    "production_credentials_decrypted": false,
+    "all16_source_objects_ciphertexts_and_old_receipts_kept": true
+  },
+  "boundary_checks": [
+    "before-dispatch cap model",
+    "before-dispatch cap run",
+    "before-dispatch cap login",
+    "before-dispatch cap read",
+    "before-dispatch cap import",
+    "all known original App IDs and duplicate imports refused",
+    "trace reads bound to observed new App and run",
+    "no overwrite/repeated publish/key/other app/delete",
+    "old tasks/provider ciphers/unbound writes refused",
+    "all originals/receipts/master key protected",
+    "missing approval/stale hash/rejected or synthetic root gate refused",
+    "matching synthetic hashes without explicit zero-dispatch reassignment refused",
+    "actual live entry refuses before Store/credentials/network/receipt",
+    "optimized Python refused before all actions",
+    "reused target history and original unknown entries cannot be deleted/reconciled",
+    "new model scope .1311459 and fourth call refused before budget ledger reservation",
+    "retained unknown plus new model and Dify estimate stays inside original .17 envelope"
+  ],
+  "all16_production_objects_ciphertexts_master_key_old_receipts_kept": true,
+  "existing_empty_task_history_and_unknown_entry_kept": true,
+  "original95_zero_model_dify_http_and_unknown_reserve_preserved": true,
+  "real_external_http": 0,
+  "live_approval_absent": true,
+  "live_receipt_absent": true,
+  "not_real_model_semantic_platform_or_business_acceptance": true,
+  "draft_model_new_reserve_limit_usd": "0.1311459",
+  "retained95_unknown_usd": "0.0188541",
+  "draft_dify_estimate_usd": "0.02",
+  "combined_estimate_usd": "0.17",
+  "invoice_hard_cap": false,
+  "future_live_requires_new_frozen_pack_and_direct_reassignment": true
+}
