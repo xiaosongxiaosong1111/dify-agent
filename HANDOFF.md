@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main；原GitHub https://github.com/xiaosongxiaosong1111/dify-agent.git。生产0.266.0-80e68e15c4f9cb2cd3e2，health200，Dify1.17.1。77修复证据7ff001f、队列9ae34c0；78准备证据待本次提交，随后更新队列并push。未跑全量。
+- 项目E:\workSpace\dify-agent，main；原GitHub https://github.com/xiaosongxiaosong1111/dify-agent.git。生产0.266.0-80e68e15c4f9cb2cd3e2，health200，Dify1.17.1。77修复证据7ff001f、队列9ae34c0；78准备证据5350a1b；78 done／79 need-user，队列提交后push。未跑全量。
 - 生产仍14任务，最新5a37368d-3d6b-4708-829c-9e8dcedaf356／Sierra新需求图平台验收／r5，run_completed；App0ec579c4-fae3-4f7e-80d3-f8508846c91c、发布图a3df4f40-acd4-40a3-9b0d-dc023ac0ef8d，命中／无命中原生passed。原13任务保持。
 - 专用连接202bfb35-2f92-47c1-bc1b-eac32082181d，固定原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17。当前Key配最新App，旧改文案Key加密归档且已内存核对一致；所有其他旧密文及主Key保持。复用加密保存登录，不从聊天取密码，不输出／提交任何凭据。
 
@@ -21,7 +21,7 @@
 3. 拟同一浏览器／全新空需求临时任务：实际访谈一次→根代理八字段／九主题来源／精确文字与规则核对→界面确认需求／固定配置→实际规划一次→根代理完整图核对→界面确认配置／静态构建下载。不手改答案，不强制解除准入。Dify／生产任务／资源／运行写入0。
 4. 两道内容门禁绑定本次实际阶段文件原始SHA、decision和human_business_signoff=false；第一道服务在第二HTTP前核验，第二道界面在构建前核验。第二用户上下文来自当前核对草案和固定配置，无旧图／材料；第二系统提示固定，完整摘要发送时记录，不预知首模型结果。600秒拥有者服务保护。
 5. 原保守16/16已满；拟扩大16→18，最多新增2HTTP，各6000输出tokens／120秒／配置价估算≤0.05USD，整批≤0.10USD非账单硬限；发送前按实际消息重新估价。后保守已知加预留最多0.309770068USD，原0.45／0.5估算边界保持。原三项预留不退。任何异常整批停，不阶段重试／换账号／买额度。
-6. 必须先提交78准备证据、再队列78 done／79 need-user并push，提供固定commit方案请求一次明确16→18扩大。未有绑定新plan／manifest的直接批准approval.json时，在回执／源Key读取／HTTP前拒绝；已有receipt不重放。常规代理委托不能扩大用满次数。
+6. 78准备证据5350a1b已提交；队列78 done／79 need-user，提交并push后，提供固定5350a1b方案链接请求一次明确16→18扩大。未有绑定新plan／manifest的直接批准approval.json时，在回执／源Key读取／HTTP前拒绝；已有receipt不重放。常规代理委托不能扩大用满次数。
 7. 当前未遇实际Codex额度不足；等待原因是明确模型次数边界。所有剩余blocked／need-user时停队列；实际Codex不足则立即尽力整份交接后停，不重试／换账号／购买。
 
 ## 4. 平台事实及预算
