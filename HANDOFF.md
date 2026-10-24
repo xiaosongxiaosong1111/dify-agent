@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（2026-10-24，0.268／第91独立平台验收通过）
+# HANDOFF — Sierra（2026-10-24，0.269／91平台通过，92格式预览已部署，93登录服务故障诊断待做）
 
 ## 1. 当前状态
 
-- 工作目录 E:\workSpace\dify-agent，main，远端 https://github.com/xiaosongxiaosong1111/dify-agent.git。运行0.268.0-6b739828b437b14f1469／health200，Dify1.17.1。第91证据6683558已提交；本次队列/交接提交后push。未跑全量。
+- 工作目录 E:\workSpace\dify-agent，main，远端 https://github.com/xiaosongxiaosong1111/dify-agent.git。运行0.269.0-eb8457978df95b61fc2f／health200，Dify1.17.1。第91证据6683558及队列7d88a0b已push；第92产品/证据da7bda3已提交，本次队列交接后push。未跑全量。
 - 共15任务。Sierra布尔格式修正图验收 e764003b-00d4-404c-8b94-e22c29201823／r5／run_completed，新App0ea01eb4-4ed1-4c70-bdac-db17a9cc4a97，发布图50d1bb9c-df9d-4f19-9929-ac4727d229e1，正式命中/无命中均passed，策略2/2、10分钟、USD阈值null。其他14任务未改。
 - 专用连接202bfb35-2f92-47c1-bc1b-eac32082181d明确重连验证原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17成功，登录暂停仅由这次获准操作清除；当前Key配新App，旧App0ec579c4-fae3-4f7e-80d3-f8508846c91c的旧Key加密归档。新旧配对只在内存解密比较，未输出密钥，也未改origin_verified元数据。
 
@@ -16,9 +16,9 @@
 
 ## 3. 下一步
 
-1. 第91已done，不再运行任何已消费live包。首个pending为92：针对84实际JSON字符串true的格式失败，把86已审查的一字段人工修正做成产品内明确的只读预览，再由用户主动放入未保存流程草稿。先阅读retained_plan.py、RetainedPlanCandidate.tsx及其既有选择/草稿接口，沿用当前修订/来源摘要和编辑保护，不自动采用、确认、运行或改原失败。只允许一处确知布尔字面量类型错误，其余完整图重新严格校验；混合错误/历史修订/未知类型拒绝。
-2. 仅本机隔离API/针对性测试、前端构建和UI验证，实际模型/Dify0。保护当前15任务/全部凭据主Key/91及旧失败回执，若产品变化则快照部署并检查源码匹配。简单工作既有Claude网关上次超时未返回，不为形式重试，也不冒充子审查完成。
-3. 重要成果commit/push原main，不force，不提交work/凭据/供应商原始响应。实际Codex额度失败立即停止并尽力整份更新本文件，不重试/换账号/购买。本次尚无实际Codex额度失败。
+1. 第91/92均done，不再运行任何已消费live包。首个pending为93：第88真实HTTP502被标成login_rejected，不能区分服务故障与明确凭据拒绝。只修改未来服务错误诊断，保留登录失败后暂停/单次派发/不重试/原空间匹配与密文不变；不改旧88回执，不重新登录。先按错误码定位console登录适配器及相关调用/显示，再定向502/503、401/403和隐私边界核对，必要部署。
+2. 第92新增retained_boolean_preview.py及BooleanFormatPreview.tsx，GET只读预览/POST只读compose来源重核，当前修订仅一处true/false字符串且其余完整图有效；明确载入未保存草稿，后续保存仍manual并重新确认。60相关定向及另1Chatflow、构建、实际84 API回放、隔离UI12、真实本机API完整界面6、部署只读UI6通过。work/boolean-preview269下证据、临时Store已清理；docs/retained-boolean-format-preview.md及result公开。原15任务/全部对象密文主Key/91及旧回执保持，运行源码匹配快照，模型/Dify新增0。
+3. 简单工作既有Claude网关上次超时未返回，不为形式重试，也不冒充子审查完成。重要成果commit/push原main，不force，不提交work/凭据/供应商原始响应。实际Codex额度失败立即停止并尽力整份更新本文件，不重试/换账号/购买。本次尚无实际Codex额度失败。
 
 ## 4. 外部边界与账本
 
