@@ -14,6 +14,8 @@
 
 已另备[单字段人工格式修正预览](docs/after-sales-boolean-preview.md)：原84失败保持，新副本仅把字符串true改为JSON布尔true，已静态构建并可下载YAML；没有新增模型或Dify调用，不当模型纯生成或业务验收通过。
 
+第88平台批在重连HTTP502停止，仅留下“Sierra布尔格式修正图验收”r5草稿（现15任务），App／发布／Key／运行0；[失败记录](docs/boolean-preview-live-result-20261024.json)。原Docker／Dify服务已恢复，登录暂停保持；[独立复用草稿方案](docs/existing-preview-live-plan-20261024.md)已冻结，未执行真实后续操作。
+
 当前访谈修复：[精确文字及未采纳建议边界](docs/intake-literals.md)；旧71失败保留，实际效果待独立核对。
 
 当前规划修复：[向模型说明Sierra本机空白输入门禁](docs/planning-entry-context.md)，不外推Dify直接入口，修复后独立单次实际规划已生成合规图（[证据](docs/fresh-planning263-result-20261023.json)），仍非一般语义保证。

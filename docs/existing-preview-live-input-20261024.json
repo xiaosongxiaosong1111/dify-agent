@@ -1,0 +1,69 @@
+{
+  "target_task_id": "e764003b-00d4-404c-8b94-e22c29201823",
+  "name": "Sierra布尔格式修正图验收",
+  "requirements": {
+    "goal": "为内部演示用户制作蓝杉商店公开合成售后知识问答 Workflow；仅处理退货和保修政策问答。",
+    "audience": "内部开发与演示用户；不接入真实客户资料。",
+    "input": "单个必填 query 文本；每次只处理一个问题；空白输入由入口拒绝且不派发模型。",
+    "output": "只输出 result 字符串；命中时根据资料回答并带政策编号；无命中严格返回：知识库暂无相关信息，请联系人工客服并提供订单号。",
+    "rules": "先检索；检索结果非空才调用一次回答 LLM，提示中只使用检索资料；结果为空直接走固定文字分支，不调用 LLM，不编造政策。政策内容：ZXRET715 为签收后七天内且商品未拆封可申请退货，运费不含在该政策；ZXWAR180 为签收起180天保修。",
+    "knowledge": "仅使用现有公开合成 FAQ 库 d12cf081-5c52-41e3-b869-e94e6f8d37b1，TopK3，无分数阈值、不重排。后续回答模型 deepseek-flash、thinking=false、温度0.2、最大输出512；这些是资源条件，不代表现在执行或证明实时可用。",
+    "exceptions": "query 空白直接拒绝；检索失败或回答模型失败必须明确报错并停止，不把失败伪装为无命中；转人工仅为固定提示文字，不接入客服系统。",
+    "tests": "命中输入“ZXRET715在签收后七天内且未拆封，能否退货？请给出政策编号。”应在 result 包含 ZXRET715、七天、未拆封；无命中输入 ZXUNLISTED90371 应在 result 严格等于固定回复。仅这两条声明不代表完整业务验收。"
+  },
+  "configuration": {
+    "assistant_provider_id": "9513f594-c256-46b7-882a-35d9871bf9d0",
+    "dify_model_provider": "langgenius/deepseek/deepseek",
+    "dify_model": "deepseek-flash",
+    "temperature": 0.2,
+    "max_tokens": 512,
+    "model_parameters": {},
+    "opening_statement": "",
+    "suggested_questions": [],
+    "conversation_memory": false,
+    "memory_turns": 5,
+    "dataset_ids": [
+      "d12cf081-5c52-41e3-b869-e94e6f8d37b1"
+    ],
+    "retrieval_top_k": 3,
+    "mock_dependencies": [],
+    "resource_plan": "新批：采用独立人工格式修正预览，仅原84条件value字符串true改JSON布尔true，不回填原模型成功。新任务/App/首次发布/Key各1，两例实跑，累计实际10→最多12，资源各5→6；专用连接切换新Key，旧Key加密归档。原14任务和旧策略/账本保持，Sierra模型0，异常整批停、不重试。"
+  },
+  "source_cases": [
+    {
+      "id": "after-sales-hit",
+      "name": "有命中：七天未拆封退货",
+      "required": true,
+      "input": {
+        "query": "ZXRET715：签收后三天且未拆封能否退货？请给出政策编号。"
+      },
+      "expectation": {
+        "mode": "contains",
+        "target": "result",
+        "expected": [
+          "ZXRET715",
+          "七天",
+          "未拆封"
+        ]
+      }
+    },
+    {
+      "id": "after-sales-miss",
+      "name": "无命中：固定人工提示",
+      "required": true,
+      "input": {
+        "query": "ZXUNLISTED90371"
+      },
+      "expectation": {
+        "mode": "equals",
+        "target": "result",
+        "expected": "知识库暂无相关信息，请联系人工客服并提供订单号。"
+      }
+    }
+  ],
+  "manual_preview_sha256": "e68041df55b5d917d5acf5bcaa94fb09de7af438e473af0fcc5e84f28f5893b4",
+  "provenance": "Reuse already saved r5 manual boolean-format preview after local Docker recovery; independent new approval, no new task, no replay of88. Other14 tasks and old failure records protected.",
+  "known_limitations": [
+    "retrieval result non-list fallback to empty in generated code remains an unverified defensive branch; no retrieval failure behavior guarantee from static checks"
+  ]
+}
