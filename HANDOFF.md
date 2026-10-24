@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（2026-10-24，0.270／95执行包出站前失败，真实HTTP0，96本机运输预检纠错）
+# HANDOFF — Sierra（2026-10-24，0.270／95执行包出站前失败，真实HTTP0，96运输合同纠错完成，97准备独立范围改授方案）
 
 ## 1. 当前状态
 
-- 工作目录 E:\workSpace\dify-agent，main，远端 https://github.com/xiaosongxiaosong1111/dify-agent.git。运行0.270.0-293ea298357356cf04db／health200，Dify1.17.1。91证据6683558、92产品da7bda3、93产品b1384d5/交接4963694已push；94准备46f23e8/队列c61213a已push；95取证005ce46已提交，本次队列/交接后push。未跑全量。
+- 工作目录 E:\workSpace\dify-agent，main，远端 https://github.com/xiaosongxiaosong1111/dify-agent.git。运行0.270.0-293ea298357356cf04db／health200，Dify1.17.1。91证据6683558、92产品da7bda3、93产品b1384d5/交接4963694已push；94准备46f23e8/队列c61213a已push；95取证005ce46/队列be8691f已push；96纠错3573161已提交，本次队列/交接后push。未跑全量。
 - 原15任务保持，95仅新增空任务5abd5207-cdca-44df-a1fc-892a46870e37/r2/status requirements，八字段全空、无正式图/成果/运行，现16任务。原成功任务：Sierra布尔格式修正图验收 e764003b-00d4-404c-8b94-e22c29201823／r5／run_completed，新App0ea01eb4-4ed1-4c70-bdac-db17a9cc4a97，发布图50d1bb9c-df9d-4f19-9929-ac4727d229e1，正式命中/无命中均passed，策略2/2、10分钟、USD阈值null。其他14任务未改。
 - 专用连接202bfb35-2f92-47c1-bc1b-eac32082181d明确重连验证原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17成功，登录暂停仅由这次获准操作清除；当前Key配新App，旧App0ec579c4-fae3-4f7e-80d3-f8508846c91c的旧Key加密归档。新旧配对只在内存解密比较，未输出密钥，也未改origin_verified元数据。
 
@@ -20,8 +20,9 @@
 2. receipt stopped_needs_review：provider_invocations1/model_http0/dify_http0；空新任务r2、需求全空、无图/成果/App/Key/运行。不是模型返回需求不清，未取得模型响应。实际故障是server.py actual_transport中的str(request.url())把HTTPX Request.url属性当函数，在原始运输层forward前TypeError，被providers.call_model包装成“协议不兼容”。根代理最初中间表述已公开纠正；责任在执行包，不归因模型/供应商。
 3. work/complete-mainline270/stopped-protected-proof.json及docs/complete-mainline-live-result-20261024.json（005ce46）：原15全部对象（含连接）逐项相等、全部旧密文/主Key/旧回执相等；专用连接仍App0ea01eb4-4ed1-4c70-bdac-db17a9cc4a97，旧Key未切，无新登录。临时启动Store已清理，真实新空任务保留。
 4. 新任务预算唯一entry unknown/failed_or_interrupted，reserved_unknown_usage为0.0188541USD，charged null/usage空，原样保持；本批整个0.15USD估算范围和3槽不自动退（首entry预留不另加到0.15外）。实际Sierra仍16、保守23/23，共旧4+新3=7槽/0.35估算预留，已知0.075473652+保守预留=0.425473652，非账单。Dify实际仍12/正式passed10/资源各6；95管理96/登录28预留保留，保守读取413，但新增实际管理/登录0。
-5. 首个doing是96，仅本机纠错：另建新副本，不改95冻结源。用冻结actual_transport AST + 实际providers.call_model和HTTPX Request/假响应，完整穿过真正协议构造/运输校验路径，先复现旧代码0转发，再修URL属性并验证新路径/消息摘要/6000限制/次数上限与错误拒绝；所有真实HTTP运输禁止、传虚拟Key，不解密生产凭据。原16全部对象密文主Key及95批准/manifest/receipt/final-task等文件应逐项保持，不执行任何新live。之前预演替换了call_model，因此漏检了这一层，本次补这项真实接口合同检查。
-6. 后续若需要独立新整批，先完成可审查本机纠错/预检并冻结；现有95已失败，不能自动重放或将未派发阶段借给新包。若要按已证实0出站对账/释放95预留、复用空任务或再扩大23/费用边界，必须具体明确授权，不能改原unknown冒充供应商账单。尚未决定方案，不提前问用户。
+5. 96已done，3573161：work/transport-contract270/check.py从95原/新Python源码提取actual_transport AST，实际调用providers.call_model构造选定deepseek请求，经HTTPX检查到最后假运输/解析；用虚拟Key，全真实网络禁止。旧AST稳定复现URL属性两处误调用中的首处TypeError/转发0；新审查副本两处改request.url属性后3次假转发，第4及tokens/stream/消息/方法/地址拒绝，8项通过。原16全部对象密文主Key和95批准/manifest/receipt/final-task/日志完全相等。docs/transport-contract-repair.md及result可查。server-corrected-review-only.py只是审查副本，不能启动live，不是新批准包。
+6. 首个pending97，仅准备独立纠错后“零出站范围改授”方案：复用95空任务5abd...而不再建任务；保留原user+system失败消息、预算unknown entry及全部95原文件。TaskBudget.limit_usd为null，旧unknown不阻止新调用（只在非null累计限额时阻断），无需伪造账单对账或清零。方案拟将旧unknown预留0.0188541继续计入原整批0.17；替代包新模型合计上限0.1311459、每次≤0.05/6000tokens/120秒，Dify0.02，连旧unknown合计仍≤0.17。旧61/71/76/79四项0.20不动。只有在用户明确批准95已证实0出站三次/96管理读/28登录及资源范围“改授”给新冻结包后，才能将23中的95三槽改为新包三槽而不增加至26；保留原receipt值，用独立授权分配记录说明，不自动退或篡改原账本。当前未有此授权，不能执行。
+6a. 97新包需源16快照，复用existing target，不覆盖创建时间/旧消息/旧budget.entries，GuardedStore允许target task和target task_budget追加，其余15及旧operation等全保护，execution_limits原4/20保持。prepare消息包含旧失败历史须冻结新的实际输入摘要。将96真实协议预检放在一次性回执/凭据前；正常预演也应实际走providers.call_model及运输检查，仅最后响应为固定替身（原95预演替换整个call_model漏检）。正常两版/四例+节点轨迹/三图/最终报告、六失败/浏览器早期失败拥有者收尾/费用复合上限均需通过。先完成可审查冻结包，再问一次改授，不先问。
 7. 94完整两版预演（7项UI/六类失败/浏览器启动失败收尾/13边界）及两版节点轨迹/三图/交付说明是固定替身，仍不当实际连续链成功。92/93产品仍0.270.0-293ea298357356cf04db，未回滚/重启。旧37/45/61/65/71/73/76/79/81/84/88/95失败和所有预留保持。
 8. 简单独立工作既有Claude网关上次75.19秒超时无结果/费用报告，不为形式重试、不冒充子审查。只修当前实际错误，不顺带重构/全量测试。实际Codex额度尚未报不足；若不足立即尽力整份交接并停，不重试/换账号/购买。重要更新commit/push原main，不force、不提交work/凭据/供应商原始响应。
 
