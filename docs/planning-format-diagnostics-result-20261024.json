@@ -1,0 +1,28 @@
+{
+  "state": "passed",
+  "runtime": {
+    "version": "0.268.0",
+    "mode": "snapshot",
+    "build_id": "0.268.0-6b739828b437b14f1469",
+    "content_sha256": "6b739828b437b14f1469bbf82f2337edf2c2de338ef65fce177c13786eda339b",
+    "file_count": 241,
+    "task_data_inside_snapshot": false,
+    "note": "后端、模型契约及前端资源来自启动时固定快照；任务数据与凭据独立使用原目录。Python依赖环境仍共用，不是完整依赖隔离。"
+  },
+  "all14_tasks_and_all_other_objects_unchanged": true,
+  "all_credentials_and_encryption_key_unchanged": true,
+  "all_consumed_receipts_and_ledgers_kept": true,
+  "source_matches_snapshot": true,
+  "changed_runtime_files": [
+    "backend/app/condition_settings.py",
+    "backend/app/main.py",
+    "backend/app/planning.py"
+  ],
+  "model_and_dify_requests_added": 0,
+  "targeted_tests_passed": 56,
+  "full_suite_run": false,
+  "old84_candidate_not_converted": true,
+  "format_failure_single_call_no_retry": true,
+  "mixed_and_real_business_decisions_not_reclassified": true,
+  "actual_model_format_generation_improvement_verified": false
+}

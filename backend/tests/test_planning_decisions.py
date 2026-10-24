@@ -7,7 +7,7 @@ from app.planning_decisions import summarize, FIELDS
 from test_planning import run, USAGE
 from test_workflow_plan import base_plan
 from app import main
-from test_intake import forbid_at01_external_calls, new, manual, state
+from test_intake import forbid_intake_external_calls, new, manual, state
 
 
 @pytest.mark.parametrize('app_type', ['workflow', 'advanced-chat', 'agent'])

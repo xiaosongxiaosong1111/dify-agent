@@ -18,6 +18,27 @@ RATE_KEYS = {"input_per_million_usd", "output_per_million_usd", "cached_input_pe
 OUTPUT_LIMIT = 6000
 
 
+def _only_boolean_literal_format_errors(candidate, errors):
+    """Classify known root-condition JSON type errors; never rewrite the draft."""
+    if not isinstance(candidate, dict) or not isinstance(candidate.get('nodes'), list):
+        return False
+    from .condition_settings import BOOLEAN_RHS_ERROR
+    expected = set()
+    for node in candidate['nodes']:
+        if not isinstance(node, dict) or node.get('type') != 'if-else' or not isinstance(node.get('config'), dict):
+            continue
+        cases = node['config'].get('cases')
+        if not isinstance(cases, list):
+            continue
+        for i, case in enumerate(cases):
+            if not isinstance(case, dict) or not isinstance(case.get('conditions'), list):
+                continue
+            for j, row in enumerate(case['conditions']):
+                if isinstance(row, dict) and row.get('varType') == 'boolean' and type(row.get('value')) is str and row['value'] in {'true', 'false'} and isinstance(row.get('comparison_operator'), str) and row['comparison_operator'] in {'is', 'is not'}:
+                    expected.add(f"条件 {node.get('id')}：cases[{i}].conditions[{j}] {BOOLEAN_RHS_ERROR}")
+    return bool(errors) and set(errors).issubset(expected)
+
+
 def validate_pricing(value):
     if value is None:
         return None
@@ -359,6 +380,8 @@ async def draft_plan(task, provider, messages, settings, operation, invoke, vali
             stop("no_progress", "连续两次出现同一问题且未通过校验，停止继续修复并保留候选。")
         previous_error = signature
         if not repairable:
+            if _only_boolean_literal_format_errors(candidate, errors):
+                stop("invalid_plan_format", '模型候选的条件布尔值使用了JSON字符串"true"／"false"，不符合布尔类型契约。这是候选格式错误，不是新的业务选择；原候选与诊断已保留，未自动转换、采纳或追加模型调用。请在新草稿中明确更正类型后重新核对，原已确认方案不变。')
             stop("needs_decision", "此问题涉及图结构、资源、业务配置或不支持的语法修复，需要人工确认；明确的单个语句头冒号由本机修复，其余保留候选，不自动修改已确认方案或追加模型修复请求。")
         if attempt["cost_basis"] == "reserved_unknown_usage":
             stop("usage_unknown", "供应商没有返回可用的费用用量，本次按预留估算记录；请核对后再继续，不自动追加调用。")

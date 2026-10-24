@@ -9,6 +9,7 @@ SCALAR={
  'boolean':{'is','is not','null','not null'},
 }
 _REF=re.compile(r'\{\{#([\w-]+)\.([\w-]+)#\}\}')
+BOOLEAN_RHS_ERROR='布尔右值须为明确 true／false 或完整变量模板，不自动把文字变布尔值。'
 
 def validate(config):
  errors=[]
@@ -55,7 +56,7 @@ def validate(config):
      except (ValueError,OverflowError):finite=False
      if not finite:errors.append(f'{label} 数值比较右值须为有限数值文本。')
    elif kind=='boolean' and type(value) is not bool and not (isinstance(value,str) and _REF.fullmatch(value)):
-    errors.append(f'{label} 布尔右值须为明确 true／false 或完整变量模板，不自动把文字变布尔值。')
+    errors.append(f'{label} {BOOLEAN_RHS_ERROR}')
    elif kind=='string' and op in {'in','not in'} and not isinstance(value,list):errors.append(f'{label} in／not in 右值须为文字数组。')
    elif kind=='string' and op not in {'in','not in'} and not isinstance(value,str):errors.append(f'{label} 文字比较右值须为文字。')
  return list(dict.fromkeys(errors))
