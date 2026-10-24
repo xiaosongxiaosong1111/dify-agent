@@ -1,9 +1,9 @@
-# HANDOFF — Sierra（2026-10-24，产品0.273，100订单模拟代码模板交付，推送必须写更新日志）
+# HANDOFF — Sierra（2026-10-24，产品0.274，101提取订单号接入交付，推送必须写更新日志）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main，远端https://github.com/xiaosongxiaosong1111/dify-agent.git。运行0.273.0-454589462d47d64d6c93/health200，Dify1.17.1。99产品affe2c6/交接d7a40f9已push；100产品与证据904db5e，本次交接后一并push。
-- 用户最新明确“好的，推进吧，记得每次推到github上的时候都要写更新日志”。已新增根CHANGELOG.md，补记0.271及本次0.272；AGENTS.md持久规定每次push前更新日志，覆盖实际交付/验证/限制，HANDOFF不能代替。仍开发欠项优先，不能按测试/版本/队列比例计算完成度。
+- 项目E:\workSpace\dify-agent，main，远端https://github.com/xiaosongxiaosong1111/dify-agent.git。运行0.274.0-2795f1d8c6507e94fd6d/health200，Dify1.17.1。100产品904db5e/交接68b8433已push；101产品与证据831d1d0，本次交接后一并push。
+- 用户最新明确“好的，推进吧，记得每次推到github上的时候都要写更新日志”。已新增根CHANGELOG.md，已记录0.271—0.274；AGENTS.md持久规定每次push前更新日志，覆盖实际交付/验证/限制，HANDOFF不能代替。仍开发欠项优先，不能按测试/版本/队列比例计算完成度。
 - 现16任务：原15保持，95只新增空任务5abd5207-cdca-44df-a1fc-892a46870e37/r2/requirements，八需求空，无正式图/成果/App/运行；有原user+system失败消息和预算unknown，全部保持。
 
 ## 2. 已消费批与保护
@@ -25,7 +25,10 @@
 2f. 模板预览API不执行、不保存、不改确认/成果/预算；任务修订/原稿/订单表SHA和nonce绑定。输入改变/旧响应不能采用，只有主动采用到未保存草稿，再经既有手动计划保存、配置确认与构建下载。支持Workflow/Chatflow根代码，订单号来自开始文字字段或完整sys.query，入口必填规则不改；Agent工具/容器代码/自然语言抽取不在本次范围。
 2g. 新增test_mock_order.py34/相关60通过；经审查的确定性模板仅在单元测试中执行，三类结果/坏类型/代码样文字仍是字面数据验证，不能称Dify Sandbox通过。测试曾误判创建任务自带空预算，已修为预览前后账本精确相等。隔离实际UI8含拒绝/错nonce/原文改变/采纳/保存确认构建下载，TS+build/窄栏截图通过；真实模型/Dify运输禁止，临时Store/所属服务清理，无全量。docs/mock-order-template.md及result可查。
 2h. 最终0.273.0-454589462d47d64d6c93，245文件与源码一致，health/新懒加载面板资源200；原16全部对象/密文/主Key/95 unknown/旧回执精确相同，真实模型/Dify0。部署前16任务及资源空闲，仅本项目所属后端重启，Dify不动。
-2i. 当前队列没有pending/doing，剩余历史blocked；不是产品完成或额度耗尽。仍缺真实订单接入、实际Sandbox/端到端连续主链、长任务恢复/复杂手改的完整交付；AT-10仍不最终关闭。后续先针对用户所需主线的实际功能欠项限定范围，不把模板或本机函数测试冒充业务签收，不回到扩大live执行包准备；不擅自增加真实调用。每次push必须写CHANGELOG，重要更新commit/push原仓库。
+2i. 第101已done，831d1d0，0.274：原模板只能用入口文字或整条query，拒绝已有合法参数提取结果；已允许原草稿中根parameter-extractor明确声明的string业务参数，界面显示“提取文字（须在成功分支使用）”。不接数字/布尔/数组、状态或未知字段。复用现有validate_plan的成功IF/唯一成功出口、支配关系和失败绕回检查，失败及公共汇合路径不放行；错误返回具体结构问题而非删除业务后继续。只改原选中代码config，提取配置/模型、成功IF、失败回复、汇合节点及全部边保持，入口/sys.query兼容。
+2j. 新增test_extracted_mock_order.py12，原代码3失败/9通过准确复现两类型及实际API提取来源422；修复后相关64通过。实际本机API只读预览→主动保存/确认/构建下载及隔离完整Chatflow界面6通过，TS/build/窄栏截图通过，临时Store/所属服务清理，未全量。确定性lookup仅在单元测试接收合成提取值；未执行真实提取模型、Sandbox或订单系统，不把本机静态图当业务验收。docs/extracted-order-input.md及result可查。
+2k. 最终0.274.0-2795f1d8c6507e94fd6d，245文件源码/快照逐项一致、health/新懒加载面板资源200；原16全部对象/密文/主Key/95 unknown/旧回执精确保持，真实模型/Dify0。部署前16任务及资源空闲，仅所属Sierra后端重启，Dify不动。
+2l. 当前队列无pending/doing，剩余历史blocked；不是产品完成或额度耗尽。后续仍优先主线具体产品缺口，实际模型提取质量/真实订单服务/Sandbox及完整连续链尚未验收；不把静态连接或本机函数算业务签收，不回到扩充live准备。不能把本功能新增到旧95资源/模型范围后自动执行，任何未来实际批须有具体范围和新源码冻结，沿用既有次数/费用/失败不重试边界。每次push前写CHANGELOG，重要更新commit/push原仓库。
 3. 97正常UI7、六失败及浏览器启动失败收尾通过。实际providers.call_model→HTTPX→exact actual_transport，只末端响应固定替身；mock模型3与调用器逐次一致。真实DifyClient登录/空间/读/运行/轨迹到假native forward7次，全部物理HTTP0；17边界包含缺改授拒绝、源unknown不可删、复合预算在建立ledger前拒绝。原16对象/密文/主Key/旧95失败完全相等，临时Store均清理，拥有者PID/父进程/命令行+nonce收尾。公开docs/replacement-offline-preparation-20261024.json；不是实际语义/平台/业务验收。
 4. 草案复用现有空任务，不再建任务，原消息/unknown精确保留；拟新模型最多3/各6000tokens/120秒、合计新预留≤0.1311459，加旧unknown0.0188541+Dify估算0.02仍为原0.17（非账单硬限）。只有未来新源码下重新完成最小冻结且获得直接“零出站范围改授”批准后，95三槽/96管理读/28登录及资源范围才可用于新独立包，保守23不增至26。当前无改授许可，不自动退或借用；开发优先期间不再为此扩充流程。
 5. 96修正审查副本在work/transport-contract270，真实SDK/HTTPX构造与假运输8项通过，3573161；仅审查副本，不是另一个可启动live包。95/所有失败包一律不重试。
@@ -40,7 +43,7 @@
 ## 5. 历史与执行要求
 
 - 84原候选条件value字符串true，严格422不改；86人工副本仅一字段变布尔true，静态有效，原失败保持；91基于此副本平台passed，不是模型纯生成成功。旧81硬编码政策事实拒绝；79实际访谈九主题/根代理12项通过后进程中断，第二HTTP0，原request_dispatched保持；旧37/45/61/65/71/73/76/79/81/84/88/95及所有预留不重放。
-- 88登录502旧login_rejected，证据086aa93；89恢复原Docker原容器213a3a3，无新卷/容器，91才明确重连解除暂停。0.269布尔修正预览da7bda3、0.270登录5xx故障诊断b1384d5保持；0.271补模拟依赖导出标记；0.272新增逐项位置和接入待办；本轮0.273补订单模拟代码建议，最终新快照已启动，未回滚。
+- 88登录502旧login_rejected，证据086aa93；89恢复原Docker原容器213a3a3，无新卷/容器，91才明确重连解除暂停。0.269布尔修正预览da7bda3、0.270登录5xx故障诊断b1384d5保持；0.271补模拟依赖导出标记；0.272新增逐项位置和接入待办；0.273补订单模拟代码建议；本轮0.274接通已有提取文字输入，最终新快照已启动，未回滚。
 - Claude Code既有网关实际DeepSeek，上次75.19秒超时无结果/费用报告，不为形式重试，不冒充已完成子审查。无实际Codex额度失败；发生时尽力整份交接并停，不重试/换账号/购买。
 - 只读必要文件，不通读项目或290KB work/development-resume.md；历史只按编号单段。只修实质错误，不顺带重构、不跑全量。Playwright必须显式C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\node_modules\playwright，不另启18760。
 - 重要更新commit/push原main、不force，work/凭据/供应商原始响应不提交；保留用户未提交改动。AGENTS/BACKLOG适用，一次一项，验收证据commit后才能标done。
