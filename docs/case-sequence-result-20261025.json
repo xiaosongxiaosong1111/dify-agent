@@ -1,0 +1,85 @@
+{
+  "state": "passed",
+  "runtime": {
+    "version": "0.284.0",
+    "mode": "snapshot",
+    "build_id": "0.284.0-af29d0879c3760e5d417",
+    "content_sha256": "af29d0879c3760e5d4179364225574650d61ac329fbfbe8deebd1f7b77321469",
+    "file_count": 252,
+    "task_data_inside_snapshot": false,
+    "note": "后端、模型契约及前端资源来自启动时固定快照；任务数据与凭据独立使用原目录。Python依赖环境仍共用，不是完整依赖隔离。"
+  },
+  "new_backend_tests": 24,
+  "related_backend_tests": 65,
+  "ui": {
+    "state": "passed",
+    "checks": [
+      "wrong preview ownership rejected, no run",
+      "explicit ordered selection and approval acknowledgement, preview dispatch0",
+      "two real backend fake-transport calls sequentially return separate current records",
+      "failed stops later cases with no retry",
+      "unknown stops later cases with no retry",
+      "stop waits dispatched request and prevents second case",
+      "leaving and reload do not resume sequence or lose dispatched record"
+    ],
+    "browser_errors": [],
+    "local_posts": [
+      {
+        "path": "/api/tasks/8a59721f-224b-4f10-9c7d-6b86faa7dc57/case-sequence-preview"
+      },
+      {
+        "path": "/api/tasks/774fa32e-8413-49fa-bfcf-33978257c6ff/case-sequence-preview"
+      },
+      {
+        "path": "/api/tasks/774fa32e-8413-49fa-bfcf-33978257c6ff/run",
+        "sequence_index": 0
+      },
+      {
+        "path": "/api/tasks/774fa32e-8413-49fa-bfcf-33978257c6ff/run",
+        "sequence_index": 1
+      },
+      {
+        "path": "/api/tasks/0011b2b8-cff0-4d1d-9521-943fa8e90e36/case-sequence-preview"
+      },
+      {
+        "path": "/api/tasks/0011b2b8-cff0-4d1d-9521-943fa8e90e36/run",
+        "sequence_index": 0
+      },
+      {
+        "path": "/api/tasks/a03b1084-f307-4385-bb36-4f07854ba3a8/case-sequence-preview"
+      },
+      {
+        "path": "/api/tasks/a03b1084-f307-4385-bb36-4f07854ba3a8/run",
+        "sequence_index": 0
+      },
+      {
+        "path": "/api/tasks/32c78af0-e1c4-472a-b12d-8c785b854dea/case-sequence-preview"
+      },
+      {
+        "path": "/api/tasks/32c78af0-e1c4-472a-b12d-8c785b854dea/run",
+        "sequence_index": 0
+      },
+      {
+        "path": "/api/tasks/c3d827de-ebb7-496d-be4c-1dbc544f9bbf/case-sequence-preview"
+      },
+      {
+        "path": "/api/tasks/c3d827de-ebb7-496d-be4c-1dbc544f9bbf/run",
+        "sequence_index": 0
+      }
+    ],
+    "physical_upstream": 0,
+    "synthetic_tasks": true
+  },
+  "typescript_build_and_screenshot_passed": true,
+  "runtime_all_files_match_source": true,
+  "health_frontend_http": 200,
+  "all16_objects_ciphertexts_masterkey_old_receipts_unknown_reserves_kept": true,
+  "temporary_stores_cleaned": true,
+  "actual_model_dify_added": 0,
+  "limitations": [
+    "Single backend process and ordinary single-turn scalar cases only.",
+    "Optimistic source fingerprints and finite count are not resource approval, reservation or invoice cap.",
+    "No automatic affected-case inference, background job or restart resume.",
+    "Fake Dify transport only; complete real after-sales mainline remains unaccepted."
+  ]
+}

@@ -24,6 +24,7 @@ export type AcceptanceSummary = {
   all_required_passed: boolean; verification: string; blockers: string[];
 };
 export type RunRecord = {
+  case_sequence?:{token:string;start_count:number;index:number;case_ids:string[]};
   diagnostics?:Diagnostic[];
   waiting_state?:{platform_status?:string;checked_at?:string;note?:string};
   id: string; label?: string; status?: string; kind?: string; revision?: number; app_id?:string|null; environment_id?:string; conversation_context?:{source_run_id:string;conversation_id:string;revision:number;environment_id:string};

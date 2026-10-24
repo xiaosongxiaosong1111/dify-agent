@@ -82,7 +82,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.283.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.284.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -217,12 +217,15 @@ class Message(BaseModel):
     stream_response: StrictBool = False
 
 
+from .case_sequence import SequenceProof
+
 class RunRequest(Revision):
     model_config=ConfigDict(extra="forbid")
     revision:StrictInt=Field(ge=1)
     input: dict = Field(default_factory=dict)
     case_id: str | None = None
     conversation_from_run_id: str | None = None
+    sequence: SequenceProof | None = None
 
 
 class PlanRequest(Revision):
@@ -1379,11 +1382,16 @@ async def external_action(item_id, revision, kind, operation, *, inputs=None, te
                 input_digest(inputs)
                 service_snapshot=ServiceSnapshot(store,env['id']);runtime_context['credentials']=service_snapshot
                 custom_artifact_sha=hashlib.sha256(final_content.encode('utf-8')).hexdigest()
+            if (runtime_context or {}).get('sequence') is not None:
+                case_sequences.check(task,runtime_context['sequence'],test_case)
             execution_limits.require_start(task)
             failure_watch.require(task,'run',inputs=inputs,test_case=test_case,conversation_context=conversation_context)
         record = {"id": str(uuid.uuid4()), "kind": kind, "revision": revision, "environment_id": env["id"], "status": "pending", "created_at": now(), "error": ""}
         from .run_diagnostics import binding
         record.update(app_id=task.get('dify_app_id'),app_type=task['app_type'],environment_binding=binding(env))
+        if (runtime_context or {}).get('sequence') is not None:
+            proof=runtime_context['sequence']
+            record['case_sequence']={'token':proof.token,'start_count':proof.start_count,'index':proof.index,'case_ids':list(proof.case_ids)}
         if inputs is not None:
             record["input"] = copy.deepcopy(inputs)
         if test_case is not None:
@@ -1507,6 +1515,10 @@ async def run_task(item_id: str, payload: RunRequest):
         raise HTTPException(422, "请在环境设置中填写运行 API Key 对应的应用 ID，且必须与本次导入应用一致。导入草稿需先在 Dify 确认发布；不能拿其他应用 Key 的成功结果当本任务试跑。")
     case = None
     runtime_context={}
+    if payload.sequence is not None:
+        if not payload.case_id or payload.input or payload.conversation_from_run_id:
+            raise HTTPException(422,'顺序批次仅使用选定已保存样例，不能混入自由输入或会话来源。')
+        runtime_context['sequence']=payload.sequence
     inputs = payload.input
     conversation_context = None
     if payload.conversation_from_run_id:
@@ -2190,6 +2202,9 @@ from .run_input_check import RunInputCheck
 RunInputCheck(sys.modules[__name__]).register()
 from .run_case_input_check import RunCaseInputCheck
 RunCaseInputCheck(sys.modules[__name__]).register()
+from .case_sequence import CaseSequence
+case_sequences=CaseSequence(sys.modules[__name__])
+case_sequences.register()
 from .conversation_source_read import ConversationSourceRead
 ConversationSourceRead(sys.modules[__name__]).register()
 from .structured_guard import StructuredGuard
