@@ -14,6 +14,12 @@ export default function MockOrderTemplatePanel({taskId,revision,appType,plan,tex
   const start=plan?.nodes.find(node=>node.type==='start');
   const variables=start?.config?.variables;
   const rows=Array.isArray(variables)?variables.filter((v):v is {variable:string;type:string}=>!!v&&typeof v==='object'&&typeof v.variable==='string'&&['text-input','paragraph'].includes(v.type)).map(v=>({value:JSON.stringify([start!.id,v.variable]),label:`${start!.id}.${v.variable}`})):[];
+  for(const node of plan?.nodes||[]){
+   const parameters=node.config?.parameters;
+   if(node.type==='parameter-extractor'&&Array.isArray(parameters))for(const parameter of parameters){
+    if(parameter&&typeof parameter==='object'&&parameter.type==='string'&&typeof parameter.name==='string'&&!parameter.name.startsWith('__'))rows.push({value:JSON.stringify([node.id,parameter.name]),label:`${node.id}.${parameter.name} · 提取文字（须在成功分支使用）`});
+   }
+  }
   if(appType==='advanced-chat')rows.push({value:JSON.stringify(['sys','query']),label:'sys.query · 整条消息直接作为订单号'});
   return rows;
  },[plan,appType]);
@@ -44,12 +50,13 @@ export default function MockOrderTemplatePanel({taskId,revision,appType,plan,tex
  const visible=result&&ready&&result.sourceText===text&&result.recordsText===records?result:null;
  return <section className="mock-order-template-panel configuration-proposal" aria-label="订单查询模拟模板">
   <div className="listhead"><b>订单查询模拟模板</b><small>本机建议 · 不保存</small></div>
-  <p className="hint">只替换选中代码节点的完整代码、输入绑定及输出声明；其余节点和连接保持。输入须直接是订单号，不从自然语言提取。固定输出result和status，明确标记模拟；若下游引用不兼容则拒绝建议。</p>
+  <p className="hint">只替换选中代码节点的完整代码、输入绑定及输出声明；其余节点和连接保持。输入须是明确订单号，可选已有参数提取节点的文字结果，本模板不新增或调用提取模型。固定输出result和status，明确标记模拟；引用或成功保护不兼容则拒绝建议。</p>
   {!dependencies.length&&<p className="callout amber">请先在配置页声明并保存模拟依赖；这里不自动接受模拟范围。</p>}
   <fieldset disabled={disabled||working}>
    <label className="field"><span>已声明模拟依赖</span><select aria-label="订单模板模拟依赖" value={dependency} onChange={e=>{edit();setDependency(e.target.value)}}><option value="">请明确选择</option>{dependencies.map((value,index)=><option key={index} value={value}>{value}</option>)}</select></label>
    <label className="field"><span>替换的代码节点</span><select aria-label="订单模板代码节点" value={nodeId} onChange={e=>{edit();setNodeId(e.target.value)}}><option value="">请明确选择根代码节点</option>{nodes.map(node=><option key={node.id} value={node.id}>{node.title||node.id} · {node.id}</option>)}</select></label>
    <label className="field"><span>订单号文字来源</span><select aria-label="订单模板订单号来源" value={selector} onChange={e=>{edit();setSelector(e.target.value)}}><option value="">请明确选择文字字段</option>{sources.map(source=><option key={source.value} value={source.value}>{source.label}</option>)}</select></label>
+   <p className="hint">提取参数必须通过现有__is_success成功检查，且订单代码位于该成功路径；失败或公共汇合路径不能使用默认提取值。静态检查不证明真实提取质量，后续实际提取调用仍计费用并需原范围批准。</p>
    <p className="hint">输入会去除两端空白后按大小写精确匹配；空值返回缺少订单号，未知编号返回未命中，数字等其它类型报错。若入口字段必填，Sierra可能在派发前拒绝缺失输入；本模板不改变入口规则。</p>
    <label className="field"><span>合成订单表JSON</span><textarea aria-label="订单模板合成订单表" rows={5} spellCheck={false} maxLength={20000} value={records} placeholder={'例如：{"DEMO-001":"合成样例：已发货。"}'} onChange={e=>{edit();setRecords(e.target.value)}}/></label>
    <p className="hint">1—10个订单号，每个对应最多500字的固定说明。仅填合成样例，不填客户资料或凭据；不会请求订单服务。</p>

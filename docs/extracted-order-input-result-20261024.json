@@ -1,0 +1,45 @@
+{
+  "state": "passed",
+  "runtime": {
+    "version": "0.274.0",
+    "mode": "snapshot",
+    "build_id": "0.274.0-2795f1d8c6507e94fd6d",
+    "content_sha256": "2795f1d8c6507e94fd6d545a35cb31840ccda79087cb631bf390f2b184d7114d",
+    "file_count": 245,
+    "task_data_inside_snapshot": false,
+    "note": "后端、模型契约及前端资源来自启动时固定快照；任务数据与凭据独立使用原目录。Python依赖环境仍共用，不是完整依赖隔离。"
+  },
+  "original_code_reproduction": "3 failed,9 passed; extracted string unavailable in both modes and actual API",
+  "new_backend_tests": 12,
+  "targeted_backend_tests_including_existing_order_and_parameter_extractor": 64,
+  "isolated_chatflow_ui": {
+    "state": "passed",
+    "checks": [
+      "existing extracted string shown; numeric and status outputs excluded",
+      "actual API rejects extracted parameter in failure branch and leaves task unchanged",
+      "success-guarded lookup preview stays readonly",
+      "adoption changes only lookup config; success check, failure response and all edges preserved",
+      "manual save invalidates confirmation and artifact, then current static build succeeds",
+      "download retains guarded extraction and fallback; no actual model or Dify dispatch"
+    ],
+    "browser_errors": [],
+    "actual_model_dify_http": 0,
+    "actual_model_extraction_not_tested": true
+  },
+  "typescript_frontend_build_passed": true,
+  "narrow_panel_screenshot_reviewed": true,
+  "only_existing_root_parameter_extractor_string_business_parameters_added": true,
+  "numeric_array_state_unknown_fields_refused": true,
+  "failure_and_shared_merge_paths_refused": true,
+  "extraction_node_success_check_failure_response_and_all_edges_unchanged": true,
+  "only_selected_lookup_config_changed": true,
+  "local_lookup_function_with_synthetic_extracted_value_passed": true,
+  "preview_readonly_then_explicit_save_confirm_static_build_download_checked": true,
+  "actual_extraction_model_dify_sandbox_or_full_business_acceptance": false,
+  "health_new_lazy_asset_http": 200,
+  "source_matches_runtime_snapshot": true,
+  "all16_production_objects_ciphertexts_master_key_old_receipts_kept": true,
+  "original95_unknown_and_all_held_reservations_kept": true,
+  "temporary_ui_stores_removed": true,
+  "new_actual_model_dify_http": 0
+}

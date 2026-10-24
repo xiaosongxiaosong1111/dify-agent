@@ -22,6 +22,10 @@ POST `/tasks/{id}/mock-order-template`：`{revision,plan_text,node_id,input_sele
 
 返回完整plan_text、目标节点/依赖/selector、源原文/订单表原文/候选的SHA256、task_id/revision/request_nonce及verification=local_mock_order_template，only_selected_code_config_changed=true；task_changed/network_requested/code_executed/platform_checked/business_verified均false。建议不持久化，采用后须经既有计划保存/确认/构建接口，固定输出result与status；不是运行、接口接入或资源批准。
 
+## 订单模板提取文字来源扩展（0.274）
+
+`/tasks/{id}/mock-order-template`请求和响应字段保持兼容，input_selector新增接受原草稿中根parameter-extractor的已声明string业务参数。状态字段、非文字类型和不存在参数拒绝。完整计划校验要求成功分支保护及所有路径可用；失败/公共汇合路径不能读取默认提取值。只修改选中代码config，其余提取配置、保护节点、失败分支和连接保持，不执行模型或Dify。
+
 ## Task
 
 Task object:

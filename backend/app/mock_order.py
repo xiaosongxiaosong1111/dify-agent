@@ -47,10 +47,14 @@ def prepare(task, text, node_id, selector, records_text, dependency):
     start = next((node for node in plan['nodes'] if node['type'] == 'start'), None)
     valid_sources = [] if not start else [[start['id'], value['variable']] for value in start['config'].get('variables', [])
         if value.get('type') in {'text-input', 'paragraph'}]
+    for node in plan['nodes']:
+        if node['type'] == 'parameter-extractor':
+            valid_sources.extend([node['id'], parameter['name']] for parameter in node['config']['parameters']
+                                 if parameter['type'] == 'string' and not parameter['name'].startswith('__'))
     if task['app_type'] == 'advanced-chat':
         valid_sources.append(['sys', 'query'])
     if selector not in valid_sources:
-        raise ValueError('订单号只接受开始节点的明确文字字段，或Chatflow的整条query；不隐式提取、拼接或转换类型。')
+        raise ValueError('订单号只接受开始文字字段、已有参数提取节点的string业务参数或Chatflow整条query；不隐式提取或转换类型。')
     if not isinstance(records_text, str) or len(records_text.encode('utf-8')) > 20000:
         raise ValueError('合成订单表须为20KB内的JSON对象。')
     inspect_text(records_text)
@@ -67,8 +71,9 @@ def prepare(task, text, node_id, selector, records_text, dependency):
     changed['config'].update(code_language='python3', code=template(records),
         variables=[{'variable': 'order_id', 'value_selector': selector}],
         outputs={'result': {'type': 'string', 'children': None}, 'status': {'type': 'string', 'children': None}})
-    if not validate_plan(task, proposal)['valid']:
-        raise ValueError('替换后未通过完整流程校验，可能存在下游输出引用不兼容；不删除引用或其它业务后放行。')
+    checked = validate_plan(task, proposal)
+    if not checked['valid']:
+        raise ValueError('替换后未通过完整流程校验（提取成功保护或下游输出引用不兼容）；原图保持：' + '; '.join(checked['errors'][:3]))
     restored = copy.deepcopy(proposal)
     next(node for node in restored['nodes'] if node['id'] == node_id)['config'] = copy.deepcopy(target['config'])
     assert restored == plan
