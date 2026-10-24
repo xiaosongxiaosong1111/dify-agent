@@ -91,11 +91,35 @@ def compare(task, before_id, after_id):
             for key in ('id', 'revision', 'app_type', 'environment_id', 'app_id', 'status', 'created_at')})
     token = hashlib.sha256(json.dumps([task['id'], task['revision'], metadata, conditions, sections], sort_keys=True,
         ensure_ascii=False, allow_nan=False).encode()).hexdigest()
+    try:
+        raw=json.dumps([task['id'],task['revision'],task.get('app_type'),task.get('environment_id'),
+            task.get('dify_app_id'),selected],sort_keys=True,ensure_ascii=True,allow_nan=True,separators=(',',':')).encode()
+        export_token=hashlib.sha256(raw).hexdigest() if len(raw)<=8_000_000 else None
+    except (ValueError,TypeError,RecursionError,OverflowError):export_token=None
     return {'schema_version': 1, 'task_id': task['id'], 'revision': task['revision'],
-        'before_run_id': before_id, 'after_run_id': after_id, 'snapshot_token': token,
+        'before_run_id': before_id, 'after_run_id': after_id, 'snapshot_token': token,'export_token':export_token,
         'records': metadata, 'conditions_same': conditions, 'sections': sections, 'warnings': warnings,
         'verification': 'saved_single_turn_records_only', 'task_changed': False, 'network_requested': False,
         'automatic_execution': False, 'business_verified': False}
+
+
+def render_report(value):
+    def fence(text):
+        import re
+        marker='`'*max(3,1+max((len(m.group()) for m in re.finditer(r'`+',text)),default=0))
+        return marker+'\n'+text+'\n'+marker
+    labels={'input':'实际输入','expectation':'运行时预期','output':'保存的实际输出'}
+    states={'same':'保存值相同','changed':'保存值不同','missing':'字段未完整保存','unavailable':'未作比较'}
+    lines=['# Sierra 两次保存试跑对照','',f"当前任务修订：r{value['revision']}",
+        '仅导出本机保存记录；不重新评分、重跑或把差异归因为质量提升，旧通过不继承当前版本。',
+        '文件不是平台实时证明或签名；输入/输出可能含业务文字，分享前请审阅。','',
+        '## 来源记录与条件','',fence(json.dumps({'records':value['records'],'conditions_same':value['conditions_same']},ensure_ascii=False,indent=2)),
+        '', '## 对照观察标识','',fence(json.dumps({'snapshot_token':value['snapshot_token'],'export_token':value['export_token']},indent=2))]
+    for section in value['sections']:
+        lines+=['',f"## {labels[section['field']]} · {states[section['comparison']]}",'',
+            '左侧保存值',fence(section['before']['text']),'右侧保存值',fence(section['after']['text'])]
+    lines+=['','## 限制与待核对','']+['- '+s for s in value['warnings']]
+    return '\n'.join(lines)+'\n'
 
 
 def register(h):
@@ -107,4 +131,23 @@ def register(h):
             task = h.get_task(item_id); h.require_revision(task, revision)
             response.headers['Cache-Control'] = 'no-store'
             return compare(task, before_run_id, after_run_id)
+    @router.get('/api/tasks/{item_id}/run-comparison/report')
+    def report(item_id:str,revision:int=Query(ge=1),before_run_id:str=Query(min_length=1,max_length=128),
+            after_run_id:str=Query(min_length=1,max_length=128),snapshot_token:str=Query(pattern=r'^[a-f0-9]{64}$'),
+            export_token:str=Query(pattern=r'^[a-f0-9]{64}$')):
+        with h.store.lock:
+            task=h.get_task(item_id);h.require_revision(task,revision)
+            value=compare(task,before_run_id,after_run_id)
+            if value['snapshot_token']!=snapshot_token or value['export_token']!=export_token:
+                raise HTTPException(409,'所见对照或保存来源已变化，请重新读取核对后再导出；未返回混合说明。')
+            content=render_report(value)
+            if len(content.encode('utf-8'))>200000:
+                raise HTTPException(422,'对照说明超过200KB导出范围，请分别查看原记录；未截断或返回部分说明。')
+            latest=compare(h.get_task(item_id),before_run_id,after_run_id)
+            if latest['snapshot_token']!=snapshot_token or latest['export_token']!=export_token:
+                raise HTTPException(409,'导出期间保存来源变化，未返回说明；请重新核对。')
+        return Response(content,media_type='text/markdown',headers={'Cache-Control':'no-store',
+            'Content-Disposition':f'attachment; filename="run-comparison-r{revision}.md"',
+            'X-Sierra-Revision':str(revision),'X-Sierra-Comparison-Token':snapshot_token,
+            'X-Sierra-Export-Token':export_token})
     h.app.include_router(router)

@@ -1,5 +1,10 @@
 # Initial API contract
 
+## 0.282：导出所见运行对照
+
+原run-comparison响应新增export_token（64hex或null，完整有界来源标记）。GET run-comparison/report须revision、before_run_id、after_run_id、snapshot_token及export_token，变化409，报告200KB，text/markdown/no-store及观察头。契约见[说明](run-comparison-report.md)。无模型/Dify/写库或验收升级。
+
+
 ## 0.281：历史输入准备
 
 GET /api/tasks/{id}/runs/{run_id}/input-copy-preview?revision=当前修订，契约及大小/上下文边界见[saved-run-input](saved-run-input.md)。只读、不解密、无自动试跑或旧样例/会话继承。

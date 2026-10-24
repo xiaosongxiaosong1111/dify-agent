@@ -1,0 +1,43 @@
+{
+  "state": "passed",
+  "runtime": {
+    "version": "0.282.0",
+    "mode": "snapshot",
+    "build_id": "0.282.0-6a93bd9a3299afcd9aef",
+    "content_sha256": "6a93bd9a3299afcd9aef02a80dc61ce16b4baccf934d2de8a4d597b39a2a7710",
+    "file_count": 250,
+    "task_data_inside_snapshot": false,
+    "note": "后端、模型契约及前端资源来自启动时固定快照；任务数据与凭据独立使用原目录。Python依赖环境仍共用，不是完整依赖隔离。"
+  },
+  "new_backend_tests": 13,
+  "related_backend_tests": 32,
+  "ui": {
+    "state": "passed",
+    "checks": [
+      "explicit observed pair downloads bound Markdown with actual values and limitations",
+      "same revision source mutation causes actual API409 and no mixed report",
+      "explicit reread allows fresh report of updated observation",
+      "wrong observation header refused by UI",
+      "leaving scope cancels late export; no writes or automatic replay"
+    ],
+    "browser_errors": [],
+    "browser_writes": [],
+    "downloads": 2,
+    "physical_upstream": 0,
+    "only_server_change_was_explicit_synthetic_fixture": true
+  },
+  "typescript_build_and_screenshot_passed": true,
+  "hidden_source_changes_invalidate_export_even_if_visible_comparison_same": true,
+  "markdown_fences_prevent_output_from_breaking_literal_blocks": true,
+  "all16_objects_ciphertexts_masterkey_old_receipts_unknown_reserves_kept": true,
+  "runtime_all_files_match_source": true,
+  "health_frontend_http": 200,
+  "temporary_store_cleaned": true,
+  "actual_model_dify_added": 0,
+  "limitations": [
+    "Saved single-turn comparison only, not a controlled quality experiment or business signoff.",
+    "Maximum200KB report; raw observation fingerprint capped at8MB; unmarkable sources cannot export.",
+    "Recognized sensitive and oversized fields remain unavailable, never expanded in export.",
+    "Opaque source hash is not a signature or trusted provenance; review business text before sharing."
+  ]
+}
