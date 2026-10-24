@@ -1,0 +1,27 @@
+{
+  "state": "ready_needs_direct_model_scope_expansion",
+  "runtime": "0.266.0-80e68e15c4f9cb2cd3e2",
+  "plan_sha256": "02f9ef3f60ee919042b9e52928b0604caf8a68f3488b3ca96f6297fc6f6a9a7f",
+  "manifest_sha256": "eb36340c5f9074bd87dbbbe988f4e1c7cb081b3cbea2a7734808f1bb66da8510",
+  "intake_message_sha256": "985831e49efd49618fbf0a8f09444cbb8ee78d93dd89f4525a6d25643a476ed7",
+  "normal_mock_ui_checks": 6,
+  "first_failure_mock_ui_checks": 3,
+  "second_failure_mock_ui_checks": 5,
+  "source14_objects_credentials_master_key_old76_and_prior_packages_kept": true,
+  "third_or_unexpected_http_rejected_before_dispatch": true,
+  "root_stage_gate_bound_to_current_actual_content": true,
+  "full_dependency_startup_before_live_receipt": true,
+  "temporary_data_removed": true,
+  "actual_model_dify_http_added": 0,
+  "proposed_conservative_model_cap": [
+    16,
+    18
+  ],
+  "known_actual_model_http_before": 13,
+  "retained_reservations_usd": "0.15",
+  "max_new_model_http": 2,
+  "max_new_configuration_estimate_usd": "0.10",
+  "after_known_plus_retained_max_estimate_usd": "0.309770068",
+  "invoice_hard_cap": false,
+  "production_writes_dify_resources_runs": 0
+}
