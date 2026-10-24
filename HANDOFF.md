@@ -2,7 +2,7 @@
 
 ## 1. 当前工作与运行
 
-- 项目E:\workSpace\dify-agent，main，原仓库https://github.com/xiaosongxiaosong1111/dify-agent.git。生产0.266.0-80e68e15c4f9cb2cd3e2已恢复，health200，Dify1.17.1；代码修复7ff001f，79结果91b4d3d／队列5440513；80准备待本次证据commit，随后队列done／81 need-user并push。未跑全量。
+- 项目E:\workSpace\dify-agent，main，原仓库https://github.com/xiaosongxiaosong1111/dify-agent.git。生产0.266.0-80e68e15c4f9cb2cd3e2已恢复，health200，Dify1.17.1；代码修复7ff001f，79结果91b4d3d／队列5440513；80准备证据df4f321；80 done／81 need-user，队列提交后push。未跑全量。
 - 生产仍14任务。最新5a37368d-3d6b-4708-829c-9e8dcedaf356／Sierra新需求图平台验收／r5，run_completed，App0ec579c4-fae3-4f7e-80d3-f8508846c91c，发布图a3df4f40-acd4-40a3-9b0d-dc023ac0ef8d，命中／无命中原生passed，原13任务保持。
 - 专用连接202bfb35-2f92-47c1-bc1b-eac32082181d，固定原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17；当前Key配最新App，原改文案Key加密留档且内存核对一致。其他密文／主Key不改，旧App不能沿用当前Key。复用加密登录，不从聊天复制密码，不输出或提交凭据。
 
@@ -22,7 +22,7 @@
 4. 新辅助脚本首次演练遇浏览器临时目录权限，已nonce关闭拥有服务，实际模型／Dify0。只在新未冻结run.ps1补finally拥有者关闭；强制浏览器启动失败可在调用0时清理临时Store／关闭服务，随后正常和规划失败重验通过。早先尝试用不存在TEMP模拟失败未触发，改明确的模块替身注入后通过，不能把未触发算证据。正常演练使用提升执行环境；真正执行也应在相同可用权限下。外部强杀仍不能保证finally运行。
 5. 当前保守18/18已满；81拟扩大18→19，最多新增1规划HTTP，6000输出tokens／120秒，固定消息配置预留0.0451173USD、估算上界0.05USD非账单硬限；后已知加保留保守最多0.314336704USD，原0.45／0.5估算边界保持。访谈新调用0，Dify／生产任务／资源／运行写入0。原四项预留不退，旧79不重放，异常整批停、不重试／换账号／买额度。
 6. 两道内容核对绑定当前实际阶段原始SHA、decision=continue、human_business_signoff=false；来源草案门禁在唯一HTTP前由服务核验，实际图门禁在构建前由界面核验。不手改答案或强制放行；600秒拥有者服务保护。未有绑定新plan／manifest的直接18→19批准approval.json时，在回执／源Key读取／HTTP前拒绝；已有receipt不重放。
-7. 先提交80准备证据，再队列80 done／81 need-user并push；提供固定commit方案请求一次新范围。没有实际Codex额度不足；当前等待为模型明确范围，全部剩余blocked／need-user时停队列。实际Codex额度不足时立即尽力整份交接后停，不反复重试／换账号／购买。
+7. 80准备证据df4f321已提交，队列80 done／81 need-user；队列提交并push后，提供固定df4f321方案链接请求一次18→19的新规划范围。没有实际Codex额度不足；当前等待为模型明确范围，全部剩余blocked／need-user时停队列。实际Codex额度不足时立即尽力整份交接后停，不反复重试／换账号／购买。
 
 ## 4. 真实平台与费用事实
 
