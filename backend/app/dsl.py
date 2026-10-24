@@ -15,6 +15,7 @@ import yaml
 
 TARGET_DIFY_VERSION = "1.17.1"
 DSL_VERSION = "0.7.0"
+MOCK_DEPENDENCY_WARNING = "包含模拟依赖，结果属于模拟配置，不能视为已连接或已验证。"
 
 REQUIREMENT_KEYS = (
     "goal",
@@ -100,6 +101,14 @@ def _task_parts(task: dict[str, Any]) -> tuple[str, dict[str, Any], dict[str, An
     if not isinstance(provider, str) or not provider.strip() or not isinstance(model, str) or not model.strip():
         raise ValueError("必须提供真实的 dify_model_provider 和 dify_model；编译器不会猜测或编造模型信息。")
     return app_type, requirements, configuration
+
+
+def mock_dependency_notice(configuration: dict) -> str:
+    dependencies = configuration.get("mock_dependencies", [])
+    if not isinstance(dependencies, list):
+        dependencies = [str(dependencies)]
+    dependencies = [str(item) for item in dependencies if str(item).strip()]
+    return f"模拟依赖（未接入真实服务）：{', '.join(dependencies)}。" if dependencies else ""
 
 
 def compile_dsl(task: dict) -> tuple[str, dict]:
@@ -210,11 +219,7 @@ def compile_dsl(task: dict) -> tuple[str, dict]:
     else:
         edges.extend([_edge("start", "llm", "start", "llm"), _edge("llm", terminal_id, "llm", terminal_type)])
 
-    mock_dependencies = configuration.get("mock_dependencies", [])
-    if not isinstance(mock_dependencies, list):
-        mock_dependencies = [str(mock_dependencies)]
-    mock_dependencies = [str(item) for item in mock_dependencies if str(item).strip()]
-    mock_note = f"模拟依赖（未接入真实服务）：{', '.join(mock_dependencies)}。" if mock_dependencies else ""
+    mock_note = mock_dependency_notice(configuration)
     app_name = str(task.get("name") or "未命名应用").strip()
     resource_plan = configuration.get("resource_plan")
     description_parts = [f"由 Sierra 生成，目标 Dify {TARGET_DIFY_VERSION}。"]
@@ -255,8 +260,8 @@ def compile_dsl(task: dict) -> tuple[str, dict]:
     }
     content = yaml.safe_dump(dsl, allow_unicode=True, sort_keys=False)
     validation = validate_dsl(content)
-    if mock_dependencies:
-        validation["warnings"].append("包含模拟依赖，结果属于模拟配置，不能视为已连接或已验证。")
+    if mock_note:
+        validation["warnings"].append(MOCK_DEPENDENCY_WARNING)
     validation["warnings"].append("此结果仅将已收集需求写入线性提示词模板；分支、循环、审批、批量策略和外部接口等复杂业务语义未展开，仍需人工设计与 Dify 实测。")
     validation["warnings"].append("DSL 静态检查不等于目标 Dify 导入或运行验证。")
     return content, validation

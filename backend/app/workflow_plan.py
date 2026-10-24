@@ -28,7 +28,7 @@ from urllib.parse import parse_qsl, urlparse
 
 import yaml
 
-from app.dsl import DSL_VERSION, TARGET_DIFY_VERSION
+from app.dsl import DSL_VERSION, TARGET_DIFY_VERSION, MOCK_DEPENDENCY_WARNING, mock_dependency_notice
 
 SUPPORTED_PLAN_NODES = (
     "start",
@@ -1029,5 +1029,9 @@ def compile_workflow_plan(task: dict) -> tuple[str, dict]:
     if any(n['type']=='human-input' for n in plan['nodes']):
         from .human_review import RUNTIME_LIMIT
         dsl['app']['description']+=' '+RUNTIME_LIMIT
+    mock_note = mock_dependency_notice(task_config)
+    if mock_note:
+        dsl['app']['description'] += '\n' + mock_note
+        validation['warnings'].append(MOCK_DEPENDENCY_WARNING)
     content = yaml.safe_dump(dsl, allow_unicode=True, sort_keys=False)
     return content, validation

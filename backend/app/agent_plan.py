@@ -1,7 +1,7 @@
 """Native Dify 1.17.1 Agent packages; no Workflow/Chatflow substitution."""
 import re
 import yaml
-from .dsl import DSL_VERSION, REQUIREMENT_KEYS
+from .dsl import DSL_VERSION, REQUIREMENT_KEYS, MOCK_DEPENDENCY_WARNING, mock_dependency_notice
 from .model_parameters import completion_parameters
 
 AGENT_RUNTIME_NOTE = '原生 Agent 的内建配置 CLI／沙箱由 Dify 部署提供；空自定义工具列表不代表运行时没有内建工具。当前不配置自定义工具、文件、Skills 或人工介入；知识集检索由 Agent 按指令调用，不能保证每轮必检索。'
@@ -105,4 +105,9 @@ def compile_agent_plan(task):
                     'icon_background': '#EFF6FF', 'icon_type': 'emoji', 'use_icon_as_answer_icon': False},
             'dependencies': [], 'kind': 'app', 'version': DSL_VERSION,
             'agent': {'package_ref': 'agent_1'}, 'agent_packages': {'agent_1': package}}
+    mock_note = mock_dependency_notice(cfg)
+    if mock_note:
+        root['app']['description'] += '\n' + mock_note
+        package['metadata']['description'] += '\n' + mock_note
+        result['warnings'].append(MOCK_DEPENDENCY_WARNING)
     return yaml.safe_dump(root, allow_unicode=True, sort_keys=False), result
