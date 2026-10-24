@@ -2,7 +2,7 @@ import {useEffect,useRef,useState} from 'react';
 type Page='需求'|'配置'|'流程'|'构建'|'运行'|'历史';
 type Step={schema_version:1;task_id:string;revision:number;app_type:string;snapshot_token:string;state:string;target_page:Page|null;title:string;reason:string;checklist:string[];verification:string;task_changed:boolean;network_requested:boolean;automatic_execution:boolean;business_verified:boolean;note:string};
 const pages:Page[]=['需求','配置','流程','构建','运行','历史'];
-const states=['busy','paused','intake','requirements','plan','plan_required','configuration','build','offline','schedule','human','import','files','run','review','manual'];
+const states=['busy','paused','intake','requirements','plan','plan_required','configuration','build','offline','schedule','human','import','files','publication','publication_review','runtime_key','run','review','manual'];
 const object=(v:unknown):v is Record<string,unknown>=>!!v&&typeof v==='object'&&!Array.isArray(v);
 const text=(v:unknown,n:number)=>typeof v==='string'&&v.length>0&&v.length<=n;
 export default function TaskNextStep({taskId,revision,appType,scope,editing,onNavigate}:{taskId:string;revision:number;appType:string;scope:string;editing:boolean;onNavigate:(page:Page)=>void}){

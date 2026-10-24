@@ -1,5 +1,5 @@
 """Report instructions from saved current-App facts; never grant execution scope."""
-from .acceptance import matches_current_app
+from .workflow_publication import saved_publication
 
 
 def describe(task, summary, *, runtime_key_paired=False):
@@ -11,16 +11,8 @@ def describe(task, summary, *, runtime_key_paired=False):
         return value if isinstance(value, dict) else {}
     imported = bool(app) and any(r.get('kind') == 'import' and r.get('status') == 'success'
                                 and result(r).get('app_id') == app for r in rows)
-    publications = [r for r in rows if r.get('kind') == 'publish' and matches_current_app(task, r)]
-    latest = publications[-1] if publications else None
     mode = task.get('app_type')
-    receipt = result(latest) if latest else {}
-    receipt_mode = receipt.get('app_type')
-    typed = receipt_mode == mode or (mode == 'workflow' and 'app_type' not in receipt)
-    bound = receipt.get('app_id') == app
-    published = bool(latest and latest.get('status') == 'success' and result(latest).get('state') == 'succeeded'
-                     and typed and bound and isinstance(result(latest).get('workflow_id'), str) and result(latest)['workflow_id'].strip())
-    uncertain = bool(latest and (latest.get('status') in {'pending', 'unknown'} or not typed or not bound))
+    publication = saved_publication(task)
     todos = ['核对实际目标环境资源、插件和模型；本报告只读本机记录，没有访问Dify实时状态。']
     if not task.get('requirements_confirmed') or not task.get('configuration_confirmed') or task.get('plan_stale'):
         todos.append('当前需求、配置或流程条件待复核；下面保存事实不能作为当前执行许可。')
@@ -30,11 +22,11 @@ def describe(task, summary, *, runtime_key_paired=False):
         todos.append('尚无与当前修订、环境及App匹配的成功导入记录；先核对成果、目标和具体资源方案，不能据静态检查推断已导入。')
     if mode not in {'workflow', 'advanced-chat'}:
         todos.append('原生Agent须按用户所选类型在Dify核对发布；不套用Workflow发布回执或改变应用类型。')
-    elif latest and latest.get('status') not in {'pending', 'unknown'} and (not typed or not bound):
+    elif publication['has_record'] and publication['status'] not in {'pending', 'unknown'} and not (publication['type_matches'] and publication['app_matches']):
         todos.append('当前发布记录缺少匹配应用类型依据，不套用Workflow发布回执；请核对原结果，禁止直接重发。')
-    elif uncertain:
+    elif publication['uncertain']:
         todos.append('当前App发布结果未知或尚未返回，可能已经执行；核对原记录，禁止直接重发。')
-    elif published:
+    elif publication['published']:
         todos.append('已保存当前App发布成功回执，无需重复发布；外部编辑、删除或撤销仍须核对。')
     else:
         todos.append('尚无当前App的发布成功回执；先核对Dify实际状态，需要首次发布时另按明确方案确认，不能据试跑猜测。')

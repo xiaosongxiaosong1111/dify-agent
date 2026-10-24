@@ -148,6 +148,8 @@ GET `/api/provider-presets` returns a reviewed local catalog (`account_unverifie
 
 GET /api/tasks/{id}/next-step?revision=当前整数修订：只读保存状态与准入，旧修订409。schema_version=1、task_id／revision／app_type、snapshot_token、state、target_page、固定title／reason／checklist及verification=saved_local_navigation_advice_only；task_changed／network_requested／automatic_execution／business_verified均false。不执行模型、Dify或资源，不是全套预检；前端只导航，未保存编辑时停止读取与导航。各专用运行入口仍独立。
 
+0.276新增state=publication／publication_review／runtime_key，Workflow/Chatflow按当前修订、环境、App及类型的已保存发布回执和专属运行Key配对建议；未知或回执不匹配优先原记录，已有当前普通运行则复核结果。仅调用has_secret查存在，不解密、不访问Dify；snapshot_token包含发布事实及Key配对布尔值，同修订变化也失效。本机配对不证明Key有效，建议不是执行许可。
+
 POST /api/tasks/{id}/messages：content为非空、最多16000字符、UTF8完整文字，stream_response为严格布尔（默认false），mode为review或discussion（默认review）。未知字段和无效模式拒绝，错误不回显输入；默认review维持原需求与准入更新行为。discussion仍使用配置模型及同一助手访谈预算，保存对话和实际用量，但不写需求、配置、流程、确认、版本或成果；暂停／超限仍可能改变执行状态。只读讨论不代表免费或取消已派发请求。
 
 discussion使用独立系统协议与当前类型公共能力目录，并附无身份ID的最小本机进度描述。模型响应仅完整JSON对象message一个非空字段（最多16000字符；整个回复UTF8最多128000字节），重复键、非有限值、额外修改字段、围栏及不完整回复整份拒绝，不部分采用，不自动重试。revision变化或暂停保留迟到候选与用量，不修改原业务。

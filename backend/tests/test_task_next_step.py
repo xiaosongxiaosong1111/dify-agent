@@ -15,7 +15,7 @@ READY={'can_confirm':True,'context_token':'fixture-context'}
  ({'status':'interviewing'},READY,'busy','需求'),({'status':'planning'},READY,'busy','流程'),({'status':'paused'},READY,'paused','历史'),({'status':'error'},READY,'paused','历史'),
  ({}, {'can_confirm':False},'intake','需求'),({'requirements_confirmed':False},READY,'requirements','需求'),({'plan_stale':True},READY,'plan','流程'),({'configuration_confirmed':False},READY,'configuration','配置'),
  ({'artifact':None},READY,'build','构建'),({'artifact':{'revision':2,'validation':{'valid':True}}},READY,'build','构建'),({'artifact':{'revision':True,'validation':{'valid':True}}},READY,'build','构建'),({'artifact':{'revision':3,'validation':{'valid':False}}},READY,'build','构建'),
- ({'environment_id':None},READY,'offline','构建'),({'dify_app_id':None},READY,'import','构建'),({},READY,'run','运行'),({'status':'future'},READY,'manual','历史')])
+ ({'environment_id':None},READY,'offline','构建'),({'dify_app_id':None},READY,'import','构建'),({},READY,'publication','运行'),({'status':'future'},READY,'manual','历史')])
 def test_saved_state_decision_is_navigation_only(patch,intake,expected,page):
     t={**saved(),**patch};before=copy.deepcopy(t);v=describe(t,intake)
     assert v['state']==expected and v['target_page']==page and t==before
@@ -29,7 +29,7 @@ def test_special_entry_never_recommends_ordinary_run(typ,expected,page):
 def test_old_or_foreign_runs_do_not_satisfy_current_run_step():
     t=saved();base={'id':'run','kind':'run','revision':3,'environment_id':'env','app_id':'app','app_type':'workflow','status':'success'}
     for field,value in [('kind','import'),('revision',2),('environment_id','other'),('app_id','other'),('app_type','agent')]:
-        t['runs']=[{**base,field:value}];assert describe(t,READY)['state']=='run'
+        t['runs']=[{**base,field:value}];assert describe(t,READY)['state']=='publication'
     t['runs']=[base];v=describe(t,READY);assert v['state']=='review' and v['business_verified'] is False
     t['runs']=[{**base,'status':'failed','error':'private customer detail','result':{'private':'not returned'}}]
     v=describe(t,READY);assert v['state']=='review' and 'private' not in json.dumps(v)

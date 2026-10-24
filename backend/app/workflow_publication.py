@@ -25,6 +25,25 @@ class Confirm(Prepare):
     confirm_publish: StrictBool
 
 
+def saved_publication(task):
+    """Only current-App local facts; missing reply metadata never proves no dispatch."""
+    app = task.get('dify_app_id'); mode = task.get('app_type')
+    rows = [row for row in task.get('runs', []) if isinstance(row, dict) and app
+            and row.get('kind') == 'publish' and type(row.get('revision')) is int
+            and row['revision'] == task['revision'] and row.get('environment_id') == task.get('environment_id')
+            and row.get('app_id') == app]
+    latest = rows[-1] if rows else None
+    receipt = latest.get('result') if latest else None
+    receipt = receipt if isinstance(receipt, dict) else {}
+    typed = receipt.get('app_type') == mode or (mode == 'workflow' and 'app_type' not in receipt)
+    bound = bool(app) and receipt.get('app_id') == app
+    status = latest.get('status') if latest else None
+    published = bool(latest and status == 'success' and receipt.get('state') == 'succeeded' and typed and bound
+                     and isinstance(receipt.get('workflow_id'), str) and receipt['workflow_id'].strip())
+    return {'has_record': bool(latest), 'status': status, 'type_matches': typed, 'app_matches': bound,
+            'published': published, 'uncertain': bool(latest and (status in {'pending', 'unknown'} or not typed or not bound))}
+
+
 def core(workflow):
     """Compare all node data/edges/features/variables; ignore canvas geometry only."""
     try:

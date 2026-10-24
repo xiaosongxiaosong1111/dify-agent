@@ -1,0 +1,46 @@
+{
+  "state": "passed",
+  "runtime": {
+    "version": "0.276.0",
+    "mode": "snapshot",
+    "build_id": "0.276.0-ce3d86646d7c89f95e7a",
+    "content_sha256": "ce3d86646d7c89f95e7af56c186c7a71c04601a008cc299c0b58b5064e6d793e",
+    "file_count": 245,
+    "task_data_inside_snapshot": false,
+    "note": "后端、模型契约及前端资源来自启动时固定快照；任务数据与凭据独立使用原目录。Python依赖环境仍共用，不是完整依赖隔离。"
+  },
+  "baseline_reproduction": "Imported task without saved publication incorrectly suggested run; focused regression reproduced before fix.",
+  "new_backend_tests": 13,
+  "related_backend_tests": 77,
+  "ui": {
+    "state": "passed",
+    "checks": [
+      "核对当前App发布状态",
+      "navigation only; no operation dispatched",
+      "核对并登记当前App专属运行Key",
+      "准备样例并核对一次试跑条件",
+      "核对并登记当前App专属运行Key",
+      "先核对当前App的原发布记录",
+      "先核对当前App的原发布记录",
+      "refresh preserves unknown review without retry",
+      "核对结果与尚未覆盖的场景"
+    ],
+    "browser_errors": [],
+    "browser_operation_writes": [],
+    "physical_model_dify_http": 0,
+    "synthetic_saved_facts": true,
+    "actual_platform_acceptance": false
+  },
+  "typescript_frontend_build_passed": true,
+  "unknown_publication_screenshot_reviewed": true,
+  "navigation_key_pairing_uses_presence_without_decryption": true,
+  "same_revision_publication_and_key_facts_change_advice_scope": true,
+  "current_run_review_does_not_require_republishing_or_rebinding": true,
+  "source_matches_all_runtime_files": true,
+  "health_and_frontend_asset_http": 200,
+  "all16_production_objects_ciphertexts_master_key_old_receipts_kept": true,
+  "original95_unknown_and_all_reserved_scopes_kept": true,
+  "temporary_ui_store_removed": true,
+  "actual_dify_reads_login_publish_keys_runs_and_model_added": 0,
+  "actual_platform_or_business_acceptance": false
+}
