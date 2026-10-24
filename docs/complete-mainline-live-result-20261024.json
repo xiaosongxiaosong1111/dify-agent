@@ -1,0 +1,62 @@
+{
+  "state": "stopped_before_upstream_http_no_retry",
+  "frozen_commit": "46f23e8",
+  "plan_sha256": "3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf",
+  "manifest_sha256": "744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58",
+  "human_approval_source": "call_d147de690b78424eb2ec78b4f7c3f4d5/question0",
+  "verbatim_answer": "允许这整批新范围",
+  "execution": {
+    "provider_invocations": 1,
+    "actual_model_http": 0,
+    "actual_dify_http": 0,
+    "new_empty_local_task": "5abd5207-cdca-44df-a1fc-892a46870e37",
+    "revision": 2,
+    "requirements_all_empty": true,
+    "new_apps_publications_keys_runs": 0,
+    "stage": "intake_local_transport_guard"
+  },
+  "cause": "Verification runner used str(request.url()) for HTTPX Request; url is a property; TypeError was caught by the provider adapter and displayed as protocol incompatibility. No model response was received.",
+  "raw_receipt_and_ledger_preserved": true,
+  "ledger_entry_status": "unknown",
+  "first_ledger_reserved_usd": "0.0188541",
+  "whole_new_model_scope_estimate_reserved_kept_usd": "0.15",
+  "ledger_reservation_not_double_added_outside_whole_scope": true,
+  "accounting": {
+    "known_actual_model_http_unchanged": 16,
+    "conservative_model_upper": 23,
+    "held_slots_total": 7,
+    "held_scope_estimate_usd": "0.35",
+    "known_config_estimate_usd": "0.075473652",
+    "known_plus_conservative_held_usd": "0.425473652",
+    "dify_actual_requests": 12,
+    "formal_passed": 10,
+    "case_apps_publications_keys_each": 6,
+    "management_read_conservative_reserved": 413,
+    "actual_new_management_reads": 0,
+    "actual_new_login_posts": 0
+  },
+  "protected": {
+    "state": "passed_source_protection_after_stopped_batch",
+    "original15_tasks_and_all_old_objects_exactly_kept": true,
+    "all_ciphertexts_and_master_key_exactly_kept": true,
+    "all_old_receipts_kept": true,
+    "new_empty_local_task_only": "5abd5207-cdca-44df-a1fc-892a46870e37",
+    "new_task_revision": 2,
+    "new_task_count": 1,
+    "model_invocations": 1,
+    "model_http_dispatched": 0,
+    "dify_http_dispatched": 0,
+    "apps_publications_keys_runs_created": 0,
+    "frozen_pack_not_changed": true,
+    "temporary_store_removed": true,
+    "source_failure": "Python transport guard calls HTTPX Request.url property as a function, causing TypeError before forward; not supplier response or model semantic failure",
+    "ledger_unknown_preserved": true,
+    "original_failed_batch_not_retried": true
+  },
+  "not_proven": [
+    "supplier protocol defect",
+    "actual model intake content quality",
+    "same-session real model/platform continuity",
+    "final business acceptance"
+  ]
+}
