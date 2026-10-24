@@ -1,0 +1,48 @@
+{
+  "state": "partial_grounding_better_but_boolean_literal_invalid",
+  "candidate_manually_modified": false,
+  "human_business_signoff": false,
+  "full_graph_review_passed": false,
+  "hardcoded_policy_facts_removed_from_answer_prompt": true,
+  "policy_identifiers_as_examples_not_treated_as_policy_facts": true,
+  "error_path": "nodes[3].config.cases[0].conditions[0].value",
+  "actual_type": "string",
+  "actual_value": "true",
+  "required_type": "JSON boolean or full variable reference",
+  "not_auto_converted": true,
+  "no_plan_adopted_or_built": true,
+  "diagnostics": [
+    "条件 check_hit：cases[0].conditions[0] 布尔右值须为明确 true／false 或完整变量模板，不自动把文字变布尔值。"
+  ],
+  "note": "Prompt source improvement observed in this candidate only; complete graph review and runtime not passed.",
+  "actual_model_http": 1,
+  "new_intake_model_http": 0,
+  "known_actual_sierra_http_after": 16,
+  "conservative_allocated_after": 20,
+  "limit": 20,
+  "batch_configuration_estimate_usd": "0.008211432",
+  "combined_known_estimate_usd": "0.075473652",
+  "retained_reservations_usd": "0.20",
+  "combined_known_plus_retained_estimate_usd": "0.275473652",
+  "usage": {
+    "prompt_tokens": 27478,
+    "completion_tokens": 726,
+    "total_tokens": 28204,
+    "prompt_cache_hit_tokens": 3072,
+    "prompt_cache_miss_tokens": 24406,
+    "prompt_tokens_details": {
+      "cached_tokens": 3072
+    }
+  },
+  "invoice_verified": false,
+  "old_ledgers_kept": true,
+  "runtime": "0.267.0-6a994909219eb1f54944",
+  "approval": "direct_user_reply:call_c6d9c3c57bac4838a78012cb81044de7/question0",
+  "frozen_commit": "7c648e8",
+  "plan_sha256": "d22b72cd07f81bf8f5554cb1ec2e2cdf2d40714448fed527cd760eca5d57268d",
+  "manifest_sha256": "3497f1be0989038afd4a136749c773caa551da166ff8139f67b766931de779c9",
+  "dify_production_writes": 0,
+  "source14_all_objects_credentials_key_old81_and79_kept": true,
+  "temporary_data_removed": true,
+  "automatic_retry": false
+}
