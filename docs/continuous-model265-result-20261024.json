@@ -1,0 +1,48 @@
+{
+  "state": "stopped_needs_review",
+  "runtime": "0.265.0-da8b6413b9a732bf0ce1",
+  "approval": "direct_user_reply:call_32fd103f0df64058b0053f0b24c47df7/question0",
+  "frozen_commit": "8cc3ab0",
+  "plan_sha256": "9f7dce7e1ba1af2b35424f52a0aa271422d7b8e5288821b7d5ec66e24e31665f",
+  "manifest_sha256": "6144ac6303c367bf646c8dfcfcb134574c92a78f0002bf753710d8da56cb2962",
+  "actual_model_http": 1,
+  "source_key_reads": 1,
+  "second_model_http": 0,
+  "dify_production_writes": 0,
+  "plan_build": 0,
+  "blocking_topics": [
+    "input",
+    "rules",
+    "exceptions"
+  ],
+  "exact_literal_in_output": true,
+  "knowledge_resource_condition_complete": true,
+  "candidate_manually_modified": false,
+  "admission_overridden": false,
+  "automatic_retry": false,
+  "source14_objects_credentials_master_key_and_old_packages_unchanged": true,
+  "temporary_data_removed": true,
+  "usage": {
+    "prompt_tokens": 7989,
+    "completion_tokens": 2225,
+    "total_tokens": 10214,
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 7605,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    }
+  },
+  "configuration_estimate_usd": "0.004953804",
+  "known_actual_sierra_http": 13,
+  "conservative_calls": 16,
+  "conservative_limit": 16,
+  "known_estimate_usd": "0.059770068",
+  "retained_reservations_usd": "0.15",
+  "known_plus_retained_estimate_usd": "0.209770068",
+  "invoice_verified": false,
+  "not_claimed": [
+    "continuous model chain passed",
+    "actual Dify browser delivery",
+    "final business acceptance"
+  ]
+}
