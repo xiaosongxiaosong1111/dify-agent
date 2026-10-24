@@ -222,4 +222,6 @@
 
 | 108 | 历史单轮输入显式预览并载入当前自由试跑草稿，避免修改后手工复制或沿用旧会话/样例 | `.venv\Scripts\python.exe -m pytest backend/tests/test_saved_run_input.py -q`及前端构建/隔离UI；只读、数字无损、来源/上下文/旧修订拒绝，原16保持，日志后push | codex | done | commitcb26626；新22/相关41、UI6、构建截图及0.281部署通过，输入文字无损/来源上下文拒绝/迟到失效和旧选择清除；原16全部对象密文主Key/旧回执unknown保持，真实模型/Dify0；不代表实际重跑验收 |
 
-| 109 | 将已选择的两次试跑对照导出为绑定观察快照的说明，供修改交付核对 | `.venv\Scripts\python.exe -m pytest backend/tests/test_run_comparison_report.py -q`及前端构建/隔离下载核对；输入/输出需脱敏仍不回显，变化409，原16保持，日志后push | codex | pending | 沿用105只读对照，导出不重跑、不评分、不扩大费用或资源范围；解决现有对照只能临时查看的交付缺口 |
+| 109 | 将已选择的两次试跑对照导出为绑定观察快照的说明，供修改交付核对 | `.venv\Scripts\python.exe -m pytest backend/tests/test_run_comparison_report.py -q`及前端构建/隔离下载核对；输入/输出需脱敏仍不回显，变化409，原16保持，日志后push | codex | done | commita7e3c5e；新13/相关32、UI5/两个文件与变化409/错标识/迟到拒绝及构建截图通过；0.282部署250文件匹配/health200，原16对象密文主Key/旧回执unknown保持，真实外部0；只读记录说明，非质量提升或业务签收 |
+
+| 110 | 将匹配售后草稿中的合成订单分支生成待复核样例草稿，避免逐例手工填写预期 | `.venv\Scripts\python.exe -m pytest backend/tests/test_after_sales_cases.py -q`及构建/隔离UI；精确模板/当前成果/模拟范围绑定，主动追加未保存样例，不运行，原16保持 | codex | pending | 只从已明确合成表推导命中/未命中/缺订单号预期，不推断资料问答覆盖，不扩大真实调用范围 |
