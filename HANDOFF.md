@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main，原GitHub https://github.com/xiaosongxiaosong1111/dify-agent.git。生产0.268.0-6b739828b437b14f1469／health200，Dify目标1.17.1。88结果086aa93、89服务恢复213a3a3／队列36a99d8；90准备证据待本次提交，随后90 done／91 need-user并push。未跑全量。
+- 项目E:\workSpace\dify-agent，main，原GitHub https://github.com/xiaosongxiaosong1111/dify-agent.git。生产0.268.0-6b739828b437b14f1469／health200，Dify目标1.17.1。88结果086aa93、89服务恢复213a3a3／队列36a99d8；90准备证据3b7445a；90 done／91 need-user，队列提交后push。未跑全量。
 - 当前15任务：原14全部保持；第88仅新增e764003b-00d4-404c-8b94-e22c29201823／Sierra布尔格式修正图验收／r5／draft_ready，需求／配置已确认、静态成果及两例已存，0/2且10分钟／USD阈值null，无App／运行。后续应复用它，不再建任务。
 - 最近已成功案例仍5a37368d-3d6b-4708-829c-9e8dcedaf356／r5／run_completed，App0ec579c4-fae3-4f7e-80d3-f8508846c91c，发布图a3df4f40-acd4-40a3-9b0d-dc023ac0ef8d，两正式例passed。当前专用连接202bfb35-2f92-47c1-bc1b-eac32082181d仍配该App运行Key；旧Key归档保持。
 - 固定原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17。第88失败后console_login_blocked=true保持，不能因Docker恢复自动清除或重试；复用加密登录，不从聊天复制密码，不输出／提交凭据。
@@ -22,7 +22,7 @@
 3. 新plan SHA256be94ac616c9f17233a10dc30e329c58897471444b521d4750e883399673466e8，manifest SHA256a9255f05d3c29a06eb3f243f5702e5ad643bdd437019e80afca49d348b82e0aa；运行必须0.268.0-6b739828b437b14f1469且源码匹配。公开docs/existing-preview-live-plan-20261024.md、input、readiness。
 4. 新service_preflight.py在回执／凭据／Dify HTTP前，只读Docker inspect五个既有服务healthy并连接8080 TCP，无HTTP／登录；健康／未就绪／TCP失败正反检查及当前实际就绪核对通过。这不证明账号或空间正确，仍须后续单次明确重连及空间匹配，异常即停，不重试／换账号／买额度。
 5. 同一未来flow复制当前15对象到临时Store，正常两例／容量前置／发布502／首例502停止均通过，无新任务；其他14任务及全部原策略保持，真实15对象／密文／主Key／88失败与恢复文件不变，临时清理，真实外部0。固定适配器未执行生成代码，不当平台成功。
-6. 无绑定新plan／manifest直接人类批准approval.json时，在回执／任务变更／网络前拒绝；已有receipt不重放。先提交90准备证据、再90 done／91 need-user并push，提供固定commit方案请求一次独立批准。使用可读Docker管道的提升执行环境。
+6. 无绑定新plan／manifest直接人类批准approval.json时，在回执／任务变更／网络前拒绝；已有receipt不重放。90准备证据3b7445a已提交；队列90 done／91 need-user，队列提交并push后，提供固定3b7445a方案链接请求一次独立批准。使用可读Docker管道的提升执行环境。
 7. 若新批成功，核对两例原生evaluation passed／新发布workflow_id、新旧Key配对与归档只在内存比较、其他原状态及只读界面报告；不能据tokens推断路径或免费。当前没有实际Codex额度不足，全部剩余blocked／need-user时停队列；实际Codex不足立即尽力整份交接后停，不重试／换账号／购买。
 
 ## 4. 之前实际模型与人工修正边界
@@ -33,7 +33,7 @@
 ## 5. 真实平台与费用事实
 
 - 70直接批准后一次passed，不重放。冻结9cd9c92、结果3c22b44，work/fresh-graph-live-263/receipt passed；命中run7b8d03a8-cb48-4d91-9cb1-2555f7c38bbf／268tokens，无命中d507360d-ad73-404f-ad6a-90e4bbbd8a2f／0tokens，succeeded／evaluation passed且匹配发布图。固定回复严格“知识库暂无相关信息，请联系人工客服并提供订单号。”，保护11／只读UI6通过。
-- Dify实际请求累计10（含原断言失败2），正式passed8，App／首次发布／运行Key各5，范围用完。原入口6/6、改文案2/2、新任务2/2及10分钟保持，USD报价阈值null。报告tokens总1499，未读节点轨迹，不据tokens证明路径或免费，账单未知。管理读取旧221加88预留48后保守上界269、88登录预留14不是实际仪表计数，不退旧预留。
+- Dify实际请求累计10（含原断言失败2），正式passed8，案例App／首次发布／运行Key各5；88已停止，不自动复用其授权。原入口6/6、改文案2/2、新任务2/2及10分钟保持，USD报价阈值null。报告tokens总1499，未读节点轨迹，不据tokens证明路径或免费，账单未知。管理读取旧221加88预留48后保守上界269、88登录预留14不是实际仪表计数，不退旧预留。
 - Sierra已知实际HTTP16、保守20/20；配置估算已知0.075473652USD。源6次0.026526696、53为0.009580368、63为0.003895236、65为0.002626380、67为0.002818980、71为0.004581636、73为0.004786968、76为0.004953804、79为0.004566636、81为0.002925516、84为0.008211432。61启动失败、71／76／79未派发第二阶段各0.05／一槽保留，合计0.275473652USD，非供应商账单；旧独立账本不改。
 - 旧入口4eb52689-3f3d-4e18-8bfd-1bb744a2c8f0／r21／App4ce034da-0765-4279-8294-8f9d4c6be8ca，改文案1febbd15-9b76-49cb-b4fc-0dea7cc6c27e／r5／App3f7ed3ea-6cc3-4582-8246-2ccba04972a3，原v1／v2 App及FAQ库d12cf081-5c52-41e3-b869-e94e6f8d37b1和两份合成FAQ保持。回答配置deepseek-flash／thinking=false／0.2／512／TopK3不变；全局模型设置不改。
 
