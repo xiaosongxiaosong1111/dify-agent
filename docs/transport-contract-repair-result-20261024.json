@@ -1,0 +1,38 @@
+{
+  "state": "passed_offline_real_protocol_transport_contract",
+  "checks": [
+    "exact failed AST + real provider builder reproduces local URL TypeError before forward",
+    "corrected exact AST traverses real selected SDK payload/HTTPX/response parser for three mock forwards",
+    "fourth request refused before mock forward through real provider builder",
+    "reject tokens before mock forward",
+    "reject stream before mock forward",
+    "reject messages before mock forward",
+    "reject method before mock forward",
+    "reject origin before mock forward"
+  ],
+  "observations": {
+    "frozen_failure_mock_forwards": 0,
+    "corrected_mock_forwards": 3,
+    "selected_runtime_profile": "deepseek",
+    "payload_keys": [
+      "max_tokens",
+      "messages",
+      "model",
+      "response_format",
+      "stream",
+      "thinking"
+    ]
+  },
+  "all16_production_objects_ciphertexts_master_key_unchanged": true,
+  "failed95_pack_approval_receipt_ledger_and_files_unchanged": true,
+  "new_source_credentials_decrypted": false,
+  "provider_key_used": "nonsecret_offline_placeholder_only",
+  "physical_network_requests": 0,
+  "real_model_and_dify_http": 0,
+  "source_model_http_remains16": true,
+  "failed_batch_not_retried": true,
+  "review_copy_is_not_an_authorized_live_pack": true,
+  "source_frozen_server_sha256": "059363e4bb6f593f16205cdbf6d55a1b2dd6d30ee02717a599795428529ca607",
+  "corrected_review_server_sha256": "b75e186863b3d4b41077230e41fd406d6a90d13b0e5e2570f5cab41f1543f5d0",
+  "exact_changes": "two request.url() expressions become request.url property reads; no other source change"
+}
