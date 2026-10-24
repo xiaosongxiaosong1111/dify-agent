@@ -1,0 +1,72 @@
+{
+  "state": "passed",
+  "runtime": {
+    "version": "0.275.0",
+    "mode": "snapshot",
+    "build_id": "0.275.0-1df5725e09b7c9788a43",
+    "content_sha256": "1df5725e09b7c9788a430a2392e04f2a0d73c364f6aa42b0e81beba538607caa",
+    "file_count": 245,
+    "task_data_inside_snapshot": false,
+    "note": "后端、模型契约及前端资源来自启动时固定快照；任务数据与凭据独立使用原目录。Python依赖环境仍共用，不是完整依赖隔离。"
+  },
+  "baseline_reproduction": "17 failed: Chatflow locally rejected and matching typed Chatflow receipt not accepted",
+  "new_backend_tests": 23,
+  "related_backend_tests": 63,
+  "real_dify_request_httpx_serialization_to_fake_native_transport_passed": true,
+  "ui_proofs": {
+    "happy": {
+      "state": "passed",
+      "checks": [
+        "Chatflow has its own publication label and disclosure",
+        "workflow receipt cannot be reviewed as a Chatflow proposal",
+        "prepare reads identity/draft/published only and confirmation remains explicit",
+        "one fake publish only; typed receipt retained; no Key or model/run operation",
+        "matching Chatflow receipt disables republish and delivery report uses saved success",
+        "refresh reconstructs local progress without further Dify calls",
+        "wrong-type saved receipt stays unconfirmed and cannot enable republishing",
+        "pending dispatch with no response metadata remains blocked on refresh"
+      ],
+      "browser_errors": [],
+      "physical_model_dify_http": 0,
+      "fake_reads": 7,
+      "fake_publish_posts": 1,
+      "actual_platform_acceptance": false
+    },
+    "unknown": {
+      "state": "passed",
+      "checks": [
+        "Chatflow has its own publication label and disclosure",
+        "prepare reads identity/draft/published only and confirmation remains explicit",
+        "one fake publish only; typed receipt retained; no Key or model/run operation",
+        "ambiguous dispatch remains unknown and disables retry",
+        "refresh reconstructs local progress without further Dify calls"
+      ],
+      "browser_errors": [],
+      "physical_model_dify_http": 0,
+      "fake_reads": 6,
+      "fake_publish_posts": 1,
+      "actual_platform_acceptance": false
+    }
+  },
+  "typescript_frontend_build_passed": true,
+  "panel_screenshot_reviewed": true,
+  "chatflow_standard_console_reads": 7,
+  "chatflow_prepare_reads": 3,
+  "chatflow_confirm_reads": 4,
+  "chatflow_publish_posts_limit": 1,
+  "authentication_may_add_requests": true,
+  "old_workflow_standard_console_reads_kept": 5,
+  "current_artifact_import_baseline_mode_and_remote_app_mode_bound": true,
+  "draft_features_memory_conversation_variables_hash_changes_refused": true,
+  "possible_dispatch_unknown_no_retry_and_restart_safe": true,
+  "typed_publication_receipt_and_pending_without_result_guarded": true,
+  "legacy_workflow_receipts_not_migrated": true,
+  "health_and_frontend_asset_http": 200,
+  "source_matches_runtime_snapshot": true,
+  "all16_production_objects_ciphertexts_master_key_old_receipts_kept": true,
+  "original95_unknown_and_all_reserved_scopes_kept": true,
+  "temporary_ui_stores_removed": true,
+  "actual_dify_reads_login_publish_keys_runs_and_model_added": 0,
+  "actual_platform_publication_or_business_acceptance": false,
+  "upstream_reference": "https://github.com/langgenius/dify/blob/1.17.1/api/controllers/console/app/workflow.py#L1193-L1256"
+}

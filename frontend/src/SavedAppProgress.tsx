@@ -1,7 +1,7 @@
 import type {AcceptanceSummary,RunRecord} from './AcceptancePanel';
 const object=(v:unknown):v is Record<string,unknown>=>!!v&&typeof v==='object'&&!Array.isArray(v);
 const result=(r:RunRecord)=>object(r.result)?r.result:{};
-type Scope={artifact?:unknown;requirements_confirmed?:boolean;configuration_confirmed?:boolean;plan_stale?:boolean;revision:number;environment_id:string|null;dify_app_id?:string|null;runs:RunRecord[]};
+type Scope={app_type?:string;artifact?:unknown;requirements_confirmed?:boolean;configuration_confirmed?:boolean;plan_stale?:boolean;revision:number;environment_id:string|null;dify_app_id?:string|null;runs:RunRecord[]};
 export function savedAppProgress(task:Scope){
  const artifact=object(task.artifact)?task.artifact:null;
  const built=task.requirements_confirmed===true&&task.configuration_confirmed===true&&task.plan_stale!==true&&!!artifact&&artifact.revision===task.revision&&object(artifact.validation)&&artifact.validation.valid===true;
@@ -9,10 +9,11 @@ export function savedAppProgress(task:Scope){
  const bound=!!appId.trim()&&!!task.environment_id;
  const rows=bound?task.runs.filter(r=>r.revision===task.revision&&r.environment_id===task.environment_id):[];
  const imported=rows.some(r=>r.kind==='import'&&r.status==='success'&&result(r).app_id===appId);
- const publications=rows.filter(r=>r.kind==='publish'&&r.app_id===appId&&result(r).app_id===appId),last=publications.at(-1);
- const value=last?result(last):{};
- const publishedWorkflowId=last?.status==='success'&&value.state==='succeeded'&&typeof value.workflow_id==='string'&&value.workflow_id.trim()?value.workflow_id:null;
- const publicationUncertain=!!last&&['pending','unknown'].includes(last.status||'');
+ const publications=rows.filter(r=>r.kind==='publish'&&r.app_id===appId),last=publications.at(-1);
+ const value=last?result(last):{},mode=task.app_type||'workflow';
+ const typed=value.app_type===mode||(mode==='workflow'&&value.app_type===undefined);
+ const publishedWorkflowId=typed&&value.app_id===appId&&last?.status==='success'&&value.state==='succeeded'&&typeof value.workflow_id==='string'&&value.workflow_id.trim()?value.workflow_id:null;
+ const publicationUncertain=!!last&&(['pending','unknown'].includes(last.status||'')||!typed||value.app_id!==appId);
  const successfulRunIds=rows.filter(r=>r.kind==='run'&&r.app_id===appId&&r.status==='success').map(r=>r.id);
  const successfulRuns=successfulRunIds.length;
  return {appId,revision:task.revision,built,imported,publishedWorkflowId,publicationUncertain,successfulRuns,successfulRunIds};

@@ -1,4 +1,4 @@
-"""Explicit first publication of a current imported Workflow. No keys or runs."""
+"""Explicit first publication of an imported Workflow or Chatflow. No keys/runs."""
 import copy
 import hashlib
 import time
@@ -44,11 +44,12 @@ def core(workflow):
 
 
 def public(row):
-    return {k: copy.deepcopy(row[k]) for k in ('id', 'task_id', 'revision', 'app_id', 'environment_id',
+    return {k: copy.deepcopy(row[k]) for k in ('id', 'task_id', 'revision', 'app_id', 'app_type', 'environment_id',
             'environment_url', 'environment_version', 'artifact_sha256', 'graph_digest',
             'review_token', 'state', 'expires_at', 'created_at', 'write_attempted', 'workflow_id', 'message') if k in row} | {
             'note': NOTE, 'new_apps': 0, 'publish_attempts': 1, 'new_keys': 0, 'runs': 0,
-            'planned_console_reads': 5, 'authentication_may_add_reads': True, 'automatic_retry': False, 'business_verified': False}
+            'planned_console_reads': 7 if row.get('app_type') == 'advanced-chat' else 5,
+            'authentication_may_add_reads': True, 'automatic_retry': False, 'business_verified': False}
 
 
 def register(h):
@@ -56,8 +57,9 @@ def register(h):
 
     def source(task):
         h.require_intake(task)
-        if task.get('app_type') != 'workflow':
-            raise HTTPException(422, '此发布入口目前仅适配Workflow；Chatflow和原生Agent请在Dify核对发布，应用类型保持。')
+        mode = task.get('app_type')
+        if mode not in {'workflow', 'advanced-chat'}:
+            raise HTTPException(422, '此发布入口仅适配Workflow和Chatflow；原生Agent请在Dify核对发布，应用类型保持。')
         if not task.get('requirements_confirmed') or not task.get('configuration_confirmed') or task.get('plan_stale'):
             raise HTTPException(409, '请先确认当前修订的需求、配置与流程。')
         h.require_manual_entry_runtime(task)
@@ -68,21 +70,28 @@ def register(h):
             raise HTTPException(422, '缺少当前修订的新建导入App，请先完成导入。') from None
         env = h.environment(task)
         content = h.artifact_path(task).read_text(encoding='utf-8')
-        root = parse(content, 'workflow'); graph = core(root['workflow'])
+        try:
+            root = parse(content, mode)
+        except ValueError:
+            raise HTTPException(422, '当前成果类型或结构与任务不匹配，未核对或发布。') from None
+        graph = core(root['workflow'])
         types = [n['data'].get('type') for n in graph['nodes']]
         if types.count('start') != 1 or any(isinstance(t, str) and t.startswith('trigger-') for t in types):
             raise HTTPException(422, '此入口仅发布手动Start流程；自动触发入口须使用专用资源方案。')
+        if 'human-input' in types:
+            raise HTTPException(422, '人工审核流程须使用专用资源方案，不由此首次发布入口处理。')
         imports = [r for r in task.get('runs', []) if r.get('kind') == 'import' and r.get('status') == 'success'
                    and r.get('revision') == task['revision'] and r.get('environment_id') == env['id']
                    and (r.get('result') or {}).get('app_id') == app]
-        if not imports or digest(core((imports[-1].get('dsl_baseline') or {}).get('workflow', {}))) != digest(graph):
+        if (not imports or (imports[-1].get('dsl_baseline') or {}).get('app', {}).get('mode') != mode
+                or digest(core((imports[-1].get('dsl_baseline') or {}).get('workflow', {}))) != digest(graph)):
             raise HTTPException(409, '当前成果与本修订的新建导入依据不一致，不能发布未知来源应用。')
         # Any earlier dispatched publication is one-shot, even after a local revision change.
         for row in h.store.list(KIND):
             if (row.get('app_id') == app and row.get('environment_id') == env['id']
                     and row.get('write_attempted')):
                 raise HTTPException(409, '该App已有发布派发记录，禁止重复发布；请先在Dify核对原结果。')
-        binding = {'task_id': task['id'], 'revision': task['revision'], 'app_id': app,
+        binding = {'task_id': task['id'], 'revision': task['revision'], 'app_id': app, 'app_type': mode,
                    'environment': h.env_snapshot(env), 'artifact_sha256': hashlib.sha256(h.artifact_path(task).read_bytes()).hexdigest(),
                    'graph_digest': digest(graph), 'pause_generation': task.get('pause_generation', 0)}
         return binding, env, graph
@@ -95,7 +104,11 @@ def register(h):
         if task.get('status') == 'paused': raise HTTPException(409, '任务已暂停，未派发发布。')
         return task, env, graph
 
-    async def remote(client, app, graph):
+    async def remote(client, app, graph, app_type):
+        if app_type == 'advanced-chat':
+            details = await client.request('GET', '/console/api/apps/' + app, credential='console_token')
+            if not isinstance(details, dict) or details.get('id') != app or details.get('mode') != app_type:
+                raise HTTPException(409, '平台App身份或Chatflow类型不匹配，未核对草稿或发布。')
         draft = await client.request('GET', f'/console/api/apps/{app}/workflows/draft', credential='console_token')
         if not isinstance(draft, dict) or not isinstance(draft.get('hash'), str) or not draft['hash']:
             raise HTTPException(422, '无法核对Dify原生草稿hash，未发布。')
@@ -123,14 +136,14 @@ def register(h):
             if task.get('status') == 'paused': raise HTTPException(409, '任务已暂停，请先明确恢复。')
             binding, env, graph = source(task)
         try:
-            draft = await remote(h.DifyClient(env, h.store), binding['app_id'], graph)
+            draft = await remote(h.DifyClient(env, h.store), binding['app_id'], graph, binding['app_type'])
         except DifyError as exc:
             from .console_failures import error_message, code
             raise HTTPException(502, '发布前只读核对未通过。' + error_message(exc) + ' 未发送发布。', headers={'X-Sierra-Dify-Code':code(exc)}) from None
         with h.store.lock:
             task, env, _ = check(item_id, binding); h.require_idle(task)
             row = {'id': str(uuid.uuid4()), 'task_id': item_id, 'revision': payload.revision,
-                   'app_id': binding['app_id'], 'environment_id': env['id'], 'environment_url': env['base_url'],
+                   'app_id': binding['app_id'], 'app_type': binding['app_type'], 'environment_id': env['id'], 'environment_url': env['base_url'],
                    'environment_version': env['version'], 'binding': binding, 'artifact_sha256': binding['artifact_sha256'],
                    'graph_digest': binding['graph_digest'], 'draft_hash': draft['hash'], 'draft_digest': digest(draft),
                    'created_at': h.now(), 'expires_at': time.time() + 900, 'write_attempted': False,
@@ -156,7 +169,7 @@ def register(h):
             row.update(state='checking'); h.store.put(KIND, row['id'], row)
         try:
             client = h.DifyClient(env, h.store)
-            draft = await remote(client, row['app_id'], graph)
+            draft = await remote(client, row['app_id'], graph, row['binding']['app_type'])
             with h.store.lock:
                 check(item_id, row['binding'])
                 if digest(draft) != row['draft_digest']:
@@ -182,6 +195,7 @@ def register(h):
                 current = h.get_task(item_id)
                 env_now = h.store.get('environment', env['id'])
                 if (current['revision'] != row['revision'] or current.get('dify_app_id') != row['app_id']
+                        or current.get('app_type') != row['binding']['app_type']
                         or current.get('status') == 'paused' or current.get('pause_generation', 0) != row['binding']['pause_generation']
                         or not current.get('requirements_confirmed') or not current.get('configuration_confirmed') or digest(h.env_snapshot(env_now)) != digest(row['binding']['environment'])
                         or hashlib.sha256(h.artifact_path(current).read_bytes()).hexdigest() != row['artifact_sha256']):
@@ -203,7 +217,7 @@ def register(h):
             target = next(r for r in task['runs'] if r['id'] == record['id'])
             target.update(status='success' if success else ('unknown' if row['write_attempted'] else 'failed'),
                           completed_at=h.now(), error='' if success else row['message'],
-                          result={'app_id': row['app_id'], 'publication_id': row['id'], 'state': row['state'],
+                          result={'app_id': row['app_id'], 'app_type': row.get('app_type', 'workflow'), 'publication_id': row['id'], 'state': row['state'],
                                   'workflow_id': row.get('workflow_id'), 'business_verified': False})
             h.store.put_many([(KIND, row['id'], row), ('task', item_id, task)])
 

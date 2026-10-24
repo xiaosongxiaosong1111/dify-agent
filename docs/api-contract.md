@@ -26,6 +26,12 @@ POST `/tasks/{id}/mock-order-template`：`{revision,plan_text,node_id,input_sele
 
 `/tasks/{id}/mock-order-template`请求和响应字段保持兼容，input_selector新增接受原草稿中根parameter-extractor的已声明string业务参数。状态字段、非文字类型和不存在参数拒绝。完整计划校验要求成功分支保护及所有路径可用；失败/公共汇合路径不能读取默认提取值。只修改选中代码config，其余提取配置、保护节点、失败分支和连接保持，不执行模型或Dify。
 
+## Chatflow首次发布（0.275）
+
+既有`GET /tasks/{id}/workflow-publication`、`POST .../prepare {revision}`及`POST .../confirm {revision,proposal_id,review_token,confirm_publish:true}`新增支持advanced-chat，保留workflow。新提案/回执含app_type并绑定该类型，旧未含类型的就绪绑定不能直接确认；Workflow旧成功历史不迁移。
+
+Chatflow准备依次核对App身份/类型、草稿和未发布状态，确认时重核并最多POST一次，事后读发布图；planned_console_reads=7，Workflow仍5，认证可增加。已有发布或图/类型/环境变化拒绝，可能派发后异常unknown且不重发。报告/界面按当前App及匹配类型消费回执，pending/unknown尚无result也按未确认记录处理；入口不创建应用/Key或运行，不扩Agent及专用触发/人审范围。具体图与失败规则见docs/chatflow-publication.md。
+
 ## Task
 
 Task object:
