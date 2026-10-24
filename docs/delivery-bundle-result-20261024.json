@@ -1,0 +1,60 @@
+{
+  "state": "passed",
+  "runtime": {
+    "version": "0.277.0",
+    "mode": "snapshot",
+    "build_id": "0.277.0-973cabf07d2922617adf",
+    "content_sha256": "973cabf07d2922617adf25eef7eaaf8c9e35fcf77e87755690672329324320fc",
+    "file_count": 246,
+    "task_data_inside_snapshot": false,
+    "note": "后端、模型契约及前端资源来自启动时固定快照；任务数据与凭据独立使用原目录。Python依赖环境仍共用，不是完整依赖隔离。"
+  },
+  "new_backend_tests": 16,
+  "related_backend_tests": 44,
+  "targeted_test_groups": [
+    "test_delivery_bundle.py + test_delivery_next_steps.py + test_post_import_navigation.py: 42 passed",
+    "test_api::test_build_is_static_and_change_invalidates + test_agent_plan::test_agent_plan_requires_confirmation_and_invalidates_on_requirements_change: 2 passed"
+  ],
+  "ui": {
+    "state": "passed",
+    "checks": [
+      "build page downloads current revision ZIP with type-bound filename",
+      "run page provides the same one-step package",
+      "unsaved plan disables package without saving or dispatching",
+      "wrong revision response rejected without file download",
+      "leaving scope during response preparation cancels late download",
+      "actual API refuses old revision query",
+      "refresh preserves saved task and performs no automatic download or writes"
+    ],
+    "browser_errors": [],
+    "browser_operation_writes": [],
+    "downloads": 2,
+    "downloaded_zip_members_and_hashes_verified_by_python": true,
+    "physical_model_dify_http": 0,
+    "actual_platform_acceptance": false
+  },
+  "typescript_frontend_build_passed": true,
+  "delivery_panel_screenshot_reviewed": true,
+  "all_three_app_types_tested_without_type_substitution": true,
+  "downloaded_zip_raw_artifact_report_readme_manifest_hashes_verified": true,
+  "new_build_hash_uses_actual_disk_bytes_including_windows_newlines": true,
+  "legacy_build_hash_absence_explicit_not_migrated": true,
+  "metadata_changes_during_report_refuse_mixed_archive": true,
+  "wrong_revision_modified_artifact_foreign_path_and_recognized_credentials_refused": true,
+  "key_decryption_and_store_writes_forbidden_in_download_tests": true,
+  "source_matches_all_runtime_files": true,
+  "health_and_frontend_asset_http": 200,
+  "all16_production_objects_ciphertexts_master_key_old_receipts_kept": true,
+  "original95_unknown_and_all_reserved_scopes_kept": true,
+  "temporary_ui_store_removed": true,
+  "actual_dify_reads_login_publish_keys_runs_and_model_added": 0,
+  "actual_platform_or_business_acceptance": false,
+  "limitations": [
+    "Archive only includes existing local artifact and report, not a complete business acceptance signoff.",
+    "Manifest hashes provide byte consistency, not cryptographic signature or trusted provenance.",
+    "Legacy artifacts without recorded build hash only prove bytes at export; no migration or original-build integrity claim.",
+    "Known credential patterns are refused; arbitrary business text is not a comprehensive sensitive-data detector; review before sharing.",
+    "No real Dify execution or new model semantic validation."
+  ],
+  "deployment_note": "Ordinary sandbox could not observe old process command line and removed stale PID record without stopping listener. Administrator CIM verified sole listener 13220 belonged to original Sierra snapshot; restored PID and used owned stop/start scripts. Startup scripts unchanged."
+}

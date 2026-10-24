@@ -1,5 +1,12 @@
 # Initial API contract
 
+## 0.277：同版交付包
+
+GET /api/tasks/{id}/delivery-bundle?revision=当前整数修订：只读打包当前有效静态成果及现有报告。须有本修订确认且计划未过期；旧修订409，缺成果404或准入不符422。返回application/zip、Cache-Control:no-store、X-Sierra-Revision，固定文件名sierra-{type}-r{revision}-delivery.zip。包内DSL、report、README和manifest.json；清单绑定任务/环境/App/类型/修订、目标Dify/DSL版本、时间及原始文件大小/SHA256。清单不签名，不证明平台状态或业务通过。
+
+读取和报告生成持同一后台Store锁，若任务事实变化拒绝混合包。新build成果元数据增加sha256，按落盘字节计算；偏离构建摘要409。旧成果不迁移，明确legacy_export_bytes_only，只记录导出当时字节；无原始构建完整性保证。DSL限2MB、报告限8MB，路径须属于当前任务，不跟随文件符号链接；三种类型保持原选择。已识别明文凭据模式拒绝整包且不回显；不解密或复制环境凭据/材料原件，不发模型/Dify或写任务预算。页面未保存或作用域变化禁用/取消下载，响应类型和修订不匹配不下载。
+
+
 Backend FastAPI on 127.0.0.1:8765; frontend Vite on 127.0.0.1:5173 proxies /api. Backend serves built frontend/dist on production startup.
 
 JSON errors: HTTP status plus {detail: string}. No provider key values in responses. All endpoints below are prefixed /api.

@@ -82,7 +82,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.276.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.277.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1143,7 +1143,7 @@ def build(item_id: str, payload: Revision):
         folder.mkdir(parents=True, exist_ok=True)
         path = folder / f"artifact-r{task['revision']}.yaml"
         path.write_text(content, encoding="utf-8")
-        task["artifact"] = {"revision": task["revision"], "filename": path.name, "validation": validation, "verification": "static_only", "created_at": now(),"preservation":copy.deepcopy(task.get('dsl_overlay'))}
+        task["artifact"] = {"revision": task["revision"], "filename": path.name, "validation": validation, "verification": "static_only", "created_at": now(),"preservation":copy.deepcopy(task.get('dsl_overlay')), "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
         task["status"] = "draft_ready"
         snapshot(task, "生成并完成静态检查；待真实导入")
         return save_task(task)
@@ -2282,3 +2282,6 @@ register_planning_candidate_selection(sys.modules[__name__])
 
 from .mock_order import register as register_mock_order
 register_mock_order(sys.modules[__name__])
+
+from .delivery_bundle import register as register_delivery_bundle
+register_delivery_bundle(sys.modules[__name__])
