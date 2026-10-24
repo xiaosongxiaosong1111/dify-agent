@@ -1,43 +1,37 @@
-# HANDOFF — Sierra（2026-10-24，0.270／95执行包出站前失败，真实HTTP0，96运输合同纠错完成，97准备独立范围改授方案）
+# HANDOFF — Sierra（2026-10-24，产品0.270，97离线收尾，开发欠项优先）
 
 ## 1. 当前状态
 
-- 工作目录 E:\workSpace\dify-agent，main，远端 https://github.com/xiaosongxiaosong1111/dify-agent.git。运行0.270.0-293ea298357356cf04db／health200，Dify1.17.1。91证据6683558、92产品da7bda3、93产品b1384d5/交接4963694已push；94准备46f23e8/队列c61213a已push；95取证005ce46/队列be8691f已push；96纠错3573161已提交，本次队列/交接后push。未跑全量。
-- 原15任务保持，95仅新增空任务5abd5207-cdca-44df-a1fc-892a46870e37/r2/status requirements，八字段全空、无正式图/成果/运行，现16任务。原成功任务：Sierra布尔格式修正图验收 e764003b-00d4-404c-8b94-e22c29201823／r5／run_completed，新App0ea01eb4-4ed1-4c70-bdac-db17a9cc4a97，发布图50d1bb9c-df9d-4f19-9929-ac4727d229e1，正式命中/无命中均passed，策略2/2、10分钟、USD阈值null。其他14任务未改。
-- 专用连接202bfb35-2f92-47c1-bc1b-eac32082181d明确重连验证原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17成功，登录暂停仅由这次获准操作清除；当前Key配新App，旧App0ec579c4-fae3-4f7e-80d3-f8508846c91c的旧Key加密归档。新旧配对只在内存解密比较，未输出密钥，也未改origin_verified元数据。
+- 项目E:\workSpace\dify-agent，main，远端https://github.com/xiaosongxiaosong1111/dify-agent.git。运行0.270.0-293ea298357356cf04db/health200，Dify1.17.1。产品本轮尚未修改；96证据3573161/队列c341a06已push，97证据ef4e9c1待本次队列提交后一并push。
+- 用户最新问“最近一直开发还是准备流程测试/进度多少/遗留开发是否先解决”。已如实说明近期94—97主要是验收准备及执行包纠错，不能按测试/版本/队列比例计算项目完成度；接下来先补确认的产品欠项，测试只围绕改动。
+- 现16任务：原15保持，95只新增空任务5abd5207-cdca-44df-a1fc-892a46870e37/r2/requirements，八需求空，无正式图/成果/App/运行；有原user+system失败消息和预算unknown，全部保持。
 
-## 2. 第91已消费成功，禁止重放
+## 2. 已消费批与保护
 
-- 用户call_0dfffe8b285c40f2a47b3c52b02c8aa9 question0直接批准“允许这个独立剩余整批”，绑定冻结3b7445a方案；work/existing-preview-live-268/approval.json已记录。
-- plan SHA256 be94ac616c9f17233a10dc30e329c58897471444b521d4750e883399673466e8；manifest SHA256 a9255f05d3c29a06eb3f243f5702e5ad643bdd437019e80afca49d348b82e0aa。check.py首次exit0，receipt passed，新增本机任务0，新App/首次发布/运行Key各1，运行2，Sierra模型0。
-- 命中run d1f05536-a04f-4639-9002-53c7581c4fce，280reported tokens；无命中run69ffaf3b-2f7b-4e6f-b675-7757b7e8c8f1，0reported tokens。两者succeeded/evaluation passed且workflow_id匹配新发布图。固定回复严格为“知识库暂无相关信息，请联系人工客服并提供订单号。”。未读节点轨迹，不按tokens推断路径或免费。
-- protected-proof.json十四项通过：原14任务/旧对象/旧策略账本、除获准连接token和当前服务Key外旧密文、主Key及88/84/81/79文件保持；图/需求/两例/r5不变，空间验证、新旧Key配对证明。只读ui-readonly.cjs六项通过、写入/Dify/模型0，包括新任务报告/六页面/刷新、2/2禁运行及旧任务不误配新Key。公开docs/existing-preview-live-result-20261024.json、docs/public-after-sales-delivery.md，证据6683558。
-- 本图是84实际模型8节点候选的一处明确人工布尔修正副本，不是原模型纯生成成功，也不是原79同一浏览器连续链或25场景业务完成。collect_docs非list回落空数组路径未实测，不宣称异常路径通过。
+- 第91（work/existing-preview-live-268，批准call_0dfffe8b285c40f2a47b3c52b02c8aa9）一次passed，证据6683558，不重放。task e764003b-00d4-404c-8b94-e22c29201823/r5/run_completed；App0ea01eb4-4ed1-4c70-bdac-db17a9cc4a97，发布图50d1bb9c-df9d-4f19-9929-ac4727d229e1；命中d1f05536-a04f-4639-9002-53c7581c4fce/280tokens，无命中69ffaf3b-2f7b-4e6f-b675-7757b7e8c8f1/0tokens，均原生passed且匹配发布图。策略2/2、10分钟、USDnull；未读真实节点轨迹，不据tokens推断路径或免费。
+- 专用连接202bfb35-2f92-47c1-bc1b-eac32082181d，固定原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17，当前Key仍配上述App，旧Key加密留档；只复用加密登录资料，不从聊天复制密码，不输出/提交密钥。
+- 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
+- 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（95已停止不重放，96本机执行包纠错）
+## 3. 下一步（遗留开发优先，暂停继续扩充live准备）
 
-1. 用户call_d147de690b78424eb2ec78b4f7c3f4d5 question0直接批准“允许这整批新范围”，work/complete-mainline270/approval.json绑定46f23e8方案、plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。只执行一次，95 blocked，原包/回执/unknown账本不改，不再启动run.ps1 live。
-2. receipt stopped_needs_review：provider_invocations1/model_http0/dify_http0；空新任务r2、需求全空、无图/成果/App/Key/运行。不是模型返回需求不清，未取得模型响应。实际故障是server.py actual_transport中的str(request.url())把HTTPX Request.url属性当函数，在原始运输层forward前TypeError，被providers.call_model包装成“协议不兼容”。根代理最初中间表述已公开纠正；责任在执行包，不归因模型/供应商。
-3. work/complete-mainline270/stopped-protected-proof.json及docs/complete-mainline-live-result-20261024.json（005ce46）：原15全部对象（含连接）逐项相等、全部旧密文/主Key/旧回执相等；专用连接仍App0ea01eb4-4ed1-4c70-bdac-db17a9cc4a97，旧Key未切，无新登录。临时启动Store已清理，真实新空任务保留。
-4. 新任务预算唯一entry unknown/failed_or_interrupted，reserved_unknown_usage为0.0188541USD，charged null/usage空，原样保持；本批整个0.15USD估算范围和3槽不自动退（首entry预留不另加到0.15外）。实际Sierra仍16、保守23/23，共旧4+新3=7槽/0.35估算预留，已知0.075473652+保守预留=0.425473652，非账单。Dify实际仍12/正式passed10/资源各6；95管理96/登录28预留保留，保守读取413，但新增实际管理/登录0。
-5. 96已done，3573161：work/transport-contract270/check.py从95原/新Python源码提取actual_transport AST，实际调用providers.call_model构造选定deepseek请求，经HTTPX检查到最后假运输/解析；用虚拟Key，全真实网络禁止。旧AST稳定复现URL属性两处误调用中的首处TypeError/转发0；新审查副本两处改request.url属性后3次假转发，第4及tokens/stream/消息/方法/地址拒绝，8项通过。原16全部对象密文主Key和95批准/manifest/receipt/final-task/日志完全相等。docs/transport-contract-repair.md及result可查。server-corrected-review-only.py只是审查副本，不能启动live，不是新批准包。
-6. 首个pending97，仅准备独立纠错后“零出站范围改授”方案：复用95空任务5abd...而不再建任务；保留原user+system失败消息、预算unknown entry及全部95原文件。TaskBudget.limit_usd为null，旧unknown不阻止新调用（只在非null累计限额时阻断），无需伪造账单对账或清零。方案拟将旧unknown预留0.0188541继续计入原整批0.17；替代包新模型合计上限0.1311459、每次≤0.05/6000tokens/120秒，Dify0.02，连旧unknown合计仍≤0.17。旧61/71/76/79四项0.20不动。只有在用户明确批准95已证实0出站三次/96管理读/28登录及资源范围“改授”给新冻结包后，才能将23中的95三槽改为新包三槽而不增加至26；保留原receipt值，用独立授权分配记录说明，不自动退或篡改原账本。当前未有此授权，不能执行。
-6a. 97新包需源16快照，复用existing target，不覆盖创建时间/旧消息/旧budget.entries，GuardedStore允许target task和target task_budget追加，其余15及旧operation等全保护，execution_limits原4/20保持。prepare消息包含旧失败历史须冻结新的实际输入摘要。将96真实协议预检放在一次性回执/凭据前；正常预演也应实际走providers.call_model及运输检查，仅最后响应为固定替身（原95预演替换整个call_model漏检）。正常两版/四例+节点轨迹/三图/最终报告、六失败/浏览器早期失败拥有者收尾/费用复合上限均需通过。先完成可审查冻结包，再问一次改授，不先问。
-7. 94完整两版预演（7项UI/六类失败/浏览器启动失败收尾/13边界）及两版节点轨迹/三图/交付说明是固定替身，仍不当实际连续链成功。92/93产品仍0.270.0-293ea298357356cf04db，未回滚/重启。旧37/45/61/65/71/73/76/79/81/84/88/95失败和所有预留保持。
-8. 简单独立工作既有Claude网关上次75.19秒超时无结果/费用报告，不为形式重试、不冒充子审查。只修当前实际错误，不顺带重构/全量测试。实际Codex额度尚未报不足；若不足立即尽力整份交接并停，不重试/换账号/购买。重要更新commit/push原main，不force、不提交work/凭据/供应商原始响应。
+1. BACKLOG97已按用户新方向明确收窄并完成，证据ef4e9c1；原97最后冻结/请求改授目标已明确撤下，不能把未完成冻结冒称通过。work/complete-mainline270-replacement保留草案，无manifest/approval/真实receipt，不启动live。
+2. 首个pending98：修当前产品模拟依赖交付标记遗漏。当前dsl.py基础模板读取configuration.mock_dependencies，但workflow_plan.py及agent_plan.py编译描述没有；AT-10旧记录说明此缺口。先用当前三编译路径准确复现，然后只统一导出元信息/静态警告，保留图/代码/参数/类型；不得生成假模拟节点、声称接口已接入、扩大成通用工具或迁移开发。定向测试与必要交付报告核对即可，不全量测试、不付费调用/真实Dify。
+3. 97正常UI7、六失败及浏览器启动失败收尾通过。实际providers.call_model→HTTPX→exact actual_transport，只末端响应固定替身；mock模型3与调用器逐次一致。真实DifyClient登录/空间/读/运行/轨迹到假native forward7次，全部物理HTTP0；17边界包含缺改授拒绝、源unknown不可删、复合预算在建立ledger前拒绝。原16对象/密文/主Key/旧95失败完全相等，临时Store均清理，拥有者PID/父进程/命令行+nonce收尾。公开docs/replacement-offline-preparation-20261024.json；不是实际语义/平台/业务验收。
+4. 草案复用现有空任务，不再建任务，原消息/unknown精确保留；拟新模型最多3/各6000tokens/120秒、合计新预留≤0.1311459，加旧unknown0.0188541+Dify估算0.02仍为原0.17（非账单硬限）。只有未来新源码下重新完成最小冻结且获得直接“零出站范围改授”批准后，95三槽/96管理读/28登录及资源范围才可用于新独立包，保守23不增至26。当前无改授许可，不自动退或借用；开发优先期间不再为此扩充流程。
+5. 96修正审查副本在work/transport-contract270，真实SDK/HTTPX构造与假运输8项通过，3573161；仅审查副本，不是另一个可启动live包。95/所有失败包一律不重试。
 
 ## 4. 外部边界与账本
 
-- Dify实际累计12请求（含最初断言失败2），正式passed10，案例新App/首次发布/Key各6，当前批准范围全部消费。报告tokens累计1779，非账单。管理读取保守预留413=原317+95预留96（95实际0），非实际仪表计数；95登录预留28、实际0；91/88旧预留不退。本批Dify估算0.01USD非账单硬限。再加资源或运行需新的具体独立范围，不重试失败批。
-- Sierra模型已知实际HTTP16不变、保守23/23满。配置估算已知0.075473652USD；61启动失败及71/76/79未派发第二阶段各0.05/一槽保留，共旧四项0.20，另95新三槽整个0.15（其中首entry unknown0.0188541不额外重复相加）保持，总预留0.35，已知+保守预留0.425473652USD非供应商账单。旧0.45/0.5估算边界与独立账本保持；无更多已授权付费调用。
-- 用户回答配置deepseek-flash/thinking=false/温度0.2/最大512、TopK3/无阈值/无重排保持；全局模型设置、FAQ库d12cf081-5c52-41e3-b869-e94e6f8d37b1及两合成FAQ保持。凭据只复用加密资料，不从聊天复制密码，不输出/提交。
+- Sierra已知实际模型HTTP16，保守23/23。已知配置估算0.075473652USD；61启动及71/76/79未派发第二阶段各0.05/一槽保留，共旧四项0.20；95整个三槽0.15保留（首entry0.0188541含在其中、不重复相加）。共7槽0.35保守预留，已知+预留0.425473652USD，非账单；旧0.45/0.5估算边界保持，无更多已授权付费调用。
+- Dify实际累计12，正式passed10，案例App/首次发布/Key各6；报告tokens1779非账单。管理保守预留413=旧317+95预留96，95新增实际管理/登录0，登录预留28保持；旧失败预留不退。原95允许12→16/资源6→8的范围已被一次失败消耗，无自动重用。
+- 回答deepseek-flash/thinking=false/温度0.2/最大512、TopK3/无阈值/无重排保持。FAQ库d12cf081-5c52-41e3-b869-e94e6f8d37b1及两公开合成FAQ、全局模型设置/原任务策略/凭据不动。
+- 当前仅局部真实售后两例及分段实际访谈/规划证据，完整新需求→修改→重新发布连续链未通过，25项最终业务未关闭，原136任务不可算全完。模型建议质量/复杂手改/工具能力/通用跨环境/自然过期续期等不能宣称已完成。
 
-## 5. 历史与运行保护
+## 5. 历史与执行要求
 
-- 88 work/boolean-preview-live-268明确重连HTTP502/login_rejected后stopped_needs_review，证据086aa93；非密码错误证明，不重放。只曾创建当前r5，无外部资源。89 Hidden启动原E:\workSpace\DockerDesktop\Docker Desktop.exe，原dify-local容器及挂载保持、五关键服务healthy/8080 TCP就绪，未建删容器卷、无Dify HTTP，证据213a3a3。恢复本身不解除登录暂停，91才明确重连通过。
-- 84 work/reviewed-intake-plan-267首次HTTP1/28204tokens/0.008211432USD，事实来源提示局部改善但条件value字符串true，原候选422/失败保持。0.268仅区分invalid_plan_format，不转换或追加模型；56定向/API回放通过，e3088f0。86独立人工副本仅nodes[3].config.cases[0].conditions[0].value变JSON布尔true，其余全图相等，manual静态构建通过，474efac；原图摘要62485321bda2d63c644f5221beb0e5b5b2cd23e03137ed09796a1f2a477c9a70，修正摘要e68041df55b5d917d5acf5bcaa94fb09de7af438e473af0fcc5e84f28f5893b4。安全YAML docs/examples/after-sales-manual-boolean-preview.yaml SHA2561c021e44df3e1fbb04183daee6ca0522cdb00660f3d384bbb8df58316ff95543。
-- 81实际图硬编码政策事实拒绝；79实际访谈九主题/根代理12项通过后进程中断，第二HTTP0，原request_dispatched回执保持。不称原连续链完成。旧37/45/61/65/71/73/76/79/81/84/88失败和所有旧回执保持，未派发阶段预留不退。
-- 旧成功入口4eb52689-3f3d-4e18-8bfd-1bb744a2c8f0/r21/6次上限、改文案1febbd15-9b76-49cb-b4fc-0dea7cc6c27e/r5/2次、原新图5a37368d-3d6b-4708-829c-9e8dcedaf356/r5/2次及旧v1/v2保持，Key切换后原任务结果保留但不错误宣称当前连接仍配旧App。
-- Claude Code既有网关实际DeepSeek，上次75.19秒超时，无结果/费用报告，不为形式重派。旧CLI估价/预算失败独立于Sierra账本。
-- 只读必要文件，不通读项目或290KB work/development-resume.md；历史按编号单段。只修实质问题，不顺带重构/全量测试。Playwright显式C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\node_modules\playwright，脚本自供frontend/dist，不另启18760。
-- 原同次实际访谈/规划到Dify连续浏览器链、自然过期续期、一般语义保证和25场景最终业务仍未证明，不猜完成百分比或称136任务完成。
+- 84原候选条件value字符串true，严格422不改；86人工副本仅一字段变布尔true，静态有效，原失败保持；91基于此副本平台passed，不是模型纯生成成功。旧81硬编码政策事实拒绝；79实际访谈九主题/根代理12项通过后进程中断，第二HTTP0，原request_dispatched保持；旧37/45/61/65/71/73/76/79/81/84/88/95及所有预留不重放。
+- 88登录502旧login_rejected，证据086aa93；89恢复原Docker原容器213a3a3，无新卷/容器，91才明确重连解除暂停。0.269布尔修正预览da7bda3、0.270登录5xx故障诊断b1384d5已部署，源/运行一致；本轮没有重启/回滚。
+- Claude Code既有网关实际DeepSeek，上次75.19秒超时无结果/费用报告，不为形式重试，不冒充已完成子审查。无实际Codex额度失败；发生时尽力整份交接并停，不重试/换账号/购买。
+- 只读必要文件，不通读项目或290KB work/development-resume.md；历史只按编号单段。只修实质错误，不顺带重构、不跑全量。Playwright必须显式C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\node_modules\playwright，不另启18760。
+- 重要更新commit/push原main、不force，work/凭据/供应商原始响应不提交；保留用户未提交改动。AGENTS/BACKLOG适用，一次一项，验收证据commit后才能标done。
