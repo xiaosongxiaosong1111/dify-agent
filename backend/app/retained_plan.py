@@ -36,3 +36,5 @@ def register(h):
     @h.app.get('/api/tasks/{item_id}/planning/{run_id}/candidate')
     def read(item_id:str,run_id:str):
         with h.store.lock:return candidate(h.get_task(item_id),run_id)
+    from .retained_boolean_preview import register as register_boolean_preview
+    register_boolean_preview(h)

@@ -1,0 +1,73 @@
+{
+  "state": "passed_local_manual_format_preview_only",
+  "runtime": "0.269.0-eb8457978df95b61fc2f",
+  "decision_source": "agent_routine_local_work_delegation_20261023",
+  "source84_stays_failed": true,
+  "source84_candidate_unchanged": true,
+  "preview_equals_reviewed86_copy": true,
+  "scope": "one explicit boolean literal type correction; current revision Workflow/Chatflow; full static validation",
+  "tests": {
+    "related_targeted_passed": 60,
+    "additional_chatflow_passed": 1,
+    "frontend_build": "passed",
+    "actual84_api_replay": "passed",
+    "isolated_ui_checks": [
+      "未主动预览不请求修正，不载入草稿",
+      "实际84候选明确展示单字段类型差异及人工/静态验证边界",
+      "明确点击后重新核对来源，精确载入86同图的未保存草稿",
+      "已有编辑阻止再次预览或覆盖，零保存/确认/构建请求",
+      "拒绝错误预览 hash",
+      "拒绝错误预览 task",
+      "拒绝错误预览 path",
+      "拒绝错误预览 bool",
+      "拒绝错误预览 platform",
+      "载入前候选变化409使旧预览失效，不自动重试",
+      "切换任务后迟到compose响应不能复活草稿",
+      "原15任务保持，无界面异常/真实API写入/模型/Dify请求"
+    ],
+    "complete_local_api_ui_checks": [
+      "真实本机API读取实际84候选并预览，未写任务",
+      "真实compose重新校验后精确载入未保存草稿，未采用原候选",
+      "界面明确保存为manual，原失败规划记录保持，配置确认失效",
+      "界面按新修订明确重新确认配置与计划",
+      "同一界面完成静态构建，无App或运行，不回填原模型成功",
+      "实际下载静态YAML和报告，布尔真值及固定回复保持"
+    ],
+    "deployed_readonly_ui_checks": [
+      "实际新任务r5在运行页恢复新App/发布图/配对Key及2/2正式样例",
+      "新App已有发布/Key时重复入口停用，2/2运行耗尽停用，未派发额外请求",
+      "运行页实际下载新案例交付报告，包含新固定回复和匹配的两例成功证据",
+      "新任务六页连续只读切换正常，当前构建完成状态保留",
+      "原新需求图r5仍显示自身旧App/两例记录，但不把新连接Key误当旧App配对Key",
+      "刷新恢复真实进度，全部15任务与连接保持，无写入或浏览器错误"
+    ]
+  },
+  "all15_production_objects_ciphertexts_master_key_and_old_receipts_unchanged": true,
+  "temporary_store_removed": true,
+  "source_matches_runtime_snapshot": true,
+  "backend_runtime_files_changed": [
+    "backend/app/main.py",
+    "backend/app/retained_boolean_preview.py",
+    "backend/app/retained_plan.py"
+  ],
+  "model_http_added": 0,
+  "dify_http_added": 0,
+  "new_production_tasks_apps_keys_runs": 0,
+  "external_bounds_unchanged": {
+    "dify_actual_requests": 12,
+    "formal_passed": 10,
+    "case_apps_publications_keys_each": 6,
+    "management_read_conservative_reserved": 317,
+    "sierra_known_http": 16,
+    "sierra_conservative_upper": 20,
+    "known_config_estimate_usd": "0.075473652",
+    "held_slots": 4,
+    "held_config_estimate_usd": "0.20"
+  },
+  "not_proven": [
+    "model-only plan generation success",
+    "original79 continuous real-model browser chain",
+    "general semantic or code/error-path correctness",
+    "new Dify acceptance or full business signoff"
+  ]
+}
