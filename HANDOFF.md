@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（2026-10-25，产品0.284，111顺序样例运行，112新方案，推送必须写更新日志）
+# HANDOFF — Sierra（2026-10-25，产品0.284，108—112已交付，113待直接改授，推送必须写更新日志）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main，远端https://github.com/xiaosongxiaosong1111/dify-agent.git。运行0.284.0-af29d0879c3760e5d417/health200，Dify1.17.1。108产品cb26626/交接662e26a已push；109产品a7e3c5e/4505d27已push；110产品ec3f085/adfed01已push；111产品d73b8d7，本次交接后push，继续112。
+- 项目E:\workSpace\dify-agent，main，远端https://github.com/xiaosongxiaosong1111/dify-agent.git。运行0.284.0-af29d0879c3760e5d417/health200，Dify1.17.1。108产品cb26626/交接662e26a已push；109产品a7e3c5e/4505d27已push；110产品ec3f085/adfed01已push；111产品d73b8d7/be4d9d4已push；112冻结daa4686，本次交接后push，113 need-user。
 - 用户最新明确“好的，推进吧，记得每次推到github上的时候都要写更新日志”。已新增根CHANGELOG.md，已记录0.271—0.284；AGENTS.md持久规定每次push前更新日志，覆盖实际交付/验证/限制，HANDOFF不能代替。仍开发欠项优先，不能按测试/版本/队列比例计算完成度。
 - 现16任务：原15保持，95只新增空任务5abd5207-cdca-44df-a1fc-892a46870e37/r2/requirements，八需求空，无正式图/成果/App/运行；有原user+system失败消息和预算unknown，全部保持。
 
@@ -13,16 +13,17 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（凌晨108—111已交付，完成112后待真实范围改授）
+## 3. 下一步（本次凌晨交付完成，113需直接范围改授）
 
-1. 单次sierra heartbeat已在2026-10-25 01:00触发并暂停；实际额度仍允许，未发生Codex额度失败，无重置券/换号。用户要求实质开发，不因一小模块停，也不制造耗额度任务。结束时删除本单次定时任务。
-2. 本轮108历史输入载入cb26626/662e26a，109所见对照MD导出a7e3c5e/4505d27，110订单分支样例草稿ec3f085/adfed01均已push。各说明/result记录其只读/来源/数字/旧修订保护，非真实业务通过。
-3. 111 d73b8d7已验收并部署0.284.0-af29d0879c3760e5d417：选择保存的1—10普通单轮标量样例，预览完整来源/实际成果/环境/运行Key密文指纹/原历史/有限次数，明确确认已有范围后依次调用原run。锁内重核顺序和前例规则通过，同一步并发/重放拒绝；失败/未知/等待/需人工即停，暂停/来源变化拒绝后续，离开刷新不自动恢复。
-4. 111每条记录保留选择IDs/序号；最近5批列出已运行和未启动，不把未启动当失败/通过或继承为当前验收。新24/相关65、UI7/构建截图通过；修复新增停止按钮位于父busy fieldset而无法点的问题，单独控件保留原其它门禁；测试Request API误用已修正。252源码/快照文件匹配，health/前端200。原16对象/密文主Key/旧回执/95 unknown及预留精确保持，临时Store清理，真实模型/Dify0。docs/case-sequence.md及result，过程work/case-sequence284不提交。
-5. 112 pending：当前核心下一步是完整连续真实售后主链。将97已离线纠错的replacement草案绑定当前运行，必要最新整链隔离核对后冻结plan/manifest/源码和可审查新方案；不再扩充局部模板，不执行live。旧95已消费不能重放或自动借用预留，需要直接明确零出站范围改授才可安排其原三槽/96读/28登录/两版资源；旧unknown0.0188541及四项预留保持，保守23不变26。完成112后真实执行标need-user，不能用普通委托捏造直接批准。
-6. 完整新需求→模型访谈/规划→两版真实发布/四例及轨迹连续链未通过，25最终业务未关闭，不能按版本/测试数声称完成比例。Claude既有网关实际DeepSeek上次75.19秒超时无结果/费用报告，本轮不为形式重试，不冒充子审查。
-7. 95原包/receipt及所有失败不重放，unknown/预留不退借。96审查3573161、97离线ef4e9c1保持；replacement当前仍未冻结，无manifest/approval/真实receipt，112完成前不要live。
-8. 部署先核16任务/资源空闲，管理员核所属进程后固定快照stop/start，Dify不动，不据端口杀进程。每次push写CHANGELOG、整份交接，不全量。实际额度不足立即保存停止，不重试/换号/购买/用券。
+1. 单次sierra heartbeat在2026-10-25 01:00触发，已先暂停；本次结束前删除，不再重复触发。约02:02实际额度仍允许（5小时已用50%、周54%），未发生Codex额度失败，无重置券/换号/购买。停止原因是核心下一批需明确改授，不声称项目完成或额度耗尽，不制造微任务。
+2. 本轮四项实质功能已交付：108历史单轮输入显式载入自由草稿cb26626/662e26a；109所见两次对照MD导出a7e3c5e/4505d27；110匹配售后订单支路样例草稿ec3f085/adfed01；111有限顺序样例试跑d73b8d7/be4d9d4。前四组已push；112冻结方案daa4686，本次整份交接后push。各说明/result记录实际范围，不替代真实业务签收。
+3. 最终运行0.284.0-af29d0879c3760e5d417，252源码/快照文件匹配，health/前端200。111支持选择保存1—10普通单轮标量样例，来源含完整任务/实际成果/环境/运行Key密文/策略/原历史；有限次数预览后主动确认已有范围，锁内逐例检查顺序和前例规则通过，并发/重放拒绝。失败/未知/等待/需人工即停，暂停/来源变化不继续，停止不取消已派发，离开/刷新不恢复。
+4. 111每例记录保留选择IDs/序号，最近5批列出已运行和未启动，不当失败/通过或继承为当前验收。新24/相关65、UI7/构建截图通过；修复新增停止按钮位于父busy fieldset不可点，保持其它原门禁。UI Request API夹具误用已修正。原16全部对象/密文主Key/旧回执/95 unknown/预留精确保持，临时Store清理，真实模型/Dify0。docs/case-sequence.md及result，work/case-sequence284过程不提交。
+5. 112已完成daa4686：将97纠错草案绑定当前0.284，正常同界面完整两版四例7项及17边界通过，真实HTTP0，原六失败路径保留97证据未重复全量。冻结work/complete-mainline270-replacement的12文件；plan SHA db973882fc846e1ef303329c52fbfeb8fe95ab40d0c7b9352fc55f7a8bdbd51e，manifest SHA54be77b162237464491276e300d9bdcf7df4496d9b0756d86e6986c7939f74c4。另绑运行manifest SHAab49484539d185cd015c273bb22f71baadf84dacc28bc22222f436497cbf2b86。当前无approval/无live receipt，缺直接改授在Store/凭据/网络/receipt前拒绝。
+6. 下一步113 need-user：审查docs/complete-mainline284-live-plan-20261025.md及freeze摘要。需用户直接明确将旧95已证明模型/DifyHTTP0的未派发范围改授给此新独立包（不是重放95）；复用原空r2任务/旧消息/unknown，无新任务，模型最多3次/6000tokens/120秒，资源各2、运行4、管理96/登录28。旧unknown0.0188541不变，新模型预留最多0.1311459、Dify估算0.02，合并0.17非账单硬限；四旧槽0.20保持，保守模型23不变26、管理413不变509。异常整批停不重试。
+7. 只有取得对应冻结哈希的直接答复，才保存真实原文/来源和reassign_zero_dispatch_batch95=true的approval。先重新核源码/快照/原16保护/空闲及原Dify服务，任何变化停止、不套用旧答复重冻。随后run.ps1 live最多一次，根代理亲审三个真实内容门禁，不能复用合成review。当前核心待真实访谈/规划/发布两版四例与轨迹连续链，不再扩充局部模板或重复准备来耗额度。
+8. 25最终业务未关闭；不能按版本/测试数量算百分比。Claude既有网关实际DeepSeek上次75.19秒超时无结果/费用报告，本轮不为形式重试或冒充子审查。95原包与所有失败/unknown/预留不重放/退借；96/97旧证据保持。
+9. 部署先核16任务/资源空闲，管理员核所属进程后固定快照stop/start，Dify不动，不据端口杀进程。每次push写CHANGELOG、整份交接，不全量。实际额度不足立即保存停止，不重试/换号/购买/用券。
 
 ## 4. 外部边界与账本
 
