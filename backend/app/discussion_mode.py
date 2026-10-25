@@ -57,5 +57,5 @@ class MessageRoute(APIRoute):
         async def guarded(request):
             try:return await original(request)
             except RequestValidationError:
-                return JSONResponse(status_code=422,content={'detail':'对话请求格式无效：请使用合法文字、布尔流式选项与review／discussion模式；未记录或派发，不回显输入。'})
+                return JSONResponse(status_code=422,content={'detail':'对话请求格式无效：请使用合法文字、布尔流式选项与review／discussion模式，发送标识和修订也须有效；未记录或派发，不回显输入。'})
         return guarded

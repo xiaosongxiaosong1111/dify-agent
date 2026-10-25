@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-25",
-  "product_version": "0.300.0",
+  "product_version": "0.301.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -301,12 +301,17 @@
       "deliverable": "操作记录服务",
       "acceptance": "同一请求重试不被视为全新资源操作；可追溯状态",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/message_requests.py",
+        "backend/app/interview_progress.py",
+        "backend/tests/test_message_requests.py",
+        "frontend/src/MessageRequestRecovery.tsx",
+        "docs/message-requests.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.301补带标识聊天的持久去重/原子登记与断连后只读回执核对；新20/相关159及UI8通过，原16/预算保持、模型/Dify0。仅关键带标识客户端聊天路线，不代表所有资源幂等、旧未带标识调用或跨刷新暂存/供应商行为验收。"
     },
     {
       "id": "T022",
@@ -383,12 +388,17 @@
       "deliverable": "对话控制",
       "acceptance": "流式输出可中断；重连不复制消息",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/message_requests.py",
+        "backend/app/interview_progress.py",
+        "backend/tests/test_message_requests.py",
+        "frontend/src/MessageRequestRecovery.tsx",
+        "docs/message-requests.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.301补带标识聊天的持久去重/原子登记与断连后只读回执核对；新20/相关159及UI8通过，原16/预算保持、模型/Dify0。仅关键带标识客户端聊天路线，不代表所有资源幂等、旧未带标识调用或跨刷新暂存/供应商行为验收。"
     },
     {
       "id": "T028",

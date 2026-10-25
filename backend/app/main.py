@@ -83,7 +83,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.300.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.301.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -219,6 +219,8 @@ class Message(BaseModel):
     mode:Literal["review","discussion"]="review"
     content: str = Field(min_length=1, max_length=16000)
     stream_response: StrictBool = False
+    request_id: StrictStr | None = Field(default=None,pattern=r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')
+    revision: StrictInt | None = None
 
 
 from .case_sequence import SequenceProof
@@ -772,6 +774,7 @@ def save_test_cases(item_id: str, payload: TestCasesRequest):
 message_router=APIRouter(route_class=MessageRoute)
 @message_router.post("/api/tasks/{item_id}/messages")
 async def send_message(item_id: str, payload: Message):
+    from . import message_requests
     try:
         payload.content.encode('utf-8')
         if not payload.content.strip():raise ValueError()
@@ -779,7 +782,9 @@ async def send_message(item_id: str, payload: Message):
         raise HTTPException(422,'对话须为非空且编码完整的文字；未记录或派发，不回显输入。') from None
     with store.lock:
         task = get_task(item_id)
+        if message_requests.replay(sys.modules[__name__],task,payload):return task
         require_idle(task)
+        if payload.revision is not None:require_revision(task,payload.revision)
         providers = store.list("provider")
         provider_id = task["configuration"].get("assistant_provider_id")
         if provider_id:
@@ -791,19 +796,27 @@ async def send_message(item_id: str, payload: Message):
         model_progress = progress_context(task) if provider and payload.mode=="discussion" else None
         if payload.stream_response and (not provider or not store.secret(provider['id'],'api_key')):raise HTTPException(422,'流式访谈需要明确可用的助手模型与Key，未记录或派发。')
         if payload.stream_response and ((provider.get('capabilities') or {}).get('stream')=='failed' or provider.get('protocol','openai-compatible') not in {'openai-compatible','anthropic'}):raise HTTPException(422,'该服务流式能力失败或协议未适配，不自动回退或重发。')
-        task["messages"].append({"role": "user", "content": payload.content, "created_at": now(), "context_revision": task["revision"], **({"purpose":"discussion"} if payload.mode=="discussion" else {})})
-        save_task(task)
+        task["messages"].append({"role": "user", "content": payload.content, "created_at": now(), "context_revision": task["revision"], **({"purpose":"discussion"} if payload.mode=="discussion" else {}), **({'request_id':payload.request_id} if payload.request_id else {})})
         revision = task["revision"]
         previous_status=task["status"]
         if provider:
             interview_id=str(uuid.uuid4())
             task['active_interview_id']=interview_id
             task["status"]="interviewing"
-            interview_progress.begin(task,provider,interview_id,payload.stream_response,payload.mode)
+            request_record=message_requests.record(sys.modules[__name__],task,payload,interview_id)
+            interview_progress.begin(task,provider,interview_id,payload.stream_response,payload.mode,request_record=request_record)
+        else:
+            request_record=message_requests.record(sys.modules[__name__],task,payload,None)
+            task['updated_at']=now()
+            store.put_many([('task',task['id'],task)]+([('message_request',request_record['id'],request_record)] if request_record else []))
     if not provider:
         with store.lock:
             current = get_task(item_id)
             current["messages"].append({"role": "assistant", "source": "system", "content": "尚未配置搭建助手的模型，当前没有调用 AI。请打开模型设置填写服务与 API Key；也可以先手动完善右侧需求说明。", "created_at": now(), "context_revision": revision, "result_revision": current["revision"]})
+            if request_record:
+                request_record.update(outcome='no_provider',result_revision=current['revision']);current['updated_at']=now()
+                store.put_many([('task',item_id,current),('message_request',request_record['id'],request_record)])
+                return current
             return save_task(current)
     materials = []
     remaining = 24000
@@ -2346,3 +2359,6 @@ register_material_review(sys.modules[__name__])
 
 from .material_original import register as register_material_original
 register_material_original(sys.modules[__name__])
+
+from .message_requests import register as register_message_requests
+register_message_requests(sys.modules[__name__])

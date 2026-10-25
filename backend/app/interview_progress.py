@@ -7,11 +7,11 @@ from .interview_text_preview import MessagePreview
 class InterviewProgress:
     def __init__(self,host):self.h=host;self.counts={};self.previews={}
 
-    def begin(self,task,provider,item_id,stream,mode="review"):
+    def begin(self,task,provider,item_id,stream,mode="review",request_record=None):
         record={'id':item_id,'task_id':task['id'],'revision':task['revision'],'provider_id':provider['id'],'model':provider['model'],'protocol':provider.get('protocol','openai-compatible'),'stream_requested':stream,'status':'running','phase':'waiting_response','received_characters':0,'delta_count':0,'started_at':self.h.now(),'updated_at':self.h.now(),'note':'接收状态不是需求已确认；完整结构与修订校验后才可采用。'}
         record['mode']=mode
         if mode=='discussion':record['note']='只读讨论：完整回复仅保存到对话，不修改需求或确认，费用计入助手访谈预算。'
-        task['updated_at']=self.h.now();self.h.store.put_many([('interview_operation',item_id,record),('task',task['id'],task)])
+        task['updated_at']=self.h.now();self.h.store.put_many([('interview_operation',item_id,record),('task',task['id'],task)]+([('message_request',request_record['id'],request_record)] if request_record else []))
         self.counts[item_id]={'characters':0,'deltas':0,'last_saved':0}
         if stream:self.previews[item_id]=MessagePreview()
 
