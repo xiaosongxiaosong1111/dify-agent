@@ -83,6 +83,9 @@ def topics(task):
 
 def context(task):
     value={'app_type':task['app_type'],'requirements':task['requirements'],'standard_topics':[t['id'] for t in topics(task)],'materials':[{k:m.get(k) for k in ('id','name','status','reference_mode','preserve_items','text')} for m in task.get('materials',[])],'user_messages':[{'id':str(i),'text':m.get('content','')} for i,m in enumerate(task.get('messages',[])) if requirement_user(m)]}
+    records=task.get('intake_history',[])+([task['intake_review']] if task.get('intake_review') else [])
+    additions=[{'answers':r.get('answers',{}),'topic_resolutions':r.get('topic_resolutions',[])} for r in records if r.get('source')=='source_backed_resolution']
+    if additions:value['source_backed_answers']=additions
     from .iteration_outcomes import has_protocol,semantic_digest
     if has_protocol(task.get('workflow_plan')):value['batch_plan_scope']={'semantic_sha256':semantic_digest(task['workflow_plan']),'verification':'draft_protocol_markers_only'}
     return value
@@ -103,6 +106,7 @@ def sources(task):
     records=task.get('intake_history',[])+([task['intake_review']] if task.get('intake_review') else [])
     for i,record in enumerate(records):
         if record.get('source')=='user_declared':result.update({('decision',f'{i}:{key}'):value for key,value in record.get('answers',{}).items()})
+        elif record.get('source')=='source_backed_resolution':result.update({('decision',f'{i}:{key}'):'【按原用户说明的操作者补充，非模型验证或人类签收】\n'+value for key,value in record.get('answers',{}).items()})
     return result
 
 def base_gaps(task):
@@ -166,7 +170,8 @@ class IntakeManager:
 
     def save(self,task,review,source):
         if task.get('intake_review'):task.setdefault('intake_history',[]).append(copy.deepcopy(task['intake_review']))
-        task['intake_review']={'review':review,'source':source,'origin_revision':task['revision'],'context_digest':digest(task),'created_at':self.h.now()}
+        task['intake_review']={'review':review,'source':source,'origin_revision':task['revision'],'created_at':self.h.now()}
+        task['intake_review']['context_digest']=digest(task)
 
     def register(self):
         h=self.h

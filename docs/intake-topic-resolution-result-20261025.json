@@ -1,0 +1,89 @@
+{
+  "state": "passed",
+  "runtime": {
+    "version": "0.287.0",
+    "mode": "snapshot",
+    "build_id": "0.287.0-01799601244b86168685",
+    "content_sha256": "01799601244b8616868535990deaae5c70c131e02585f02ea2909410f28116ad",
+    "file_count": 254,
+    "task_data_inside_snapshot": false,
+    "note": "��ˡ�ģ����Լ��ǰ����Դ��������ʱ�̶����գ�����������ƾ�ݶ���ʹ��ԭĿ¼��Python���������Թ��ã����������������롣"
+  },
+  "new_backend_tests": 22,
+  "related_backend_tests": 114,
+  "followup_digest_reproduction_before_fix": {
+    "failed": 2,
+    "passed": 20
+  },
+  "ui": {
+    "state": "passed",
+    "checks": [
+      "readonly source options require explicit topic, answer and quote",
+      "fabricated quote refused without task change",
+      "wrong preview identity refused",
+      "preview only and explicit semantic responsibility acknowledgement required",
+      "unsaved answer blocks other editing, page switch keeps text and invalidates preview",
+      "late preview after leaving does not replace draft or saved review",
+      "same-revision review mutation prevents stale save",
+      "only selected topic saved, bases/other checks/failure preserved and no automatic confirmation",
+      "refresh does not reapply or revive completed topic"
+    ],
+    "browser_errors": [],
+    "local_posts": [
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/intake/topic-resolution/options",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/intake/topic-resolution/options",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/intake/topic-resolution/preview",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/intake/topic-resolution/preview",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/intake/topic-resolution/preview",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/intake/topic-resolution/preview",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/intake/topic-resolution/preview",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/intake/topic-resolution/save",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/intake/topic-resolution/options",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/intake/topic-resolution/preview",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/intake/topic-resolution/save",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/intake/topic-resolution/options"
+    ],
+    "physical_model_dify_http": 0,
+    "production_data_kept": true,
+    "isolated_review_change_explicit": true
+  },
+  "local_resolution": {
+    "state": "single_local_topic_resolved_unconfirmed",
+    "task_id": "5abd5207-cdca-44df-a1fc-892a46870e37",
+    "source_revision": 3,
+    "draft_revision": 4,
+    "resolved_topic": "retrieval",
+    "actor": "agent_delegated",
+    "human_business_signoff": false,
+    "new_human_answer": false,
+    "original_message_id": "3",
+    "original_quotes": [
+      "����ʱ�������ϻش𲢴����߱��",
+      "��������ǿղŵ���һ�λش�LLM����ʾ��ֻʹ�ü������ϣ����Ϊ��ֱ���߹̶����ַ�֧��������LLM�����������ߡ�",
+      "TopK3���޷�����ֵ��������"
+    ],
+    "answer": "����ԭ��������������Ҫ������ֻ���ݼ������ϻش𲢴����߱�ţ�������������ĵ������Ƭ�ε�ǿ�������ֶΡ���������ǿ���ֻ����һ�λش�LLM����ʾֻʹ�ü������ϣ�������������ż�������ģ���жϡ�������ֵ�����ţ��ս��ֱ�ӹ̶������лظ�����ԭ������������������ҵ�����ա�",
+    "base8_requirements_and_configuration_exactly_kept": true,
+    "other8_checks_exactly_kept": true,
+    "prior_review_archived_unchanged": true,
+    "old_failure_attempts_and_messages_kept": true,
+    "all_budget_entries_and_unknown_kept": true,
+    "other15_and_all_other_objects_ciphertexts_masterkey_old_receipts_kept": true,
+    "can_confirm": true,
+    "requirements_confirmed": false,
+    "configuration_confirmed": false,
+    "model_dify_http": 0,
+    "new_resources_runs_budget_entries": 0,
+    "paid_batch115_not_resumed_or_replayed": true
+  },
+  "runtime_all_files_match_source": true,
+  "health_frontend_http": 200,
+  "r4_data_exactly_kept_after_final_deploy": true,
+  "model_dify_http": 0,
+  "limitations": [
+    "Quote existence is checked, not semantic entailment; operator owns the interpretation.",
+    "Only initial pending special topics and original user sources; base-field or existing delivery edits excluded.",
+    "Actor is declared provenance, not authenticated human identity or business signoff.",
+    "No actual model/platform run, automatic confirmation, or reuse of consumed paid batches."
+  ]
+}

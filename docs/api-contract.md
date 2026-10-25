@@ -302,6 +302,8 @@ POST `/api/tasks/{id}/run`、`run-input-check`、`run-case-input-check`在进入
 
 ### 保存失败访谈候选的本地恢复（0.286）
 
+逐项引用补充（0.287）：POST `/api/tasks/{id}/intake/topic-resolution/options`、`preview`和`save`。只处理当前有效检查中的待答专项，以原始用户消息逐字引用为依据。保存只改选定项，生成新未确认修订，明确local_operator/agent_delegated来源，不是人类签收或自动语义验证。[完整请求和限制](intake-topic-resolution.md)。
+
 保存失败访谈恢复（0.286）：POST `/api/tasks/{id}/saved-intake-candidates/list`、`/{index}/preview`和`/{index}/adopt`，严格修订/初始来源及契约引用检查。预览只读，adopt另需review_token和acknowledge_unconfirmed，生成新未确认修订，另记saved_model_candidate来源，原失败和费用保持，不请求模型或Dify。[完整接口与限制](saved-intake-draft.md)。
 
 ### 选择样例顺序试跑（0.284）

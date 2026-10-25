@@ -12,16 +12,18 @@ from .intake import validate_review,ReviewContractError
 
 
 class CandidateRoute(APIRoute):
+    body_limit=4096
+    label='访谈候选'
     def get_route_handler(self):
         original=super().get_route_handler()
         async def guarded(request):
             try:
                 raw=await request.body()
-                if len(raw)>4096:raise AmbiguousInput()
+                if len(raw)>self.body_limit:raise AmbiguousInput()
                 validate(raw)
                 response=await original(request)
             except (AmbiguousInput,RequestValidationError):
-                response=JSONResponse(status_code=422,content={'detail':'访谈候选请求须为明确的有限JSON对象及合法修订/来源标记；未恢复，不回显输入。'})
+                response=JSONResponse(status_code=422,content={'detail':self.label+'请求须为明确的有限JSON对象及合法修订/来源标记；未处理，不回显输入。'})
             response.headers['Cache-Control']='no-store'
             return response
         return guarded
