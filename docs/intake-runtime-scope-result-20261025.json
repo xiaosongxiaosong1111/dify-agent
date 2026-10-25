@@ -1,0 +1,72 @@
+{
+  "state": "passed",
+  "runtime": {
+    "version": "0.285.0",
+    "mode": "snapshot",
+    "build_id": "0.285.0-c166352661d353cdd34c",
+    "content_sha256": "c166352661d353cdd34c79d025755bd1b390da102f8df8377f145fd0c4d18aba",
+    "file_count": 252,
+    "task_data_inside_snapshot": false,
+    "note": "后端、模型契约及前端资源来自启动时固定快照；任务数据与凭据独立使用原目录。Python依赖环境仍共用，不是完整依赖隔离。"
+  },
+  "new_backend_tests": 13,
+  "related_backend_tests": 63,
+  "reproduced_before_fix": {
+    "failed": 3,
+    "passed": 10
+  },
+  "ui": {
+    "state": "passed",
+    "checks": [
+      "original saved standard has9 topics",
+      "retained actual candidate as isolated fake response applies draft without adding external topic",
+      "source-checked nine rows and genuine retrieval question still block confirmation",
+      "no confirmation/plan/platform/resources/runs triggered",
+      "refresh preserves unanswered question and does not resend"
+    ],
+    "browser_errors": [],
+    "local_posts": [
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/messages"
+    ],
+    "real_model_dify_http": 0,
+    "retained_response_used_as_offline_fixture_only": true
+  },
+  "retained_paid_candidate_offline_contract": {
+    "state": "offline_retained_candidate_contract_recheck_passed",
+    "topics": [
+      "goal",
+      "audience",
+      "input",
+      "output",
+      "rules",
+      "knowledge",
+      "exceptions",
+      "tests",
+      "retrieval"
+    ],
+    "source_checks_still_strict": true,
+    "needs_input_topics": [
+      "retrieval"
+    ],
+    "can_confirm": false,
+    "candidate_applied": false,
+    "source_file_kept": true,
+    "new_model_dify_requests": 0,
+    "no_business_pass_claim": true
+  },
+  "runtime_all_files_match_source": true,
+  "health_frontend_http": 200,
+  "original15_and_all_ciphertexts_masterkey_old_receipts_kept": true,
+  "post115_target_task_attempts_and_budget_exactly_kept": true,
+  "temporary_store_cleaned": true,
+  "additional_real_model_dify_during_fix": 0,
+  "whole_turn_actual_model_http": 1,
+  "whole_turn_actual_dify_http": 0,
+  "paid_batch115_stopped_not_replayed": true,
+  "limitations": [
+    "Only narrowly identified named Sierra local-entry guarantees and output/HTTP-error distinction excluded; ambiguous descriptions still require external review.",
+    "Real API/HTTP/HTTPS/database/native HTTP nodes continue to trigger external topic.",
+    "Retained candidate still needs retrieval clarification and is not applied to production.",
+    "No actual Dify or full business acceptance; old failed paid batch and unused reserves remain held."
+  ]
+}

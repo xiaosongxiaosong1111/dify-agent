@@ -23,7 +23,7 @@ def model_review_outline(task):
 
 BASE={'goal':('目标与范围','本次为谁解决什么问题？必须完成和不包含的功能是什么？'),'audience':('目标用户','谁使用应用，已有知识和使用方式是什么？'),'input':('输入说明','输入的字段／形式、必填条件和缺失时的处理是什么？'),'output':('输出说明','输出内容、结构、接收对象和交付方式是什么？'),'rules':('业务规则','关键分类、分支、计算、生成规则和不可违反的约束是什么？'),'knowledge':('资料与依赖','使用什么资料、库和接口？哪些可用、待补、模拟或不适用？'),'exceptions':('异常处理','输入不完整、无结果、调用失败时分别怎么处理？'),'tests':('验收场景','请给正常、关键分支和异常输入，以及各自期望结果。')}
 SPECIAL={'memory':('对话上下文','是否记住上下文，参考多少轮？指代不清时是否追问？'),'dialogue':('对话行为','开场白／建议问题是什么？何时追问、结束或给出人工指引？'),'agent_tools':('Agent 行为边界','使用纯文本、知识检索还是自定义工具？工具失败怎么处理？'),'batch':('批量处理','如何分项、保留顺序／重复项？一项失败是否停整批，如何汇总？'),'retrieval':('知识检索','资料范围、选库依据、无资料／无命中行为及引用要求是什么？'),'external':('外部接口','接口输入输出、认证条件、可用性及失败行为是什么？是否明确接受模拟？'),'trigger':('自动触发','何时触发，输入来源和输出去向是什么？现有触发能力是否具备？'),'human':('人工参与','谁审核／补充，如何交接？通过、拒绝、超时各如何处理？')}
-PATTERNS={'batch':r'批量|逐项|多条|数组|\bbatch\b|\biteration\b','retrieval':r'知识库|检索|引用来源|\brag\b','external':r'接口|\bapi\b|\bhttp\b|外部系统|数据库','trigger':r'自动触发|定时|触发器|webhook|定期执行','human':r'人工审核|人工审批|人工参与|人工补充|审批流程'}
+PATTERNS={'batch':r'批量|逐项|多条|数组|\bbatch\b|\biteration\b','retrieval':r'知识库|检索|引用来源|\brag\b','external':r'接口|\bapi\b|\bhttps?\b|外部系统|数据库','trigger':r'自动触发|定时|触发器|webhook|定期执行','human':r'人工审核|人工审批|人工参与|人工补充|审批流程'}
 SPECIAL['loop_policy']=('循环停止与保护','初始状态和每轮更新是什么？停止条件、最大轮次、进度字段／依据、连续无进展与次数耗尽时如何处理？初始即达到目标时返回什么？')
 PATTERNS['loop_policy']=r'循环|反复改写|反复修正|\bloop\b'
 SPECIAL['document_processing']=('文件获取与解析','文件来自哪里、是什么格式及如何取得权限？扫描件／无文件／空文字／坏文件如何处理？目标Dify是否配置外部解析服务，文件出站、额外费用和人工替代步骤是否已经明确接受？')
@@ -41,13 +41,27 @@ SPECIAL['batch_outcomes']=('逐项失败与结果合同','当前计划带有逐�
 PATTERNS['json_input_scope']=r'JSON对象|结构化输入|json_object|输入Schema'
 UNKNOWN=('待补充','待确认','未知','建议：','建议:','草案：','草案:','假设：','假设:')
 
+LOCAL_ENTRY_DECLARATION=re.compile(
+    r'Sierra\s*(?:本机|本地)\s*(?:普通\s*)?(?:任务\s*)?(?:试跑\s*)?(?:HTTP\s*)?(?:API\s*)?接口'
+    r'(?=\s*对(?:必填文本\s*以\s*strip\s*判空|已知平台失败\s*返回\s*错误终态))',re.I)
+LOCAL_RESULT_DISTINCTION=re.compile(r'成功\s*(?:Workflow\s*)?(?:result|输出)\s*与\s*HTTP\s*错误\s*分开',re.I)
+
+def external_business_text(text):
+    """Ignore only named local-entry guarantees, retaining actual integration requests."""
+    def local(match):
+        prefix=text[max(0,match.start()-20):match.start()]
+        if re.search(r'(?:调用|访问|请求|对接|接入|通过|使用|利用|向|从)[^。；;\n，,（）()]{0,8}$',prefix):
+            return match.group()
+        return ''
+    return LOCAL_RESULT_DISTINCTION.sub('',LOCAL_ENTRY_DECLARATION.sub(local,text))
+
 def topics(task):
     result=[{'id':key,'label':label,'question':question,'special':False} for key,(label,question) in BASE.items()]
     chosen=[]
     if task['app_type'] in {'advanced-chat','agent'}:chosen+=['memory','dialogue']
     if task['app_type']=='agent':chosen.append('agent_tools')
     text='\n'.join(task['requirements'].values())+'\n'+'\n'.join(m.get('content','') for m in task.get('messages',[]) if requirement_user(m))
-    chosen += [key for key,pattern in PATTERNS.items() if re.search(pattern,text,re.I)]
+    chosen += [key for key,pattern in PATTERNS.items() if re.search(pattern,external_business_text(text) if key=='external' else text,re.I)]
     if 'batch' not in chosen and any(n.get('type')=='iteration' for n in (task.get('workflow_plan') or {}).get('nodes',[])):chosen.append('batch')
     from .iteration_outcomes import has_protocol
     if has_protocol(task.get('workflow_plan')):chosen.append('batch_outcomes')
