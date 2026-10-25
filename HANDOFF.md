@@ -1,4 +1,4 @@
-# HANDOFF — Sierra（2026-10-25，134上下文来源与修订已完成管理员核验）
+# HANDOFF — Sierra（2026-10-25，135首页交付说明已同步）
 
 ## 1. 当前状态
 
@@ -13,19 +13,13 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（134已完成管理员核验和实现提交；按真实推送回执继续）
+## 3. 下一步（README已同步；继续核实节点专业规则检索）
 
-1. 134实现348f87d0f8578b2d76c42fae17a387337a01b5a3，管理员核验已完成。检查work/message-provenance298/finalization-proof.json是否state=complete、pushed=true，以及本地/远端main一致；若终结后半段失败，按phase和真实commit继续，不重放已消费模型/Dify批，不覆盖用户改动或删Git锁。原startup-and-git-blocker及pending deployment-proof保留为历史，不把旧失败回填成功。
-2. 访谈/规划材料正文直接带id/source_sha256/长度，原12000单份/24000合计片段上限与截断保持，摘要不是磁盘重读证明。同名材料明确对应；新建初始及对话入口记录context_revision/result_revision，旧消息不追写，模型历史与界面区分当前相关/历史/未记录。原content/证据引用、只读讨论和确认门禁不变，不自动删原话或宣称模型语义完全正确。
-3. 初检16失败，新18/相关151及UI5/构建截图通过，未全量。259源码/快照匹配、health/前端200，本轮原16/全部对象/设置能力/预算密文主Key及124文件在核对时点保持，实际模型/Dify0。管理员脚本只管理PID和Git，不直接修改任务/秘密；公开docs/message-provenance.md，work/message-provenance298含final.log、UI证明、原失败及管理员后续回执。
-4. T043仅增加构造/保存证据，当前51项not_reaudited，不能按测试/版本/未知数量算完成率。T078独立受限样例执行仍未完成，不能用宿主机exec冒充沙箱；进一步核可支持的隔离路线和输入输出约定。其它未核核心需求继续先找实质缺口再排队，不扩充无意义付费验收准备。原136编号/条件保持，105实现/31验证交付不是136独立功能。
-5. 134done后无pending/doing，其余15均已消费/停止历史批blocked，按AGENTS当前队列停止，不是项目全完或额度不足。用户继续时从未核核心需求推进实质开发，所有外部次数/费用/失败不重试边界仍有效；Claude既有网关保留前次超时，不为形式重试。原133 Python入口、131/132资料/参考、130/129解析等实现和各自限制保持。
-6. 124真实交付保持：批准call_49b39599b26d464583fe870796c7e8ed，冻结455c45c，work/branch-mainline289，plan633580304332cc00d4442fe3557f3e6c95194a7fe5b7d48df4045c7c129ee652、manifestd0515b79cec970b615b661a318362422917f3b45dc35735cccb19b3c68f08967，首次live passed，禁止重放/改写。模型HTTP2/61292tokens/配置估算0.013001028USD；Dify43=登录1/读取32/导入2/发布2/Key2/运行4，报告508tokens，非账单。当前post-success-snapshot.json/protected-success-proof.json及live-final-task、三内容门禁为保护基线。
-7. 原版r8 App14aacbc3-4918-463c-bb49-3610c24a2e95，发布8015e5c7-51bf-4e42-b5c3-ed889893802f；运行c309f15a-48ea-4db7-ade5-26d52511a860/f052cc5b-f402-4e40-acc6-635abe262db8。修改版r12 App4682e8b8-30fa-4f1b-864c-fae85c577b6d，发布4ce613b4-a2b5-458d-9bb0-3f4fec167a81；运行9dc6d90f-0772-49d1-bffd-c0edb6f9f154/22883a1b-0ed6-4948-a16f-18effa21ea8e。四例succeeded/声明规则passed，完整5节点，LLM成功路径1/0/1/0，执行/发布/成果核心图匹配。
-8. 124复用旧真实访谈及原话复核，候选七节点六边/两独立终点/只据检索资料；第二版仅/nodes/4/config/template改为“知识库暂无相关信息，请联系人工客服，并提供订单号和商品型号。”。两候选根代理全文亲审、明确agent_delegated，正常界面显式载入原候选/保存，无手改图，plan_source=manual如实保留。非本批从空白重新访谈或全25签收。公开docs/after-sales-two-version-delivery-20261025.md、branch-mainline289-live-result-20261025.json。
-9. 125成功诊断展示f0a3409保持：本地成功/完整成功轨迹分层说明，失败/未知/规则不符或不完整证据不改判。四份旧报告仅只读展示，原诊断/轨迹/验收及下载原文保持；后端62/UI6，0额外外部，证据work/success-diagnostic290。134新快照未改写这些记录。
-10. 所有历史具体资源/请求/成本/失败不重试边界继续有效。124及旧91/95/115/121等已消费包不重放，实际模型20/保守24、Dify实际16/正式passed14、资源各8保持；原四槽与未释放估算不是新调用授权。只有真正超出既有明确范围才准备具体可审查方案并申请扩大，不反复询问常规本地开发。
-11. 每push前写根CHANGELOG，整份改写HANDOFF；只读必要文件，不通读项目或290KB历史，不全量。Claude既有网关实际DeepSeek此前75.19秒超时无结果/费用报告，不形式重试或冒充审查。本轮无实际Codex额度失败；若遇立即尽可能交接并停，不重试/换号/购买/用券。管理员核固定快照及所属进程，不按端口杀进程；只复用加密登录，不从聊天复制密码，不输出/提交密钥或供应商原文。
+1. 134已完成：实现348f87d、交接a1ceeed，finalization-proof.json state=complete/pushed=true，管理员已核归属并登记PID36088；0.298.0-8224a2353ffa08d2d297保持，旧失败回执不改写。
+2. 135文档实现de25c73：README由过时0.270改为当前0.298、124两版真实交付及限制，更新日志/状态/范围/待办入口齐全，70个本机链接检查通过；未重启或新增外部请求。当前会话已恢复可经自动审批执行Git写入，不再让用户代提交；后续按真实审批结果处理，不修改沙箱ACL。
+3. 用户要求检查后继续代码开发。下一步核T063/T064的当前类型/版本节点规则及示例检索：先核现有契约/能力目录和必要固定版本来源，找到实质缺口后加入BACKLOG136再实现，不能只为了消耗额度做验收准备。T078独立受限代码执行仍未完成，禁止用宿主机exec冒充沙箱。
+4. 旧15个blocked均为已消费历史批，原124与91/95/115/121等不重放，所有原模型20/保守24及管理413/登录28、旧费用unknown/保留槽不变。本轮代码功能仅隔离替身验证，真实请求需要守住原具体边界；保存原16任务、密文/主Key/设置与全部旧回执。
+5. 每次push前更新CHANGELOG，整份改写HANDOFF；只读必要文件，不通读项目/巨大历史、不全量。Claude既有DeepSeek网关此前75.19秒超时无结果，不为形式重试或冒充审查。额度实际失败即交接并停，不重试、换号或购买。
 
 ## 4. 外部边界与账本
 

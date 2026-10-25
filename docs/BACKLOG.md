@@ -274,4 +274,4 @@
 
 | 134 | 模型材料正文直接绑定ID与摘要，消息记录输入/结果修订并区分历史上下文 | `.venv\Scripts\python.exe -m pytest backend/tests/test_message_provenance.py backend/tests/test_discussion_mode.py backend/tests/test_interview_progress.py -q`；同名材料/跨任务/当前修订/旧消息不追写/原话证据与讨论语义保持，隔离UI及构建部署保护原16，0真实调用 | codex | done | commit348f87d0f8578b2d76c42fae17a387337a01b5a3；新18/相关151定向、UI5/构建截图通过；同名材料正文绑定ID/摘要、新消息输入/结果修订、旧记录/证据/讨论保持，0.298健康259文件匹配。原CIM/Git拒绝记录保留，后续管理员实际核验所属进程并登记PID，交接后push以finalization-proof为证；真实模型/Dify0，非全部语义隔离验收 |
 
-| 135 | 核对并更新README当前交付，提供更新日志和范围入口 | 核对0.298 health、124/134真实回执及Markdown本机链接；不更改历史回执或运行代码 | codex | doing | 原首页仍写0.270/旧95失败；已按当前真实交付重写概览并明确历史范围，待链接检查与提交 |
+| 135 | 核对并更新README当前交付，提供更新日志和范围入口 | 核对0.298 health、124/134真实回执及Markdown本机链接；不更改历史回执或运行代码 | codex | done | commitde25c73；health200、124/134既有真实回执及README全部70个本机链接核对通过。首页0.298/两版售后证据与限制、日志/状态/任务入口同步，历史保留；0新增外部调用 |
