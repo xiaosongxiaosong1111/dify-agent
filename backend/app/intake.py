@@ -1,8 +1,9 @@
 """Task-specific intake standard, source-checked interview reviews and explicit self review."""
 from __future__ import annotations
 import copy,hashlib,json,re
+from typing import Literal
 from fastapi import HTTPException
-from pydantic import BaseModel,ConfigDict,StrictInt,StrictBool
+from pydantic import BaseModel,ConfigDict,StrictInt,StrictBool,StrictStr,Field
 
 from .discussion_mode import requirement_user
 
@@ -86,6 +87,8 @@ def context(task):
     records=task.get('intake_history',[])+([task['intake_review']] if task.get('intake_review') else [])
     additions=[{'answers':r.get('answers',{}),'topic_resolutions':r.get('topic_resolutions',[])} for r in records if r.get('source')=='source_backed_resolution']
     if additions:value['source_backed_answers']=additions
+    delegated=[{'answers':r.get('answers',{}),'actor_note':r.get('actor_note','')} for r in records if r.get('source')=='agent_declared']
+    if delegated:value['agent_declared_answers']=delegated
     from .iteration_outcomes import has_protocol,semantic_digest
     if has_protocol(task.get('workflow_plan')):value['batch_plan_scope']={'semantic_sha256':semantic_digest(task['workflow_plan']),'verification':'draft_protocol_markers_only'}
     return value
@@ -106,6 +109,7 @@ def sources(task):
     records=task.get('intake_history',[])+([task['intake_review']] if task.get('intake_review') else [])
     for i,record in enumerate(records):
         if record.get('source')=='user_declared':result.update({('decision',f'{i}:{key}'):value for key,value in record.get('answers',{}).items()})
+        elif record.get('source')=='agent_declared':result.update({('decision',f'{i}:{key}'):'【代理受托复核，非模型验证或人类签收】\n'+value for key,value in record.get('answers',{}).items()})
         elif record.get('source')=='source_backed_resolution':result.update({('decision',f'{i}:{key}'):'【按原用户说明的操作者补充，非模型验证或人类签收】\n'+value for key,value in record.get('answers',{}).items()})
     return result
 
@@ -164,6 +168,8 @@ class ManualRequest(BaseModel):
     context_token:str
     answers:dict[str,str]
     acknowledge_review:StrictBool
+    actor:Literal['local_operator','agent_delegated']='local_operator'
+    actor_note:StrictStr=Field(default='',max_length=1000)
 
 class IntakeManager:
     def __init__(self,host):self.h=host
@@ -183,6 +189,9 @@ class IntakeManager:
             with h.store.lock:
                 task=h.get_task(item_id);h.require_idle(task);h.require_revision(task,payload.revision)
                 if payload.context_token!=digest(task):raise HTTPException(409,'对话、资料或需求已变化，请重新读取标准，不应用旧复核。')
+                if payload.actor=='agent_delegated' and not payload.actor_note.strip():raise HTTPException(422,'代理复核须说明委托及复核依据，不能当作用户声明。')
+                from .plan_drafts import inspect_text
+                if payload.actor_note:inspect_text(payload.actor_note)
                 standard=topics(task);expected={t['id'] for t in standard}
                 if not payload.acknowledge_review or set(payload.answers)!=expected or any(not value.strip() or len(value)>16000 or value.strip().startswith(UNKNOWN) for value in payload.answers.values()):raise HTTPException(422,'请逐项填写明确说明或带理由的不适用说明，并明确接受保存及需求字段替换。')
                 updated=copy.deepcopy(task);updated['requirements'].update({k:payload.answers[k].strip() for k in BASE})
@@ -190,6 +199,10 @@ class IntakeManager:
                 if base_gaps(updated):raise HTTPException(422,'材料尚未解析或参考方式未确认，不能用人工声明跳过。')
                 h.invalidate(task,'人工需求准入复核前保存');task['requirements']=updated['requirements']
                 review={'schema_version':1,'checks':[{'topic':t['id'],'status':'complete','detail':payload.answers[t['id']].strip(),'evidence':[{'kind':'requirement','id':t['id'],'quote':task['requirements'][t['id']][:3000]}] if t['id'] in BASE else []} for t in standard],'questions':[]}
-                self.save(task,review,'user_declared');task['intake_review']['answers']=copy.deepcopy(payload.answers)
-                task['messages'].append({'role':'assistant','source':'system','content':'已保存逐项人工需求复核及需求说明；这属于用户声明，不是模型验证。请检查当前修订，再明确确认需求。','created_at':h.now()})
+                delegated=payload.actor=='agent_delegated'
+                self.save(task,review,'agent_declared' if delegated else 'user_declared');task['intake_review']['answers']=copy.deepcopy(payload.answers)
+                task['intake_review'].update({'review_actor':payload.actor,'actor_note':payload.actor_note.strip()})
+                task['intake_review']['context_digest']=digest(task)
+                declaration='这属于代理受托复核，不是模型验证或人类签收' if delegated else '这属于用户声明，不是模型验证'
+                task['messages'].append({'role':'assistant','source':'system','content':f'已保存逐项需求复核及需求说明；{declaration}。请检查当前修订，再明确确认需求。','created_at':h.now()})
                 return h.save_task(task)

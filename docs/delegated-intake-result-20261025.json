@@ -1,0 +1,20 @@
+{
+  "version": "0.288.0",
+  "build_id": "0.288.0-ee5c22485a5d7c9cd151",
+  "backend_targeted_passed": 80,
+  "ui_isolated_passed": 4,
+  "frontend_build_passed": true,
+  "runtime_source_snapshot_hashes_matched": 254,
+  "task_id": "5abd5207-cdca-44df-a1fc-892a46870e37",
+  "source_revision": 4,
+  "planning_ready_revision": 6,
+  "requirements_confirmed_by_delegated_agent": true,
+  "human_business_signoff": false,
+  "configuration_confirmed": false,
+  "test_cases": 2,
+  "formal_plan_or_artifact": false,
+  "other15_all_other_objects_all_budget_ciphertexts_key_old_receipts_kept": true,
+  "model_dify_new_resources_runs_budget_entries": 0,
+  "complete_real_mainline_passed": false,
+  "old115_replayed": false
+}
