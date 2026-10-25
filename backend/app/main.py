@@ -82,7 +82,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.285.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.286.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -2202,6 +2202,9 @@ from .run_input_check import RunInputCheck
 RunInputCheck(sys.modules[__name__]).register()
 from .run_case_input_check import RunCaseInputCheck
 RunCaseInputCheck(sys.modules[__name__]).register()
+from .saved_intake import SavedIntake
+saved_intake=SavedIntake(sys.modules[__name__])
+saved_intake.register()
 from .case_sequence import CaseSequence
 case_sequences=CaseSequence(sys.modules[__name__])
 case_sequences.register()

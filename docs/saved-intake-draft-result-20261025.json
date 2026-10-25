@@ -1,0 +1,83 @@
+{
+  "state": "passed",
+  "runtime": {
+    "version": "0.286.0",
+    "mode": "snapshot",
+    "build_id": "0.286.0-684ce7e8958eb558b130",
+    "content_sha256": "684ce7e8958eb558b13088f307d82475c9b2f39147d7636cc7b6f48a01ec86c8",
+    "file_count": 253,
+    "task_data_inside_snapshot": false,
+    "note": "后端、模型契约及前端资源来自启动时固定快照；任务数据与凭据独立使用原目录。Python依赖环境仍共用，不是完整依赖隔离。"
+  },
+  "new_backend_tests": 29,
+  "related_backend_tests": 92,
+  "ui": {
+    "state": "passed",
+    "checks": [
+      "listing requires explicit read and exposes no adoption by default",
+      "wrong preview identity rejected without mutation",
+      "readonly recheck retains actual retrieval question and requires acknowledgement",
+      "unsent local instruction invalidates preview and blocks recovery",
+      "leaving cancels late preview display without changing saved task",
+      "same-revision source mutation refuses stale adoption, old draft preserved",
+      "explicit recovery creates unconfirmed revision, preserves failed attempt and blocks confirmation on question",
+      "refresh does not adopt again and old source revision is refused"
+    ],
+    "browser_errors": [],
+    "local_posts": [
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/saved-intake-candidates/list",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/saved-intake-candidates/0/preview",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/saved-intake-candidates/0/preview",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/saved-intake-candidates/list",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/saved-intake-candidates/0/preview",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/saved-intake-candidates/list",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/saved-intake-candidates/0/preview",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/saved-intake-candidates/0/adopt",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/saved-intake-candidates/list",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/saved-intake-candidates/0/preview",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/saved-intake-candidates/0/adopt",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/saved-intake-candidates/list",
+      "/api/tasks/5abd5207-cdca-44df-a1fc-892a46870e37/saved-intake-candidates/0/preview"
+    ],
+    "physical_model_dify_http": 0,
+    "production_candidate_untouched": true,
+    "isolated_source_mutation_explicit": true
+  },
+  "runtime_all_files_match_source": true,
+  "health_frontend_http": 200,
+  "production_data_before_local_adoption_exactly_kept": true,
+  "model_dify_http": 0,
+  "decryptions_in_recovery_checks": 0,
+  "local_recovery": {
+    "state": "local_unconfirmed_draft_recovered",
+    "actor": "agent_under_standing_delegation",
+    "human_business_signoff": false,
+    "task_id": "5abd5207-cdca-44df-a1fc-892a46870e37",
+    "source_revision": 2,
+    "draft_revision": 3,
+    "source_attempt_index": 0,
+    "source_candidate_sha256": "ee98c6f8bffb0e416519a0bad35b9a159ebb49fd7b3476b21b96165052c93445",
+    "requirements_from_saved_candidate": true,
+    "review_topics": 9,
+    "needs_input_topics": [
+      "retrieval"
+    ],
+    "can_confirm": false,
+    "requirements_confirmed": false,
+    "configuration_confirmed": false,
+    "old_failed_attempt_and_messages_kept": true,
+    "all_old_budget_entries_and_unknown_exactly_kept": true,
+    "other15_and_all_other_store_objects_kept": true,
+    "all_ciphertexts_masterkey_old_receipts_kept": true,
+    "model_dify_http": 0,
+    "new_budget_entries": 0,
+    "new_resources_runs": 0,
+    "paid_batch115_not_resumed_or_replayed": true
+  },
+  "limitations": [
+    "Initial complete failed intake drafts only: same revision, no materials or formal delivery.",
+    "Deterministic contract/source recheck does not guarantee semantic quality or human business signoff.",
+    "Needs-input questions remain; no automatic confirmation or paid batch continuation.",
+    "Original failed attempt and all old budget entries remain unchanged."
+  ]
+}
