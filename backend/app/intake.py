@@ -94,10 +94,10 @@ def context(task):
     return value
 
 def model_sources(task):
-    available=sources(task);keys=[key for key in available if key[0]=='requirement']+[key for key in available if key[0]=='message'][-12:]+[key for key in available if key[0]=='decision'][-16:];result=[];remaining=24000
+    available=sources(task);keys=list(reversed([key for key in available if key[0]=='message'][-12:]))+[key for key in available if key[0]=='requirement']+[key for key in available if key[0]=='decision'][-16:];result=[];remaining=24000
     for kind,sid in keys:
         source=available[(kind,sid)];excerpt=source[:min(6000,remaining)];remaining-=len(excerpt)
-        if excerpt:result.append({'kind':kind,'id':sid,'text':excerpt,'excerpt_truncated':len(excerpt)<len(source)})
+        result.append({'kind':kind,'id':sid,'text':excerpt,'full_text_length':len(source),'excerpt_truncated':len(excerpt)<len(source),'excerpt_provided':bool(excerpt)})
     return result
 
 def digest(task):return hashlib.sha256(json.dumps(context(task),ensure_ascii=False,sort_keys=True).encode()).hexdigest()

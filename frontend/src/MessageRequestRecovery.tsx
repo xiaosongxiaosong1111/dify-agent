@@ -1,13 +1,13 @@
 import {useEffect,useRef,useState} from 'react';
-export type MessageIntent={request_id:string;revision:number;content:string;mode:'review'|'discussion';stream_response:boolean};
+export type MessageIntent={request_id:string;revision:number;content:string;mode:'review'|'discussion';stream_response:boolean;compact_history:boolean};
 export function useMessageRequests(){
  const intents=useRef<Record<string,MessageIntent>>({});const [,render]=useState(0);
  return {
   pending:(taskId:string)=>intents.current[taskId],
-  prepare(taskId:string,revision:number,content:string,mode:'review'|'discussion',stream_response:boolean){
+  prepare(taskId:string,revision:number,content:string,mode:'review'|'discussion',stream_response:boolean,compact_history=false){
    const old=intents.current[taskId];
-   if(old){if(old.content!==content||old.mode!==mode||old.stream_response!==stream_response)throw Error('上一条发送结果尚待核对；请先只读核对原发送，再决定新消息。');return old}
-   const value={request_id:crypto.randomUUID(),revision,content,mode,stream_response};intents.current[taskId]=value;render(n=>n+1);return value;
+   if(old){if(old.content!==content||old.mode!==mode||old.stream_response!==stream_response||old.compact_history!==compact_history)throw Error('上一条发送结果尚待核对；请先只读核对原发送，再决定新消息。');return old}
+   const value={request_id:crypto.randomUUID(),revision,content,mode,stream_response,compact_history};intents.current[taskId]=value;render(n=>n+1);return value;
   },
   clear(taskId:string,requestId:string){if(intents.current[taskId]?.request_id===requestId){delete intents.current[taskId];render(n=>n+1)}}
  }

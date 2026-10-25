@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-25",
-  "product_version": "0.301.0",
+  "product_version": "0.302.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -627,11 +627,12 @@
         "backend/app/main.py",
         "backend/app/discussion_mode.py",
         "frontend/src/MessageRevision.tsx",
-        "docs/message-provenance.md"
+        "docs/message-provenance.md",
+        "docs/chat-context.md"
       ],
       "historical_status_20261020": "进行中",
       "acceptance_closed": false,
-      "review_note": "0.298补同名材料正文ID/保存摘要及消息输入/结果修订；新18/相关151及UI5通过，原话和旧数据保持，非全部语义隔离。管理员后续实际核验归属/PID并取得实现commit 348f87d0f8578b2d76c42fae17a387337a01b5a3；交接后推送，以真实终结回执为准。"
+      "review_note": "0.298补同名材料正文ID/保存摘要及消息输入/结果修订；新18/相关151及UI5通过，原话和旧数据保持，非全部语义隔离。管理员后续实际核验归属/PID并取得实现commit 348f87d0f8578b2d76c42fae17a387337a01b5a3；交接后推送，以真实终结回执为准。 0.302再补真实历史证据ID、显式有限历史和实际组装范围回执，新7/相关158及UI6通过；未读旧历史不假称已核，原话不变。"
     },
     {
       "id": "T044",
@@ -1823,12 +1824,16 @@
       "deliverable": "上下文策略",
       "acceptance": "不丢关键规则／证据；缓存用量按服务返回记录",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/chat_context.py",
+        "backend/app/intake.py",
+        "backend/tests/test_chat_context.py",
+        "docs/chat-context.md"
       ],
       "historical_status_20261020": "受阻",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.302补最新证据ID优先和显式有限历史选择，当前需求/本轮原话保留，实际组装范围有回执，默认不压缩；新7/相关158及UI6通过，实际模型/Dify0。仅此上下文路线，不代表供应商缓存实际计费、省费比例或一般长期记忆/语义质量验收。"
     },
     {
       "id": "T128",

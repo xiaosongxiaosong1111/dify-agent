@@ -83,7 +83,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.301.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.302.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -219,6 +219,7 @@ class Message(BaseModel):
     mode:Literal["review","discussion"]="review"
     content: str = Field(min_length=1, max_length=16000)
     stream_response: StrictBool = False
+    compact_history: StrictBool = False
     request_id: StrictStr | None = Field(default=None,pattern=r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')
     revision: StrictInt | None = None
 
@@ -831,9 +832,15 @@ async def send_message(item_id: str, payload: Message):
     if payload.mode=="review":context["intake_response_outline"]=model_review_outline(task)
     if model_progress is not None:context["task_progress"]=model_progress
     messages = [{"role": "system", "content": (DISCUSSION_SYSTEM if payload.mode=="discussion" else SYSTEM_PROMPT) + model_scope + contract + "\nreviewed_model_image_text为人工核对的图像模型候选，仍须核对image_uncertainties与覆盖，不能当专业OCR或全部图像语义验证。材料source_kind=user_supplied_text时正文来自用户说明，原文件未解析；覆盖范围按source_coverage_note核对，不得声称已读取全图／全部页或OCR成功。材料可能仅提供片段。excerpt_truncated=true 时必须说明未阅读完整资料，不得声称已全面检查；需要进一步内容时请用户拆分或补充。 当前revision/requirements/configuration是当前保存上下文；历史消息仅用于核对变化，修订未记录时不猜版本，不能据此覆盖当前确认。同名材料按正文附带的id和source_sha256对应来源，引用仍须逐字核对；摘要是保存记录，不证明磁盘原文件已重读。"}, {"role": "user", "content": "当前任务资料：" + json.dumps(context, ensure_ascii=False)}]
-    messages.extend({"role": m["role"], "content": history_content(m,current_revision=revision)} for m in task["messages"][-12:] if m["role"] in {"user", "assistant"})
+    from .chat_context import assemble_history
+    history_messages,history_summary=assemble_history(task,compact=payload.compact_history)
+    messages[0]['content']+=' 历史消息标签中的message:N仅为原用户需求证据标识，quote只能引用原话，不能把程序标签/摘要当原话；讨论或助手建议不是需求证据。history_coverage如有截断/未纳入/更早记录，不能宣称已经读全或据未读原话确认关键规则；先要求补充或明确保存需求。intake_sources中excerpt_provided=false仅给来源标识，不代表已阅读原文，当前requirements完整正文仍可逐项核对。'
+    context['history_coverage']=history_summary
+    messages[1]['content']='当前任务资料：'+json.dumps(context,ensure_ascii=False)
+    messages.extend(history_messages)
     start = time.monotonic()
     try:
+        interview_progress.context(interview_id,history_summary)
         settings = get_settings()
         async def receive(delta):interview_progress.received(interview_id,delta)
         stream_options={'stream':True,'on_delta':receive} if payload.stream_response else {}

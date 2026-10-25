@@ -8,6 +8,8 @@ def key(task_id,request_id):return task_id+':'+request_id
 
 def fingerprint(payload):
     value={'revision':payload.revision,'content':payload.content,'mode':payload.mode,'stream_response':payload.stream_response}
+    # False is the old behavior: preserve already-registered 0.301 request hashes.
+    if payload.compact_history:value['compact_history']=True
     return hashlib.sha256(json.dumps(value,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 
 
