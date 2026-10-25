@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main，137实现cdd8207/交接97d96e7已推送、终结proof complete；136及135/134真实提交保留。当前0.301.0-e81ef1fe6f881b4dd651，138带标识聊天幂等与响应丢失后只读恢复已实现并受管理部署，待实现commit后按实记done。
+- 项目E:\workSpace\dify-agent，main，137实现cdd8207/交接97d96e7已推送、终结proof complete；136及135/134真实提交保留。当前0.301.0-e81ef1fe6f881b4dd651，138带标识聊天幂等与响应丢失后只读恢复已实现并受管理部署，实现commit2c647b9已存在，BACKLOG已done，交接后推送以实际终结proof为准。
 - 新20/相关159定向、UI8/构建截图通过；四次浏览器POST尝试仅两次隔离模型替身派发，原16任务/设置能力/旧账本密文主Key与124冻结证据保持，实际模型/Dify0。262源码/快照匹配，原stop/start核所属PID后重启及登记，health/前端200。旧客户端不带标识不冒称去重，页面刷新不保留客户端暂存标识、不自动重发。
 - 用户本轮继续直到实际额度不足，不因小模块完成而停止。Codex此前额度检查可用，未遇实际额度失败；Docker Linux引擎未运行，T078独立受限代码执行仍受环境限制，不宿主机exec替代、不启动Docker/拉镜像。Claude既有DeepSeek网关超时不形式重试。
 
@@ -15,7 +15,7 @@
 
 ## 3. 下一步（138已实现部署；持续实质开发直到实际额度不足）
 
-1. 完成138实现commit后改BACKLOG done，再提交推送交接，最终以work/message-requests301/finalization-proof.json真实回执为准；每次push前更新CHANGELOG并同步README。原137 complete/pushed证据在work/material-original300，原134失败CIM/Git回执不改写成功。
+1. 138实现2c647b9已完成并按实标done，当前提交推送交接后继续，最终以work/message-requests301/finalization-proof.json真实回执为准；每次push前更新CHANGELOG并同步README。原137 complete/pushed证据在work/material-original300，原134失败CIM/Git回执不改写成功。
 2. 138新Message可携request_id/revision：请求指纹绑定原文字/模式/流式选项/修订，身份/消息/操作先原子落盘，再派发。同标识已完成/失败/暂停/中断/旧修订结果只读返回当前任务，进行中/未知不重发，同ID改载荷拒绝。新GET message-requests只读不派发、不输出正文/提示词。旧客户端可不带标识，不能声称全请求或所有资源都幂等。
 3. 网页丢失响应后保留该页按任务的原标识和文字，主动再次提交仍同ID/原修订；也能只读核对回执及当前任务。查无记录经核历史后可明确结束，不立即重发；新内容/模式先核原请求。标识不写浏览器存储，刷新只看历史与服务器回执，不承诺跨刷新暂存恢复。公开docs/message-requests.md，新20/相关159/实际UI8及构建、生产缺回执404不派发均通过。
 4. 接着核T127/T043的长对话证据与预算。已发现intake.model_sources用需求字段先消耗24000字符预算，最新用户消息的证据标识可能不发送；main又另带12条完整历史，存在重复上下文与长消息无总片段上限的问题。先复现后加入139，优先保证当前用户原话/当前完整需求和规则，显式记录历史片段/省略范围，不删除数据库历史、不得假称全部已读或牺牲证据。不要只为耗额度拆微任务。
