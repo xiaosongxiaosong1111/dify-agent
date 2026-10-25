@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-25",
-  "product_version": "0.294.0",
+  "product_version": "0.295.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -1179,12 +1179,15 @@
       "deliverable": "资料准备报告",
       "acceptance": "重复处理建议和业务冲突分开；关键事实由用户裁定",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/material_review.py",
+        "frontend/src/MaterialReviewPanel.tsx",
+        "docs/material-review.md"
       ],
       "historical_status_20261020": "受阻",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.295补只读原摘要/逐字正文重复和同名版本线索，与已有事实分歧分开；12/相关60后端和UI6，未重读原文件或做模型语义去重，不等于真实建库完整验收。"
     },
     {
       "id": "T084",
