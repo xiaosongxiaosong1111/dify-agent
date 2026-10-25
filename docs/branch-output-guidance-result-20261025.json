@@ -1,0 +1,18 @@
+{
+  "version": "0.289.0",
+  "build_id": "0.289.0-1650be918b4597a2b4ae",
+  "targeted_checks_passed": 10,
+  "full_suite_rerun": false,
+  "actual_planning_request_contains_complete_example": true,
+  "synthetic_example_compiles_to_two_branch_local_ends": true,
+  "invalid_shared_end_candidate_still_rejected_once_and_kept": true,
+  "runtime_source_snapshot_files_matched": 254,
+  "health_and_frontend200": true,
+  "all16_production_data_credentials_masterkey_old_ledgers_kept": true,
+  "consumed121_frozen_files_approval_receipt_raw_candidate_kept": true,
+  "task_revision": 7,
+  "task_status": "paused",
+  "additional_real_model_dify_http_after121": 0,
+  "actual_model_quality_improvement_verified": false,
+  "complete_mainline_passed": false
+}
