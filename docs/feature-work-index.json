@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-25",
-  "product_version": "0.297.0",
+  "product_version": "0.298.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -604,12 +604,16 @@
       "deliverable": "聊天后台",
       "acceptance": "包含当前版本的需求和相关材料，不混入其他任务",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/main.py",
+        "backend/app/discussion_mode.py",
+        "frontend/src/MessageRevision.tsx",
+        "docs/message-provenance.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.298补同名材料正文ID/保存摘要及消息输入/结果修订；新18/相关151及UI5通过，旧数据保持。仅上下文构造与存储证据，不证明模型全部语义隔离；服务健康但进程归属管理待管理员核验。 当前实现未提交：Git索引本机权限拒绝，待管理员终结。"
     },
     {
       "id": "T044",

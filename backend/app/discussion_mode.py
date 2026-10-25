@@ -13,9 +13,20 @@ DISCUSSION_CONTRACT='''只返回一个合法JSON对象，且仅有message一个�
 def requirement_user(message):
     return isinstance(message,dict) and message.get('role')=='user' and message.get('purpose')!='discussion'
 
-def history_content(message):
+def history_content(message,current_revision=None):
     content=message.get('content','')
-    return '【只读讨论记录，未作为需求或批准】\n'+content if message.get('purpose')=='discussion' else content
+    if not isinstance(content,str):content=''
+    discussion='【只读讨论记录，未作为需求或批准】\n' if message.get('purpose')=='discussion' else ''
+    if current_revision is None:return discussion+content
+    valid=lambda value:type(value)is int and 0<value<=9007199254740991
+    before=message.get('context_revision');after=message.get('result_revision') if message.get('role')=='assistant' else None
+    if not valid(before):label='【历史消息：输入修订未记录，不能替代当前保存需求或确认】\n'
+    else:
+        result=f'；结果v{after}' if valid(after) else ''
+        effective=after if valid(after) else before
+        state='当前修订相关消息' if effective==current_revision else '历史消息'
+        label=f'【{state}：输入v{before}{result}；当前v{current_revision}，仅供核对，不自动构成当前确认】\n'
+    return discussion+label+content
 
 def parse_reply(text):
     try:

@@ -83,7 +83,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.297.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.298.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -310,7 +310,7 @@ def create_task(payload: NewTask):
     if payload.environment_id and not store.get("environment", payload.environment_id):
         raise HTTPException(422, "选择的环境不存在。")
     type_name = {"workflow": "Workflow", "advanced-chat": "Chatflow", "agent": "Agent"}[payload.app_type]
-    task = {"id": str(uuid.uuid4()), "name": name, "app_type": payload.app_type, "revision": 1, "status": "requirements", "intake_required": True, "requirements_confirmed": False, "configuration_confirmed": False, "environment_id": payload.environment_id, "requirements": {k: "" for k in REQ_KEYS}, "configuration": copy.deepcopy(CONFIG_DEFAULT), "messages": [{"role": "assistant", "content": f"你已选择 {type_name}。请描述服务对象、目标、输入和期望输出。信息不足时会继续梳理；模型尚未配置时可先手动编辑需求说明。", "source": "system", "created_at": now()}], "materials": [], "versions": [], "runs": [], "artifact": None, "dify_app_id": None, "created_at": now(), "updated_at": now()}
+    task = {"id": str(uuid.uuid4()), "name": name, "app_type": payload.app_type, "revision": 1, "status": "requirements", "intake_required": True, "requirements_confirmed": False, "configuration_confirmed": False, "environment_id": payload.environment_id, "requirements": {k: "" for k in REQ_KEYS}, "configuration": copy.deepcopy(CONFIG_DEFAULT), "messages": [{"role": "assistant", "content": f"你已选择 {type_name}。请描述服务对象、目标、输入和期望输出。信息不足时会继续梳理；模型尚未配置时可先手动编辑需求说明。", "source": "system", "created_at": now(), "context_revision": 1, "result_revision": 1}], "materials": [], "versions": [], "runs": [], "artifact": None, "dify_app_id": None, "created_at": now(), "updated_at": now()}
     task.update(workflow_plan=None, agent_plan=None, plan_source=None, plan_stale=False, test_cases=[],plan_review_required=payload.app_type in {'workflow','advanced-chat'})
     result=save_task(task)
     budgets.get(task['id'],create=True)
@@ -633,7 +633,7 @@ async def generate_plan(item_id: str, payload: Revision):
         source = material.get("text", "")
         excerpt = source[:min(12000, remaining)]
         if excerpt:
-            snippets.append({"name": material["name"], "reference_mode": material["reference_mode"], "excerpt": excerpt, "excerpt_truncated": len(excerpt) < len(source), **material_source_metadata(material)})
+            snippets.append({"id": material["id"], "source_sha256": material.get("sha256"), "name": material["name"], "reference_mode": material["reference_mode"], "excerpt": excerpt, "full_text_length": len(source), "excerpt_truncated": len(excerpt) < len(source), **material_source_metadata(material)})
             remaining -= len(excerpt)
     from .planning_context import replanning_context
     existing_plan_context = replanning_context(task)
@@ -787,7 +787,7 @@ async def send_message(item_id: str, payload: Message):
         model_progress = progress_context(task) if provider and payload.mode=="discussion" else None
         if payload.stream_response and (not provider or not store.secret(provider['id'],'api_key')):raise HTTPException(422,'流式访谈需要明确可用的助手模型与Key，未记录或派发。')
         if payload.stream_response and ((provider.get('capabilities') or {}).get('stream')=='failed' or provider.get('protocol','openai-compatible') not in {'openai-compatible','anthropic'}):raise HTTPException(422,'该服务流式能力失败或协议未适配，不自动回退或重发。')
-        task["messages"].append({"role": "user", "content": payload.content, "created_at": now(), **({"purpose":"discussion"} if payload.mode=="discussion" else {})})
+        task["messages"].append({"role": "user", "content": payload.content, "created_at": now(), "context_revision": task["revision"], **({"purpose":"discussion"} if payload.mode=="discussion" else {})})
         save_task(task)
         revision = task["revision"]
         previous_status=task["status"]
@@ -799,7 +799,7 @@ async def send_message(item_id: str, payload: Message):
     if not provider:
         with store.lock:
             current = get_task(item_id)
-            current["messages"].append({"role": "assistant", "source": "system", "content": "尚未配置搭建助手的模型，当前没有调用 AI。请打开模型设置填写服务与 API Key；也可以先手动完善右侧需求说明。", "created_at": now()})
+            current["messages"].append({"role": "assistant", "source": "system", "content": "尚未配置搭建助手的模型，当前没有调用 AI。请打开模型设置填写服务与 API Key；也可以先手动完善右侧需求说明。", "created_at": now(), "context_revision": revision, "result_revision": current["revision"]})
             return save_task(current)
     materials = []
     remaining = 24000
@@ -809,12 +809,12 @@ async def send_message(item_id: str, payload: Message):
         full_text = material.get("text", "")
         excerpt = full_text[:min(12000, remaining)]
         remaining -= len(excerpt)
-        materials.append({"name": material["name"], "reference_mode": material.get("reference_mode"), "preserve_items": material.get("preserve_items", ""), "text": excerpt, "full_text_length": len(full_text), "excerpt_truncated": len(excerpt) < len(full_text), **material_source_metadata(material)})
+        materials.append({"id": material["id"], "source_sha256": material.get("sha256"), "name": material["name"], "reference_mode": material.get("reference_mode"), "preserve_items": material.get("preserve_items", ""), "text": excerpt, "full_text_length": len(full_text), "excerpt_truncated": len(excerpt) < len(full_text), **material_source_metadata(material)})
     context = {"intake_standard": intake_topics(task), "intake_sources": intake_model_sources(task), "previous_intake": (task.get("intake_review") or {}).get("review"), "user_selected_type": task["app_type"], "sierra_runtime_entry": workflow_runtime_entry(task), "requirements": task["requirements"], "configuration": task["configuration"], "materials": materials, "revision": revision}
     if payload.mode=="review":context["intake_response_outline"]=model_review_outline(task)
     if model_progress is not None:context["task_progress"]=model_progress
-    messages = [{"role": "system", "content": (DISCUSSION_SYSTEM if payload.mode=="discussion" else SYSTEM_PROMPT) + model_scope + contract + "\nreviewed_model_image_text为人工核对的图像模型候选，仍须核对image_uncertainties与覆盖，不能当专业OCR或全部图像语义验证。材料source_kind=user_supplied_text时正文来自用户说明，原文件未解析；覆盖范围按source_coverage_note核对，不得声称已读取全图／全部页或OCR成功。材料可能仅提供片段。excerpt_truncated=true 时必须说明未阅读完整资料，不得声称已全面检查；需要进一步内容时请用户拆分或补充。"}, {"role": "user", "content": "当前任务资料：" + json.dumps(context, ensure_ascii=False)}]
-    messages.extend({"role": m["role"], "content": history_content(m)} for m in task["messages"][-12:] if m["role"] in {"user", "assistant"})
+    messages = [{"role": "system", "content": (DISCUSSION_SYSTEM if payload.mode=="discussion" else SYSTEM_PROMPT) + model_scope + contract + "\nreviewed_model_image_text为人工核对的图像模型候选，仍须核对image_uncertainties与覆盖，不能当专业OCR或全部图像语义验证。材料source_kind=user_supplied_text时正文来自用户说明，原文件未解析；覆盖范围按source_coverage_note核对，不得声称已读取全图／全部页或OCR成功。材料可能仅提供片段。excerpt_truncated=true 时必须说明未阅读完整资料，不得声称已全面检查；需要进一步内容时请用户拆分或补充。 当前revision/requirements/configuration是当前保存上下文；历史消息仅用于核对变化，修订未记录时不猜版本，不能据此覆盖当前确认。同名材料按正文附带的id和source_sha256对应来源，引用仍须逐字核对；摘要是保存记录，不证明磁盘原文件已重读。"}, {"role": "user", "content": "当前任务资料：" + json.dumps(context, ensure_ascii=False)}]
+    messages.extend({"role": m["role"], "content": history_content(m,current_revision=revision)} for m in task["messages"][-12:] if m["role"] in {"user", "assistant"})
     start = time.monotonic()
     try:
         settings = get_settings()
@@ -849,7 +849,7 @@ async def send_message(item_id: str, payload: Message):
                 elif current["status"]=="interviewing":current["status"]=previous_status
             if "text" in locals():
                 current.setdefault("interview_attempts",[]).append({"revision":revision,"provider_id":provider["id"],"applied":False,"response_excerpt":text[:16000],"response_truncated":len(text)>16000,"usage":usage,"reason":note,"created_at":now()})
-            current["messages"].append({"role":"assistant","source":"system","content":note,"created_at":now()})
+            current["messages"].append({"role":"assistant","source":"system","content":note,"created_at":now(), "context_revision": revision, "result_revision": current["revision"]})
             return interview_progress.finish(current,interview_id,'paused' if stopped or current['status']=='paused' else 'failed',note)
     except BaseException:
         with store.lock:
@@ -857,7 +857,7 @@ async def send_message(item_id: str, payload: Message):
             if current.get('active_interview_id')==interview_id:current.pop('active_interview_id',None)
             if current['revision']==revision and current['status']=='interviewing':
                 current['status']='paused'
-                current['messages'].append({'role':'assistant','source':'system','content':'访谈请求中断，当前需求未改写；调用结果与费用可能未知，请核对账本，不自动重发。','created_at':now()})
+                current['messages'].append({'role':'assistant','source':'system','content':'访谈请求中断，当前需求未改写；调用结果与费用可能未知，请核对账本，不自动重发。','created_at':now(), "context_revision": revision, "result_revision": current["revision"]})
             interview_progress.finish(current,interview_id,'interrupted','访谈中断，候选未应用，费用可能未知；不自动重发。')
         raise
     with store.lock:
@@ -873,11 +873,11 @@ async def send_message(item_id: str, payload: Message):
         try:budgets.ready(item_id)
         except PlanningStopped as exc:stop_note=str(exc)
         if stop_note:
-            current['status']='paused';current.setdefault('interview_attempts',[]).append({'revision':revision,'provider_id':provider['id'],'applied':False,'response_excerpt':text[:16000],'response_truncated':len(text)>16000,'usage':usage,'reason':stop_note,'created_at':now()});current['messages'].append({'role':'assistant','source':'system','content':stop_note,'created_at':now()})
+            current['status']='paused';current.setdefault('interview_attempts',[]).append({'revision':revision,'provider_id':provider['id'],'applied':False,'response_excerpt':text[:16000],'response_truncated':len(text)>16000,'usage':usage,'reason':stop_note,'created_at':now()});current['messages'].append({'role':'assistant','source':'system','content':stop_note,'created_at':now(), "context_revision": revision, "result_revision": current["revision"]})
             return interview_progress.finish(current,interview_id,'paused',stop_note)
         if current["status"]=="interviewing":current["status"]=previous_status
         if payload.mode=="discussion":
-            current["messages"].append({"role":"assistant","source":"model","purpose":"discussion","content":result["message"],"created_at":now(),"provider_id":provider["id"],"usage":usage,"latency_ms":int((time.monotonic()-start)*1000)})
+            current["messages"].append({"role":"assistant","source":"model","purpose":"discussion","content":result["message"],"created_at":now(), "context_revision": revision, "result_revision": current["revision"],"provider_id":provider["id"],"usage":usage,"latency_ms":int((time.monotonic()-start)*1000)})
             return interview_progress.finish(current,interview_id,'applied','只读讨论回复已保存到对话，用量计入助手访谈预算；需求、配置、流程、确认和成果未修改，建议尚未采纳。')
         updates = {k: v.strip() for k, v in patch.items() if v.strip() and v.strip() != current["requirements"][k]}
         review_changed=(current.get("intake_review") or {}).get("review")!=intake_review
@@ -886,7 +886,7 @@ async def send_message(item_id: str, payload: Message):
             current["requirements"].update(updates)
         intake.save(current,intake_review,"model" if intake_review else "model_missing_review")
         if intake_review is None:result["message"]+="\n模型本轮没有返回标准检查结论，需求尚不能算准入完成；请请求重新检查或逐项人工复核。"
-        current["messages"].append({"role": "assistant", "source": "model", "content": result["message"], "created_at": now(), "provider_id": provider["id"], "usage": usage, "latency_ms": int((time.monotonic() - start) * 1000)})
+        current["messages"].append({"role": "assistant", "source": "model", "content": result["message"], "created_at": now(), "context_revision": revision, "result_revision": current["revision"], "provider_id": provider["id"], "usage": usage, "latency_ms": int((time.monotonic() - start) * 1000)})
         return interview_progress.finish(current,interview_id,'applied','完整返回并通过当前结构／修订校验，访谈回复已保存；建议与准入仍需复核确认。')
 
 
