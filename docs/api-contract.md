@@ -300,8 +300,10 @@ POST /tasks/{id}/missing-document-extractor接revision严格正整数、plan_tex
 POST `/api/tasks/{id}/run`、`run-input-check`、`run-case-input-check`在进入处理函数前拒绝重复JSON键（含转义后同名）、非法JSON／UTF8、不合对象根、非有限数字以及浮点词法转换后数值意义改变。请求线格式最多8MB、结构至多10万个值，更小的各接口输入／Schema限制仍有效；不会截断或回显键值。整数按Python整数保留不强转float，业务Schema仍独立校验。RunRequest仅接收正整数revision、input对象、可选case_id与conversation_from_run_id；revision不接受bool／字符串／float，未知字段422。返回422的detail为固定中文说明，不含原输入；GET以及实际处理函数原资源／预算／任务修订门禁保持。
 
 
-### 选择样例顺序试跑（0.284）
+### 保存失败访谈候选的本地恢复（0.286）
 
 保存失败访谈恢复（0.286）：POST `/api/tasks/{id}/saved-intake-candidates/list`、`/{index}/preview`和`/{index}/adopt`，严格修订/初始来源及契约引用检查。预览只读，adopt另需review_token和acknowledge_unconfirmed，生成新未确认修订，另记saved_model_candidate来源，原失败和费用保持，不请求模型或Dify。[完整接口与限制](saved-intake-draft.md)。
+
+### 选择样例顺序试跑（0.284）
 
 `POST /api/tasks/{id}/case-sequence-preview`：`{revision,case_ids}`，严格1—10个不重复已保存普通单轮样例，只读返回完整来源token、start_count、有限次数与App/环境。`POST /run`新增可选严格`sequence:{case_ids,start_count,index,token}`，仅配case_id使用；锁内逐例核对来源、历史序号与前例规则通过，失败/未知/需人工/等待/暂停不继续。每例保存选择IDs与序号用于历史清单，不自动恢复；原单例接口兼容。[说明](case-sequence.md)。
