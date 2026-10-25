@@ -51,6 +51,21 @@ class Store:
             rows = conn.execute("SELECT value FROM objects WHERE kind=? ORDER BY rowid DESC", (kind,)).fetchall()
         return [json.loads(row[0]) for row in rows]
 
+    def task_summaries(self):
+        """Return only sidebar fields; do not decode task bodies in Python."""
+        fields=('id','name','app_type','revision','status','updated_at')
+        with self.connect() as conn:
+            rows=conn.execute("""SELECT json_extract(value,'$.id'),json_extract(value,'$.name'),
+                json_extract(value,'$.app_type'),json_extract(value,'$.revision'),
+                json_extract(value,'$.status'),json_extract(value,'$.updated_at'),json_type(value,'$.revision')
+                FROM objects WHERE kind=? ORDER BY rowid DESC""",('task',)).fetchall()
+        result=[]
+        for row in rows:
+            item=dict(zip(fields,row[:6]))
+            if row[6]!='integer':item['revision']=None
+            result.append(item)
+        return result
+
     def put(self, kind: str, item_id: str, value: dict):
         with self.lock, self.connect() as conn:
             conn.execute("INSERT INTO objects(kind,id,value) VALUES(?,?,?) ON CONFLICT(kind,id) DO UPDATE SET value=excluded.value", (kind, item_id, json.dumps(value, ensure_ascii=False)))

@@ -368,7 +368,7 @@ def at22_assert_delivery(client, task, original_bytes):
     assert not summary["all_required_passed"] and summary["required"]["passed"] == 0
     report = client.get(f"/api/tasks/{tid}/report")
     assert report.status_code == 200
-    assert "静态检查不等于真实导入或业务验收" in report.text
+    assert "静态" in report.text and "规则通过不代表完整业务验收" in report.text
     assert Store(main.store.root).get("task", tid) == task
     return report.text, summary
 
@@ -394,7 +394,7 @@ def test_at22_offline_build_and_download_do_not_invent_import_or_run(client, app
     assert "当前应用标识：未导入" in report
     assert "成功运行返回" not in report
     assert summary["required"]["not_run"] == 1
-    assert summary["cases"][0]["details"] == "当前修订尚未试跑此样例。"
+    assert "当前App匹配" in summary["cases"][0]["details"] and "缺少App归属" in summary["cases"][0]["details"]
     # Missing environment and missing import binding are local gates, not failed runs.
     response = client.post(f"/api/tasks/{tid}/run", json={"revision": task["revision"], "case_id": "warranty"})
     assert response.status_code == 422
@@ -819,8 +819,8 @@ def test_at10_legacy_template_carries_explicit_declaration_to_downloads(client, 
     report = client.get(f"/api/tasks/{tid}/report")
     assert report.status_code == 200, report.text
     assert MOCK_ORDER in report.text
-    assert "替换所有已确认的模拟依赖，并重新验证" in report.text
-    assert "静态检查不等于真实导入或业务验收" in report.text
+    assert "按原确认范围替换并重新验证" in report.text and "不能当真实依赖已经交付" in report.text
+    assert "静态" in report.text and "规则通过不代表完整业务验收" in report.text
     saved = Store(main.store.root).get("task", tid)
     assert saved["configuration"]["mock_dependencies"] == [MOCK_ORDER]
     assert saved["versions"][-1]["configuration"]["mock_dependencies"] == [MOCK_ORDER]

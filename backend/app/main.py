@@ -83,7 +83,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.302.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.303.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -303,6 +303,13 @@ def meta():
 @app.get("/api/tasks")
 def list_tasks():
     return [get_task(t["id"]) for t in store.list("task")]
+
+
+@app.get('/api/task-summaries')
+def list_task_summaries():
+    from .task_summaries import summaries
+    from fastapi.responses import JSONResponse
+    return JSONResponse(summaries(store),headers={'Cache-Control':'no-store'})
 
 
 @app.post("/api/tasks", status_code=201)
