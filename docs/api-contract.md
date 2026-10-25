@@ -300,9 +300,11 @@ POST /tasks/{id}/missing-document-extractor接revision严格正整数、plan_tex
 POST `/api/tasks/{id}/run`、`run-input-check`、`run-case-input-check`在进入处理函数前拒绝重复JSON键（含转义后同名）、非法JSON／UTF8、不合对象根、非有限数字以及浮点词法转换后数值意义改变。请求线格式最多8MB、结构至多10万个值，更小的各接口输入／Schema限制仍有效；不会截断或回显键值。整数按Python整数保留不强转float，业务Schema仍独立校验。RunRequest仅接收正整数revision、input对象、可选case_id与conversation_from_run_id；revision不接受bool／字符串／float，未知字段422。返回422的detail为固定中文说明，不含原输入；GET以及实际处理函数原资源／预算／任务修订门禁保持。
 
 
-### 保存失败访谈候选的本地恢复（0.286）
+### 按原始说明逐项补充待答专项（0.287）
 
 逐项引用补充（0.287）：POST `/api/tasks/{id}/intake/topic-resolution/options`、`preview`和`save`。只处理当前有效检查中的待答专项，以原始用户消息逐字引用为依据。保存只改选定项，生成新未确认修订，明确local_operator/agent_delegated来源，不是人类签收或自动语义验证。[完整请求和限制](intake-topic-resolution.md)。
+
+### 保存失败访谈候选的本地恢复（0.286）
 
 保存失败访谈恢复（0.286）：POST `/api/tasks/{id}/saved-intake-candidates/list`、`/{index}/preview`和`/{index}/adopt`，严格修订/初始来源及契约引用检查。预览只读，adopt另需review_token和acknowledge_unconfirmed，生成新未确认修订，另记saved_model_candidate来源，原失败和费用保持，不请求模型或Dify。[完整接口与限制](saved-intake-draft.md)。
 
