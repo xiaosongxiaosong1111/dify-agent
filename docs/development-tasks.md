@@ -2,6 +2,8 @@
 
 版本：v1.0。日期：2026-10-09。共 136 个任务。
 
+当前实现与验收口径分离说明见[2026-10-25功能证据与缺口](feature-scope-review-20261025.md)及[136项分层索引](feature-work-index.json)。下表10月20日状态继续作为历史记录，不用于当前剩余功能数量或完成百分比；未复核项不推断为未实现。
+
 需求依据：[需求规格 v1.0](requirements-v1.0.md)。界面依据：[原型参考说明](prototype-reference.md)及[交互原型](../reference/prototype.html)。
 
 ## 1. 任务粒度与完成规则

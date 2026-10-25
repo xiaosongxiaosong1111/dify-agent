@@ -1,0 +1,1862 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-25",
+  "product_version": "0.290.0",
+  "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
+  "summary": {
+    "implementation_work": 105,
+    "verification_delivery": 31
+  },
+  "known_priority_gaps": [
+    "F01"
+  ],
+  "scope_extension_candidates": [
+    "F02",
+    "F03",
+    "F04",
+    "F05",
+    "F06",
+    "F07"
+  ],
+  "rows": [
+    {
+      "id": "T001",
+      "title": "收集实际 Dify 版本、部署、地址和认证信息",
+      "deliverable": "环境登记表",
+      "acceptance": "用户确认；未知项显式列出，不把示例地址当真实环境",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T002",
+      "title": "确定首个模型服务和模型标识",
+      "deliverable": "模型验证配置",
+      "acceptance": "获得用户配置；不在文档或日志记录完整 Key",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T003",
+      "title": "执行最小文本模型调用",
+      "deliverable": "调用脚本与记录",
+      "acceptance": "返回真实响应；鉴权和网络失败有明确原因",
+      "kind": "verification_delivery",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T004",
+      "title": "验证工具调用与结构化结果能力",
+      "deliverable": "能力矩阵",
+      "acceptance": "使用任务所需输入验证，不能以文本回复成功代替",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T005",
+      "title": "导出一个目标 Dify 的真实最小样例 DSL",
+      "deliverable": "基准样例",
+      "acceptance": "类型、应用版本和 DSL 版本有记录，来源明确",
+      "kind": "verification_delivery",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T006",
+      "title": "验证 DSL 导入方式与权限",
+      "deliverable": "导入适配试验",
+      "acceptance": "实际导入新测试应用，记录返回状态和 ID",
+      "kind": "verification_delivery",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T007",
+      "title": "验证应用试跑及运行记录读取",
+      "deliverable": "运行适配试验",
+      "acceptance": "取得真实输入输出和错误；不默认管理和运行认证相同",
+      "kind": "verification_delivery",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T008",
+      "title": "验证知识库、模型及插件资源查询",
+      "deliverable": "资源发现记录",
+      "acceptance": "可用、不可用、无权限和未知分别记录",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T009",
+      "title": "验证知识库创建／资料准备方式",
+      "deliverable": "管理能力记录",
+      "acceptance": "实际测试资源准备；需先明确测试资源操作及影响",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T010",
+      "title": "验证获取当前应用 DSL 的方式",
+      "deliverable": "最新版读取记录",
+      "acceptance": "可取得用户实际使用版本；不可用时确定文件输入路线",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T011",
+      "title": "锁定首批类型、节点和库版本",
+      "deliverable": "支持清单与依赖清单",
+      "acceptance": "与目标环境一致；未支持项有说明，不能承诺全部版本兼容",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T012",
+      "title": "选定第一条端到端案例与样例",
+      "deliverable": "案例包",
+      "acceptance": "用户确认核心范围、输入输出、模拟边界和关键样例",
+      "kind": "verification_delivery",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T013",
+      "title": "建立前后端目录、依赖和配置样例",
+      "deliverable": "工程骨架",
+      "acceptance": "本机可启动；示例配置不含真实凭据",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T014",
+      "title": "定义后台 API 与事件契约",
+      "deliverable": "接口说明",
+      "acceptance": "聊天、任务、确认、运行和错误字段明确",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T015",
+      "title": "建立 SQLite 初始结构与迁移",
+      "deliverable": "数据库结构",
+      "acceptance": "任务、材料、方案、确认、运行、版本、成果分表或明确关联",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T016",
+      "title": "定义任务状态和合法转换",
+      "deliverable": "状态模型",
+      "acceptance": "非法跳转被拒绝；等待确认和等待输入可区分",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T017",
+      "title": "实现任务创建、查询和更新",
+      "deliverable": "任务服务",
+      "acceptance": "类型来自用户；任务 ID 唯一，不同任务状态隔离",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T018",
+      "title": "实现材料和成果目录存储",
+      "deliverable": "文件服务",
+      "acceptance": "文件归属任务；同名文件不误覆盖；失败有记录",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T019",
+      "title": "实现凭据保存与脱敏读取",
+      "deliverable": "本机凭据模块",
+      "acceptance": "Key 不进入普通日志、交付文件和页面明文回显",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T020",
+      "title": "实现进度和对话持久化",
+      "deliverable": "持久化服务",
+      "acceptance": "重启后台后恢复已确认信息、待办和当前阶段",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T021",
+      "title": "实现操作记录与幂等标识",
+      "deliverable": "操作记录服务",
+      "acceptance": "同一请求重试不被视为全新资源操作；可追溯状态",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T022",
+      "title": "实现结构化事件推送与恢复查询",
+      "deliverable": "事件服务",
+      "acceptance": "页面断连可重新取得权威状态，不只依赖历史动画",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T023",
+      "title": "建立三栏布局和响应式样式",
+      "deliverable": "页面骨架",
+      "acceptance": "对照原型，常用窗口宽度下主要操作可见",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T024",
+      "title": "接入真实任务列表与切换",
+      "deliverable": "任务导航",
+      "acceptance": "显示后台状态；切换不丢进度或串消息",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T025",
+      "title": "实现新建任务与类型选择",
+      "deliverable": "创建表单",
+      "acceptance": "用户主动选类型，能力限制明确，不能自动换类型",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T026",
+      "title": "接入聊天组件和消息显示",
+      "deliverable": "对话区",
+      "acceptance": "显示用户、助手、等待输入、失败和工具结果状态",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T027",
+      "title": "实现流式消息、发送和取消入口",
+      "deliverable": "对话控制",
+      "acceptance": "流式输出可中断；重连不复制消息",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T028",
+      "title": "实现材料上传与解析状态卡片",
+      "deliverable": "材料区",
+      "acceptance": "显示真实上传／解析状态，失败与待处理明确",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T029",
+      "title": "实现标准需求说明和编辑界面",
+      "deliverable": "需求页",
+      "acceptance": "已明确、待补充、不适用、冲突和待确认可区分",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T030",
+      "title": "实现集中配置与资源计划界面",
+      "deliverable": "配置页",
+      "acceptance": "展示具体值、理由和资源影响，可修改单项",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T031",
+      "title": "实现版本化确认操作",
+      "deliverable": "确认控件",
+      "acceptance": "确认对象版本可见；按钮权限由后台验证",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T032",
+      "title": "实现流程节点与分支预览",
+      "deliverable": "流程预览",
+      "acceptance": "只展示当前方案；类型说明准确，不伪装原生画布",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T033",
+      "title": "实现执行进度、暂停和继续",
+      "deliverable": "执行页",
+      "acceptance": "状态由后台事件产生；暂停结果有明确说明",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T034",
+      "title": "实现样例输入输出和错误展示",
+      "deliverable": "试跑报告页",
+      "acceptance": "显示预期、实际、版本、失败原因和模拟状态",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T035",
+      "title": "实现成果、待办和版本入口",
+      "deliverable": "交付页",
+      "acceptance": "未验证文件与已验证成果区分，下载版本一致",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T036",
+      "title": "实现模型、环境和上限设置表单",
+      "deliverable": "设置页",
+      "acceptance": "支持添加编辑、服务地址、模型、用途和连接状态",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T037",
+      "title": "实现空状态、错误提示和键盘操作",
+      "deliverable": "交互补齐",
+      "acceptance": "网络失败不显示成功；弹窗焦点、发送和主要按钮可用",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T038",
+      "title": "定义模型服务适配接口",
+      "deliverable": "Provider 接口",
+      "acceptance": "地址、协议、模型、参数和能力分开，不假定供应商完全相同",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T039",
+      "title": "接入第一个真实供应商",
+      "deliverable": "Provider 实现",
+      "acceptance": "使用后台凭据调用成功，错误和超时可识别",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T040",
+      "title": "实现连接及能力检测接口",
+      "deliverable": "能力检测结果",
+      "acceptance": "区分文本、工具、结构化及图片能力；未知不记为通过",
+      "kind": "implementation_work",
+      "implementation_review": "scope_limited",
+      "evidence": [
+        "docs/feature-scope-review-20261025.md",
+        "backend/app/capabilities.py"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T041",
+      "title": "实现供应商配置管理",
+      "deliverable": "设置 API",
+      "acceptance": "可新增编辑删除；正在使用的配置变更有说明",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T042",
+      "title": "实现主 Agent 提示词与工具注册",
+      "deliverable": "主 Agent 基础",
+      "acceptance": "专业规则和允许工具明确；工具结果不能被口述替代",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T043",
+      "title": "实现对话上下文组装与流式响应",
+      "deliverable": "聊天后台",
+      "acceptance": "包含当前版本的需求和相关材料，不混入其他任务",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T044",
+      "title": "实现用量、调用错误和耗时记录",
+      "deliverable": "调用记录",
+      "acceptance": "记录真实用量；供应商不返回时标为未知",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T045",
+      "title": "打通前端聊天及设置的真实链路",
+      "deliverable": "联调记录",
+      "acceptance": "网页配置模型后可真实对话；无 Key 时说明缺条件",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T046",
+      "title": "定义材料类型和解析结果契约",
+      "deliverable": "材料结构",
+      "acceptance": "有文件名、来源、内容、状态、错误和定位信息",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T047",
+      "title": "实现文字、Markdown、JSON 和 YAML 解析",
+      "deliverable": "基础解析器",
+      "acceptance": "读取真实内容；编码和语法错误有定位",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T048",
+      "title": "实现约定的 PDF／Word 解析",
+      "deliverable": "文档解析器",
+      "acceptance": "可读文件有文本；扫描／损坏／不支持文件明确报错",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T049",
+      "title": "实现截图、图片或扫描文档处理路线",
+      "deliverable": "图像解析适配",
+      "acceptance": "按验证过的模型／OCR处理；不可用时请求文字替代",
+      "kind": "implementation_work",
+      "implementation_review": "scope_limited",
+      "evidence": [
+        "docs/feature-scope-review-20261025.md",
+        "backend/app/capabilities.py"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T050",
+      "title": "实现流程图和参考 DSL 内容整理",
+      "deliverable": "参考摘要",
+      "acceptance": "保留节点／业务含义、来源和不确定点，不假装已复现",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T051",
+      "title": "实现参考程度和保留项确认",
+      "deliverable": "参考配置",
+      "acceptance": "用户确认借鉴、保留或复现；关键未定项阻止受影响搭建",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T052",
+      "title": "实现需求字段、来源和状态结构",
+      "deliverable": "标准说明单模型",
+      "acceptance": "8 类字段及未知／不适用／建议／已确认状态明确",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T053",
+      "title": "实现从描述与材料抽取需求草稿",
+      "deliverable": "抽取工具",
+      "acceptance": "关键字段保留证据；推测内容标为建议",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T054",
+      "title": "实现缺失项和专项追问选择",
+      "deliverable": "访谈规则",
+      "acceptance": "只问相关问题；关键未知阻止搭建，缺资源可协商",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T055",
+      "title": "实现业务头脑风暴与规则草案",
+      "deliverable": "方案建议工具",
+      "acceptance": "用户不懂规则时有具体选项和例子，确认后采用",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T056",
+      "title": "实现材料和需求冲突识别",
+      "deliverable": "冲突待办",
+      "acceptance": "展示冲突内容、来源、影响和建议；不能静默裁定",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T057",
+      "title": "实现验收样例建议与编辑",
+      "deliverable": "样例计划",
+      "acceptance": "正常、关键分支及必要异常有可判断的预期",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T058",
+      "title": "实现具体节点与资源配置建议",
+      "deliverable": "配置方案模型",
+      "acceptance": "模型参数、知识库、接口和动作有实际值／待补项及理由",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T059",
+      "title": "实现确认记录和版本绑定",
+      "deliverable": "确认服务",
+      "acceptance": "记录确认范围、版本和时间；多方案模糊确认需澄清",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T060",
+      "title": "实现准入门禁和变更失效",
+      "deliverable": "准入服务",
+      "acceptance": "未解决关键缺口、冲突、未确认内容会阻止执行；变更可追溯",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T061",
+      "title": "验证访谈、冲突和确认全流程",
+      "deliverable": "M2 联调案例",
+      "acceptance": "模糊需求逐步明确；集中确认后可进生成；修改后重新确认",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T062",
+      "title": "定义结构化流程方案",
+      "deliverable": "流程结构模型",
+      "acceptance": "表达目标类型、节点、输入输出、分支、依赖和业务映射",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T063",
+      "title": "整理目标版本节点规则和可靠例子",
+      "deliverable": "节点规则库",
+      "acceptance": "来源与适用版本可追溯，不混用其他版本字段",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T064",
+      "title": "实现节点／案例检索",
+      "deliverable": "专业知识检索工具",
+      "acceptance": "返回与当前类型版本相符的规则和例子",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T065",
+      "title": "实现流程方案生成",
+      "deliverable": "规划工具",
+      "acceptance": "对应确认需求；不静默删分支、保留项或异常行为",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T066",
+      "title": "实现首批 Workflow 的序列化适配",
+      "deliverable": "Workflow 编译器",
+      "acceptance": "输出结构与真实基准一致；固定字段由程序处理",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T067",
+      "title": "实现首批 Chatflow 的序列化适配",
+      "deliverable": "Chatflow 编译器",
+      "acceptance": "对话输入、回答和上下文按所选版本处理",
+      "kind": "implementation_work",
+      "implementation_review": "scope_limited",
+      "evidence": [
+        "docs/feature-scope-review-20261025.md",
+        "backend/app/capabilities.py"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T068",
+      "title": "实现目标环境中的 Agent 类型适配",
+      "deliverable": "Agent 编译器／限制说明",
+      "acceptance": "按实际类型结构生成；不可用时说明限制并协商",
+      "kind": "implementation_work",
+      "implementation_review": "scope_limited",
+      "evidence": [
+        "docs/feature-scope-review-20261025.md",
+        "backend/app/capabilities.py"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T069",
+      "title": "实现开始、输出及回答等基础节点",
+      "deliverable": "基础节点适配",
+      "acceptance": "节点字段、输入输出及类型正确",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T070",
+      "title": "实现 LLM 节点与提示词配置",
+      "deliverable": "LLM 节点适配",
+      "acceptance": "使用确认模型参数和变量；不传未支持的参数",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T071",
+      "title": "实现知识检索节点",
+      "deliverable": "检索节点适配",
+      "acceptance": "使用确认的资源映射和检索配置",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T072",
+      "title": "实现条件分支节点",
+      "deliverable": "条件节点适配",
+      "acceptance": "分支条件、出口和业务规则相符",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T073",
+      "title": "实现模板、变量和数据转换节点",
+      "deliverable": "数据节点适配",
+      "acceptance": "引用与输出类型正确，支持约定的转换规则",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T074",
+      "title": "实现 HTTP／工具节点及模拟接口标记",
+      "deliverable": "接口节点适配",
+      "acceptance": "请求和响应字段依据资料；模拟依赖可定位",
+      "kind": "implementation_work",
+      "implementation_review": "scope_limited",
+      "evidence": [
+        "docs/feature-scope-review-20261025.md",
+        "backend/app/capabilities.py"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T075",
+      "title": "实现代码生成和代码节点适配",
+      "deliverable": "代码生成工具",
+      "acceptance": "代码输入输出与规则一致，不把外部开发塞进本任务",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T076",
+      "title": "实现 YAML 和节点字段校验",
+      "deliverable": "结构校验器",
+      "acceptance": "故意缺字段和格式错误可定位到文件／节点",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T077",
+      "title": "实现图连接、变量及路径校验",
+      "deliverable": "语义校验器",
+      "acceptance": "孤立、重复 ID、无效引用、类型及分支可见性错误可发现",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T078",
+      "title": "实现代码节点受限样例验证",
+      "deliverable": "代码验证器",
+      "acceptance": "有执行边界、超时和错误输出；目标环境结果需另测",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T079",
+      "title": "实现需求、保留项与生成结果对应检查",
+      "deliverable": "需求覆盖报告",
+      "acceptance": "每个核心项有节点／行为对应，缺失不计通过",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T080",
+      "title": "保存 DSL 版本和离线待验证成果",
+      "deliverable": "文件与草稿服务",
+      "acceptance": "记录类型版本、检查结果、模拟依赖和真实验证缺口",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T081",
+      "title": "实现正式 Dify 连接与能力查询",
+      "deliverable": "环境适配器",
+      "acceptance": "认证失败、无权限、能力未知分别处理",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T082",
+      "title": "实现模型、库和插件发现与选用",
+      "deliverable": "资源目录",
+      "acceptance": "不编造 ID；结果绑定当前环境",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T083",
+      "title": "实现资料重复、版本与矛盾检查",
+      "deliverable": "资料准备报告",
+      "acceptance": "重复处理建议和业务冲突分开；关键事实由用户裁定",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T084",
+      "title": "实现知识库分组及建库计划",
+      "deliverable": "资料与建库方案",
+      "acceptance": "新增／复用／修改动作及影响由用户确认",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T085",
+      "title": "实现确认后的建库和资料上传",
+      "deliverable": "知识库执行工具",
+      "acceptance": "记录实际资源 ID；重试不盲目重复创建；失败项清晰",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T086",
+      "title": "实现索引准备状态和恢复检查",
+      "deliverable": "索引跟踪工具",
+      "acceptance": "准备中、成功、失败、超时可区分；不提前运行检索",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T087",
+      "title": "实现代表性问题检索验证",
+      "deliverable": "检索报告",
+      "acceptance": "区分无答案、低相关和技术失败，结果有来源",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T088",
+      "title": "实现版本与环境资源映射检查",
+      "deliverable": "依赖映射工具",
+      "acceptance": "已有 ID 在目标环境核对，缺失阻止真实导入／运行",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T089",
+      "title": "实现正式 DSL 导入及结果记录",
+      "deliverable": "导入工具",
+      "acceptance": "记录真实状态和应用 ID；版本／依赖问题不伪装成功",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T090",
+      "title": "实现部分资源操作失败恢复",
+      "deliverable": "资源恢复记录",
+      "acceptance": "明确已创建与未完成部分；不自动删除无关资源，不重复副作用",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T091",
+      "title": "定义运行快照和样例结果模型",
+      "deliverable": "运行数据结构",
+      "acceptance": "绑定 DSL、配置、需求版本、环境和输入；快照不可变",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T092",
+      "title": "实现真实应用执行与结果读取",
+      "deliverable": "运行工具",
+      "acceptance": "返回实际输出和错误；聊天成功不计为生成应用成功",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T093",
+      "title": "实现预期与实际结果比较",
+      "deliverable": "样例评价器",
+      "acceptance": "对结构／关键行为做可解释判断，不只让模型给笼统好评",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T094",
+      "title": "实现节点错误标准化和定位",
+      "deliverable": "错误诊断结构",
+      "acceptance": "区分配置、引用、代码、资源和外部错误",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T095",
+      "title": "实现小问题修复策略",
+      "deliverable": "修复工具",
+      "acceptance": "保持确认方案；修复前后有差异；改变关键选择转待确认",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T096",
+      "title": "实现受影响检查与样例重跑",
+      "deliverable": "重跑服务",
+      "acceptance": "新版本关联新结果，旧报告保留，错误未消失不计通过",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T097",
+      "title": "实现无进展识别和投入上限",
+      "deliverable": "停止控制器",
+      "acceptance": "相同问题多次无进展及达到配置上限后停止派发新步骤",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T098",
+      "title": "实现长任务暂停、检查点和继续",
+      "deliverable": "执行恢复服务",
+      "acceptance": "恢复先核对外部结果；不盲目重新导入／建库",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T099",
+      "title": "实现真实、模拟、待验证状态传播",
+      "deliverable": "验证等级模块",
+      "acceptance": "页面、日志、文件和报告标记一致；模拟不能升级为真实通过",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T100",
+      "title": "实现交付完成条件判定",
+      "deliverable": "完成判定器",
+      "acceptance": "核心、导入、关键样例、版本和待办同时检查",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T101",
+      "title": "实现配置说明与待办指南生成",
+      "deliverable": "说明文件",
+      "acceptance": "标明理由、模拟位置、缺资源和人工接入步骤",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T102",
+      "title": "实现 DSL 与报告下载交付",
+      "deliverable": "交付包服务",
+      "acceptance": "文件版本一致、无凭据；未验证状态进入文件而非只在页面",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T103",
+      "title": "联调真实执行工作台",
+      "deliverable": "前后端联调记录",
+      "acceptance": "实际进度、错误、暂停和报告在网页正确展示",
+      "kind": "verification_delivery",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T104",
+      "title": "完成首个真实端到端案例",
+      "deliverable": "M4 验收报告",
+      "acceptance": "用户选择到交付全程可复现；模拟依赖明确；至少一次修改并重跑",
+      "kind": "verification_delivery",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T105",
+      "title": "获取或接收当前实际 DSL",
+      "deliverable": "最新版本导入工具",
+      "acceptance": "读取方式失败时可上传文件，不静默使用旧版本覆盖",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T106",
+      "title": "实现人工修改差异检测",
+      "deliverable": "版本差异报告",
+      "acceptance": "对照生成基线定位人工改动和受影响需求",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T107",
+      "title": "实现保留人工修改的局部更新",
+      "deliverable": "合并与修改工具",
+      "acceptance": "默认保留当前改动，冲突时确认，不整份静默重写",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T108",
+      "title": "实现需求／配置／DSL完整版本快照",
+      "deliverable": "版本服务",
+      "acceptance": "确认与运行指向正确版本；可查看历史交付",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T109",
+      "title": "实现恢复为新草稿及受影响测试失效",
+      "deliverable": "版本恢复工具",
+      "acceptance": "历史不变；外部资源还原需另确认；恢复不能复用旧通过状态",
+      "kind": "implementation_work",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T110",
+      "title": "实现环境切换与资源重新映射",
+      "deliverable": "跨环境检查流程",
+      "acceptance": "版本、模型、库、插件及认证重新核对，缺口明确",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T111",
+      "title": "实现对话上下文与追问场景",
+      "deliverable": "Chatflow 扩展",
+      "acceptance": "连续消息、缺关键信息、上下文规则在实际应用验证",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T112",
+      "title": "实现批量输入及逐项迭代",
+      "deliverable": "批量流程扩展",
+      "acceptance": "多条输入分别产生结果，按约定策略处理失败",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T113",
+      "title": "实现批量失败汇总与结果输出",
+      "deliverable": "批量结果模块",
+      "acceptance": "明确成功与失败项，不漏项或把失败当成功",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T114",
+      "title": "实现循环和复杂分支适配",
+      "deliverable": "控制流扩展",
+      "acceptance": "嵌套变量／路径校验和终止条件有效",
+      "kind": "implementation_work",
+      "implementation_review": "scope_limited",
+      "evidence": [
+        "docs/feature-scope-review-20261025.md",
+        "backend/app/capabilities.py"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T115",
+      "title": "实现目标环境支持的触发节点配置",
+      "deliverable": "触发适配",
+      "acceptance": "触发条件由用户确认；无能力时说明替代条件，不开发外部调度系统",
+      "kind": "implementation_work",
+      "implementation_review": "scope_limited",
+      "evidence": [
+        "docs/feature-scope-review-20261025.md",
+        "backend/app/capabilities.py"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T116",
+      "title": "实现目标环境支持的人工输入／审核",
+      "deliverable": "人工参与适配",
+      "acceptance": "审核对象和通过／拒绝／等待行为符合确认方案",
+      "kind": "implementation_work",
+      "implementation_review": "scope_limited",
+      "evidence": [
+        "docs/feature-scope-review-20261025.md",
+        "backend/app/capabilities.py"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T117",
+      "title": "实现 Agent 类型工具选择场景验证",
+      "deliverable": "Agent 行为案例",
+      "acceptance": "使用实际支持能力验证；不能拿 Chatflow 示例冒充 Agent 适配",
+      "kind": "verification_delivery",
+      "implementation_review": "scope_limited",
+      "evidence": [
+        "docs/feature-scope-review-20261025.md",
+        "backend/app/capabilities.py"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T118",
+      "title": "验证知识库不同准备路线",
+      "deliverable": "知识库回归案例",
+      "acceptance": "已指定库、多库选用、原始资料三条路线均有实际结果或限制",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T119",
+      "title": "验证严格复现和保留指定参考内容",
+      "deliverable": "参考回归案例",
+      "acceptance": "保留项可追溯；不匹配版本的差异说明并确认",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T120",
+      "title": "验证人工修改及版本恢复往返",
+      "deliverable": "版本往返案例",
+      "acceptance": "手工调整模型／提示词后继续修改可保留，恢复后重新验证",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T121",
+      "title": "验证公司／客户环境切换和断连",
+      "deliverable": "环境回归案例",
+      "acceptance": "资源重新映射；断连只产出待验证，不冒充导入成功",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T122",
+      "title": "更新真实支持能力矩阵",
+      "deliverable": "M5 支持报告",
+      "acceptance": "每项有验证证据或明确限制；未实现场景不标已支持",
+      "kind": "verification_delivery",
+      "implementation_review": "current_evidence",
+      "evidence": [
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/success-diagnostic-presentation.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T123",
+      "title": "测量单模型端到端基线",
+      "deliverable": "质量／用量基线",
+      "acceptance": "同一案例统计总调用、输入输出、重试、耗时和成功率",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T124",
+      "title": "定义简单任务路由与轻量模型配置",
+      "deliverable": "路由规则",
+      "acceptance": "仅范围明确任务下放；主 Agent 持有用户对话与确认",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T125",
+      "title": "实现有限上下文的辅助任务执行",
+      "deliverable": "轻量任务工具",
+      "acceptance": "只给必要信息，输出有格式与检查，不复制全部历史",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T126",
+      "title": "实现轻量失败升级与调用上限",
+      "deliverable": "回退控制",
+      "acceptance": "失败升级有记录，重试和子任务开销纳入停止规则",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T127",
+      "title": "优化重复上下文与可用缓存",
+      "deliverable": "上下文策略",
+      "acceptance": "不丢关键规则／证据；缓存用量按服务返回记录",
+      "kind": "implementation_work",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T128",
+      "title": "对比成本、耗时和质量",
+      "deliverable": "优化评估报告",
+      "acceptance": "包含重试总开销；不承诺省 Token；退化时保留基线路线",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T129",
+      "title": "将 AT-01—AT-25转成回归记录",
+      "deliverable": "验收映射表",
+      "acceptance": "每个场景对应测试／人工验证方法和证据；未实现明确标记",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "等待验证",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T130",
+      "title": "检查持久化、断连和重复执行",
+      "deliverable": "恢复测试报告",
+      "acceptance": "页面／后台重启后状态一致，无不明重复外部资源操作",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "进行中",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T131",
+      "title": "检查凭据与任务文件边界",
+      "deliverable": "数据检查报告",
+      "acceptance": "日志和交付包无真实 Key；任务间不串资料；错误路径有检查",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T132",
+      "title": "完成正式浏览器交互与可用性验收",
+      "deliverable": "前端验收报告",
+      "acceptance": "对照原型检查确认、修改、错误、焦点和常用窗口布局",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T133",
+      "title": "编写安装、启动、设置和调试说明",
+      "deliverable": "用户与开发说明",
+      "acceptance": "新电脑可按说明配置并运行；等待输入项有明确解释",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T134",
+      "title": "编写架构、接口和版本维护说明",
+      "deliverable": "开发交接文档",
+      "acceptance": "新开发者可定位状态、工具、适配规则和测试，不依赖聊天记忆",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T135",
+      "title": "整理真实项目演示与面试材料",
+      "deliverable": "演示案例及评估说明",
+      "acceptance": "有真实成功、失败、修复和成本数据，不编造提升比例",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    },
+    {
+      "id": "T136",
+      "title": "完成全项目最终验收",
+      "deliverable": "完成清单与限制列表",
+      "acceptance": "与需求及支持矩阵逐项对照，未完项不能被省略；用户可复现主链路",
+      "kind": "verification_delivery",
+      "implementation_review": "not_reaudited",
+      "evidence": [
+        "docs/development-tasks.md"
+      ],
+      "historical_status_20261020": "受阻",
+      "acceptance_closed": false
+    }
+  ]
+}
