@@ -1,15 +1,13 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-25",
-  "product_version": "0.290.0",
+  "product_version": "0.291.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
     "verification_delivery": 31
   },
-  "known_priority_gaps": [
-    "F01"
-  ],
+  "known_priority_gaps": [],
   "scope_extension_candidates": [
     "F02",
     "F03",
@@ -65,12 +63,15 @@
       "deliverable": "能力矩阵",
       "acceptance": "使用任务所需输入验证，不能以文本回复成功代替",
       "kind": "verification_delivery",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "docs/provider-tool-request-probe.md",
+        "backend/app/provider_tool_probe.py",
+        "backend/tests/test_provider_tool_probe.py"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "兼容协议工具请求探测已实现并隔离验证；没有执行工具或验证真实账号，原验收未关闭。"
     },
     {
       "id": "T005",
@@ -557,11 +558,13 @@
       "kind": "implementation_work",
       "implementation_review": "scope_limited",
       "evidence": [
-        "docs/feature-scope-review-20261025.md",
-        "backend/app/capabilities.py"
+        "docs/provider-tool-request-probe.md",
+        "backend/app/provider_tool_probe.py",
+        "backend/tests/test_provider_tool_probe.py"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "兼容协议工具请求探测已实现并隔离验证；没有执行工具或验证真实账号，原验收未关闭。"
     },
     {
       "id": "T041",
@@ -1857,6 +1860,14 @@
       ],
       "historical_status_20261020": "受阻",
       "acceptance_closed": false
+    }
+  ],
+  "implemented_priority_gaps": [
+    {
+      "id": "F01",
+      "scope": "OpenAI-compatible single function request probe only",
+      "actual_account_verified": false,
+      "evidence": "docs/provider-tool-request-probe.md"
     }
   ]
 }

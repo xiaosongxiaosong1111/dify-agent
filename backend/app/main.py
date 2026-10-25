@@ -82,7 +82,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.290.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.291.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -161,6 +161,9 @@ def invalidate(task, label, *, preserve_requirements=False):
 def provider_public(provider):
     out = {k: v for k, v in provider.items() if k not in SECRET_FIELDS}
     out["has_api_key"] = store.has_secret(provider["id"], "api_key")
+    from .provider_tool_probe import identity as tool_probe_identity
+    if (provider.get('capabilities') or {}).get('tools')=='verified' and ((provider.get('checks') or {}).get('tools') or {}).get('source_token')!=tool_probe_identity(provider):
+        out['capabilities']={**provider['capabilities'],'tools':'untested'}
     return out
 
 
@@ -2324,3 +2327,6 @@ register_saved_run_input(sys.modules[__name__])
 
 from .after_sales_cases import register as register_after_sales_cases
 register_after_sales_cases(sys.modules[__name__])
+
+from .provider_tool_probe import register as register_provider_tool_probe
+register_provider_tool_probe(sys.modules[__name__])

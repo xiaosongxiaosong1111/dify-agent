@@ -137,3 +137,5 @@
 .case-sequence-panel .sequence-history{margin-top:14px;padding:10px;border:1px solid var(--line);border-radius:8px}.sequence-history table{width:100%;text-align:left;table-layout:fixed}.sequence-history td{overflow-wrap:anywhere;vertical-align:top;padding:6px}.sequence-history small{display:block;color:var(--muted)}
 
 .intake-topic-resolution-panel pre{white-space:pre-wrap;overflow-wrap:anywhere}.intake-topic-resolution-panel .topic-resolution-source{max-height:220px;overflow:auto;padding:10px;background:#f8f9fc;border:1px solid var(--line);border-radius:8px}
+
+.tool-probe-panel{margin-top:10px;min-width:0;font-size:12px}.tool-probe-panel .callout{display:block;overflow-wrap:anywhere}.tool-probe-panel .callout p{margin:8px 0}.tool-probe-panel .callout small{display:block;line-height:1.6}.tool-probe-ack{display:flex;align-items:flex-start;gap:8px;line-height:1.65;margin:12px 0;font-size:12px}.tool-probe-ack input[type=checkbox]{width:16px;height:16px;flex:0 0 16px;margin:3px 0 0}
