@@ -105,6 +105,7 @@ def test_numeric_iteration_scope_keeps_actual_item_type_and_rhs_reference():
  row=c['nodes'][0]['config']['cases'][0]['conditions'][0]
  row.update(varType='number',comparison_operator='≥',value='{{#batch.index#}}')
  c['nodes'][1]['config']['code']='def main(item: float, index: int) -> dict:\n    return {"result": str(item)}\n'
+ c['nodes'][1]['config']['variables'].append({'variable':'index','value_selector':['batch','index']})
  before=copy.deepcopy(p);text,result=compile_workflow_plan(batch_task(p));assert result['valid'],result['errors']
  native=yaml.safe_load(text)['workflow']['graph']['nodes']
  emitted=next(n for n in native if n['id']=='route_item')['data']['cases'][0]['conditions'][0]

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-25",
-  "product_version": "0.298.0",
+  "product_version": "0.299.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -911,12 +911,16 @@
       "deliverable": "节点规则库",
       "acceptance": "来源与适用版本可追溯，不混用其他版本字段",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/node_guidance.py",
+        "backend/tests/test_node_guidance.py",
+        "frontend/src/NodeGuidancePanel.tsx",
+        "docs/node-guidance.md"
       ],
       "historical_status_20261020": "等待验证",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.299补首批四类按类型/固定版本规则与完整合成示例查询、实际规划匹配及条目摘要回执；18新/相关163及UI8通过，真实模型/Dify0。仅本机适配范围及八个示例静态编译，非全部节点规则库、完整专业检索或模型语义质量验收；acceptance_closed保持false。"
     },
     {
       "id": "T064",
@@ -924,12 +928,16 @@
       "deliverable": "专业知识检索工具",
       "acceptance": "返回与当前类型版本相符的规则和例子",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/node_guidance.py",
+        "backend/tests/test_node_guidance.py",
+        "frontend/src/NodeGuidancePanel.tsx",
+        "docs/node-guidance.md"
       ],
       "historical_status_20261020": "受阻",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.299补首批四类按类型/固定版本规则与完整合成示例查询、实际规划匹配及条目摘要回执；18新/相关163及UI8通过，真实模型/Dify0。仅本机适配范围及八个示例静态编译，非全部节点规则库、完整专业检索或模型语义质量验收；acceptance_closed保持false。"
     },
     {
       "id": "T065",

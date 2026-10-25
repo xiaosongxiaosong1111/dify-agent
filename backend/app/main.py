@@ -83,7 +83,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.298.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.299.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -612,9 +612,12 @@ async def generate_plan(item_id: str, payload: Revision):
         provider = main_provider(task)
         key = store.secret(provider["id"], "api_key")
         contract = load_contract(PROJECT_ROOT, "agent-plan-contract.md" if task["app_type"] == "agent" else "workflow-plan-contract.md")
+        from .node_guidance import for_task as node_rules_for_task, provenance as node_rule_provenance
+        node_guidance = node_rules_for_task(task)
         settings = copy.deepcopy(get_settings())
         previous_status = task["status"]
         operation = {"id": str(uuid.uuid4()), "revision": task["revision"], "provider_id": provider["id"], "model": provider["model"], "status": "running", "previous_status": previous_status, "attempts": [], "created_at": now(), "settings": settings, "pricing": copy.deepcopy(provider.get("pricing")), "estimated_cost_usd": 0, "cost_is_estimate": True}
+        operation["node_guidance"] = node_rule_provenance(node_guidance)
         task["planning_runs"].append(operation)
         task["status"] = "planning"
         save_task(task)
@@ -627,6 +630,7 @@ async def generate_plan(item_id: str, payload: Revision):
     prompt += '\n先核对requirements、configuration和已提供的准入结论。明确的业务规则若可用当前契约无歧义实现，直接生成待复核草稿；比较器或节点连接等不改变业务含义的实现细节不重复索要同一业务确认。实际缺少资源值、相互冲突、会改变业务/费用/用户体验的取舍或能力不支持仍返回error/needs_decision；不据此猜答案或取消澄清。sierra_runtime_entry仅说明Sierra已有本机入口行为，不代表Dify直接入口、已发布应用或任何节点路径已验证。不得把字符串empty比较视为trim空白的保证；用户若要求Dify直接入口也拒绝空白，须单独实现并验证或明确说明边界。'
     if task["app_type"] in {"workflow", "advanced-chat"}:
         prompt += '\n检索事实来源边界：用户要求回答提示只使用检索资料时，需求中介绍的知识库内容、政策事实和验收期望只用于理解要检索什么及如何验收，不能作为额外事实硬编码到LLM的system_prompt、user_prompt、模板或代码中。即使它们在requirements.rules中、内容真实、或声称与检索冲突时以检索为准，也不能作为“资料补充”绕过唯一检索来源。该限制不禁止角色、行为指令、字段名、用户指定的无命中固定回复或检索变量绑定；用户明确允许独立静态事实来源时按其范围处理，若同时存在只检索与静态来源的冲突则返回needs_decision，不猜优先级。不要擅改已保存候选或用删除需求来满足检查。'
+    prompt += '\nnode_guidance是按当前类型和固定目标版本检索的首批专项规则。示例是合成结构，不是执行授权、业务决定或当前配置；不得采纳占位模型/知识库ID、覆盖已确认要求或自动替换现有图。未匹配/缺条目不等于节点不支持，能力范围和完整契约仍须核对；静态示例不证明模型或Dify运行成功。'
     sierra_runtime_entry = workflow_runtime_entry(task)
     snippets, remaining = [], 24000
     for material in task["materials"]:
@@ -640,7 +644,7 @@ async def generate_plan(item_id: str, payload: Revision):
     if existing_plan_context is not None:
         prompt += " 当前存在existing_plan_context：这是本任务已保存的完整计划及相同计划对应的历史需求／配置。以它为修改基线，只改当前明确变更所需字段；保留无关节点ID、输入类型、提示词、模型独立参数、知识库、分支及连接。不得顺带重排或重建。若必须改变其他结构或无法判断目标范围，返回error/needs_decision明确说明，不自行裁定。旧审批和运行结果不代表本版已获批或已验证。"
     coverage = coverage_summary(task)
-    messages = [{"role": "system", "content": prompt}, {"role": "user", "content": json.dumps({"user_selected_type": task["app_type"], "capability_catalog": compiler_capabilities(task["app_type"]), "requirements": task["requirements"], "configuration": task["configuration"], "existing_plan_context": existing_plan_context, "sierra_runtime_entry": sierra_runtime_entry, "reference_materials": snippets, "intake_assessment": intake_summary(task), "coverage_scope": {"enabled": coverage['enabled'], "confirmed": coverage['confirmed'], "stale": coverage['stale'], "blockers": coverage['blockers'], "items": (task.get("coverage_review") or {}).get("items", [])}}, ensure_ascii=False)}]
+    messages = [{"role": "system", "content": prompt}, {"role": "user", "content": json.dumps({"user_selected_type": task["app_type"], "node_guidance": node_guidance, "capability_catalog": compiler_capabilities(task["app_type"]), "requirements": task["requirements"], "configuration": task["configuration"], "existing_plan_context": existing_plan_context, "sierra_runtime_entry": sierra_runtime_entry, "reference_materials": snippets, "intake_assessment": intake_summary(task), "coverage_scope": {"enabled": coverage['enabled'], "confirmed": coverage['confirmed'], "stale": coverage['stale'], "blockers": coverage['blockers'], "items": (task.get("coverage_review") or {}).get("items", [])}}, ensure_ascii=False)}]
 
     def checkpoint():
         with store.lock:
@@ -2062,6 +2066,12 @@ async def apply_knowledge_job(job_id: str, payload: Revision):
 def compiler_capabilities(app_type: str):
     from .capabilities import catalog
     return catalog(app_type, app.version)
+
+
+@app.get("/api/node-guidance")
+def read_node_guidance(app_type: str, dify_version: str = TARGET_DIFY_VERSION, node_types: str | None = None):
+    from .node_guidance import lookup
+    return lookup(app_type, None if node_types is None else node_types.split(','), dify_version)
 
 
 @app.get("/api/settings")
