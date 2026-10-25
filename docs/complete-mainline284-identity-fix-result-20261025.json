@@ -1,0 +1,81 @@
+{
+  "state": "corrected_frozen_pack_pending_technical_substitution_confirmation",
+  "runtime": "0.284.0-af29d0879c3760e5d417",
+  "original_approved_plan_unchanged": true,
+  "original_pack_extra_hashes": {
+    "manifest.json": "54be77b162237464491276e300d9bdcf7df4496d9b0756d86e6986c7939f74c4",
+    "approval.json": "613ae03e968614b6798b6f1e47b0f617cc4c67771a86d2cb86ceed027910032a",
+    "admission-stop.json": "4b2ce2e7f3252a655e19eae3f39bc8cc125e373539e7ee0587a333aa5e9c2e63"
+  },
+  "old_approved_pack_missing_fields": [
+    "intake_messages_sha256",
+    "plan_first_system_sha256",
+    "plan_changed_system_sha256"
+  ],
+  "old_and_new_live_entry_invocations": 0,
+  "original_direct_resource_scope_approval_kept": true,
+  "resource_or_cost_scope_expanded": false,
+  "new_plan_sha256": "f47555b705bb0b873cd1087811047683f854e08e58d31dc0fab27df6e97b16dd",
+  "new_manifest_sha256": "b2a89956387303d6b277d2cb43589eed61e357c9cd445111fb1a103b71a8c586",
+  "frozen_files": {
+    "bootstrap.py": "7f81abb17d7d6872aadb64263dd4e78ef8af40840805d6db6ac1fb10b9309b43",
+    "boundaries.py": "d00ff6b44255aab489e8df0d4d1a4e1802d3f7e9006218079f0ba8c90a41a4e9",
+    "captured-intake-messages.json": "83063ce1d331e9e12aa1f3e66c0f324fca3d097553edcf6cf16edc4ea4ef3b35",
+    "captured-plan_changed-messages.json": "b8e46642cb30ab424163d6dbb73ef130d3ee94135022647248259785cd6e3d9f",
+    "captured-plan_first-messages.json": "fa447fb7ba035e87025ef802540fb364b6acbb2da8ce5c585908c3b184dc1ae1",
+    "fixture.json": "02cfbf25cf05dd648c4b2028e61a3b6f2f91a2af456d0e8a763b26073c3d35eb",
+    "guards.py": "eec0e0e7817e6c53ed9a9e7aa916c7ff0234906feab6afba20bc7a3f32f59822",
+    "identity_preflight.py": "02fd1275c4c19ee6e14f9374829e3ab9a952216c9ac5c96e9914a9e4c13b3204",
+    "idle_preflight.py": "958e8f43776ce16650570cf62ead9c57ad353b05a60a01f7011e9db1cbf78c52",
+    "live_identity_check.py": "35c841a0c1bc4cf43c812485e05c2b9d1120a5f76bfb3ba5fcad136d92dd5e0f",
+    "plan.json": "f47555b705bb0b873cd1087811047683f854e08e58d31dc0fab27df6e97b16dd",
+    "protocol_preflight.py": "845543f513ff5aec5a2e4050027374d39a5ea0cc2fc2be3bca0f8e14e0bff986",
+    "rehearse-intake-stage.json": "68dd5cd870e1a2d72c45f5b02c544f3b3bb6b00020adb73824fe8e3279775db2",
+    "rehearse-plan_first-stage.json": "7c10c06dc7cff8ee24e91a1c2ec39529a7c03f84ec206c7610278f5641ba818e",
+    "run.ps1": "4f0a68f50e4596e6fab96792f55ed3d8806742fdeea297db8dc8cfdb0915c7e2",
+    "server.py": "44b0ef4c022cf70e8b9c2180d34783d57b13b92d090ffde4f8ce75791fc65d0a",
+    "service_preflight.py": "b05a0a58224c1866345ee89b678901b9da4a7330660393758e0f23cad90a53e3",
+    "support.py": "ffb4c4d594e1493dc5c0f86778d9d457e93512489280ca95aab0315615575adb",
+    "ui.cjs": "311d479d8d3867cba5abee550d6edabc01d1daef4f41feef519f8f5a51af07d5"
+  },
+  "identity_check_count": 13,
+  "boundary_checks": 17,
+  "normal_ui_checks": 7,
+  "normal_fake_dispatch_counts": {
+    "model": 3,
+    "login": 0,
+    "read": 30,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 4
+  },
+  "same_identity_checks_enforced_in_rehearsal": true,
+  "source16_objects_ciphertexts_master_key_old_receipts_unknown_reserves_kept": true,
+  "docker_restored": {
+    "existing_windows_service_started": true,
+    "existing_desktop_started_hidden": true,
+    "containers_or_volumes_created": false,
+    "five_original_container_states": [
+      "/dify-local-api-1 c47174454d226044ab9b276aa97ff7af305a03b7dcd573ac6d020f20db675233 running healthy",
+      "/dify-local-db_postgres-1 2dd298271a9a05b37140b7a9a0e5024ff806031d48769c2d04188d86a2154dba running healthy",
+      "/dify-local-redis-1 27f4283da2513fe28fff5a3badc041bc1e5419c773e2baeb595943a529e391bf running healthy",
+      "/dify-local-sandbox-1 a604bcb3531d5fb871a06a0fd04b5dc602cade947c353f2f549418f859d7f204 running healthy",
+      "/dify-local-local_sandbox-1 9cf45ab66c6b1fc7dfb5132de178d93de39407280f16b30ae2de4d7d436f1bf9 running healthy"
+    ],
+    "service_check": {
+      "local_containers_healthy": true,
+      "tcp8080_ready": true,
+      "http_or_login_sent": false
+    }
+  },
+  "model_dify_http": 0,
+  "new_resources_runs_budget_entries": 0,
+  "new_pack_approval_absent": true,
+  "both_live_receipts_absent": true,
+  "limitations": [
+    "No actual supplier response or real platform/business acceptance.",
+    "Original exact-hash approval cannot automatically authorize changed plan/manifest.",
+    "Resource counts/cost bounds remain those already explicitly approved; only corrected frozen executor substitution needs confirmation."
+  ]
+}

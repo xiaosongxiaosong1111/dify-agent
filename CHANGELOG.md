@@ -4,6 +4,8 @@
 
 ## 0.284 — 2026-10-25
 
+- 原Docker Desktop/Windows服务恢复，既有Dify五容器healthy/8080就绪，未建容器或卷。继续前发现原批准执行包漏三项仅真实分支读取的消息摘要；原包保持，修正独立副本补摘要并在Store/账本/receipt前严格核字段，离线也执行同一身份门禁。新增可审查检查器及真实invoke AST回归13项、原17边界/完整UI7通过，实际外部0，原16/旧unknown保持。产品仍0.284，修正包变更冻结哈希需技术替换确认，原资源范围无需扩大。[方案](docs/complete-mainline284-identity-fix-plan-20261025.md)。
+
 - 已收到并保存daa4686独立批的直接改授；冻结/运行/原16保护核对通过，但原Docker服务Stopped、无Desktop/backend进程及8080监听，准入在live入口前停止。模型/Dify/管理读取/登录/资源/运行新增均0，无新live回执或预算条目，不重试、不启动Docker，原unknown/预留保持。批准已保存，无需重复扩大同一范围。[记录](docs/complete-mainline284-admission-result-20261025.json)。
 
 - 同步冻结当前版本完整主链独立改授方案：最新同界面离线7项/边界17项通过，原95失败及unknown/预留不动，真实HTTP0；尚无直接改授、无live回执。此项是待审批执行方案，不是新增平台验收。[方案](docs/complete-mainline284-live-plan-20261025.md)。
