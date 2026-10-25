@@ -17,7 +17,7 @@ USAGE = {"prompt_tokens": 100, "completion_tokens": 20}
 def plan(code="def main(query):\n    return {'result': query.strip()}\n"):
     return {"schema_version": 1, "nodes": [
         {"id": "start", "type": "start", "config": {"variables": [{"variable": "query", "type": "text-input", "required": True}]}},
-        {"id": "code", "type": "code", "config": {"code_language": "python3", "code": code, "outputs": {"result": {"type": "string"}}}},
+        {"id": "code", "type": "code", "config": {"code_language": "python3", "code": code, "variables": [{"variable":"query","value_selector":["start","query"]}], "outputs": {"result": {"type": "string"}}}},
         {"id": "end", "type": "end", "config": {"outputs": [{"variable": "result", "value_selector": ["code", "result"]}]}},
     ], "edges": [{"source": "start", "target": "code"}, {"source": "code", "target": "end"}]}
 

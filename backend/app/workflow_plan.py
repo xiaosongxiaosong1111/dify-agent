@@ -418,6 +418,11 @@ def validate_plan(task: dict, plan: dict, *, _scope_types=None, _scope_file_item
                         errors.append(f"code {node_id}.variables[{i}] 必须包含 variable")
                     elif not isinstance(item.get("value_selector"), list) or len(item["value_selector"]) != 2:
                         errors.append(f"code {node_id}.variables[{i}].value_selector 必须引用一个变量")
+                if language=='python3' and isinstance(code,str) and code.strip() and all(isinstance(v,dict) and isinstance(v.get('variable'),str) and v['variable'] for v in input_variables):
+                    from .code_entry_contract import check as check_code_entry
+                    entry_errors,entry_warnings=check_code_entry(code,[v['variable'] for v in input_variables])
+                    errors.extend(f'节点 {node_id}：{message}' for message in entry_errors)
+                    warnings.extend(f'节点 {node_id}：{message}' for message in entry_warnings)
         elif kind == "template-transform":
             if not isinstance(config.get("template"), str) or not config["template"].strip():
                 errors.append(f"template-transform {node_id}.template 必须是非空字符串")
@@ -497,7 +502,8 @@ def validate_plan(task: dict, plan: dict, *, _scope_types=None, _scope_file_item
         if _has_secret_field(secret_scan):
             errors.append(f"节点 {node_id}.config 包含凭据字段；DSL 不得嵌入密钥或令牌")
         if kind == "code" and isinstance(config.get("code_language"), str) and config.get("code_language") in {"python3", "javascript"}:
-            warnings.append(f"节点 {node_id} 的代码只做语法检查，实际必须在 Dify 沙箱中运行；本机未执行代码")
+            scope='语法及可判定的Python入口绑定检查' if config.get('code_language')=='python3' else '语法检查'
+            warnings.append(f"节点 {node_id} 的代码只做{scope}，实际必须在 Dify 沙箱中运行；本机未执行代码")
 
     if needs_task_model(plan) and any(node['type'] in ('llm','question-classifier','parameter-extractor') for node in by_id.values()):
         provider, model = raw_task_config.get("dify_model_provider"), raw_task_config.get("dify_model")

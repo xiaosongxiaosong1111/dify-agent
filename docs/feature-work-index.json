@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-25",
-  "product_version": "0.296.0",
+  "product_version": "0.297.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -1073,12 +1073,15 @@
       "deliverable": "代码生成工具",
       "acceptance": "代码输入输出与规则一致，不把外部开发塞进本任务",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/code_entry_contract.py",
+        "backend/app/workflow_plan.py",
+        "docs/python-entry-contract.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.297补可判定Python main输入绑定，静态图/迭代/循环/保留文件共用；新25/相关270及UI5，实际返回值/业务和目标Sandbox仍需验证。"
     },
     {
       "id": "T076",
@@ -1114,12 +1117,14 @@
       "deliverable": "代码验证器",
       "acceptance": "有执行边界、超时和错误输出；目标环境结果需另测",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "scope_limited",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/workflow_plan.py",
+        "docs/python-entry-contract.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "本轮已核当前为静态语法/入口契约与既有Dify整图试跑路线，未提供独立本机受限样例执行器；执行边界/超时/错误及目标环境仍未验收，本次不执行用户代码。"
     },
     {
       "id": "T079",
