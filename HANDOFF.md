@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main，139实现0200929/交接1ad7e02已推送且终结proof complete，138/137等保留。当前0.303.0-5c411716a132ec54eaa6，140任务摘要/按需完整详情及晚到读取保护已实现和受管理部署，待实现commit后按实记done。
+- 项目E:\workSpace\dify-agent，main，139实现0200929/交接1ad7e02已推送且终结proof complete，138/137等保留。当前0.303.0-5c411716a132ec54eaa6，140任务摘要/按需完整详情及晚到读取保护已实现和受管理部署，实现commit16352b4已存在，BACKLOG已done；交接后推送看真实终结proof。
 - 新4条摘要验收、相关98项分批通过、UI7/构建截图通过；扩查10旧报告/验收固定措辞失配，更新4处断言按当前语义核对，报告/下载函数不改、旧失败日志保留。264源码/快照匹配、原stop/start核所属PID后重启登记，health/前端200，生产摘要16行3455字节只读核对通过。原16/设置能力/账本密文主Key/124保护保持，真实模型/Dify0。
 - 用户2026-10-26继续开发，先完成本轮140提交再继续实质问题；原“直到实际Codex额度不足”授权未取消。最近可用额度检查89%已用/ordinaryUsageAllowed=true，未触发实际不足，不用重置券、不换号/购买。Docker引擎未运行，T078不宿主机exec替代；Claude既有DeepSeek网关旧超时不形式重试。
 
@@ -15,7 +15,7 @@
 
 ## 3. 下一步（140已验收部署；继续隔离旧任务模型操作晚到结果）
 
-1. 完成140实现commit后BACKLOG done，再提交交接推送；最终看work/task-summaries303/finalization-proof.json实际终结回执。每push前CHANGELOG并同步README当前版本/入口；139实际complete/pushed在work/chat-context302，旧失败日志不回填成功。
+1. 140实现16352b4及BACKLOG done已完成，当前提交交接推送后继续；最终看work/task-summaries303/finalization-proof.json实际终结回执。每push前CHANGELOG并同步README当前版本/入口；139实际complete/pushed在work/chat-context302，旧失败日志不回填成功。
 2. 140新增/api/task-summaries六字段固定投影/SQLite JSON字段读取，前端列表更新也只保留摘要，初始/选择任务才读完整详情。旧/tasks契约不变；坏摘要/缺接口不回退全量，旧目标/默认详情晚到不切回，读取失败保留当前任务。此版本仅保护读取选择，不宣称所有模型/编辑操作回调已隔离。docs/task-summaries.md和work/task-summaries303有验收/旧失配与AST比对/UI/部署/生产只读证明。
 3. 扩查接口98分批通过：原88通过/10旧文字失败后只重跑对应组，四处断言现核静态业务分离、模拟依赖按确认范围及当前App归属；报告/下载/list_tasks函数与1ad7e02一致，无为测试改变生产报告。新4/API兼容/SQL投影及UI7、264文件健康通过，原16/全部密文主Key/账本及124不变，实际外部0。当前44项未重核，不算项目完成率。
 4. 已确认下个代码检查点：App.interview和generatePlan成功响应无条件acceptTask(t)，规划失败分支也读回旧任务并accept/清planInfo；切换到B后A的模型请求晚到仍可能把视图切回A，绕过B未保存草稿保护。140提交完成后加141，先看useConversationDraft setter绑定再准确复现，不凭猜测声称所有草稿都被清掉。修消息/规划成功及失败回调按来源任务更新列表，只有来源仍为当前目标才写工作区/输入；保留A真实回执，不重发，不扩大真实批。

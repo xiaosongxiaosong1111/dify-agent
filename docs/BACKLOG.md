@@ -284,4 +284,4 @@
 
 | 139 | 长对话最新证据优先与显式有限历史选择，记录真实组装范围 | `.venv\Scripts\python.exe -m pytest backend/tests/test_chat_context.py backend/tests/test_message_requests.py backend/tests/test_message_provenance.py -q`；最新用户原话/当前完整需求保持、可选历史24000正文字符/原文不改、证据ID与片段/遗漏明确、请求身份含选择且兼容旧摘要，UI/构建及部署保护原16，0真实模型/Dify | codex | done | commit0200929；原6失败/1通过复现，新7/相关158定向、UI6/构建截图通过，0.302受管理部署263文件及health200；原16/旧账本密文主Key/124保持，模型/Dify0。默认完整最近窗口，压缩须明确选择，实际省费/缓存/一般语义未验收 |
 
-| 140 | 任务列表只传摘要，完整内容按选择读取并防晚到选择覆盖 | `.venv\Scripts\python.exe -m pytest backend/tests/test_task_summaries.py -q`；摘要不含其它任务正文/材料/配置，旧/tasks兼容，只读/状态/顺序/空列表，UI启动按需/切换晚到/读取失败，构建部署保护原16，0真实模型/Dify | codex | doing | 功能/部署完成待实现提交后记done；新4摘要验收/相关98分批通过、UI7/构建截图通过；旧10报告文案断言更新4处、报告函数不改且旧失败日志保留。0.303受管理部署264文件及16行摘要只读核对通过，原16/旧账本密文/124保持，模型/Dify0；仅任务读取路线 |
+| 140 | 任务列表只传摘要，完整内容按选择读取并防晚到选择覆盖 | `.venv\Scripts\python.exe -m pytest backend/tests/test_task_summaries.py -q`；摘要不含其它任务正文/材料/配置，旧/tasks兼容，只读/状态/顺序/空列表，UI启动按需/切换晚到/读取失败，构建部署保护原16，0真实模型/Dify | codex | done | commit16352b4；新4摘要验收/相关98分批通过、UI7/构建截图通过；旧10报告文案断言更新4处、报告函数不改且旧失败日志保留。0.303受管理部署264文件及16行摘要只读核对通过，原16/旧账本密文/124保持，模型/Dify0；仅任务读取路线 |
