@@ -43,6 +43,14 @@ class KnowledgeManager:
         out['has_dataset_key']=self.store.has_secret(job['id'],'dataset_api_key')
         return out
     def busy(self,task_id):return any(j['task_id']==task_id and (j['status']=='running' or any(o['status']=='pending' for o in j['operations'])) for j in self.store.list('knowledge_job'))
+    def task_pause_records(self,task_id):
+        """Caller holds store.lock and commits these rows with the task pause."""
+        rows=[]
+        for job in self.store.list('knowledge_job'):
+            if job['task_id']==task_id and job['status'] in {'approved','running','indexing'}:
+                job.update(status='paused',updated_at=now(),message='已随任务暂停后续派发；已提交的请求或索引可能仍执行，保留资源和原操作回执。继续须主动启动，未知结果须先核对。')
+                rows.append(('knowledge_job',job['id'],job))
+        return rows
     def checkpoint(self,job_id,change,secrets=None):
         with self.store.lock:
             job=self.job(job_id);change(job);job['updated_at']=now()
@@ -291,7 +299,7 @@ class KnowledgeManager:
             return task
     def recover(self):
         for job in self.store.list('knowledge_job'):
-            if job['status']=='running':
+            if job['status']=='running' or any(op['status']=='pending' for op in job['operations']):
                 for op in job['operations']:
                     if op['status']=='pending':op.update(status='unknown',error='服务重启，写入结果需核对。')
                 job.update(status='unknown' if any(x['status']=='unknown' for x in job['operations']) else 'paused',message='服务重启已保留进度；未自动重复外部写入。',updated_at=now());self.store.put('knowledge_job',job['id'],job)

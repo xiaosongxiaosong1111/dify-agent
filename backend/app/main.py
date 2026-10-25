@@ -82,7 +82,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.291.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.292.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1320,7 +1320,9 @@ def pause(item_id: str):
         task["status"] = "paused"
         task["pause_generation"]=task.get("pause_generation",0)+1
         task["messages"].append({"role": "assistant", "source": "system", "content": "已保存暂停状态。已派发的外部请求可能仍在执行；恢复前请核对结果，不要重复创建资源。", "created_at": now()})
-        return save_task(task)
+        task['updated_at']=now()
+        store.put_many([('task',item_id,task),*knowledge.task_pause_records(item_id)])
+        return task
 
 
 def recover_external_actions():

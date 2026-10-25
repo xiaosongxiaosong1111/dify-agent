@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-25",
-  "product_version": "0.291.0",
+  "product_version": "0.292.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -460,12 +460,17 @@
       "deliverable": "执行页",
       "acceptance": "状态由后台事件产生；暂停结果有明确说明",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/main.py",
+        "backend/app/knowledge.py",
+        "backend/app/interview_progress.py",
+        "docs/task-knowledge-pause.md",
+        "docs/task-knowledge-pause-result-20261025.json"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "已核本机访谈/规划/试跑暂停入口与知识库进度；0.292接通任务暂停与知识库作业。范围内隔离通过，全部阶段真实暂停语义尚未验收。"
     },
     {
       "id": "T034",
@@ -1237,12 +1242,17 @@
       "deliverable": "资源恢复记录",
       "acceptance": "明确已创建与未完成部分；不自动删除无关资源，不重复副作用",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/main.py",
+        "backend/app/knowledge.py",
+        "backend/app/interview_progress.py",
+        "docs/task-knowledge-pause.md",
+        "docs/task-knowledge-pause-result-20261025.json"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "已有资源准备逐步回执、未知核对和显式继续；0.292补任务暂停不再派发后续步骤、原资源不重复创建。非全部资源失败的真实验收。"
     },
     {
       "id": "T091",
@@ -1347,12 +1357,17 @@
       "deliverable": "执行恢复服务",
       "acceptance": "恢复先核对外部结果；不盲目重新导入／建库",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/main.py",
+        "backend/app/knowledge.py",
+        "backend/app/interview_progress.py",
+        "docs/task-knowledge-pause.md",
+        "docs/task-knowledge-pause-result-20261025.json"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "已有访谈/规划/外部运行重启不重发；0.292补暂停后pending知识库步骤重启转unknown，先核对再继续。非全部长任务恢复验收。"
     },
     {
       "id": "T099",
