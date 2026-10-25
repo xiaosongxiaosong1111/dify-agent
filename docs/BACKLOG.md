@@ -268,4 +268,4 @@
 
 | 131 | 本机资料检查入口，区分原摘要重复/正文逐字重复/同名不同版线索和业务冲突 | `.venv\Scripts\python.exe -m pytest backend/tests/test_material_review.py -q`；只读/归属/修订/未知及有界列表，明确不自动去重或裁定事实；隔离UI、构建及部署保护原16，0真实调用 | codex | done | commit5bb75f4；新增12/相关60后端、UI6/构建截图通过，0.295部署258文件匹配。原摘要/逐字正文重复及同名版本线索分开，已有业务分歧保持；只读当前修订/未知与前100份界限，不自动去重/裁定或重读原文件。原16/账本密文主Key及124冻结证据保持，真实模型/Dify0 |
 
-| 132 | 参考DSL采纳后原文件路径及字节与保存摘要保持一致 | 复现.yml/.json原路径缺失及Windows换行改变；`.venv\Scripts\python.exe -m pytest backend/tests/test_reference_dsl_source.py backend/tests/test_reference_dsl.py -q`；精确字节/原后缀/修改拒绝/旧文件不重写，0真实调用，部署保护原16 | codex | doing | 原adopt固定写.yaml且write_text在Windows改换行，和来源名称/原摘要不一致；仅修新采纳，历史不追改 |
+| 132 | 参考DSL采纳后原文件路径及字节与保存摘要保持一致 | 复现.yml/.json原路径缺失及Windows换行改变；`.venv\Scripts\python.exe -m pytest backend/tests/test_reference_dsl_source.py backend/tests/test_reference_dsl.py -q`；精确字节/原后缀/修改拒绝/旧文件不重写，0真实调用，部署保护原16 | codex | done | commit9f16941；原13失败复现，新15/相关56后端、UI5及两份实际源文件字节读回通过。新采纳保留原后缀及收到文本的精确UTF-8字节，不安全后缀拒绝；改动仍拒绝，旧文件不猜测/改名。0.296部署258文件匹配，资料检查生产r12只读GET200，原16/账本密文主Key与124证据保持，真实模型/Dify0；不是严格业务复现 |
