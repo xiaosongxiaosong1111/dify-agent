@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-25",
-  "product_version": "0.292.0",
+  "product_version": "0.293.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -645,12 +645,18 @@
       "deliverable": "材料结构",
       "acceptance": "有文件名、来源、内容、状态、错误和定位信息",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/main.py",
+        "backend/app/material_parsing.py",
+        "backend/app/material_text.py",
+        "backend/app/conflicts.py",
+        "docs/material-syntax-validation.md",
+        "docs/material-syntax-result-20261025.json"
       ],
       "historical_status_20261020": "等待验证",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "已核上传保存文件名/摘要/内容/状态和错误来源；0.293补结构化语法与编码行列。仅现有文字路线契约，不关闭所有材料定位。"
     },
     {
       "id": "T047",
@@ -658,12 +664,18 @@
       "deliverable": "基础解析器",
       "acceptance": "读取真实内容；编码和语法错误有定位",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/main.py",
+        "backend/app/material_parsing.py",
+        "backend/app/material_text.py",
+        "backend/app/conflicts.py",
+        "docs/material-syntax-validation.md",
+        "docs/material-syntax-result-20261025.json"
       ],
       "historical_status_20261020": "等待验证",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.293实际multipart核对UTF-8/BOM、文本/Markdown/JSON/YAML精确原文、坏语法行列和确认门禁；89定向/5隔离UI，未全面编码或业务验收。"
     },
     {
       "id": "T048",
@@ -711,12 +723,18 @@
       "deliverable": "参考配置",
       "acceptance": "用户确认借鉴、保留或复现；关键未定项阻止受影响搭建",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/main.py",
+        "backend/app/material_parsing.py",
+        "backend/app/material_text.py",
+        "backend/app/conflicts.py",
+        "docs/material-syntax-validation.md",
+        "docs/material-syntax-result-20261025.json"
       ],
       "historical_status_20261020": "等待验证",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.293坏材料即使设置引用仍不能确认，人工替代保留独立引用决定/错误和未确认；现有三种模式门禁已有，严格业务复现未验收。"
     },
     {
       "id": "T052",
@@ -779,12 +797,18 @@
       "deliverable": "冲突待办",
       "acceptance": "展示冲突内容、来源、影响和建议；不能静默裁定",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/main.py",
+        "backend/app/material_parsing.py",
+        "backend/app/material_text.py",
+        "backend/app/conflicts.py",
+        "docs/material-syntax-validation.md",
+        "docs/material-syntax-result-20261025.json"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "已核冲突来源仅纳入parsed正文、来源引用及明确决定门禁的既有定向检查；0.293坏材料不进已解析来源。未验证模型识别全部冲突的质量。"
     },
     {
       "id": "T057",

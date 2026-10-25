@@ -82,7 +82,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.292.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.293.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -908,7 +908,8 @@ async def upload_material(item_id: str, file: UploadFile = File(...)):
     text, status, error = "", "parsed", ""
     try:
         if suffix in {".txt", ".md", ".json", ".yaml", ".yml", ".csv"}:
-            text = raw.decode("utf-8-sig")
+            from .material_parsing import decode_text
+            text = decode_text(raw,suffix)
         elif suffix == ".pdf":
             from pypdf import PdfReader
             reader = PdfReader(path)
