@@ -1,10 +1,10 @@
-# HANDOFF — Sierra（2026-10-25，产品0.284，108—112已交付，114摘要准入修复完成，115待技术替换，推送必须写更新日志）
+# HANDOFF — Sierra（2026-10-25，产品0.285，115真实首访谈停止，116误判修复完成，推送必须写更新日志）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main，远端https://github.com/xiaosongxiaosong1111/dify-agent.git。运行0.284.0-af29d0879c3760e5d417/health200，Dify1.17.1。108产品cb26626/交接662e26a已push；109产品a7e3c5e/4505d27已push；110产品ec3f085/adfed01已push；111产品d73b8d7/be4d9d4已push；112冻结daa4686/交接7584ff8已push；113直接批准已记录/旧服务停止证据4fed25b；本轮原Docker恢复，114执行包摘要实质修复202e8a6，115仅待技术替换确认。
-- 用户最新明确“好的，推进吧，记得每次推到github上的时候都要写更新日志”。已新增根CHANGELOG.md，已记录0.271—0.284；AGENTS.md持久规定每次push前更新日志，覆盖实际交付/验证/限制，HANDOFF不能代替。仍开发欠项优先，不能按测试/版本/队列比例计算完成度。
-- 现16任务：原15保持，95只新增空任务5abd5207-cdca-44df-a1fc-892a46870e37/r2/requirements，八需求空，无正式图/成果/App/运行；有原user+system失败消息和预算unknown，全部保持。
+- 项目E:\workSpace\dify-agent，main，远端https://github.com/xiaosongxiaosong1111/dify-agent.git。运行0.285.0-c166352661d353cdd34c/health200，Dify1.17.1。108产品cb26626/交接662e26a已push；109产品a7e3c5e/4505d27已push；110产品ec3f085/adfed01已push；111产品d73b8d7/be4d9d4已push；112冻结daa4686/交接7584ff8已push；113直接批准已记录/旧服务停止证据4fed25b；本轮原Docker恢复，114执行包摘要修复202e8a6/906b2dc已push；115获技术批准后真实首轮停止07e3aed，116误判修复c589215，本次交接后push。
+- 用户最新明确“好的，推进吧，记得每次推到github上的时候都要写更新日志”。已新增根CHANGELOG.md，已记录0.271—0.285；AGENTS.md持久规定每次push前更新日志，覆盖实际交付/验证/限制，HANDOFF不能代替。仍开发欠项优先，不能按测试/版本/队列比例计算完成度。
+- 现16任务：原15保持，95只新增空任务5abd5207-cdca-44df-a1fc-892a46870e37/r2/requirements，八需求空，无正式图/成果/App/运行；原user+system失败消息和unknown保持；115新增一轮用户/系统拒绝、未应用候选及settled用量账本，r2/空需求与旧前缀不变。
 
 ## 2. 已消费批与保护
 
@@ -13,23 +13,23 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（Docker已恢复，114实质修复交付，115仅待技术替换确认）
+## 3. 下一步（115首真实访谈停止，116误判修复已部署0.285）
 
-1. 用户已直接回复call_f5220c40793e44f38b02ce9c1b83a095 question0“允许按冻结方案执行独立改授批”，原资源范围有效，旧目录approval真实原文/来源保持。随后用户“继续开发”，已明确继续此前服务准入停止。不要重新申请扩大同一付费范围，也不能把普通继续当新哈希技术替换答复。
-2. 本轮启动原com.docker.service及原E:\workSpace\DockerDesktop\Docker Desktop.exe（Hidden），未建容器/卷，原容器自动恢复；五个既有Dify容器初始化后均running healthy、8080 TCP就绪。初始化starting不是模型/Dify失败。原Sierra16全部对象/密文主Key/旧回执/unknown/预留仍精确保持，产品0.284.0-af29d0879c3760e5d417未改未重启。
-3. 实际live启动前阅读执行器发现：113冻结plan缺intake_messages_sha256、plan_first_system_sha256、plan_changed_system_sha256，但原invoke仅在live模式读取这三字段。原离线预演绕过它，因此此前离线通过漏检。新13项稳定复现原plan缺字段并证明前置拒绝；没有运行旧live，不归因供应商或模型。旧目录12源文件/manifest/approval/admission-stop保持，receipt仍不存在，113 blocked由服务原因转为执行包缺字段。
-4. 114已修复并提交202e8a6：新独立work/complete-mainline284-identityfix补三消息摘要（来自0.284真实构造的离线捕获），新增identity_preflight在Store/账本/receipt/凭据/网络前检查所有静态引用字段与摘要格式；rehearse与live执行同样摘要检查。已跟踪tools/batch_identity_preflight.py、tools/check_batch_live_identity.py，包内副本与源码一致；后者原invoke AST以live=True/实际捕获包+假末端检查三阶段/错摘要不派发，缺/非法字段从实际live入口零动作拒绝。
-5. 定向13新+17原边界+完整同界面两版四例UI7通过，临时Store清理，所有物理模型/DifyHTTP/管理读/登录/新任务/资源/运行/预算条目0。新旧实际live调用均0，两个receipt均无，新目录无approval；原unknown/预留未清零、对账或借用。docs/complete-mainline284-identity-fix-plan-20261025.md及result为最新证据；产品仍0.284，没有为了准备而发真实请求。
-6. 新修正包19文件冻结，含三捕获消息和两个阶段输入，勿再跑会改写捕获的rehearse。plan SHA f47555b705bb0b873cd1087811047683f854e08e58d31dc0fab27df6e97b16dd；manifest SHA b2a89956387303d6b277d2cb43589eed61e357c9cd445111fb1a103b71a8c586。旧plan db973882/manifest54be77b1及其直接批准全部保持，禁止旧目录live。
-7. 下一步115 need-user仅请求确认“改用202e8a6修正后的新冻结包，沿用已经明确改授的原资源范围”。原批准方案明确任何冻结变化停止、不可自动重冻套旧答复，因此新包不能直接复制旧approval。资源不增：复用原空r2任务/旧消息/unknown，0新任务，模型最多3/6000tokens/120秒，资源各2/运行4/管理96/登录28；旧unknown0.0188541+新模型最多0.1311459+Dify估算0.02=0.17非账单硬限，旧四槽0.20保持，保守模型23/管理413保持。
-8. 得到对应新哈希的直接技术替换答复后，保存新真实答复及原资源批准来源到新目录approval，reassign_zero_dispatch_batch95=true表示沿用已明确改授而非伪造新扩大；核新旧冻结文件、产品252文件、原16数据/空闲及原服务，任何变化停。最多首次执行work/complete-mainline284-identityfix/run.ps1 live一次；亲审intake/plan_first/plan_changed三个真实门禁，不复用合成review、不手改模型候选，异常整批停不重试。
-9. 108—112原交付已push，114本次修复202e8a6后同步交接push。当前完整新需求→修改→两版发布/四例与轨迹链未验收，25最终业务未关闭，不按版本/测试量算百分比。Claude既有网关实际DeepSeek上次75.19秒超时，无结果/费用报告，不形式重试或冒充子审查。单次凌晨定时任务已删除，不再触发。
-10. 只读必要文件，不通读项目/290KB历史，不全量。每push前CHANGELOG、整份交接；部署管理员核所属进程，固定快照，不据端口杀进程。若实际Codex额度不足立即保存停，不重试/换号/购买/用券。
+1. 原资源直接批准call_f5220c40793e44f38b02ce9c1b83a095、技术替换直接批准call_5504c989abfc4ef1b965152291c5f3a0 question0“确认替换执行包并按原范围执行”均已真实保存于work/complete-mainline284-identityfix/approval.json。首次准入新旧冻结文件/原16/0.284运行252文件/原Docker健康空闲全通过，仅执行了一次新目录run.ps1 live；现在receipt已存在，旧95/113/115均禁止重放。
+2. 115实际模型HTTP1/调用器1，Dify/管理读取/登录/导入/发布/Key/运行/新任务全0，在首轮intake.can_confirm&&reviewed检查停止，state=stopped_needs_review。目标仍r2/requirements、八需求空、无正式图/成果/App/运行；仅追加原用户请求/系统拒绝、完整未应用interview_attempts和一条settled账本。原消息及原unknown0.0188541/charged null/usage空前缀逐项保持，其他15全部对象/所有密文主Key/旧回执精确保持，临时目录和所属服务退出。
+3. 新用量prompt9545/completion2243/total11788（含缓存512），按已配置价格估算0.005404572 USD，非供应商账单；原预留0.0200703已按reported_usage结算。实际模型累计17、保守23不变，两个未派发阶段保留，不自动退还/重授权；管理413/Dify实际12/资源各6保持。docs/complete-mainline284-live-result-20261025.json、证据07e3aed及本机stopped-protected-proof/post-stop-snapshot为准。
+4. 根因已从完整保存候选复现：原标准与返回均9主题，候选把Sierra本机必填判空/平台错误终态及result与HTTP错误区分写进input/exceptions，通用接口关键词误触external，使候选标准10项。原模型另外有retrieval追问（引用格式/非空弱相关资料），所以即使修复也不能算已确认或整个真实链通过。没有重试模型、自动采纳或改判旧失败。
+5. 116产品修复c589215已部署0.285.0-c166352661d353cdd34c：仅在external扫描排除具名本机两类保证与成功输出/HTTP错误区分，不改原文字/引文。调用/访问/通过等紧邻集成语境、其它API/HTTP/HTTPS/数据库/外部系统/原生http-request节点仍触发；补HTTPS词边界。非通用语义/否定识别，歧义仍保守检查，主题清单改变仍使旧摘要失效。
+6. 新13/相关63及隔离界面5/问题卡截图通过；先复现3失败/10通过。初始纯检查夹具漏revision已修，HTTPS正例暴露原词边界遗漏，均未放宽门禁。保存的实际回复只在内存和临时Store作离线替身：九主题来源检查合法，retrieval追问仍使can_confirm=false，刷新不重发，生产候选不应用。前端未改/未无谓重构建，252源码/快照文件匹配、health/前端200。部署后数据与115停止后快照精确相同，修复阶段额外真实HTTP0。
+7. 当前没有pending/doing，剩余均blocked/need-user；本轮因真实批已消费、没有可自动复用的付费范围停止，不是项目完成或Codex额度用尽。下一实际链不能从115继续或借用两个未用槽。优先保留/复核现有真实访谈材料与原公开口径，未来新独立方案可考虑复用保存的未应用候选、显式人工复核/采纳，避免重复首访谈；必须先完成可审查方案及新冻结，再直接申请未派发阶段的明确改授，当前没有该方案或新批准，不派发。
+8. 实际业务的引用/相关性口径需按原明确需求复核，不能为了让intake过关添加业务门槛或伪造人类回答。已有单字段人工修正与局部真Dify两例不等于完整新需求→修改→两版发布/四例轨迹连续链；25最终业务仍未关闭，原136任务不可按本地队列比例算完成。
+9. 原Docker已恢复，未建容器/卷；本轮只owned重启Sierra至0.285。Claude既有网关实际DeepSeek上次75.19秒超时，仍不为形式重试/冒充审查。单次凌晨任务已删除。一次本地权限自动审核超时，按工具允许拆小仅重试一次后成功，不是实际额度或供应商失败，不涉及真实请求重试。
+10. 每push前CHANGELOG并整份交接，116实现后同步队列/交接；只读必要文件，不通读项目/290KB历史、不全量。部署管理员核所属进程固定快照，不据端口杀进程。实际Codex额度不足立即保存停，不重试/换号/购买/用券。
 
 ## 4. 外部边界与账本
 
-- Sierra已知实际模型HTTP16，保守23/23。已知配置估算0.075473652USD；61启动及71/76/79未派发第二阶段各0.05/一槽保留，共旧四项0.20；95整个三槽0.15保留（首entry0.0188541含在其中、不重复相加）。共7槽0.35保守预留，已知+预留0.425473652USD，非账单；旧0.45/0.5估算边界保持。113直接批准最多3次改授已记录；服务已恢复，原包漏摘要已在114新包修复，115仅待技术替换，实际未派发，无额外扩大范围。
-- Dify实际累计12，正式passed10，案例App/首次发布/Key各6；报告tokens1779非账单。管理保守预留413=旧317+95预留96，95新增实际管理/登录0，登录预留28保持；旧失败预留不退。原95允许12→16/资源6→8的范围已被一次失败消耗，无自动重用；113已获直接独立改授，114修正包待技术替换确认，当前实际新增0。
+- Sierra实际模型HTTP累计17，保守23/23不变；115新增1次/11788tokens按配置估算0.005404572 USD，非账单，已知配置估算合计0.080878224。61启动及71/76/79未派发第二阶段四旧槽0.20保持；原95 unknown0.0188541保持。115未派发两阶段及原新模型估算包未释放部分0.125741328继续保守保留，不是可用余额或新授权；已知+旧四槽+unknown+未释放估算包仍0.425473652，旧0.45/0.5边界保持，不双加原unknown，不自动退款或重试。
+- Dify实际累计12、正式passed10，案例App/首次发布/Key各6，报告tokens1779非账单。管理预留413=317+原95的96，登录28预留保持；115实际管理/登录/Dify0。原95与115失败批消耗各自单次准入，未用阶段和预留不能自动重放或借用，必须未来新方案明确改授。
 - 回答deepseek-flash/thinking=false/温度0.2/最大512、TopK3/无阈值/无重排保持。FAQ库d12cf081-5c52-41e3-b869-e94e6f8d37b1及两公开合成FAQ、全局模型设置/原任务策略/凭据不动。
 - 当前仅局部真实售后两例及分段实际访谈/规划证据，完整新需求→修改→重新发布连续链未通过，25项最终业务未关闭，原136任务不可算全完。模型建议质量/复杂手改/工具能力/通用跨环境/自然过期续期等不能宣称已完成。
 
