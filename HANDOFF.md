@@ -1,4 +1,4 @@
-# HANDOFF — Sierra（2026-10-25，产品0.288，r7可规划，120冻结/121待明确改授）
+# HANDOFF — Sierra（2026-10-25，121真实规划已停止，122待修生成分支输出规则）
 
 ## 1. 当前状态
 
@@ -13,18 +13,16 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（120冻结完成，121待一次明确改授）
+## 3. 下一步（121停止，122本地生成规则修复）
 
-1. 本次功能119：intake/manual支持actor=agent_delegated及非空actor_note，记录agent_declared，界面/系统消息/后续规划来源及上下文摘要保留代理标识，不记成用户新答复或人类签收。默认人工表单兼容，保存仍不自动确认。定向后端80/UI4/构建通过，未全量；初次目录缺失和默认空说明兼容已修。已部署0.288，实现1bb5b83。
-2. 依用户常规可逆工作委托，目标r4→r6保存原命中/无命中两例、deepseek-flash/thinking=false/温度0.2/最大512、原FAQ/TopK3并确认已齐全需求；r6→r7只选原专用环境202bfb35-2f92-47c1-bc1b-eac32082181d，不重连/解密/Dify请求。配置未确认，资源文字只是待审批方案。work/intake-actor288/agent-preparation-decision.json及local-preparation-proof.json记录r6；work/reviewed-mainline288/agent-environment-decision.json及fixture.source_snapshot为当前r7摘要。
-3. 新独立包work/reviewed-mainline288已冻结19文件：plan SHA c82bbb29c5ac33632c6a82c0a62837f3cba3a948709e516f29bfa4b24632295b；manifest SHA 9df4265f1eb372f1852e7cb3b4aa6a32003c2a480007a5c787f34f1f530ef197。公开方案docs/reviewed-mainline288-plan-20261025.md，冻结commit46cc6ea。没有approval.json/receipt.json或任何真实HTTP，不能自行进入live。
-4. 该批复用当前真实访谈及原话补充，不重复首轮访谈；一次规划原版、正常确认/构建/下载/新App首次发布Key/两例及完整轨迹；只将无命中提示改成含商品型号，再代理全项复核并明确来源、第二次规划，亲审后明确载入原候选（不手改图），第二App两例及轨迹/交付。三内容门禁reviewed_intake/plan_first/plan_changed由根代理读全文亲审，不能用synthetic_rehearsal_only冒充真实审查。
-5. 需直接用户答复明确将115未派发的两规划及全部零派发Dify范围改授给本包。新模型最多2 HTTP/各6000输出tokens/120秒/每次0.05且合计0.10 USD；App/首次发布/Key各2、运行4、读取96/登录28，Dify估算0.02，本批0.12非账单硬限。原任务4次/20分钟；保守模型23与管理413保持，不加到25/509。原unknown0.0188541、115 settled0.005404572及未改授余量0.025741328保留，旧总0.425473652与0.45/0.5边界保持。
-6. 隔离正常链UI7、首规划失败UI2、修改规划失败UI5、真实invoke字段/身份8、边界17及真实协议末端替身通过，所有真实外部0。正常模拟2规划/2导入/2发布/2Key/4运行/30管理；两失败场景分别止于首规划或修改规划，第二App不派发。原16所有其它对象/密文主Key/旧115冻结文件及approval/receipt/失败候选、全部账本精确保持。五原容器管理员只读healthy及8080TCP通过，无HTTP/登录。
-7. 草案演练发现旧临时目录引用、正常planning元数据误当来源变化，均仅修新副本。普通沙箱读不到所属命令行/Docker管道，须管理员运行run.ps1及service_preflight；不将此误判为Docker故障，不重建容器/卷，不据端口杀进程。旧115不可修改或重放；原113/95也不动。
-8. 收到与46cc6ea及上述摘要绑定的直接明确改授后，记录新approval：source=direct_user_reply、explicit_human_authorization=true、verbatim_answer、reassign_unused_stages_batch115=true、plan_sha256/manifest_sha256。先核所有冻结文件、r7全对象摘要、实际运行快照、服务/原16空闲及旧receipt，再最多首次live一次。异样/费用预留不足立即整批停，未派发阶段保持，不重试或自动借其他旧槽；实际候选全文亲审后再放行各门禁。
-9. 当前120done（46cc6ea），121need-user，其余剩余均blocked/need-user，无pending/doing。停止因尚无新独立改授，不是项目完成或Codex额度耗尽。完整新需求→修改→两版真实发布/四例轨迹未通过，25最终业务未关闭，不能按版本/队列算百分比。
-10. 每次push前更新根CHANGELOG，整份改写交接。本次0.288功能和120方案均有日志；只读必要文件，不通读项目/290KB历史，不全量。Claude既有网关实际DeepSeek此前75.19秒超时无结果/费用报告，未形式重试或冒充审查；单次凌晨任务已删除。无实际Codex额度失败，发生即尽量保存停，不重试/换号/购买/用券。
+1. 用户直接答复call_9135dbf38f114dffa15e602228a1dd9a question0“允许本批明确改授”，新work/reviewed-mainline288/approval.json记录该批准并绑定46cc6ea及plan c82bbb29/manifest9df4265f。19文件/原r7全对象/运行/服务核对后首次live已消费；不是待执行批准，禁止重放。
+2. 根代理亲读r7八需求/九检查/配置/两例及来源，放行reviewed_intake门禁。第一规划实际返回完整候选，但两个互斥分支同时接同一end、两个result同名、两个value_selector不是全路径上游。现有严格校验422拒绝，首候选没有应用，plan_first门禁未创建，整批停止且临时服务已清理，无重试或第二模型。
+3. 本次实际模型HTTP1、prompt28184/completion559/total28743（cached20992）；预留0.0464127，按配置估算settled0.002954352 USD非账单。Dify HTTP/管理/登录/新App/发布/Key/运行均0。累计实际模型18，保守23保持；原unknown0.0188541、旧settled和四旧槽0.20保持，已知配置估算合计0.083832576；剩余原未释放包0.122786976保留，旧总0.425473652及0.45/0.5边界保持，不自动归还或借用剩余阶段。
+4. 现目标5abd5207-cdca-44df-a1fc-892a46870e37仍r7/paused，requirements_confirmed=true、configuration_confirmed=false，无正式图/成果/App/运行。planning_runs保留完整response_excerpt/last_candidate/三诊断；仅新增一条系统失败消息及第三条settled账本，原消息前缀/需求/配置/两例/旧失败保持。只有目标task与task_budget改变，其它15及所有其它对象/密文主Key/旧95和115冻结包及回执逐项保持。私有证据stopped-protected-proof.json及post-stopped-snapshot.json；公开结果docs/reviewed-mainline288-live-result-20261025.json，commita937f70。
+5. 121已blocked；122pending先补生成规则：当前workflow-plan-contract仅说允许多个终点，未明确互斥分支不能共用终点重复result/直接同时引用分支值。新增优先规则及完整无业务默认的可编译示例，保持新流程/旧手改基线边界，不改校验、不自动拆原候选，不派发真实模型或Dify。本地定向验证后部署、更新日志/整份交接并push。
+6. 原115与本121失败均已消费，未派发阶段和全部Dify预留保留。本地生成规则修复不恢复其live，不自动建新真实范围；不重复问已给资料口径，不为版本号增泛化功能。完整新需求到修改重发仍未通过，25业务未关闭，不按版本/测试/队列算百分比。
+7. 产品目前仍0.288.0-ee5c22485a5d7c9cd151（119实现1bb5b83），源码/快照254匹配，121执行没有改产品文件。Claude既有网关实际DeepSeek此前75.19秒超时，无结果/费用报告，未形式重试。无实际Codex额度失败，发生立即尽量保存停，不重试/换号/购买/用券。
+8. 每push前根CHANGELOG已更新，work/真实模型原文不提交。只读必要文件，不通读项目或290KB历史，不全量；部署须管理员核所属进程固定快照，不按端口杀进程。原五容器healthy，无新建服务/容器/卷。
 
 ## 4. 外部边界与账本
 
