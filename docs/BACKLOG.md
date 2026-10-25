@@ -277,3 +277,5 @@
 | 135 | 核对并更新README当前交付，提供更新日志和范围入口 | 核对0.298 health、124/134真实回执及Markdown本机链接；不更改历史回执或运行代码 | codex | done | commitde25c73；health200、124/134既有真实回执及README全部70个本机链接核对通过。首页0.298/两版售后证据与限制、日志/状态/任务入口同步，历史保留；0新增外部调用 |
 
 | 136 | 当前类型/固定版本节点规则与示例的只读查询，接入规划上下文及界面 | `.venv\Scripts\python.exe -m pytest backend/tests/test_node_guidance.py backend/tests/test_planning_contract_current.py backend/tests/test_planning_entry_context.py -q`；首批检索/条件/代码/LLM，类型与版本隔离、来源/摘要/未覆盖明确、示例完整静态编译、请求上下文及UI检查；0真实模型/Dify，保护原16后受管理部署 | codex | done | commit0950113；首批四类规则/API/UI接入实际规划及来源摘要，新18/相关163定向、UI8/构建截图通过，原脚本受管理部署0.299/260文件匹配及只读核对通过。原16/账本密文主Key/124保持，真实模型/Dify0，非完整专业知识库或业务验收 |
+
+| 137 | 材料原文件的按任务核对与安全下载，区分保存摘要/磁盘原件/丢失或变更 | `.venv\Scripts\python.exe -m pytest backend/tests/test_material_original.py backend/tests/test_material_parsing.py backend/tests/test_reference_dsl_source.py -q`；同名/跨任务/旧记录/缺失/变更/符号链接/大小上限、只读及下载原字节，UI/构建与受管理部署保护原16，0真实模型/Dify | codex | doing | 功能完成待实现提交后记done；新22/相关129定向、UI8/实际浏览器下载/构建截图通过，0.300受管理部署261文件及health200；原16/账本密文主Key与124保持，模型/Dify0；不代表全部存储恢复/格式/业务验收 |

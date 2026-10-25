@@ -83,7 +83,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.299.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.300.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -2343,3 +2343,6 @@ register_provider_tool_probe(sys.modules[__name__])
 
 from .material_review import register as register_material_review
 register_material_review(sys.modules[__name__])
+
+from .material_original import register as register_material_original
+register_material_original(sys.modules[__name__])

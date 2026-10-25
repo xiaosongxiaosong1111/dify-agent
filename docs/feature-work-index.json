@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-25",
-  "product_version": "0.299.0",
+  "product_version": "0.300.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -256,12 +256,16 @@
       "deliverable": "文件服务",
       "acceptance": "文件归属任务；同名文件不误覆盖；失败有记录",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/material_original.py",
+        "backend/tests/test_material_original.py",
+        "frontend/src/MaterialOriginalPanel.tsx",
+        "docs/material-original.md"
       ],
       "historical_status_20261020": "等待验证",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.300补原件按任务/修订/材料ID主动核对和原字节下载，保存摘要/磁盘观察/未知/变更分开，新22/相关129及UI8通过，原16保持、实际模型/Dify0；仅限定文件归属/只读状态/下载证据，不关闭所有存储失败恢复、上传或材料格式验收。"
     },
     {
       "id": "T019",
@@ -392,12 +396,16 @@
       "deliverable": "材料区",
       "acceptance": "显示真实上传／解析状态，失败与待处理明确",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/material_original.py",
+        "backend/tests/test_material_original.py",
+        "frontend/src/MaterialOriginalPanel.tsx",
+        "docs/material-original.md"
       ],
       "historical_status_20261020": "受阻",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.300补原件按任务/修订/材料ID主动核对和原字节下载，保存摘要/磁盘观察/未知/变更分开，新22/相关129及UI8通过，原16保持、实际模型/Dify0；仅限定文件归属/只读状态/下载证据，不关闭所有存储失败恢复、上传或材料格式验收。"
     },
     {
       "id": "T029",
