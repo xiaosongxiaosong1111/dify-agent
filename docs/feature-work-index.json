@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-25",
-  "product_version": "0.295.0",
+  "product_version": "0.296.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -716,12 +716,15 @@
       "deliverable": "参考摘要",
       "acceptance": "保留节点／业务含义、来源和不确定点，不假装已复现",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/reference_dsl.py",
+        "frontend/src/ReferenceDslPanel.tsx",
+        "docs/reference-source-integrity.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "已核参考DSL静态结构摘要/明确引用方式/未支持保留门禁；0.296修原后缀及字节一致性，新15/相关56及UI5，流程图/完整业务语义及严格复现仍未整体验收。"
     },
     {
       "id": "T051",

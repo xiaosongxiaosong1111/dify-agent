@@ -5,6 +5,7 @@ import copy
 import hashlib
 import json
 import uuid
+import re
 from pathlib import Path
 
 from fastapi import HTTPException
@@ -191,8 +192,11 @@ class ReferenceDslManager:
                 if any(m.get('sha256') == record['summary']['source']['sha256'] for m in task['materials']):
                     raise HTTPException(409, '相同内容已在材料中，请调整现有参考方式，不重复加入。')
                 mid = str(uuid.uuid4()); summary = record['summary']; folder = h.DATA_ROOT / item_id / 'materials'
+                suffix=Path(summary['source']['filename']).suffix.lower()
+                if suffix and not re.fullmatch(r'\.[a-z0-9]{1,12}',suffix):
+                    raise HTTPException(422,'参考文件后缀无法安全保存，请改为普通yaml/yml/json文件名后重新预览；原记录未改动。')
                 folder.mkdir(parents=True, exist_ok=True)
-                (folder / (mid + '.yaml')).write_text(record['content'], encoding='utf-8')
+                (folder / (mid + suffix)).write_bytes(record['content'].encode('utf-8'))
                 h.invalidate(task, '参考 DSL 加入材料前保存')
                 task['materials'].append({'id': mid, 'name': summary['source']['filename'], 'source_kind': 'reference_dsl', 'status': 'parsed', 'error': '', 'size': len(record['content'].encode()), 'sha256': summary['source']['sha256'], 'text': material_text(summary), 'dsl_summary': copy.deepcopy(summary), 'reference_mode': payload.reference_mode, 'preserve_items': payload.preserve_items.strip(), 'created_at': h.now()})
                 task['updated_at'] = h.now(); record.update(status='adopted', material_id=mid, applied_revision=task['revision'], reference_mode=payload.reference_mode, preserve_items=payload.preserve_items.strip(), acknowledge_limits=True, adopted_at=h.now())
