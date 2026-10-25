@@ -1,4 +1,4 @@
-# HANDOFF — Sierra（2026-10-25，0.289分支输出生成修复完成，121首规划已消费停止）
+# HANDOFF — Sierra（2026-10-25，0.289不变，123新续接包冻结/124待直接范围批准）
 
 ## 1. 当前状态
 
@@ -13,17 +13,18 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（122功能修复完成，真实批已停，不重试）
+## 3. 下一步（123完成，124待一次新整批直接范围批准）
 
-1. 第121直接批准call_9135dbf38f114dffa15e602228a1dd9a question0“允许本批明确改授”，记录在work/reviewed-mainline288/approval.json，绑定46cc6ea、plan SHA c82bbb29c5ac33632c6a82c0a62837f3cba3a948709e516f29bfa4b24632295b、19文件manifest SHA 9df4265f1eb372f1852e7cb3b4aa6a32003c2a480007a5c787f34f1f530ef197。本包首次live已消费，receipt.state=stopped_needs_review，禁止重放/修改冻结文件。
-2. 根代理亲读r7原需求/九检查/配置/两例后仅放行reviewed_intake。第一实际规划返回完整六节点候选，但互斥的answer_llm和no_hit_text都接同一end；同一outputs两次result且同时读两分支。严格422：重复字段一条、两个非全路径上游引用。未应用，plan_first/plan_changed门禁均未创建，原正式图仍空；整批停止、临时服务清理，不自动修图或请求第二模型。
-3. 本次模型HTTP1、prompt28184/completion559/total28743（cached20992）；原预留0.0464127，按配置估算settled0.002954352 USD非账单。Dify HTTP/管理/登录/新App/发布/Key/运行均0。累计模型实际18、保守23；第二未派发阶段及全部Dify范围保留，不能自动借用。新真实范围须未来独立可审查方案与对应直接授权，不能因本地修复恢复旧批。
-4. 第122实际功能修复42d354a：模型消费的workflow-plan-contract优先段明确互斥根分支独立终点，同一end字段唯一且只读全路径上游；不同end可同名result，改名不修复跨支读取。新增完整六节点可编译结构示例，不充当业务默认；现有手改基线/单文案修改/Chatflow answer/容器合流边界保持。未改校验器、未自动拆原真实候选。
-5. 实际规划请求含新规则及完整示例，模型替身返回该示例可保存/确认/编译为两原生终点；错误候选仍一次拒绝并保留全文；相关分支/终点/聚合共10定向通过，未全量。只改后端版本及契约，前端未改，不重复构建/UI。0.289已部署254文件匹配、health/前端200。尚无修复后的真实模型候选，不宣称生成质量或完整售后主链通过。
-6. work/reviewed-mainline288/stopped-protected-proof.json及post-stopped-snapshot.json为121后数据摘要；work/branch-output289/before.json与deployment-proof.json证明122后生产所有数据精确保持，另逐项核121全部19冻结文件及manifest/approval/receipt/原完整候选/门禁原文不变。原15/全部其它对象/密文主Key/旧95和115/所有旧账本保持。只有121时目标task与task_budget改变，122额外真实HTTP0。
-7. 公开证据docs/reviewed-mainline288-live-result-20261025.json、docs/branch-output-guidance.md及result。121blocked（a937f70），122done（42d354a）；当前无pending/doing，其余剩余均blocked/need-user。队列停因无可执行剩余项，不是项目完成或额度耗尽。下一实质目标仍修复后真实候选→两版发布/四例及完整轨迹，若后续准备新批，须明确重新授予已停批剩余并按真实调用数核新次数边界；不重复访谈或无意义拆微任务。
-8. 已有119代理全项复核来源和118原话补充保留；r7需求确认来自正常委托，不是人类业务签收。25最终业务未关闭，原136不能按版本/队列/测试量算完成比例。原五Docker容器healthy、8080TCP核对通过，无新建服务/容器/卷；部署管理员核固定快照所属进程，不按端口杀进程。
-9. 每push前根CHANGELOG已更新，交接整份重写，work/原模型响应/数据/密文不提交。只读必要文件，不通读项目/290KB历史，不全量。Claude既有网关实际DeepSeek此前75.19秒超时，无结果/费用报告，未形式重试或冒充审查；单次凌晨任务已删除。无实际Codex额度失败，发生立即尽量保存停，不重试/换号/购买/用券。
+1. 当前产品0.289.0-1650be918b4597a2b4ae（42d354a），254源码/快照匹配；此轮只为0.289修复后真实主链准备最小独立批，没有更改产品/生产数据、没有模型或Dify实际请求。用户新增“继续开发，直到额度结束”，仍不能从泛化继续推定已停批重放或额度自动扩张。
+2. 新独立包work/branch-mainline289已冻结19文件，公开docs/branch-mainline289-plan-20261025.md，commit455c45c。plan SHA633580304332cc00d4442fe3557f3e6c95194a7fe5b7d48df4045c7c129ee652；manifest SHAd0515b79cec970b615b661a318362422917f3b45dc35735cccb19b3c68f08967。无approval.json或receipt.json，禁止先live；旧work/reviewed-mainline288（121）及95/115全部冻结/批准/回执/候选保持。
+3. 新方案复用现有r7/paused、原三账本条目/需求/九检查/配置/两例及专用环境，不重复访谈。一次原版规划→根代理亲审全文→确认构建下载→独立新App/发布/Key→两例及完整轨迹；只改无命中提示增加商品型号→明确agent_delegated全项复核→第二规划→亲审原候选后明确载入保存（不手改图）→第二App/两例及轨迹/交付。三门禁reviewed_intake/plan_first/plan_changed必须根代理亲读，不用模拟审查顶替实际。
+4. 需直接批准新边界：将121未派发的一规划和全部零Dify范围改授本包，另加一个模型槽，保守23→24。最多2模型HTTP，各6000输出tokens/120秒；新单阶段预留0.055且两次合计0.10同时满足，Dify估算0.02，整批0.12非账单硬限。App/发布/Key各2、运行4、读取96/登录28，任务原4次/20分钟，原管理413保持。连接切新Key、旧Key加密留档；不新建任务/库、旧App不覆盖。
+5. 新模型0.10从原未释放包0.122786976明确调配，含原独立余量再调0.002954352，剩0.022786976保持；旧known0.083832576、四旧槽0.20、unknown0.0188541保持。原总0.425473652、旧0.45/0.5及Dify原0.17整批边界不增加。单次上限由0.05→0.055是新方案明示调整，不是扩大已批准旧批；真实批准前当前实际18/保守23/Dify12均不变。
+6. 同界面最终正常隔离链7、真实模式字段/身份8、边界/旧历史/新授权/预派发费用25及真实协议末端替身通过，真实HTTP0。模拟两规划预留0.0472236+0.050121=0.0973446，模拟资源各2/运行4/读取30。初次隔离被旧单次0.05挡住，无真实请求；明确新分配后通过，没有裁剪提示/需求/输出。新过价/次数拒绝用PlanningStopped，实际规划器记not_dispatched/新增用量0，不新增未知账本。
+7. 新GuardedStore写前完整保护原planning_runs、interview_attempts及saved_intake_adoptions前缀，正常两版链也逐项保持旧失败原文；原16所有生产对象/密文主Key/账本及旧121整个包/批准/回执/候选摘要匹配。五原Docker容器healthy与8080TCP管理员只读通过，不发HTTP/登录、不重建服务/卷。临时服务和Store已清理。
+8. 收到绑定455c45c及新摘要的直接用户答复后，记录新approval：source=direct_user_reply、explicit_human_authorization=true、verbatim_answer、reassign_unused_stage_batch121=true、authorize_additional_model_slot=true、reallocate_remaining_model_envelope=true、plan_sha256、manifest_sha256。先核所有冻结文件/实际运行/原r7全对象摘要/服务和16空闲，然后最多首次live一次。任何异常整批停，未派发阶段保持，不重试/换号/购买或自动借旧槽。
+9. 123done（455c45c），124need-user，当前没有pending/doing，其余均blocked/need-user。停止因真实新范围未批准，不是Codex额度耗尽或项目完成。121已消费：首规划HTTP1/28743tokens/配置估算settled0.002954352，Dify0，互斥分支共用end的重复result/跨支引用严格422，未应用。完整两版真实主链和25业务仍未通过，不按版本/测试/队列算百分比。
+10. 每push前CHANGELOG已更新，整份交接重写。work/原响应/数据/凭据不提交。Claude既有网关实际DeepSeek此前75.19秒超时，无结果/费用报告，未形式重试或冒充审查；单次凌晨任务已删除。无实际Codex额度失败，若遇立即尽量保存停，不重试/换号/购买/用券。只读必要文件，不通读项目/290KB历史，不全量；管理员核所属进程，不据端口杀进程。
 
 ## 4. 外部边界与账本
 
