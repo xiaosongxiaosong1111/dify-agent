@@ -1,10 +1,10 @@
-# HANDOFF — Sierra（2026-10-25，产品0.287，118逐项引用补充完成，任务r4待确认，推送必须写更新日志）
+# HANDOFF — Sierra（2026-10-25，产品0.288，119来源修复完成，任务r6可规划）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main，远端https://github.com/xiaosongxiaosong1111/dify-agent.git。运行0.287.0-01799601244b86168685/health200，Dify1.17.1。108产品cb26626/交接662e26a已push；109产品a7e3c5e/4505d27已push；110产品ec3f085/adfed01已push；111产品d73b8d7/be4d9d4已push；112冻结daa4686/交接7584ff8已push；113直接批准已记录/旧服务停止证据4fed25b；本轮原Docker恢复，114执行包摘要修复202e8a6/906b2dc已push；115获技术批准后真实首轮停止07e3aed，116误判修复c589215/2b8f39c已push；117本地恢复0e87122/8a4df43已push；118逐项引用补充5fd5bf4，本次交接后push。
+- 项目E:\workSpace\dify-agent，main，远端https://github.com/xiaosongxiaosong1111/dify-agent.git。运行0.288.0-ee5c22485a5d7c9cd151/health200，Dify1.17.1。108产品cb26626/交接662e26a已push；109产品a7e3c5e/4505d27已push；110产品ec3f085/adfed01已push；111产品d73b8d7/be4d9d4已push；112冻结daa4686/交接7584ff8已push；113直接批准已记录/旧服务停止证据4fed25b；本轮原Docker恢复，114执行包摘要修复202e8a6/906b2dc已push；115获技术批准后真实首轮停止07e3aed，116误判修复c589215/2b8f39c已push；117本地恢复0e87122/8a4df43已push；118逐项引用补充5fd5bf4，本次交接后push。
 - 用户最新明确“好的，推进吧，记得每次推到github上的时候都要写更新日志”。已新增根CHANGELOG.md，已记录0.271—0.287；AGENTS.md持久规定每次push前更新日志，覆盖实际交付/验证/限制，HANDOFF不能代替。仍开发欠项优先，不能按测试/版本/队列比例计算完成度。
-- 现16任务，原15保持。目标5abd5207-cdca-44df-a1fc-892a46870e37现r4/requirements：118仅按原用户说明补充retrieval，八需求不变、九检查齐全，待确认（需求/配置均未确认），无图/成果/App/运行。95/115原消息、失败候选、unknown和settled用量全部保持；原115记录仍是r2历史，r3恢复记录归档，新r4明确记录代理引用复核，未重放或改判旧失败。
+- 现16任务，原15保持。目标5abd5207-cdca-44df-a1fc-892a46870e37现r6/configuration：118仅按原用户说明补充retrieval，八需求不变、九检查齐全，需求按委托确认、配置未确认，无图/成果/App/运行。95/115原消息、失败候选、unknown和settled用量全部保持；原115记录仍是r2历史，r3恢复记录归档，新r4明确记录代理引用复核，未重放或改判旧失败。
 
 ## 2. 已消费批与保护
 
@@ -13,18 +13,17 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（118逐项引用补充已交付，任务r4待确认）
+## 3. 下一步（119完成，120准备独立两次规划批）
 
-1. 产品0.287.0-01799601244b86168685已部署，实现5fd5bf4；254源码/快照文件匹配，health/前端200。新入口“按原始说明补充一个待答专项”只改选中待答项，保留八项需求及其他检查，生成新未确认修订，不填业务默认或续跑旧真实批。
-2. 选当前有效检查中的待答专项，引用原始用户说明逐字原话并填写补充，先只读预览再明确保存。材料/正式图/成果/App/运行、旧或无效检查、基础字段缺口、伪造/讨论/已知凭据来源、新增专项、来源/答案变化、并发与重放拒绝；只支持初始专项局部补充。未保存文字阻止其他编辑/执行，页面切换保留文字并失效预览，可明确清空；任务/需求变更或刷新会清空，离开不取消已提交保存。
-3. 只证明引用存在，不自动证明语义蕴含。记录source_backed_resolution、逐项原话依据及local_operator/agent_delegated来源；actor是请求方声明，非认证身份或人类签收。补充进入后续来源与上下文并纳入摘要。原其他检查/失败/候选/费用不改判；本机需求与配置仍须正常确认。
-4. 已依据用户常规可逆工作委托独立补充真实任务retrieval：原始用户消息id3中的政策编号、非空一次LLM/空结果固定分支、TopK3无阈值不重排三段原话为证。只保留原最低口径，不增加库名/文档标题/片段等强制引用字段，不加相关性门槛/二次模型。明确记录agent_delegated及依据说明，没有新增人类答复。work/intake-topic287/agent-topic-decision.json、local-topic-proof.json和post-topic-snapshot.json为当前本机记录。
-5. 目标5abd5207-cdca-44df-a1fc-892a46870e37现r4/requirements，当前九检查齐全且can_confirm=true、stale=false、questions空；requirements_confirmed=false、configuration_confirmed=false，无正式图/成果/App/运行。八项需求和其他八条检查逐字不变，r3原复核完整归档，r2原失败候选applied=false及95/115消息/unknown/settled用量保持。只有目标task对象变化，其他15及全部其它对象/密文主Key/旧回执/所有账本精确保持。模型/Dify/资源/运行/预算条目新增0。
-6. 新22/相关114后端、UI9/TypeScript构建及补充预览截图通过。UI夹具起初把系统消息序号当用户来源，改为读实际选项；未放宽产品校验。补查后续人工/模型复核复现2失败/20通过，修正IntakeManager.save归档后先安装新记录再计算摘要，避免旧来源重复进入摘要而立即过期；最终114通过。该后端衔接修复已更新最终快照，r4数据精确保持。docs/intake-topic-resolution.md及result，过程work不入Git。
-7. 当前r4需求复核已就绪，不再以原retrieval追问阻断。下一步优先复用现有真实访谈/原需求，准备最小新独立有界规划与后续两版验收方案；不要再次重复首访谈、重复问已给资料口径或为版本号拆泛化微功能。本机确认/配置可按常规授权逐项复核，任何新模型/Dify动作必须先有可审查新方案及对应直接改授。
-8. 原95/113/115不重放。115实际模型1次后已整批停止，剩余两模型阶段和原资源/读取预留保持，不是可自动借用范围；本地r3/r4编辑不改变旧receipt或授权消费状态。当前没有新可执行批/新付费范围，不能从115 live继续。完整新需求→修改→两版真实发布/四例及轨迹仍未通过，25最终业务未关闭，不按版本/测试/队列数量算百分比。
-9. 118后当前没有pending/doing，剩余均blocked/need-user；停止不是项目完成或Codex额度耗尽。117恢复0e87122/8a4df43已push；118实现5fd5bf4，本次队列/整份交接后push。每push前根CHANGELOG已更新，原Docker仍原容器，无新建卷/容器。
-10. Claude既有网关实际DeepSeek此前75.19秒超时，无结果/费用报告，不形式重试或冒充审查；单次凌晨任务已删除。只读必要文件、不通读项目/290KB历史、不全量。部署管理员核所属进程固定快照，不据端口杀进程。实际Codex额度不足立即保存停，不重试/换号/购买/用券。
+1. 产品0.288.0-ee5c22485a5d7c9cd151已部署，实现1bb5b83；254源码/快照匹配。全项人工复核可显式actor=agent_delegated及非空actor_note，记录agent_declared，后续来源和上下文保留代理标识，界面/系统消息不当用户新答复或人类签收。默认人工表单兼容，保存仍不自动确认。
+2. 定向后端80/UI4及构建通过，未全量。初次检查目录缺失和默认空actor_note兼容问题均修正；截图已检查。仅定向测试、临时Store和物理网络/解密禁止，无真实模型或Dify。
+3. 现有目标5abd5207-cdca-44df-a1fc-892a46870e37从r4到r6/configuration：保存原用户两条命中/无命中样例、deepseek-flash/thinking=false/温度0.2/最大512、原FAQ/TopK3；九检查仍齐全且有效，按常规委托确认需求，配置未确认，尚无正式图/成果/App/运行。资源文字只是待审批方案，不是付费或平台执行授权。
+4. work/intake-actor288/agent-preparation-decision.json、local-preparation-proof.json及post-preparation-snapshot.json为本机独立代理决策和当前摘要。只变目标task，原15及全部其它对象/密文主Key/旧回执/全部账本精确保持；旧消息、失败候选、unknown及115 settled保留。新增人类答复/模型/Dify/资源/运行/预算条目0。
+5. 119已commit1bb5b83，队列done；120优先准备复用r6真实访谈的最小独立完整批：只规划原版和一条文案修改版，不重做首访谈。原版和修改版候选逐项亲审，无人工修图；两版新App/发布/Key、四例及真实节点轨迹要求保留。完成可审查新冻结包及零实际外部演练后，再请求一次明确改授。
+6. 原95/113/115不改不重放。115实际模型1次后已整批停止，剩余两模型阶段和所有Dify预留保持，不可自动借用。新本机r6不改变旧receipt或授权消费状态；暂无可执行新live包。
+7. 118恢复引用来源记录仍在r4 review及历史，原八需求保持。新全项代理复核用于未来修改版，不把旧失败重分类为通过。完整新需求→修改→两版真实发布/四例及轨迹仍未通过，25最终业务未关闭，不按版本/测试/队列数量算百分比。
+8. 每次push前更新CHANGELOG，本次已记录0.288；交接整份重写，不能追加历史日志。当前119之后继续120，不因一个小修复停止；无实际Codex额度失败。实际不足立即保存停，不重试/换号/购买/用券。
+9. Claude既有网关实际DeepSeek此前75.19秒超时，无结果/费用报告，不形式重试或冒充审查；原单次凌晨任务已删除。只读必要文件、不通读项目/290KB历史、不全量。部署管理员核所属进程固定快照，不据端口杀进程。原Docker仍原容器，无新建卷/容器。
 
 ## 4. 外部边界与账本
 
