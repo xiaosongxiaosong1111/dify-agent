@@ -16,8 +16,11 @@ class TextRequest(BaseModel):
 def source_metadata(material):
     kind=material.get('source_kind')
     if kind not in {'user_supplied_text','reviewed_model_image_text'}:kind='file_text_parser'
+    coverage=material.get('extraction_coverage')
+    note=coverage.get('scope_note') if isinstance(coverage,dict) and coverage.get('format') in {'pdf','docx'} else None
+    if not isinstance(note,str) or not note or len(note)>2000:note='仅文件文字提取，不据此声称图像、布局、OCR或全部业务含义已读取。'
     return {'source_kind':kind,'source_file_parsed':kind=='file_text_parser' and material.get('status')=='parsed',
-            'source_coverage_note':material.get('source_coverage_note') if kind!='file_text_parser' else '仅文件文字提取，不据此声称图像、布局、OCR或全部业务含义已读取。',
+            'source_coverage_note':material.get('source_coverage_note') if kind!='file_text_parser' else note,
             'image_model_response_received':material.get('image_model_response_received',False),'image_uncertainties':material.get('image_uncertainties',[])}
 
 

@@ -21,6 +21,7 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException, UploadFile, File, Request, APIRouter
 from .contract_loading import load_contract
 from .material_text import source_metadata as material_source_metadata
+from .material_documents import PartialDocument,extract_pdf,extract_docx
 from fastapi.responses import FileResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -82,7 +83,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.293.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.294.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -906,22 +907,15 @@ async def upload_material(item_id: str, file: UploadFile = File(...)):
     path = folder / (material_id + suffix)
     path.write_bytes(raw)
     text, status, error = "", "parsed", ""
+    extraction_coverage=None;partial_text=''
     try:
         if suffix in {".txt", ".md", ".json", ".yaml", ".yml", ".csv"}:
             from .material_parsing import decode_text
             text = decode_text(raw,suffix)
         elif suffix == ".pdf":
-            from pypdf import PdfReader
-            reader = PdfReader(path)
-            if len(reader.pages) > 100:
-                raise ValueError("当前 PDF 超过 100 页，请拆分。")
-            text = "\n".join(f"[第 {i+1} 页]\n{p.extract_text() or ''}" for i, p in enumerate(reader.pages))
-            if not any((p.extract_text() or "").strip() for p in reader.pages):
-                raise ValueError("扫描 PDF 暂未接入 OCR，请提供可读取文本或补充文字说明。")
+            text,extraction_coverage=extract_pdf(path)
         elif suffix == ".docx":
-            from docx import Document
-            doc = Document(path)
-            text = "\n".join([p.text for p in doc.paragraphs] + [" | ".join(c.text for c in row.cells) for table in doc.tables for row in table.rows])
+            text,extraction_coverage=extract_docx(path)
         else:
             raise ValueError("此格式暂未接入内容解析。图片、流程图和旧版 Office 文件请补充文字说明或转换为支持格式。")
         if not text.strip():
@@ -930,12 +924,15 @@ async def upload_material(item_id: str, file: UploadFile = File(...)):
             raise ValueError("文本超过当前 10 万字处理上限，请拆分；本次没有静默截断原文。")
     except Exception as exc:
         status, text = "needs_input", ""
+        if isinstance(exc,PartialDocument):partial_text=exc.partial_text;extraction_coverage=exc.coverage
         error = str(exc) if isinstance(exc, (ValueError, UnicodeDecodeError)) else "文件解析失败，请检查文件或转换为可读取文本。"
     with store.lock:
         task = get_task(item_id)
         require_idle(task)
         invalidate(task, "新增资料前保存")
         task["materials"].append({"id": material_id, "name": name, "size": len(raw), "sha256": hashlib.sha256(raw).hexdigest(), "status": status, "error": error, "text": text, "reference_mode": None, "preserve_items": "", "created_at": now()})
+        if extraction_coverage is not None:task['materials'][-1]['extraction_coverage']=extraction_coverage
+        if partial_text:task['materials'][-1]['partial_text']=partial_text
         return save_task(task)
 
 
