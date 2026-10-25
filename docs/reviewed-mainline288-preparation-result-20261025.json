@@ -1,0 +1,20 @@
+{
+  "state": "frozen_waiting_direct_scope_reassignment",
+  "task_revision": 7,
+  "runtime": "0.288.0-ee5c22485a5d7c9cd151",
+  "plan_sha256": "c82bbb29c5ac33632c6a82c0a62837f3cba3a948709e516f29bfa4b24632295b",
+  "manifest_sha256": "9df4265f1eb372f1852e7cb3b4aa6a32003c2a480007a5c787f34f1f530ef197",
+  "frozen_files": 19,
+  "live_identity_negative_and_fake_forward_checks": 8,
+  "boundary_checks": 17,
+  "normal_ui_checks": 7,
+  "first_planning_failure_ui_checks": 2,
+  "changed_planning_failure_ui_checks": 5,
+  "synthetic_normal_counts": {"model": 2, "read": 30, "import": 2, "publish": 2, "key": 2, "run": 4},
+  "real_http_model_dify": 0,
+  "production_new_tasks_resources_runs_budget_entries": 0,
+  "source16_all_other_objects_ciphertexts_masterkey_old115_files_receipt_ledgers_kept": true,
+  "existing_five_containers_healthy_and_tcp8080_verified_without_http": true,
+  "direct_scope_approval_or_live_receipt_created": false,
+  "platform_or_business_acceptance_passed": false
+}
