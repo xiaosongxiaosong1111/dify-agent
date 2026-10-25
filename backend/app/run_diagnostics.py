@@ -102,6 +102,30 @@ def classify(error,kind=None):
     return {'category':'unclassified','title':'尚不能可靠归因','basis':'insufficient_evidence','confidence':'未知','recommendation':'结合实际失败节点与 Dify 日志人工核对；不能根据泛化错误自动改业务方案。','node_type':kind}
 
 
+def findings_for_display(report):
+    """Replace only empty generic placeholders; never rewrite stored evidence."""
+    findings=copy.deepcopy(report.get('findings',[]))
+    if report.get('saved_status')!='success' or report.get('saved_error') or report.get('saved_result_status') not in (None,'','succeeded'):
+        return findings
+    if len(findings)!=1:return findings
+    original=findings[0]
+    if original.get('category') not in {'unclassified','saved_execution_success'} or any(original.get(k) for k in ('node_id','node_type','execution_id','evidence')):
+        return findings
+    if original.get('basis')!={'unclassified':'insufficient_evidence','saved_execution_success':'saved_execution_status'}[original['category']]:return findings
+    if report.get('trace_state')=='local_only':
+        return [{'category':'saved_execution_success','title':'本地记录为执行成功','basis':'saved_execution_status','confidence':'已记录','recommendation':'这里只说明保存的执行状态；尚未读取完整远端节点轨迹，仍须核对验收规则与实际输出。'}]
+    nodes=report.get('nodes',[])
+    if report.get('trace_state')!='read' or report.get('trace_error') or report.get('remote_status')!='succeeded' or report.get('remote_error') or report.get('truncated') is not False or not isinstance(nodes,list) or not nodes or type(report.get('node_count')) is not int or report['node_count']!=len(nodes):
+        return findings
+    for node in nodes:
+        if not isinstance(node,dict):return findings
+        observation=node.get('observations') or {}
+        if not isinstance(observation,dict):return findings
+        if node.get('status')!='succeeded' or node.get('error') or observation.get('extraction_status') in {'not_extracted','unknown'} or observation.get('http_status_class') in {'non_2xx','unknown'}:
+            return findings
+    return [{'category':'execution_trace_success','title':'采集轨迹未发现执行失败','basis':'complete_success_trace','confidence':'已记录','recommendation':'本次远端终态与采集到的完整节点轨迹均为成功。仍须核对验收预期、资料内容与方案来源；执行成功不等于完整业务验收通过。'}]
+
+
 def analyze(run,secrets=()):
     result,turn=selected_result(run)
     data=result.get('data') if isinstance(result,dict) else None
@@ -143,6 +167,16 @@ class DiagnosticsManager:
 
     def register(self):
         h=self.h
+        @h.app.get('/api/tasks/{item_id}/runs/{run_id}/diagnostics/{diagnostic_id}/presentation')
+        def presentation(item_id:str,run_id:str,diagnostic_id:str):
+            with h.store.lock:
+                task=h.get_task(item_id)
+                run=next((r for r in task.get('runs',[]) if r.get('id')==run_id and r.get('kind')=='run'),None)
+                report=next((r for r in (run or {}).get('diagnostics',[]) if r.get('id')==diagnostic_id),None)
+                if report is None:raise HTTPException(404,'没有该运行的已保存诊断。')
+                findings=findings_for_display(report)
+                return {'diagnostic_id':diagnostic_id,'source_hash':report.get('source_hash'),'findings':findings,'presentation_adjusted':findings!=report.get('findings',[])}
+
         @h.app.post('/api/tasks/{item_id}/runs/{run_id}/diagnose')
         async def diagnose(item_id:str,run_id:str,payload:DiagnoseRequest):
             with h.store.lock:
@@ -159,6 +193,8 @@ class DiagnosticsManager:
                 local_graph=graph_artifact(h,task)
                 current_binding=(task.get('dify_app_id'),task.get('environment_id'),copy.deepcopy(task.get('artifact')))
             report=analyze(run,secrets);detail=trace=None
+            selected,_=selected_result(run);data=selected.get('data')
+            report['saved_result_status']=safe_text(data.get('status'),secrets,100) if isinstance(data,dict) else None
             report['source_graph']=graph_initial(local_graph)
             if payload.read_remote:
                 reason=None
@@ -186,6 +222,7 @@ class DiagnosticsManager:
                                 source=graph_compare(local_graph,detail['graph'],None);source.update(state='published_read_failed',message=safe_text(str(exc),secrets));report['source_graph']=source
                         else:report['source_graph']=graph_compare(local_graph,detail.get('graph'),None)
                     except DifyError as exc:report.update(trace_state='read_failed',trace_error=safe_text(str(exc),secrets))
+            report['findings']=findings_for_display(report)
             snapshot_matches=bool(env and run.get('app_id') and run.get('app_id')==task.get('dify_app_id') and run.get('revision')==task['revision'] and run.get('environment_id')==task.get('environment_id') and run.get('environment_binding')==binding(env))
             report.update(id=str(uuid.uuid4()),run_id=run_id,source_revision=run.get('revision'),captured_at_revision=payload.revision,environment_id=run.get('environment_id'),app_id=run.get('app_id'),source_hash=stamp,created_at=h.now(),snapshot_matches_current=snapshot_matches,current_source=snapshot_matches and report['source_graph']['matched'],verification='diagnostic_evidence_only')
             with h.store.lock:

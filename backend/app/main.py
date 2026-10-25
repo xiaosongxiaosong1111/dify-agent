@@ -82,7 +82,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.289.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.290.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1263,7 +1263,13 @@ def report(item_id: str):
             lines.append("  人工意见：" + json.dumps(run["manual_review"], ensure_ascii=False))
             lines.append("  意见历史：" + json.dumps(run.get("review_history", []), ensure_ascii=False))
         if run.get('diagnostics'):
-            lines += ['', '### 运行诊断（只读证据，不改变验收）', '', json.dumps(run['diagnostics'],ensure_ascii=False,indent=2)]
+            from .run_diagnostics import findings_for_display
+            lines += ['', '### 运行诊断（只读证据，不改变验收）', '']
+            for diagnostic in run['diagnostics']:
+                shown=findings_for_display(diagnostic)
+                if shown!=diagnostic.get('findings',[]):
+                    lines += ['展示说明（按保存证据说明状态，原始诊断未改写）：']+[f"- {finding['title']}：{finding['recommendation']}" for finding in shown]
+            lines += ['', '原始采集记录（保留原文）：', json.dumps(run['diagnostics'],ensure_ascii=False,indent=2)]
     if task.get("workflow_plan"):
         lines += ["", "## 流程计划", "", f"来源：{task.get('plan_source')}；是否过期：{task.get('plan_stale')}", "```json", json.dumps(task["workflow_plan"], ensure_ascii=False, indent=2), "```"]
     if task.get("agent_plan"):
