@@ -1,10 +1,10 @@
-# HANDOFF — Sierra（2026-10-25，134上下文来源功能已验证，0.298健康，管理员归属/提交受阻）
+# HANDOFF — Sierra（2026-10-25，134上下文来源与修订已完成管理员核验）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent。Git main/远端main仍3845952（133交接，已push），本轮134实现及日志/交接尚未提交推送；本机.git/index.lock写入拒绝，额外request_permissions授.git写后仍失败，不可假称commit。未使用被禁止的sandbox升级，也未绕过文件/进程权限。
-- 当前0.298.0-8224a2353ffa08d2d297已健康响应、前端200，259源码/固定快照匹配，但正常管理验收未完：旧后端已停、原PID27936经Get-Process明确不存在；start.ps1拉起新快照后CIM所属命令行查询拒绝，未写data/server.pid。未停止任何进程，不按端口杀进程，不再重复启动。已有管理员终结脚本待执行，不能把健康响应当归属已核验。
-- 134补访谈/规划材料正文的ID/保存摘要，新消息输入/结果修订及历史标记，旧消息不追写；初检16失败，新18/相关151定向、UI5/构建截图通过，未全量，真实模型/Dify0。原16全部对象/设置能力/账本密文主Key与124冻结证据精确保持；目标5abd5207-cdca-44df-a1fc-892a46870e37仍r12/run_completed，App4682e8b8-30fa-4f1b-864c-fae85c577b6d、4/4且20分钟已满，禁止第五次。
+- 项目E:\workSpace\dify-agent，main，实现commit 348f87d0f8578b2d76c42fae17a387337a01b5a3。管理员终结已完成固定快照命令行归属、health及PID登记；交接提交后push原https://github.com/xiaosongxiaosong1111/dify-agent.git，最终提交/推送状态以work/message-provenance298/finalization-proof.json真实回执为准。
+- 当前0.298.0-8224a2353ffa08d2d297、259源码/快照匹配，health/前端200。134同名材料正文ID/保存摘要和新消息输入/结果修订完成；初检16失败，新18/相关151定向、UI5/构建截图通过，未全量，真实模型/Dify0。
+- 原受限环境曾拒绝CIM及Git索引（补授权仍失败），旧后端已停且旧PID不存在，新start当时健康但未写PID；原失败回执保留，不假称从未失败。管理员后续实际核验见admin-recovery-proof.json。终结脚本不停止既有进程、不直接写任务或秘密，原16数据保护证明为本轮核对时点；后续用户操作以当前保存数据为准，不用旧快照覆盖。
 
 ## 2. 已消费批与保护
 
@@ -13,13 +13,13 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（134管理/提交受阻，先完成管理员终结，不重放旧批）
+## 3. 下一步（134已完成管理员核验和实现提交；按真实推送回执继续）
 
-1. 先由管理员运行本机work/message-provenance298/Finish-VerifiedWork.ps1。它先验证冻结文件/分支/原远端和干净暂存区，再调用Confirm-ManagedRuntime.ps1：只匹配项目Python、固定新快照命令行及健康结果登记PID；若服务已停且无对应进程才用原start脚本恢复，不停止既有进程。CIM/归属/版本不唯一或工作树与冻结哈希不符就拒绝，不能跳过；脚本已静态检查、尚未执行，没有伪造管理员结果或新用户批准。
-2. 管理员步骤完成后提交实际已验证源码，取得真实实现commit后才将134标done；终结脚本使用已审查成功文档模板更新BACKLOG/整份HANDOFF/日志，再提交交接并push原main。成功以work/message-provenance298/finalization-proof.json实际回执及Git远端一致为证；没有回执不能当已完成。本环境再次直接.git写已拒绝，不再重试或换目录绕过，也不要直接套用旧start多开。源变化/已存在暂存改动/HEAD变化时保留改动并停。
-3. 已验证功能：访谈及规划材料正文直接带id/source_sha256/长度，12000单份/24000合计上限与截断标志保持；保存摘要不等于磁盘已重读。同名资料无需再只靠另表顺序对应。新建初始消息及对话入口记录context_revision/result_revision（含失败/暂停/无模型）；模型历史和界面区分当前相关/历史/未记录，旧记录不补猜，原content/证据引用/只读讨论和确认门禁保持。只证明上下文构造及保存，不证明真实模型全部语义正确。
-4. 初检16失败，新增18/相关151（消息/讨论/进度/准入/预算/规划上下文与重规划）及UI5/构建截图通过，未全量。work/message-provenance298有repro/final.log、ui-proof/截图、protected-baseline/deployment-proof与startup-and-git-blocker。新快照259文件匹配、health/前端200；deployment-proof状态明确runtime_verified_management_pending，归属/PID/startup_guard均false。原16及全部124文件/账本/密文主Key不变，实际模型/Dify0。公开docs/message-provenance.md尚为工作树内容，不是假称已发布。
-5. 134blocked，其余15为已消费/停止历史批blocked，当前无pending，按AGENTS因所有剩余受阻停止；不是项目全完或Codex额度耗尽。T043补当前构造证据后51项not_reaudited，不把未知减少算完成率；T078独立受限执行仍未完成，不用宿主机exec冒充。解除管理/Git权限阻断后再核未完核心功能，旧模型/资源次数与成本、失败不重试边界继续有效，不重放124等旧批。Claude既有网关仍保留上次超时状态，不为形式重试或假称审查。
+1. 134实现348f87d0f8578b2d76c42fae17a387337a01b5a3，管理员核验已完成。检查work/message-provenance298/finalization-proof.json是否state=complete、pushed=true，以及本地/远端main一致；若终结后半段失败，按phase和真实commit继续，不重放已消费模型/Dify批，不覆盖用户改动或删Git锁。原startup-and-git-blocker及pending deployment-proof保留为历史，不把旧失败回填成功。
+2. 访谈/规划材料正文直接带id/source_sha256/长度，原12000单份/24000合计片段上限与截断保持，摘要不是磁盘重读证明。同名材料明确对应；新建初始及对话入口记录context_revision/result_revision，旧消息不追写，模型历史与界面区分当前相关/历史/未记录。原content/证据引用、只读讨论和确认门禁不变，不自动删原话或宣称模型语义完全正确。
+3. 初检16失败，新18/相关151及UI5/构建截图通过，未全量。259源码/快照匹配、health/前端200，本轮原16/全部对象/设置能力/预算密文主Key及124文件在核对时点保持，实际模型/Dify0。管理员脚本只管理PID和Git，不直接修改任务/秘密；公开docs/message-provenance.md，work/message-provenance298含final.log、UI证明、原失败及管理员后续回执。
+4. T043仅增加构造/保存证据，当前51项not_reaudited，不能按测试/版本/未知数量算完成率。T078独立受限样例执行仍未完成，不能用宿主机exec冒充沙箱；进一步核可支持的隔离路线和输入输出约定。其它未核核心需求继续先找实质缺口再排队，不扩充无意义付费验收准备。原136编号/条件保持，105实现/31验证交付不是136独立功能。
+5. 134done后无pending/doing，其余15均已消费/停止历史批blocked，按AGENTS当前队列停止，不是项目全完或额度不足。用户继续时从未核核心需求推进实质开发，所有外部次数/费用/失败不重试边界仍有效；Claude既有网关保留前次超时，不为形式重试。原133 Python入口、131/132资料/参考、130/129解析等实现和各自限制保持。
 6. 124真实交付保持：批准call_49b39599b26d464583fe870796c7e8ed，冻结455c45c，work/branch-mainline289，plan633580304332cc00d4442fe3557f3e6c95194a7fe5b7d48df4045c7c129ee652、manifestd0515b79cec970b615b661a318362422917f3b45dc35735cccb19b3c68f08967，首次live passed，禁止重放/改写。模型HTTP2/61292tokens/配置估算0.013001028USD；Dify43=登录1/读取32/导入2/发布2/Key2/运行4，报告508tokens，非账单。当前post-success-snapshot.json/protected-success-proof.json及live-final-task、三内容门禁为保护基线。
 7. 原版r8 App14aacbc3-4918-463c-bb49-3610c24a2e95，发布8015e5c7-51bf-4e42-b5c3-ed889893802f；运行c309f15a-48ea-4db7-ade5-26d52511a860/f052cc5b-f402-4e40-acc6-635abe262db8。修改版r12 App4682e8b8-30fa-4f1b-864c-fae85c577b6d，发布4ce613b4-a2b5-458d-9bb0-3f4fec167a81；运行9dc6d90f-0772-49d1-bffd-c0edb6f9f154/22883a1b-0ed6-4948-a16f-18effa21ea8e。四例succeeded/声明规则passed，完整5节点，LLM成功路径1/0/1/0，执行/发布/成果核心图匹配。
 8. 124复用旧真实访谈及原话复核，候选七节点六边/两独立终点/只据检索资料；第二版仅/nodes/4/config/template改为“知识库暂无相关信息，请联系人工客服，并提供订单号和商品型号。”。两候选根代理全文亲审、明确agent_delegated，正常界面显式载入原候选/保存，无手改图，plan_source=manual如实保留。非本批从空白重新访谈或全25签收。公开docs/after-sales-two-version-delivery-20261025.md、branch-mainline289-live-result-20261025.json。
