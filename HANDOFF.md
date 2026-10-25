@@ -1,10 +1,10 @@
-# HANDOFF — Sierra（2026-10-25，128暂停恢复修复已部署0.292）
+# HANDOFF — Sierra（2026-10-25，129材料语法与编码定位已部署0.293）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main，远端https://github.com/xiaosongxiaosong1111/dify-agent.git。产品0.292.0-ce71e8c42dfcb1878046，128实现26ab37d，255源码/固定快照匹配，health/前端200。此前127工具请求测试bc5e462及交接2bb3329已push。本次更新根CHANGELOG和完整交接后push。
-- 用户要求继续以功能为主；本轮核T033/T090/T098发现实质暂停缺口，修复任务级暂停不停止知识库后续写入、暂停在途作业重启卡pending，并使界面重开只读跟踪原在途回执。新增8/相关59后端、UI5/构建截图通过；真实模型/Dify0，未全量，不冒充全部恢复验收。
-- 原16任务仍16。目标5abd5207-cdca-44df-a1fc-892a46870e37仍r12/run_completed；App4682e8b8-30fa-4f1b-864c-fae85c577b6d。124两版四例及4/4、20分钟已满策略保持，禁止第五次；当前Key配修改版、旧Key加密留档。其它15/全部对象、设置能力、账本密文主Key与124证据均精确保持。
+- 项目E:\workSpace\dify-agent，main，远端https://github.com/xiaosongxiaosong1111/dify-agent.git。产品0.293.0-2a42569e33c7891467c0，129实现26488a6，256源码/固定快照匹配，health/前端200。此前128实现26ab37d及交接5f60011已push。本次更新根CHANGELOG和完整交接后push。
+- 用户要求继续以功能为主。本轮核材料入口发现JSON/YAML只解码、坏语法仍parsed的实质错误；已给新上传加语法/UTF-8校验与行列，原文/文件保持，不执行YAML标签，不把坏文件当已解析来源。新增23/相关89后端、UI5/截图通过，复用未改前端构建；0实际模型/Dify，未全量。
+- 原16任务仍16。目标5abd5207-cdca-44df-a1fc-892a46870e37仍r12/run_completed；App4682e8b8-30fa-4f1b-864c-fae85c577b6d。124两版四例及4/4、20分钟已满策略保持，禁止第五次；当前Key配修改版、旧Key加密留档。其它15/全部对象、设置能力、账本密文主Key与124证据均精确保持，旧材料与确认不追改。
 
 ## 2. 已消费批与保护
 
@@ -13,17 +13,17 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（128已完成，当前无pending；继续核实功能，历史批不重放）
+## 3. 下一步（129已完成，当前无pending；核实剩余功能，历史批不重放）
 
-1. 128实现26ab37d，0.292.0-ce71e8c42dfcb1878046已部署。任务pause与同任务approved/running/indexing知识库作业原子暂停；当前步骤可以返回并保留资源ID/Key密文/回执，后续步骤停止。其他任务和ready/applied/unknown等记录不改；再次明确execute沿用已完成资源，不重复建库。现有独立作业暂停/继续入口保持；不是新增全局暂停按钮。
-2. 知识库恢复对遗留pending步骤一律转unknown，包括已暂停但在途的作业，重启不重新派发。页面重开暂停作业且还有pending时只读轮询原回执，收到终态后停止；不自动查询Dify索引或续写。未知结果仍须核对，不能直接重发，不删除资源或假称已取消Dify索引。
-3. 原5失败/1通过复现；新增8/相关59后端、UI5/构建截图通过，未全量。255源码/快照匹配，health/前端200；原16任务/全部对象/设置能力/账本密文主Key与全部已消费124文件精确保持，真实模型/Dify0。work/task-knowledge-pause292含repro/verified.log、ui-proof/截图、protected-baseline/deployment-proof；公开docs/task-knowledge-pause.md及result。UI首轮命中折叠详情的定位已修，不改产品判断。
-4. T033/T090/T098现在有关键场景证据，非全部实现审计或真实外部恢复验收；原136编号/条件保持，仍61项not_reaudited。docs/feature-scope-review-20261025.md及feature-work-index.json为依据，不按未重核数算缺失功能/百分比。下一轮优先核材料契约/文字及PDF、Word解析/参考内容保留（T046—T051）和材料需求冲突（T056）；先读必要实现确认实质缺口再入队，不先扩充验收方案。六组能力扩展候选不默认全部承诺。
-5. 128done后无pending/doing，剩余15均历史已消费/停止批blocked，按AGENTS本队列停止不重放；不是项目全部完成或实际Codex额度耗尽。用户继续时从上述未核核心需求创建实质任务。127工具请求入口bc5e462保持，只限OpenAI兼容固定公开样例/显式费用同意/持久防重回执，未执行工具或真实账号测试；原136分105实现工作/31验证交付，不能把工程工作表当136独立功能。全25最终业务仍未签收。
+1. 129实现26488a6，0.293.0-2a42569e33c7891467c0已部署。新上传JSON/YAML/YML不再只decode冒充解析成功；语法和UTF-8错误给1起始行列，错误消息不回显附近原文，材料needs_input且正文空。原文件/SHA保留，坏材料不进已解析冲突来源，设引用方式仍不能绕过需求确认。
+2. 合法内容只校验不重新序列化，JSON精确数字/文字、YAML多文档/锚点保持；只组成YAML节点，不构造或执行标签/展开别名。不对txt/md/csv内文字强做结构化语法。10万字符/20MiB原界限保持；超大在解析前拒，深层坏文档可安全失败。人工补充仍user_supplied_text/原文件未解析，原错误/原文件/历史及独立引用决定保持，需求配置不自动确认。旧材料不自动重核或改写，需明确重新上传才用新规则；不证明Schema/DSL/业务语义正确。
+3. 先复现12失败/11通过，修后新增23/相关89后端、UI5/截图通过，未全量；前端未改，复用已有构建。首轮两测试误假设人工补充清引用、固定深度必拒，按原契约改为保留引用/核深层坏文档；界面脚本多个上传入口改为明确“上传材料”，不放宽产品门禁。256源码/快照匹配、health/前端200，原16/全部对象/设置能力/账本密文主Key与124冻结文件回执保持，额外真实模型/Dify0。work/material-parsing293含repro/final.log、ui-proof/截图、protected-baseline/deployment-proof；公开docs/material-syntax-validation.md及result。
+4. T046/T047/T051/T056现有文字范围增加关键证据，不是全部材料理解或冲突模型质量验收；仍57项not_reaudited。原136编号/条件保持，105实现工作/31验证交付不是136独立功能，不按版本、测试、未核数量算完成率。下一轮优先核PDF/Word扫描/损坏/部分文字边界（T048），参考DSL/图像的业务保留及来源不确定点（T050），再查资料重复/版本与冲突分离（T083）；先核必要代码找到真实缺口再入队，别扩充无意义验收准备。六组扩展候选不默认全部承诺。
+5. 129done后无pending/doing，剩余15均历史已消费/停止批blocked，按AGENTS本队列停止不重放；不是项目全完或实际Codex额度用尽。128暂停恢复26ab37d保持：任务与可派发知识库作业原子暂停、在途保留、暂停pending重启转unknown、界面只读跟踪，新8/相关59和UI5；127工具请求bc5e462保持：仅OpenAI兼容固定样例/显式费用/持久防重回执，未执行工具或真实账号验证。全25最终业务仍未签收。
 6. 124真实交付保持：批准call_49b39599b26d464583fe870796c7e8ed，冻结455c45c，work/branch-mainline289，plan633580304332cc00d4442fe3557f3e6c95194a7fe5b7d48df4045c7c129ee652、manifestd0515b79cec970b615b661a318362422917f3b45dc35735cccb19b3c68f08967，首次live passed，禁止重放/改写。模型HTTP2/61292tokens/配置估算0.013001028USD；Dify43=登录1/读取32/导入2/发布2/Key2/运行4，报告508tokens，非账单。当前post-success-snapshot.json/protected-success-proof.json及live-final-task、三内容门禁为保护基线。
 7. 原版r8 App14aacbc3-4918-463c-bb49-3610c24a2e95，发布8015e5c7-51bf-4e42-b5c3-ed889893802f；运行c309f15a-48ea-4db7-ade5-26d52511a860/f052cc5b-f402-4e40-acc6-635abe262db8。修改版r12 App4682e8b8-30fa-4f1b-864c-fae85c577b6d，发布4ce613b4-a2b5-458d-9bb0-3f4fec167a81；运行9dc6d90f-0772-49d1-bffd-c0edb6f9f154/22883a1b-0ed6-4948-a16f-18effa21ea8e。四例succeeded/声明规则passed，完整5节点，LLM成功路径1/0/1/0，执行/发布/成果核心图匹配。
 8. 124复用旧真实访谈及原话复核，候选七节点六边/两独立终点/只据检索资料；第二版仅/nodes/4/config/template改为“知识库暂无相关信息，请联系人工客服，并提供订单号和商品型号。”。两候选根代理全文亲审、明确agent_delegated，正常界面显式载入原候选/保存，无手改图，plan_source=manual如实保留。非本批从空白重新访谈或全25签收。公开docs/after-sales-two-version-delivery-20261025.md、branch-mainline289-live-result-20261025.json。
-9. 125成功诊断展示f0a3409保持：本地成功/完整成功轨迹分层说明，失败/未知/规则不符或不完整证据不改判。四份旧报告仅只读展示，原诊断/轨迹/验收及下载原文保持；后端62/UI6，0额外外部，证据work/success-diagnostic290。127部署未覆盖这些记录。
+9. 125成功诊断展示f0a3409保持：本地成功/完整成功轨迹分层说明，失败/未知/规则不符或不完整证据不改判。四份旧报告仅只读展示，原诊断/轨迹/验收及下载原文保持；后端62/UI6，0额外外部，证据work/success-diagnostic290。129部署未改写这些记录。
 10. 所有历史具体资源/请求/成本/失败不重试边界继续有效。124及旧91/95/115/121等已消费包不重放，实际模型20/保守24、Dify实际16/正式passed14、资源各8保持；原四槽与未释放估算不是新调用授权。只有真正超出既有明确范围才准备具体可审查方案并申请扩大，不反复询问常规本地开发。
 11. 每push前写根CHANGELOG，整份改写HANDOFF；只读必要文件，不通读项目或290KB历史，不全量。Claude既有网关实际DeepSeek此前75.19秒超时无结果/费用报告，不形式重试或冒充审查。本轮无实际Codex额度失败；若遇立即尽可能交接并停，不重试/换号/购买/用券。管理员核固定快照及所属进程，不按端口杀进程；只复用加密登录，不从聊天复制密码，不输出/提交密钥或供应商原文。
 
