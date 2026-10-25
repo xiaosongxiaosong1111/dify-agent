@@ -1,0 +1,103 @@
+{
+  "state": "stopped_at_first_intake_contract",
+  "scope_approval_question_call": "call_f5220c40793e44f38b02ce9c1b83a095",
+  "technical_approval_question_call": "call_5504c989abfc4ef1b965152291c5f3a0",
+  "first_live_entry_only": true,
+  "model_invocations": 1,
+  "model_http": 1,
+  "dify_http": 0,
+  "counts": {
+    "model": 1,
+    "login": 0,
+    "read": 0,
+    "import": 0,
+    "publish": 0,
+    "key": 0,
+    "run": 0
+  },
+  "final_revision": 2,
+  "requirements_unchanged_and_no_plan_artifact_app_runs": true,
+  "old_messages_unknown_prefix_kept": true,
+  "other15_tasks_and_all_other_original_objects_kept": true,
+  "all_ciphertexts_masterkey_and_old_receipts_kept": true,
+  "saved_topic_ids": [
+    "goal",
+    "audience",
+    "input",
+    "output",
+    "rules",
+    "knowledge",
+    "exceptions",
+    "tests",
+    "retrieval"
+  ],
+  "proposed_topic_ids": [
+    "goal",
+    "audience",
+    "input",
+    "output",
+    "rules",
+    "knowledge",
+    "exceptions",
+    "tests",
+    "retrieval",
+    "external"
+  ],
+  "returned_topic_ids": [
+    "goal",
+    "audience",
+    "input",
+    "output",
+    "rules",
+    "knowledge",
+    "exceptions",
+    "tests",
+    "retrieval"
+  ],
+  "retained_candidate_needs_input_topics": [
+    "retrieval"
+  ],
+  "diagnosis": "Runtime-only Sierra local-entry and HTTP-error explanation triggers generic external topic; saved input9/candidate10/returned9. Candidate also has a retrieval clarification, so no business pass claim.",
+  "candidate_applied": false,
+  "candidate_retried_or_replayed": false,
+  "model_cost_records": [
+    {
+      "status": "unknown",
+      "call_status": "failed_or_interrupted",
+      "reserved_usd": "0.0188541",
+      "charged_usd": null,
+      "cost_basis": "reserved_unknown_usage",
+      "usage": {}
+    },
+    {
+      "status": "settled",
+      "call_status": "returned",
+      "reserved_usd": "0.0200703",
+      "charged_usd": "0.005404572",
+      "cost_basis": "reported_usage",
+      "usage": {
+        "prompt_tokens": 9545,
+        "completion_tokens": 2243,
+        "total_tokens": 11788,
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 9033,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      }
+    }
+  ],
+  "new_reported_usage_config_estimate_usd": "0.005404572",
+  "new_reported_usage_total_tokens": 11788,
+  "invoice_hard_cap_or_invoice_cost": false,
+  "known_model_http_total": 17,
+  "conservative_model_upper": 23,
+  "unused_two_model_stages_held_not_reauthorized": true,
+  "remaining_new_model_envelope_usd": "0.125741328",
+  "prior_unknown_usd": "0.0188541",
+  "older_four_slots_usd": "0.20",
+  "known_config_estimate_total_usd": "0.080878224",
+  "known_plus_held_original_envelope_usd": "0.425473652",
+  "temporary_data_removed": true,
+  "no_dify_resource_or_runtime_changes": true
+}

@@ -4,6 +4,8 @@
 
 ## 0.284 — 2026-10-25
 
+- 技术替换call_5504c989明确批准后，修正包首次真实执行在首轮需求检查停止：模型HTTP1、Dify/规划/资源/运行0；原输入/返回9主题，但候选解释Sierra本机接口及HTTP错误触发external，严格预期10，候选未应用。原回复另有retrieval追问，不当通过，不重试。新增11788tokens按配置估算0.005404572 USD、非账单；原15及所有密文/旧回执/unknown保持，两个未派发阶段仍保留，保守23不变。[结果](docs/complete-mainline284-live-result-20261025.json)。
+
 - 修复提交202e8a6；原Docker Desktop/Windows服务恢复，既有Dify五容器healthy/8080就绪，未建容器或卷。继续前发现原批准执行包漏三项仅真实分支读取的消息摘要；原包保持，修正独立副本补摘要并在Store/账本/receipt前严格核字段，离线也执行同一身份门禁。新增可审查检查器及真实invoke AST回归13项、原17边界/完整UI7通过，实际外部0，原16/旧unknown保持。产品仍0.284，修正包变更冻结哈希需技术替换确认，原资源范围无需扩大。[方案](docs/complete-mainline284-identity-fix-plan-20261025.md)。
 
 - 已收到并保存daa4686独立批的直接改授；冻结/运行/原16保护核对通过，但原Docker服务Stopped、无Desktop/backend进程及8080监听，准入在live入口前停止。模型/Dify/管理读取/登录/资源/运行新增均0，无新live回执或预算条目，不重试、不启动Docker，原unknown/预留保持。批准已保存，无需重复扩大同一范围。[记录](docs/complete-mainline284-admission-result-20261025.json)。
