@@ -1,14 +1,14 @@
-# HANDOFF — Sierra（2026-10-26，第156验收通过待提交）
+# HANDOFF — Sierra（2026-10-26，第156验收完成待推送）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent/main，HEAD/origin07f7d85，第155实现f5c6b12/闭环07f7d85已推送clean，work/planning-tools318/finalization-proof.json complete；本次156验收及部署通过但尚无实现commit，BACKLOG156仍doing，保留未提交功能。
+- 项目E:\workSpace\dify-agent/main，HEAD/origin07f7d85，第155实现f5c6b12/闭环07f7d85已推送clean，work/planning-tools318/finalization-proof.json complete；本次156实现6a8fe15已存在且验收/部署通过，BACKLOG156已done，待本次文档闭环commit/push。
 - 实际运行0.319.0-829c924802c1ba5bd8ed/271文件，原脚本/所属快照PID校验、health及前端200/全部源码快照/原16及全部旧对象设置密文主Key/124保护通过。work/plan-connections319/deployment-proof.json、managed-runtime-proof.json。
 - 156：当前草稿进出连接/原始分支handle/同层显式选择器来源定位，全部结构上游下游追踪；不模拟条件命中或执行路径，容器分层、缺失/未绘制/重复ID/100节点250边/清单60/选择器40项2000结构项16层边界明确。原配置原文/键盘缩放和坏结构保护保持，改稿清选择。新PlanConnections.tsx/PlanGraph.tsx/style.css，backend main仅版本号变更。
 - 隔离UI12和构建通过，预览写0，真实模型/Dify0，未全量或重复后台测试。初次选择器把SVG节点和边混算8vs4已纠正，原日志保留；实际功能未降低门禁。docs/plan-connections.md、README/CHANGELOG/状态/索引已更新；T032仅本切片证据，41not_reaudited/85current_evidence/10scope_limited，完整验收仍false。
 - 已交付155默认关闭的只读规则工具及154非空截断误升级修复，新工具55/终态14/相关201后端、新UI7/升级UI7通过。原16未启用新工具或升级；所有实际Sierra/Dify范围不变。
 - 用户要求Claude多线程，已独立并行派0.317文档边界核对，Claude Code网关配置deepseek-flash、必要片段无凭据/客户资料/完整仓库；一次CLI失败无审查，报告估算0/models空/22.75秒，原因/内部HTTP/账单未知，不重试。work/claude-doc-review318/receipt.json。旧304预算失败CLI估算0.074255USD另存、不重放，不假称子审查通过。
-- 原16/r12 run_completed、4/4满，旧批不重放，T078本机引擎管道缺失、不宿主exec替代。没有实际Codex额度不足；实际不足立刻尽可能整份更新本文件并停，不购买/换号/用券。
+- 原16/r12 run_completed、4/4满，旧批不重放，T078本机引擎管道缺失、不宿主exec替代。最近primary73%/weekly11%已用且ordinaryUsageAllowed true，没有实际Codex额度不足；实际不足立刻尽可能整份更新本文件并停，不购买/换号/用券。
 
 ## 2. 已消费批与保护
 
@@ -19,7 +19,7 @@
 
 ## 3. 下一步（先完成156提交推送）
 
-1. 156隔离UI12/构建及受管理部署已通过；先git diff/check、明确列文件commit（包括README/CHANGELOG/状态/索引/本交接/Backlogdoing），实现commit存在后才将156标done并加证据，闭环文档commit/push。原main/remote固定，不能让用户代commit；work与生产数据/凭据不提交。推送后核origin==HEAD/clean、写work/plan-connections319/finalization-proof.json。
+1. 156实现6a8fe15已存在、BACKLOG156已done；先提交关闭文档push原main，核origin==HEAD/clean并写work/plan-connections319/finalization-proof.json。随后继续第一pending或核实新的既定需求功能缺口，勿重做155/156。每push前README/CHANGELOG已更新，work和生产数据不提交。
 2. 已验证Git用require_escalated、命令级safe.directory=E:/workSpace/dify-agent、单次-c http.version=HTTP/1.1可推原https://github.com/xiaosongxiaosong1111/dify-agent.git，沿用现有127.0.0.1:7890代理，不改全局/TLS/no force。每push前CHANGELOG和README已经更新，不假称未推结果。
 3. 完成156后按BACKLOG第一pending继续实际功能；若没有pending、只剩旧已消费blocked，按既定需求核实具体新缺口后入队，一次一项，不为耗额度造微任务或重复验收准备。T032目前是当前草稿连接/变量/结构辅助，不补猜最终DSL或运行图已验收；T042是固定规则工具，非任意工具/原生Agent或真实质量签收。
 4. 当前固定运行0.319.0-829c924802c1ba5bd8ed，271文件；保护脚本work/plan-connections319/protect.py。该目录部署脚本前提旧0.318且已执行，禁止重放。新源码需新快照和所属进程校验，不能按端口任意杀进程。预览操作0写入、原16保持，不为验证新增真实模型/Dify调用或自动启用策略。
