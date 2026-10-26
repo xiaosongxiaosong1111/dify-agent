@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main。142实现e52bc10/交接c78a789已推送，work/resource-results305终结proof complete/clean保留。143已实现验证，当前0.306.0-b4c5a98644e761e8fabc；当前commit/push以work/docx-package306/finalization-proof.json实际为准，未生成前不推断完成。
+- 项目E:\workSpace\dify-agent，main。142实现e52bc10/交接c78a789已推送，work/resource-results305终结proof complete/clean保留。143实现3271d5a且BACKLOG done，当前0.306.0-b4c5a98644e761e8fabc；当前commit/push以work/docx-package306/finalization-proof.json实际为准，未生成前不推断完成。
 - 旧33MiB关联Word部件压缩不足20MB实际parsed已复现；修复后新6/相关共82、UI5通过，前端未变沿用0.305已构建资源，不全量。264文件快照/所属进程原脚本重启和health/前端200；原16/设置能力/账本密文主Key/124保持。本项Sierra模型/Dify新增0；141网关审查预算失败、CLI估算0.074255 USD继续单列非账单，不重试，内部HTTP未知。
 - 用户继续功能开发/直到实际Codex额度不足授权保持，未触发Codex不足；不为耗额度拆微任务。Docker引擎未运行，T078不宿主机exec替代。近期0.304/305对话规划及根构建/运行迟到结果隔离保持，边界文档各自保留。
 
@@ -15,7 +15,7 @@
 
 ## 3. 下一步（143已验收部署；先提交再继续真实功能缺口）
 
-1. 143验收和部署已过，先提交实现，再按实际commit标BACKLOG done、提交交接；CHANGELOG/README同步后push原main，不让用户代提交。终结以work/docx-package306/finalization-proof.json为准，旧proof不覆盖。
+1. 143验收/部署及实现3271d5a、BACKLOG done已完成，提交本交接后推送；CHANGELOG/README同步后push原main，不让用户代提交。终结以work/docx-package306/finalization-proof.json为准，旧proof不覆盖。
 2. Word在Document前只读Zip目录：单部件最多32MiB/总展开64MiB/目录项2048，等于允许，超限needs_input/正文空/原件摘要保留，旧引用/确认/人工替代来源不变。此预检非CPU/内存硬配额、不保证文档业务/全部安全，正常原正文及表格覆盖限制不变；不追改旧材料。
 3. 新6/相关共82及UI5通过，无脚本错误；33MiB真实关联部件旧版parsed失败日志保留，原字节/摘要/确认阻断/不装载Word库/人工替代/正常阈值已测。前端未改，不为形式再npm build，沿用0.305已验证静态资源；早期UI误找不存在材料页已修脚本，不当产品缺陷。
 4. 继续围绕原核心需求核实下一实质缺口，再列入BACKLOG，已有无pending时不重放历史blocked。当前任务来源归属、材料处理已补具体问题，不能按测试数/版本或队列清空宣称全完成；当前44项未重核。不要顺带重构或为耗额度拆微任务、扩付费验收准备。
