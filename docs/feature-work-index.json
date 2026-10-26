@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-26",
-  "product_version": "0.327.0",
+  "product_version": "0.328.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -667,7 +667,8 @@
         "frontend/src/workspaceViewTransport.ts",
         "docs/task-workspace-view.md",
         "docs/material-stored-text.md",
-        "docs/material-text-search.md"
+        "docs/material-text-search.md",
+        "docs/material-discussion-quote.md"
       ],
       "historical_status_20261020": "进行中",
       "acceptance_closed": false,
@@ -734,7 +735,8 @@
         "backend/app/conflicts.py",
         "docs/material-syntax-validation.md",
         "docs/material-syntax-result-20261025.json",
-        "docs/material-text-search.md"
+        "docs/material-text-search.md",
+        "docs/material-discussion-quote.md"
       ],
       "historical_status_20261020": "等待验证",
       "acceptance_closed": false,
