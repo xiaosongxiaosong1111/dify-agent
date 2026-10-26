@@ -1,13 +1,13 @@
-# HANDOFF — Sierra（2026-10-27，第170交付）
+# HANDOFF — Sierra（2026-10-27，第171交付）
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；169实现39c9cee/关闭f1ab12d已推送clean，work/plan-decimal332/finalization-proof.json complete，不重做。170实现4770260存在、BACKLOG170已done、验收/部署通过，最终关闭/push以Git和work/case-sets333/finalization-proof.json为准，不猜hash。
-- 实际0.333.0-b4e695bc4808b298ecbd/277文件，work/case-sets333/deployment-proof.json及managed-runtime-proof.json；所属PID/快照/原start-stop/health与前端200/源快照全文件/原16全部对象设置账本密文主Key/124保护通过，真实模型/Dify0。
-- 170运行页样例定义集JSON：导出后台已保存定义，导入文件先只读预览/来源核对、明确选择复核后只追加未保存草稿；原编辑/未选保持，新ID不继承旧成绩/确认/资源，不自动保存或运行。仍须原保存动作写一次新修订；20例/512000字节/UTF8(BOM)/当前类型/明确可往返规则，旧字符串关键词/对象Schema/未知字段等拒绝，不默转。原JSON不归档材料，请保留原文件，非语义或实际运行验收。
-- 新31/相关98后端129合计、新UI9/原样例JSON UI18和构建通过，未全量。UI实际下载后台定义、不混未保存稿，坏文件/错源/晚到拒绝，明确追加两例/一次保存旧版保留。最终UI有Windows连接重置/有界退出诊断，但exit0/线程退出/临时目录删除/保护断言通过，不重试。
-- 上一窗口实际100%/ordinaryUsageAllowed=false已观测，本次01:18开头实际1%/weekly30%/true，已恢复可用，不归因假设；持续功能开发到实际不足。sierra一次性已PAUSED防重复，本次结束按系统要求删除已完成一次性任务，不重建，不换号/购买/用券。
-- Claude既有网关实际deepseek-flash，318独立失败无审查/CLI估算0/内部HTTP账单未知，恢复未明，不因Codex恢复就形式重试/冒充成功；304旧CLI估算0.074255USD保持不重跑/加预算。
+- E:\workSpace\dify-agent/main；170实现4770260/关闭4274afb已推送clean，work/case-sets333/finalization-proof.json complete，不重做。171验收/部署已过，提交闭环以Git及work/embedding-source334/finalization-proof.json为准，不猜hash。
+- 实际0.334.0-5606cb4fb69aa0b7ce99/277文件，work/embedding-source334/deployment-proof.json及managed-runtime-proof.json；所属PID/快照/原start-stop/health及前端200/原16全部对象设置账本密文主Key/124保护通过，真实模型/Dify0。
+- 知识库Embedding目录及明确选择随Task修订/环境URL版本/连接/工作空间变更失效，拒绝旧/错源/重复/晚到目录，普通表单保持，不自动切经济索引，后端原再核保持。只改前端目录归属，非全部异步动作或真实平台验收。
+- 旧同Task换环境仍留选择先复现；新UI10/相关后端74/原有限跟踪UI10及构建通过，未全量。夹具展开/选择器、名称保存轮换连接与URL变更推进Task修订的错误假设均已更正，旧诊断日志保留，非真实批重试。
+- 上一窗口实际100%/ordinaryUsageAllowed=false；本次01:18开头1%/weekly30%/true，恢复已观测。sierra一次性已PAUSED防重复，结束删除已完成一次性任务，不重建/换号/购买/用券。
+- Claude网关实际deepseek-flash，318失败无审查/CLI估算0/内部HTTP账单未知，恢复未明，不因Codex恢复形式重试；304旧估算0.074255USD保持。
 
 ## 2. 已消费批与保护
 
@@ -16,14 +16,14 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（170提交闭环，再继续功能开发）
+## 3. 下一步（171提交闭环，再继续功能开发）
 
-1. 核实work/case-sets333/finalization-proof.json及Git；170验收/部署已过，实现4770260和验收已满足、BACKLOG170已done，补关闭文档/push/clean。已complete/origin==HEAD不重复。当前0.333.0-b4e695bc4808b298ecbd，同目录deploy.ps1前提旧0.332，禁止重放。
-2. 继续第一pending；空队列核实既定需求实际可开发缺口入队，不造耗额度微任务/只验收准备，不把38未重核当未开发。可限读KnowledgeProvisioner.tsx的Embedding目录读取与环境/修订变化后的状态：旧models action直接setEmbeddings且Task同ID换环境仍同组件，需验证旧目录是否被当当前依据；先复现，不未经核实就扩改所有回调。
-3. 每push先根CHANGELOG/适用README及整份交接；git require_escalated、safe.directory=E:/workSpace/dify-agent、命令级http.version=HTTP/1.1沿127.0.0.1:7890推原main，先验证remote，无force/全局/TLS修改/用户代提交；work/生产数据/凭据不提交。
-4. 持续到实际Codex不足或确无可行动进展；不足立即尽可能整份交接停，不反复探额/重试/换号/购买/用券。sierra一次性已触发且PAUSED，本次结束删除此已完成一次性任务，不新建或假定下次恢复。
-5. 原16保护work/case-sets333/protect.py，新修改新快照/所属PID，不按端口杀进程；原任务r12/4对4满不第五跑，消费91/95/115/121/124不重放，Sierra20/保守24、管理413/登录28、unknown/四旧槽/费界保持，不借退预留，只用加密凭据不抄聊天密码。
-6. 只读必要文件，不通读项目/290KB历史、不全量，16MB315旧日志不读全行；Claude无恢复证据不形式重试/加预算/冒充通过。162—169 complete不重做。
+1. 核实work/embedding-source334/finalization-proof.json及Git；171已验收部署，尚待实现与关闭提交/push。若已complete/origin==HEAD不重复；当前0.334.0-5606cb4fb69aa0b7ce99，deploy.ps1前提旧0.333，禁止重放。
+2. 继续第一pending；空队列按既定需求核实具体缺口，一次一项。可限读RunInputForm.tsx：数字表单仍直接JSON.parse后序列化，需实际复现大整数/精细小数是否在完整输入检查前被舍入；先核实再入队，不未经核实扩改所有API。
+3. 每push前根CHANGELOG/适用README和整份交接；git require_escalated、safe.directory=E:/workSpace/dify-agent、命令级http.version=HTTP/1.1沿既有代理推原main，先核remote，无force/全局/TLS改动，不让用户代提交，work/生产数据/秘密不入Git。
+4. 持续到实际Codex不足或确无可行动进展，不因小模块完而停；不足即尽力整份交接停，不反复探额/重试/换号/购买/用券。sierra已PAUSED，结束删除已完成一次性，不新建。
+5. 原16保护work/embedding-source334/protect.py；新源新快照/所属PID校验，不按端口杀进程。r12已4/4不第五跑，91/95/115/121/124不重放；模型20/保守24、管理413/登录28及unknown/预留/费界保持，不借退预留，不抄聊天密码。
+6. 只读必要文件，不通读项目/290KB历史或全量；Claude无恢复证据不形式重试/加预算/冒充成功。162—170已complete不重做。
 
 ## 4. 外部边界与账本
 
