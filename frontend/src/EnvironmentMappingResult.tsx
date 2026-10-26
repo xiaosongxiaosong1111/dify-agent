@@ -1,4 +1,5 @@
 export type MappingResult = {
+  revision:number;reference_id:string;source_document_token:string;target_context_token:string;document_token:string;task_modified:false;validation:{valid:boolean;errors:string[];warnings:string[]};
   preview_token: string;
   content: string;
   note: string;
