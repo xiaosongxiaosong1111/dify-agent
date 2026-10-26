@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；174实现eb846df/关闭90e0a9d已推送clean，work/schema-number337/finalization-proof.json complete。175验收部署已过，闭环以Git及work/iteration-results338/finalization-proof.json为准。
+- E:\workSpace\dify-agent/main；174实现eb846df/关闭90e0a9d已推送clean，work/schema-number337/finalization-proof.json complete。175实现b7e06fc且BACKLOG175已done，最终关闭/push以Git及work/iteration-results338/finalization-proof.json为准。
 - 实际0.338.0-0ead9ab36303e100c8ae/278文件，work/iteration-results338/deployment-proof.json及managed-runtime-proof.json；所属PID/快照/原start-stop/health与前端200/原16全部对象设置账本密文主Key/124保持，真实模型/Dify0。
 - 已保存普通成功Workflow逐项字段可明确选取，完整协议核对、20项分页、仅失败筛选和完整JSON下载；原索引/长值/类型保持，完整来源摘要绑定Task修订/Run/字段，坏源/坏协议/超限/晚到拒绝。不重评/运行，不把ok当成绩或原批完整/轨迹/Schema/业务证明。1000项/2MB；原始JSON入口保持。
 - 新35/相关19后端共54、新UI9与构建通过，未全量。临时Store全部Task/预算及原16保护，浏览器写入0；原45项和15失败/长值下载/晚到均已核，前端初始类型/条件优先级已修。T113仅scope_limited，不关闭平台验收。
@@ -17,7 +17,7 @@
 
 ## 3. 下一步（175提交闭环，再核既定需求功能缺口）
 
-1. 核实work/iteration-results338/finalization-proof.json/Git；175验收部署过，补实现及关闭提交/push/clean，已complete不重复。当前0.338.0-0ead9ab36303e100c8ae，deploy.ps1前提旧0.337，禁止重放。
+1. 核实work/iteration-results338/finalization-proof.json/Git；175实现b7e06fc/验收部署过，补关闭提交/push/clean，已complete不重复。当前0.338.0-0ead9ab36303e100c8ae，deploy.ps1前提旧0.337，禁止重放。
 2. 第一pending优先；空队列限读具体组件核实缺口，一次一项。可核AcceptancePanel.RunHistory：当前仍一次渲染全部历史和完整返回JSON，长期任务是否需要有界记录窗口/按状态和修订聚焦；先用隔离长历史复现，不能只因未知索引或耗额度造微任务。
 3. 每push前CHANGELOG/适用README/整份交接；核原remote，git require_escalated/safe.directory=E:/workSpace/dify-agent/命令级HTTP1.1沿既有代理推main，不force/全局/TLS修改，不让用户代提交，work/生产数据/秘密不提交。
 4. 持续到实际不足或确无可行动进展；不足立即尽力交接停，不反复探额/重试/换号/购买/用券。sierra已PAUSED，结束删除已完成一次性，不新建。
