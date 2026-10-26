@@ -1,12 +1,12 @@
-# HANDOFF — Sierra（2026-10-27，第177交付）
+# HANDOFF — Sierra（2026-10-27，第178交付）
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；176实现faa7c77/关闭9c76aa9已推送clean，work/run-history339/finalization-proof.json complete。177实现c21f9b6且BACKLOG177已done，最终关闭/push以Git及work/agent-mapping340/finalization-proof.json为准。
-- 实际0.340.0-b17d30765f4f4ac2534e/278文件，work/agent-mapping340/deployment-proof.json和managed-runtime-proof.json；所属PID/快照/原start-stop/health和前端200/原16全部对象设置账本密文主Key/124保持，真实外部0。
-- Agent映射预览复用后端目标上下文摘要、源文档/修订及静态等级核对，完整公共目标连接/输入来源变化清旧预览/下载/知悉勾选，模型与映射原文保持；15秒只读预览超时不重试，晚到失效。后台原保存和复制的再核保持，不扩大资源权限。
-- 同目标ID改URL旧结果仍可下载先复现；新UI6/相关后端76和构建通过，未全量。9次仅临时Store静态预览/2次指定环境保存，无Task改写/映射保存/复制/真实资源操作，原16保护。原夹具忙时保存被禁用，已改为超时结束后再变更，未绕过。T110仅scope_limited，不关闭Workflow或真实跨空间业务。
-- 本次01:18额度恢复已核实，最近73%/weekly41%/ordinaryUsageAllowed=true；持续实际不足或确无可行动进展才停。sierra一次性PAUSED防重复，结束删除，不新建/换号/购买/用券。Claude318失败无审查、CLI估算0/内部HTTP账单未知，无恢复不形式重试；304旧估算0.074255USD保持。
+- E:\workSpace\dify-agent/main；177实现c21f9b6/关闭644e755已推送clean，work/agent-mapping340/finalization-proof.json complete。178验收部署过，闭环以Git及work/public-batch341/finalization-proof.json为准。
+- 最终0.341.0-cf06d6388885cb69a63c/279文件，work/public-batch341/deployment-proof.json及managed-runtime-proof.json；所属PID/快照/原start-stop/health与前端200/原16全部对象设置账本密文主Key/124保持，真实外部0。首次341快照561b0fcb回执first-*保留，补强来源纯渲染门禁后重建/UI并最终部署，不回旧快照。
+- 空白Workflow新增无模型公开批量起步，明确继续受控异常或遇错终止、核完整代码和图后主动填未保存稿。已有流程/成果/App/引用或其他类型不覆盖，新编辑/错源/晚到失效，不保存/确认/执行，原配置/预算/模拟门禁保持。
+- 新11/相关97后端、新UI6和构建通过，未全量；仅测试固定公开函数，不执行用户代码。公开4项/3成功/1失败索引1是声明，不是平台成绩；Sandbox及真实批仍需新范围。T112仅scope_limited。
+- 本次01:18额度恢复已核实，最近95%/weekly45%/ordinaryUsageAllowed=true，尚未观测耗尽，持续实际不足即停；sierra一次性PAUSED防重复，结束删除，不新建/换号/购买/用券。Claude318失败无审查、CLI估算0/内部HTTP账单未知，无恢复不形式重试；304旧估算0.074255USD保持。
 
 ## 2. 已消费批与保护
 
@@ -15,14 +15,14 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（177闭环，再核可开发范围）
+## 3. 下一步（178闭环，再准备最小实际批量联调本机包）
 
-1. 核实work/agent-mapping340/finalization-proof.json/Git；177实现c21f9b6/验收部署过，补关闭提交/push/clean，已complete不重复。当前0.340.0-b17d30765f4f4ac2534e，deploy.ps1前提旧0.339，禁止重放。
-2. 第一pending优先；空队列按既定需求限读具体组件核实，不将未重核当未开发。T055已见只读讨论及规则需切需求检查再复核，不重做现有能力；T110 Agent来源缺口已处理，可限读WorkflowEnvironmentMapping对目标连接变化与预览来源的现有保护，先核真实缺口，不为耗额度造微任务/泛读项目。
-3. 每push前CHANGELOG/适用README/整份交接；核原remote，git require_escalated/safe.directory=E:/workSpace/dify-agent/命令级HTTP1.1沿原代理推main，不force/全局/TLS改动，不让用户代提交，work/生产数据/秘密不提交。
-4. 普通队列空本身不停；实际不足即尽力交接停，不反复探额/重试/换号/购买/用券。有界核实若确无可行动进展如实说明，不假称耗尽或完成。sierra已PAUSED，结束删除已完成一次性，不新建。
-5. 原16保护work/agent-mapping340/protect.py，新源新快照/所属PID，不按端口杀；r12已4/4不第五跑，91/95/115/121/124不重放，20/保守24模型、413管理/28登录及unknown/费界/旧槽保持，不借退预留，只加密凭据。
-6. 只读必要文件，不通读/全量；Claude无恢复不形式重试/加预算/冒充审查，162—176 complete不重做；T082/T110/T113/T132均仅scope_limited非全验收。
+1. 核实work/public-batch341/finalization-proof.json/Git；178已验收部署，补实现及关闭提交/push/clean，已complete不重复。当前0.341.0-cf06d6388885cb69a63c，deploy.ps1前提首次341/561b0fcb，禁止重放。
+2. 第一pending优先；已核讨论建议需需求检查复核、Workflow映射已有目标版本/输入签名/下载门禁，不重做。下一实质闭环是验证公开批量失败计算的实际Sandbox返回、逐项查看/失败下载；先仅本机冻结DSL/公开输入/预期及正常新Task创建与确认的执行器，不用legacy测试helper绕过intake/审批，不进行外部请求。完整可审查/验证后才申请新资源/运行范围，未就绪不索要空泛批准。
+3. 原16不变、新Task也不能在生产先建；旧r12 4/4已满，旧16运行/App发布Key各8及保守模型24/管理413/登录28界限保持，无现成可重用真实槽。新范围拟只代码图/模型0，具体读/登录/费用/资源边界须先冻结，不自动借退旧预留。
+4. 每push前CHANGELOG/适用README/整份交接；核原remote，git require_escalated/safe.directory=E:/workSpace/dify-agent/命令级HTTP1.1沿既有代理推main，不force/全局/TLS改动，不让用户代提交，work/生产数据/秘密不提交。
+5. 普通队列空本身不停，实际不足立即尽力交接停，不反复探额/重试/换号/购买/用券；不能把近额度当已耗尽。sierra已PAUSED，结束删除已完成一次性，不新建。
+6. 原16保护work/public-batch341/protect.py，所有消费批不重放，原账本费界和密文保持；新源新快照/所属PID不按端口杀。只读必要文件不通读或全量；Claude无恢复不形式重试/加预算/冒充审查。162—177 complete不重做。
 
 ## 4. 外部边界与账本
 

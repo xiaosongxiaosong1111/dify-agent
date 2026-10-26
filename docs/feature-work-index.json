@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-27",
-  "product_version": "0.340.0",
+  "product_version": "0.341.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -1686,12 +1686,15 @@
       "deliverable": "批量流程扩展",
       "acceptance": "多条输入分别产生结果，按约定策略处理失败",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "scope_limited",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/public_batch_starter.py",
+        "frontend/src/PublicBatchStarter.tsx",
+        "docs/public-batch-starter.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.341补空白Workflow固定公开批量起步，明确失败策略及完整图后只采纳未保存稿，新11/相关97和UI6通过。不是任意业务计算生成或真实Sandbox/平台批量验收，acceptance未关闭。"
     },
     {
       "id": "T113",
