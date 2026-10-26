@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main。146实现f8d4f84/交接cd03942已推送，work/activity-ownership309终结proof complete/clean保留。147已实现验证，当前0.310.0-0b638a1018bb286a2df5；commit/push以work/task-revision-order310/finalization-proof.json实际为准，未生成前不推断完成。
+- 项目E:\workSpace\dify-agent，main。146实现f8d4f84/交接cd03942已推送，work/activity-ownership309终结proof complete/clean保留。147实现96642f3且BACKLOG done，当前0.310.0-0b638a1018bb286a2df5；commit/push以work/task-revision-order310/finalization-proof.json实际为准，未生成前不推断完成。
 - 旧确认响应覆盖新材料后的需求草稿已复现，新UI7/编辑9/目标6/活动7/加载7分组及构建通过；扩查修0.309详情错误提示被自身忙状态重置吞掉，失败保留，加载/活动再通过。测试服务退出清理失败经有界等待整份通过。264文件/所属进程原脚本和health/前端200，原16/设置能力/账本密文主Key/124保持。本项Sierra模型/Dify真实新增0；141网关预算失败无审查、CLI估算0.074255 USD单列非账单，内部HTTP未知、不重试。
 - 用户继续功能开发直到实际Codex不足授权保持。最近quota primary66%已用/weekly42%、ordinaryUsageAllowed=true，尚无Codex额度失败；不为耗额度拆微任务。Docker引擎未运行，T078不宿主机exec替代。
 
@@ -15,7 +15,7 @@
 
 ## 3. 下一步（147已验收部署；提交后继续实质代码缺口）
 
-1. 147验收/构建/部署已过，先建立实现commit，再据真实提交标BACKLOG done、提交交接；每push前CHANGELOG/README并推原main，不让用户代提交。最终work/task-revision-order310/finalization-proof.json，旧proof不覆盖。
+1. 147验收/构建/部署与实现96642f3、BACKLOG done已完成，提交本交接后推送；每push前CHANGELOG/README并推原main，不让用户代提交。最终work/task-revision-order310/finalization-proof.json，旧proof不覆盖。
 2. knownTaskRevisions记录本页已读最高业务修订，acceptTask/编辑/资源/模型/后台读回/回执核对共同拒较低修订；TaskListState保留较新摘要，读旧详情恢复实际目标。旧确认不继续，新草稿可保存；旧模型nonce保留并可只读恢复最新Task，不重复派发。
 3. 新UI7、编辑9/目标6/活动7/加载7分组通过；首次UI5局部通过但服务退出失败不能算完整，已保留ui-cleanup-failure.log并加隔离服务有界退出，最终7完整passed。扩查loading-failure-before-fix.log是0.309吞错误的真实回归，现不在refreshOne里清主操作自身busy，加载/活动再通过，断言未放宽。后台仅版本变化、不全量，生产16/账本密文主Key/124精确保持。
 4. 继续核同一业务revision内的状态先后：聊天追加/运行进度不一定递增业务revision，单用业务revision不能排除旧Task快照覆盖新消息。先以真实本机API与替身复现，不拿时间戳猜顺序；如需修，审save_task/Store写入路径和新增独立状态序号的兼容性，保持旧16只读不迁移/重放，所有真实外部0。只在147提交闭环后新建下一BACKLOG项。
