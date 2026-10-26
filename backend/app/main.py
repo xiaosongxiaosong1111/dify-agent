@@ -83,7 +83,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.322.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.323.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -328,8 +328,12 @@ def create_task(payload: NewTask):
 
 
 @app.get("/api/tasks/{item_id}")
-def read_task(item_id: str):
-    return get_task(item_id)
+def read_task(item_id: str, message_window:str|None=None):
+    if message_window is None:return get_task(item_id)
+    if message_window!='recent':raise HTTPException(422,'任务消息读取模式仅支持recent；未读取或回显未知参数。',headers={'Cache-Control':'no-store'})
+    from .task_message_window import task_view
+    from fastapi.responses import JSONResponse
+    with store.lock:return JSONResponse(task_view(get_task(item_id)),headers={'Cache-Control':'no-store'})
 
 
 def validate_config(config):
@@ -2381,3 +2385,6 @@ register_planning_tool_policy(sys.modules[__name__])
 
 from .message_original_pages import register as register_message_original_pages
 register_message_original_pages(sys.modules[__name__])
+
+from .task_message_window import register as register_task_message_window
+register_task_message_window(sys.modules[__name__])
