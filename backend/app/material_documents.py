@@ -1,4 +1,9 @@
 """Text extraction with explicit scope; no OCR, password handling or execution."""
+from zipfile import ZipFile
+
+MAX_DOCX_PART_BYTES=32*1024*1024
+MAX_DOCX_EXPANDED_BYTES=64*1024*1024
+MAX_DOCX_ENTRIES=2048
 
 
 class DocumentInputError(ValueError):pass
@@ -60,6 +65,13 @@ def blocks(container):
 def extract_docx(path):
     from docx import Document
     try:
+        # The Word library loads related blobs before body text is bounded.
+        # Inspect package metadata first without expanding or extracting entries.
+        with ZipFile(path) as package:
+            entries=package.infolist()
+            if len(entries)>MAX_DOCX_ENTRIES:raise DocumentInputError('Word压缩包超过当前2048个部件处理上限，请拆分或精简后重新上传；本次未解析正文。')
+            if any(entry.file_size>MAX_DOCX_PART_BYTES for entry in entries):raise DocumentInputError('Word压缩包单部件展开大小超过当前32MiB处理上限，请拆分或精简后重新上传；本次未解析正文。')
+            if sum(entry.file_size for entry in entries)>MAX_DOCX_EXPANDED_BYTES:raise DocumentInputError('Word压缩包总展开大小超过当前64MiB处理上限，请拆分或精简后重新上传；本次未解析正文。')
         text=bounded('\n'.join(blocks(Document(path))))
         coverage={'format':'docx','scope_note':'仅提取Word主正文的段落及表格（含嵌套），按正文和单元格顺序；未读取页眉、页脚、脚注、文本框和图片，不保证布局、OCR或全部业务含义。','verification':'body_text_extraction_only'}
         return text,coverage

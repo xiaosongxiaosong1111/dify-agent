@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-25",
-  "product_version": "0.305.0",
+  "product_version": "0.306.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -716,11 +716,12 @@
         "backend/app/material_text.py",
         "frontend/src/MaterialExtraction.tsx",
         "docs/material-document-coverage.md",
-        "docs/material-document-result-20261025.json"
+        "docs/material-document-result-20261025.json",
+        "docs/word-package-limits.md"
       ],
       "historical_status_20261020": "等待验证",
       "acceptance_closed": false,
-      "review_note": "0.294真实公开合成PDF/DOCX上传覆盖可读/部分/无文字/损坏/加密/过页与Word正文表格顺序；新15/相关54后端、UI6通过。无OCR、全部Word结构或客户文档业务验收。"
+      "review_note": "0.294真实公开合成PDF/DOCX上传覆盖可读/部分/无文字/损坏/加密/过页与Word正文表格顺序；新15/相关54后端、UI6通过。无OCR、全部Word结构或客户文档业务验收。 0.306补Word装载前部件数/单部件/总展开边界，旧33MiB关联部件先复现，新增6/相关82与UI5通过；不代表全部文档安全、OCR或业务理解。"
     },
     {
       "id": "T049",

@@ -1,10 +1,10 @@
-# HANDOFF — Sierra（2026-10-26，142构建/运行回执归属）
+# HANDOFF — Sierra（2026-10-26，143Word装载前处理范围）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main。141实现ff006c0/交接67a0689已推送，work/task-results304终结proof complete/clean保留。142实现e52bc10且BACKLOG done，当前0.305.0-42ff1ff27ba5e2c3853e；当前实现/推送以work/resource-results305/finalization-proof.json实际为准，未生成前不推断完成。
-- 旧0.304复现构建晚到切回，资源UI11/模型回调UI9回归及构建通过；同任务正常结果和失败提示保持。264源码/快照匹配，原所属进程脚本重启，health/前端200，原16/设置能力/账本密文主Key/124保持。本项Sierra模型/Dify新增0；141的Claude Code网关预算失败无审查继续保留，CLI估算0.074255 USD单列非账单、不重试，内部HTTP次数未知。
-- 用户继续功能开发/直到实际Codex额度不足授权保持。最近实际quota已恢复ordinaryUsageAllowed=true，无Codex不足；不为耗额度拆微任务。Docker引擎未运行，T078不在宿主机exec替代。
+- 项目E:\workSpace\dify-agent，main。142实现e52bc10/交接c78a789已推送，work/resource-results305终结proof complete/clean保留。143已实现验证，当前0.306.0-b4c5a98644e761e8fabc；当前commit/push以work/docx-package306/finalization-proof.json实际为准，未生成前不推断完成。
+- 旧33MiB关联Word部件压缩不足20MB实际parsed已复现；修复后新6/相关共82、UI5通过，前端未变沿用0.305已构建资源，不全量。264文件快照/所属进程原脚本重启和health/前端200；原16/设置能力/账本密文主Key/124保持。本项Sierra模型/Dify新增0；141网关审查预算失败、CLI估算0.074255 USD继续单列非账单，不重试，内部HTTP未知。
+- 用户继续功能开发/直到实际Codex额度不足授权保持，未触发Codex不足；不为耗额度拆微任务。Docker引擎未运行，T078不宿主机exec替代。近期0.304/305对话规划及根构建/运行迟到结果隔离保持，边界文档各自保留。
 
 ## 2. 已消费批与保护
 
@@ -13,14 +13,14 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（142已验收部署；提交推送后继续核实实质缺口）
+## 3. 下一步（143已验收部署；先提交再继续真实功能缺口）
 
-1. 142验收/构建和实现e52bc10、BACKLOG done已完成，提交本交接后推送；每push前更新CHANGELOG/README并推原main，不需要用户代提交。最终以work/resource-results305/finalization-proof.json为准，不覆盖141和更早完结proof。
-2. 根build/doImport/run/pauseRun现在按来源与选择世代处理；Task匹配源ID才更新摘要，只有同代当前目标且无工作区草稿才完整接收。构建第二段DSL独立核对，已过时不继续读取或污染新视图；旧来源错误不写新目标，暂停标识按任务Set保存。服务端来源回执保持，0真实资源/试跑派发，测试是契约替身，不算平台验收。
-3. 正常同任务构建和当前失败提示保持；构建忙时编辑控件本已禁用。早期夹具缺expectation与启动恢复pending造成的检查超时已修夹具，日志保留，非产品缺陷。最终UI11/上一轮模型UI9回归/构建，不重跑全量，后台只改版本。
-4. 下一步仅按原核心需求核新的可开发实质缺口再入BACKLOG；残余短编辑/上传及子面板回调、后台读取与当前修订竞争仍未整体核实，不把142当全部异步隔离。不要逐行拆微任务或只扩验收准备；未发现问题时如实记录，不发真实批补测试。
-5. 当前44项未重核，不算百分比或全验收完成。139有限历史/138消息幂等/137原件/136四类规则边界保持；长期记忆、复杂工具/嵌套容器/文件、T078受限执行和更多业务验收仍未全闭合。
-6. 原16/r12 run_completed及4/4满保持，不第5跑；91/95/115/121/124等已消费包不重放。Sierra模型实际20/保守24、管理413/登录28、unknown/四槽和旧费界保持。141网关审查failed_no_review/CLI估算0.074255USD单列非账单，内部HTTP未知；禁止重试/提高预算/换账号/冒充审查完成，不影响本机主线继续。
+1. 143验收和部署已过，先提交实现，再按实际commit标BACKLOG done、提交交接；CHANGELOG/README同步后push原main，不让用户代提交。终结以work/docx-package306/finalization-proof.json为准，旧proof不覆盖。
+2. Word在Document前只读Zip目录：单部件最多32MiB/总展开64MiB/目录项2048，等于允许，超限needs_input/正文空/原件摘要保留，旧引用/确认/人工替代来源不变。此预检非CPU/内存硬配额、不保证文档业务/全部安全，正常原正文及表格覆盖限制不变；不追改旧材料。
+3. 新6/相关共82及UI5通过，无脚本错误；33MiB真实关联部件旧版parsed失败日志保留，原字节/摘要/确认阻断/不装载Word库/人工替代/正常阈值已测。前端未改，不为形式再npm build，沿用0.305已验证静态资源；早期UI误找不存在材料页已修脚本，不当产品缺陷。
+4. 继续围绕原核心需求核实下一实质缺口，再列入BACKLOG，已有无pending时不重放历史blocked。当前任务来源归属、材料处理已补具体问题，不能按测试数/版本或队列清空宣称全完成；当前44项未重核。不要顺带重构或为耗额度拆微任务、扩付费验收准备。
+5. 根短编辑/上传与部分子面板异步回调仍未整体核；复杂工具/嵌套容器/文件、长期记忆、T078受限样例执行和更多业务验收仍有边界。原16/r12 run_completed及4/4满保持，不第5跑，91/95/115/121/124等已消费包不重放。
+6. Sierra实际模型20/保守24、管理413/登录28、unknown/四槽及旧费界保持。141独立Claude网关failed_no_review/CLI估算0.074255USD单列非账单/内部HTTP未知，禁止重试/提高预算/换号/冒充完成；不是Codex额度失败，主线本机工作继续。
 7. 实际Codex额度不足立即尽可能整份交接并停，不重试/换号/购买/用券。只读必要文件、不通读项目/巨历史、不全量；只复用加密凭据、不抄聊天密码/输出秘密。管理员仅核并重启所属固定快照，不按端口杀其它进程。
 
 ## 4. 外部边界与账本
