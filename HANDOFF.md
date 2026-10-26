@@ -1,10 +1,11 @@
-# HANDOFF — Sierra（2026-10-26，149保存编辑基准）
+# HANDOFF — Sierra（2026-10-26，150历史原话查找）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main。148实现ecaee1d/交接53cafe5已推送，work/task-state-sequence311终结proof complete/clean保留。149实现ed39f0f且BACKLOG done，当前0.312.0-dd2ee862c90aa54a5fff；commit/push以work/task-edit-base312/finalization-proof.json实际为准，未生成前不推断完成。
-- 旧界面覆盖后台新目标已复现；新12/相关106分组及UI5/修订7/状态4和构建通过。2旧AT19比较明确分离元数据并核序号+1，全部业务断言保持/旧失配日志保留。264文件/所属进程原脚本及health/前端200，原16/设置能力/账本密文主Key/124保持。本项Sierra模型/Dify真实新增0；141网关预算失败无审查、CLI估算0.074255 USD单列非账单，内部HTTP未知、不重试。
-- 用户继续功能开发直到实际Codex不足授权保持，最新又明确“继续”，不是取消原目标。最近quota primary93%已用/weekly46%、ordinaryUsageAllowed=true，尚无Codex不足；不为耗额度拆微任务。Docker引擎未运行，T078不宿主机exec替代。
+- 项目E:\workSpace\dify-agent/main，149实现ed39f0f/交接3cee1a6已推送且终结proof complete/clean。150实现c963d6a、BACKLOG done，已受管理部署0.313.0-662f68c9edef89d79a70/265文件/所属PID/health及前端200；提交推送完成以work/history-search313/finalization-proof.json为准，未生成前不推断。
+- 新功能：当前任务历史字面查找、角色筛选及更早窗口；核正文/来源指纹、浏览器SHA及Unicode范围后，明确引用最多4000字符到只读讨论草稿。已有文字不覆盖，来源/旧修订未知保持，历史建议不自动采纳或批准、不自动发送。新27/相关97后端分组、新UI8/旧编辑5/状态4和构建通过，未全量。原textarea CRLF显示夹具失配日志保留，API原文摘要不改。
+- 原16/设置能力/账本密文主Key/124原冻结文件精确保持；本项真实Sierra模型/Dify新增0。141网关失败无审查、CLI估算0.074255 USD单列非账单，内部HTTP未知、不重试。
+- 用户继续功能开发直到实际Codex不足授权保持。最近实际quota primary20%已用/weekly50%、ordinaryUsageAllowed=true，窗口已重置，无Codex不足；不为耗额度拆微任务。T078管理员只读核实本机desktop-linux上下文本地Windows管道身份，实际引擎管道缺失，未启引擎/改容器，不宿主机exec替代。
 
 ## 2. 已消费批与保护
 
@@ -13,15 +14,15 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（149已验收部署；先提交闭环，按实际额度继续）
+## 3. 下一步（150已验收部署；提交推送闭环后继续实质缺口）
 
-1. 149验收/构建/部署与实现ed39f0f、BACKLOG done已完成，提交本交接后推送；每push前CHANGELOG/README并推原main，不让用户代提交。最终work/task-edit-base312/finalization-proof.json，旧proof不覆盖。
-2. Task PATCH可选expected_revision严格正整数；本机服务存储锁内核业务修订，旧值409、坏类型422且不写Task/序号/历史。当前Root.patch/confirm第一阶段/resetPlan三处携带基准；冲突原稿保持，先另存/刷新核对后明确合并，不自动重试。旧无字段调用仍旧契约，不声称跨进程CAS或全客户端版本保护。
-3. 新12/相关共106后端分组：104过/2旧AT19元数据比较失配，修后对应2过；业务字段/确认/版本/运行/验收保留全等，提交序号明确+1。新UI5/业务修订UI7/同revisionUI4与构建通过。旧真实界面200覆盖日志/新字段422红测/API元数据失配保留。后台只新增此guard，不全量；原16/全部旧密文账本主Key/124精确保持，真实Sierra/Dify0。
-4. 0.311提交序号五写路径/旧读不回填、0.310较旧业务修订保护、0.309活动归属、0.307独立目标继续、0.306Word装载边界保持。149之后先核BACKLOG是否还有pending；无pending时仅核实原需求的实质缺口再入队，不重放历史blocked或为耗额度拆微任务/扩付费准备。当前44项未重核、复杂工具/嵌套容器/文件/长期记忆/T078及更多业务验收边界不变，不按版本/测试数算完成率。
-5. 当前用户新消息开启新回合，默认可写根仍C盘，E盘写权限一次失败已恢复本回合E项目write+network；未启动任何失败部署，后续原所属脚本部署已通过。不改ACL、不借用户手工提交；Git写用获授权管理员工具，原remote不force。
-6. 原16/r12 run_completed和4/4满，不第5跑；91/95/115/121/124等消费包不重放。Sierra实际模型20/保守24、管理413/登录28、unknown/四槽和旧费界保持。141独立Claude网关failed_no_review/CLI估算0.074255USD单列非账单/内部HTTP未知，禁止重试/提高预算/换号/冒充审查完成，不是Codex不足。
-7. 实际Codex不足立即尽可能整份交接并停，不重试/换号/购买/用券。只读必要文件、不通读项目/巨历史、不全量；只复用加密凭据、不抄聊天密码/输出秘密。管理员仅核并重启所属固定快照，不按端口杀其它进程。
+1. 先核work/history-search313/finalization-proof.json与Git/运行版本；150实现c963d6a已提交、BACKLOG done，交接提交后推原main、核clean与origin一致，不重复已完成模块。不让用户代提交；每次push更新CHANGELOG及相关README。
+2. 历史接口在backend/app/history_search.py：POST history/search及history/message，严格修订、原索引与指纹绑定；只读，不解密凭据。每窗1000记录/100万字符/20命中，单条10万字符，角色外/超限/坏结构未查明确；不是DB按页装载、语义召回或全部长期记忆。原文响应与草稿只在当前任务/修订/选择世代采用。docs/history-search.md完整范围；本次读取证据不扩大旧批准。
+3. T125/T127仅补主动取回入口，缓存/质量无损未验收；T078本机实际引擎缺失仍受阻，禁止用静态或Mock冒充受限执行。当前44项未整体重核，复杂工具/嵌套容器/文件及更多业务边界保持，不算虚构完成率。查BACKLOG当前pending；没有pending时只从既定需求核实实质缺口入队，不扩无意义验收准备或为耗额度拆微任务。
+4. 0.312业务编辑expected_revision保护、0.311状态提交序号、0.310旧业务修订、0.309活动归属、0.307独立目标继续和0.306Word部件边界保持。旧无基准客户端兼容，不声称跨进程CAS或已穷尽异步保护；新UI加入后旧编辑/正常讨论路线回归通过。
+5. 新回合默认仍C盘，E项目写和network需工具权限按已授权范围获取；不改ACL。Git写/部署仅明确获授权工具，管理员只核并重启所属固定快照，不按端口杀其它进程。读取必要文件、不通读项目/290KB历史，不全量。
+6. 原16/r12 run_completed及4/4满，不第5跑；91/95/115/121/124消费包不重放。Sierra实际模型20/保守24、管理413/登录28、unknown/四槽及旧费界保持。只复用加密凭据，不抄聊天密码/输出秘密。Claude既有网关failed_no_review/CLI估算0.074255USD单列非账单/内部HTTP未知，禁止重试/提高预算/换号/冒充审查成功。
+7. 发生实际Codex不足立即尽可能整份改写交接并停，不反复重试/换号/购买/用券。额度未耗尽也不制造无意义调用；仅实质成果、失败或需用户处理时通知。
 
 ## 4. 外部边界与账本
 
