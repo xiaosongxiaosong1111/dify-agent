@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-25",
-  "product_version": "0.307.0",
+  "product_version": "0.308.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -632,11 +632,12 @@
         "docs/task-summaries.md",
         "docs/task-result-isolation.md",
         "docs/resource-result-isolation.md",
-        "docs/target-task-selection.md"
+        "docs/target-task-selection.md",
+        "docs/edit-result-isolation.md"
       ],
       "historical_status_20261020": "进行中",
       "acceptance_closed": false,
-      "review_note": "0.298补同名材料正文ID/保存摘要及消息输入/结果修订；新18/相关151及UI5通过，原话和旧数据保持，非全部语义隔离。管理员后续实际核验归属/PID并取得实现commit 348f87d0f8578b2d76c42fae17a387337a01b5a3；交接后推送，以真实终结回执为准。 0.302再补真实历史证据ID、显式有限历史和实际组装范围回执，新7/相关158及UI6通过；未读旧历史不假称已核，原话不变。 0.303任务列表不预传其它正文、按选择读详情及晚到读取保护，新4/分批98及UI7通过；仅读取路线，不含全部异步操作。 0.304补主对话/规划及失败读回来源、选择世代和未保存草稿保护；UI9/加载UI7、相关34通过，非所有异步操作。 0.305根构建/DSL二段、导入/试跑/暂停回执隔离，UI11/模型UI9回归及构建通过，非全部子面板异步交互。 0.307补独立目标恢复/创建的选择登记与继续对话，普通创建晚到不覆盖新目标，UI6/加载UI7通过；非跨环境资源验收。"
+      "review_note": "0.298补同名材料正文ID/保存摘要及消息输入/结果修订；新18/相关151及UI5通过，原话和旧数据保持，非全部语义隔离。管理员后续实际核验归属/PID并取得实现commit 348f87d0f8578b2d76c42fae17a387337a01b5a3；交接后推送，以真实终结回执为准。 0.302再补真实历史证据ID、显式有限历史和实际组装范围回执，新7/相关158及UI6通过；未读旧历史不假称已核，原话不变。 0.303任务列表不预传其它正文、按选择读详情及晚到读取保护，新4/分批98及UI7通过；仅读取路线，不含全部异步操作。 0.304补主对话/规划及失败读回来源、选择世代和未保存草稿保护；UI9/加载UI7、相关34通过，非所有异步操作。 0.305根构建/DSL二段、导入/试跑/暂停回执隔离，UI11/模型UI9回归及构建通过，非全部子面板异步交互。 0.307补独立目标恢复/创建的选择登记与继续对话，普通创建晚到不覆盖新目标，UI6/加载UI7通过；非跨环境资源验收。 0.308本机保存/材料/Task子回调按来源核对，离开后不续确认，UI9/目标UI6/加载UI7及构建通过；35处源码分类非全部动态验收，忙状态回调仍有边界。"
     },
     {
       "id": "T044",

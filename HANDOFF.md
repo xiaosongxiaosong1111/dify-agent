@@ -1,10 +1,10 @@
-# HANDOFF — Sierra（2026-10-26，144独立目标恢复后继续）
+# HANDOFF — Sierra（2026-10-26，145本机编辑/材料回执归属）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main。143实现3271d5a/交接7c40246已推送，work/docx-package306终结proof complete/clean保留。144实现9ba95d6且BACKLOG done，当前0.307.0-fcc93e761147630fcf73；本项commit/push以work/target-selection307/finalization-proof.json实际为准，未生成前不推断已完成。
-- 现有映射目标只读打开后选择登记不完整，实际本机回执/合成讨论HTTP200已保存但UI不接收先复现；修后UI6/加载UI7和构建通过，264文件/所属进程原脚本重启及health/前端200，原16/设置能力/账本密文主Key/124保持。本项Sierra模型/Dify真实新增0；141网关预算失败无审查、CLI估算0.074255 USD继续单列非账单，内部HTTP未知、不重试。
-- 用户继续功能开发/直到实际Codex额度不足授权保持。最近只读quota primary41%已用/weekly38%、ordinaryUsageAllowed=true，非额度失败；不为耗额度拆微任务。Docker引擎未运行，T078不宿主机exec替代。0.304/305迟到保护及0.306Word装载边界保持。
+- 项目E:\workSpace\dify-agent，main。144实现9ba95d6/交接ff2728b已推送，work/target-selection307终结proof complete/clean保留。145已实现验证，当前0.308.0-977df9648d2206c51cd3；commit/push以work/edit-results308/finalization-proof.json实际为准，未生成前不推断已完成。
+- 旧上传晚到切回已复现；UI9/目标恢复UI6/加载UI7与构建通过，35处Task接收源码分类非全动态验收。264文件/所属进程原脚本重启及health/前端200，原16/设置能力/账本密文主Key/124保持。本项Sierra模型/Dify真实新增0；141网关失败无审查、CLI估算0.074255 USD继续单列非账单，内部HTTP未知、不重试。
+- 用户继续功能开发直到实际Codex额度不足授权保持。最近实际quota primary41%已用/weekly38%、ordinaryUsageAllowed=true，非额度不足；不为耗额度拆微任务。Docker引擎未运行，T078不宿主机exec替代。0.304/305/307旧保护与0.306Word范围保持。
 
 ## 2. 已消费批与保护
 
@@ -13,15 +13,15 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（144已验收部署；提交推送后继续核真正缺口）
+## 3. 下一步（145已验收部署；提交推送后继续实质开发）
 
-1. 144验收/构建/部署和实现9ba95d6、BACKLOG done已完成，提交本交接后推送；每push前更新CHANGELOG/README并推原main，不让用户代提交。终结以work/target-selection307/finalization-proof.json为准，143等旧proof不覆盖。
-2. root openCreatedTask共用明确打开登记：新任务摘要更新、绑定创建前/回调来源选择世代，只有世代仍相同时才登记目标ID/推进世代/清详情加载并accept。映射历史打开后直接继续讨论，普通新建晚到仅加入列表，不抢占后来B草稿。保留子面板身份/来源/幂等和卸载保护，不作实际迁移或复制原确认说明。
-3. UI6/加载UI7及构建通过；真实本机映射创建一次及只读回执、两次合成讨论，无真实Sierra/DifyHTTP。源与B原保存对象精确保持，生产16/全部密文账本/124保护；后台只版本变化、不全量。旧失败HTTP200保存但界面不显示的证据work/target-selection307/red-server-proof.json，不归因模型失败。
-4. 继续围绕原核心需求核下个实质问题，再入BACKLOG，已有无pending不重放历史blocked。当前44项未重核，复杂工具/嵌套容器/文件、长期记忆、T078受限样例和更多业务验收仍有边界；未整体核全部短编辑/上传/子面板异步回调，不据版本或测试量宣称完成率。不为耗额度拆微任务、重构或扩付费准备。
-5. 原16/r12 run_completed和4/4满保持，不第5跑；91/95/115/121/124等已消费包不重放。Sierra实际模型20/保守24、管理413/登录28、unknown/四槽及旧费界保持。
-6. 141独立Claude网关failed_no_review/CLI估算0.074255USD单列非账单/内部HTTP未知，禁止重试/提高预算/换号/冒充审查完成；不是Codex额度失败，主线本机开发继续。
-7. 实际Codex额度不足立即尽可能整份交接并停，不重试/换号/购买/用券。只读必要文件、不通读项目/巨历史、不全量；只复用加密凭据、不抄聊天密码/输出秘密。管理员仅核并重启所属固定快照，不按端口杀其它进程。
+1. 145验收/构建/部署已过，先建立实现commit，再据实际提交标BACKLOG done、提交交接；CHANGELOG/README同步后push原main，不让用户代提交。最终work/edit-results308/finalization-proof.json，旧proof不覆盖。
+2. 根editingResultCurrent核响应来源ID与发起选择世代，旧结果只更新源摘要；10处根本机写返回/15处Task子回调及知识库应用的入口加检查，脏状态清理和后续提示/窗口改动在来源核对后执行。两步确认先保存返回时已离开则不继续确认，正常同任务未存流程保存仍接收。withTaskBusy仅来源内显示根编辑错误。
+3. refreshOne后台读回重新核未存草稿；运行轮询/顺序批停止读回及规划暂停提示核来源。35处acceptTask源码分类work/edit-results308/accept-task-audit.json，无未分类调用不等于所有行为动态核完。子面板onActivity等其它异步状态仍未全核，不能宣称全项目隔离已完成。
+4. UI9含旧上传/确认PATCH/清计划/材料引用与解除晚到、正常需求和脏计划保存/正常两阶段确认；目标UI6/加载UI7回归、构建通过，无脚本错误。后台只版本变更、不全量；原16/密文账本主Key/124精确保持，真实Sierra/Dify0，隔离模型仅目标回归的两次本机替身。
+5. 继续按原需求核实新的实质缺口再加入BACKLOG，无pending不重放历史blocked。44项未重核，不用版本/测试量算完成率；复杂工具/嵌套容器/文件、长期记忆、T078受限样例和更多业务验收仍有边界。不顺带重构或拆微任务耗额度，不扩付费准备。
+6. 原16/r12 run_completed和4/4满，不第5跑；91/95/115/121/124等消费包不重放。Sierra实际模型20/保守24、管理413/登录28、unknown/四槽及旧费界保持。141独立Claude网关failed_no_review/CLI估算0.074255USD单列非账单/内部HTTP未知，禁止重试/提高预算/换号/冒充审查完成，不是Codex额度失败。
+7. 实际Codex不足立即尽可能整份交接并停，不重试/换号/购买/用券。只读必要文件、不通读项目/巨历史、不全量；只复用加密凭据、不抄聊天密码/输出秘密。管理员仅核并重启所属固定快照，不按端口杀其它进程。
 
 ## 4. 外部边界与账本
 
