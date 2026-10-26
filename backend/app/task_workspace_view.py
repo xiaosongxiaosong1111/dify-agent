@@ -58,8 +58,12 @@ def version_index(task):
     except (ValueError,TypeError,OverflowError,RecursionError) as exc:return unavailable(str(exc) if str(exc) in REASONS else 'metadata_invalid')
 
 
-def workspace_view(task):
+def workspace_view(task,*,material_text_index=False):
     view=task_view(task);rows,summary=version_index(task)
-    return {**view,'versions':rows,'version_summary':summary,'workspace_view':{
-        'schema_version':1,'mode':'compact','task_id':task['id'],'revision':task['revision'],'state_sequence':task.get('state_sequence',0),
+    result={**view,'versions':rows,'version_summary':summary,'workspace_view':{
+        'schema_version':2 if material_text_index else 1,'mode':'compact-v2' if material_text_index else 'compact','task_id':task['id'],'revision':task['revision'],'state_sequence':task.get('state_sequence',0),
         'messages_view':'recent','versions_view':'index','task_modified':False,'model_called':False,'external_network_requested':False,'business_verified':False}}
+    if material_text_index:
+        from .material_stored_text import project_materials
+        result['materials']=project_materials(task);result['workspace_view']['materials_view']='stored_text_index'
+    return result

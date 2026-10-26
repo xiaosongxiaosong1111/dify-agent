@@ -83,7 +83,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.324.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.325.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -330,10 +330,10 @@ def create_task(payload: NewTask):
 @app.get("/api/tasks/{item_id}")
 def read_task(item_id: str, message_window:str|None=None, workspace_view:str|None=None):
     if workspace_view is not None:
-        if workspace_view!='compact' or message_window is not None:raise HTTPException(422,'工作区读取模式只支持独立compact，不与其它模式混用；未回显参数。',headers={'Cache-Control':'no-store'})
+        if workspace_view not in ('compact','compact-v2') or message_window is not None:raise HTTPException(422,'工作区读取模式只支持独立compact或compact-v2，不与其它模式混用；未回显参数。',headers={'Cache-Control':'no-store'})
         from .task_workspace_view import workspace_view as compact_view
         from fastapi.responses import JSONResponse
-        with store.lock:return JSONResponse(compact_view(get_task(item_id)),headers={'Cache-Control':'no-store'})
+        with store.lock:return JSONResponse(compact_view(get_task(item_id),material_text_index=workspace_view=='compact-v2'),headers={'Cache-Control':'no-store'})
     if message_window is None:return get_task(item_id)
     if message_window!='recent':raise HTTPException(422,'任务消息读取模式仅支持recent；未读取或回显未知参数。',headers={'Cache-Control':'no-store'})
     from .task_message_window import task_view
@@ -2393,3 +2393,6 @@ register_message_original_pages(sys.modules[__name__])
 
 from .task_message_window import register as register_task_message_window
 register_task_message_window(sys.modules[__name__])
+
+from .material_stored_text import register as register_material_stored_text
+register_material_stored_text(sys.modules[__name__])
