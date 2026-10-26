@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；173实现2c9b1d8/关闭8b013f0已推送clean，work/human-input336/finalization-proof.json complete。174验收部署已过，闭环以Git及work/schema-number337/finalization-proof.json为准。
+- E:\workSpace\dify-agent/main；173实现2c9b1d8/关闭8b013f0已推送clean，work/human-input336/finalization-proof.json complete。174实现eb846df且BACKLOG174已done，最终关闭/push以Git及work/schema-number337/finalization-proof.json为准。
 - 实际0.337.0-b7c09ec4efc42eea8d2b/277文件，work/schema-number337/deployment-proof.json及managed-runtime-proof.json；所属PID/快照/原start-stop/health及前端200/原16全部对象设置账本密文主Key/124保持，真实外部0。
 - Schema原文及结构规则目标JSON小数复用现有十进制往返核对；拒绝minimum下溢放宽或目标舍入命中枚举，不改原定义/输出/旧成绩。普通有限小数/指数及原整数保持，非任意精度或已解析旧精度恢复，不扩大平台Schema强制。
 - 旧两个错误判定已复现，新17/相关98后端通过，前端未改沿用0.336构建，未全量。最终成果入口API拒绝/原Task和原文件保持。
@@ -17,7 +17,7 @@
 
 ## 3. 下一步（174提交闭环，继续实质功能）
 
-1. 核实work/schema-number337/finalization-proof.json/Git；174验收部署过，补实现和关闭提交/push/clean，已complete不重复。当前0.337.0-b7c09ec4efc42eea8d2b，deploy.ps1前提旧0.336，禁止重放。
+1. 核实work/schema-number337/finalization-proof.json/Git；174实现eb846df/验收部署过，补关闭提交/push/clean，已complete不重复。当前0.337.0-b7c09ec4efc42eea8d2b，deploy.ps1前提旧0.336，禁止重放。
 2. 第一pending优先；空队列按既定需求核实具体功能缺口，一次一项。可限读T113批量失败汇总与结果输出对应RunHistory及现有批量结果导出：先核已有能力再决定是否需补明确筛选/逐项失败交付；不继续无意义局部深化/验收准备，不将未知索引当未开发。
 3. 每push前CHANGELOG/适用README/整份交接；核原remote，git require_escalated/safe.directory=E:/workSpace/dify-agent/命令级HTTP1.1沿原代理推main，不force/全局/TLS修改，work/生产数据/秘密不提交，不让用户代提交。
 4. 持续至实际不足或确无可行动进展；不足立即尽力交接停，不反复探额/重试/换号/购买/用券。sierra已PAUSED，结束删除已完成一次性，不新建。
