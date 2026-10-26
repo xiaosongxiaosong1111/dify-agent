@@ -1,3 +1,4 @@
+import {useOwnedActivity} from './useActivityOwnership';
 import {useEffect,useState,lazy,Suspense} from 'react';
 import {usdText as amount} from './MoneyText';
 const AssistantUsageGroups=lazy(()=>import('./AssistantUsageGroups'));
@@ -5,7 +6,8 @@ type Entry={id:string;revision:number;kind:string;model:string;status:string;cha
 type Budget={policy_revision:number;limit_usd:string|null;created_at:string|null;excluded_history_present:boolean;known_estimated_usd:string;held_estimated_usd:string;remaining_estimated_usd:string|null;unknown_count:number;pending_count:number;blocker:string|null;entries:Entry[];policy_history:unknown[];excluded_dify_run_records:number;scope_note:string};
 async function request<T>(path:string,method='GET',body?:unknown):Promise<T>{const r=await fetch(`/api${path}`,{method,headers:body?{'Content-Type':'application/json'}:undefined,body:body?JSON.stringify(body):undefined});const v=await r.json();if(!r.ok)throw Error(typeof v.detail==='string'?v.detail:`请求失败（HTTP ${r.status}）`);return v;}
 const kind:Record<string,string>={interview:'需求访谈',plan:'流程建议',coverage:'覆盖检查',conflicts:'冲突检查',configuration:'配置建议',cases:'验收样例建议',repair:'代码修复候选'};
-export default function TaskBudgetPanel({taskId,revision,blocked,refreshKey,onDirty,onActivity}:{taskId:string;revision:number;blocked:boolean;refreshKey:string;onDirty:(dirty:boolean)=>void;onActivity:(label:string)=>void}){
+export default function TaskBudgetPanel({taskId,revision,blocked,refreshKey,onDirty,onActivity:reportActivity}:{taskId:string;revision:number;blocked:boolean;refreshKey:string;onDirty:(dirty:boolean)=>void;onActivity:(label:string)=>void}){
+ const onActivity=useOwnedActivity(reportActivity,`${taskId}:${revision}`);
  const [budget,setBudget]=useState<Budget|null>(null),[limit,setLimit]=useState('5'),[enable,setEnable]=useState(true),[note,setNote]=useState(''),[ack,setAck]=useState(false),[historyAck,setHistoryAck]=useState(false),[dirty,setDirty]=useState(false),[working,setWorking]=useState(false),[error,setError]=useState(''),[manual,setManual]=useState<Record<string,{cost:string;note:string;ack:boolean}>>({});
  const load=async()=>{const value=await request<Budget>(`/tasks/${taskId}/budget`);setBudget(value);return value};
  useEffect(()=>{let live=true;request<Budget>(`/tasks/${taskId}/budget`).then(value=>{if(live){setBudget(value);setLimit(value.limit_usd??'5');setEnable(value.limit_usd!==null);setDirty(false);onDirty(false);setAck(false);setHistoryAck(false);setNote('');setManual({});setError('')}}).catch(e=>live&&setError(e.message));return()=>{live=false}},[taskId,revision,onDirty]);

@@ -1,3 +1,4 @@
+import {useOwnedActivity} from './useActivityOwnership';
 import {useEffect, useState} from 'react';
 import type {TestCase} from './AcceptancePanel';
 
@@ -10,7 +11,8 @@ async function request<T>(path:string,body?:unknown):Promise<T>{
  let v;try{v=await r.json()}catch{throw Error(`接口未返回可读取结果（HTTP ${r.status}），请检查服务状态。`)}
  if(!r.ok)throw Error(typeof v.detail==='string'?v.detail:`请求失败（HTTP ${r.status}）`);return v;
 }
-export default function CaseProposalPanel({task,routingRefresh,blocked,onDirty,onActivity,onUpdated,onDiscuss}:{task:{id:string;revision:number;requirements_confirmed:boolean;status:string;plan_stale?:boolean};routingRefresh:string;blocked:boolean;onDirty:(v:boolean)=>void;onActivity:(v:string)=>void;onUpdated:(v:unknown)=>void;onDiscuss:(v:string)=>void}){
+export default function CaseProposalPanel({task,routingRefresh,blocked,onDirty,onActivity:reportActivity,onUpdated,onDiscuss}:{task:{id:string;revision:number;requirements_confirmed:boolean;status:string;plan_stale?:boolean};routingRefresh:string;blocked:boolean;onDirty:(v:boolean)=>void;onActivity:(v:string)=>void;onUpdated:(v:unknown)=>void;onDiscuss:(v:string)=>void}){
+ const onActivity=useOwnedActivity(reportActivity,`${task.id}:${task.revision}`);
  const [state,setState]=useState<State|null>(null),[selected,setSelected]=useState<string[]>([]),[ack,setAck]=useState(false),[working,setWorking]=useState(''),[error,setError]=useState('');
  const reset=()=>{setSelected([]);setAck(false);onDirty(false)};
  const load=async()=>{const v=await request<State>(`/tasks/${task.id}/case-proposal`);setState(v);return v};

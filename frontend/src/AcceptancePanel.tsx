@@ -1,3 +1,4 @@
+import {useOwnedActivity} from './useActivityOwnership';
 import { CheckCircle2, Plus, Trash2 } from 'lucide-react';
 import ConversationCaseEditor, {type TurnDraft} from './ConversationCaseEditor';
 import ConversationCaseResult from './ConversationCaseResult';
@@ -137,13 +138,14 @@ export function AcceptancePanel({ taskId,revision,artifactStamp,drafts, appType,
   </section>;
 }
 
-export function RunHistory({ currentAppId, runs, revision, busy, hasUnsaved, reasons, onReason, onReview, taskId, onActivity, onUpdated, onLocateNode,onPrepareRun,inputDraft,inputSelectionScope,onCopyInput }: {
+export function RunHistory({ currentAppId, runs, revision, busy, hasUnsaved, reasons, onReason, onReview, taskId, onActivity:reportActivity, onUpdated, onLocateNode,onPrepareRun,inputDraft,inputSelectionScope,onCopyInput }: {
   inputDraft?:string;inputSelectionScope?:string;onCopyInput?:(draft:InputCopyDraft)=>boolean;
   currentAppId?:string|null;taskId?:string;onLocateNode?:(nodeId:string,section?:string)=>void;onActivity?:(label:string)=>void;onUpdated?:(task:unknown)=>void;onPrepareRun?:(recipe:{input:Record<string,unknown>;case_id:string|null})=>void;
   runs: RunRecord[]; revision: number; busy: boolean; hasUnsaved: boolean;
   reasons: Record<string, string>; onReason: (id: string, reason: string) => void;
   onReview: (id: string, decision: 'passed' | 'failed') => void;
 }) {
+ const onActivity=useOwnedActivity(reportActivity,`${taskId}:${revision}`);
   return <div className="history run-history">{taskId&&<RunComparisonPanel taskId={taskId} revision={revision} runs={runs} blocked={busy||hasUnsaved}/>} {[...runs].reverse().map(run => <details key={run.id} data-run-id={run.id}>
     <summary>{run.test_case?.name || run.label || (run.kind === 'import' ? '导入记录' : '自由试跑')} · v{run.revision ?? '未知'} · {stateNames[run.status || ''] || run.status || '未知'}</summary>
     {run.revision !== revision && <div className="callout amber">旧修订记录，仅作参考，不计入当前样例汇总。</div>}
@@ -156,7 +158,7 @@ export function RunHistory({ currentAppId, runs, revision, busy, hasUnsaved, rea
     <ConversationCaseResult value={run.result}/>
     <b>实际返回结果</b><pre>{JSON.stringify(run.result ?? run.output ?? run.input, null, 2)}</pre>
     {run.evaluation && <div className={`validation ${run.evaluation.status === 'passed' ? 'ok' : 'bad'}`}><b>{stateNames[run.evaluation.status] || run.evaluation.status}</b><p>{run.evaluation.details}</p></div>}
-    {taskId&&onActivity&&onUpdated&&<RunDiagnosticPanel currentAppId={currentAppId} taskId={taskId} revision={revision} run={run} blocked={busy||hasUnsaved} onActivity={onActivity} onUpdated={onUpdated} onLocateNode={onLocateNode} onPrepareRun={onPrepareRun}/>}
+    {taskId&&reportActivity&&onUpdated&&<RunDiagnosticPanel currentAppId={currentAppId} taskId={taskId} revision={revision} run={run} blocked={busy||hasUnsaved} onActivity={onActivity} onUpdated={onUpdated} onLocateNode={onLocateNode} onPrepareRun={onPrepareRun}/>}
     {run.manual_review && <div className="callout"><b>人工确认{run.manual_review.decision === 'passed' ? '通过' : '未通过'}</b><p>{run.manual_review.reason}</p><small>{new Date(run.manual_review.created_at).toLocaleString('zh-CN')}</small></div>}
     {run.revision === revision && run.status === 'success' && run.evaluation?.mode === 'manual' && <div className="manual-review">
       <label className="field"><span>人工复核意见</span><textarea aria-label="人工复核意见" value={reasons[run.id] || ''} onChange={e => onReason(run.id, e.target.value)} placeholder="核对全部轮次输入、每项人工标准和实际结果后填写具体理由" maxLength={2000}/></label>

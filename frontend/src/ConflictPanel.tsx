@@ -1,3 +1,4 @@
+import {useOwnedActivity} from './useActivityOwnership';
 import {useEffect,useState} from 'react';
 type Source={kind:string;id:string;quote:string};
 type Option={id:string;label:string;requirements_patch:Record<string,string>;experience:string;cost:string;manual_work:string};
@@ -5,7 +6,8 @@ type Conflict={id:string;title:string;sources:Source[];question:string;options:O
 type Review={schema_version:number;conflicts:Conflict[];notes:string};
 type State={enabled:boolean;record:{review:Review;source:string;origin_revision:number}|null;revision:number;stale:boolean;confirmed:boolean;review_token:string;blockers:string[];decisions:{conflict:Conflict;selected_option:Option;before:Record<string,string>;after:Record<string,string>;source_revision:number;result_revision:number}[]};
 async function request<T>(path:string,method='GET',body?:unknown):Promise<T>{const response=await fetch(`/api${path}`,{method,headers:body?{'Content-Type':'application/json'}:undefined,body:body?JSON.stringify(body):undefined});const value=await response.json();if(!response.ok)throw Error(typeof value.detail==='string'?value.detail:`请求失败（HTTP ${response.status}）`);return value;}
-export default function ConflictPanel({task,blocked,onDirty,onActivity,onUpdated}:{task:{id:string;revision:number;requirements:Record<'goal'|'audience'|'input'|'output'|'rules'|'knowledge'|'exceptions'|'tests',string>};blocked:boolean;onDirty:(dirty:boolean)=>void;onActivity:(label:string)=>void;onUpdated:(task:unknown)=>void}){
+export default function ConflictPanel({task,blocked,onDirty,onActivity:reportActivity,onUpdated}:{task:{id:string;revision:number;requirements:Record<'goal'|'audience'|'input'|'output'|'rules'|'knowledge'|'exceptions'|'tests',string>};blocked:boolean;onDirty:(dirty:boolean)=>void;onActivity:(label:string)=>void;onUpdated:(task:unknown)=>void}){
+ const onActivity=useOwnedActivity(reportActivity,`${task.id}:${task.revision}`);
  const [state,setState]=useState<State|null>(null),[draft,setDraft]=useState(''),[dirty,setDirty]=useState(false),[working,setWorking]=useState(''),[error,setError]=useState(''),[choices,setChoices]=useState<Record<string,string>>({}),[ack,setAck]=useState(false),[replacementAck,setReplacementAck]=useState<Record<string,boolean>>({});
  useEffect(()=>{let live=true;setState(null);setError('');setChoices({});setReplacementAck({});setAck(false);request<State>(`/tasks/${task.id}/conflicts`).then(value=>{if(live){setState(value);setDraft(value.record?JSON.stringify(value.record.review,null,2):'');setDirty(false);onDirty(false)}}).catch(e=>live&&setError(e.message));return()=>{live=false}},[task.id,task.revision,onDirty]);
  const edit=(value:string)=>{setDraft(value);setDirty(true);onDirty(true);setChoices({});setReplacementAck({});setAck(false)};

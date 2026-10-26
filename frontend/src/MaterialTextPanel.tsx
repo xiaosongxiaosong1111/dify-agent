@@ -1,7 +1,9 @@
+import {useOwnedActivity} from './useActivityOwnership';
 import MaterialTextDraftPanel from './MaterialTextDraftPanel';
 import {useState} from 'react';
 type Material={id:string;name?:string;sha256?:string;status?:string;source_kind?:string;source_coverage_note?:string;original_parse_error?:string};
-export default function MaterialTextPanel({taskId,revision,material,disabled,onActivity,onUpdated}:{taskId:string;revision:number;material:Material;disabled:boolean;onActivity:(label:string)=>void;onUpdated:(value:unknown)=>void}){
+export default function MaterialTextPanel({taskId,revision,material,disabled,onActivity:reportActivity,onUpdated}:{taskId:string;revision:number;material:Material;disabled:boolean;onActivity:(label:string)=>void;onUpdated:(value:unknown)=>void}){
+ const onActivity=useOwnedActivity(reportActivity,`${taskId}:${revision}`);
  const [text,setText]=useState(''),[note,setNote]=useState(''),[ack,setAck]=useState(false),[active,setActive]=useState(false),[error,setError]=useState('');
  if(material.source_kind==='user_supplied_text')return <div className="callout amber" style={{display:'block'}}><b>用户提供的文字 · 原文件未解析</b><p>覆盖／缺失范围：{material.source_coverage_note||'尚未说明'}</p>{material.original_parse_error&&<details><summary>原文件解析限制仍保留</summary><p>{material.original_parse_error}</p></details>}<p>后续只依据这份文字继续，不代表已读全图／全部页、识图或OCR成功。引用方式仍须单独设置；修改原文件请重新上传核对。</p></div>;
  if(material.status!=='needs_input')return null;

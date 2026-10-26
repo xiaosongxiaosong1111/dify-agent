@@ -1,7 +1,9 @@
+import {useOwnedActivity} from './useActivityOwnership';
 import {useEffect,useState} from 'react';
 import FailureWatchPanel from './FailureWatchPanel';
 type State={revision:number;policy:{policy_revision:number;max_started_runs:number|null;max_total_minutes:number|null;max_reported_cost_usd:string|null;history:unknown[]};started_runs:number;known_elapsed_seconds:string;unknown_duration_runs:number;known_reported_usd?:string;unavailable_usd_executions?:number;cost_summary_truncated?:boolean;blockers:string[];can_start:boolean;note:string};
-export default function ExecutionLimitsPanel({taskId,revision,blocked,refreshKey,onDirty,onActivity}:{taskId:string;revision:number;blocked:boolean;refreshKey:string;onDirty:(dirty:boolean)=>void;onActivity:(label:string)=>void}){
+export default function ExecutionLimitsPanel({taskId,revision,blocked,refreshKey,onDirty,onActivity:reportActivity}:{taskId:string;revision:number;blocked:boolean;refreshKey:string;onDirty:(dirty:boolean)=>void;onActivity:(label:string)=>void}){
+ const onActivity=useOwnedActivity(reportActivity,`${taskId}:${revision}`);
  const [value,setValue]=useState<State|null>(null),[count,setCount]=useState(''),[minutes,setMinutes]=useState(''),[cost,setCost]=useState(''),[note,setNote]=useState(''),[ack,setAck]=useState(false),[dirty,setDirty]=useState(false),[active,setActive]=useState(false),[error,setError]=useState('');
  const read=async()=>{const response=await fetch(`/api/tasks/${taskId}/execution-limits`);const body=await response.json();if(!response.ok)throw Error(typeof body.detail==='string'?body.detail:'执行上限读取失败');return body as State};
  const accept=(body:State)=>{setValue(body);setCount(body.policy.max_started_runs===null?'':String(body.policy.max_started_runs));setMinutes(body.policy.max_total_minutes===null?'':String(body.policy.max_total_minutes));setCost(body.policy.max_reported_cost_usd==null?'':body.policy.max_reported_cost_usd);setNote('');setAck(false);setDirty(false);onDirty(false)};

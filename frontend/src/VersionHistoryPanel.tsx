@@ -1,3 +1,4 @@
+import {useOwnedActivity} from './useActivityOwnership';
 import VersionNodeChanges,{isVersionNodeDetails} from './VersionNodeChanges';
 import {useEffect,useRef,useState} from 'react';
 type Version={id:string;revision?:number;created_at?:string;label?:string;kind?:string};
@@ -12,7 +13,8 @@ function valid(v:unknown,taskId:string,revision:number,appType:string,versionId:
  const seen=new Set();for(const s of v.sections){if(!object(s)||typeof s.key!=='string'||!keys.includes(s.key)||seen.has(s.key)||!text(s.label,100)||typeof s.changed!=='boolean')return false;seen.add(s.key);if(s.fields!==undefined&&(!Array.isArray(s.fields)||s.fields.length>30||s.fields.some(x=>!text(x,100))))return false;if(['current_count','historical_count'].some(k=>k in s&&s[k]!==null&&!count(s[k])))return false;if(s.nodes!==undefined){const n=s.nodes;if(!object(n)||typeof n.available!=='boolean'||!text(n.note,500)||n.available&&(['added','removed','changed','moved'].some(k=>!count(n[k]))||['connections_changed','root_order_changed','other_plan_fields_changed'].some(k=>typeof n[k]!=='boolean')||!isVersionNodeDetails(n.details)||n.details.total!==Number(n.added)+Number(n.removed)+Number(n.changed)+Number(n.moved)))return false;}}
  return v.changed_sections===v.sections.filter(s=>s.changed).length;
 }
-export default function VersionHistoryPanel({taskId,revision,appType,versions,scope,hasUnsaved,busy,onActivity,onUpdated}:{taskId:string;revision:number;appType:string;versions:Version[];scope:string;hasUnsaved:boolean;busy:boolean;onActivity:(label:string)=>void;onUpdated:(task:unknown)=>void}){
+export default function VersionHistoryPanel({taskId,revision,appType,versions,scope,hasUnsaved,busy,onActivity:reportActivity,onUpdated}:{taskId:string;revision:number;appType:string;versions:Version[];scope:string;hasUnsaved:boolean;busy:boolean;onActivity:(label:string)=>void;onUpdated:(task:unknown)=>void}){
+ const onActivity=useOwnedActivity(reportActivity,`${taskId}:${revision}`);
  const [limit,setLimit]=useState(12),[selected,setSelected]=useState(''),[preview,setPreview]=useState<(Preview&{observedScope:string})|null>(null),[agreed,setAgreed]=useState(false),[loading,setLoading]=useState(false),[restoring,setRestoring]=useState(false),[error,setError]=useState('');
  const epoch=useRef(0),controller=useRef<AbortController|null>(null),live=useRef({taskId,revision,scope,hasUnsaved});live.current={taskId,revision,scope,hasUnsaved};
  useEffect(()=>{epoch.current++;controller.current?.abort();setPreview(null);setAgreed(false);setError('');setLoading(false);setSelected('');return()=>{epoch.current++;controller.current?.abort()}},[taskId,revision,scope,hasUnsaved]);

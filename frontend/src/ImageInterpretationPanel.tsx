@@ -1,3 +1,4 @@
+import {useOwnedActivity} from './useActivityOwnership';
 import {useEffect,useState} from 'react';
 import {createPortal} from 'react-dom';
 import MaterialTextDraftPanel from './MaterialTextDraftPanel';
@@ -5,7 +6,8 @@ type Material={id:string;name?:string;sha256?:string;status?:string;source_kind?
 type Provider={id:string;name:string;model:string;role:string;has_api_key:boolean;pricing?:unknown};
 type Preview={task_id:string;material_id:string;id:string;preview_token:string;revision:number;status:string;source:{name?:string;mime_type:string;width:number;height:number;size_bytes:number;sha256:string};provider:{id:string;name:string;model:string;protocol:string};instruction:string;image_reserve_usd:string;output_limit:number;timeout_seconds:number;outbound_fields:string[];excluded_fields:string[];notes:string[];error?:string;candidate_token?:string;candidate?:{transcription:string;diagram_description:string;coverage_note:string;uncertainties:string[]}};
 type State={history?:{id:string;revision:number;status:string;created_at:string}[];record:Preview|null;can_execute:boolean;blocker?:string|null;preflight_blocker?:string|null;task_revision:number};
-export default function ImageInterpretationPanel({taskId,revision,material,disabled,onActivity,onUpdated,onCheckpoint}:{taskId:string;revision:number;material:Material;disabled:boolean;onActivity:(label:string)=>void;onUpdated:(value:unknown)=>void;onCheckpoint:(value:unknown)=>void}){
+export default function ImageInterpretationPanel({taskId,revision,material,disabled,onActivity:reportActivity,onUpdated,onCheckpoint}:{taskId:string;revision:number;material:Material;disabled:boolean;onActivity:(label:string)=>void;onUpdated:(value:unknown)=>void;onCheckpoint:(value:unknown)=>void}){
+ const onActivity=useOwnedActivity(reportActivity,`${taskId}:${revision}`);
  const [providers,setProviders]=useState<Provider[]>([]),[providerId,setProviderId]=useState(''),[instruction,setInstruction]=useState('请读取可见文字和流程连接，明确看不清或未覆盖的部分。'),[reserve,setReserve]=useState(''),[state,setState]=useState<State|null>(null),[active,setActive]=useState(false),[error,setError]=useState(''),[acks,setAcks]=useState([false,false,false,false]),[review,setReview]=useState(false),[uncertain,setUncertain]=useState(false),[text,setText]=useState(''),[note,setNote]=useState(''),[showSource,setShowSource]=useState(false),[sourceError,setSourceError]=useState(false),[pausing,setPausing]=useState(false),[historyAck,setHistoryAck]=useState(false);
  const base=`/api/tasks/${taskId}/materials/${material.id}/image-interpretation`;
  const request=async(path:string,body?:unknown)=>{const response=await fetch(path,{method:body===undefined?'GET':'POST',...(body===undefined?{}:{headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})}),value=await response.json();if(!response.ok)throw Error(typeof value.detail==='string'?value.detail:`图像请求失败（HTTP ${response.status}），未自动重试。`);return value};

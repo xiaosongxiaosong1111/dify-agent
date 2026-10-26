@@ -1,9 +1,11 @@
+import {useOwnedActivity} from './useActivityOwnership';
 import {useEffect,useRef,useState} from 'react';
 type Receipt={id:string;state:string;ok:boolean;message:string;current_source:boolean;usage?:{total_tokens?:number};latency_ms?:number;estimated_cost_usd?:string;cost_basis?:string};
 type Plan={source_token:string;configuration_revision:number;ready:boolean;reason:string;estimated_reservation_usd:string|null;max_output_tokens:number;timeout_seconds:number;note:string;latest_receipt:Receipt|null};
 type Provider={id:string;base_url:string;model:string;protocol:string;configuration_revision?:number};
 async function request<T>(url:string,body?:unknown):Promise<T>{const response=await fetch(url,body===undefined?undefined:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const value=await response.json();if(!response.ok)throw Error(typeof value.detail==='string'?value.detail:`请求失败（HTTP ${response.status}）`);return value;}
-export default function ToolProbePanel({provider,blocked,onActivity,onRefreshed}:{provider:Provider;blocked:boolean;onActivity:(label:string)=>void;onRefreshed:()=>Promise<void>}){
+export default function ToolProbePanel({provider,blocked,onActivity:reportActivity,onRefreshed}:{provider:Provider;blocked:boolean;onActivity:(label:string)=>void;onRefreshed:()=>Promise<void>}){
+ const onActivity=useOwnedActivity(reportActivity,`${provider.id}:${provider.configuration_revision}`);
  const [plan,setPlan]=useState<Plan|null>(null),[receipt,setReceipt]=useState<Receipt|null>(null),[requestId,setRequestId]=useState(''),[ack,setAck]=useState(false),[attempted,setAttempted]=useState(false),[error,setError]=useState(''),[working,setWorking]=useState(false),active=useRef(false);
  const path=`/api/providers/${encodeURIComponent(provider.id)}`;
  useEffect(()=>{setPlan(null);setReceipt(null);setRequestId('');setAck(false);setAttempted(false);setError('')},[provider.id,provider.configuration_revision,provider.base_url,provider.model,provider.protocol]);

@@ -1,8 +1,10 @@
+import {useOwnedActivity} from './useActivityOwnership';
 import {useEffect,useRef,useState} from 'react';
 type Provider={id:string;name:string;model:string;has_api_key:boolean;provider_token:string;pricing?:{input_per_million_usd:number;output_per_million_usd:number}|null};
 type State={required_scope_version:number;policy_revision:number;enabled:boolean;light_provider_id:string|null;provider_token:string|null;eligible:Provider[];selected_provider:Provider|null;blocker:string|null;scope_note:string;history:unknown[]};
 async function request<T>(path:string,body?:unknown):Promise<T>{const r=await fetch(`/api${path}`,body?{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:undefined);const v=await r.json();if(!r.ok)throw Error(typeof v.detail==='string'?v.detail:`请求失败（HTTP ${r.status}）`);return v;}
-export default function AssistantRoutingPanel({taskId,revision,providerRefreshKey,blocked,onDirty,onActivity,onSaved,onRefreshed}:{taskId:string;revision:number;providerRefreshKey:string;blocked:boolean;onDirty:(v:boolean)=>void;onActivity:(v:string)=>void;onSaved:()=>void;onRefreshed:()=>void}){
+export default function AssistantRoutingPanel({taskId,revision,providerRefreshKey,blocked,onDirty,onActivity:reportActivity,onSaved,onRefreshed}:{taskId:string;revision:number;providerRefreshKey:string;blocked:boolean;onDirty:(v:boolean)=>void;onActivity:(v:string)=>void;onSaved:()=>void;onRefreshed:()=>void}){
+ const onActivity=useOwnedActivity(reportActivity,`${taskId}:${revision}`);
  const [state,setState]=useState<State|null>(null),[enabled,setEnabled]=useState(false),[selected,setSelected]=useState(''),[note,setNote]=useState(''),[ack,setAck]=useState(false),[dirty,setDirty]=useState(false),[working,setWorking]=useState(false),[error,setError]=useState('');const dirtyRef=useRef(false);
  const reset=(s:State)=>{setEnabled(s.enabled);setSelected(s.light_provider_id||'');setNote('');setAck(false);setDirty(false);dirtyRef.current=false;onDirty(false)};
  useEffect(()=>{let live=true;request<State>(`/tasks/${taskId}/assistant-routing`).then(s=>{if(!live)return;setState(s);if(dirtyRef.current){setAck(false);setError('服务或任务信息已刷新，请重新核对当前型号、单价和数据范围；草稿已保留。')}else{reset(s);setError('')}}).catch(e=>live&&setError(e.message));return()=>{live=false}},[taskId,revision,providerRefreshKey,onDirty]);

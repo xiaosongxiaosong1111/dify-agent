@@ -1,10 +1,12 @@
+import {useOwnedActivity} from './useActivityOwnership';
 import {useEffect,useRef,useState} from 'react';
 const fields:Record<string,string>={goal:'目标与范围',audience:'目标用户',input:'输入说明',output:'输出说明',rules:'业务规则',knowledge:'资料与依赖',exceptions:'异常处理',tests:'验收场景'};
 type Row={index:number;complete:boolean;same_revision:boolean};
 type Question={topic:string;question:string;recommendation:string};
 type Preview={task_id:string;revision:number;app_type:string;attempt_index:number;candidate_sha256:string;review_token:string;requirements:Record<string,string>;review:{checks:{topic:string;status:string}[];questions:Question[]};message:string;needs_input_topics:string[];network_requested:false;model_called:false;task_changed:false;requirements_confirmed:false;business_verified:false;note:string};
 async function post(path:string,body:unknown){const r=await fetch('/api'+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const value=await r.json();if(!r.ok)throw Error(typeof value.detail==='string'?value.detail:'本地候选复核未完成。');return value}
-export default function SavedIntakeDraftPanel({taskId,revision,appType,scope,blocked,onActivity,onAdopted}:{taskId:string;revision:number;appType:string;scope:string;blocked:boolean;onActivity:(label:string)=>void;onAdopted:(task:unknown)=>void}){
+export default function SavedIntakeDraftPanel({taskId,revision,appType,scope,blocked,onActivity:reportActivity,onAdopted}:{taskId:string;revision:number;appType:string;scope:string;blocked:boolean;onActivity:(label:string)=>void;onAdopted:(task:unknown)=>void}){
+ const onActivity=useOwnedActivity(reportActivity,`${taskId}:${revision}`);
  const [rows,setRows]=useState<Row[]|null>(null),[selected,setSelected]=useState<number|null>(null),[preview,setPreview]=useState<Preview|null>(null),[ack,setAck]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState('');
  const epoch=useRef(0),active=useRef(false),activity=useRef(onActivity),adopted=useRef(onAdopted);activity.current=onActivity;adopted.current=onAdopted;
  useEffect(()=>{epoch.current++;setRows(null);setSelected(null);setPreview(null);setAck(false);setBusy(false);setError('');return()=>{epoch.current++;if(active.current){active.current=false;activity.current('')}}},[taskId,revision,scope,blocked]);

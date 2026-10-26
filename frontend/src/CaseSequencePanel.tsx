@@ -1,3 +1,4 @@
+import {useOwnedActivity} from './useActivityOwnership';
 import {useEffect,useRef,useState} from 'react';
 import type {TestCase,RunRecord} from './AcceptancePanel';
 type Preview={task_id:string;revision:number;case_ids:string[];start_count:number;token:string;requested_runs:number;started_runs:number;max_started_runs:number;app_id:string;environment_id:string;network_requested:false;task_changed:false;start_slots_reserved:0;resource_permission_granted:false;note:string};
@@ -9,7 +10,8 @@ export function sequenceHistory(runs:RunRecord[]){
    return {id,state,runId:owned?row.id:null};})}];
  }).slice(-5);
 }
-export default function CaseSequencePanel({taskId,revision,appId,environmentId,cases,runs,scope,blocked,onActivity,onStopped}:{taskId:string;revision:number;appId?:string|null;environmentId:string|null;cases:TestCase[];runs:RunRecord[];scope:string;blocked:boolean;onActivity:(label:string|null)=>void;onStopped:()=>void}){
+export default function CaseSequencePanel({taskId,revision,appId,environmentId,cases,runs,scope,blocked,onActivity:reportActivity,onStopped}:{taskId:string;revision:number;appId?:string|null;environmentId:string|null;cases:TestCase[];runs:RunRecord[];scope:string;blocked:boolean;onActivity:(label:string|null)=>void;onStopped:()=>void}){
+ const onActivity=useOwnedActivity(reportActivity,`${taskId}:${revision}`);
  const [selected,setSelected]=useState<string[]>([]),[preview,setPreview]=useState<Preview|null>(null),[ack,setAck]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[progress,setProgress]=useState<string[]>([]);
  const epoch=useRef(0),stop=useRef(false),active=useRef(false),activity=useRef(onActivity),finished=useRef(onStopped);activity.current=onActivity;finished.current=onStopped;
  useEffect(()=>{epoch.current++;stop.current=true;setBusy(false);setPreview(null);setAck(false);setError('');setSelected([]);setProgress([]);return()=>{epoch.current++;stop.current=true;if(active.current){active.current=false;activity.current(null)}}},[taskId,revision,scope,blocked]);

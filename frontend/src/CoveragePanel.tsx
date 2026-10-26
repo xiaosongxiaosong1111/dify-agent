@@ -1,3 +1,4 @@
+import {useOwnedActivity} from './useActivityOwnership';
 import {useEffect, useState} from 'react';
 
 type Item={id:string;requirement:string;source:{kind:string;id:string;quote:string};status:'planned'|'unresolved'|'excluded';evidence_ids:string[];case_ids:string[];explanation:string;impact:string;cost:string;manual_work:string};
@@ -6,7 +7,8 @@ type Task={id:string;revision:number;requirements:{goal:string;audience:string;i
 const fields=['goal','audience','input','output','rules','knowledge','exceptions','tests'] as const;
 const names=['业务目标','目标用户','输入','输出','业务规则','资料与依赖','异常处理','验收场景'];
 async function request<T>(path:string,method='GET',body?:unknown):Promise<T>{const r=await fetch(`/api${path}`,{method,headers:body?{'Content-Type':'application/json'}:undefined,body:body?JSON.stringify(body):undefined});const value=await r.json();if(!r.ok)throw Error(typeof value.detail==='string'?value.detail:`请求失败（HTTP ${r.status}）`);return value;}
-export default function CoveragePanel({task,blocked,onDirty,onActivity,onUpdated}:{task:Task;blocked:boolean;onDirty:(dirty:boolean)=>void;onActivity:(label:string)=>void;onUpdated:(task:unknown)=>void}){
+export default function CoveragePanel({task,blocked,onDirty,onActivity:reportActivity,onUpdated}:{task:Task;blocked:boolean;onDirty:(dirty:boolean)=>void;onActivity:(label:string)=>void;onUpdated:(task:unknown)=>void}){
+ const onActivity=useOwnedActivity(reportActivity,`${task.id}:${task.revision}`);
  const [state,setState]=useState<State|null>(null),[items,setItems]=useState<Item[]>([]),[dirty,setDirty]=useState(false),[error,setError]=useState(''),[working,setWorking]=useState(''),[ack,setAck]=useState(false),[excludeAck,setExcludeAck]=useState(false);
  useEffect(()=>{let live=true;setState(null);setError('');setAck(false);setExcludeAck(false);request<State>(`/tasks/${task.id}/coverage`).then(value=>{if(live){setState(value);setItems(value.review?.items||[]);setDirty(false);onDirty(false)}}).catch(e=>live&&setError(e.message));return()=>{live=false}},[task.id,task.revision,onDirty]);
  const edit=(next:Item[])=>{setItems(next);setDirty(true);onDirty(true);setAck(false);setExcludeAck(false);setError('')};

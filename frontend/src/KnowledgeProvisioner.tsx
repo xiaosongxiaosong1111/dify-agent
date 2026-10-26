@@ -1,3 +1,4 @@
+import {useOwnedActivity} from './useActivityOwnership';
 import { useEffect, useState } from 'react';
 import { Database, LoaderCircle } from 'lucide-react';
 type Material={id:string;name?:string;filename?:string;status?:string};
@@ -8,7 +9,8 @@ type Embedding={provider:string;provider_label:string;model:string;label:string;
 const states:Record<string,string>={draft:'待确认方案',approved:'已确认，待启动',running:'正在准备',indexing:'Dify 索引中',ready:'实际索引已就绪',applied:'已加入任务配置',paused:'已暂停',unknown:'写入结果待核对',needs_input:'需要补充或处理',canceled:'已取消'};
 const opNames:Record<string,string>={create_dataset:'创建知识库',create_key:'创建单库 Key',upload_document:'提交资料'};
 async function request<T>(path:string,body?:unknown,method='GET'):Promise<T>{const response=await fetch(`${import.meta.env.VITE_API_BASE||'/api'}${path}`,{method,...(body!==undefined?{headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{})});const data=await response.json();if(!response.ok)throw Error(typeof data.detail==='string'?data.detail:`请求失败（HTTP ${response.status}）`);return data;}
-export default function KnowledgeProvisioner({taskId,revision,environmentId,materials,disabled,onActivity,onApplied}:{taskId:string;revision:number;environmentId:string|null;materials:Material[];disabled:boolean;onActivity:(active:boolean)=>void;onApplied:(task:any)=>void}){
+export default function KnowledgeProvisioner({taskId,revision,environmentId,materials,disabled,onActivity:reportActivity,onApplied}:{taskId:string;revision:number;environmentId:string|null;materials:Material[];disabled:boolean;onActivity:(active:boolean)=>void;onApplied:(task:any)=>void}){
+ const onActivity=useOwnedActivity(reportActivity,`${taskId}:${revision}`);
  const [jobs,setJobs]=useState<Job[]>([]),[job,setJob]=useState<Job|null>(null),[creating,setCreating]=useState(false),[name,setName]=useState(''),[purpose,setPurpose]=useState(''),[description,setDescription]=useState(''),[text,setText]=useState(''),[title,setTitle]=useState('粘贴资料'),[ids,setIds]=useState<string[]>([]),[strategy,setStrategy]=useState('economy'),[minutes,setMinutes]=useState(5),[embeddings,setEmbeddings]=useState<Embedding[]>([]),[embedding,setEmbedding]=useState(''),[busy,setBusy]=useState(''),[error,setError]=useState(''),[acceptedCost,setAcceptedCost]=useState(false),[remoteId,setRemoteId]=useState(''),[verified,setVerified]=useState(false),[pausing,setPausing]=useState(false),[replacement,setReplacement]=useState(false);
  const pending=!!job?.operations.some(o=>o.status==='pending');
  const keep=(value:Job)=>{setJob(value);setJobs(xs=>[value,...xs.filter(x=>x.id!==value.id)])};

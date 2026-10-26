@@ -1,7 +1,9 @@
+import {useOwnedActivity} from './useActivityOwnership';
 import {useEffect,useRef,useState} from 'react';
 type SavedDraft={id:string;revision:number;draft_revision:number;app_type:string;text:string;byte_count:number;json_state:string;updated_at:string;verification:string};
 type State={record:SavedDraft|null;draft_revision:number;stale:boolean;blocker:string|null};
-export default function PlanDraftPanel({taskId,revision,text,dirty,blocked,onRestore,onClose,onActivity}:{taskId:string;revision:number;text:string;dirty:boolean;blocked:boolean;onRestore:(text:string)=>void;onClose:()=>void;onActivity:(label:string)=>void}){
+export default function PlanDraftPanel({taskId,revision,text,dirty,blocked,onRestore,onClose,onActivity:reportActivity}:{taskId:string;revision:number;text:string;dirty:boolean;blocked:boolean;onRestore:(text:string)=>void;onClose:()=>void;onActivity:(label:string)=>void}){
+ const onActivity=useOwnedActivity(reportActivity,`${taskId}:${revision}`);
  const [state,setState]=useState<State|null>(null),[reading,setReading]=useState(false),[active,setActive]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState('');const generation=useRef(0);
  const request=async(method='GET',body?:unknown)=>{const response=await fetch(`/api/tasks/${taskId}/plan-draft`,{method,...(body?{headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{})});const value=await response.json();if(!response.ok)throw Error(typeof value.detail==='string'?value.detail:`草稿请求失败（HTTP ${response.status}）`);return value as State};
  const read=async()=>{const ticket=generation.current;setReading(true);setError('');try{const value=await request();if(ticket===generation.current)setState(value)}catch(e){if(ticket===generation.current)setError(e instanceof Error?e.message:'草稿读取失败，当前编辑保持。')}finally{if(ticket===generation.current)setReading(false)}};

@@ -1,3 +1,4 @@
+import {useOwnedActivity} from './useActivityOwnership';
 import {useEffect,useState} from 'react';
 type Topic={id:string;label:string;question:string;special:boolean};
 type Question={topic:string;question:string;recommendation:string;reason:string;experience:string;cost:string;manual_work:string};
@@ -5,7 +6,8 @@ type State={revision:number;standard:Topic[];state:string;required:boolean;can_c
 type Props={task:{id:string;revision:number;requirements:Record<string,string>;messages:unknown[]};blocked:boolean;onDirty:(v:boolean)=>void;onActivity:(s:string)=>void;onUpdated:(t:unknown)=>void;onInterview:()=>void;onQuestion:(text:string)=>void;onReady:(ready:boolean)=>void};
 async function request<T>(path:string,body?:unknown):Promise<T>{const r=await fetch(`/api${path}`,body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:undefined);const data=await r.json();if(!r.ok)throw Error(typeof data.detail==='string'?data.detail:`请求失败（HTTP ${r.status}）`);return data;}
 const labels:Record<string,string>={needs_input:'待补充',stale:'说明已变化，需重新检查',unreviewed:'尚未完成标准检查',ready_for_confirmation:'说明已明确，待用户确认'};
-export default function IntakePanel({task,blocked,onDirty,onActivity,onUpdated,onInterview,onQuestion,onReady}:Props){
+export default function IntakePanel({task,blocked,onDirty,onActivity:reportActivity,onUpdated,onInterview,onQuestion,onReady}:Props){
+ const onActivity=useOwnedActivity(reportActivity,`${task.id}:${task.revision}`);
  const [state,setState]=useState<State|null>(null),[error,setError]=useState(''),[editing,setEditing]=useState(false),[answers,setAnswers]=useState<Record<string,string>>({}),[ack,setAck]=useState(false),[working,setWorking]=useState(false);
  useEffect(()=>{let live=true;setState(null);request<State>(`/tasks/${task.id}/intake`).then(value=>{if(live){setState(value);onReady(value.can_confirm);setError('');setEditing(false);setAnswers({});setAck(false);onDirty(false)}}).catch(e=>live&&setError(e.message));return()=>{live=false}},[task.id,task.revision,task.messages.length,onDirty,onReady]);
  const open=()=>{if(!state)return;setAnswers(Object.fromEntries(state.standard.map(t=>[t.id,task.requirements[t.id]??state.record?.answers?.[t.id]??''])));setEditing(true);setAck(false);onDirty(true)};

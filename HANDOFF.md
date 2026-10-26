@@ -1,10 +1,10 @@
-# HANDOFF — Sierra（2026-10-26，145本机编辑/材料回执归属）
+# HANDOFF — Sierra（2026-10-26，146活动状态归属）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main。144实现9ba95d6/交接ff2728b已推送，work/target-selection307终结proof complete/clean保留。145实现13ccf00且BACKLOG done，当前0.308.0-977df9648d2206c51cd3；commit/push以work/edit-results308/finalization-proof.json实际为准，未生成前不推断已完成。
-- 旧上传晚到切回已复现；UI9/目标恢复UI6/加载UI7与构建通过，35处Task接收源码分类非全动态验收。264文件/所属进程原脚本重启及health/前端200，原16/设置能力/账本密文主Key/124保持。本项Sierra模型/Dify真实新增0；141网关失败无审查、CLI估算0.074255 USD继续单列非账单，内部HTTP未知、不重试。
-- 用户继续功能开发直到实际Codex额度不足授权保持。最近实际quota primary41%已用/weekly38%、ordinaryUsageAllowed=true，非额度不足；不为耗额度拆微任务。Docker引擎未运行，T078不宿主机exec替代。0.304/305/307旧保护与0.306Word范围保持。
+- 项目E:\workSpace\dify-agent，main。145实现13ccf00/交接62d3ec3已推送，work/edit-results308终结proof complete/clean保留。146已实现验证，当前0.309.0-4341e5254a72a2206f29；commit/push以work/activity-ownership309/finalization-proof.json实际为准，未生成前不推断完成。
+- 旧子DSL分析清新报告忙提示已复现；活动UI7/编辑UI9/目标UI6和构建通过，21回调接入。264文件/所属进程原脚本重启和health/前端200，原16/设置能力/账本密文主Key/124保持。本项Sierra模型/Dify真实新增0；141网关预算失败无审查，CLI估算0.074255 USD继续单列非账单，内部HTTP未知、不重试。
+- 用户继续功能开发直到实际Codex不足授权保持。最近实际quota primary54%已用/weekly40%、ordinaryUsageAllowed=true，没有Codex额度失败；不为耗额度拆微任务。Docker引擎未运行，T078不宿主机exec替代。
 
 ## 2. 已消费批与保护
 
@@ -13,14 +13,14 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（145已验收部署；提交推送后继续实质开发）
+## 3. 下一步（146已验收部署；提交推送后继续实质问题）
 
-1. 145验收/构建/部署和实现13ccf00、BACKLOG done已完成，提交本交接后推送；CHANGELOG/README同步后push原main，不让用户代提交。最终work/edit-results308/finalization-proof.json，旧proof不覆盖。
-2. 根editingResultCurrent核响应来源ID与发起选择世代，旧结果只更新源摘要；10处根本机写返回/15处Task子回调及知识库应用的入口加检查，脏状态清理和后续提示/窗口改动在来源核对后执行。两步确认先保存返回时已离开则不继续确认，正常同任务未存流程保存仍接收。withTaskBusy仅来源内显示根编辑错误。
-3. refreshOne后台读回重新核未存草稿；运行轮询/顺序批停止读回及规划暂停提示核来源。35处acceptTask源码分类work/edit-results308/accept-task-audit.json，无未分类调用不等于所有行为动态核完。子面板onActivity等其它异步状态仍未全核，不能宣称全项目隔离已完成。
-4. UI9含旧上传/确认PATCH/清计划/材料引用与解除晚到、正常需求和脏计划保存/正常两阶段确认；目标UI6/加载UI7回归、构建通过，无脚本错误。后台只版本变更、不全量；原16/密文账本主Key/124精确保持，真实Sierra/Dify0，隔离模型仅目标回归的两次本机替身。
-5. 继续按原需求核实新的实质缺口再加入BACKLOG，无pending不重放历史blocked。44项未重核，不用版本/测试量算完成率；复杂工具/嵌套容器/文件、长期记忆、T078受限样例和更多业务验收仍有边界。不顺带重构或拆微任务耗额度，不扩付费准备。
-6. 原16/r12 run_completed和4/4满，不第5跑；91/95/115/121/124等消费包不重放。Sierra实际模型20/保守24、管理413/登录28、unknown/四槽及旧费界保持。141独立Claude网关failed_no_review/CLI估算0.074255USD单列非账单/内部HTTP未知，禁止重试/提高预算/换号/冒充审查完成，不是Codex额度失败。
+1. 146验收/构建/部署已过，先建立实现commit，再据真实提交标BACKLOG done、提交交接；每push前更新CHANGELOG/README并推原main，不让用户代提交。最终work/activity-ownership309/finalization-proof.json，旧proof不覆盖。
+2. useActivityOwnership把根setBusy与面板活动统一顺序标识；useOwnedActivity为挂载实例/当前修订绑定所有者，21个回调适配。Task面板来源/世代检查，知识库状态独立controller；明确选择新目标清旧可见状态。模型服务测试/保存只改结束释放归属，没有真实触发。可选RunHistory活动回调缺失时原诊断显示条件保持。
+3. 活动UI7：子→主/主→子/子→子、离开后回源新操作，以及数字草稿卸载/重开/自身完成；编辑UI9/目标UI6回归和构建通过，无脚本错误。原B和生产16/密文账本主Key/124保护，后台只版本变化、不全量；真实Sierra/Dify0，目标回归仅两次本机替身。
+4. 当前显示归属不是后台执行锁、取消/资源预算、全并行状态聚合，单面板仍按原一次活动约定。下一代码核查候选：同任务较低修订的完整响应是否会回退较新修订/编辑（editingResultCurrent目前核ID/选择世代但不核返回revision与savedTask当前revision）。先以真实本机API交叠复现，再决定入BACKLOG；不凭猜测宣称已发生，不扩大真实批或加无意义测试准备。
+5. 无pending时核真实功能缺口，不重放历史blocked；44项未重核，复杂工具/嵌套容器/文件、长期记忆、T078受限样例及更多业务验收有边界。不按版本/测试数算完成率，不顺带重构或拆微任务耗额度。
+6. 原16/r12 run_completed和4/4满，不第5跑；91/95/115/121/124等消费包不重放。Sierra实际模型20/保守24、管理413/登录28、unknown/四槽和旧费界保持。141独立Claude网关failed_no_review/CLI估算0.074255USD单列非账单/内部HTTP未知，禁止重试/提高预算/换号/冒充审查完成，不是Codex额度失败。
 7. 实际Codex不足立即尽可能整份交接并停，不重试/换号/购买/用券。只读必要文件、不通读项目/巨历史、不全量；只复用加密凭据、不抄聊天密码/输出秘密。管理员仅核并重启所属固定快照，不按端口杀其它进程。
 
 ## 4. 外部边界与账本
