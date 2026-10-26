@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（2026-10-26，第161验收通过待提交）
+# HANDOFF — Sierra（2026-10-26，第161交付）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent/main，上阶段160实现56ab019/关闭dbc11f3已推送clean，work/task-message-window323/finalization-proof.json complete。本轮161功能、定向验证和部署通过，尚无实现commit，BACKLOG161仍doing，保留未提交变更。
+- 项目E:\workSpace\dify-agent/main，上阶段160实现56ab019/关闭dbc11f3已推送clean，work/task-message-window323/finalization-proof.json complete。本轮161实现f933ba5存在、定向验证/部署通过，BACKLOG161已done；最终关闭commit/push/clean见work/workspace-view324/finalization-proof.json和实际Git，不猜自引用commit。
 - 实际运行0.324.0-62ac2d3e66eb9a14f737/274文件，原start/stop/所属PID与快照/health和前端200、源码快照全文件及原16全部对象设置账本密文主Key/124保护通过。work/workspace-view324/deployment-proof.json及managed-runtime-proof.json。
 - 161：独立workspace_view=compact只传最近消息/版本索引，版本按原顺序保留ID/精确修订/标签/时间等元数据，完整快照仍由旧比较/恢复服务读实际存档。旧完整/仅消息窗/写回执兼容，投影不入Store；缺失/重复ID、字段/编码/条数5000/索引2MB限制给具体不可用原因，不列部分或谎称无历史。旧布尔/巨大修订不补猜、坏时间显示无法核对，真正空版本单独显示。
 - 新17/相关57后端分组（16新+26消息+31恢复=73通过，精确字节边界后加1通过，不虚增重复），新UI7/消息UI13及构建通过，未全量。UIfixture残留long变量先失败已修，原日志保留。最终UI有Windows连接重置/有界清理诊断但exit0/线程退出/临时目录清理/原16断言通过，不作为业务失败或重试理由；真实模型/Dify0。完整私有标记旧快照、预览token和实际恢复结果经隔离后端核对，浏览业务写入0，仅fixture变ID明确拒绝测试。
@@ -19,7 +19,7 @@
 
 ## 3. 下一步（先完成161闭环，再继续实质开发）
 
-1. 161代码/定向验证和274文件受管理部署/原16保护已通过；先diff/check明确列文件实现commit（含AGENTS条款一致化、CHANGELOG/README/状态/索引/本交接/Backlogdoing），实现commit存在后标161done写实际证据，关闭文档commit/push原main。核origin==HEAD/clean，写work/workspace-view324/finalization-proof.json；work/凭据/生产数据不提交。
+1. 161实现f933ba5存在、BACKLOG161已done；先读work/workspace-view324/finalization-proof.json和Git，已complete/origin==HEAD/clean不重复提交推送，否则补齐关闭文档/push/实证。随后继续第一pending或核实新的既定需求实质缺口，不重做已完成161；每push先CHANGELOG/README、整份交接，work及生产数据不提交。
 2. Git用require_escalated、命令级safe.directory=E:/workSpace/dify-agent、单次-c http.version=HTTP/1.1沿现有127.0.0.1:7890代理推原https://github.com/xiaosongxiaosong1111/dify-agent.git，不改全局/TLS/no force，不让用户代提交；每push前CHANGELOG/适用README、整份交接。
 3. 用户要求持续到实际额度不足，不因模块完成或普通队列空停。按第一pending；空时核实既定需求的具体可开发缺口入队，一项一项，不为耗额度造微任务，不把40未重核当40未开发。后续可核实当前Task的材料提取正文/规划运行记录是否仍造成重读，先读对应组件/接口实际使用和兼容边界再设计，别未核实就删字段；目前只优化消息/版本读取，不是DB拆分或其它数组分页。
 4. sierra一次性2026-10-27 01:18已设，执行先暂停自身再确认cwd读最新交接/实际额度，不重建、不猜到时必恢复。真正Codex不足立即尽可能整份交接停，不反复工具探额度/重试，不换号/购买/用券。此前159/160 complete不要重做。
