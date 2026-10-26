@@ -83,7 +83,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.317.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.318.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -594,11 +594,14 @@ def recover_planning():
     for task in store.list("task"):
         changed = False
         for operation in task.get("planning_runs", []):
-            upgrade_boundary=bool((operation.get('routing') or {}).get('upgrade') and task.get('status')=='planning' and operation.get('status')=='paused')
+            upgrade_boundary=bool(((operation.get('routing') or {}).get('upgrade') or operation.get('planning_tools')) and task.get('status')=='planning' and operation.get('status')=='paused')
             if operation.get("status") in {"running", "ready_to_confirm"} or upgrade_boundary:
                 if (operation.get('routing') or {}).get('upgrade'):
                     from .lightweight_upgrade import interrupt_phases
                     interrupt_phases(operation)
+                if operation.get('planning_tools'):
+                    from .planning_tools import interrupt_receipts
+                    interrupt_receipts(operation)
                 for attempt in operation.get("attempts", []):
                     if attempt.get("status") == "pending":
                         attempt.update(status="unknown_usage", cost_basis="reserved_unknown_usage", estimated_cost_usd=attempt.get("reserved_cost_usd", 0))
@@ -633,6 +636,7 @@ async def generate_plan(item_id: str, payload: Revision):
         from .node_guidance import for_task as node_rules_for_task, provenance as node_rule_provenance
         node_guidance = node_rules_for_task(task)
         settings = copy.deepcopy(get_settings())
+        tool_context=planning_tool_policy.context(task,provider)
         previous_status = task["status"]
         operation = {"id": str(uuid.uuid4()), "revision": task["revision"], "provider_id": provider["id"], "model": provider["model"], "status": "running", "previous_status": previous_status, "attempts": [], "created_at": now(), "settings": settings, "pricing": copy.deepcopy(provider.get("pricing")), "estimated_cost_usd": 0, "cost_is_estimate": True}
         operation["node_guidance"] = node_rule_provenance(node_guidance)
@@ -677,12 +681,19 @@ async def generate_plan(item_id: str, payload: Revision):
         if current["status"] == "paused":
             raise PlanningStopped("user_pause", "已按你的要求停止后续修复。已派发的调用用量已记录，候选未应用。")
         budgets.ready(item_id)
+        if tool_context:
+            try:current_tools=planning_tool_policy.context(current,main_provider(current))
+            except HTTPException:raise PlanningStopped('tool_source_changed','规则工具策略/模型/目标版本或规则库已变化，未继续或应用。') from None
+            if current_tools!=tool_context:raise PlanningStopped('tool_source_changed','规则工具确认来源已变化，未继续或应用。')
 
     async def invoke(call_messages, timeout):
         return await budgets.call(item_id,payload.revision,'plan',provider,key,call_messages,operation_id=operation['id'],max_tokens=6000,timeout=timeout,json_mode=provider.get("protocol")!='anthropic')
 
     try:
-        plan = await draft_plan(task, provider, messages, settings, operation, invoke, lambda p: validate_plan(task, p), checkpoint, guard)
+        if tool_context:
+            from .planning_tools import run as tool_plan
+            plan=await tool_plan(sys.modules[__name__],task,provider,key,messages,settings,operation,tool_context,lambda p:validate_plan(task,p),checkpoint,guard)
+        else:plan = await draft_plan(task, provider, messages, settings, operation, invoke, lambda p: validate_plan(task, p), checkpoint, guard)
         with store.lock:
             guard()
             from .acceptance import same_json
@@ -2364,3 +2375,6 @@ register_history_search(sys.modules[__name__])
 
 from .plan_change_preview import register as register_plan_change_preview
 register_plan_change_preview(sys.modules[__name__])
+
+from .planning_tool_policy import register as register_planning_tool_policy
+register_planning_tool_policy(sys.modules[__name__])

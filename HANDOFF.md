@@ -1,11 +1,13 @@
-# HANDOFF — Sierra（2026-10-26，154限定轻量失败升级）
+# HANDOFF — Sierra（2026-10-26，第155实现待提交）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent/main。153实现1d8266d/交接db947f8已推送且work/plan-draft-undo316终结proof complete/pushed/clean；154实现6c30b65/BACKLOG done，已部署0.317.0-51e6aec156a675fd2e5c/268文件/所属PID/health及前端200。本交接提交推送后闭环以work/lightweight-upgrade317/finalization-proof.json为准，未生成前不推断。
-- 新功能：cases可独立明确范围版本1和固定主模型，轻量一次返回无法解析JSON且最终用量/费用可计算时，主模型一次使用原上下文；两阶段不修复、最多2HTTP，共享本轮时间/费用与累计账本。未知/非格式/业务/暂停/来源或预算/时间失效不升级，重启只保留/中断不继续。默认关闭，原16生产策略全部不变，没有真实模型/Dify请求。
-- 新40/相关135后端最终定向、新UI7/撤销UI7与构建通过，首轮仅设置夹具误写global而实际为execution的失败日志保留，未全量。两阶段用量/原失败及候选实际主模型来源可见，未自动采纳样例或试跑。T126仅首批限定证据/current_evidence，acceptance_closed=false；43项未重核，不是全项目完成百分比。
-- 原16/设置能力/旧账本全部密文主Key/124原文件精确保持。141网关失败无审查、CLI估算0.074255 USD单列非账单/内部HTTP未知，不重试。用户继续功能开发直到实际Codex不足授权保持，最近工具返回primary0%/weekly0%、ordinaryUsageAllowed=true（不推断重置原因/周期，未用券/购买），无实际不足。T078本机管理员只读证实引擎管道缺失，未启引擎/容器或宿主机exec替代。
+- 项目E:\workSpace\dify-agent/main，当前HEAD/origin为5337ffd；155功能及检查已通过，等待实现commit与闭环push，BACKLOG仍doing。不丢未提交源码。实际已部署0.318.0-e67b37edfd0b97d8803f/271文件，原start/stop、PID归属/快照校验、health及前端200、源码与快照全部文件/原16/密文主Key/账本/124保护均通过。work/planning-tools318/deployment-proof.json及managed-runtime-proof.json。
+- 新主规划只读规则工具：Workflow/Chatflow固定已验证协议当前主模型、范围版本1/声明1.17.1/规则库，默认off；最多2模型HTTP/1模型触发注册纯查询，共享原轮次和累计预算。没有实际工具请求不查询，无任意文件/URL/代码/资源/网络执行。真实查询/完整结果配对回注及字节/摘要/来源有回执；示例非配置/批准/运行，停下和重启不续派。docs/planning-tools.md及设计，T042首批限定证据，42not_reaudited/84current_evidence/10scope_limited、全验收未关闭。
+- 新工具55项、终态14项、相关201项定向后端/新UI7/升级UI7及构建通过，无全量。日志在work/planning-tools318。首轮temp目录旧ACL，改用新basetemp且禁cache；夹具settings存储ID/Agent无计划/首阶段预留阈值不匹配已修，原失败保留。不是生产门禁退让。
+- 发现并修复154真实线格式漏洞：非空length原可能误升级或保存候选；可选require_final_text仅该升级使用，OpenAI/Anthropic完整终态14例通过，普通/流式/图像默认兼容保持。生产原16没有启用升级或新工具，真实Sierra/Dify新增0。
+- 用户本轮再次要求Claude多线程，已实际独立并行派0.317文档边界核对，Claude Code既有网关配置deepseek-flash，必要片段/无工具/384输出/重试0/一次CLI/估算阈值0.05。work/claude-doc-review318/receipt.json failed_no_review、exit1/is_error true/subtype success、models空、CLI估算0/22.75秒；原因/内部HTTP/实际账单未知，不重试，不声称审查通过。旧304预算失败CLI估算0.074255USD单列不重放。
+- 最近额度primary64%/weekly10%已用、ordinaryUsageAllowed true，无实际Codex额度失败；不换号/购券/用券。原16/r12 run_completed、4/4满，旧包不重放。T078本机引擎管道缺失保持，不启动Docker或宿主exec替代。
 
 ## 2. 已消费批与保护
 
@@ -14,16 +16,14 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（154已部署验收，闭环后继续实质功能）
+## 3. 下一步（先完成155闭环）
 
-1. 核work/lightweight-upgrade317/finalization-proof.json、Git/实际版本；6c30b65已提交且BACKLOG done，本交接提交后推原main，核clean/origin一致。每push先CHANGELOG/相关README，不让用户代提交。Git单次-c http.version=HTTP/1.1经现有127.0.0.1:7890代理成功，不改全局/TLS。
-2. assistant_routing新增upgrade默认off，独立ack/范围版本1/固定主模型ID+stamp，旧scope18数据范围不变，旧客户端不扩大授权。升级条件只cases/JSON无法解析/费用已知；无法判断业务或资源时仍停。主模型缺/同服务/无价/无Key/来源或范围版本变化、max_retries0均不派发。原16未开启生产升级，不允许为验证新功能去调用旧真实任务或消费批。
-3. lightweight_upgrade.py两阶段各一次，TaskBudget每次独立预留/结算；主阶段用原始上下文，不拼第一份无效输出，总时间/费用扣首阶段、累计ledger不重置/借用未知。op.phases和逐次provider/model真实、routing.final_role与候选generation_origin指向实际主模型；未派发预检不等实际HTTP。recover_planning只对带新upgrade标识的两阶段边界/在途phase补中断，已知与unknown保持且不重放。
-4. 新40/相关135最终后端全过；UI7独立双确认→保存零调用→新建议恰好两次替身→来源/原失败/用量→关闭留史→旧主模型拒绝且保留草稿，撤销UI7回归。早期first.log设置夹具写错ID导致拒绝失效，已改真实settings/execution，未放松门禁。docs/lightweight-upgrade.md为使用/完整边界，design为范围记录。T126部分归入current_evidence，仍非通用升级或真实服务质量。
-5. 按BACKLOG首pending继续；无pending仅核实既定需求实质缺口再入队，不为耗额度重复验证或做微任务。可核T042主Agent专业只读工具注册/查询：现有providers.call_model仅普通文本/JSON，provider_tool_probe只观察单工具请求不执行；NodeGuidance已有默认确定性上下文，先证实主动工具查询的实际缺口再设计，不重复已有能力、不加真实调用。复杂工具/嵌套容器/文件/T078与更多业务仍有边界，43未整体重核。
-6. 0.316本页撤销/恢复和Agent共同预览、0.315精确保存前变化、0.314模型测试来源、0.313历史原话、0.312编辑基准/0.311序号等保持。部署仅原所属PID/固定快照/脚本，不按端口杀进程；新回合E项目write/network工具获取，不改ACL。work/plan-change-preview315/targeted.log有16MB长pytest ID日志，不读全行，corrected.log新18通过。
-7. 原16/r12 run_completed且4/4满，不第5跑；91/95/115/121/124消费包不重放。Sierra实际模型20/保守24、管理413/登录28、unknown/四旧槽和旧费用界保持。仅复用加密凭据，不抄聊天密码/输出秘密；141Claude网关失败禁止重试/提高预算/换号/冒充审查成功。
-8. 实际Codex不足立即尽可能整份交接并停，不反复重试/换号/购买/用券。不因小模块完成停止，也不制造无意义调用；只读必要文件，不通读项目/290KB历史、不全量，仅实质成果、失败或需用户处理时通知。
+1. 核对Git diff、docs/planning-tools.md/CHANGELOG/README/HANDOFF，原保护和受管理部署已通过；155实现文件规划工具3模块/main/task_budget/providers/lightweight_upgrade、前端策略/进度/App及2新测试，明确列文件commit，work回执不提交。先实现commit存在才能将BACKLOG155标done并补实际证据，再闭环文档commit、push原main，最终写work/planning-tools318/finalization-proof.json。每push前根CHANGELOG已更新，README新运行版已更新；不让用户代commit。
+2. Git origin已授权原https://github.com/xiaosongxiaosong1111/dify-agent.git，.git操作用require_escalated和命令级safe.directory=E:/workSpace/dify-agent；单次-c http.version=HTTP/1.1沿用现有127.0.0.1:7890代理，不改全局/关TLS/no force。推送失败保留本机commit和实证，不假称已推送。
+3. 155完成后继续功能开发，按BACKLOG第一pending；若无pending仅旧已消费blocked，按既定需求核实下个具体实质缺口、加入队列，一次一项。只读必要文件，不通读项目/290KB历史，不为耗额度拆微任务，不因一个模块完停止。T042首批专业规则工具已补，不再说完全没有模型工具能力，仍非任意工具/原生Agent或真实质量签收。
+4. 当前Runtime0.318.0-e67b37edfd0b97d8803f固定271文件；保护脚本work/planning-tools318/protect.py，部署脚本同目录（前提旧0.317，已消费不可重放）。新源码需新快照与所属进程校验，不能按端口任意杀进程。既有数据保持，不在真实Task启用或发模型探测以凑验证；55工具/14终态/201相关、UI7/7已过，不无意义重跑全量。
+5. 原16/r12 run_completed且4/4满，不第5跑；91/95/115/121/124消费包不重放。Sierra实际模型20/保守24、管理413/登录28、unknown/四旧槽及费用边界保持；不借/自动退旧预留，不输出/提交凭据，只用保存加密资料。
+6. Claude本次独立审查失败原因未明，网关未证明恢复时不为形式重试，不提高预算/换账号/冒充审查通过；旧304不重跑。真正Codex额度不足立刻尽可能整份更新交接并停，不重试/换号/购券/用券。
 
 ## 4. 外部边界与账本
 

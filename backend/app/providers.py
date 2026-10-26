@@ -33,9 +33,10 @@ def checked_url(value: str) -> str:
     return value.rstrip("/")
 
 
-async def call_model(provider: dict, key: str, messages: list[dict], *, max_tokens=2048, timeout=60, json_mode=False, allow_images=False, stream=False, on_delta=None):
+async def call_model(provider: dict, key: str, messages: list[dict], *, max_tokens=2048, timeout=60, json_mode=False, allow_images=False, stream=False, on_delta=None, require_final_text=False):
     if type(stream)is not bool or (on_delta is not None and not stream):raise ProviderError('流式须明确启用；普通请求不接受增量回调。')
     if stream and allow_images:raise ProviderError('首批流式仅适配纯文字，不能复用图像出站确认。')
+    if type(require_final_text)is not bool or require_final_text and stream:raise ProviderError('完整终稿守卫仅用于明确的普通请求，不静默切换流式。')
     reported_usage = {}
     finish_reason = None
     if not key:
@@ -85,11 +86,15 @@ async def call_model(provider: dict, key: str, messages: list[dict], *, max_toke
         data = response.json()
         reported_usage = usage_summary(data.get('usage')) if isinstance(data, dict) else {}
         if protocol == "anthropic":
+            if require_final_text:
+                reason=data.get('stop_reason');finish_reason='length' if reason=='max_tokens' else 'tool_calls' if reason=='tool_use' else 'stop' if reason=='end_turn' else None
+                if finish_reason!='stop' or data.get('role')!='assistant' or any(isinstance(block,dict) and block.get('type')=='tool_use' for block in data.get('content',[])):raise ProviderError('模型未明确返回完整助手终稿；截断/工具请求/未知终态不触发自动升级。',usage=reported_usage,finish_reason=finish_reason)
             text = "\n".join(x.get("text", "") for x in data.get("content", []) if x.get("type") == "text")
         else:
             choice = data["choices"][0]
             reason = choice.get('finish_reason')
             finish_reason = reason if reason in {'stop', 'length', 'tool_calls', 'content_filter'} else None
+            if require_final_text and (finish_reason!='stop' or choice.get('message',{}).get('role')!='assistant' or choice.get('message',{}).get('refusal') or choice.get('message',{}).get('tool_calls')):raise ProviderError('模型未明确返回完整助手终稿；截断/拒绝/工具请求或未知终态不触发自动升级。',usage=reported_usage,finish_reason=finish_reason)
             text = choice["message"].get("content") or ""
         if not isinstance(text, str) or not text.strip():
             message = "模型达到输出上限但没有返回正文；已保留可用用量，请核对规划模型的思考模式或输出限制。" if finish_reason == 'length' else "模型未返回可用文本；可能仅返回工具调用或不支持当前请求。"

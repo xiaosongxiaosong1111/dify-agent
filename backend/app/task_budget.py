@@ -66,11 +66,16 @@ class TaskBudgetManager:
             state=self.state(self.get(item_id))
             if state['blocker']:raise PlanningStopped('task_budget_review',state['blocker'])
 
-    async def call(self,item_id,revision,kind,provider,key,messages,*,operation_id=None,image_reserve_usd=None,**kwargs):
+    async def call(self,item_id,revision,kind,provider,key,messages,*,operation_id=None,image_reserve_usd=None,planning_tool_stage=None,**kwargs):
         h=self.h
         if not key:raise ProviderError('该模型尚未配置 API Key，请先填写。')
         rates=validate_pricing(provider.get('pricing'))
-        multimodal=any(not isinstance(m.get('content'),str) for m in messages)
+        counted_messages=messages
+        if planning_tool_stage is not None:
+            from .planning_tool_protocol import pricing_messages
+            counted_messages=pricing_messages(messages,planning_tool_stage)
+            if kind!='plan' or kwargs.get('stream') or kwargs.get('allow_images'):raise ProviderError('只读规则工具只服务普通规划，不用于流式、图像或其它任务。')
+        multimodal=any(not isinstance(m.get('content'),str) for m in counted_messages)
         if multimodal:
             from .image_messages import prepare_messages
             from .providers import checked_url
@@ -90,7 +95,7 @@ class TaskBudgetManager:
             if reserved<minimum:raise ProviderError('图像预留低于明确文字与最大输出的已知估算，未派发；请按真实图像计价重新核对，不会缩减输出限制。')
         else:
             if image_reserve_usd is not None:raise ProviderError('图像单次预留不能用于绕过普通文字费用预检。')
-            reserved=reserve_cost(messages,rates,kwargs.get('max_tokens',6000)) if rates is not None else None
+            reserved=reserve_cost(counted_messages,rates,kwargs.get('max_tokens',6000)) if rates is not None else None
         with h.store.lock:
             task=h.get_task(item_id);h.require_revision(task,revision)
             ledger=self.get(item_id,create=True);state=self.state(ledger)
@@ -100,6 +105,7 @@ class TaskBudgetManager:
                 elif Decimal(state['accounted_estimated_usd'])+reserved>Decimal(ledger['limit_usd']):reason=reason or '下一次调用的预留会超过任务累计上限，未派发；更换修订或再次点击不会清空费用。'
             if reason:raise PlanningStopped('task_budget_limit',reason)
             entry={'id':str(uuid.uuid4()),'operation_id':operation_id,'revision':revision,'kind':kind,'provider_id':provider['id'],'model':provider['model'],'pricing':copy.deepcopy(rates),'reserved_usd':str(reserved) if reserved is not None else None,'charged_usd':None,'status':'reserved','cost_basis':('user_declared_image_reserve' if multimodal else 'reserved_estimate') if reserved is not None else 'price_unknown','modality':'image' if multimodal else 'text','image_reserve_is_estimate':multimodal,'usage':None,'started_at':h.now(),'policy_revision':ledger['policy_revision']}
+            if planning_tool_stage is not None:entry['request_scope']='planning_node_rules_'+planning_tool_stage
             ledger['entries'].append(entry);h.store.put('task_budget',item_id,ledger)
         start=time.monotonic()
         def settle(usage,call_status,partial_usage=None):
@@ -111,7 +117,10 @@ class TaskBudgetManager:
                 if partial_usage is not None:target['partial_reported_usage']=usage_summary(partial_usage);target['partial_usage_is_final']=False
                 h.store.put('task_budget',item_id,current)
         try:
-            text,usage=await h.call_model(provider,key,messages,**kwargs)
+            if planning_tool_stage is not None:
+                from .planning_tool_protocol import request
+                text,usage=await request(provider,key,messages,stage=planning_tool_stage,**kwargs)
+            else:text,usage=await h.call_model(provider,key,messages,**kwargs)
         except BaseException as exc:
             settle(exc.usage if isinstance(exc,ProviderError) else None,'failed_or_interrupted',exc.partial_usage if isinstance(exc,ProviderError) else None)
             raise

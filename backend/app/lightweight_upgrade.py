@@ -58,7 +58,7 @@ async def run(h,task,provider,key,messages,settings,operation,context,validate,c
         async def invoke(msgs,timeout):
             source_guard()
             remaining=settings['max_minutes']*60-(clock()-started)
-            return await asyncio.wait_for(h.budgets.call(task['id'],task['revision'],'cases',model,secret,msgs,operation_id=operation['id'],max_tokens=6000,timeout=min(timeout,remaining),json_mode=model.get('protocol')!='anthropic'),timeout=remaining)
+            return await asyncio.wait_for(h.budgets.call(task['id'],task['revision'],'cases',model,secret,msgs,operation_id=operation['id'],max_tokens=6000,timeout=min(timeout,remaining),json_mode=model.get('protocol')!='anthropic',require_final_text=True),timeout=remaining)
         try:return await draft_plan(task,model,copy.deepcopy(messages),limits,row,invoke,validate,lambda:capture(row),source_guard,clock=clock)
         except BaseException:
             if row.get('status')=='running':row.update(status='interrupted',message='本阶段中断，原用量与未知预留保持，不自动重发。')

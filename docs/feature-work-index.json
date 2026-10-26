@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-26",
-  "product_version": "0.317.0",
+  "product_version": "0.318.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -609,12 +609,18 @@
       "deliverable": "主 Agent 基础",
       "acceptance": "专业规则和允许工具明确；工具结果不能被口述替代",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "docs/planning-tools.md",
+        "docs/planning-tools-design.md",
+        "backend/app/planning_tool_protocol.py",
+        "backend/app/planning_tool_policy.py",
+        "backend/app/planning_tools.py",
+        "backend/tests/test_planning_tools.py"
       ],
       "historical_status_20261020": "受阻",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.318首批Workflow/Chatflow只读规则工具注册，真实工具请求/纯查询/完整结果回注有独立记录；默认关闭、固定来源、最多2HTTP/1分派/共享原预算。合成替身及UI通过，原16未启用、真实外部0；非通用工具/原生Agent/服务质量或目标平台验收。"
     },
     {
       "id": "T043",
