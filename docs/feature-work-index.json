@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-26",
-  "product_version": "0.318.0",
+  "product_version": "0.319.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -465,12 +465,15 @@
       "deliverable": "流程预览",
       "acceptance": "只展示当前方案；类型说明准确，不伪装原生画布",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "frontend/src/PlanGraph.tsx",
+        "frontend/src/PlanConnections.tsx",
+        "docs/plan-connections.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.319当前草稿连接/原分支handle/同层显式变量来源定位，结构上游下游有界追踪，容器分层/截断/缺失/重复ID明确；12项隔离UI与构建通过。非条件模拟、最终合并DSL图或真实运行轨迹，T032完整范围未签收。"
     },
     {
       "id": "T033",

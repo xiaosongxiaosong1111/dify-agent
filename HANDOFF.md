@@ -1,13 +1,14 @@
-# HANDOFF — Sierra（2026-10-26，第155验收完成待推送）
+# HANDOFF — Sierra（2026-10-26，第156验收通过待提交）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent/main，实现f5c6b12（原origin5337ffd）；155验收完成且实现commit已存在，BACKLOG155已done，等待本次文档闭环commit及push。实际已部署0.318.0-e67b37edfd0b97d8803f/271文件，原start/stop、PID归属/快照校验、health及前端200、源码与快照全部文件/原16/密文主Key/账本/124保护均通过。work/planning-tools318/deployment-proof.json及managed-runtime-proof.json。
-- 新主规划只读规则工具：Workflow/Chatflow固定已验证协议当前主模型、范围版本1/声明1.17.1/规则库，默认off；最多2模型HTTP/1模型触发注册纯查询，共享原轮次和累计预算。没有实际工具请求不查询，无任意文件/URL/代码/资源/网络执行。真实查询/完整结果配对回注及字节/摘要/来源有回执；示例非配置/批准/运行，停下和重启不续派。docs/planning-tools.md及设计，T042首批限定证据，42not_reaudited/84current_evidence/10scope_limited、全验收未关闭。
-- 新工具55项、终态14项、相关201项定向后端/新UI7/升级UI7及构建通过，无全量。日志在work/planning-tools318。首轮temp目录旧ACL，改用新basetemp且禁cache；夹具settings存储ID/Agent无计划/首阶段预留阈值不匹配已修，原失败保留。不是生产门禁退让。
-- 发现并修复154真实线格式漏洞：非空length原可能误升级或保存候选；可选require_final_text仅该升级使用，OpenAI/Anthropic完整终态14例通过，普通/流式/图像默认兼容保持。生产原16没有启用升级或新工具，真实Sierra/Dify新增0。
-- 用户本轮再次要求Claude多线程，已实际独立并行派0.317文档边界核对，Claude Code既有网关配置deepseek-flash，必要片段/无工具/384输出/重试0/一次CLI/估算阈值0.05。work/claude-doc-review318/receipt.json failed_no_review、exit1/is_error true/subtype success、models空、CLI估算0/22.75秒；原因/内部HTTP/实际账单未知，不重试，不声称审查通过。旧304预算失败CLI估算0.074255USD单列不重放。
-- 最近额度primary64%/weekly10%已用、ordinaryUsageAllowed true，无实际Codex额度失败；不换号/购券/用券。原16/r12 run_completed、4/4满，旧包不重放。T078本机引擎管道缺失保持，不启动Docker或宿主exec替代。
+- 项目E:\workSpace\dify-agent/main，HEAD/origin07f7d85，第155实现f5c6b12/闭环07f7d85已推送clean，work/planning-tools318/finalization-proof.json complete；本次156验收及部署通过但尚无实现commit，BACKLOG156仍doing，保留未提交功能。
+- 实际运行0.319.0-829c924802c1ba5bd8ed/271文件，原脚本/所属快照PID校验、health及前端200/全部源码快照/原16及全部旧对象设置密文主Key/124保护通过。work/plan-connections319/deployment-proof.json、managed-runtime-proof.json。
+- 156：当前草稿进出连接/原始分支handle/同层显式选择器来源定位，全部结构上游下游追踪；不模拟条件命中或执行路径，容器分层、缺失/未绘制/重复ID/100节点250边/清单60/选择器40项2000结构项16层边界明确。原配置原文/键盘缩放和坏结构保护保持，改稿清选择。新PlanConnections.tsx/PlanGraph.tsx/style.css，backend main仅版本号变更。
+- 隔离UI12和构建通过，预览写0，真实模型/Dify0，未全量或重复后台测试。初次选择器把SVG节点和边混算8vs4已纠正，原日志保留；实际功能未降低门禁。docs/plan-connections.md、README/CHANGELOG/状态/索引已更新；T032仅本切片证据，41not_reaudited/85current_evidence/10scope_limited，完整验收仍false。
+- 已交付155默认关闭的只读规则工具及154非空截断误升级修复，新工具55/终态14/相关201后端、新UI7/升级UI7通过。原16未启用新工具或升级；所有实际Sierra/Dify范围不变。
+- 用户要求Claude多线程，已独立并行派0.317文档边界核对，Claude Code网关配置deepseek-flash、必要片段无凭据/客户资料/完整仓库；一次CLI失败无审查，报告估算0/models空/22.75秒，原因/内部HTTP/账单未知，不重试。work/claude-doc-review318/receipt.json。旧304预算失败CLI估算0.074255USD另存、不重放，不假称子审查通过。
+- 原16/r12 run_completed、4/4满，旧批不重放，T078本机引擎管道缺失、不宿主exec替代。没有实际Codex额度不足；实际不足立刻尽可能整份更新本文件并停，不购买/换号/用券。
 
 ## 2. 已消费批与保护
 
@@ -16,14 +17,14 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（先完成155闭环）
+## 3. 下一步（先完成156提交推送）
 
-1. 155实现f5c6b12存在、验收及受管理部署已通过，BACKLOG155已done；先提交本次关闭文档并push原main，核origin==HEAD/工作树clean后写work/planning-tools318/finalization-proof.json。再按下一pending继续；没有pending时核实既定需求的新实质功能缺口后加入队列，不重复155。CHANGELOG/README本次已更新，work回执不提交。
-2. Git origin已授权原https://github.com/xiaosongxiaosong1111/dify-agent.git，.git操作用require_escalated和命令级safe.directory=E:/workSpace/dify-agent；单次-c http.version=HTTP/1.1沿用现有127.0.0.1:7890代理，不改全局/关TLS/no force。推送失败保留本机commit和实证，不假称已推送。
-3. 155完成后继续功能开发，按BACKLOG第一pending；若无pending仅旧已消费blocked，按既定需求核实下个具体实质缺口、加入队列，一次一项。只读必要文件，不通读项目/290KB历史，不为耗额度拆微任务，不因一个模块完停止。T042首批专业规则工具已补，不再说完全没有模型工具能力，仍非任意工具/原生Agent或真实质量签收。
-4. 当前Runtime0.318.0-e67b37edfd0b97d8803f固定271文件；保护脚本work/planning-tools318/protect.py，部署脚本同目录（前提旧0.317，已消费不可重放）。新源码需新快照与所属进程校验，不能按端口任意杀进程。既有数据保持，不在真实Task启用或发模型探测以凑验证；55工具/14终态/201相关、UI7/7已过，不无意义重跑全量。
-5. 原16/r12 run_completed且4/4满，不第5跑；91/95/115/121/124消费包不重放。Sierra实际模型20/保守24、管理413/登录28、unknown/四旧槽及费用边界保持；不借/自动退旧预留，不输出/提交凭据，只用保存加密资料。
-6. Claude本次独立审查失败原因未明，网关未证明恢复时不为形式重试，不提高预算/换账号/冒充审查通过；旧304不重跑。真正Codex额度不足立刻尽可能整份更新交接并停，不重试/换号/购券/用券。
+1. 156隔离UI12/构建及受管理部署已通过；先git diff/check、明确列文件commit（包括README/CHANGELOG/状态/索引/本交接/Backlogdoing），实现commit存在后才将156标done并加证据，闭环文档commit/push。原main/remote固定，不能让用户代commit；work与生产数据/凭据不提交。推送后核origin==HEAD/clean、写work/plan-connections319/finalization-proof.json。
+2. 已验证Git用require_escalated、命令级safe.directory=E:/workSpace/dify-agent、单次-c http.version=HTTP/1.1可推原https://github.com/xiaosongxiaosong1111/dify-agent.git，沿用现有127.0.0.1:7890代理，不改全局/TLS/no force。每push前CHANGELOG和README已经更新，不假称未推结果。
+3. 完成156后按BACKLOG第一pending继续实际功能；若没有pending、只剩旧已消费blocked，按既定需求核实具体新缺口后入队，一次一项，不为耗额度造微任务或重复验收准备。T032目前是当前草稿连接/变量/结构辅助，不补猜最终DSL或运行图已验收；T042是固定规则工具，非任意工具/原生Agent或真实质量签收。
+4. 当前固定运行0.319.0-829c924802c1ba5bd8ed，271文件；保护脚本work/plan-connections319/protect.py。该目录部署脚本前提旧0.318且已执行，禁止重放。新源码需新快照和所属进程校验，不能按端口任意杀进程。预览操作0写入、原16保持，不为验证新增真实模型/Dify调用或自动启用策略。
+5. 原16/r12 run_completed且4/4满，不第5跑；91/95/115/121/124消费包不重放。Sierra实际模型20/保守24、管理413/登录28、unknown/四旧槽和费用边界保持，不借/自动退预留。只用加密凭据，不从聊天抄密码/输出密钥。
+6. Claude上次独立委派失败原因未明，网关未证明恢复时不为形式重试，不提高预算/换号/冒充审查通过；旧304不重跑。实际Codex不足时停止，不靠反复工具请求探额度或重试；尽可能整份交接，不购券/用券。只读必要文件，不通读项目/290KB历史，不全量；work/plan-change-preview315/targeted.log长16MB不要读全行。
 
 ## 4. 外部边界与账本
 
