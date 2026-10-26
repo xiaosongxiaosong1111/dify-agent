@@ -18,7 +18,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException, UploadFile, File, Request, APIRouter
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Request, APIRouter
 from .contract_loading import load_contract
 from .material_text import source_metadata as material_source_metadata
 from .material_documents import PartialDocument,extract_pdf,extract_docx
@@ -83,7 +83,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.328.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.329.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -952,9 +952,12 @@ async def send_message(item_id: str, payload: Message):
 app.include_router(message_router)
 
 @app.post("/api/tasks/{item_id}/materials")
-async def upload_material(item_id: str, file: UploadFile = File(...)):
+async def upload_material(item_id: str, file: UploadFile = File(...), expected_revision: str|None = Form(None)):
     task = get_task(item_id)
     require_idle(task)
+    if expected_revision is not None:
+        if not re.fullmatch(r'[1-9][0-9]{0,15}',expected_revision) or int(expected_revision)>9007199254740991:raise HTTPException(422,'材料上传须携带明确的正整数来源修订，未回显原参数。')
+        require_revision(task,int(expected_revision))
     raw = await file.read(20 * 1024 * 1024 + 1)
     if len(raw) > 20 * 1024 * 1024:
         raise HTTPException(413, "当前单文件上限为 20MB，请拆分资料。")
@@ -986,8 +989,14 @@ async def upload_material(item_id: str, file: UploadFile = File(...)):
         if isinstance(exc,PartialDocument):partial_text=exc.partial_text;extraction_coverage=exc.coverage
         error = str(exc) if isinstance(exc, (ValueError, UnicodeDecodeError)) else "文件解析失败，请检查文件或转换为可读取文本。"
     with store.lock:
-        task = get_task(item_id)
-        require_idle(task)
+        try:
+            task = get_task(item_id)
+            require_idle(task)
+            if expected_revision is not None:require_revision(task,int(expected_revision))
+        except HTTPException:
+            # This random new file has not been registered or versioned yet.
+            path.unlink(missing_ok=True)
+            raise
         invalidate(task, "新增资料前保存")
         task["materials"].append({"id": material_id, "name": name, "size": len(raw), "sha256": hashlib.sha256(raw).hexdigest(), "status": status, "error": error, "text": text, "reference_mode": None, "preserve_items": "", "created_at": now()})
         if extraction_coverage is not None:task['materials'][-1]['extraction_coverage']=extraction_coverage

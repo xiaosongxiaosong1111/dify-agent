@@ -1,13 +1,13 @@
-# HANDOFF — Sierra（2026-10-26，第165交付）
+# HANDOFF — Sierra（2026-10-26，第166交付）
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；164实现981383d/关闭1472376已推送clean，work/material-search327/finalization-proof.json complete，不重做。165实现78531a0存在、BACKLOG165已done、定向验证/部署通过，最终关闭状态以Git/work/material-quote328/finalization-proof.json为准，不猜自引用hash。
-- 实际0.328.0-23caddfbb908aa4be746/275文件，work/material-quote328/deployment-proof.json、managed-runtime-proof.json；所属PID/固定快照/原start-stop/health及前端200/源快照全文件/原16全部对象设置账本密文主Key/124保护通过，真实模型/Dify0。
-- 165材料页显式重核后放入只读讨论草稿，材料ID/Task修订/完整字段及页摘要/码点范围/来源覆盖/未确认片段说明保留，只引当前最多4000码点页。已有输入、重核期间新输入、忙状态、源变与切换晚到不覆盖；坏正文拒绝、源变409清页/命中，不自动发送/采用/确认，不新增草稿持久化。后续用户明确发送才按原只读讨论调用模型计费。
-- 新UI8/查找UI11、相关39后端及构建通过，未全量，原Task/保存文字和原16保持。当前页浏览器独立核对摘要、完整字段由服务端指纹绑定，不重查原件/解析，非语义/业务验收。162/163/164已交付功能保持。
-- 最近额度工具primary74%/weekly26%已用、ordinaryUsageAllowed true，无实际不足，继续功能开发；sierra一次性2026-10-27 01:18北京时间ACTIVE，触发先暂停自身，按实际额度与最新交接，不重建/换号/购买/用券。
-- Claude既有网关实际deepseek-flash，work/claude-doc-review318/receipt.json独立失败无审查/CLI估算0/内部HTTP账单未知，不形式重试/冒充成功；旧304预算失败CLI估算0.074255USD另存，不重跑/提高预算。
+- E:\workSpace\dify-agent/main；165实现78531a0/关闭7f18491已推送clean，work/material-quote328/finalization-proof.json complete。166定向验证/部署通过，实现及关闭状态以Git/work/material-upload329/finalization-proof.json为准，不猜hash。
+- 实际0.329.0-a0e4e40c7446af725ef2/275文件，work/material-upload329/deployment-proof.json/managed-runtime-proof.json；所属PID/快照/原start-stop/health及前端200、源快照全文件、原16全部对象设置账本密文主Key/124保护通过，真实模型/Dify0。
+- 166多材料逐份上传、本页1—10份/合计50MB/每份原20MB前检、每份保存/解析/材料ID/修订、停止后续；错误/未知/切任务或源变不继续/重传，已保存保持。新可选expected_revision初始/登记前核对、前提变化清本次未登记随机原件，旧客户端及提交锁内读当前Task保持；不是整批事务/幂等/解析理解保证，数据库未知不盲删文件。队列只在本页，不自动恢复重放。
+- 新11/相关76后端（87合计）、新UI7/原引用UI8及构建通过，未全量。UI隔离六份有意保存/六版本/原字节及另一任务不变；包含三份成功/未解析、数量单份/总量、停止、第二份HTTP503/切换后不续发。Playwright50MB内存夹具首次受限，改浏览器DataTransfer超限选择后通过，原日志保留。
+- 最近额度primary80%/weekly27%已用、ordinaryUsageAllowed true，无实际不足，持续功能开发。sierra一次性2026-10-27 01:18北京时间ACTIVE、先暂停自身，按最新交接和实际额度，不重建/换号/购买/用券。
+- Claude既有网关实际deepseek-flash，work/claude-doc-review318/receipt.json独立失败无审查/CLI估算0/内部HTTP账单未知，不形式重试/冒充通过；304旧CLI估算0.074255USD另存不重跑或提高预算。
 
 ## 2. 已消费批与保护
 
@@ -16,14 +16,14 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（165闭环后持续功能开发）
+## 3. 下一步（166提交关闭后继续实质功能）
 
-1. 核实work/material-quote328/finalization-proof.json及Git；实现78531a0和验收已满足、BACKLOG165已done，补关闭文档/push/clean。已complete/origin==HEAD不重复；当前0.328.0-23caddfbb908aa4be746，同目录deploy.ps1前提旧0.327，不重放。
-2. 持续第一pending，普通队列空核实既定需求具体可开发缺口入队；不造耗额度微任务或仅验收准备，不把39未重核当39未开发。可核实多材料逐份上传体验与来源/失败边界；现upload_material最终锁内已重新get_task，不得未读完整函数就谎称旧快照覆盖。
-3. 每push前根CHANGELOG/适用README及整份交接；git require_escalated、safe.directory=E:/workSpace/dify-agent、命令级http.version=HTTP/1.1沿127.0.0.1:7890推原main，无force/全局/TLS修改/让用户代提交。work/数据/凭据不提交。
-4. 实际Codex不足尽可能整份交接立即停，不反复探额/重试/换号/购买/用券；sierra一次性01:18已设，首步暂停自身再读最新进度与实际额度，不重建/假定恢复。不能因小模块完成停或假报耗尽。
-5. 原16保护work/material-quote328/protect.py，新修改新快照及所属PID，不按端口杀进程；原任务r12/4对4满不第五跑，91/95/115/121/124不重放，Sierra20/保守24、管理413/登录28、unknown/四旧槽/费界保持，不借退预留。只用加密凭据，不抄聊天密码。
-6. 只读必要文件，不通读项目/290KB历史、不全量，16MB315旧日志不读全行；Claude无恢复证据不形式重试/加预算/冒充成功。162—164 complete不重做。
+1. 核实work/material-upload329/finalization-proof.json及Git；验收过且实现commit存在后BACKLOG166 done，再关闭文档/push/clean。已complete/origin==HEAD不重复；当前0.329.0-a0e4e40c7446af725ef2，同目录deploy.ps1前提旧0.328，不重放。
+2. 持续第一pending；队列空核实既定需求可开发缺口入队，不造耗额度微任务或只准备验收，不把39未重核当39未开发。可核实多份引用方式的逐项预览/明确提交体验；目前只能每份开原modal，保留FR-07逐份重要参考须明确决定、不得自动假设引用方式。
+3. 每push先根CHANGELOG/适用README及整份交接；git require_escalated、safe.directory=E:/workSpace/dify-agent、命令级http.version=HTTP/1.1沿127.0.0.1:7890推原main，无force/全局/TLS修改/用户代提交。work/生产数据/凭据不提交。
+4. 实际Codex不足立即尽可能整份交接停，不反复探额/重试/换号/购买/用券；sierra一次性01:18已设，触发先暂停自身再读最新进度与实际额度，不重建/假定恢复。小模块完不停止，不假报额度已尽。
+5. 原16保护work/material-upload329/protect.py，新修改新快照与所属PID，不按端口杀进程。原任务r12/4对4满不第五跑，91/95/115/121/124不重放；Sierra20/保守24、管理413/登录28、unknown/四旧槽/费界保持，不借退预留。只用加密凭据，不抄聊天密码。
+6. 只读必要文件，不通读项目/290KB历史、不全量，16MB315旧日志不读全行；Claude无恢复证据不形式重试/加预算/冒充成功。162—165 complete不重做。
 
 ## 4. 外部边界与账本
 
