@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；176实现faa7c77/关闭9c76aa9已推送clean，work/run-history339/finalization-proof.json complete。177验收部署过，闭环以Git及work/agent-mapping340/finalization-proof.json为准。
+- E:\workSpace\dify-agent/main；176实现faa7c77/关闭9c76aa9已推送clean，work/run-history339/finalization-proof.json complete。177实现c21f9b6且BACKLOG177已done，最终关闭/push以Git及work/agent-mapping340/finalization-proof.json为准。
 - 实际0.340.0-b17d30765f4f4ac2534e/278文件，work/agent-mapping340/deployment-proof.json和managed-runtime-proof.json；所属PID/快照/原start-stop/health和前端200/原16全部对象设置账本密文主Key/124保持，真实外部0。
 - Agent映射预览复用后端目标上下文摘要、源文档/修订及静态等级核对，完整公共目标连接/输入来源变化清旧预览/下载/知悉勾选，模型与映射原文保持；15秒只读预览超时不重试，晚到失效。后台原保存和复制的再核保持，不扩大资源权限。
 - 同目标ID改URL旧结果仍可下载先复现；新UI6/相关后端76和构建通过，未全量。9次仅临时Store静态预览/2次指定环境保存，无Task改写/映射保存/复制/真实资源操作，原16保护。原夹具忙时保存被禁用，已改为超时结束后再变更，未绕过。T110仅scope_limited，不关闭Workflow或真实跨空间业务。
@@ -17,7 +17,7 @@
 
 ## 3. 下一步（177闭环，再核可开发范围）
 
-1. 核实work/agent-mapping340/finalization-proof.json/Git；177验收部署过，补实现和关闭提交/push/clean，已complete不重复。当前0.340.0-b17d30765f4f4ac2534e，deploy.ps1前提旧0.339，禁止重放。
+1. 核实work/agent-mapping340/finalization-proof.json/Git；177实现c21f9b6/验收部署过，补关闭提交/push/clean，已complete不重复。当前0.340.0-b17d30765f4f4ac2534e，deploy.ps1前提旧0.339，禁止重放。
 2. 第一pending优先；空队列按既定需求限读具体组件核实，不将未重核当未开发。T055已见只读讨论及规则需切需求检查再复核，不重做现有能力；T110 Agent来源缺口已处理，可限读WorkflowEnvironmentMapping对目标连接变化与预览来源的现有保护，先核真实缺口，不为耗额度造微任务/泛读项目。
 3. 每push前CHANGELOG/适用README/整份交接；核原remote，git require_escalated/safe.directory=E:/workSpace/dify-agent/命令级HTTP1.1沿原代理推main，不force/全局/TLS改动，不让用户代提交，work/生产数据/秘密不提交。
 4. 普通队列空本身不停；实际不足即尽力交接停，不反复探额/重试/换号/购买/用券。有界核实若确无可行动进展如实说明，不假称耗尽或完成。sierra已PAUSED，结束删除已完成一次性，不新建。
