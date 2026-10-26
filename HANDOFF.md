@@ -1,13 +1,13 @@
-# HANDOFF — Sierra（2026-10-27，第172交付）
+# HANDOFF — Sierra（2026-10-27，第173交付）
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；171实现b8b01c1/关闭3aa5d57已推送clean，work/embedding-source334/finalization-proof.json complete，不重做。172实现2d81de5存在且BACKLOG172已done，最终关闭/push以Git及work/numeric-form335/finalization-proof.json为准。
-- 实际0.335.0-784050c10e9c43d36e06/277文件，work/numeric-form335/deployment-proof.json和managed-runtime-proof.json；所属PID/快照/原start-stop/health和前端200/原16全部对象设置账本密文主Key/124保护通过，真实模型/Dify0。
-- 数字表单先独立原文再严格核对、明确填入/撤销，拒绝舍入/溢出/下溢/未完成/类型转换；多字段逐项待处理阻止本机检查及根自由试跑，换源/重读清旧稿。已保存样例不沿用自由输入稿，独立数字稿不持久化，共用人工资源表单接收待处理门禁。
-- 旧0.10000000000000001默改0.1已复现，新UI10/入口后端101和构建通过，未全量。仅数字编辑切片，非所有原文入口/任意精度或平台验收。旧夹具选择器/默认任务失配及首轮构建漏共用调用方日志保留，均已修正。
-- 上一窗口实际100%/ordinaryUsageAllowed=false；本次01:18开头1%/weekly30%/true已恢复，最近49%/weekly37%/true仍可用，继续到实际不足。sierra一次性已PAUSED防重复，结束删除，不重建/换号/购买/用券。
-- Claude网关actual deepseek-flash，318失败无审查、CLI估算0/内部HTTP账单未知，无恢复证据不形式重试；304旧估算0.074255USD保持。
+- E:\workSpace\dify-agent/main；172实现2d81de5/关闭9b0870f已推送clean，work/numeric-form335/finalization-proof.json complete，不重做。173验收部署已过，提交闭环以Git及work/human-input336/finalization-proof.json为准。
+- 实际0.336.0-db8f1c0fe61f5677505d/277文件，work/human-input336/deployment-proof.json和managed-runtime-proof.json；所属PID/快照/原start-stop/health与前端200/原16全部对象设置账本密文主Key/124保护通过，真实模型/Dify0。
+- 人工资源准备严格核原始JSON，不默取重复字段末值；方案输入/环境/当前成果摘要一致才进批准区，换源清批准、旧准备晚到失效，执行前再核。原后台冻结资源与门禁保持，不扩大纯文字人工范围或任何真实批授权。
+- 旧重复query末值已复现，新UI6/相关后端54/构建通过，未全量。7次仅临时Store本机准备，0执行/真实资源请求，原隔离Task/预算及原16保持；同修订成果元数据晚到测试为浏览器虚拟回执，不冒充后台实际修改或平台验收。
+- 上一窗口实际100%/ordinaryUsageAllowed=false；本次01:18已核实恢复可用，最近49%/weekly37%/true仍可用，继续到实际不足。sierra一次性PAUSED防重复，结束删除，不重建/换号/购买/用券。
+- Claude网关实际deepseek-flash；318失败无审查/CLI估算0/内部HTTP账单未知，无恢复不形式重试；304旧估算0.074255USD保持。
 
 ## 2. 已消费批与保护
 
@@ -16,14 +16,14 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（172提交闭环，继续实质开发）
+## 3. 下一步（173提交闭环，继续实质开发）
 
-1. 核实work/numeric-form335/finalization-proof.json及Git；172实现2d81de5/验收部署已过，补关闭提交/CHANGELOG及push/clean，已complete不重做。当前0.335.0-784050c10e9c43d36e06，deploy.ps1前提旧0.334，禁止重放。
-2. 第一pending优先；空队列按既定需求核实具体缺口。可限读HumanRuntimePlanPanel.tsx原文准备入口：其共用表单已严格检查原文，但prepare仍直接JSON.parse，需核实重复query能否绕过本机提示进入本地资源方案；先实际复现，不扩大真实模型/Dify范围或顺带改所有入口。
-3. 每push前CHANGELOG/适用README/整份交接；核原remote，git require_escalated/safe.directory=E:/workSpace/dify-agent/命令级HTTP1.1沿原代理推main，不force/全局/TLS改动，不让用户代提交，work/生产数据/秘密不入Git。
-4. 持续到实际Codex不足或确无可行动进展，不因小模块完停；不足即尽力整份交接停，不反复探额/重试/换号/购买/用券。sierra已PAUSED，结束删除已完成一次性，不新建。
-5. 原16保护work/numeric-form335/protect.py，新源新快照及所属PID，不按端口杀进程。r12已4/4不第五跑；91/95/115/121/124不重放；模型20/保守24、管理413/登录28与unknown/预留费界保持，不借退槽，只加密凭据。
-6. 只读必要文件不通读/全量；Claude无恢复不形式重试/加预算/冒充审查。162—171 complete不重做。索引T082仅新增目录切片scope_limited，非全部签收。
+1. 核实work/human-input336/finalization-proof.json/Git；173已验收部署，补实现及关闭提交/push/clean，已complete不重复。当前0.336.0-db8f1c0fe61f5677505d，deploy.ps1前提旧0.335，禁止重放。
+2. 第一pending优先；空队列从既定需求核具体缺口。可限读backend/app/json_inputs.py的schema原始字符串解析：已有重复键保护，但parse_float仍默认；核实精细minimum或非零下溢是否被舍入导致错误通过，先实际复现，不先扩改所有Schema/API。
+3. 每push先CHANGELOG/适用README及整份交接；核原remote，git require_escalated/safe.directory=E:/workSpace/dify-agent/命令级HTTP1.1沿原代理推main，不force/全局/TLS改动，不让用户代提交，work/生产数据/秘密不入Git。
+4. 持续到实际Codex不足或确无可行动进展，不因小模块完成停；不足立即尽力交接停，不反复探额/重试/换号/购买/用券。sierra已PAUSED，结束删除已完成一次性，不新建。
+5. 原16保护work/human-input336/protect.py，新源新快照/所属PID，不按端口杀进程；r12已4/4不第五跑，91/95/115/121/124不重放，模型20/保守24/管理413/登录28及unknown/预留费界保持，不借退旧槽，只加密凭据。
+6. 只读必要文件，不通读或全量；Claude无恢复不形式重试/加预算/冒充审查；162—172 complete不重做。目录T082仅scope_limited，非全部签收。
 
 ## 4. 外部边界与账本
 
