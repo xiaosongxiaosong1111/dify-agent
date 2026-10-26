@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main。140实现16352b4/交接a7b7177已推送，旧proof complete保留。141已实现并验证，当前0.304.0-3c45112b8dbc1d4c92d8；提交和推送状态以work/task-results304/finalization-proof.json为准，不能从计划推断完成。
+- 项目E:\workSpace\dify-agent，main。140实现16352b4/交接a7b7177已推送，旧proof complete保留。141实现ff006c0且BACKLOG done，当前0.304.0-3c45112b8dbc1d4c92d8；提交和推送状态以work/task-results304/finalization-proof.json为准，不能从计划推断完成。
 - 旧0.303隔离UI准确复现A对话晚到切回；修复后UI9/加载回归UI7、相关34后台及构建通过。264源码/快照、所属进程与原脚本重启、health/前端200；原16任务/设置能力/账本密文主Key及124保持。Sierra模型/Dify新增HTTP0；Claude Code网关（实际deepseek-flash）独立审查未完成，CLI估算0.074255 USD单列、非供应商账单，内部HTTP次数未核实。触及CLI预算后已停止，不重试或提高预算。
 - 用户继续功能开发、直到实际Codex额度不足授权保持。最近实际quota已恢复且ordinaryUsageAllowed=true，未触发Codex不足；不为耗额度拆微任务。Docker引擎未运行，T078不宿主机exec替代。
 
@@ -15,7 +15,7 @@
 
 ## 3. 下一步（141已验收部署；完成提交后继续实际功能缺口）
 
-1. 141源码/文档验收已过，先落实实现commit，再把BACKLOG141标done并提交交接，更新CHANGELOG后推送原main；真实最终以work/task-results304/finalization-proof.json为准。每push前同步日志/README，保留140及更早终结证据，不在其目录重跑覆盖旧proof。
+1. 141源码/文档验收及实现ff006c0、BACKLOG done已完成，交接提交后推送原main；真实最终以work/task-results304/finalization-proof.json为准。每push前同步日志/README，保留140及更早终结证据，不在其目录重跑覆盖旧proof。
 2. 主interview/generatePlan成功、失败读回和readPlanning按来源与选择世代核对；只有当前同代目标且无工作区草稿才应用完整结果。迟到对话保留原nonce供只读恢复，清文字时在最新Map核对模式/内容；withBusy归属使旧操作不清新忙状态。此处只覆盖本轮主模型/恢复路线，非所有异步子面板/资源完成回调。
 3. 下一实质代码核查：根工作台Dify导入/运行/自由输入运行等长操作仍有无条件acceptTask/共享输出赋值。先读相关函数、准确复现晚到是否切换/覆盖，再按BACKLOG下一项修来源范围；仅隔离替身，不派发真实资源/模型、不重放旧批，不为了耗额度拆小任务。
 4. 当前44项未重核，测试数/队列清空不代表完成率。139有限历史/138消息幂等/137原件下载/136四类规则范围保持；一般长期记忆、复杂工具/嵌套容器/文件、T078受限样例执行和更多业务验收仍未全闭合。
