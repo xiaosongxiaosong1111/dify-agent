@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import sqlite3
 import threading
+from contextlib import contextmanager
 from pathlib import Path
 from cryptography.fernet import Fernet
 
@@ -66,21 +67,43 @@ class Store:
             result.append(item)
         return result
 
+    @contextmanager
+    def _writing(self):
+        with self.lock:
+            states=[]
+            with self.connect() as conn:
+                # Serialize read/increment/write across Store instances too.
+                conn.execute("BEGIN IMMEDIATE")
+                yield conn,states
+            # A rolled-back transaction must not publish successful sequence IDs.
+            for value,sequence in states:value['state_sequence']=sequence
+
+    def _put_object(self,conn,states,kind,item_id,value):
+        prepared=value
+        if kind=='task':
+            prior=conn.execute("SELECT json_extract(value,'$.state_sequence'),json_type(value,'$.state_sequence') FROM objects WHERE kind=? AND id=?",(kind,item_id)).fetchone()
+            sequence=0
+            if prior and prior[1] is not None:
+                if prior[1]!='integer' or prior[0]<0 or prior[0]>=9007199254740991:raise ValueError('任务状态序号无法核对或超出范围，原记录保持；请核对本机数据。')
+                sequence=prior[0]
+            sequence+=1;prepared={**value,'state_sequence':sequence};states.append((value,sequence))
+        conn.execute("INSERT INTO objects(kind,id,value) VALUES(?,?,?) ON CONFLICT(kind,id) DO UPDATE SET value=excluded.value", (kind,item_id,json.dumps(prepared,ensure_ascii=False)))
+
     def put(self, kind: str, item_id: str, value: dict):
-        with self.lock, self.connect() as conn:
-            conn.execute("INSERT INTO objects(kind,id,value) VALUES(?,?,?) ON CONFLICT(kind,id) DO UPDATE SET value=excluded.value", (kind, item_id, json.dumps(value, ensure_ascii=False)))
+        with self._writing() as (conn,states):
+            self._put_object(conn,states,kind,item_id,value)
 
     def put_many(self, records):
         """Commit related task and operation records in one transaction."""
-        with self.lock, self.connect() as conn:
+        with self._writing() as (conn,states):
             for kind, item_id, value in records:
-                conn.execute("INSERT INTO objects(kind,id,value) VALUES(?,?,?) ON CONFLICT(kind,id) DO UPDATE SET value=excluded.value", (kind,item_id,json.dumps(value,ensure_ascii=False)))
+                self._put_object(conn,states,kind,item_id,value)
 
     def put_with_secrets(self, kind: str, item_id: str, value: dict, secrets: dict[str, str]):
         """Commit matched connection metadata and encrypted credentials atomically."""
         encrypted = {key: self.cipher.encrypt(token.encode()) if token else None for key, token in secrets.items()}
-        with self.lock, self.connect() as conn:
-            conn.execute("INSERT INTO objects(kind,id,value) VALUES(?,?,?) ON CONFLICT(kind,id) DO UPDATE SET value=excluded.value", (kind, item_id, json.dumps(value, ensure_ascii=False)))
+        with self._writing() as (conn,states):
+            self._put_object(conn,states,kind,item_id,value)
             for key, token in encrypted.items():
                 if token is None:
                     conn.execute("DELETE FROM secrets WHERE id=?", (item_id + ":" + key,))
@@ -90,9 +113,9 @@ class Store:
     def put_many_with_secrets(self, records, item_id: str, secrets: dict[str, str]):
         """Atomically commit an explicit connection receipt and its encrypted tokens."""
         encrypted = {key: self.cipher.encrypt(value.encode()) if value else None for key, value in secrets.items()}
-        with self.lock, self.connect() as conn:
+        with self._writing() as (conn,states):
             for kind, ident, value in records:
-                conn.execute("INSERT INTO objects(kind,id,value) VALUES(?,?,?) ON CONFLICT(kind,id) DO UPDATE SET value=excluded.value", (kind, ident, json.dumps(value, ensure_ascii=False)))
+                self._put_object(conn,states,kind,ident,value)
             for key, value in encrypted.items():
                 if value is None: conn.execute("DELETE FROM secrets WHERE id=?", (item_id + ':' + key,))
                 else: conn.execute("INSERT INTO secrets(id,value) VALUES(?,?) ON CONFLICT(id) DO UPDATE SET value=excluded.value", (item_id + ':' + key, value))
@@ -101,9 +124,9 @@ class Store:
         """Commit related records and credentials for multiple owners atomically."""
         encrypted = [(owner + ':' + name, self.cipher.encrypt(value.encode()))
                      for owner, values in secret_sets.items() for name, value in values.items()]
-        with self.lock, self.connect() as conn:
+        with self._writing() as (conn,states):
             for kind, ident, value in records:
-                conn.execute("INSERT INTO objects(kind,id,value) VALUES(?,?,?) ON CONFLICT(kind,id) DO UPDATE SET value=excluded.value", (kind, ident, json.dumps(value, ensure_ascii=False)))
+                self._put_object(conn,states,kind,ident,value)
             for ident, value in encrypted:
                 conn.execute("INSERT INTO secrets(id,value) VALUES(?,?) ON CONFLICT(id) DO UPDATE SET value=excluded.value", (ident, value))
 

@@ -1,12 +1,23 @@
-import {useCallback,useState,type SetStateAction} from 'react';
+import {useCallback,useMemo,useRef,useState,type SetStateAction} from 'react';
 export type TaskSummary={id:string;name:string;app_type:string;revision:number;status:string;updated_at?:string|null};
+type TaskOrderInput={id:string;revision:number;state_sequence?:number};
+type TaskOrder={revision:number;sequence:number};
+function orderOf(value:TaskOrderInput):TaskOrder|null{
+ const sequence=value.state_sequence===undefined?0:value.state_sequence;
+ return Number.isSafeInteger(value.revision)&&value.revision>0&&Number.isSafeInteger(sequence)&&sequence>=0?{revision:value.revision,sequence}:null;
+}
+function atLeast(incoming:TaskOrder,known:TaskOrder){return incoming.revision>known.revision||incoming.revision===known.revision&&incoming.sequence>=known.sequence}
 export function taskSummary(value:TaskSummary):TaskSummary{
  return {id:value.id,name:value.name,app_type:value.app_type,revision:value.revision,status:value.status,updated_at:typeof value.updated_at==='string'?value.updated_at:null};
 }
 export function useTaskRows(){
  const [rows,setRows]=useState<TaskSummary[]>([]);
- const update=useCallback((next:SetStateAction<TaskSummary[]>)=>setRows(current=>{const prior=new Map(current.map(row=>[row.id,row]));return (typeof next==='function'?next(current):next).map(taskSummary).map(row=>{const known=prior.get(row.id);return known&&known.revision>row.revision?known:row})}),[]);
- return [rows,update] as const;
+ const orders=useRef(new Map<string,TaskOrder>());
+ const isCurrent=useCallback((value:TaskOrderInput)=>{const incoming=orderOf(value),known=orders.current.get(value.id);return !!incoming&&(!known||atLeast(incoming,known))},[]);
+ const remember=useCallback((value:TaskOrderInput)=>{if(!isCurrent(value))return false;orders.current.set(value.id,orderOf(value)!);return true},[isCurrent]);
+ const order=useMemo(()=>({isCurrent,remember}),[isCurrent,remember]);
+ const update=useCallback((next:SetStateAction<TaskSummary[]>)=>setRows(current=>{const prior=new Map(current.map(row=>[row.id,row]));return (typeof next==='function'?next(current):next).flatMap(value=>{if(remember(value))return [taskSummary(value)];const known=prior.get(value.id);return known?[known]:[]})}),[remember]);
+ return [rows,update,order] as const;
 }
 export async function loadTaskSummaries(){
  const response=await fetch('/api/task-summaries',{cache:'no-store'});

@@ -27,7 +27,7 @@ def test_all_store_operations_close_connections_without_gc_and_preserve_existing
         store=Store(tmp_path);key=(tmp_path/'.credential-key').read_bytes()
         store.put('task','one',{'text':'原文字'});store.put_many([('task','two',{'n':2}),('operation','op',{'state':'saved'})])
         store.put_with_secrets('provider','model',{'name':'公开测试'}, {'api_key':'isolated-fake-key'})
-        assert store.get('task','one')=={'text':'原文字'} and len(store.list('task'))==2
+        assert store.get('task','one')=={'text':'原文字','state_sequence':1} and len(store.list('task'))==2
         assert store.has_secret('model','api_key') and store.secret('model','api_key')=='isolated-fake-key'
         store.set_secret('model','second','isolated-second');store.put_with_secrets('provider','model',{'name':'更新'}, {'second':''})
         assert not store.has_secret('model','second')
@@ -46,7 +46,7 @@ def test_all_store_operations_close_connections_without_gc_and_preserve_existing
 def test_partial_batch_error_rolls_back_every_change_and_closes(tmp_path,connections):
     store=Store(tmp_path);store.put('task','one',{'original':True})
     with pytest.raises(TypeError):store.put_many([('task','one',{'changed':True}),('task','bad',{'not_json':object()})])
-    assert store.get('task','one')=={'original':True} and store.get('task','bad') is None
+    assert store.get('task','one')=={'original':True,'state_sequence':1} and store.get('task','bad') is None
     assert all(c.scope_closed for c in connections)
 
 def test_secret_and_metadata_transaction_failure_keeps_original_ciphertext(tmp_path,connections):

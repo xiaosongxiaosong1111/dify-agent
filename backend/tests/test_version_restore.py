@@ -200,11 +200,13 @@ def test_restore_reconfirm_rebuild_keeps_history_but_never_revives_old_pass(clie
     task = approved(client)
     tid = task['id']
     task['workflow_plan'] = code_only_plan()
+    task['dify_app_id'] = 'fixture-only-original-app'
     case = {'id': 'fixed-case', 'name': '固定回归样例', 'required': True,
             'input': {'query': 'hello'}, 'expectation': {'mode': 'equals', 'expected': 'hello'}}
     task['test_cases'] = [case]
     task['runs'] = [{'id': str(uuid4()), 'kind': 'run', 'status': 'success',
                      'revision': task['revision'], 'environment_id': None,
+                     'app_id': 'fixture-only-original-app',
                      'test_case': copy.deepcopy(case), 'input': copy.deepcopy(case['input']),
                      'evaluation': {'status': 'passed', 'mode': 'equals'}}]
     main.store.put('task', tid, task)

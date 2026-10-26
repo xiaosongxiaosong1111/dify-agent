@@ -1,10 +1,10 @@
-# HANDOFF — Sierra（2026-10-26，147同任务旧业务修订保护）
+# HANDOFF — Sierra（2026-10-26，148同业务修订状态顺序）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main。146实现f8d4f84/交接cd03942已推送，work/activity-ownership309终结proof complete/clean保留。147实现96642f3且BACKLOG done，当前0.310.0-0b638a1018bb286a2df5；commit/push以work/task-revision-order310/finalization-proof.json实际为准，未生成前不推断完成。
-- 旧确认响应覆盖新材料后的需求草稿已复现，新UI7/编辑9/目标6/活动7/加载7分组及构建通过；扩查修0.309详情错误提示被自身忙状态重置吞掉，失败保留，加载/活动再通过。测试服务退出清理失败经有界等待整份通过。264文件/所属进程原脚本和health/前端200，原16/设置能力/账本密文主Key/124保持。本项Sierra模型/Dify真实新增0；141网关预算失败无审查、CLI估算0.074255 USD单列非账单，内部HTTP未知、不重试。
-- 用户继续功能开发直到实际Codex不足授权保持。最近quota primary66%已用/weekly42%、ordinaryUsageAllowed=true，尚无Codex额度失败；不为耗额度拆微任务。Docker引擎未运行，T078不宿主机exec替代。
+- 项目E:\workSpace\dify-agent，main。147实现96642f3/交接9a5bae1已推送，work/task-revision-order310终结proof complete/clean保留。148已实现验证，当前0.311.0-1ffc58ece9ca92e7e593；commit/push以work/task-state-sequence311/finalization-proof.json实际为准，未生成前不推断完成。
+- 旧首回复抹掉同revision第二回复已复现；新14/相关248后端分组和UI4/修订7/活动7/加载7与构建通过。旧3夹具失配先核基线后修，原日志保持，验收生产逻辑不改。264文件/所属进程原脚本及health/前端200，原16/设置能力/账本密文主Key/124精确保持且旧Task未回填。本项Sierra模型/Dify真实新增0；141网关预算失败无审查、CLI估算0.074255 USD单列非账单，内部HTTP未知、不重试。
+- 用户继续功能开发直到实际Codex不足授权保持。最近quota primary89%已用/weekly45%、ordinaryUsageAllowed=true，尚无Codex不足；不为耗额度拆微任务。Docker引擎未运行，T078不宿主机exec替代。
 
 ## 2. 已消费批与保护
 
@@ -13,14 +13,14 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（147已验收部署；提交后继续实质代码缺口）
+## 3. 下一步（148已验收部署；先提交闭环，再按实际额度继续）
 
-1. 147验收/构建/部署与实现96642f3、BACKLOG done已完成，提交本交接后推送；每push前CHANGELOG/README并推原main，不让用户代提交。最终work/task-revision-order310/finalization-proof.json，旧proof不覆盖。
-2. knownTaskRevisions记录本页已读最高业务修订，acceptTask/编辑/资源/模型/后台读回/回执核对共同拒较低修订；TaskListState保留较新摘要，读旧详情恢复实际目标。旧确认不继续，新草稿可保存；旧模型nonce保留并可只读恢复最新Task，不重复派发。
-3. 新UI7、编辑9/目标6/活动7/加载7分组通过；首次UI5局部通过但服务退出失败不能算完整，已保留ui-cleanup-failure.log并加隔离服务有界退出，最终7完整passed。扩查loading-failure-before-fix.log是0.309吞错误的真实回归，现不在refreshOne里清主操作自身busy，加载/活动再通过，断言未放宽。后台仅版本变化、不全量，生产16/账本密文主Key/124精确保持。
-4. 继续核同一业务revision内的状态先后：聊天追加/运行进度不一定递增业务revision，单用业务revision不能排除旧Task快照覆盖新消息。先以真实本机API与替身复现，不拿时间戳猜顺序；如需修，审save_task/Store写入路径和新增独立状态序号的兼容性，保持旧16只读不迁移/重放，所有真实外部0。只在147提交闭环后新建下一BACKLOG项。
-5. 当前44项未重核，复杂工具/嵌套容器/文件、长期记忆、T078受限样例及更多业务验收仍有边界。无pending核实新问题，不重放历史blocked，不按版本/测试数算完成率，不为耗额度拆微任务/重构/扩付费准备。
-6. 原16/r12 run_completed和4/4满，不第5跑；91/95/115/121/124等消费包不重放。Sierra实际模型20/保守24、管理413/登录28、unknown/四槽与旧费界保持。141独立Claude网关failed_no_review/CLI估算0.074255USD单列非账单/内部HTTP未知，禁止重试/提高预算/换号/冒充审查完成，不是Codex额度失败。
+1. 148验收/构建/部署已过，先建立实现commit，再据真实提交标BACKLOG done、提交交接；每push前CHANGELOG/README并推原main，不让用户代提交。最终work/task-state-sequence311/finalization-proof.json，旧proof不覆盖。
+2. Store._writing使用BEGIN IMMEDIATE统一五条Task写入，_put_object以DB当前state_sequence分配，提交后才回填调用者；回滚不发布，输入旧/伪造序号不控制实际序号，坏现存序号拒绝不归零。旧读不回填/无表迁移，实际写才编号，非Task/密文事务原规则保持。
+3. TaskListState共享业务revision+提交序号顺序，列表仍只存六字段，完整Task和摘要不会回退已读较新状态；旧未编号基线兼容，原模型nonce/回执可只读核对，不重复派发。序号不替代业务确认/资源批准、编辑版本检查或数据库外部改写保护，不是费用字段。
+4. 新14/相关共248后端分组：核心76组中1密文集合夹具错误修后14项再过；原子147组144过/3失败，存储2断言明确加seq1，版本恢复1旧Store也同样失败，补匹配合成App/运行ID后8过；另讨论25过。新UI4/业务修订7/活动7/加载7和构建过，无脚本错误；旧失配日志和baseline_version_restore保留，不全量。原16/所有旧密文账本/124保护，真实Sierra/Dify0，UI只有本机替身模型。
+5. 若仍可用额度，核下一实质候选：根Task PATCH保存需求/配置是否带编辑基准业务修订，另一页面/后台已改业务revision时能否覆盖新需求。先读TaskPatch和patch_task实现并本机复现，若有问题做可选expected_revision兼容旧客户端、当前界面主动携带，不能仅靠前端结果排序当后端防覆盖。148提交闭环后才列下一BACKLOG。无实际缺口不造微任务；44项未重核/复杂工具/嵌套容器/文件/长期记忆/T078及更多业务验收边界保持。
+6. 原16/r12 run_completed和4/4满，不第5跑；91/95/115/121/124等消费包不重放。Sierra实际模型20/保守24、管理413/登录28、unknown/四槽及旧费界保持。141独立Claude网关failed_no_review/CLI估算0.074255USD单列非账单/内部HTTP未知，禁止重试/提高预算/换号/冒充审查完成，不是Codex不足。
 7. 实际Codex不足立即尽可能整份交接并停，不重试/换号/购买/用券。只读必要文件、不通读项目/巨历史、不全量；只复用加密凭据、不抄聊天密码/输出秘密。管理员仅核并重启所属固定快照，不按端口杀其它进程。
 
 ## 4. 外部边界与账本
