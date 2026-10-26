@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；175实现b7e06fc/关闭ee0566d已推送clean，work/iteration-results338/finalization-proof.json complete。176验收部署过，闭环以Git及work/run-history339/finalization-proof.json为准。
+- E:\workSpace\dify-agent/main；175实现b7e06fc/关闭ee0566d已推送clean，work/iteration-results338/finalization-proof.json complete。176实现faa7c77且BACKLOG176已done，最终关闭/push以Git及work/run-history339/finalization-proof.json为准。
 - 实际0.339.0-fe09f38a344cdd872851/278文件，work/run-history339/deployment-proof.json及managed-runtime-proof.json；所属PID/快照/原start-stop/health和前端200/原16全部对象设置账本密文主Key/124保持，真实外部0。
 - 运行历史默认最近20条/明确更早较新最近，当前修订/App/错误或未通过/待核对/原成功状态筛选；新到不抢旧首ID，长JSON默认4000字符/明确展开收起，新来源关闭展开。原数据/成绩/Task网络与DB传输保持，仅显示层。
 - 旧63条/50万字符折叠DOM已复现；新UI8/逐项结果UI9及构建通过，后台仅版本，未全量。首轮过滤返回旧条件复活旧锚点已修，日志保留；新到两条是浏览器虚拟回执，隔离/生产Task预算不变。T132仅scope_limited非全部验收。
@@ -17,7 +17,7 @@
 
 ## 3. 下一步（176提交闭环，核实新的实质缺口）
 
-1. 核实work/run-history339/finalization-proof.json/Git；176已验收部署，补实现及关闭提交/push/clean，已complete不重复。当前0.339.0-fe09f38a344cdd872851，deploy.ps1前提旧0.338，禁止重放。
+1. 核实work/run-history339/finalization-proof.json/Git；176实现faa7c77/验收部署过，补关闭提交/push/clean，已complete不重复。当前0.339.0-fe09f38a344cdd872851，deploy.ps1前提旧0.338，禁止重放。
 2. 第一pending优先；空队列按既定需求限读具体可开发范围，不能把未知索引当没实现或为耗额度造微任务。可核T055业务讨论/规则草案、T110环境切换映射等未重核项现有入口；先确认真实缺口，已有能力只补必要证据，不泛读项目/历史，不重复真批。
 3. 每push前CHANGELOG/适用README/整份交接；核原remote，git require_escalated/safe.directory=E:/workSpace/dify-agent/命令级HTTP1.1沿原代理推main，不force/全局/TLS改动，不让用户代提交，work/生产数据/秘密不提交。
 4. 实际不足立即尽力交接停，不反复探额/重试/换号/购买/用券。普通队列空本身不是停止；若有界核实确无可行动进展如实说明，不假称耗尽或项目验收完成。sierra已PAUSED，结束删除已完成一次性，不新建。
