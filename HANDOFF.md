@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main。141实现ff006c0/交接67a0689已推送，work/task-results304终结proof complete/clean保留。142已实现验证，当前0.305.0-42ff1ff27ba5e2c3853e；当前实现/推送以work/resource-results305/finalization-proof.json实际为准，未生成前不推断完成。
+- 项目E:\workSpace\dify-agent，main。141实现ff006c0/交接67a0689已推送，work/task-results304终结proof complete/clean保留。142实现e52bc10且BACKLOG done，当前0.305.0-42ff1ff27ba5e2c3853e；当前实现/推送以work/resource-results305/finalization-proof.json实际为准，未生成前不推断完成。
 - 旧0.304复现构建晚到切回，资源UI11/模型回调UI9回归及构建通过；同任务正常结果和失败提示保持。264源码/快照匹配，原所属进程脚本重启，health/前端200，原16/设置能力/账本密文主Key/124保持。本项Sierra模型/Dify新增0；141的Claude Code网关预算失败无审查继续保留，CLI估算0.074255 USD单列非账单、不重试，内部HTTP次数未知。
 - 用户继续功能开发/直到实际Codex额度不足授权保持。最近实际quota已恢复ordinaryUsageAllowed=true，无Codex不足；不为耗额度拆微任务。Docker引擎未运行，T078不在宿主机exec替代。
 
@@ -15,7 +15,7 @@
 
 ## 3. 下一步（142已验收部署；提交推送后继续核实实质缺口）
 
-1. 142验收/构建已过，先建立实现commit，再标BACKLOG done/提交交接；每push前更新CHANGELOG/README并推原main，不需要用户代提交。最终以work/resource-results305/finalization-proof.json为准，不覆盖141和更早完结proof。
+1. 142验收/构建和实现e52bc10、BACKLOG done已完成，提交本交接后推送；每push前更新CHANGELOG/README并推原main，不需要用户代提交。最终以work/resource-results305/finalization-proof.json为准，不覆盖141和更早完结proof。
 2. 根build/doImport/run/pauseRun现在按来源与选择世代处理；Task匹配源ID才更新摘要，只有同代当前目标且无工作区草稿才完整接收。构建第二段DSL独立核对，已过时不继续读取或污染新视图；旧来源错误不写新目标，暂停标识按任务Set保存。服务端来源回执保持，0真实资源/试跑派发，测试是契约替身，不算平台验收。
 3. 正常同任务构建和当前失败提示保持；构建忙时编辑控件本已禁用。早期夹具缺expectation与启动恢复pending造成的检查超时已修夹具，日志保留，非产品缺陷。最终UI11/上一轮模型UI9回归/构建，不重跑全量，后台只改版本。
 4. 下一步仅按原核心需求核新的可开发实质缺口再入BACKLOG；残余短编辑/上传及子面板回调、后台读取与当前修订竞争仍未整体核实，不把142当全部异步隔离。不要逐行拆微任务或只扩验收准备；未发现问题时如实记录，不发真实批补测试。
