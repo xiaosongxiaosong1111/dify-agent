@@ -9,10 +9,11 @@ const stateLabel=(state:string)=>({executing:'资源处理中',submitting_decisi
 export default function HumanRuntimePlanPanel({task,blocked}:{task:Task;blocked:boolean}){
  const [input,setInput]=useState('{}'),[plan,setPlan]=useState<Plan|null>(null),[history,setHistory]=useState<Plan[]>([]),[runs,setRuns]=useState<Run[]>([]),[accepted,setAccepted]=useState(false),[working,setWorking]=useState(false),[error,setError]=useState(''),epoch=useRef(0);
  const artifact=JSON.stringify(task.artifact??null);
+ const [numberDraft,setNumberDraft]=useState({scope:'',pending:false}),numberPending=numberDraft.pending&&numberDraft.scope===JSON.stringify([task.id,task.revision,artifact,input]);
  useEffect(()=>{epoch.current++;setInput('{}');setPlan(null);setHistory([]);setRuns([]);setAccepted(false);setWorking(false);setError('');return()=>{epoch.current++}},[task.id,task.revision]);
  useEffect(()=>{setPlan(null);setAccepted(false)},[artifact]);
  const changeInput=(value:string)=>{setInput(value);setPlan(null);setAccepted(false);setError('')};
- const prepare=async()=>{let values:unknown;try{values=JSON.parse(input);if(!values||typeof values!=='object'||Array.isArray(values))throw Error('输入须为JSON对象，不填写密钥或密码。')}catch(e){setError(e instanceof Error?e.message:'输入格式不正确。');return}
+ const prepare=async()=>{if(numberPending){setError('请先填入或撤销数字草稿，再准备资源方案。');return}let values:unknown;try{values=JSON.parse(input);if(!values||typeof values!=='object'||Array.isArray(values))throw Error('输入须为JSON对象，不填写密钥或密码。')}catch(e){setError(e instanceof Error?e.message:'输入格式不正确。');return}
   const stamp=++epoch.current;setWorking(true);setError('');setPlan(null);setAccepted(false);
   try{const value=await request<Plan>(`/tasks/${task.id}/human-runtime/prepare`,{revision:task.revision,input:values});if(stamp!==epoch.current)return;if(value.task_id!==task.id||value.revision!==task.revision||value.execution_available!==true||value.state!=='prepared_unapproved')throw Error('资源方案归属或执行状态不匹配，未采用。');setPlan(value)}catch(e){if(stamp===epoch.current)setError(e instanceof Error?e.message:String(e))}finally{if(stamp===epoch.current)setWorking(false)}
  };
@@ -26,7 +27,7 @@ export default function HumanRuntimePlanPanel({task,blocked}:{task:Task;blocked:
  return <section className="human-runtime-plan-panel configuration-proposal">
   <div className="listhead"><b>人工审核运行资源方案</b><small>准备 → 用户批准资源 → 单次执行 → 等待处理</small></div>
   <p className="hint">先构建并确认当前纯模板审核成果，再填本次输入。准备只读取本机成果；批准后才创建独立Dify资源。目前可以采集等待表单，审核动作可另行确认提交，恢复与业务验收仍需核对，实际平台联调尚未验收。</p>
-  <LazyRunInputForm taskId={task.id} revision={task.revision} artifactStamp={artifact} input={input} disabled={blocked||working} onChange={changeInput}/>
+  <LazyRunInputForm taskId={task.id} revision={task.revision} artifactStamp={artifact} input={input} disabled={blocked||working} onChange={changeInput} onNumberDraft={state=>{setNumberDraft(state);if(state.pending){setPlan(null);setAccepted(false)}}}/>
   <details><summary>查看试跑输入JSON</summary><textarea aria-label="人工运行方案输入JSON" disabled={blocked||working} value={input} onChange={e=>changeInput(e.target.value)}/></details>
   <div className="actions"><button className="secondary" disabled={blocked||working} onClick={()=>void prepare()}>{working?'处理中…':'准备人工运行资源方案'}</button><button className="secondary" disabled={working} onClick={()=>void load()}>查看本机资源方案历史</button><button className="secondary" disabled={working} onClick={()=>void loadRuns()}>查看本机人工运行记录</button></div>
   {error&&<div className="callout amber" role="alert">{error}</div>}

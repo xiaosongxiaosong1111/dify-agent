@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-27",
-  "product_version": "0.333.0",
+  "product_version": "0.335.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -1258,12 +1258,15 @@
       "deliverable": "资源目录",
       "acceptance": "不编造 ID；结果绑定当前环境",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "scope_limited",
       "evidence": [
-        "docs/development-tasks.md"
+        "backend/app/main.py",
+        "frontend/src/EmbeddingCatalogPicker.tsx",
+        "docs/embedding-catalog-source.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.334核Embedding目录与选择归属，换环境/连接清旧来源、晚到错源拒绝；新UI10/相关74/原跟踪UI10通过，仅此切片，非全部模型/库/插件目录或平台验收，acceptance仍未关闭。"
     },
     {
       "id": "T083",

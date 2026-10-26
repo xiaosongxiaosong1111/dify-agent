@@ -103,6 +103,7 @@ export default function App(){
  const [taskLoading,setTaskLoading]=useState<string|null>(null);const taskSelection=useRef({generation:0,target:null as string|null});const busy=busyState||(taskLoading?'正在读取任务':'');
  const {text:msg,setText:setMsg,mode:chatMode,setMode:setChatMode,hasDraft:hasChatDraft,clearSent:clearSentChat}=useConversationDraft(task?.id||null);
  const [runInput,setRunInput,hasRunDraft]=useTaskRunDraft(task?.id||null);
+ const [runNumberDraft,setRunNumberDraft]=useState({scope:'',pending:false});
  const placeChatDraft=(text:string,mode:'review'|'discussion')=>{if(!task||!text.trim())return false;if(msg.trim()){setNotice('对话框已有未发送文字；请先发送、另存或清空，再放入建议。');return false}setChatMode(mode);setMsg(text);setNotice('文字已放入当前任务的对话框，尚未发送；请核对本次对话方式。');return true};
  const [configurationProposalDirty,setConfigurationProposalDirty]=useState(false);
  const [caseProposalDirty,setCaseProposalDirty]=useState(false);
@@ -248,6 +249,7 @@ export default function App(){
  const dl=(kind:'artifact'|'report')=>task&&withBusy('准备下载',async()=>{const b=await api<Blob>(`/tasks/${task.id}/${kind}`);const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=`${task.name}-${kind==='artifact'?'artifact.yaml':'report.md'}`;a.click();URL.revokeObjectURL(u)});
  const doImport=()=>{if(!task)return;const sourceId=task.id,generation=taskSelection.current.generation;return withBusy('请求真实 Dify 导入',async()=>{if(hasUnsaved)throw Error('有未保存修改，请先保存并确认。');if(planIsStale)throw Error('流程计划已过期，请先重新生成或编辑保存并复核。');if(!task.requirements_confirmed||!task.configuration_confirmed)throw Error('请先确认当前修订的需求和配置。');const t=await api<Task>(`/tasks/${sourceId}/import`,post('POST',{revision:task.revision}));if(!applyResourceResult(t,sourceId,generation))return;setNotice(`后台已完成导入。Dify App ID：${t.dify_app_id||'请查看后台记录'}。接下来到运行页核对发布（Workflow支持明确确认发布），再登记这个App专属的运行Key。`)},()=>sourceStillCurrent(sourceId,generation))};
  const run=()=>{if(!task)return;const sourceId=task.id,generation=taskSelection.current.generation;return withBusy('正在运行应用样例',async()=>{
+   if(!selectedCaseId){if(runNumberDraft.pending&&runNumberDraft.scope===JSON.stringify([task.id,task.revision,JSON.stringify(task.artifact)||'',runInput]))throw Error('数字草稿尚未填入，请先明确填入或撤销，再自由试跑。');}
    if(hasUnsaved)throw Error('有未保存修改，请先保存并确认。');if(planIsStale)throw Error('流程计划已过期，请先复核并保存。');
    if(!task.requirements_confirmed||!task.configuration_confirmed)throw Error('请先确认当前修订的需求和配置。');
    if(!task.dify_app_id||!runEnvironment?.has_service_api_key||runEnvironment.service_app_id!==task.dify_app_id)throw Error('请导入并发布应用，登记与本次 App ID 配对的运行 API Key。');
@@ -322,7 +324,7 @@ export default function App(){
    {task.app_type==='workflow'&&<LazyRuntimeFilePanel key={`runtime-files:${task.id}`} taskId={task.id} revision={task.revision} artifactStamp={JSON.stringify([task.artifact,task.environment_id,task.dify_app_id])} disabled={hasUnsaved||!!busy} onUse={setRuntimeFileChoice}/>}
    {task.app_type==='workflow'&&<LazyFileRunPanel key={`file-run:${task.id}`} taskId={task.id} revision={task.revision} artifactStamp={JSON.stringify([task.artifact,task.environment_id,task.dify_app_id])} disabled={hasUnsaved||!!busy} onCompleted={()=>refreshOne(task.id)} choice={runtimeFileChoice}/>}
    {['workflow','advanced-chat'].includes(task.app_type)&&<LazyNodePolicyAudit key={`node-policy:${task.id}`} taskId={task.id} revision={task.revision} artifactStamp={JSON.stringify(task.artifact)||''} disabled={hasUnsaved||!!busy}/>}
-   {['workflow','advanced-chat'].includes(task.app_type)&&!selectedCase&&<LazyRunInputForm key={`run-input:${task.id}`} taskId={task.id} revision={task.revision} artifactStamp={JSON.stringify(task.artifact)||''} input={runInput} disabled={hasUnsaved||!!busy} onChange={setRunInput}/>}
+   {['workflow','advanced-chat'].includes(task.app_type)&&!selectedCase&&<LazyRunInputForm key={`run-input:${task.id}`} taskId={task.id} revision={task.revision} artifactStamp={JSON.stringify(task.artifact)||''} input={runInput} disabled={hasUnsaved||!!busy} onChange={setRunInput} onNumberDraft={setRunNumberDraft}/>}
    {selectedCase?.followups?.length&&<div className="callout amber">本次为 {selectedCase.followups.length+1} 轮正式样例；从新会话首轮开始，逐轮调用与检查，失败停止后续。历史增加模型费用。{task.app_type==='advanced-chat'&&'有自定义初始参数时，每轮须完整且与首轮一致（含省略／null）；全部检查通过后才派发第一轮，不自动继承或补默认。'}</div>}{selectedCase&&<div className="callout"><b>本次预期</b><pre>{JSON.stringify(selectedCase.followups?{首轮:{input:selectedCase.input,expectation:selectedCase.expectation},后续轮次:selectedCase.followups}:selectedCase.expectation,null,2)}</pre></div>}
    <button className="primary full" disabled={!canRun||!!busy} onClick={run}><Play size={15}/>{selectedCase?'运行选定验收样例':task.app_type==='advanced-chat'?'运行 Chatflow 样例':task.app_type==='agent'?'运行 Agent 样例':'运行 Workflow 样例'}</button>
 
