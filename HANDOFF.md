@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（2026-10-26，第160验收通过待提交）
+# HANDOFF — Sierra（2026-10-26，第160交付）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent/main，上阶段159实现d2d8ab7/关闭fcdf2a4已推送clean，work/message-original322/finalization-proof.json complete。本轮160功能/定向验收/部署已通过，尚无实现commit，BACKLOG160仍doing；保留未提交文件，勿重置。
+- 项目E:\workSpace\dify-agent/main，上阶段159实现d2d8ab7/关闭fcdf2a4已推送clean，work/message-original322/finalization-proof.json complete。本轮160实现56ab019存在、定向验收/部署通过，BACKLOG160已done；最终关闭commit/push/clean见work/task-message-window323/finalization-proof.json和实际Git，不猜自引用commit。
 - 实际运行0.323.0-ac75279e0cb812b79dc0/273文件，原start/stop、所属PID/快照、health和前端200、源码快照全文件及原16全部对象设置账本密文主Key/124保护通过。work/task-message-window323/deployment-proof.json及managed-runtime-proof.json。
 - 160：主界面Task GET使用可选message_window=recent，只返回最近50条消息/原始索引/真实总数及窗口来源；旧默认完整Task GET和写回执兼容。只读history/window按持有窗全部字段指纹、Task修订、范围及提交序号核对，追加允许、持有窗变化/截短/跨Task/旧源拒绝，主动最新重定位当前总数；每页按读取时核对，不是全历史不可变快照。当前旧页追加提示、坏回执/晚到/切Task不回退。Task计数供Intake/NextStep/预算刷新用真实总量。
 - 新26/相关34后端分组通过（25新+4摘要+30原话=59通过，后加写回执1例/未知mode修正1例2通过，独立新用例合计26，不混称61项），新UI13/原话UI8/历史UI8和构建通过，未全量。夹具替换漏async/counter、TypeScript响应窄化后messages类型错误均纠正，原日志保留。只读不解密/Store写入/模型Dify0，原16及旧外部边界保持。
@@ -19,7 +19,7 @@
 
 ## 3. 下一步（先完成160闭环，再持续功能开发）
 
-1. 160接口/客户端、定向验证和273文件受管理部署/原16保护已通过；先diff/check明确列文件实现commit（含CHANGELOG/README/状态/索引/本交接/Backlogdoing），实现commit存在后才标160done加证据，关闭文档commit/push原main。核origin==HEAD/clean，写work/task-message-window323/finalization-proof.json。work/凭据/生产数据不提交。
+1. 160实现56ab019存在、BACKLOG160已done；先核work/task-message-window323/finalization-proof.json与Git，已complete/origin==HEAD/clean则不重复提交推送，否则补齐关闭文档/push/实证。然后继续第一pending或核实下个具体实质需求缺口，不能重做已有160；每push先CHANGELOG/README、整份交接，work及生产数据不提交。
 2. Git require_escalated、命令级safe.directory=E:/workSpace/dify-agent、单次-c http.version=HTTP/1.1沿现有127.0.0.1:7890代理推原https://github.com/xiaosongxiaosong1111/dify-agent.git，不改全局/TLS/no force，不让用户代提交。每push先根CHANGELOG及适用README、整份交接。
 3. 按用户最新指示继续到实际额度不足，不因模块完成/普通队列空停；第一pending优先，空时核实既定需求的具体实质缺口再入队，一项一项，不造微任务。可核实当前Task中版本/材料/运行等其它重字段是否仍阻断长任务读取，需证据和兼容设计后再开发；不要把40未重核直接当40未开发。322补完整单条读取、323补消息传输窗口，仍非数据库拆分/所有字段分页或业务验收。
 4. sierra一次性2026-10-27 01:18续接已ACTIVE，执行先暂停自身再读最新交接和实际额度；不重建或假定准时必恢复。实际Codex不足立即尽可能整份交接并停，不反复重试/换号/购券/用券。不要重做已经complete的159。
