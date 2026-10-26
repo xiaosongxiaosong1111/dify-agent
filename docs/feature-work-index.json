@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-27",
-  "product_version": "0.338.0",
+  "product_version": "0.339.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -1957,12 +1957,15 @@
       "deliverable": "前端验收报告",
       "acceptance": "对照原型检查确认、修改、错误、焦点和常用窗口布局",
       "kind": "verification_delivery",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "scope_limited",
       "evidence": [
-        "docs/development-tasks.md"
+        "frontend/src/AcceptancePanel.tsx",
+        "frontend/src/RecordedJson.tsx",
+        "docs/run-history-window.md"
       ],
       "historical_status_20261020": "受阻",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.339仅运行历史窗口/筛选/长JSON交互，旧长DOM先复现，新UI8/逐项结果UI9通过；浏览器虚拟回执不改真实Task。不是全应用正式可用性或平台签收，acceptance未关闭。"
     },
     {
       "id": "T133",

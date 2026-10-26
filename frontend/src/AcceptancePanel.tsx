@@ -1,3 +1,5 @@
+import {useState,useEffect} from 'react';
+import RecordedJson from './RecordedJson';
 import IterationResults from './IterationResults';
 import {useOwnedActivity} from './useActivityOwnership';
 import {parseRunInputText} from './RunInputText';
@@ -154,18 +156,28 @@ export function RunHistory({ currentAppId, runs, revision, busy, hasUnsaved, rea
   onReview: (id: string, decision: 'passed' | 'failed') => void;
 }) {
  const onActivity=useOwnedActivity(reportActivity,`${taskId}:${revision}`);
-  return <div className="history run-history">{taskId&&<RunComparisonPanel taskId={taskId} revision={revision} runs={runs} blocked={busy||hasUnsaved}/>} {[...runs].reverse().map(run => <details key={run.id} data-run-id={run.id}>
+ const [filters,setFilters]=useState({taskId,revisionOnly:false,appOnly:false,status:'all'}),[windowState,setWindowState]=useState<{scope:string;anchor:string|null}>({scope:'',anchor:null});
+ useEffect(()=>{setFilters({taskId,revisionOnly:false,appOnly:false,status:'all'});setWindowState({scope:'',anchor:null})},[taskId]);
+ useEffect(()=>setWindowState({scope:'',anchor:null}),[revision,currentAppId]);
+ const currentFilters=filters.taskId===taskId?filters:{taskId,revisionOnly:false,appOnly:false,status:'all'};
+ const scope=JSON.stringify([taskId,revision,currentAppId,currentFilters.revisionOnly,currentFilters.appOnly,currentFilters.status]);
+ const filtered=[...runs].reverse().filter(run=>(!currentFilters.revisionOnly||run.revision===revision)&&(!currentFilters.appOnly||!!currentAppId&&run.app_id===currentAppId)&&(currentFilters.status==='all'||currentFilters.status==='failed'&&(['error','failed','not_passed'].includes(run.status||'')||run.evaluation?.status==='failed'||run.manual_review?.decision==='failed')||currentFilters.status==='attention'&&(!run.status||['unknown','pending','running','waiting_platform','platform_finished','paused'].includes(run.status))||currentFilters.status==='success'&&run.status==='success'));
+ const anchor=windowState.scope===scope?windowState.anchor:null,anchorIndex=anchor?filtered.findIndex(run=>run.id===anchor):0,anchorLost=!!anchor&&anchorIndex<0,start=Math.max(0,anchorIndex),visible=filtered.slice(start,start+20);
+ const move=(offset:number)=>setWindowState({scope,anchor:offset<=0?null:filtered[offset]?.id??null});
+ const changeFilter=(patch:Partial<typeof currentFilters>)=>{setWindowState({scope:'',anchor:null});setFilters({...currentFilters,...patch})};
+
+  return <div className="history run-history">{taskId&&<RunComparisonPanel taskId={taskId} revision={revision} runs={runs} blocked={busy||hasUnsaved}/>} <section className="run-history-window"><b>已保存运行记录</b><p role="status">全部保存{runs.length}条，当前筛选{filtered.length}条，本窗{filtered.length?start+1:0}—{start+visible.length}，每窗最多20条，按保存顺序从新到旧。</p><label><input type="checkbox" aria-label="运行历史只看当前修订" checked={currentFilters.revisionOnly} onChange={e=>changeFilter({revisionOnly:e.target.checked})}/> 只看当前修订</label><label><input type="checkbox" aria-label="运行历史只看当前App" checked={currentFilters.appOnly} disabled={!currentAppId&&!currentFilters.appOnly} onChange={e=>changeFilter({appOnly:e.target.checked})}/> 只看当前App</label><label className="field"><span>记录状态范围</span><select aria-label="运行历史状态范围" value={currentFilters.status} onChange={e=>changeFilter({status:e.target.value})}><option value="all">全部记录</option><option value="failed">运行错误或规则／人工未通过</option><option value="attention">未知／处理中／待核对</option><option value="success">原返回成功（不等于业务通过）</option></select></label><p className="hint">筛选仅读取保存状态，不重评或派发。旧修订／其他App仍可选全部查看；不同记录的成功、规则与人工意见不合并为业务结论。</p>{anchorLost&&<p role="status">原窗口首记录已不在当前筛选，已显示最近窗口；请按当前记录重新定位。</p>}{anchor&&start>0&&<p className="hint">当前窗口按原首记录定位，有{start}条较新筛选记录；新到记录不强行切走。</p>}{!visible.length&&<p>当前筛选没有记录，不代表任务从未运行；可取消条件查看全部保存记录。</p>}<div className="actions"><button className="secondary" disabled={start===0&&!anchorLost} onClick={()=>move(0)}>最近运行记录</button><button className="secondary" disabled={start===0} onClick={()=>move(Math.max(0,start-20))}>较新20条运行记录</button><button className="secondary" disabled={start+20>=filtered.length} onClick={()=>move(start+20)}>更早20条运行记录</button></div></section>{visible.map(run => <details key={run.id} data-run-id={run.id}>
     <summary>{run.test_case?.name || run.label || (run.kind === 'import' ? '导入记录' : '自由试跑')} · v{run.revision ?? '未知'} · {stateNames[run.status || ''] || run.status || '未知'}</summary>
     {run.revision !== revision && <div className="callout amber">旧修订记录，仅作参考，不计入当前样例汇总。</div>}
     {run.error && <div className="alert error">{run.error}</div>}
     {run.conversation_context&&<div className="callout">本轮复用会话 {run.conversation_context.conversation_id}，来源记录 {run.conversation_context.source_run_id}。上下文属于实际输入，不作为固定样例通过数。</div>}
-    {run.test_case && <><b>运行时样例与输入快照</b><pre>{JSON.stringify(run.test_case, null, 2)}</pre></>}
+    {run.test_case && <><b>运行时样例与输入快照</b><RecordedJson value={run.test_case} scope={JSON.stringify([taskId,revision,run.id,'case'])} label="样例输入快照"/></>}
     {taskId&&onCopyInput&&inputDraft!==undefined&&<SavedRunInputCopy taskId={taskId} revision={revision} run={run} input={inputDraft} selectionScope={inputSelectionScope||''} blocked={busy||hasUnsaved} onAdopt={onCopyInput}/>}
     {run.kind==='run'&&<p className="hint">用量及价格来自 Dify 返回。插件价格为 0 不证明供应商免费；实际费用需核对供应商账单，本次规划上限不覆盖这些运行费用。</p>}
     {taskId&&onUpdated&&['waiting_platform','platform_finished'].includes(run.status||'')&&<LazyWaitingRunPanel taskId={taskId} run={run} blocked={busy||hasUnsaved} onUpdated={onUpdated}/>}
     <ConversationCaseResult value={run.result}/>
     {taskId&&run.kind==='run'&&run.app_type==='workflow'&&<IterationResults taskId={taskId} revision={revision} run={run} currentAppId={currentAppId} blocked={busy||hasUnsaved}/>}
-    <b>实际返回结果</b><pre>{JSON.stringify(run.result ?? run.output ?? run.input, null, 2)}</pre>
+    <b>实际返回结果</b><RecordedJson value={run.result ?? run.output ?? run.input} scope={JSON.stringify([taskId,revision,run.id,'result'])} label="实际返回结果"/>
     {run.evaluation && <div className={`validation ${run.evaluation.status === 'passed' ? 'ok' : 'bad'}`}><b>{stateNames[run.evaluation.status] || run.evaluation.status}</b><p>{run.evaluation.details}</p></div>}
     {taskId&&reportActivity&&onUpdated&&<RunDiagnosticPanel currentAppId={currentAppId} taskId={taskId} revision={revision} run={run} blocked={busy||hasUnsaved} onActivity={onActivity} onUpdated={onUpdated} onLocateNode={onLocateNode} onPrepareRun={onPrepareRun}/>}
     {run.manual_review && <div className="callout"><b>人工确认{run.manual_review.decision === 'passed' ? '通过' : '未通过'}</b><p>{run.manual_review.reason}</p><small>{new Date(run.manual_review.created_at).toLocaleString('zh-CN')}</small></div>}
