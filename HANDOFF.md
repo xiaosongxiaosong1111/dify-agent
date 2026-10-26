@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent/main；161实现f933ba5/关闭c6e2d5b已推送clean，work/workspace-view324/finalization-proof.json complete，不重做。162定向验证/受管理部署通过，实现提交与关闭状态以Git和work/material-text325/finalization-proof.json为准，不猜自引用hash。
+- 项目E:\workSpace\dify-agent/main；161实现f933ba5/关闭c6e2d5b已推送clean，work/workspace-view324/finalization-proof.json complete，不重做。162实现021ba36存在、BACKLOG162已done，定向验证/受管理部署通过，最终关闭状态以Git和work/material-text325/finalization-proof.json为准，不猜自引用hash。
 - 实际运行0.325.0-7debea621645d209cc99/275文件，原所属PID/固定快照/start-stop核对，work/material-text325/deployment-proof.json、managed-runtime-proof.json；health及前端200/源码快照全文件/原16全部对象、设置、账本、密文主Key及124保护通过，真实模型/Dify0。
 - 162新增compact-v2材料文字索引与只读分页核对，原保存正文/未确认解析片段分别读取，来源/覆盖说明/图像未知项保持；字段2MB UTF8、页4000码点，完整来源指纹/页SHA、Task修订/材料ID/原保存SHA绑定，变更409清旧页，坏页保留上次已核对页，切任务取消晚到。旧完整/compact/recent/写回执兼容，投影不入Store、不改模型上下文/确认。
 - 新22/相关70后端分组（首批89含新19，追加来源3），材料UI8/工作区UI7及构建通过，未全量；首轮fixture默认字段基线失配，修正后完整通过，原日志保留。读取不重读原件/重解析/解密/模型；浏览器只独立核对页，完整字段由后端指纹绑定，不冒称原件存在或全部内容已读/自动采用/业务验收。SQLite仍读原Task，其它数组/完整写回执仍可能重。
@@ -18,7 +18,7 @@
 
 ## 3. 下一步（完成162闭环并继续既定需求实质开发）
 
-1. 先核实work/material-text325/finalization-proof.json及Git；只有实现commit存在且验收过才能BACKLOG162 done，再关闭文档/push/clean。已complete/origin==HEAD不重复提交部署。当前已运行0.325.0-7debea621645d209cc99，work/material-text325/deploy.ps1前提旧0.324，禁止重放。
+1. 先核实work/material-text325/finalization-proof.json及Git；实现021ba36和验收已满足，BACKLOG162已done；补关闭文档/push/clean。已complete/origin==HEAD不重复提交部署。当前已运行0.325.0-7debea621645d209cc99，work/material-text325/deploy.ps1前提旧0.324，禁止重放。
 2. 普通队列空先核实既定需求具体可开发缺口，加入BACKLOG再逐项推进。不要只增加无意义验收准备、把40未重核当40未开发，或因为完成小模块停止。实际额度不足即尽可能整份交接并停，不反复重试。
 3. 每次push先根CHANGELOG/适用README并整份交接，git require_escalated、safe.directory=E:/workSpace/dify-agent、命令级http.version=HTTP/1.1沿现有127.0.0.1:7890推原main，不改全局/TLS/no force/不让用户代提交。work、生产数据和凭据不提交。
 4. 原任务r12/run_completed且4/4已满、不第五跑；91/95/115/121/124消费批不重放，Sierra实际20/保守24、管理413/登录28、unknown/四旧槽/费界保持，不借或退旧预留。只复用加密凭据，不抄聊天密码。新真实范围仍需具体方案，普通本机开发无需重复问。
