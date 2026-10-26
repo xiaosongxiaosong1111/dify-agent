@@ -15,5 +15,9 @@ export default function useConversationDraft(taskId:string|null){
   setDrafts(previous=>{const old=previous.get(taskId)||empty;if(mode===old.mode)return previous;const next=new Map(previous);if(!old.text&&mode==='review')next.delete(taskId);else next.set(taskId,{...old,mode});return next});
  },[taskId]);
  const hasDraft=useCallback((id:string)=>!!drafts.get(id)?.text.trim(),[drafts]);
- return {text:current.text,mode:current.mode,setText,setMode,hasDraft};
+ const clearSent=useCallback((content:string,mode:ConversationMode,originalText?:string)=>{
+  if(!taskId)return;
+  setDrafts(previous=>{const old=previous.get(taskId);if(!old||old.mode!==mode||old.text.trim()!==content.trim()||originalText!==undefined&&old.text!==originalText)return previous;const next=new Map(previous);if(mode==='review')next.delete(taskId);else next.set(taskId,{...old,text:''});return next});
+ },[taskId]);
+ return {text:current.text,mode:current.mode,setText,setMode,hasDraft,clearSent};
 }
