@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；165实现78531a0/关闭7f18491已推送clean，work/material-quote328/finalization-proof.json complete。166定向验证/部署通过，实现及关闭状态以Git/work/material-upload329/finalization-proof.json为准，不猜hash。
+- E:\workSpace\dify-agent/main；165实现78531a0/关闭7f18491已推送clean，work/material-quote328/finalization-proof.json complete。166实现3a7a936存在、BACKLOG166已done、定向验证/部署通过，最终关闭状态以Git/work/material-upload329/finalization-proof.json为准，不猜hash。
 - 实际0.329.0-a0e4e40c7446af725ef2/275文件，work/material-upload329/deployment-proof.json/managed-runtime-proof.json；所属PID/快照/原start-stop/health及前端200、源快照全文件、原16全部对象设置账本密文主Key/124保护通过，真实模型/Dify0。
 - 166多材料逐份上传、本页1—10份/合计50MB/每份原20MB前检、每份保存/解析/材料ID/修订、停止后续；错误/未知/切任务或源变不继续/重传，已保存保持。新可选expected_revision初始/登记前核对、前提变化清本次未登记随机原件，旧客户端及提交锁内读当前Task保持；不是整批事务/幂等/解析理解保证，数据库未知不盲删文件。队列只在本页，不自动恢复重放。
 - 新11/相关76后端（87合计）、新UI7/原引用UI8及构建通过，未全量。UI隔离六份有意保存/六版本/原字节及另一任务不变；包含三份成功/未解析、数量单份/总量、停止、第二份HTTP503/切换后不续发。Playwright50MB内存夹具首次受限，改浏览器DataTransfer超限选择后通过，原日志保留。
@@ -18,7 +18,7 @@
 
 ## 3. 下一步（166提交关闭后继续实质功能）
 
-1. 核实work/material-upload329/finalization-proof.json及Git；验收过且实现commit存在后BACKLOG166 done，再关闭文档/push/clean。已complete/origin==HEAD不重复；当前0.329.0-a0e4e40c7446af725ef2，同目录deploy.ps1前提旧0.328，不重放。
+1. 核实work/material-upload329/finalization-proof.json及Git；实现3a7a936和验收已满足、BACKLOG166已done，补关闭文档/push/clean。已complete/origin==HEAD不重复；当前0.329.0-a0e4e40c7446af725ef2，同目录deploy.ps1前提旧0.328，不重放。
 2. 持续第一pending；队列空核实既定需求可开发缺口入队，不造耗额度微任务或只准备验收，不把39未重核当39未开发。可核实多份引用方式的逐项预览/明确提交体验；目前只能每份开原modal，保留FR-07逐份重要参考须明确决定、不得自动假设引用方式。
 3. 每push先根CHANGELOG/适用README及整份交接；git require_escalated、safe.directory=E:/workSpace/dify-agent、命令级http.version=HTTP/1.1沿127.0.0.1:7890推原main，无force/全局/TLS修改/用户代提交。work/生产数据/凭据不提交。
 4. 实际Codex不足立即尽可能整份交接停，不反复探额/重试/换号/购买/用券；sierra一次性01:18已设，触发先暂停自身再读最新进度与实际额度，不重建/假定恢复。小模块完不停止，不假报额度已尽。
