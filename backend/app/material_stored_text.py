@@ -84,4 +84,28 @@ def register(h):
                     'page_start':offset,'page_end':end,'page_size_limit':PAGE,'page_sha256':hashlib.sha256(chunk.encode('utf-8')).hexdigest(),
                     'complete_field':offset==0 and end==len(text),'has_previous':offset>0,'has_next':end<len(text),
                     'partial_extraction':field=='partial_text'}
+
+    @router.post('/api/tasks/{item_id}/materials/{material_id}/stored-text/search')
+    def search(item_id:str,material_id:str,payload:dict):
+        with h.store.lock:
+            material,meta=scope(item_id,material_id,payload,{'revision','source_sha256','source_token','field','offset','query'})
+            field=payload['field'];offset=payload['offset'];query=payload['query']
+            if not isinstance(field,str) or field not in FIELDS or type(offset)is not int or offset<0 or payload['source_token'] is None or not isinstance(query,str) or not query.strip() or len(query)>100:raise HTTPException(422,'字面查找须明确已核对来源、文字字段、非负码点位置和1—100码点非空原文；保留大小写及空格，不使用正则。')
+            try:query_hash=hashlib.sha256(query.encode('utf-8')).hexdigest()
+            except UnicodeError:raise HTTPException(422,'查找文字编码无法核对，未替换字符。') from None
+            source=meta['entries'][field]
+            if source['state']!='available':raise HTTPException(413 if source['state']=='oversized' else 409,source['note'])
+            text=material[field]
+            if offset>len(text):raise HTTPException(422,'查找位置超出保存文字，未猜测位置。')
+            matches=[];cursor=offset
+            while len(matches)<20:
+                start=text.find(query,cursor)
+                if start<0:break
+                end=start+len(query);left=max(0,start-80);right=min(len(text),end+160);preview=text[left:right]
+                matches.append({'start':start,'end':end,'preview_start':left,'preview_end':right,'preview':preview,'preview_sha256':hashlib.sha256(preview.encode('utf-8')).hexdigest()});cursor=end
+            more=text.find(query,cursor)>=0
+            return {**meta,'verification':'saved_material_text_search_only','field':field,'query':query,'query_sha256':query_hash,
+                    'search_start':offset,'matches':matches,'result_limit':20,'has_more':more,'next_offset':cursor if more else None,
+                    'case_sensitive':True,'regular_expression':False,'non_overlapping':True,'partial_extraction':field=='partial_text',
+                    'search_note':'仅在所选保存字段按原文查找，区分大小写/空格，不重叠计数；无命中不代表无业务相关内容或其它字段已查。位置为Unicode码点，不自动采用、引用、判定语义或批准。'}
     h.app.include_router(router)

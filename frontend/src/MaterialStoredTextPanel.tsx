@@ -1,16 +1,29 @@
 import {useEffect,useRef,useState} from 'react';
-import {validateTextIndex,validateTextPage,type StoredTextIndex,type TextMaterial} from './materialStoredTextTransport';
+import {validateTextIndex,validateTextPage,validateTextSearch,type TextSearch,type StoredTextIndex,type TextMaterial} from './materialStoredTextTransport';
 type Page={text:string;start:number;end:number;total:number};
 export default function MaterialStoredTextPanel({taskId,revision,material}:{taskId:string;revision:number;material:TextMaterial}){
  const [index,setIndex]=useState<StoredTextIndex|null>(null),[page,setPage]=useState<Page|null>(null),[field,setField]=useState<'text'|'partial_text'>('text'),[busy,setBusy]=useState(false),[error,setError]=useState('');
+ const [query,setQuery]=useState(''),[searchField,setSearchField]=useState<'text'|'partial_text'>('text'),[results,setResults]=useState<TextSearch|null>(null);
  const generation=useRef(0),controller=useRef<AbortController|null>(null);
  const scope=JSON.stringify([taskId,revision,material.id,material.sha256,material.status,material.source_kind,material.source_coverage_note,material.reference_mode,material.preserve_items,material.extraction_coverage,material.text_view?.source_token]);
  const activeScope=useRef(scope);activeScope.current=scope;
- useEffect(()=>{generation.current++;controller.current?.abort();setIndex(null);setPage(null);setError('');setBusy(false);return()=>{generation.current++;controller.current?.abort()}},[scope]);
+ useEffect(()=>{generation.current++;controller.current?.abort();setIndex(null);setPage(null);setResults(null);setQuery('');setSearchField('text');setError('');setBusy(false);return()=>{generation.current++;controller.current?.abort()}},[scope]);
+ function editSearch(){generation.current++;controller.current?.abort();setResults(null);setError('');setBusy(false)}
+ async function search(offset=0){
+  if(!index||!query.trim()||Array.from(query).length>100)return;
+  controller.current?.abort();const abort=new AbortController();controller.current=abort;const ticket=++generation.current;setBusy(true);setResults(null);setError('');
+  const current=()=>ticket===generation.current&&activeScope.current===scope&&!abort.signal.aborted;
+  try{
+   const response=await fetch(`${import.meta.env.VITE_API_BASE||'/api'}/tasks/${encodeURIComponent(taskId)}/materials/${encodeURIComponent(material.id)}/stored-text/search`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({revision,source_sha256:index.source_sha256,source_token:index.source_token,field:searchField,query,offset}),cache:'no-store',signal:abort.signal});
+   const value=await response.json();if(!current())return;
+   if(!response.ok){if(response.status===409){setIndex(null);setPage(null);setResults(null)}throw Error(typeof value.detail==='string'?value.detail:`字面查找失败（HTTP ${response.status}）`)}
+   const checked=await validateTextSearch(value,index,material,searchField,query,offset);if(current())setResults(checked);
+  }catch(e){if(current())setError(e instanceof Error?e.message:'字面查找无法核对。')}finally{if(current())setBusy(false)}
+ }
  async function read(selected?:'text'|'partial_text',offset=0){
   controller.current?.abort();const abort=new AbortController();controller.current=abort;const ticket=++generation.current;setBusy(true);setError('');
   const current=()=>ticket===generation.current&&activeScope.current===scope&&!abort.signal.aborted;
-  async function request(endpoint:string,body:Record<string,unknown>){const response=await fetch(`${import.meta.env.VITE_API_BASE||'/api'}/tasks/${encodeURIComponent(taskId)}/materials/${encodeURIComponent(material.id)}/stored-text/${endpoint}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),cache:'no-store',signal:abort.signal});if(!response.ok){if(response.status===409&&current()){setPage(null);setIndex(null)}let message=`文字读取失败（HTTP ${response.status}）`;try{const value=await response.json();if(typeof value.detail==='string')message=value.detail}catch{}throw Error(message)}return response.json()}
+  async function request(endpoint:string,body:Record<string,unknown>){const response=await fetch(`${import.meta.env.VITE_API_BASE||'/api'}/tasks/${encodeURIComponent(taskId)}/materials/${encodeURIComponent(material.id)}/stored-text/${endpoint}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),cache:'no-store',signal:abort.signal});if(!response.ok){if(response.status===409&&current()){setPage(null);setIndex(null);setResults(null)}let message=`文字读取失败（HTTP ${response.status}）`;try{const value=await response.json();if(typeof value.detail==='string')message=value.detail}catch{}throw Error(message)}return response.json()}
   try{
    const base={revision,source_sha256:material.sha256&&/^[a-f0-9]{64}$/.test(material.sha256)?material.sha256:null};
    let meta=index;
@@ -26,6 +39,9 @@ export default function MaterialStoredTextPanel({taskId,revision,material}:{task
    {index.source_metadata.image_uncertainties.length>0&&<p className="hint">原图像未知项：{index.source_metadata.image_uncertainties.filter(v=>typeof v==='string').join('；')}</p>}
    <p className="hint">{index.note}</p><div className="actions">{(['text','partial_text'] as const).map(key=><button key={key} className="secondary" disabled={busy||index.entries[key].state!=='available'} onClick={()=>void read(key)}>{key==='text'?'读取已保存正文':'读取原解析片段（未确认）'}</button>)}</div>
    {(['text','partial_text'] as const).map(key=><p className="hint" key={key}>{key==='text'?'保存正文':'原解析片段'}：{index.entries[key].note}{index.entries[key].source_length!==null&&`（${index.entries[key].source_length}码点）`}</p>)}
+   <div className="material-text-search"><label className="field"><span>查找字段</span><select aria-label="材料查找字段" value={searchField} onChange={e=>{editSearch();setSearchField(e.target.value as 'text'|'partial_text')}}><option value="text" disabled={index.entries.text.state!=='available'}>保存正文</option><option value="partial_text" disabled={index.entries.partial_text.state!=='available'}>原解析片段（未确认）</option></select></label><label className="field"><span>逐字查找（区分大小写，最多100码点）</span><input aria-label="材料逐字查找" maxLength={4000} value={query} onChange={e=>{editSearch();setQuery(e.target.value)}}/></label>{Array.from(query).length>100&&<p role="alert">查找文字超过100码点，未截断或派发。</p>}<button className="secondary" disabled={busy||!query.trim()||Array.from(query).length>100||index.entries[searchField].state!=='available'} onClick={()=>void search()}>在所选保存文字中查找</button>
+    {results&&<div className="material-text-search-results"><p className="hint">{results.search_note}</p><p role="status">本组{results.matches.length}处命中；{results.has_more?'还有后续命中，未全部列出':'从本次起点查找完毕'}。{results.field==='partial_text'?'原解析片段未确认。':'保存正文仍须按来源理解。'}</p>{!results.matches.length&&<p>所选字段本次没有逐字命中，不代表没有相关业务规则。</p>}{results.matches.map(hit=><div key={hit.start}><b>码点{hit.start+1}–{hit.end}</b><pre style={{whiteSpace:'pre-wrap',overflowWrap:'anywhere'}}>{hit.preview}</pre><button className="secondary" disabled={busy} onClick={()=>void read(results.field,hit.start)}>从此处读取保存文字</button></div>)}{results.has_more&&<button className="secondary" disabled={busy} onClick={()=>void search(results.next_offset!)}>查找后续命中</button>}</div>}
+   </div>
    {page&&<div data-testid="material-text-page"><b>{field==='partial_text'?'原解析片段／未确认，不是当前采用正文':'保存正文／按上述来源理解'}</b><p className="hint">码点 {page.start+1}–{page.end} / {page.total}；本页摘要已核对，完整字段来源由服务端指纹绑定，浏览器未独立核对全部字段。未重新读取原文件。</p><pre style={{whiteSpace:'pre-wrap',overflowWrap:'anywhere',maxHeight:300,overflow:'auto'}}>{page.text}</pre><div className="actions"><button className="secondary" disabled={busy||page.start===0} onClick={()=>void read(field,0)}>文字首页</button><button className="secondary" disabled={busy||page.start===0} onClick={()=>void read(field,Math.max(0,page.start-4000))}>文字上一页</button><button className="secondary" disabled={busy||page.end===page.total} onClick={()=>void read(field,page.end)}>文字下一页</button><button className="secondary" disabled={busy||page.end===page.total} onClick={()=>void read(field,Math.floor((page.total-1)/4000)*4000)}>文字末页</button></div></div>}
   </div>}
  </div>;
