@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main。148实现ecaee1d/交接53cafe5已推送，work/task-state-sequence311终结proof complete/clean保留。149已实现验证，当前0.312.0-dd2ee862c90aa54a5fff；commit/push以work/task-edit-base312/finalization-proof.json实际为准，未生成前不推断完成。
+- 项目E:\workSpace\dify-agent，main。148实现ecaee1d/交接53cafe5已推送，work/task-state-sequence311终结proof complete/clean保留。149实现ed39f0f且BACKLOG done，当前0.312.0-dd2ee862c90aa54a5fff；commit/push以work/task-edit-base312/finalization-proof.json实际为准，未生成前不推断完成。
 - 旧界面覆盖后台新目标已复现；新12/相关106分组及UI5/修订7/状态4和构建通过。2旧AT19比较明确分离元数据并核序号+1，全部业务断言保持/旧失配日志保留。264文件/所属进程原脚本及health/前端200，原16/设置能力/账本密文主Key/124保持。本项Sierra模型/Dify真实新增0；141网关预算失败无审查、CLI估算0.074255 USD单列非账单，内部HTTP未知、不重试。
 - 用户继续功能开发直到实际Codex不足授权保持，最新又明确“继续”，不是取消原目标。最近quota primary93%已用/weekly46%、ordinaryUsageAllowed=true，尚无Codex不足；不为耗额度拆微任务。Docker引擎未运行，T078不宿主机exec替代。
 
@@ -15,7 +15,7 @@
 
 ## 3. 下一步（149已验收部署；先提交闭环，按实际额度继续）
 
-1. 149验收/构建/部署已过，先建立实现commit，再据实际提交标BACKLOG done、提交交接；每push前CHANGELOG/README并推原main，不让用户代提交。最终work/task-edit-base312/finalization-proof.json，旧proof不覆盖。
+1. 149验收/构建/部署与实现ed39f0f、BACKLOG done已完成，提交本交接后推送；每push前CHANGELOG/README并推原main，不让用户代提交。最终work/task-edit-base312/finalization-proof.json，旧proof不覆盖。
 2. Task PATCH可选expected_revision严格正整数；本机服务存储锁内核业务修订，旧值409、坏类型422且不写Task/序号/历史。当前Root.patch/confirm第一阶段/resetPlan三处携带基准；冲突原稿保持，先另存/刷新核对后明确合并，不自动重试。旧无字段调用仍旧契约，不声称跨进程CAS或全客户端版本保护。
 3. 新12/相关共106后端分组：104过/2旧AT19元数据比较失配，修后对应2过；业务字段/确认/版本/运行/验收保留全等，提交序号明确+1。新UI5/业务修订UI7/同revisionUI4与构建通过。旧真实界面200覆盖日志/新字段422红测/API元数据失配保留。后台只新增此guard，不全量；原16/全部旧密文账本主Key/124精确保持，真实Sierra/Dify0。
 4. 0.311提交序号五写路径/旧读不回填、0.310较旧业务修订保护、0.309活动归属、0.307独立目标继续、0.306Word装载边界保持。149之后先核BACKLOG是否还有pending；无pending时仅核实原需求的实质缺口再入队，不重放历史blocked或为耗额度拆微任务/扩付费准备。当前44项未重核、复杂工具/嵌套容器/文件/长期记忆/T078及更多业务验收边界不变，不按版本/测试数算完成率。
