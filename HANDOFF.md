@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；171实现b8b01c1/关闭3aa5d57已推送clean，work/embedding-source334/finalization-proof.json complete，不重做。172验收/部署已过，实现/关闭/push以Git及work/numeric-form335/finalization-proof.json为准。
+- E:\workSpace\dify-agent/main；171实现b8b01c1/关闭3aa5d57已推送clean，work/embedding-source334/finalization-proof.json complete，不重做。172实现2d81de5存在且BACKLOG172已done，最终关闭/push以Git及work/numeric-form335/finalization-proof.json为准。
 - 实际0.335.0-784050c10e9c43d36e06/277文件，work/numeric-form335/deployment-proof.json和managed-runtime-proof.json；所属PID/快照/原start-stop/health和前端200/原16全部对象设置账本密文主Key/124保护通过，真实模型/Dify0。
 - 数字表单先独立原文再严格核对、明确填入/撤销，拒绝舍入/溢出/下溢/未完成/类型转换；多字段逐项待处理阻止本机检查及根自由试跑，换源/重读清旧稿。已保存样例不沿用自由输入稿，独立数字稿不持久化，共用人工资源表单接收待处理门禁。
 - 旧0.10000000000000001默改0.1已复现，新UI10/入口后端101和构建通过，未全量。仅数字编辑切片，非所有原文入口/任意精度或平台验收。旧夹具选择器/默认任务失配及首轮构建漏共用调用方日志保留，均已修正。
@@ -18,7 +18,7 @@
 
 ## 3. 下一步（172提交闭环，继续实质开发）
 
-1. 核实work/numeric-form335/finalization-proof.json及Git；172验收部署已过，补实现与关闭提交/CHANGELOG及push/clean，已complete不重做。当前0.335.0-784050c10e9c43d36e06，deploy.ps1前提旧0.334，禁止重放。
+1. 核实work/numeric-form335/finalization-proof.json及Git；172实现2d81de5/验收部署已过，补关闭提交/CHANGELOG及push/clean，已complete不重做。当前0.335.0-784050c10e9c43d36e06，deploy.ps1前提旧0.334，禁止重放。
 2. 第一pending优先；空队列按既定需求核实具体缺口。可限读HumanRuntimePlanPanel.tsx原文准备入口：其共用表单已严格检查原文，但prepare仍直接JSON.parse，需核实重复query能否绕过本机提示进入本地资源方案；先实际复现，不扩大真实模型/Dify范围或顺带改所有入口。
 3. 每push前CHANGELOG/适用README/整份交接；核原remote，git require_escalated/safe.directory=E:/workSpace/dify-agent/命令级HTTP1.1沿原代理推main，不force/全局/TLS改动，不让用户代提交，work/生产数据/秘密不入Git。
 4. 持续到实际Codex不足或确无可行动进展，不因小模块完停；不足即尽力整份交接停，不反复探额/重试/换号/购买/用券。sierra已PAUSED，结束删除已完成一次性，不新建。
