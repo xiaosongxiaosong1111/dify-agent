@@ -25,7 +25,7 @@
 - One row at a time, top-down by number. Only act on the first `pending` row; skip `done`, `blocked`, `need-user`.
 - A row may only be marked `done` after its acceptance command has actually passed and a commit exists. Never mark `done` from intention or partial work.
 - After finishing a row, update its status and evidence in `docs/BACKLOG.md`, commit that change, then continue to the next `pending` row.
-- Stop the whole queue only when: quota is exhausted, two consecutive items fail, or every remaining row is `blocked`/`need-user`. Report which case applies.
+- Stop the whole queue only when: actual quota is exhausted, two consecutive items fail, or bounded review finds no meaningful next action after all remaining rows are `blocked`/`need-user`. Under the renewed continuous-development instruction, an empty ordinary queue alone is not a stop condition; first check the established requirements for a concrete actionable gap. Report the actual condition, never invent work or claim quota exhaustion without observing it.
 - Items that need a human (login, real Dify authorisation, paid model calls) are marked `need-user`; do not attempt them and do not silently downgrade them.
 - Local isolated green tests do not equal real Dify platform acceptance. Record that boundary in the evidence cell rather than implying the business scenario passed.
 
