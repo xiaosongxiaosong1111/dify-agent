@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；169实现39c9cee/关闭f1ab12d已推送clean，work/plan-decimal332/finalization-proof.json complete，不重做。170验收/部署通过，实现commit与关闭/push以Git和work/case-sets333/finalization-proof.json为准，不猜hash。
+- E:\workSpace\dify-agent/main；169实现39c9cee/关闭f1ab12d已推送clean，work/plan-decimal332/finalization-proof.json complete，不重做。170实现4770260存在、BACKLOG170已done、验收/部署通过，最终关闭/push以Git和work/case-sets333/finalization-proof.json为准，不猜hash。
 - 实际0.333.0-b4e695bc4808b298ecbd/277文件，work/case-sets333/deployment-proof.json及managed-runtime-proof.json；所属PID/快照/原start-stop/health与前端200/源快照全文件/原16全部对象设置账本密文主Key/124保护通过，真实模型/Dify0。
 - 170运行页样例定义集JSON：导出后台已保存定义，导入文件先只读预览/来源核对、明确选择复核后只追加未保存草稿；原编辑/未选保持，新ID不继承旧成绩/确认/资源，不自动保存或运行。仍须原保存动作写一次新修订；20例/512000字节/UTF8(BOM)/当前类型/明确可往返规则，旧字符串关键词/对象Schema/未知字段等拒绝，不默转。原JSON不归档材料，请保留原文件，非语义或实际运行验收。
 - 新31/相关98后端129合计、新UI9/原样例JSON UI18和构建通过，未全量。UI实际下载后台定义、不混未保存稿，坏文件/错源/晚到拒绝，明确追加两例/一次保存旧版保留。最终UI有Windows连接重置/有界退出诊断，但exit0/线程退出/临时目录删除/保护断言通过，不重试。
@@ -18,7 +18,7 @@
 
 ## 3. 下一步（170提交闭环，再继续功能开发）
 
-1. 核实work/case-sets333/finalization-proof.json及Git；170验收/部署已过，先实现commit，再BACKLOG170 done，再关闭文档/push/clean。已complete/origin==HEAD不重复。当前0.333.0-b4e695bc4808b298ecbd，同目录deploy.ps1前提旧0.332，禁止重放。
+1. 核实work/case-sets333/finalization-proof.json及Git；170验收/部署已过，实现4770260和验收已满足、BACKLOG170已done，补关闭文档/push/clean。已complete/origin==HEAD不重复。当前0.333.0-b4e695bc4808b298ecbd，同目录deploy.ps1前提旧0.332，禁止重放。
 2. 继续第一pending；空队列核实既定需求实际可开发缺口入队，不造耗额度微任务/只验收准备，不把38未重核当未开发。可限读KnowledgeProvisioner.tsx的Embedding目录读取与环境/修订变化后的状态：旧models action直接setEmbeddings且Task同ID换环境仍同组件，需验证旧目录是否被当当前依据；先复现，不未经核实就扩改所有回调。
 3. 每push先根CHANGELOG/适用README及整份交接；git require_escalated、safe.directory=E:/workSpace/dify-agent、命令级http.version=HTTP/1.1沿127.0.0.1:7890推原main，先验证remote，无force/全局/TLS修改/用户代提交；work/生产数据/凭据不提交。
 4. 持续到实际Codex不足或确无可行动进展；不足立即尽可能整份交接停，不反复探额/重试/换号/购买/用券。sierra一次性已触发且PAUSED，本次结束删除此已完成一次性任务，不新建或假定下次恢复。
