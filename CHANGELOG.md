@@ -4,9 +4,11 @@
 
 ## 0.314 — 2026-10-26
 
+实现提交：`626b267`；BACKLOG151已验收关闭，当前交接同步。
+
 - 修复基础文本/JSON测试在途编辑后旧配置写回或删除后复活；当前界面带配置基准，后台核来源后仅合并本次能力，来源已变则保留为旧配置结果，不更新当前能力、不重发。[范围](docs/provider-probe-source.md)。
 - 旧回滚/复活/并行能力丢失已复现，新18/相关81后端分组、新UI7及构建通过；JSON固定对象也拒重复字段，未全量。基础回执仍仅页面内，无新增持久幂等/费用账本或JSON Schema能力承诺。
-- 0.314.0-e6d5ef90fd7e769acbee受管理部署和原16/账本密文主Key/124保护以work/provider-probe-source314/deployment-proof.json实际为准。本项真实模型/Dify新增0；141网关预算失败无审查、CLI估算0.074255 USD单列非账单/内部HTTP未知，不重试。
+- 0.314.0-e6d5ef90fd7e769acbee受管理部署266文件/health及前端200，原16/账本密文主Key/124保持；闭环以work/provider-probe-source314/finalization-proof.json为准。本项真实模型/Dify新增0；141网关预算失败无审查、CLI估算0.074255 USD单列非账单/内部HTTP未知，不重试。
 
 ## 0.313 — 2026-10-26
 
