@@ -1252,7 +1252,8 @@ def test_at19_unchanged_values_keep_confirmations_and_case_evidence(client, monk
     response = client.patch(f"/api/tasks/{old['id']}", json={kind: value})
     assert response.status_code == 200, response.text
     current = response.json()
-    assert {k: v for k, v in current.items() if k != "updated_at"} == {k: v for k, v in old.items() if k != "updated_at"}
+    assert {k: v for k, v in current.items() if k not in {"updated_at", "state_sequence"}} == {k: v for k, v in old.items() if k not in {"updated_at", "state_sequence"}}
+    assert current["state_sequence"] == old["state_sequence"] + 1
     assert client.get(f"/api/tasks/{old['id']}/acceptance").json()["all_required_passed"]
     assert Store(main.store.root).get("task", old["id"])["revision"] == old["revision"]
     assert dispatched == ["import_new", "run"]

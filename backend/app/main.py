@@ -83,7 +83,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.311.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.312.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -372,11 +372,15 @@ def validate_config(config):
 @app.patch("/api/tasks/{item_id}")
 def patch_task(item_id: str, payload: dict):
     allowed = {"name", "requirements", "configuration", "environment_id", "workflow_plan", "agent_plan"}
-    if set(payload) - allowed:
+    if set(payload) - (allowed | {"expected_revision"}):
         raise HTTPException(422, "不能直接修改类型、状态、确认记录或内部字段。")
+    if "expected_revision" in payload and (type(payload["expected_revision"]) is not int or payload["expected_revision"]<1):
+        raise HTTPException(422,"编辑基准修订必须是正整数。")
     with store.lock:
         task = get_task(item_id)
         require_idle(task)
+        if "expected_revision" in payload and payload["expected_revision"]!=task["revision"]:
+            raise HTTPException(409,"后台修订已变化，本次未保存；请先另存当前编辑，再刷新页面读取最新任务并重新核对。")
         changes = copy.deepcopy(task)
         for plan_key in ("workflow_plan", "agent_plan"):
             if plan_key in payload:
