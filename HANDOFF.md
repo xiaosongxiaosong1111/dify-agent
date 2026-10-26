@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（2026-10-26，第157验收通过待提交）
+# HANDOFF — Sierra（2026-10-26，第157交付）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent/main，HEAD/origin f371ba2，第156实现6a8fe15/关闭f371ba2已推送clean、work/plan-connections319/finalization-proof.json complete。157当前代码/验收/部署已通过，尚未实现commit，BACKLOG157仍doing，保留本次未提交变更。
+- 项目E:\workSpace\dify-agent/main，HEAD/origin f371ba2，第156实现6a8fe15/关闭f371ba2已推送clean、work/plan-connections319/finalization-proof.json complete。157实现440bdf4已存在、验收/部署通过，BACKLOG157已done，最终关闭commit/push/clean以work/dialog-focus320/finalization-proof.json及实际Git为准，不据本文件猜自引用commit。
 - 实际运行0.320.0-9a498bb1e30174e0093f/271文件，原start/stop/所属PID快照/health及前端200、全部源码快照与原16全部对象设置密文主Key账本124保护通过。work/dialog-focus320/deployment-proof.json、managed-runtime-proof.json。
 - 157：根设置/新建/引用弹窗有dialog/aria-modal/可访问名称、动态可用焦点循环、背景inert、Escape只关闭、有效原入口恢复；模型列表切编辑保留外部入口，关闭恢复原inert，不提交或取消后台任务。新useDialogFocus.ts和App接入；后台main仅版本号变更。
 - 旧版缺dialog先红，修复后UI9/流程图回归UI12及构建通过，零写入/真实模型Dify0、未全量。首轮末项按钮名错“添加模型”实际“添加”已纠正，原日志保留。docs/dialog-keyboard.md、README/CHANGELOG/状态/索引已更新；T037仅根弹窗键盘切片，40not_reaudited/86current_evidence/10scope_limited，全验收仍false。
@@ -19,7 +19,7 @@
 
 ## 3. 下一步（先完成157提交推送）
 
-1. 157新UI9/流程图UI12/构建、271文件受管理部署及原16保护已通过；先核diff/check，明确列文件commit（含CHANGELOG/README/状态/索引/本交接/Backlogdoing），实现commit存在后才标157done加证据，再闭环文档commit/push原main。推送后核origin==HEAD/clean，写work/dialog-focus320/finalization-proof.json；work/凭据/生产数据不提交。
+1. 157实现440bdf4存在、BACKLOG157已done；先读work/dialog-focus320/finalization-proof.json和Git，若已complete/origin==HEAD/clean，不重复提交推送；否则补齐关闭文档/push/实证。然后按第一pending或核实下个具体既定需求缺口继续。每push前README/CHANGELOG已更新，work和生产数据不提交。
 2. Git命令用require_escalated、命令级safe.directory=E:/workSpace/dify-agent，单次-c http.version=HTTP/1.1沿现有127.0.0.1:7890代理可推原https://github.com/xiaosongxiaosong1111/dify-agent.git；不改全局/关TLS/no force，不再让用户代commit。每push前CHANGELOG和README已更新，不冒称未推送结果。
 3. 然后继续BACKLOG第一pending；无pending只剩旧已消费blocked时，按既定需求核实具体实质缺口后入队，不重放旧包或为耗额度造微任务。当前40项未重核不等于40项未开发；155/156/157是限定功能证据，不把局部绿测算成项目完成百分比。只读必要文件、不通读项目/290KB历史、不全量。
 4. 当前固定0.320.0-9a498bb1e30174e0093f/271文件，保护work/dialog-focus320/protect.py。该目录deploy.ps1前提旧0.319且已执行，不重放；新源码需新快照与所属进程校验，不能按端口杀进程。原16全部数据及生产新策略off保持，禁止为验证借旧范围发真实模型/Dify。
