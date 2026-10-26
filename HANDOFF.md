@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent/main；163实现da78141/关闭b5dd130已推送clean，work/knowledge-watch326/finalization-proof.json complete。164定向验证/部署通过，实现commit及最终关闭状态以Git/work/material-search327/finalization-proof.json为准，不猜自引用hash。
+- 项目E:\workSpace\dify-agent/main；163实现da78141/关闭b5dd130已推送clean，work/knowledge-watch326/finalization-proof.json complete。164实现981383d存在、BACKLOG164已done、定向验证/部署通过，最终关闭状态以Git/work/material-search327/finalization-proof.json为准，不猜自引用hash。
 - 实际运行0.327.0-b6d4e79c34c5698c7027/275文件，work/material-search327/deployment-proof.json/managed-runtime-proof.json，所属PID及原start-stop/固定快照/health与前端200/源快照全文件/原16全部对象设置账本密文主Key/124保护通过，真实模型/Dify0。
 - 164保存材料正文/未确认原解析片段主动逐字查找，区分大小写空格/CRLF、100码点查询/每组20条不重叠上下文/可继续，精确码点定位保存文字页。完整来源指纹/查询和上下文摘要核对；修改条件/字段、切换晚到拒绝，源变409清旧页/命中，坏上下文不生成定位入口。只数据库保存文字，不重读原件/重解析/解密/模型/知识库，不自动采用/引用/发送或改确认，非语义/全部材料内容验收。
 - 新17/相关39后端（56合计）、新UI11/原分页UI8及构建通过，未全量；首轮TS同名kind错误已修、日志保留。原48命中完整续查/Unicode/非重叠/正则字面/无命中/源变跨Task/坏上下文/晚到/100码点通过；临时Store和原16保护通过。163平台跟踪默认关闭20轮/2分钟及单次入口保持，162材料分页/compact-v2保持。
@@ -18,7 +18,7 @@
 
 ## 3. 下一步（先164提交推送闭环，再继续实质功能）
 
-1. 先核实work/material-search327/finalization-proof.json及Git；验收过且实现commit存在后BACKLOG164 done，再关闭文档/push/clean。已complete/origin==HEAD不重复部署提交。当前0.327.0-b6d4e79c34c5698c7027，同目录deploy.ps1前提旧0.326，不重放。
+1. 先核实work/material-search327/finalization-proof.json及Git；实现981383d和验收已满足、BACKLOG164已done，补关闭文档/push/clean。已complete/origin==HEAD不重复部署提交。当前0.327.0-b6d4e79c34c5698c7027，同目录deploy.ps1前提旧0.326，不重放。
 2. 普通队列空先核实既定需求实际可开发缺口，入BACKLOG逐项推进，不为耗额度造微任务/仅堆验收准备或用39未重核推算39未开发。当前对话/规划/运行/材料等已有实现，未核实不得声称代码全完；主线功能优先，未真正不足不能假报耗尽。
 3. 每push先根CHANGELOG/适用README及整份交接，git require_escalated、safe.directory=E:/workSpace/dify-agent、命令级http.version=HTTP/1.1沿127.0.0.1:7890推原GitHub main，无force/全局/TLS修改/用户代提交。work、生产数据、凭据不提交。
 4. 实际Codex不足立即尽可能整份交接后停，不反复探额/重试/换号/购买/用券。sierra一次性01:18已设，触发先暂停自身、核对最新交接和实际额度，不重建/假定恢复。持续至实际不足或确无可行动进展，报告真实条件。
