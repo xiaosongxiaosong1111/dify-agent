@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-26",
-  "product_version": "0.324.0",
+  "product_version": "0.326.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -264,7 +264,8 @@
         "docs/material-original.md",
         "backend/app/task_workspace_view.py",
         "frontend/src/workspaceViewTransport.ts",
-        "docs/task-workspace-view.md"
+        "docs/task-workspace-view.md",
+        "docs/material-stored-text.md"
       ],
       "historical_status_20261020": "等待验证",
       "acceptance_closed": false,
@@ -663,7 +664,8 @@
         "docs/task-message-window.md",
         "backend/app/task_workspace_view.py",
         "frontend/src/workspaceViewTransport.ts",
-        "docs/task-workspace-view.md"
+        "docs/task-workspace-view.md",
+        "docs/material-stored-text.md"
       ],
       "historical_status_20261020": "进行中",
       "acceptance_closed": false,
@@ -1296,12 +1298,15 @@
       "deliverable": "索引跟踪工具",
       "acceptance": "准备中、成功、失败、超时可区分；不提前运行检索",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "docs/development-tasks.md",
+        "frontend/src/useKnowledgeWatch.ts",
+        "docs/knowledge-index-watch.md"
       ],
       "historical_status_20261020": "等待验证",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.326补有限平台跟踪默认关闭/明确启停、20轮/2分钟、错误/暂停/切换停止及旧GET晚到不续发，新UI10/原暂停UI5和相关51通过；只限定界面跟踪与原暂停关键回归，非全部索引状态或真实平台自然恢复/业务验收，acceptance未关闭。"
     },
     {
       "id": "T087",
