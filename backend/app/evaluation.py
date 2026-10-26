@@ -7,6 +7,7 @@ complete business correctness.
 from __future__ import annotations
 
 import json
+from .plan_text_codec import wire_float
 import math
 from typing import Any
 
@@ -171,7 +172,7 @@ def _strict_json_object(value: str) -> dict[str, Any] | None:
         return result
 
     try:
-        parsed = json.loads(value, parse_constant=reject_constant, object_pairs_hook=unique_object)
+        parsed = json.loads(value, parse_constant=reject_constant, object_pairs_hook=unique_object, parse_float=wire_float)
     except (ValueError, TypeError, RecursionError):
         return None
     if type(parsed) is not dict or _json_value_error(parsed):
@@ -254,7 +255,7 @@ def evaluate_output(actual: dict, expectation: dict) -> dict:
             if isinstance(value,str):
                 if len(value.encode('utf-8'))>MAX_BYTES:raise ValueError('JSON文字超过64000字节，不截断。')
                 obj=_strict_json_object(value)
-                if obj is None:raise ValueError('目标JSON文字不是完整、唯一键且有限的对象；不去Markdown、截取或修复。')
+                if obj is None:raise ValueError('目标JSON文字无法核对完整唯一键、有限及无损数值；不去Markdown、舍入、截取或修复。')
             else:obj=value
             validate_value(expectation["expected"],obj)
             passed=True

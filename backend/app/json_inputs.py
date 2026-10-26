@@ -2,6 +2,7 @@
 import copy,json
 from jsonschema import Draft7Validator,SchemaError
 from .structured_output import schema_errors
+from .plan_text_codec import wire_float
 MAX_BYTES=64000
 MAX_SAFE=9007199254740991
 FIELDS={'variable','label','type','required','hide','description','default','options','max_length','json_schema'}
@@ -18,11 +19,15 @@ def unique(pairs):
 
 def bad_constant(value):raise ValueError('JSON Schema不能含非有限常量。')
 
+def schema_float(text):
+ try:return wire_float(text)
+ except ValueError:raise ValueError('JSON Schema小数在解析或往返时改变数值，未舍入或转成零；请明确修正原文。') from None
+
 def schema(value):
  try:
   if isinstance(value,str):
    if len(value.encode('utf-8'))>MAX_BYTES:raise ValueError('JSON Schema最多64000字节，不截断。')
-   value=json.loads(value,object_pairs_hook=unique,parse_constant=bad_constant)
+   value=json.loads(value,object_pairs_hook=unique,parse_constant=bad_constant,parse_float=schema_float)
   if not isinstance(value,dict) or value.get('type')!='object':raise ValueError('JSON入口须明确根object的JSON Schema。')
   errors=schema_errors(value)
   if errors:raise ValueError('JSON入口Schema未适配：'+'；'.join(errors))
