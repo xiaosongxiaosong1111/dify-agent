@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main。145实现13ccf00/交接62d3ec3已推送，work/edit-results308终结proof complete/clean保留。146已实现验证，当前0.309.0-4341e5254a72a2206f29；commit/push以work/activity-ownership309/finalization-proof.json实际为准，未生成前不推断完成。
+- 项目E:\workSpace\dify-agent，main。145实现13ccf00/交接62d3ec3已推送，work/edit-results308终结proof complete/clean保留。146实现f8d4f84且BACKLOG done，当前0.309.0-4341e5254a72a2206f29；commit/push以work/activity-ownership309/finalization-proof.json实际为准，未生成前不推断完成。
 - 旧子DSL分析清新报告忙提示已复现；活动UI7/编辑UI9/目标UI6和构建通过，21回调接入。264文件/所属进程原脚本重启和health/前端200，原16/设置能力/账本密文主Key/124保持。本项Sierra模型/Dify真实新增0；141网关预算失败无审查，CLI估算0.074255 USD继续单列非账单，内部HTTP未知、不重试。
 - 用户继续功能开发直到实际Codex不足授权保持。最近实际quota primary54%已用/weekly40%、ordinaryUsageAllowed=true，没有Codex额度失败；不为耗额度拆微任务。Docker引擎未运行，T078不宿主机exec替代。
 
@@ -15,7 +15,7 @@
 
 ## 3. 下一步（146已验收部署；提交推送后继续实质问题）
 
-1. 146验收/构建/部署已过，先建立实现commit，再据真实提交标BACKLOG done、提交交接；每push前更新CHANGELOG/README并推原main，不让用户代提交。最终work/activity-ownership309/finalization-proof.json，旧proof不覆盖。
+1. 146验收/构建/部署与实现f8d4f84、BACKLOG done已完成，提交本交接后推送；每push前更新CHANGELOG/README并推原main，不让用户代提交。最终work/activity-ownership309/finalization-proof.json，旧proof不覆盖。
 2. useActivityOwnership把根setBusy与面板活动统一顺序标识；useOwnedActivity为挂载实例/当前修订绑定所有者，21个回调适配。Task面板来源/世代检查，知识库状态独立controller；明确选择新目标清旧可见状态。模型服务测试/保存只改结束释放归属，没有真实触发。可选RunHistory活动回调缺失时原诊断显示条件保持。
 3. 活动UI7：子→主/主→子/子→子、离开后回源新操作，以及数字草稿卸载/重开/自身完成；编辑UI9/目标UI6回归和构建通过，无脚本错误。原B和生产16/密文账本主Key/124保护，后台只版本变化、不全量；真实Sierra/Dify0，目标回归仅两次本机替身。
 4. 当前显示归属不是后台执行锁、取消/资源预算、全并行状态聚合，单面板仍按原一次活动约定。下一代码核查候选：同任务较低修订的完整响应是否会回退较新修订/编辑（editingResultCurrent目前核ID/选择世代但不核返回revision与savedTask当前revision）。先以真实本机API交叠复现，再决定入BACKLOG；不凭猜测宣称已发生，不扩大真实批或加无意义测试准备。
