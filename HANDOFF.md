@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；164实现981383d/关闭1472376已推送clean，work/material-search327/finalization-proof.json complete，不重做。165定向验证/部署通过，实现及关闭状态以Git/work/material-quote328/finalization-proof.json为准，不猜自引用hash。
+- E:\workSpace\dify-agent/main；164实现981383d/关闭1472376已推送clean，work/material-search327/finalization-proof.json complete，不重做。165实现78531a0存在、BACKLOG165已done、定向验证/部署通过，最终关闭状态以Git/work/material-quote328/finalization-proof.json为准，不猜自引用hash。
 - 实际0.328.0-23caddfbb908aa4be746/275文件，work/material-quote328/deployment-proof.json、managed-runtime-proof.json；所属PID/固定快照/原start-stop/health及前端200/源快照全文件/原16全部对象设置账本密文主Key/124保护通过，真实模型/Dify0。
 - 165材料页显式重核后放入只读讨论草稿，材料ID/Task修订/完整字段及页摘要/码点范围/来源覆盖/未确认片段说明保留，只引当前最多4000码点页。已有输入、重核期间新输入、忙状态、源变与切换晚到不覆盖；坏正文拒绝、源变409清页/命中，不自动发送/采用/确认，不新增草稿持久化。后续用户明确发送才按原只读讨论调用模型计费。
 - 新UI8/查找UI11、相关39后端及构建通过，未全量，原Task/保存文字和原16保持。当前页浏览器独立核对摘要、完整字段由服务端指纹绑定，不重查原件/解析，非语义/业务验收。162/163/164已交付功能保持。
@@ -18,7 +18,7 @@
 
 ## 3. 下一步（165闭环后持续功能开发）
 
-1. 核实work/material-quote328/finalization-proof.json及Git；验收和实现commit存在后BACKLOG165 done，再关闭文档/push/clean。已complete/origin==HEAD不重复；当前0.328.0-23caddfbb908aa4be746，同目录deploy.ps1前提旧0.327，不重放。
+1. 核实work/material-quote328/finalization-proof.json及Git；实现78531a0和验收已满足、BACKLOG165已done，补关闭文档/push/clean。已complete/origin==HEAD不重复；当前0.328.0-23caddfbb908aa4be746，同目录deploy.ps1前提旧0.327，不重放。
 2. 持续第一pending，普通队列空核实既定需求具体可开发缺口入队；不造耗额度微任务或仅验收准备，不把39未重核当39未开发。可核实多材料逐份上传体验与来源/失败边界；现upload_material最终锁内已重新get_task，不得未读完整函数就谎称旧快照覆盖。
 3. 每push前根CHANGELOG/适用README及整份交接；git require_escalated、safe.directory=E:/workSpace/dify-agent、命令级http.version=HTTP/1.1沿127.0.0.1:7890推原main，无force/全局/TLS修改/让用户代提交。work/数据/凭据不提交。
 4. 实际Codex不足尽可能整份交接立即停，不反复探额/重试/换号/购买/用券；sierra一次性01:18已设，首步暂停自身再读最新进度与实际额度，不重建/假定恢复。不能因小模块完成停或假报耗尽。
