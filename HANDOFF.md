@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（2026-10-26，第158验收通过待提交）
+# HANDOFF — Sierra（2026-10-26，第158交付）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent/main，HEAD/origin779132a，第157实现440bdf4/关闭779132a已推送clean、work/dialog-focus320/finalization-proof.json complete。158当前实现/验收/部署通过、尚无实现commit，BACKLOG158仍doing，保留未提交工作。
+- 项目E:\workSpace\dify-agent/main，HEAD/origin779132a，第157实现440bdf4/关闭779132a已推送clean、work/dialog-focus320/finalization-proof.json complete。158实现97449a4存在，验收/部署通过，BACKLOG158已done；最终关闭commit/push/clean见work/message-window321/finalization-proof.json及实际Git，不猜自引用commit。
 - 实际运行0.321.0-a33d889081e7c869c6b8/271文件，原start/stop/所属PID快照/health及前端200、全部源码快照和原16全部对象设置密文主Key账本124保护通过。work/message-window321/deployment-proof.json、managed-runtime-proof.json。
 - 158：TaskMessages默认最近50条、前后/最新窗口及原message索引/角色/修订；单条4000/明确扩大16000 UTF16单位且不拆有效emoji代理对，每次只展开一条，旧窗口追加有提示不跳，切Task/修订清来源。只减少DOM，不改后台原话、模型上下文、业务确认，也不减少Task详情传输/实现数据库分页或长期记忆。
 - 旧123条全渲染先红，新UI8/历史原话UI8及构建通过，后台main仅版本变更、未全量。首轮刷新断言没等异步回执，已等新提示，原日志保留。临时Store明确追加一条公开消息/改变一次夹具修订用于来源测试，原始历史和其它业务字段及原16保持，真实模型/Dify0。docs/message-display-window.md、README/CHANGELOG/状态/索引已更新，40not_reaudited/86current_evidence/10scope_limited，非全部验收。
@@ -19,7 +19,7 @@
 
 ## 3. 下一步（先完成158提交推送）
 
-1. 158新UI8/历史UI8/构建、271文件受管理部署和原16保护已通过，先diff/check、明确列文件实现commit（含CHANGELOG/README/状态/索引/交接/Backlogdoing），实现commit存在后标158done写证据，关闭文档commit/push原main。核origin==HEAD/clean后写work/message-window321/finalization-proof.json；work、生产数据/凭据不提交。
+1. 158实现97449a4存在、BACKLOG158已done；先读work/message-window321/finalization-proof.json和Git，若已complete/origin==HEAD/clean不重复提交推送，否则补齐关闭文档/push/实证。然后继续第一pending或核实下个具体实质需求缺口，不能重做155—158。每push前README/CHANGELOG已更新，work与生产数据不提交。
 2. Git require_escalated、命令级safe.directory=E:/workSpace/dify-agent及单次-c http.version=HTTP/1.1沿现有127.0.0.1:7890代理可推原https://github.com/xiaosongxiaosong1111/dify-agent.git，不改全局/TLS/no force、不让用户代commit。每push前README/CHANGELOG已更新，不冒称未推送结果。
 3. 然后继续第一pending；无pending只剩旧已消费blocked时核实新的既定需求实质缺口再入队，一次一项，不为耗额度造微任务。40项未重核不是40项未开发，也不把局部通过算成项目百分比。显示窗口已补，不据此说模型上下文被裁剪/网络加载已分页；若需后端分页，应单独设计源指纹/追加/恢复语义，勿悄然改旧Task接口或原话。
 4. 当前固定0.321.0-a33d889081e7c869c6b8/271文件，保护work/message-window321/protect.py。该目录deploy.ps1已执行且前提旧0.320，禁止重放；新改动需新快照/所属PID校验，不按端口杀进程。原16及默认策略off保持，不为验证新增真实模型/Dify或借旧预留。
