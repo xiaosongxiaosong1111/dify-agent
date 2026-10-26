@@ -83,7 +83,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.313.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.314.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1742,66 +1742,40 @@ def save_provider(payload, existing=None):
 
 @app.post("/api/providers", status_code=201)
 def create_provider(payload: dict):
-    return save_provider(payload)
+    with store.lock:
+        return save_provider(payload)
 
 
 @app.patch("/api/providers/{item_id}")
 def patch_provider(item_id: str, payload: dict):
-    provider = store.get("provider", item_id)
-    if not provider:
-        raise HTTPException(404, "模型配置不存在。")
-    return save_provider(payload, provider)
+    with store.lock:
+        provider = store.get("provider", item_id)
+        if not provider:
+            raise HTTPException(404, "模型配置不存在。")
+        return save_provider(payload, provider)
 
 
 @app.delete("/api/providers/{item_id}")
 def delete_provider(item_id: str):
-    if any(p.get('enabled') and p.get('light_provider_id')==item_id for p in store.list('assistant_routing')):raise HTTPException(409,'该模型被轻量建议路由引用，请先明确关闭或更换相关任务路由。')
-    if any(e.get('status')=='reserved' and e.get('provider_id')==item_id for ledger in store.list('task_budget') for e in ledger.get('entries',[])):raise HTTPException(409,'该模型调用尚未结算，暂不能删除。')
-    if any(t["configuration"].get("assistant_provider_id") == item_id or any(r.get("status") in {"running", "ready_to_confirm"} and r.get("provider_id") == item_id for r in t.get("planning_runs", [])) for t in store.list("task")):
-        raise HTTPException(409, "该模型已被任务引用，请先更换任务模型配置。")
-    store.delete("provider", item_id)
-    return {"ok": True}
+    with store.lock:
+        if any(p.get('enabled') and p.get('light_provider_id')==item_id for p in store.list('assistant_routing')):raise HTTPException(409,'该模型被轻量建议路由引用，请先明确关闭或更换相关任务路由。')
+        if any(e.get('status')=='reserved' and e.get('provider_id')==item_id for ledger in store.list('task_budget') for e in ledger.get('entries',[])):raise HTTPException(409,'该模型调用尚未结算，暂不能删除。')
+        if any(t["configuration"].get("assistant_provider_id") == item_id or any(r.get("status") in {"running", "ready_to_confirm"} and r.get("provider_id") == item_id for r in t.get("planning_runs", [])) for t in store.list("task")):
+            raise HTTPException(409, "该模型已被任务引用，请先更换任务模型配置。")
+        store.delete("provider", item_id)
+        return {"ok": True}
 
 
 @app.post("/api/providers/{item_id}/test")
-async def test_provider(item_id: str):
-    provider = store.get("provider", item_id)
-    if not provider:
-        raise HTTPException(404, "模型配置不存在。")
-    start = time.monotonic()
-    try:
-        limit = 1024 if provider.get('preset_id', '').startswith('claude-') else 512 if provider.get('preset_id', '').startswith('openai-') else 64
-        _, usage = await call_model(provider, store.secret(item_id, "api_key"), [{"role": "user", "content": "请只回复：连接成功"}], max_tokens=limit, timeout=30)
-    except ProviderError as exc:
-        raise HTTPException(502, str(exc)) from exc
-    provider["capabilities"]["text"] = "verified"
-    store.put("provider", item_id, provider)
-    return {"ok": True, "latency_ms": int((time.monotonic() - start) * 1000), "message": "真实文本调用成功。工具、结构化和图片能力尚未分别验证。", "capabilities": provider["capabilities"], "usage": usage}
+async def test_provider(item_id: str, payload: dict | None = None):
+    from .provider_probe_source import test
+    return await test(sys.modules[__name__],item_id,payload,'text')
 
 
 @app.post("/api/providers/{item_id}/test-json")
-async def test_provider_json(item_id: str):
-    provider = store.get("provider", item_id)
-    if not provider:
-        raise HTTPException(404, "模型配置不存在。")
-    start = time.monotonic()
-    try:
-        limit = 1024 if provider.get('preset_id', '').startswith('claude-') else 512 if provider.get('preset_id', '').startswith('openai-') else 128
-        text, usage = await call_model(provider, store.secret(item_id, "api_key"),
-            [{"role": "user", "content": '只返回一个 JSON 对象 {"ok":true}，不要说明或 Markdown。'}],
-            max_tokens=limit, timeout=30, json_mode=provider.get("protocol") != "anthropic")
-        parsed = json.loads(text)
-        if not isinstance(parsed, dict) or set(parsed) != {"ok"} or parsed["ok"] is not True:
-            raise ValueError("JSON probe mismatch")
-    except (ProviderError, ValueError, TypeError):
-        provider["capabilities"]["structured_output"] = "failed"
-        store.put("provider", item_id, provider)
-        raise HTTPException(502, "JSON 输出检查未通过。可能是网络、权限、格式、截断或模型能力问题；没有输出服务返回正文。")
-    latency = int((time.monotonic() - start) * 1000)
-    provider["capabilities"]["structured_output"] = "verified"
-    provider.setdefault("checks", {})["structured_output"] = {"created_at": now(), "latency_ms": latency, "usage": usage}
-    store.put("provider", item_id, provider)
-    return {"ok": True, "latency_ms": latency, "message": "真实 JSON 对象检查通过。工具、图片能力和复杂业务规划质量仍需分别验证。", "capabilities": provider["capabilities"], "usage": usage}
+async def test_provider_json(item_id: str, payload: dict | None = None):
+    from .provider_probe_source import test
+    return await test(sys.modules[__name__],item_id,payload,'json')
 
 
 @app.get("/api/environments")
