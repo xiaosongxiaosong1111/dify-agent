@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；170实现4770260/关闭4274afb已推送clean，work/case-sets333/finalization-proof.json complete，不重做。171验收/部署已过，提交闭环以Git及work/embedding-source334/finalization-proof.json为准，不猜hash。
+- E:\workSpace\dify-agent/main；170实现4770260/关闭4274afb已推送clean，work/case-sets333/finalization-proof.json complete，不重做。171实现b8b01c1存在、BACKLOG171已done，最终关闭/push以Git及work/embedding-source334/finalization-proof.json为准，不猜hash。
 - 实际0.334.0-5606cb4fb69aa0b7ce99/277文件，work/embedding-source334/deployment-proof.json及managed-runtime-proof.json；所属PID/快照/原start-stop/health及前端200/原16全部对象设置账本密文主Key/124保护通过，真实模型/Dify0。
 - 知识库Embedding目录及明确选择随Task修订/环境URL版本/连接/工作空间变更失效，拒绝旧/错源/重复/晚到目录，普通表单保持，不自动切经济索引，后端原再核保持。只改前端目录归属，非全部异步动作或真实平台验收。
 - 旧同Task换环境仍留选择先复现；新UI10/相关后端74/原有限跟踪UI10及构建通过，未全量。夹具展开/选择器、名称保存轮换连接与URL变更推进Task修订的错误假设均已更正，旧诊断日志保留，非真实批重试。
@@ -18,7 +18,7 @@
 
 ## 3. 下一步（171提交闭环，再继续功能开发）
 
-1. 核实work/embedding-source334/finalization-proof.json及Git；171已验收部署，尚待实现与关闭提交/push。若已complete/origin==HEAD不重复；当前0.334.0-5606cb4fb69aa0b7ce99，deploy.ps1前提旧0.333，禁止重放。
+1. 核实work/embedding-source334/finalization-proof.json及Git；171已验收部署，实现b8b01c1且BACKLOG171已done，补关闭提交/push/clean。若已complete/origin==HEAD不重复；当前0.334.0-5606cb4fb69aa0b7ce99，deploy.ps1前提旧0.333，禁止重放。
 2. 继续第一pending；空队列按既定需求核实具体缺口，一次一项。可限读RunInputForm.tsx：数字表单仍直接JSON.parse后序列化，需实际复现大整数/精细小数是否在完整输入检查前被舍入；先核实再入队，不未经核实扩改所有API。
 3. 每push前根CHANGELOG/适用README和整份交接；git require_escalated、safe.directory=E:/workSpace/dify-agent、命令级http.version=HTTP/1.1沿既有代理推原main，先核remote，无force/全局/TLS改动，不让用户代提交，work/生产数据/秘密不入Git。
 4. 持续到实际Codex不足或确无可行动进展，不因小模块完而停；不足即尽力整份交接停，不反复探额/重试/换号/购买/用券。sierra已PAUSED，结束删除已完成一次性，不新建。
