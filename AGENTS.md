@@ -18,6 +18,8 @@
 
 ## Where work comes from
 
+- On 2026-10-26 the user renewed continuous development until actual quota exhaustion and requested a one-time follow-up after five and a half hours. An empty ordinary queue with consumed historical `blocked` batches is not project completion: review the established requirements for a concrete actionable gap, add it to the backlog and continue. Do not replay consumed batches, invent work to spend quota, or expand explicit external resource/cost bounds. If bounded review reveals no meaningful next action, record the actual limitation; never claim quota exhaustion without observing it.
+
 - The single source of pending work is `docs/BACKLOG.md`. Its queue table is authoritative; do not substitute the ordering or numbering of `docs/development-tasks.md` for it.
 - If `docs/BACKLOG.md` exists and has a `pending` row, the default action is to do that row. Do not stop to ask which item to take next.
 - One row at a time, top-down by number. Only act on the first `pending` row; skip `done`, `blocked`, `need-user`.
