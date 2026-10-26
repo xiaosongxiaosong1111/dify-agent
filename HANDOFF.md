@@ -1,13 +1,13 @@
-# HANDOFF — Sierra（2026-10-26，第167交付）
+# HANDOFF — Sierra（2026-10-26，第168交付）
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；166实现3a7a936/关闭1208299已推送clean，work/material-upload329/finalization-proof.json complete。167实现30ada83存在、BACKLOG167已done、验收/部署通过，最终关闭状态以Git/work/material-reference330/finalization-proof.json为准，不猜hash。
-- 实际0.330.0-e425744c2bce89e3ded9/276文件，work/material-reference330/deployment-proof.json/managed-runtime-proof.json；所属PID/快照/原start-stop/health及前端200/源快照全文件/原16全部对象设置账本密文主Key/消费124保护通过，真实模型/Dify0。
-- 167材料根弹窗逐份明确引用方式、最多10份/保留说明300码点、预览旧新差异/实际变化数，明确勾选复核后一次保存新修订。全材料内容/元数据来源指纹及原SHA/Task修订绑定，变源/旧预览拒绝；未选/原件/正文/旧历史保持，无变化不造空版本，未解析不算已读。不自动推测引用程度或采用，原单份入口保持；关闭不保存草稿或取消已派发保存，迟到/坏预览不启用保存。
-- 新19/相关39后端分组（58），另强化首例已确认标志失效断言不增用例数；新UI9/原根弹窗UI9及构建通过，未全量。一次实际引用保存/一次同修订变源拒绝、旧版本和未选原件/另一任务保持，非引用语义/材料内容或全业务验收。
-- 最近额度primary86%/weekly27%已用且ordinaryUsageAllowed true，无实际不足，继续实质开发；sierra一次性2026-10-27 01:18北京时间ACTIVE、首步暂停自身，按最新交接及实际额度，不重建/换号/购买/用券。
-- Claude既有网关实际deepseek-flash，work/claude-doc-review318/receipt.json独立失败无审查/CLI估算0/内部HTTP账单未知，不形式重试/冒充通过；304旧CLI估算0.074255USD另存不重跑或提高预算。
+- E:\workSpace\dify-agent/main；167实现30ada83/关闭5503116已推送clean，work/material-reference330/finalization-proof.json complete。168验收/部署通过，实现和关闭状态以Git/work/case-input331/finalization-proof.json为准，不猜hash。
+- 实际0.331.0-f6ad780f752dd87b380d/276文件，work/case-input331/deployment-proof.json/managed-runtime-proof.json；所属PID/原start-stop/快照/health与前端200/源快照全文件/原16全部对象设置账本密文主Key/124保护通过，真实模型/Dify0。
+- 168样例首轮/追问输入及严格等值期望复用RunInputText严格原文扫描，拒绝普通/转义同名/嵌套重复、大整数/舍入/非有限/下溢，保留稿不保存；equals先核原JSON语法再包裹检查，不用包裹放过多余成员。合法对象数组/有限数/false/null与数字文字保留。只本页编辑入口，不恢复旧存档精度或改变Schema/关键词/人工/模型候选解析、通用扫描器不重构。
+- 固定0.330前端隔离复现重复query仅发送末条，before-proof.json明确1次保存；初次旧UI等待按钮重新启用超时，随后固定旧快照取得请求证据，日志保持。新UI18/相关98后端及构建通过，16种非法稿未发送，合法两轮稿仅一次保存新修订，原样例/其他字段保持，非语义/运行或全业务验收。T057限定current_evidence，38未重核不等于38未开发。
+- 最近额度primary95%/weekly29%已用、ordinaryUsageAllowed true；尚未发生实际不足，不假报耗尽。持续实质开发，真正不足立即尽可能交接停，不重试/换号/购买/用券。sierra一次性2026-10-27 01:18北京时间ACTIVE，首步暂停自身，以实际额度与最新交接为准，不重建。
+- Claude既有网关实际deepseek-flash，work/claude-doc-review318/receipt.json独立失败无审查/CLI估算0/内部HTTP账单未知，不形式重试/冒充成功；304旧CLI估算0.074255USD另存不重跑或加预算。
 
 ## 2. 已消费批与保护
 
@@ -16,14 +16,14 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（167闭环后修已发现样例原文解析缺口）
+## 3. 下一步（168闭环，随后核实计划小数原文）
 
-1. 核实work/material-reference330/finalization-proof.json及Git；实现30ada83和验收已满足、BACKLOG167已done，补关闭文档/push/clean。已complete/origin==HEAD不重复；当前0.330.0-e425744c2bce89e3ded9，同目录deploy.ps1前提旧0.329，不重放。
-2. 已定向核实AcceptancePanel.tsx的draftToTurn：样例首轮/追问inputText与equals期望仍直接JSON.parse，会吞重复/转义同名键与舍入小数/大整数；现RunInputText.ts的parseRunInputText已有严格原文扫描。167闭环后先入BACKLOG再修此实质缺口：输入复用现解析器、equals先验JSON语法再包裹对象严格解析（禁止用包裹放过1,extra:2等非法原文），保留草稿/首轮追问并定向UI。不要以此顺带重构全解析器或发真实试跑。
-3. 持续第一pending，空队列核实真实缺口，不造耗额度微任务或只验收准备，不把39未重核当39未开发；实际不足尽可能整份交接立即停，不反复探额/重试/换号/购买/用券，不假报耗尽。
-4. 每push先根CHANGELOG/适用README及整份交接；git require_escalated、safe.directory=E:/workSpace/dify-agent、命令级http.version=HTTP/1.1沿127.0.0.1:7890推原main，无force/全局/TLS改动/用户代提交；work/生产数据/凭据不提交。
-5. sierra一次性01:18已设，执行先暂停自身、读最新进度与实际额度，不重建/猜必恢复。原16保护work/material-reference330/protect.py，新修改新快照与所属PID，不按端口杀进程；原任务r12/4对4满不第五跑，消费91/95/115/121/124不重放，Sierra20/保守24、管理413/登录28、unknown/四旧槽/费界保持，不借退预留，只用加密凭据不抄聊天密码。
-6. 只读必要文件，不通读项目/290KB历史、不全量，16MB315旧日志不读全行；Claude无恢复证据不形式重试/加预算/冒充成功。162—166 complete不重做。
+1. 核实work/case-input331/finalization-proof.json及Git，验收/实现commit存在后BACKLOG168 done，再关闭文档/push/clean。已complete/origin==HEAD不重复；当前0.331.0-f6ad780f752dd87b380d，同目录deploy.ps1前提旧0.330，禁止重放。
+2. 下项候选已限读backend/app/plan_text_codec.py：parse已有重复键/2MB/非有限拒绝和大整数无损，但json.loads默认parse_float可能把0.10000000000000001舍入为0.1，文件错误说明却称不舍入。须先本地复现/核实际API路径，再入BACKLOG修实质问题；可只在显式plan_text的parse_float检查JSON十进制往返数值意义，保持大整数路径，不重构其它解析器/改业务计划或发真实模型/Dify。不凭此候选先宣称实际保存已复现。
+3. 持续第一pending，空队列核实真实可开发缺口，不造耗额度微任务/只验收准备，不把38未重核当未开发；实际Codex不足尽可能整份交接立即停，不反复探额/重试/换号/购买/用券，也不因模块完停或假报额度已尽。
+4. 每push先根CHANGELOG/适用README及整份交接，git require_escalated、safe.directory=E:/workSpace/dify-agent、命令级http.version=HTTP/1.1沿127.0.0.1:7890推原main，无force/全局/TLS改动/用户代提交；work/生产数据/凭据不提交。
+5. sierra一次性01:18已设，执行先暂停自身、读最新进度与实际额度，不重建/猜恢复。原16保护work/case-input331/protect.py，新修改新快照与所属PID，不按端口杀进程；原任务r12/4对4满不第五跑，消费91/95/115/121/124不重放，Sierra20/保守24、管理413/登录28、unknown/四旧槽/费界保持，不借退预留，只用加密凭据不抄聊天密码。
+6. 只读必要文件、不通读项目/290KB历史、不全量，16MB315旧日志不读全行；Claude无恢复证据不形式重试/加预算/冒充成功。162—167 complete不重做。
 
 ## 4. 外部边界与账本
 
