@@ -5,7 +5,7 @@ export function taskSummary(value:TaskSummary):TaskSummary{
 }
 export function useTaskRows(){
  const [rows,setRows]=useState<TaskSummary[]>([]);
- const update=useCallback((next:SetStateAction<TaskSummary[]>)=>setRows(current=>(typeof next==='function'?next(current):next).map(taskSummary)),[]);
+ const update=useCallback((next:SetStateAction<TaskSummary[]>)=>setRows(current=>{const prior=new Map(current.map(row=>[row.id,row]));return (typeof next==='function'?next(current):next).map(taskSummary).map(row=>{const known=prior.get(row.id);return known&&known.revision>row.revision?known:row})}),[]);
  return [rows,update] as const;
 }
 export async function loadTaskSummaries(){

@@ -1,10 +1,10 @@
-# HANDOFF — Sierra（2026-10-26，146活动状态归属）
+# HANDOFF — Sierra（2026-10-26，147同任务旧业务修订保护）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main。145实现13ccf00/交接62d3ec3已推送，work/edit-results308终结proof complete/clean保留。146实现f8d4f84且BACKLOG done，当前0.309.0-4341e5254a72a2206f29；commit/push以work/activity-ownership309/finalization-proof.json实际为准，未生成前不推断完成。
-- 旧子DSL分析清新报告忙提示已复现；活动UI7/编辑UI9/目标UI6和构建通过，21回调接入。264文件/所属进程原脚本重启和health/前端200，原16/设置能力/账本密文主Key/124保持。本项Sierra模型/Dify真实新增0；141网关预算失败无审查，CLI估算0.074255 USD继续单列非账单，内部HTTP未知、不重试。
-- 用户继续功能开发直到实际Codex不足授权保持。最近实际quota primary54%已用/weekly40%、ordinaryUsageAllowed=true，没有Codex额度失败；不为耗额度拆微任务。Docker引擎未运行，T078不宿主机exec替代。
+- 项目E:\workSpace\dify-agent，main。146实现f8d4f84/交接cd03942已推送，work/activity-ownership309终结proof complete/clean保留。147已实现验证，当前0.310.0-0b638a1018bb286a2df5；commit/push以work/task-revision-order310/finalization-proof.json实际为准，未生成前不推断完成。
+- 旧确认响应覆盖新材料后的需求草稿已复现，新UI7/编辑9/目标6/活动7/加载7分组及构建通过；扩查修0.309详情错误提示被自身忙状态重置吞掉，失败保留，加载/活动再通过。测试服务退出清理失败经有界等待整份通过。264文件/所属进程原脚本和health/前端200，原16/设置能力/账本密文主Key/124保持。本项Sierra模型/Dify真实新增0；141网关预算失败无审查、CLI估算0.074255 USD单列非账单，内部HTTP未知、不重试。
+- 用户继续功能开发直到实际Codex不足授权保持。最近quota primary66%已用/weekly42%、ordinaryUsageAllowed=true，尚无Codex额度失败；不为耗额度拆微任务。Docker引擎未运行，T078不宿主机exec替代。
 
 ## 2. 已消费批与保护
 
@@ -13,14 +13,14 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（146已验收部署；提交推送后继续实质问题）
+## 3. 下一步（147已验收部署；提交后继续实质代码缺口）
 
-1. 146验收/构建/部署与实现f8d4f84、BACKLOG done已完成，提交本交接后推送；每push前更新CHANGELOG/README并推原main，不让用户代提交。最终work/activity-ownership309/finalization-proof.json，旧proof不覆盖。
-2. useActivityOwnership把根setBusy与面板活动统一顺序标识；useOwnedActivity为挂载实例/当前修订绑定所有者，21个回调适配。Task面板来源/世代检查，知识库状态独立controller；明确选择新目标清旧可见状态。模型服务测试/保存只改结束释放归属，没有真实触发。可选RunHistory活动回调缺失时原诊断显示条件保持。
-3. 活动UI7：子→主/主→子/子→子、离开后回源新操作，以及数字草稿卸载/重开/自身完成；编辑UI9/目标UI6回归和构建通过，无脚本错误。原B和生产16/密文账本主Key/124保护，后台只版本变化、不全量；真实Sierra/Dify0，目标回归仅两次本机替身。
-4. 当前显示归属不是后台执行锁、取消/资源预算、全并行状态聚合，单面板仍按原一次活动约定。下一代码核查候选：同任务较低修订的完整响应是否会回退较新修订/编辑（editingResultCurrent目前核ID/选择世代但不核返回revision与savedTask当前revision）。先以真实本机API交叠复现，再决定入BACKLOG；不凭猜测宣称已发生，不扩大真实批或加无意义测试准备。
-5. 无pending时核真实功能缺口，不重放历史blocked；44项未重核，复杂工具/嵌套容器/文件、长期记忆、T078受限样例及更多业务验收有边界。不按版本/测试数算完成率，不顺带重构或拆微任务耗额度。
-6. 原16/r12 run_completed和4/4满，不第5跑；91/95/115/121/124等消费包不重放。Sierra实际模型20/保守24、管理413/登录28、unknown/四槽和旧费界保持。141独立Claude网关failed_no_review/CLI估算0.074255USD单列非账单/内部HTTP未知，禁止重试/提高预算/换号/冒充审查完成，不是Codex额度失败。
+1. 147验收/构建/部署已过，先建立实现commit，再据真实提交标BACKLOG done、提交交接；每push前CHANGELOG/README并推原main，不让用户代提交。最终work/task-revision-order310/finalization-proof.json，旧proof不覆盖。
+2. knownTaskRevisions记录本页已读最高业务修订，acceptTask/编辑/资源/模型/后台读回/回执核对共同拒较低修订；TaskListState保留较新摘要，读旧详情恢复实际目标。旧确认不继续，新草稿可保存；旧模型nonce保留并可只读恢复最新Task，不重复派发。
+3. 新UI7、编辑9/目标6/活动7/加载7分组通过；首次UI5局部通过但服务退出失败不能算完整，已保留ui-cleanup-failure.log并加隔离服务有界退出，最终7完整passed。扩查loading-failure-before-fix.log是0.309吞错误的真实回归，现不在refreshOne里清主操作自身busy，加载/活动再通过，断言未放宽。后台仅版本变化、不全量，生产16/账本密文主Key/124精确保持。
+4. 继续核同一业务revision内的状态先后：聊天追加/运行进度不一定递增业务revision，单用业务revision不能排除旧Task快照覆盖新消息。先以真实本机API与替身复现，不拿时间戳猜顺序；如需修，审save_task/Store写入路径和新增独立状态序号的兼容性，保持旧16只读不迁移/重放，所有真实外部0。只在147提交闭环后新建下一BACKLOG项。
+5. 当前44项未重核，复杂工具/嵌套容器/文件、长期记忆、T078受限样例及更多业务验收仍有边界。无pending核实新问题，不重放历史blocked，不按版本/测试数算完成率，不为耗额度拆微任务/重构/扩付费准备。
+6. 原16/r12 run_completed和4/4满，不第5跑；91/95/115/121/124等消费包不重放。Sierra实际模型20/保守24、管理413/登录28、unknown/四槽与旧费界保持。141独立Claude网关failed_no_review/CLI估算0.074255USD单列非账单/内部HTTP未知，禁止重试/提高预算/换号/冒充审查完成，不是Codex额度失败。
 7. 实际Codex不足立即尽可能整份交接并停，不重试/换号/购买/用券。只读必要文件、不通读项目/巨历史、不全量；只复用加密凭据、不抄聊天密码/输出秘密。管理员仅核并重启所属固定快照，不按端口杀其它进程。
 
 ## 4. 外部边界与账本
