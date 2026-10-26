@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；177实现c21f9b6/关闭644e755已推送clean，work/agent-mapping340/finalization-proof.json complete。178验收部署过，闭环以Git及work/public-batch341/finalization-proof.json为准。
+- E:\workSpace\dify-agent/main；177实现c21f9b6/关闭644e755已推送clean，work/agent-mapping340/finalization-proof.json complete。178实现7ea0b5e且BACKLOG178已done，最终关闭/push以Git及work/public-batch341/finalization-proof.json为准。
 - 最终0.341.0-cf06d6388885cb69a63c/279文件，work/public-batch341/deployment-proof.json及managed-runtime-proof.json；所属PID/快照/原start-stop/health与前端200/原16全部对象设置账本密文主Key/124保持，真实外部0。首次341快照561b0fcb回执first-*保留，补强来源纯渲染门禁后重建/UI并最终部署，不回旧快照。
 - 空白Workflow新增无模型公开批量起步，明确继续受控异常或遇错终止、核完整代码和图后主动填未保存稿。已有流程/成果/App/引用或其他类型不覆盖，新编辑/错源/晚到失效，不保存/确认/执行，原配置/预算/模拟门禁保持。
 - 新11/相关97后端、新UI6和构建通过，未全量；仅测试固定公开函数，不执行用户代码。公开4项/3成功/1失败索引1是声明，不是平台成绩；Sandbox及真实批仍需新范围。T112仅scope_limited。
@@ -17,7 +17,7 @@
 
 ## 3. 下一步（178闭环，再准备最小实际批量联调本机包）
 
-1. 核实work/public-batch341/finalization-proof.json/Git；178已验收部署，补实现及关闭提交/push/clean，已complete不重复。当前0.341.0-cf06d6388885cb69a63c，deploy.ps1前提首次341/561b0fcb，禁止重放。
+1. 核实work/public-batch341/finalization-proof.json/Git；178实现7ea0b5e/验收部署过，补关闭提交/push/clean，已complete不重复。当前0.341.0-cf06d6388885cb69a63c，deploy.ps1前提首次341/561b0fcb，禁止重放。
 2. 第一pending优先；已核讨论建议需需求检查复核、Workflow映射已有目标版本/输入签名/下载门禁，不重做。下一实质闭环是验证公开批量失败计算的实际Sandbox返回、逐项查看/失败下载；先仅本机冻结DSL/公开输入/预期及正常新Task创建与确认的执行器，不用legacy测试helper绕过intake/审批，不进行外部请求。完整可审查/验证后才申请新资源/运行范围，未就绪不索要空泛批准。
 3. 原16不变、新Task也不能在生产先建；旧r12 4/4已满，旧16运行/App发布Key各8及保守模型24/管理413/登录28界限保持，无现成可重用真实槽。新范围拟只代码图/模型0，具体读/登录/费用/资源边界须先冻结，不自动借退旧预留。
 4. 每push前CHANGELOG/适用README/整份交接；核原remote，git require_escalated/safe.directory=E:/workSpace/dify-agent/命令级HTTP1.1沿既有代理推main，不force/全局/TLS改动，不让用户代提交，work/生产数据/秘密不提交。
