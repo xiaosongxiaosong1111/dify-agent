@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；172实现2d81de5/关闭9b0870f已推送clean，work/numeric-form335/finalization-proof.json complete，不重做。173验收部署已过，提交闭环以Git及work/human-input336/finalization-proof.json为准。
+- E:\workSpace\dify-agent/main；172实现2d81de5/关闭9b0870f已推送clean，work/numeric-form335/finalization-proof.json complete，不重做。173实现2c9b1d8且BACKLOG173已done，最终关闭/push以Git及work/human-input336/finalization-proof.json为准。
 - 实际0.336.0-db8f1c0fe61f5677505d/277文件，work/human-input336/deployment-proof.json和managed-runtime-proof.json；所属PID/快照/原start-stop/health与前端200/原16全部对象设置账本密文主Key/124保护通过，真实模型/Dify0。
 - 人工资源准备严格核原始JSON，不默取重复字段末值；方案输入/环境/当前成果摘要一致才进批准区，换源清批准、旧准备晚到失效，执行前再核。原后台冻结资源与门禁保持，不扩大纯文字人工范围或任何真实批授权。
 - 旧重复query末值已复现，新UI6/相关后端54/构建通过，未全量。7次仅临时Store本机准备，0执行/真实资源请求，原隔离Task/预算及原16保持；同修订成果元数据晚到测试为浏览器虚拟回执，不冒充后台实际修改或平台验收。
@@ -18,7 +18,7 @@
 
 ## 3. 下一步（173提交闭环，继续实质开发）
 
-1. 核实work/human-input336/finalization-proof.json/Git；173已验收部署，补实现及关闭提交/push/clean，已complete不重复。当前0.336.0-db8f1c0fe61f5677505d，deploy.ps1前提旧0.335，禁止重放。
+1. 核实work/human-input336/finalization-proof.json/Git；173实现2c9b1d8/验收部署已过，补关闭提交/push/clean，已complete不重复。当前0.336.0-db8f1c0fe61f5677505d，deploy.ps1前提旧0.335，禁止重放。
 2. 第一pending优先；空队列从既定需求核具体缺口。可限读backend/app/json_inputs.py的schema原始字符串解析：已有重复键保护，但parse_float仍默认；核实精细minimum或非零下溢是否被舍入导致错误通过，先实际复现，不先扩改所有Schema/API。
 3. 每push先CHANGELOG/适用README及整份交接；核原remote，git require_escalated/safe.directory=E:/workSpace/dify-agent/命令级HTTP1.1沿原代理推main，不force/全局/TLS改动，不让用户代提交，work/生产数据/秘密不入Git。
 4. 持续到实际Codex不足或确无可行动进展，不因小模块完成停；不足立即尽力交接停，不反复探额/重试/换号/购买/用券。sierra已PAUSED，结束删除已完成一次性，不新建。
