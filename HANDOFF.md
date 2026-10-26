@@ -2,13 +2,13 @@
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent/main，HEAD/origin779132a，第157实现440bdf4/关闭779132a已推送clean、work/dialog-focus320/finalization-proof.json complete。158实现97449a4存在，验收/部署通过，BACKLOG158已done；最终关闭commit/push/clean见work/message-window321/finalization-proof.json及实际Git，不猜自引用commit。
+- 项目E:\workSpace\dify-agent/main，第157实现440bdf4/关闭779132a已推送，158实现97449a4/功能关闭96aa800已推送并核origin==HEAD/clean；当前仅同步本次最终交接。最终文档commit/push/clean以work/message-window321/finalization-proof.json和实际Git为准，不猜自引用commit。
 - 实际运行0.321.0-a33d889081e7c869c6b8/271文件，原start/stop/所属PID快照/health及前端200、全部源码快照和原16全部对象设置密文主Key账本124保护通过。work/message-window321/deployment-proof.json、managed-runtime-proof.json。
 - 158：TaskMessages默认最近50条、前后/最新窗口及原message索引/角色/修订；单条4000/明确扩大16000 UTF16单位且不拆有效emoji代理对，每次只展开一条，旧窗口追加有提示不跳，切Task/修订清来源。只减少DOM，不改后台原话、模型上下文、业务确认，也不减少Task详情传输/实现数据库分页或长期记忆。
 - 旧123条全渲染先红，新UI8/历史原话UI8及构建通过，后台main仅版本变更、未全量。首轮刷新断言没等异步回执，已等新提示，原日志保留。临时Store明确追加一条公开消息/改变一次夹具修订用于来源测试，原始历史和其它业务字段及原16保持，真实模型/Dify0。docs/message-display-window.md、README/CHANGELOG/状态/索引已更新，40not_reaudited/86current_evidence/10scope_limited，非全部验收。
 - 此前155只读规则工具+154非空截断误升级修复（f5c6b12/07f7d85）、156连接/变量来源追踪（6a8fe15/f371ba2）、157根弹窗键盘操作（440bdf4/779132a）均部署推送完成。各自work/.../finalization-proof.json complete；原16工具/升级仍未启用，外部旧边界保持。
 - 用户本轮要求Claude多线程，已独立并行派0.317文档核对，Claude Code网关配置deepseek-flash，必要片段/无凭据客户资料整库，一次CLI失败无审查、models空/估算0/22.75秒，原因/内部HTTP/账单未知，work/claude-doc-review318/receipt.json，不重试/冒充审查。旧304预算失败CLI估算0.074255USD另存、不重放。
-- 最近实际Codex primary86%/weekly13%已用且ordinaryUsageAllowed true，没有实际额度不足；不足立刻尽可能整份交接停，不换号/购券/用券。原16/r12 run_completed且4/4满、T078本机引擎管道缺失及所有旧预留/费用边界保持。
+- 最近实际Codex primary86%/weekly13%已用且ordinaryUsageAllowed true，没有实际额度不足，本轮没有声称用尽；不足立刻尽可能整份交接停，不换号/购券/用券。原16/r12 run_completed且4/4满、T078本机引擎管道缺失及所有旧预留/费用边界保持。
 
 ## 2. 已消费批与保护
 
@@ -17,11 +17,11 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（先完成158提交推送）
+## 3. 下一步（当前队列无普通待办）
 
-1. 158实现97449a4存在、BACKLOG158已done；先读work/message-window321/finalization-proof.json和Git，若已complete/origin==HEAD/clean不重复提交推送，否则补齐关闭文档/push/实证。然后继续第一pending或核实下个具体实质需求缺口，不能重做155—158。每push前README/CHANGELOG已更新，work与生产数据不提交。
+1. 155—158均已验收、部署、commit并推送；先读work/message-window321/finalization-proof.json与Git，若complete/origin==HEAD/clean，不重做已有功能或重复推送。当前BACKLOG为143done/15blocked，无pending/doing。15项都是保留失败历史和一次性已消费边界，不能当普通待办重放；本轮未发现另外已核实可直接入队的缺口，不按未重核数虚构开发任务。
 2. Git require_escalated、命令级safe.directory=E:/workSpace/dify-agent及单次-c http.version=HTTP/1.1沿现有127.0.0.1:7890代理可推原https://github.com/xiaosongxiaosong1111/dify-agent.git，不改全局/TLS/no force、不让用户代commit。每push前README/CHANGELOG已更新，不冒称未推送结果。
-3. 然后继续第一pending；无pending只剩旧已消费blocked时核实新的既定需求实质缺口再入队，一次一项，不为耗额度造微任务。40项未重核不是40项未开发，也不把局部通过算成项目百分比。显示窗口已补，不据此说模型上下文被裁剪/网络加载已分页；若需后端分页，应单独设计源指纹/追加/恢复语义，勿悄然改旧Task接口或原话。
+3. 后续若出现第一pending直接继续；当前只剩历史blocked，下一轮可按既定需求核实真正缺口后再入队，一次一项，不为耗额度造微任务。40项未重核不是40项未开发，也不把局部通过算成项目百分比。显示窗口已补，不据此说模型上下文被裁剪/网络加载已分页；若需后端分页，应单独设计源指纹/追加/恢复语义，勿悄然改旧Task接口或原话。
 4. 当前固定0.321.0-a33d889081e7c869c6b8/271文件，保护work/message-window321/protect.py。该目录deploy.ps1已执行且前提旧0.320，禁止重放；新改动需新快照/所属PID校验，不按端口杀进程。原16及默认策略off保持，不为验证新增真实模型/Dify或借旧预留。
 5. 原任务r12 run_completed、4/4满，不第5跑；91/95/115/121/124等消费包不重放。Sierra实际模型20/保守24、管理413/登录28、unknown/四旧槽和费用边界保持，不借/自动退预留。只用保存加密凭据、不抄聊天密码/输出密钥。
 6. Claude前次独立委派失败原因未明，网关未证明恢复时不为形式重试，不提高预算/换号/冒充审查通过，304旧失败不重跑。实际Codex不足立即停、不反复工具探额度/重试，尽可能整份交接，不购券/用券。只读必要文件，不通读项目/290KB历史，不全量；work/plan-change-preview315/targeted.log长16MB不读全行。
