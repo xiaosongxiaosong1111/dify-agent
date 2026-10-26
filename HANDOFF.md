@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main。143实现3271d5a/交接7c40246已推送，work/docx-package306终结proof complete/clean保留。144已实现验证，当前0.307.0-fcc93e761147630fcf73；本项commit/push以work/target-selection307/finalization-proof.json实际为准，未生成前不推断已完成。
+- 项目E:\workSpace\dify-agent，main。143实现3271d5a/交接7c40246已推送，work/docx-package306终结proof complete/clean保留。144实现9ba95d6且BACKLOG done，当前0.307.0-fcc93e761147630fcf73；本项commit/push以work/target-selection307/finalization-proof.json实际为准，未生成前不推断已完成。
 - 现有映射目标只读打开后选择登记不完整，实际本机回执/合成讨论HTTP200已保存但UI不接收先复现；修后UI6/加载UI7和构建通过，264文件/所属进程原脚本重启及health/前端200，原16/设置能力/账本密文主Key/124保持。本项Sierra模型/Dify真实新增0；141网关预算失败无审查、CLI估算0.074255 USD继续单列非账单，内部HTTP未知、不重试。
 - 用户继续功能开发/直到实际Codex额度不足授权保持。最近只读quota primary41%已用/weekly38%、ordinaryUsageAllowed=true，非额度失败；不为耗额度拆微任务。Docker引擎未运行，T078不宿主机exec替代。0.304/305迟到保护及0.306Word装载边界保持。
 
@@ -15,7 +15,7 @@
 
 ## 3. 下一步（144已验收部署；提交推送后继续核真正缺口）
 
-1. 144验收/构建和部署已过，先建实现commit，再按实际提交标BACKLOG done、提交交接；每push前更新CHANGELOG/README并推原main，不让用户代提交。终结以work/target-selection307/finalization-proof.json为准，143等旧proof不覆盖。
+1. 144验收/构建/部署和实现9ba95d6、BACKLOG done已完成，提交本交接后推送；每push前更新CHANGELOG/README并推原main，不让用户代提交。终结以work/target-selection307/finalization-proof.json为准，143等旧proof不覆盖。
 2. root openCreatedTask共用明确打开登记：新任务摘要更新、绑定创建前/回调来源选择世代，只有世代仍相同时才登记目标ID/推进世代/清详情加载并accept。映射历史打开后直接继续讨论，普通新建晚到仅加入列表，不抢占后来B草稿。保留子面板身份/来源/幂等和卸载保护，不作实际迁移或复制原确认说明。
 3. UI6/加载UI7及构建通过；真实本机映射创建一次及只读回执、两次合成讨论，无真实Sierra/DifyHTTP。源与B原保存对象精确保持，生产16/全部密文账本/124保护；后台只版本变化、不全量。旧失败HTTP200保存但界面不显示的证据work/target-selection307/red-server-proof.json，不归因模型失败。
 4. 继续围绕原核心需求核下个实质问题，再入BACKLOG，已有无pending不重放历史blocked。当前44项未重核，复杂工具/嵌套容器/文件、长期记忆、T078受限样例和更多业务验收仍有边界；未整体核全部短编辑/上传/子面板异步回调，不据版本或测试量宣称完成率。不为耗额度拆微任务、重构或扩付费准备。
