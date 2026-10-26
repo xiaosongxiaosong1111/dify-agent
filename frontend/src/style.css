@@ -141,3 +141,5 @@
 .tool-probe-panel{margin-top:10px;min-width:0;font-size:12px}.tool-probe-panel .callout{display:block;overflow-wrap:anywhere}.tool-probe-panel .callout p{margin:8px 0}.tool-probe-panel .callout small{display:block;line-height:1.6}.tool-probe-ack{display:flex;align-items:flex-start;gap:8px;line-height:1.65;margin:12px 0;font-size:12px}.tool-probe-ack input[type=checkbox]{width:16px;height:16px;flex:0 0 16px;margin:3px 0 0}
 
 .history-search-panel{padding:0 22px;max-height:38%;overflow:auto;flex-shrink:0}.history-search-panel textarea{width:100%;resize:vertical;min-height:90px}.history-search-panel input{width:100%}
+
+.plan-change-preview>b{display:block;margin:10px 0}.plan-change-preview table{width:100%;border-collapse:collapse}.plan-change-preview th,.plan-change-preview td{text-align:left;vertical-align:top;padding:7px 4px;border-bottom:1px solid var(--line)}.plan-change-preview td small{display:block;margin-top:4px;color:var(--muted)}.plan-change-preview p,.plan-change-preview li{overflow-wrap:anywhere}
