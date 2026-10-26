@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；166实现3a7a936/关闭1208299已推送clean，work/material-upload329/finalization-proof.json complete。167验收/部署通过，实现及关闭状态以Git/work/material-reference330/finalization-proof.json为准，不猜hash。
+- E:\workSpace\dify-agent/main；166实现3a7a936/关闭1208299已推送clean，work/material-upload329/finalization-proof.json complete。167实现30ada83存在、BACKLOG167已done、验收/部署通过，最终关闭状态以Git/work/material-reference330/finalization-proof.json为准，不猜hash。
 - 实际0.330.0-e425744c2bce89e3ded9/276文件，work/material-reference330/deployment-proof.json/managed-runtime-proof.json；所属PID/快照/原start-stop/health及前端200/源快照全文件/原16全部对象设置账本密文主Key/消费124保护通过，真实模型/Dify0。
 - 167材料根弹窗逐份明确引用方式、最多10份/保留说明300码点、预览旧新差异/实际变化数，明确勾选复核后一次保存新修订。全材料内容/元数据来源指纹及原SHA/Task修订绑定，变源/旧预览拒绝；未选/原件/正文/旧历史保持，无变化不造空版本，未解析不算已读。不自动推测引用程度或采用，原单份入口保持；关闭不保存草稿或取消已派发保存，迟到/坏预览不启用保存。
 - 新19/相关39后端分组（58），另强化首例已确认标志失效断言不增用例数；新UI9/原根弹窗UI9及构建通过，未全量。一次实际引用保存/一次同修订变源拒绝、旧版本和未选原件/另一任务保持，非引用语义/材料内容或全业务验收。
@@ -18,7 +18,7 @@
 
 ## 3. 下一步（167闭环后修已发现样例原文解析缺口）
 
-1. 核实work/material-reference330/finalization-proof.json及Git；验收与实现commit存在后BACKLOG167 done，再关闭文档/push/clean。已complete/origin==HEAD不重复；当前0.330.0-e425744c2bce89e3ded9，同目录deploy.ps1前提旧0.329，不重放。
+1. 核实work/material-reference330/finalization-proof.json及Git；实现30ada83和验收已满足、BACKLOG167已done，补关闭文档/push/clean。已complete/origin==HEAD不重复；当前0.330.0-e425744c2bce89e3ded9，同目录deploy.ps1前提旧0.329，不重放。
 2. 已定向核实AcceptancePanel.tsx的draftToTurn：样例首轮/追问inputText与equals期望仍直接JSON.parse，会吞重复/转义同名键与舍入小数/大整数；现RunInputText.ts的parseRunInputText已有严格原文扫描。167闭环后先入BACKLOG再修此实质缺口：输入复用现解析器、equals先验JSON语法再包裹对象严格解析（禁止用包裹放过1,extra:2等非法原文），保留草稿/首轮追问并定向UI。不要以此顺带重构全解析器或发真实试跑。
 3. 持续第一pending，空队列核实真实缺口，不造耗额度微任务或只验收准备，不把39未重核当39未开发；实际不足尽可能整份交接立即停，不反复探额/重试/换号/购买/用券，不假报耗尽。
 4. 每push先根CHANGELOG/适用README及整份交接；git require_escalated、safe.directory=E:/workSpace/dify-agent、命令级http.version=HTTP/1.1沿127.0.0.1:7890推原main，无force/全局/TLS改动/用户代提交；work/生产数据/凭据不提交。
