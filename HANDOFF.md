@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent，main。144实现9ba95d6/交接ff2728b已推送，work/target-selection307终结proof complete/clean保留。145已实现验证，当前0.308.0-977df9648d2206c51cd3；commit/push以work/edit-results308/finalization-proof.json实际为准，未生成前不推断已完成。
+- 项目E:\workSpace\dify-agent，main。144实现9ba95d6/交接ff2728b已推送，work/target-selection307终结proof complete/clean保留。145实现13ccf00且BACKLOG done，当前0.308.0-977df9648d2206c51cd3；commit/push以work/edit-results308/finalization-proof.json实际为准，未生成前不推断已完成。
 - 旧上传晚到切回已复现；UI9/目标恢复UI6/加载UI7与构建通过，35处Task接收源码分类非全动态验收。264文件/所属进程原脚本重启及health/前端200，原16/设置能力/账本密文主Key/124保持。本项Sierra模型/Dify真实新增0；141网关失败无审查、CLI估算0.074255 USD继续单列非账单，内部HTTP未知、不重试。
 - 用户继续功能开发直到实际Codex额度不足授权保持。最近实际quota primary41%已用/weekly38%、ordinaryUsageAllowed=true，非额度不足；不为耗额度拆微任务。Docker引擎未运行，T078不宿主机exec替代。0.304/305/307旧保护与0.306Word范围保持。
 
@@ -15,7 +15,7 @@
 
 ## 3. 下一步（145已验收部署；提交推送后继续实质开发）
 
-1. 145验收/构建/部署已过，先建立实现commit，再据实际提交标BACKLOG done、提交交接；CHANGELOG/README同步后push原main，不让用户代提交。最终work/edit-results308/finalization-proof.json，旧proof不覆盖。
+1. 145验收/构建/部署和实现13ccf00、BACKLOG done已完成，提交本交接后推送；CHANGELOG/README同步后push原main，不让用户代提交。最终work/edit-results308/finalization-proof.json，旧proof不覆盖。
 2. 根editingResultCurrent核响应来源ID与发起选择世代，旧结果只更新源摘要；10处根本机写返回/15处Task子回调及知识库应用的入口加检查，脏状态清理和后续提示/窗口改动在来源核对后执行。两步确认先保存返回时已离开则不继续确认，正常同任务未存流程保存仍接收。withTaskBusy仅来源内显示根编辑错误。
 3. refreshOne后台读回重新核未存草稿；运行轮询/顺序批停止读回及规划暂停提示核来源。35处acceptTask源码分类work/edit-results308/accept-task-audit.json，无未分类调用不等于所有行为动态核完。子面板onActivity等其它异步状态仍未全核，不能宣称全项目隔离已完成。
 4. UI9含旧上传/确认PATCH/清计划/材料引用与解除晚到、正常需求和脏计划保存/正常两阶段确认；目标UI6/加载UI7回归、构建通过，无脚本错误。后台只版本变更、不全量；原16/密文账本主Key/124精确保持，真实Sierra/Dify0，隔离模型仅目标回归的两次本机替身。
