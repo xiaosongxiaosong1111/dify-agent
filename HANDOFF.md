@@ -1,12 +1,12 @@
-# HANDOFF — Sierra（2026-10-27，第174交付）
+# HANDOFF — Sierra（2026-10-27，第175交付）
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；173实现2c9b1d8/关闭8b013f0已推送clean，work/human-input336/finalization-proof.json complete。174实现eb846df且BACKLOG174已done，最终关闭/push以Git及work/schema-number337/finalization-proof.json为准。
-- 实际0.337.0-b7c09ec4efc42eea8d2b/277文件，work/schema-number337/deployment-proof.json及managed-runtime-proof.json；所属PID/快照/原start-stop/health及前端200/原16全部对象设置账本密文主Key/124保持，真实外部0。
-- Schema原文及结构规则目标JSON小数复用现有十进制往返核对；拒绝minimum下溢放宽或目标舍入命中枚举，不改原定义/输出/旧成绩。普通有限小数/指数及原整数保持，非任意精度或已解析旧精度恢复，不扩大平台Schema强制。
-- 旧两个错误判定已复现，新17/相关98后端通过，前端未改沿用0.336构建，未全量。最终成果入口API拒绝/原Task和原文件保持。
-- 本次01:18开始实际额度恢复已核实，最近57%/weekly39%/ordinaryUsageAllowed=true，继续到实际不足；sierra一次性PAUSED防重复，结束删除，不新建/换号/购买/用券。Claude318失败无审查、CLI估算0/内部HTTP账单未知，无恢复证据不形式重试；304旧估算0.074255USD保持。
+- E:\workSpace\dify-agent/main；174实现eb846df/关闭90e0a9d已推送clean，work/schema-number337/finalization-proof.json complete。175验收部署已过，闭环以Git及work/iteration-results338/finalization-proof.json为准。
+- 实际0.338.0-0ead9ab36303e100c8ae/278文件，work/iteration-results338/deployment-proof.json及managed-runtime-proof.json；所属PID/快照/原start-stop/health与前端200/原16全部对象设置账本密文主Key/124保持，真实模型/Dify0。
+- 已保存普通成功Workflow逐项字段可明确选取，完整协议核对、20项分页、仅失败筛选和完整JSON下载；原索引/长值/类型保持，完整来源摘要绑定Task修订/Run/字段，坏源/坏协议/超限/晚到拒绝。不重评/运行，不把ok当成绩或原批完整/轨迹/Schema/业务证明。1000项/2MB；原始JSON入口保持。
+- 新35/相关19后端共54、新UI9与构建通过，未全量。临时Store全部Task/预算及原16保护，浏览器写入0；原45项和15失败/长值下载/晚到均已核，前端初始类型/条件优先级已修。T113仅scope_limited，不关闭平台验收。
+- 本次01:18额度恢复已核实，最近65%/weekly40%/ordinaryUsageAllowed=true，继续实际不足才停；sierra一次性PAUSED防重复，结束删除，不重建/换号/购买/用券。Claude318失败无审查，CLI估算0/内部HTTP账单未知，无恢复不形式重试；304旧估算0.074255USD保持。
 
 ## 2. 已消费批与保护
 
@@ -15,14 +15,14 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（174提交闭环，继续实质功能）
+## 3. 下一步（175提交闭环，再核既定需求功能缺口）
 
-1. 核实work/schema-number337/finalization-proof.json/Git；174实现eb846df/验收部署过，补关闭提交/push/clean，已complete不重复。当前0.337.0-b7c09ec4efc42eea8d2b，deploy.ps1前提旧0.336，禁止重放。
-2. 第一pending优先；空队列按既定需求核实具体功能缺口，一次一项。可限读T113批量失败汇总与结果输出对应RunHistory及现有批量结果导出：先核已有能力再决定是否需补明确筛选/逐项失败交付；不继续无意义局部深化/验收准备，不将未知索引当未开发。
-3. 每push前CHANGELOG/适用README/整份交接；核原remote，git require_escalated/safe.directory=E:/workSpace/dify-agent/命令级HTTP1.1沿原代理推main，不force/全局/TLS修改，work/生产数据/秘密不提交，不让用户代提交。
-4. 持续至实际不足或确无可行动进展；不足立即尽力交接停，不反复探额/重试/换号/购买/用券。sierra已PAUSED，结束删除已完成一次性，不新建。
-5. 原16保护work/schema-number337/protect.py，新源新快照/所属PID，不按端口杀；r12已4/4不第五跑，消费91/95/115/121/124不重放，20/保守24模型、413管理/28登录及unknown/费界/旧槽保持，不借退预留，只加密凭据。
-6. 只读必要文件，不通读或全量；Claude无恢复不重试/加预算/冒充审查；162—173 complete不重做。目录T082仅scope_limited非全部签收。
+1. 核实work/iteration-results338/finalization-proof.json/Git；175验收部署过，补实现及关闭提交/push/clean，已complete不重复。当前0.338.0-0ead9ab36303e100c8ae，deploy.ps1前提旧0.337，禁止重放。
+2. 第一pending优先；空队列限读具体组件核实缺口，一次一项。可核AcceptancePanel.RunHistory：当前仍一次渲染全部历史和完整返回JSON，长期任务是否需要有界记录窗口/按状态和修订聚焦；先用隔离长历史复现，不能只因未知索引或耗额度造微任务。
+3. 每push前CHANGELOG/适用README/整份交接；核原remote，git require_escalated/safe.directory=E:/workSpace/dify-agent/命令级HTTP1.1沿既有代理推main，不force/全局/TLS修改，不让用户代提交，work/生产数据/秘密不提交。
+4. 持续到实际不足或确无可行动进展；不足立即尽力交接停，不反复探额/重试/换号/购买/用券。sierra已PAUSED，结束删除已完成一次性，不新建。
+5. 原16保护work/iteration-results338/protect.py，新源新快照/所属PID，不按端口杀；r12已4/4不第五跑，消费91/95/115/121/124不重放，20/保守24模型、413管理/28登录及unknown/费界/旧槽保持，不借退预留，只加密凭据。
+6. 只读必要文件，不通读或全量；Claude无恢复不形式重试/加预算/冒充审查；162—174 complete不重做。目录T082和输出T113仅scope_limited，非全部签收。
 
 ## 4. 外部边界与账本
 

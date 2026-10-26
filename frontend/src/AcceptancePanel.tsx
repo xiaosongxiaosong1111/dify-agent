@@ -1,3 +1,4 @@
+import IterationResults from './IterationResults';
 import {useOwnedActivity} from './useActivityOwnership';
 import {parseRunInputText} from './RunInputText';
 import CaseSetPanel from './CaseSetPanel';
@@ -28,6 +29,7 @@ export type AcceptanceSummary = {
   all_required_passed: boolean; verification: string; blockers: string[];
 };
 export type RunRecord = {
+  app_type?:string;
   case_sequence?:{token:string;start_count:number;index:number;case_ids:string[]};
   diagnostics?:Diagnostic[];
   waiting_state?:{platform_status?:string;checked_at?:string;note?:string};
@@ -162,6 +164,7 @@ export function RunHistory({ currentAppId, runs, revision, busy, hasUnsaved, rea
     {run.kind==='run'&&<p className="hint">用量及价格来自 Dify 返回。插件价格为 0 不证明供应商免费；实际费用需核对供应商账单，本次规划上限不覆盖这些运行费用。</p>}
     {taskId&&onUpdated&&['waiting_platform','platform_finished'].includes(run.status||'')&&<LazyWaitingRunPanel taskId={taskId} run={run} blocked={busy||hasUnsaved} onUpdated={onUpdated}/>}
     <ConversationCaseResult value={run.result}/>
+    {taskId&&run.kind==='run'&&run.app_type==='workflow'&&<IterationResults taskId={taskId} revision={revision} run={run} currentAppId={currentAppId} blocked={busy||hasUnsaved}/>}
     <b>实际返回结果</b><pre>{JSON.stringify(run.result ?? run.output ?? run.input, null, 2)}</pre>
     {run.evaluation && <div className={`validation ${run.evaluation.status === 'passed' ? 'ok' : 'bad'}`}><b>{stateNames[run.evaluation.status] || run.evaluation.status}</b><p>{run.evaluation.details}</p></div>}
     {taskId&&reportActivity&&onUpdated&&<RunDiagnosticPanel currentAppId={currentAppId} taskId={taskId} revision={revision} run={run} blocked={busy||hasUnsaved} onActivity={onActivity} onUpdated={onUpdated} onLocateNode={onLocateNode} onPrepareRun={onPrepareRun}/>}

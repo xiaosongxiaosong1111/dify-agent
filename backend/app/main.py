@@ -83,7 +83,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.337.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.338.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -2411,3 +2411,5 @@ register_material_reference_batch(sys.modules[__name__])
 
 from .case_sets import register as register_case_sets
 register_case_sets(sys.modules[__name__])
+from .iteration_results import register as register_iteration_results
+register_iteration_results(sys.modules[__name__])

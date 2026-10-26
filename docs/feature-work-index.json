@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "reviewed_at": "2026-10-27",
-  "product_version": "0.337.0",
+  "product_version": "0.338.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -1696,12 +1696,16 @@
       "deliverable": "批量结果模块",
       "acceptance": "明确成功与失败项，不漏项或把失败当成功",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "scope_limited",
       "evidence": [
-        "docs/development-tasks.md"
+        "frontend/src/IterationSummaryPanel.tsx",
+        "backend/app/iteration_results.py",
+        "frontend/src/IterationResults.tsx",
+        "docs/saved-iteration-results.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.338补已存普通成功Workflow逐项结果查看/失败筛选与JSON下载，新35/相关19及UI9通过；已有封装/汇总代码保持。只核声明与完整来源，不证原批全部输入、轨迹或业务，实际平台验收未关闭。"
     },
     {
       "id": "T114",
