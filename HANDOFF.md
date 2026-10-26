@@ -1,14 +1,14 @@
-# HANDOFF — Sierra（2026-10-26，第157交付）
+# HANDOFF — Sierra（2026-10-26，第158验收通过待提交）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent/main，HEAD/origin f371ba2，第156实现6a8fe15/关闭f371ba2已推送clean、work/plan-connections319/finalization-proof.json complete。157实现440bdf4已存在、验收/部署通过，BACKLOG157已done，最终关闭commit/push/clean以work/dialog-focus320/finalization-proof.json及实际Git为准，不据本文件猜自引用commit。
-- 实际运行0.320.0-9a498bb1e30174e0093f/271文件，原start/stop/所属PID快照/health及前端200、全部源码快照与原16全部对象设置密文主Key账本124保护通过。work/dialog-focus320/deployment-proof.json、managed-runtime-proof.json。
-- 157：根设置/新建/引用弹窗有dialog/aria-modal/可访问名称、动态可用焦点循环、背景inert、Escape只关闭、有效原入口恢复；模型列表切编辑保留外部入口，关闭恢复原inert，不提交或取消后台任务。新useDialogFocus.ts和App接入；后台main仅版本号变更。
-- 旧版缺dialog先红，修复后UI9/流程图回归UI12及构建通过，零写入/真实模型Dify0、未全量。首轮末项按钮名错“添加模型”实际“添加”已纠正，原日志保留。docs/dialog-keyboard.md、README/CHANGELOG/状态/索引已更新；T037仅根弹窗键盘切片，40not_reaudited/86current_evidence/10scope_limited，全验收仍false。
-- 第155默认off的主规划只读规则工具及154非空截断误升级修复已推送（f5c6b12/07f7d85），55工具/14终态/201相关、UI7/升级UI7通过。第156当前草稿连接/显式变量来源/结构追踪已推送，UI12通过；非最终DSL或运行轨迹，原16未启用新工具/升级。
-- 用户本轮要求Claude多线程，已实际独立并行派0.317文档边界核对，Claude Code既有网关配置deepseek-flash，仅必要片段无凭据/客户资料/完整仓库，一次CLI失败无审查；reported_models空、估算0/22.75秒，原因/内部HTTP/实际账单未知，不重试。work/claude-doc-review318/receipt.json。旧304预算失败CLI估算0.074255USD另存不重放，不能声称子审查通过。
-- 最近primary73%/weekly11%已用且ordinaryUsageAllowed true，没有实际Codex额度不足；实际不足立即尽可能整份交接并停，不换号/购买/用券。原16/r12 run_completed、4/4满、T078本机引擎管道缺失及所有外部旧边界保持。
+- 项目E:\workSpace\dify-agent/main，HEAD/origin779132a，第157实现440bdf4/关闭779132a已推送clean、work/dialog-focus320/finalization-proof.json complete。158当前实现/验收/部署通过、尚无实现commit，BACKLOG158仍doing，保留未提交工作。
+- 实际运行0.321.0-a33d889081e7c869c6b8/271文件，原start/stop/所属PID快照/health及前端200、全部源码快照和原16全部对象设置密文主Key账本124保护通过。work/message-window321/deployment-proof.json、managed-runtime-proof.json。
+- 158：TaskMessages默认最近50条、前后/最新窗口及原message索引/角色/修订；单条4000/明确扩大16000 UTF16单位且不拆有效emoji代理对，每次只展开一条，旧窗口追加有提示不跳，切Task/修订清来源。只减少DOM，不改后台原话、模型上下文、业务确认，也不减少Task详情传输/实现数据库分页或长期记忆。
+- 旧123条全渲染先红，新UI8/历史原话UI8及构建通过，后台main仅版本变更、未全量。首轮刷新断言没等异步回执，已等新提示，原日志保留。临时Store明确追加一条公开消息/改变一次夹具修订用于来源测试，原始历史和其它业务字段及原16保持，真实模型/Dify0。docs/message-display-window.md、README/CHANGELOG/状态/索引已更新，40not_reaudited/86current_evidence/10scope_limited，非全部验收。
+- 此前155只读规则工具+154非空截断误升级修复（f5c6b12/07f7d85）、156连接/变量来源追踪（6a8fe15/f371ba2）、157根弹窗键盘操作（440bdf4/779132a）均部署推送完成。各自work/.../finalization-proof.json complete；原16工具/升级仍未启用，外部旧边界保持。
+- 用户本轮要求Claude多线程，已独立并行派0.317文档核对，Claude Code网关配置deepseek-flash，必要片段/无凭据客户资料整库，一次CLI失败无审查、models空/估算0/22.75秒，原因/内部HTTP/账单未知，work/claude-doc-review318/receipt.json，不重试/冒充审查。旧304预算失败CLI估算0.074255USD另存、不重放。
+- 最近实际Codex primary86%/weekly13%已用且ordinaryUsageAllowed true，没有实际额度不足；不足立刻尽可能整份交接停，不换号/购券/用券。原16/r12 run_completed且4/4满、T078本机引擎管道缺失及所有旧预留/费用边界保持。
 
 ## 2. 已消费批与保护
 
@@ -17,14 +17,14 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（先完成157提交推送）
+## 3. 下一步（先完成158提交推送）
 
-1. 157实现440bdf4存在、BACKLOG157已done；先读work/dialog-focus320/finalization-proof.json和Git，若已complete/origin==HEAD/clean，不重复提交推送；否则补齐关闭文档/push/实证。然后按第一pending或核实下个具体既定需求缺口继续。每push前README/CHANGELOG已更新，work和生产数据不提交。
-2. Git命令用require_escalated、命令级safe.directory=E:/workSpace/dify-agent，单次-c http.version=HTTP/1.1沿现有127.0.0.1:7890代理可推原https://github.com/xiaosongxiaosong1111/dify-agent.git；不改全局/关TLS/no force，不再让用户代commit。每push前CHANGELOG和README已更新，不冒称未推送结果。
-3. 然后继续BACKLOG第一pending；无pending只剩旧已消费blocked时，按既定需求核实具体实质缺口后入队，不重放旧包或为耗额度造微任务。当前40项未重核不等于40项未开发；155/156/157是限定功能证据，不把局部绿测算成项目完成百分比。只读必要文件、不通读项目/290KB历史、不全量。
-4. 当前固定0.320.0-9a498bb1e30174e0093f/271文件，保护work/dialog-focus320/protect.py。该目录deploy.ps1前提旧0.319且已执行，不重放；新源码需新快照与所属进程校验，不能按端口杀进程。原16全部数据及生产新策略off保持，禁止为验证借旧范围发真实模型/Dify。
-5. 原任务r12 run_completed且4/4满，不第5跑；91/95/115/121/124已消费不重放。Sierra实际模型20/保守24、管理413/登录28、unknown/四旧槽和费用边界保持，不借/自动退预留。只用加密凭据，不从聊天抄密码或输出密钥。
-6. Claude上次独立委派失败原因未明，未证明网关恢复时不为形式重试，不提高预算/换号/冒充审查通过；304旧失败不重跑。实际Codex额度不足立刻停、不反复工具请求探额度或重试，尽可能整份交接，不购买/用券。
+1. 158新UI8/历史UI8/构建、271文件受管理部署和原16保护已通过，先diff/check、明确列文件实现commit（含CHANGELOG/README/状态/索引/交接/Backlogdoing），实现commit存在后标158done写证据，关闭文档commit/push原main。核origin==HEAD/clean后写work/message-window321/finalization-proof.json；work、生产数据/凭据不提交。
+2. Git require_escalated、命令级safe.directory=E:/workSpace/dify-agent及单次-c http.version=HTTP/1.1沿现有127.0.0.1:7890代理可推原https://github.com/xiaosongxiaosong1111/dify-agent.git，不改全局/TLS/no force、不让用户代commit。每push前README/CHANGELOG已更新，不冒称未推送结果。
+3. 然后继续第一pending；无pending只剩旧已消费blocked时核实新的既定需求实质缺口再入队，一次一项，不为耗额度造微任务。40项未重核不是40项未开发，也不把局部通过算成项目百分比。显示窗口已补，不据此说模型上下文被裁剪/网络加载已分页；若需后端分页，应单独设计源指纹/追加/恢复语义，勿悄然改旧Task接口或原话。
+4. 当前固定0.321.0-a33d889081e7c869c6b8/271文件，保护work/message-window321/protect.py。该目录deploy.ps1已执行且前提旧0.320，禁止重放；新改动需新快照/所属PID校验，不按端口杀进程。原16及默认策略off保持，不为验证新增真实模型/Dify或借旧预留。
+5. 原任务r12 run_completed、4/4满，不第5跑；91/95/115/121/124等消费包不重放。Sierra实际模型20/保守24、管理413/登录28、unknown/四旧槽和费用边界保持，不借/自动退预留。只用保存加密凭据、不抄聊天密码/输出密钥。
+6. Claude前次独立委派失败原因未明，网关未证明恢复时不为形式重试，不提高预算/换号/冒充审查通过，304旧失败不重跑。实际Codex不足立即停、不反复工具探额度/重试，尽可能整份交接，不购券/用券。只读必要文件，不通读项目/290KB历史，不全量；work/plan-change-preview315/targeted.log长16MB不读全行。
 
 ## 4. 外部边界与账本
 

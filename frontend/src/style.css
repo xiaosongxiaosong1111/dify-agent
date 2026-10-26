@@ -145,3 +145,5 @@
 .plan-change-preview>b{display:block;margin:10px 0}.plan-change-preview table{width:100%;border-collapse:collapse}.plan-change-preview th,.plan-change-preview td{text-align:left;vertical-align:top;padding:7px 4px;border-bottom:1px solid var(--line)}.plan-change-preview td small{display:block;margin-top:4px;color:var(--muted)}.plan-change-preview p,.plan-change-preview li{overflow-wrap:anywhere}
 
 .graph-trace-controls{margin:12px 0}.graph-trace-controls select{margin-left:8px;max-width:100%}.graph-connection-row{display:flex;align-items:flex-start;flex-direction:column;gap:6px;border-bottom:1px solid #e1e3ee;padding:10px 0;overflow-wrap:anywhere}.graph-connection-row code{white-space:pre-wrap;overflow-wrap:anywhere}.plan-connections{margin:12px 0}.plan-connections details{margin:10px 0}
+
+.message-window{padding:10px;margin-bottom:14px;border:1px solid #e1e3ee;border-radius:8px}.message-window .actions{flex-wrap:wrap}.message-window .actions button{font-size:11px;padding:5px 8px}.bubble .message-body{overflow-wrap:anywhere}
