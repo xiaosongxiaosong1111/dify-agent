@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；168实现ce809cf/关闭12893e6已推送clean、work/case-input331/finalization-proof.json complete。169新9/相关53后端共62通过并受管理部署，实现commit/关闭/push以Git及work/plan-decimal332/finalization-proof.json为准，不猜hash。
+- E:\workSpace\dify-agent/main；168实现ce809cf/关闭12893e6已推送clean、work/case-input331/finalization-proof.json complete。169实现39c9cee存在、BACKLOG169已done，新9/相关53后端共62通过并受管理部署，最终关闭/push以Git及work/plan-decimal332/finalization-proof.json为准，不猜hash。
 - 实际0.332.0-5dd8c4d7816b5e579671/276文件，work/plan-decimal332/deployment-proof.json及managed-runtime-proof.json；所属PID/原start-stop/固定快照/health与前端200/源快照全文件/原16全部对象设置账本密文主Key/124保护通过，真实模型/Dify0。
 - 169有效计划API旧200接受高精度小数且codec变0.1已先红；最小parse_float核对JSON十进制往返数值意义，舍入/非零下溢拒绝，普通有限数/指数/尾零及原大整数路径保持。保存/预览拒绝Task不变；前端未变，不新增UI测试，不全量。非任意精度数学/旧精度恢复/所有API或业务验收。
 - 最近额度primary98%/weekly29%已用且ordinaryUsageAllowed true，尚未观测实际不足，不假报耗尽；真正不足即尽可能交接停，不重试/换号/购买/用券。sierra一次性2026-10-27 01:18北京时间ACTIVE，首步暂停自身，以实际额度和最新交接为准，不重建。
@@ -17,7 +17,7 @@
 
 ## 3. 下一步（169提交关闭与最新状态核实）
 
-1. 核实work/plan-decimal332/finalization-proof.json和Git；169验收/部署已过，先实现commit，再BACKLOG169 done，再关闭文档/push/clean。已complete/origin==HEAD不重复。当前0.332.0-5dd8c4d7816b5e579671，同目录deploy.ps1前提旧0.331，不重放。
+1. 核实work/plan-decimal332/finalization-proof.json和Git；169验收/部署已过，实现39c9cee和验收已满足、BACKLOG169已done，补关闭文档/push/clean。已complete/origin==HEAD不重复。当前0.332.0-5dd8c4d7816b5e579671，同目录deploy.ps1前提旧0.331，不重放。
 2. 当前额度接近上限但最后一次仍可用，真正不足立即停并尽可能整份交接，不反复探额/重试/换号/购买/用券；未不足不能假报耗尽或因小模块完停。后续按第一pending，空时核实既定需求具体实质缺口，不造耗额度微任务/只验收准备，不把38未重核当未开发。
 3. 每push前根CHANGELOG/适用README和整份交接；git require_escalated、safe.directory=E:/workSpace/dify-agent、命令级http.version=HTTP/1.1沿127.0.0.1:7890推原main，无force/全局/TLS改动/用户代提交；work/生产数据/凭据不提交。
 4. sierra一次性01:18已设，触发先暂停自身再读最新进度与实际额度，不重建/假定恢复。原16保护work/plan-decimal332/protect.py，新修改新快照/所属PID，不按端口杀进程；原任务r12/4对4满不第五跑，消费91/95/115/121/124不重放，Sierra20/保守24、管理413/登录28、unknown/四旧槽/费界保持，不借退预留，只用加密凭据不抄聊天密码。
