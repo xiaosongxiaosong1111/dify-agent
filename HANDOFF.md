@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（2026-10-26，第159验收通过待提交）
+# HANDOFF — Sierra（2026-10-26，第159交付）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent/main，上一轮最终487c827已推送clean，第158实现97449a4/关闭96aa800及最终文档487c827的work/message-window321/finalization-proof.json complete。本轮159功能/验收/部署通过，尚无实现commit，BACKLOG159仍doing，保留未提交改动。
+- 项目E:\workSpace\dify-agent/main，上一轮最终487c827已推送clean，第158实现97449a4/关闭96aa800及最终文档487c827的work/message-window321/finalization-proof.json complete。本轮159实现d2d8ab7存在且验收/部署通过，BACKLOG159已done；最终关闭commit/push/clean见work/message-original322/finalization-proof.json和实际Git，不猜自引用commit。
 - 实际运行0.322.0-6164ae5b181ed667d4df/272文件，原start/stop及所属PID/快照、health与前端200、源码/快照全部文件与原16全部对象设置账本密文主Key/124保护通过。work/message-original322/deployment-proof.json、managed-runtime-proof.json。
 - 159：长气泡直接分页核对完整单条原话，Task修订/原message索引/全文SHA及角色/方式/来源/输入结果修订标签绑定；首次token核对，后续固定token，每条最多2MB UTF8/页4000Unicode码点，可首页/前后/末页，未显示页不冒充已读。后加消息不影响旧条，变正文/标签/跨Task/修订拒绝，切Task或旧响应失效；浏览器对照本页已读全文相应片段逐字核对。只读不解密/不改原话或上下文，非Task传输/数据库分页。
 - 新30/旧历史27后端定向，新UI8/窗口UI8和构建通过，未全量。首次夹具将get_task补planning_runs字段误当保存变化、非法代理无法Store写入，改为真实读回快照和坏编码只读替身，原失败保留，无生产边界退让。临时UIStore仅明确追加公开消息和变标签作拒绝测试，原正文/其它业务及原16保持。真实Sierra模型/Dify新增0。
@@ -19,7 +19,7 @@
 
 ## 3. 下一步（先完成159闭环，再继续实质开发）
 
-1. 159接口、UI、定向检查及272文件受管理部署/原16保护已通过；先diff/check并明确列文件实现commit（含AGENTS用户新指示、CHANGELOG/README/状态/索引/本交接/Backlogdoing），实现commit存在后才标159done加实际证据，再闭环文档commit/push。核origin==HEAD/clean，写work/message-original322/finalization-proof.json；work和生产数据/凭据不提交。
+1. 159实现d2d8ab7存在、BACKLOG159已done；先核work/message-original322/finalization-proof.json和Git，已complete/origin==HEAD/clean则不重复提交推送，否则补齐关闭文档/push/实证。然后按用户新指示继续第一pending或核实新的既定需求实质缺口，不重做已有159。每push先CHANGELOG/适用README、整份交接，work及生产数据不提交。
 2. Git用require_escalated、命令级safe.directory=E:/workSpace/dify-agent、单次-c http.version=HTTP/1.1沿现有127.0.0.1:7890代理推原https://github.com/xiaosongxiaosong1111/dify-agent.git，不改全局/关TLS/no force，不让用户代commit；每push先根CHANGELOG及适用README，整份交接。
 3. 用户最新指示继续到实际额度不足，不能因一个模块或普通队列空结束。按第一pending；无pending先从既定需求核实具体可做功能缺口、加入BACKLOG再一项项推进，不为耗额度造微任务。40未重核不是40未开发，不把局部检查/队列数当全项目百分比。此前321只DOM显示，322补单条全文核对，仍未减少Task详情传输/做DB历史分页；若处理该问题，先独立设计来源指纹、追加/恢复及旧接口兼容，勿改原话。
 4. sierra一次性续接已ACTIVE，2026-10-27 01:18北京时间，执行先暂停自身防重复，再按最新检查点/实际额度继续，不重做当前159。无需再新建重复任务，不假定定时就是额度已恢复；实际Codex不足立刻尽可能整份交接并停，不反复重试/切号/购券/用券。
