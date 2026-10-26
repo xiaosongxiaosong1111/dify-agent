@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（2026-10-26，第155实现待提交）
+# HANDOFF — Sierra（2026-10-26，第155验收完成待推送）
 
 ## 1. 当前状态
 
-- 项目E:\workSpace\dify-agent/main，当前HEAD/origin为5337ffd；155功能及检查已通过，等待实现commit与闭环push，BACKLOG仍doing。不丢未提交源码。实际已部署0.318.0-e67b37edfd0b97d8803f/271文件，原start/stop、PID归属/快照校验、health及前端200、源码与快照全部文件/原16/密文主Key/账本/124保护均通过。work/planning-tools318/deployment-proof.json及managed-runtime-proof.json。
+- 项目E:\workSpace\dify-agent/main，实现f5c6b12（原origin5337ffd）；155验收完成且实现commit已存在，BACKLOG155已done，等待本次文档闭环commit及push。实际已部署0.318.0-e67b37edfd0b97d8803f/271文件，原start/stop、PID归属/快照校验、health及前端200、源码与快照全部文件/原16/密文主Key/账本/124保护均通过。work/planning-tools318/deployment-proof.json及managed-runtime-proof.json。
 - 新主规划只读规则工具：Workflow/Chatflow固定已验证协议当前主模型、范围版本1/声明1.17.1/规则库，默认off；最多2模型HTTP/1模型触发注册纯查询，共享原轮次和累计预算。没有实际工具请求不查询，无任意文件/URL/代码/资源/网络执行。真实查询/完整结果配对回注及字节/摘要/来源有回执；示例非配置/批准/运行，停下和重启不续派。docs/planning-tools.md及设计，T042首批限定证据，42not_reaudited/84current_evidence/10scope_limited、全验收未关闭。
 - 新工具55项、终态14项、相关201项定向后端/新UI7/升级UI7及构建通过，无全量。日志在work/planning-tools318。首轮temp目录旧ACL，改用新basetemp且禁cache；夹具settings存储ID/Agent无计划/首阶段预留阈值不匹配已修，原失败保留。不是生产门禁退让。
 - 发现并修复154真实线格式漏洞：非空length原可能误升级或保存候选；可选require_final_text仅该升级使用，OpenAI/Anthropic完整终态14例通过，普通/流式/图像默认兼容保持。生产原16没有启用升级或新工具，真实Sierra/Dify新增0。
@@ -18,7 +18,7 @@
 
 ## 3. 下一步（先完成155闭环）
 
-1. 核对Git diff、docs/planning-tools.md/CHANGELOG/README/HANDOFF，原保护和受管理部署已通过；155实现文件规划工具3模块/main/task_budget/providers/lightweight_upgrade、前端策略/进度/App及2新测试，明确列文件commit，work回执不提交。先实现commit存在才能将BACKLOG155标done并补实际证据，再闭环文档commit、push原main，最终写work/planning-tools318/finalization-proof.json。每push前根CHANGELOG已更新，README新运行版已更新；不让用户代commit。
+1. 155实现f5c6b12存在、验收及受管理部署已通过，BACKLOG155已done；先提交本次关闭文档并push原main，核origin==HEAD/工作树clean后写work/planning-tools318/finalization-proof.json。再按下一pending继续；没有pending时核实既定需求的新实质功能缺口后加入队列，不重复155。CHANGELOG/README本次已更新，work回执不提交。
 2. Git origin已授权原https://github.com/xiaosongxiaosong1111/dify-agent.git，.git操作用require_escalated和命令级safe.directory=E:/workSpace/dify-agent；单次-c http.version=HTTP/1.1沿用现有127.0.0.1:7890代理，不改全局/关TLS/no force。推送失败保留本机commit和实证，不假称已推送。
 3. 155完成后继续功能开发，按BACKLOG第一pending；若无pending仅旧已消费blocked，按既定需求核实下个具体实质缺口、加入队列，一次一项。只读必要文件，不通读项目/290KB历史，不为耗额度拆微任务，不因一个模块完停止。T042首批专业规则工具已补，不再说完全没有模型工具能力，仍非任意工具/原生Agent或真实质量签收。
 4. 当前Runtime0.318.0-e67b37edfd0b97d8803f固定271文件；保护脚本work/planning-tools318/protect.py，部署脚本同目录（前提旧0.317，已消费不可重放）。新源码需新快照与所属进程校验，不能按端口任意杀进程。既有数据保持，不在真实Task启用或发模型探测以凑验证；55工具/14终态/201相关、UI7/7已过，不无意义重跑全量。
