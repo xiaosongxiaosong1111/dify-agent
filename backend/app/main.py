@@ -83,7 +83,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.316.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.317.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -594,7 +594,11 @@ def recover_planning():
     for task in store.list("task"):
         changed = False
         for operation in task.get("planning_runs", []):
-            if operation.get("status") in {"running", "ready_to_confirm"}:
+            upgrade_boundary=bool((operation.get('routing') or {}).get('upgrade') and task.get('status')=='planning' and operation.get('status')=='paused')
+            if operation.get("status") in {"running", "ready_to_confirm"} or upgrade_boundary:
+                if (operation.get('routing') or {}).get('upgrade'):
+                    from .lightweight_upgrade import interrupt_phases
+                    interrupt_phases(operation)
                 for attempt in operation.get("attempts", []):
                     if attempt.get("status") == "pending":
                         attempt.update(status="unknown_usage", cost_basis="reserved_unknown_usage", estimated_cost_usd=attempt.get("reserved_cost_usd", 0))
@@ -1758,7 +1762,7 @@ def patch_provider(item_id: str, payload: dict):
 @app.delete("/api/providers/{item_id}")
 def delete_provider(item_id: str):
     with store.lock:
-        if any(p.get('enabled') and p.get('light_provider_id')==item_id for p in store.list('assistant_routing')):raise HTTPException(409,'该模型被轻量建议路由引用，请先明确关闭或更换相关任务路由。')
+        if any(p.get('enabled') and (p.get('light_provider_id')==item_id or (p.get('upgrade') or {}).get('enabled') and (p.get('upgrade') or {}).get('main_provider_id')==item_id) for p in store.list('assistant_routing')):raise HTTPException(409,'该模型被验收建议轻量/升级路由引用，请先明确关闭或更换相关任务路由。')
         if any(e.get('status')=='reserved' and e.get('provider_id')==item_id for ledger in store.list('task_budget') for e in ledger.get('entries',[])):raise HTTPException(409,'该模型调用尚未结算，暂不能删除。')
         if any(t["configuration"].get("assistant_provider_id") == item_id or any(r.get("status") in {"running", "ready_to_confirm"} and r.get("provider_id") == item_id for r in t.get("planning_runs", [])) for t in store.list("task")):
             raise HTTPException(409, "该模型已被任务引用，请先更换任务模型配置。")

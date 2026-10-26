@@ -11,7 +11,9 @@ export type PlanningRun = {
   diagnostics?: string[]; last_candidate?: unknown; last_response_excerpt?: string; response_truncated?: boolean;
   decision_report?: unknown;
   scope_change_summary?:{verification:string;areas:string[];nodes:{position:string;areas:string[]}[];truncated:boolean;note:string};
-  attempts: { number: number; status: string; usage: unknown; cost_basis?: string; estimated_cost_usd?: number;
+  routing?:{upgrade?:{triggered:boolean;max_model_http_requests:number;reason?:string}};
+  phases?:{phase:string;model:string;status:string;last_response_excerpt?:string;response_truncated?:boolean;stop_reason?:string}[];
+  attempts: { phase?:string;provider_id?:string;model?:string;number: number; status: string; usage: unknown; cost_basis?: string; estimated_cost_usd?: number;
     reserved_cost_usd?: number; deterministic_fixes?: string[]; diagnostics?: string[] }[];
 };
 
@@ -33,14 +35,15 @@ export default function PlanningProgress({ run, generating, onPause, onRefresh, 
     </div>
     {run && <>
       <small>{run.kind==='repair'?'代码修复候选 · ':run.kind==='cases'?'验收样例建议 · ':run.kind==='configuration'?'具体配置建议 · ':run.kind==='coverage'?'需求覆盖建议 · ':run.kind==='conflicts'?'需求冲突建议 · ':'流程方案 · '}{run.model} · 输入修订 v{run.revision}{run.result_revision ? ` → 结果 v${run.result_revision}` : ''}</small>
-      <p>本轮费用估算 {usdText(run.estimated_cost_usd)} / {usdText(run.settings.max_cost_usd)} · 上限 {run.settings.max_minutes} 分钟、{run.settings.max_retries} 次自动修复</p>
+      <p>本轮费用估算 {usdText(run.estimated_cost_usd)} / {usdText(run.settings.max_cost_usd)} · 上限 {run.settings.max_minutes} 分钟、{run.routing?.upgrade?'本策略两阶段各一次、不追加修复':`${run.settings.max_retries} 次自动修复`}</p>
+      {run.routing?.upgrade&&<div className="callout amber lightweight-upgrade-progress" style={{display:'block'}}><b>已明确启用的两阶段建议 · 共最多{run.routing.upgrade.max_model_http_requests}次HTTP</b><p>{run.routing.upgrade.triggered?'已进入固定主模型升级阶段；是否派发以上下逐次记录为准。':'未进入主模型升级阶段。'}共用本轮费用与时间，旧失败/未知用量保留，不自动采纳或试跑。</p>{run.phases?.map((phase,i)=><div key={i}><small>{phase.phase==='light'?'轻量阶段':'单次主模型阶段'} · {phase.model} · {labels[phase.status]||phase.status}</small>{phase.phase==='light'&&phase.status==='paused'&&phase.last_response_excerpt&&<details><summary>轻量原返回预览（未作为需求或传给主模型）</summary><pre>{phase.last_response_excerpt}</pre>{phase.response_truncated&&<p>预览已截断，不能据此声称保留了完整返回。</p>}</details>}</div>)}</div>}
       {run.message && <div className="callout amber">{run.message}</div>}
       {run.stop_reason==='needs_decision'&&['paused','interrupted'].includes(run.status)&&run.decision_report&&<PlanningDecision value={run.decision_report} revision={run.revision} currentRevision={currentRevision} onDiscuss={onDiscuss}/>}
       {run.scope_change_summary&&<div className="callout amber planning-scope-summary"><b>{run.scope_change_summary.verification==='replanning_review_summary'?'重新生成有变更：待复核，原方案保持':'修复为何暂停：候选改变了方案'}</b>{run.scope_change_summary.areas.map((area,i)=><p key={i}>{area}</p>)}{run.scope_change_summary.nodes.length>0&&<details><summary>查看节点变化 · {run.scope_change_summary.nodes.length} 项</summary>{run.scope_change_summary.nodes.map((node,i)=><p key={i}>{node.position}：{node.areas.join('；')}</p>)}</details>}{run.scope_change_summary.truncated&&<p>变化摘要达到上限，不能据此认为其他部分没有变化。</p>}<p className="hint">{run.scope_change_summary.note}</p></div>}
       {run.diagnostics?.length ? <details><summary>查看待处理问题</summary>{run.diagnostics.map((e, i) => <p key={i}>{e}</p>)}</details> : null}
       <details><summary>调用与修复记录 · {run.attempts.length} 次</summary>
         {run.attempts.map(a => <div className="planning-attempt" key={a.number}><b>调用 {a.number} · {labels[a.status] || a.status}</b>
-          <small>{a.cost_basis === 'reserved_unknown_usage' ? '用量未知，按预留估算计入' : a.cost_basis === 'reported_usage' ? '按返回用量估算' : '调用前费用预检'} · {usdText(a.estimated_cost_usd ?? a.reserved_cost_usd ?? null)}</small>
+          {a.phase&&<small>{a.phase==='light'?'轻量阶段':'单次主模型阶段'} · {a.model}；记录可含未派发的预检，不等于HTTP次数。</small>}<small>{a.cost_basis === 'reserved_unknown_usage' ? '用量未知，按预留估算计入' : a.cost_basis === 'reported_usage' ? '按返回用量估算' : '调用前费用预检'} · {usdText(a.estimated_cost_usd ?? a.reserved_cost_usd ?? null)}</small>
           {a.deterministic_fixes?.map((fix, i) => <p key={i}>格式修正：{fix}</p>)}
           {a.usage ? <pre>{JSON.stringify(a.usage, null, 2)}</pre> : <p className="hint">未记录可用的供应商用量，不按零用量处理。</p>}
         </div>)}

@@ -8,6 +8,7 @@ async def suggest(h,item_id,revision,kind,build_messages,validate,apply,*,settin
     with h.store.lock:
         task=h.get_task(item_id);h.require_idle(task);h.require_revision(task,revision)
         provider=h.routing.provider(task,kind);key=h.store.secret(provider['id'],'api_key')
+        upgrade=h.routing.upgrade_context(task,kind)
         messages=build_messages(task)
         settings=copy.deepcopy(h.get_settings())
         if settings_override is not None:settings=copy.deepcopy(settings_override)
@@ -23,12 +24,20 @@ async def suggest(h,item_id,revision,kind,build_messages,validate,apply,*,settin
         if current['revision']!=revision:raise PlanningStopped('revision_changed','需求修订已变化，候选未应用。')
         if current['status']=='paused':raise PlanningStopped('user_pause','已暂停建议生成，候选和用量已保留。')
         h.budgets.ready(item_id)
+        if upgrade:
+            try:fresh=h.routing.upgrade_context(current,kind)
+            except HTTPException:raise PlanningStopped('routing_changed','两阶段模型/路由来源已变化，候选未应用。') from None
+            if not fresh or any(fresh.get(key)!=upgrade.get(key) for key in ('policy_revision','light_token','main_provider_id','main_provider_token')):raise PlanningStopped('routing_changed','升级策略来源已变化，候选未应用。')
 
     async def invoke(msgs,timeout):
         return await h.budgets.call(item_id,revision,kind,provider,key,msgs,operation_id=op['id'],max_tokens=6000,timeout=timeout,json_mode=provider.get('protocol')!='anthropic')
 
     try:
-        candidate=await draft_plan(task,provider,messages,settings,op,invoke,lambda p:validate(task,p),checkpoint,guard)
+        if upgrade:
+            from .lightweight_upgrade import run
+            candidate=await run(h,task,provider,key,messages,settings,op,upgrade,lambda p:validate(task,p),checkpoint,guard)
+        else:
+            candidate=await draft_plan(task,provider,messages,settings,op,invoke,lambda p:validate(task,p),checkpoint,guard)
         with h.store.lock:
             guard();current=h.get_task(item_id)
             if current['status']!='planning':raise PlanningStopped('state_changed','执行状态变化，候选未应用。')

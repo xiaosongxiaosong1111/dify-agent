@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "reviewed_at": "2026-10-25",
-  "product_version": "0.312.0",
+  "reviewed_at": "2026-10-26",
+  "product_version": "0.317.0",
   "scope": "initial current evidence and capability limits, not full implementation or acceptance audit",
   "summary": {
     "implementation_work": 105,
@@ -1821,9 +1821,10 @@
       "deliverable": "回退控制",
       "acceptance": "失败升级有记录，重试和子任务开销纳入停止规则",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "docs/development-tasks.md",
+        "docs/lightweight-upgrade.md"
       ],
       "historical_status_20261020": "进行中",
       "acceptance_closed": false
