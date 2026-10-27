@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（2026-10-27，第183已部署待提交）
+# HANDOFF — Sierra（2026-10-27，第183已提交，继续184）
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main，182关闭f239967/181关闭545bfe9已推送complete。183 doing且验收部署已过，待实现commit→done→关闭push；全部新源/测试/文档未提交，不得漏掉。
+- E:\workSpace\dify-agent/main，182关闭f239967/181关闭545bfe9已推送complete。183实现a834a45且验收部署已过、done；关闭push以work/code-sample344/finalization-proof.json为准。184 pending是未知资源显式维护及历史定位，不重执行代码。
 - 实际0.343.0-acc2b737f71b060f9344/283文件，原342所属PID2756核验后原start-stop部署，新PID见work/code-sample344/managed-runtime-proof.json；源码/快照/health及前端200，原16及180允许状态、全部密文主Key/资产、124/180消费包保持。
 - 183根Workflow Python纯计算本机样例已接通：显式JSON→准备绑定Task/完整保存计划/节点代码/输入原文/worker/镜像/边界→单次确认→实际容器返回/错误/超时/输出合同。响应丢失按已知proposal ID只读找回，不能用同代码输入的另一准备记录替代；未知清理保留unknown且不引导重发，不改原确认/平台成绩。
 - 新103/相关25后端128通过；10真实临时容器场景、新UI10（3真实计算）及工作区UI10、最终构建通过，work/code-sample344/release-proof.json及各proof。属性白名单拒绝反射/format/帧/模式匹配，流式请求140KB前置上限；初始CPU/壁钟同3秒竞争已改壁钟3/CPU4，旧回执保留。所有测试容器已按归属清理，未执行宿主用户代码；本项Dify/模型HTTP0，绝非目标Sandbox/业务验收。
@@ -19,8 +19,8 @@
 
 ## 3. 下一步（183提交闭环，继续明确的未知资源维护缺口）
 
-1. 立即提交183全部后台四模块/两测试/LocalCodeSamplePanel/App及main版本、CHANGELOG/README/开发状态/索引与整份交接；验收已过但实现commit未存在时不得done。然后记实现SHA、183 done、关闭commit/push及work/code-sample344/finalization-proof.json。当前部署343/acc2已过，不重跑同deploy脚本（前提旧342已消费）。
-2. 按已验证事实，后续明确功能缺口是本机样例unknown残留的显式归属核对/清理与旧修订历史定位：当前需操作者按容器名维护，测试注入unknown真实存在直到显式测试清理；应增加专用确认、只核同Task原UUID/标签/镜像资源，不执行代码、不按端口/前缀删、不把已清理改成已执行通过。入下一BACKLOG后一次一项，不为耗额度造微任务。若实际额度不足即先整份记录本项当前状态，不擅自说用尽。
+1. 183实现a834a45且验收已过已done，完成关闭commit/push及work/code-sample344/finalization-proof.json，complete后不重复。当前部署343/acc2已过，不重跑同deploy脚本（前提旧342已消费）。
+2. 按已验证事实，后续明确功能缺口是本机样例unknown残留的显式归属核对/清理与旧修订历史定位：当前需操作者按容器名维护，测试注入unknown真实存在直到显式测试清理；应增加专用确认、只核同Task原UUID/标签/镜像资源，不执行代码、不按端口/前缀删、不把已清理改成已执行通过。已入BACKLOG184 pending，一次一项，不为耗额度造微任务。若实际额度不足即先整份记录本项当前状态，不擅自说用尽。
 3. 183只能已保存根Workflow Python同步main/明确JSON，复杂children/引用DSL/JS/嵌套/动态入口明确拒绝；有限库/方法、无输入取值/模型调用、任务确认与旧账本不变。code_sample记录单独保存，后台require_idle阻止并发Task写，重启executing转unknown不自动派发；清理核归属，未知不清不明资源或重执行。不能把局部容器验证说成通用安全认证或目标Dify成绩。
 4. 后续部署必须以实际343/新PID为前提，新固定快照/所属PID/原start-stop，原16保护基线取180 post-stop（排除根PID/运维日志），新维护只可改归属的code_sample回执，124/180所有消费包原样。不要按端口杀或动原Dify容器。
 5. 180原批准/attempt已消费，plan53b82167/manifest25fd79d6绑定fab69b5/call_273fbb51b4d94624aa57012b7dcc779a，不改/重冻结/再登/阶段重试。182恢复依赖不扩真实批授权；管理429/登录29保留，Dify16/14/资源各8/tokens2287、模型20/24及旧unknown/settled/四槽/费用不借不退。
