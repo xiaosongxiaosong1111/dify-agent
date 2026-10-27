@@ -1,13 +1,13 @@
-# HANDOFF — Sierra（189已停止，190执行器离线修复过）
+# HANDOFF — Sierra（190响应修复已推，191新剩余包冻结待范围）
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main，先前HEAD a1bc0cf已推。产品仍0.345.0-c46bc340ea1580b02f52/285文件/PID29860，190只改公开执行器源/定向测试，不改或部署产品。
-- 用户call_986f6b8b5035400b9679c36420a1795a question0直接批准新348，a3efd8f6/64c42051、真实approval及独占attempt已消费。实际Dify登录HTTP200，但本机重连502/unclassified/RuntimeError停止；管理0/登录1/模型0、新Task资源运行0。认证/空间未核对，新令牌未提交，不归因密码错误。
-- 只读独立保护核过：原16对象、全部原密文/主Key/资产、旧124与180/348冻结与消费回执保持；新增重连c14b5fb9-44d1-4ceb-9d3f-6f245b91c15b/失败5656795c-a6ca-4697-9932-41cce3c5c22b及专用连接允许诊断变化。新基线work/batch-platform348/post-stop-data-snapshot.json，不再用180旧诊断基线冒充最新。
-- 190离线复现根因：原生HTTPX传输返回未读响应且尚无request，执行器立刻response.json触发ResponseNotRead；旧预缓冲替身漏测。源dispatch先绑定已准入request/读完整正文再观察JSON与Cookie，失败关响应/停，保留状态与读取标志；SyntheticDify改未读取流。16定向检查（HTTPX SDK登录/普通与Host-Cookie、完整正常API成功/8停止）通过，新增真实HTTP0，原停止基线再次完全保持。
-- docs/public-batch-closeout-live-result-20261027.md/json及transport-response-order-result-20261027.json，work/transport-response349有复现/检查/保护回执。190实现06c8fb3已存在且离线验收done；189失败blocked，不重放或把源修复拷入原包执行。
-- 固定C1/C2/C3及条件C4保持，六组扩展不自动入队；Claude318失败无恢复不形式重试，sierra已删除。实际Codex仍可用，不称额度耗尽。
+- 根E:\workSpace\dify-agent/main。190实现06c8fb3/关闭816cbfd已推；产品仍0.345.0-c46bc340ea1580b02f52/285文件/PID29860，执行器修复不改产品、不增版部署。
+- 189直接批准call_986f6b8b5035400b9679c36420a1795a后已消费348：实际登录HTTP200、本机重连502/unclassified/RuntimeError即停，管理0/登录1/模型0、新Task资源运行0。认证/空间未核对，所有原密文/原16/资产不变；新增重连c14b5fb9-44d1-4ceb-9d3f-6f245b91c15b/失败5656795c-a6ca-4697-9932-41cce3c5c22b。原348/180/124不改不重放，管理445/登录30及旧预留保持。
+- 190已离线复现ResponseNotRead根因，源dispatch绑定request/aread后观察JSON与Cookie，失败关闭并停，记录HTTP状态/读取标志；替身改未读原生形态。16定向含HTTPX SDK Cookie、正常API成功/8停止过，停止后348新基线/全部密文资产及旧包完全保持，新增真实HTTP0。
+- 191已冻结修复后独立新350包，plan3387060918f95f974db7fe95f197e0fa901884faed3473e1798ea37f20b992de / manifest91cbcedda28f4e280e3aba3925535ea85f43efb9dc136488bd3ea4a1b743c91e；38门禁/11本机请求/未读流整链成功及首次登录失败即停过。dispatch/替身与已测源逐字一致，原16/密文资产/124/180/348保护；无实际approval/attempt，无真实派发。
+- 仅拟议明确改授189零派发Task/资源/运行，新增16管理/1登录及0.01估算，当前范围未变，须新直接批准后才能执行。docs/public-batch-remaining-plan-20261027.md及完整差异/冻结摘要可审查；191待提交，commit存在才done，真实执行另列192 need-user。
+- 固定C1/C2/C3及条件C4保持，六组扩展不自动开发；Claude318无恢复不形式重试，sierra已删除，实际Codex仍可用，不称已耗尽。
 
 ## 2. 已消费批与保护
 
@@ -18,12 +18,12 @@
 
 ## 3. 下一步
 
-1. 190源修复/16定向检查已过，实现06c8fb3已存在且done；关闭提交push后核origin。191准备修复后独立剩余整批，不直接登录。189仅blocked，不能重放已消费348，旧342/124也不动；不重新登录。
-2. 若继续C2实际验证，须在已修执行器基础上准备新的独立剩余整批，绑定当前345/最新348停止基线，真实形态流末端检查，原资源/任务/运行零派发范围只能经用户明确改授，不自动借退。新管理读取/登录需新明确范围；先完成具体可审查包，不直接重复旧阶段。
-3. 新基线348 post-stop包含本次unclassified连接诊断变化和原16/所有密文资产。旧180保护基线仅历史，源修复后本轮已重新比对348/180/124冻结及消费文件全部保持；不能为通过改旧回执。
-4. 当前管理445/登录30、真实模型20/保守24、Dify16/正式14、资源各8、保守资源各10/运行18及unknown/费用/未释放槽保持。只有登录1实际派发，不把HTTP200当登录/免费；只用加密凭据，不抄聊天密码，不提交work/生产数据/秘密。
-5. 当前345/PID29860未部署，346脚本已消费。后续若需产品部署另建快照/脚本，完整命令归属/原start-stop，不按端口杀。原remote/main自主commit/push、精确safe.directory/require_escalated/HTTP1.1，更新日志，勿让用户代提交。
-6. 针对性验证不全量/通读历史；实际Codex不足尽力整份交接立即停，不重试/换号/购买/用券。若只剩新的外部范围则给具体整批方案，不编造开发缺口耗额度。
+1. 191本机验收已过；提交新剩余方案/完整差异/冻结摘要、CHANGELOG/适用README/整份交接，commit存在后done再关闭push。192只登记need-user，等待本包新的直接批准，不能用189旧回复替代，也不能把源修复拷入348重跑。
+2. 拟议新350明确改授189零派发Task1/App/发布/Key各1/四项运行1；另新管理16/登录1（批准后预留445→461/30→31）、10分钟/模型0/Dify新增估算0.01非账单硬限，旧两批读/登录/估算不退，旧180资源槽保留。实际仍最多17运行/资源各9、保守各10/运行18不增。专用连接切新Key、旧Key加密档；任何异常整批停、不重试。
+3. 只有新直接批准绑定33870609/91cbcedd后，核完整哈希、当前345/所属PID/原16全部密文资产和旧124/180/348，独占登记真实question_ref/答复后单次work/batch-platform350/execute.py live；已有attempt绝不重放。未批准前不创建生产Store或发新HTTP。
+4. 最新数据保护基线work/batch-platform348/post-stop-data-snapshot.json，含189允许诊断变化；180基线仅历史，不改旧回执。当前管理445/登录30、真实模型20/保守24、Dify16/正式14、资源各8和所有unknown/旧模型包保持；新包冻结不改变总额。
+5. 当前345/PID29860未部署，346脚本已消费。需产品部署时另建快照/脚本，完整命令归属/原start-stop，不按端口杀。只复用加密凭据，不抄聊天密码或提交work/生产数据/秘密；原main自主commit/push精确safe.directory/require_escalated/HTTP1.1，每push更新日志。
+6. 针对性验证不全量/通读历史；实际Codex不足尽力整份交接立即停，不重试/换号/购买/用券。只剩外部范围时等待具体答复，不编造开发微任务耗额度。
 
 ## 4. 外部边界与账本
 

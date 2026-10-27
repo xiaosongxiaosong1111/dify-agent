@@ -1,0 +1,233 @@
+--- tools/public-batch-platform342/execute.py
++++ work/batch-platform350/execute.py
+@@ -2,7 +2,7 @@
+ import hashlib,json,os,sys,tempfile,time,subprocess,base64,sqlite3,urllib.request
+ from pathlib import Path
+ ROOT=Path(__file__).resolve().parent;PROJECT=ROOT.parents[1]
+-FROZEN={'execute.py','boundary.py','data_guard.py','local_pipeline.py','platform_pipeline.py','synthetic_transport.py','rehearse_platform.py','local_rehearsal.py','freeze_bundle.py','gates_check.py','candidate-plan.json','candidate.yml','fixture.json','plan.json'}
++FROZEN={'production_snapshot.py','execute.py','boundary.py','data_guard.py','local_pipeline.py','platform_pipeline.py','synthetic_transport.py','rehearse_platform.py','local_rehearsal.py','freeze_bundle.py','gates_check.py','candidate-plan.json','candidate.yml','fixture.json','plan.json'}
+ 
+ def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+ def require(value,message):
+@@ -12,7 +12,7 @@
+  manifest=json.loads((root/'manifest.json').read_text('utf-8'));require(manifest.get('schema_version')==1 and set(manifest.get('files',{}))==FROZEN,'Manifest schema/file coverage not supported')
+  for name,digest in manifest['files'].items():
+   path=(root/name).resolve();require(path.is_relative_to(root.resolve()) and path.is_file() and sha(path)==digest,'Frozen package hash mismatch')
+- plan=json.loads((root/'plan.json').read_text('utf-8'));require(plan['schema_version']==1 and plan['batch_id']=='public-batch-platform342' and plan['limits']=={'new_tasks':1,'reads':16,'login':1,'import':1,'publish':1,'key':1,'run':1,'model':0} and plan['wall_seconds']==600,'Frozen scope not supported')
++ plan=json.loads((root/'plan.json').read_text('utf-8'));require(plan['schema_version']==1 and plan['batch_id']=='public-batch-platform350' and plan['limits']=={'new_tasks':1,'reads':16,'login':1,'import':1,'publish':1,'key':1,'run':1,'model':0} and plan['wall_seconds']==600,'Frozen scope not supported')
+  return plan
+ 
+ def approved(root,plan):
+@@ -43,7 +43,7 @@
+  class NoRedirect(urllib.request.HTTPRedirectHandler):
+   def redirect_request(self,*args,**kwargs):return None
+  with urllib.request.build_opener(urllib.request.ProxyHandler({}),NoRedirect).open('http://127.0.0.1:8765/api/runtime',timeout=10) as response:runtime=json.load(response)
+- require(runtime['build_id']==plan['runtime_build'] and runtime['version']=='0.341.0','Managed runtime changed')
++ require(runtime['build_id']==plan['runtime_build'] and runtime['version']=='0.345.0','Managed runtime changed')
+  folder=PROJECT/'.runtime/snapshots'/plan['runtime_build'];manifest=folder/'runtime-manifest.json';require(sha(manifest)==plan['runtime_manifest_sha256'],'Runtime manifest changed')
+  values=json.loads(manifest.read_text('utf-8'))
+  for name,digest in values['files'].items():
+@@ -60,7 +60,7 @@
+  return path
+ 
+ def main():
+- require(ROOT==PROJECT/'work/batch-platform342','Only the canonical one-shot directory may execute live')
++ require(ROOT==PROJECT/'work/batch-platform350','Only the canonical one-shot directory may execute live')
+  require(not sys.flags.optimize and sys.argv[1:]==['live'],'Only explicit unoptimized live entry is accepted')
+  plan=validated_plan(ROOT);approved(ROOT,plan)
+  attempt=ROOT/'attempt.json';record={'batch_id':plan['batch_id'],'state':'admission_started','phase':'preflight','model_http':0,'business_acceptance_complete':False,'automatic_retry':False,'plan_sha256':sha(ROOT/'plan.json'),'manifest_sha256':sha(ROOT/'manifest.json')}
+@@ -71,8 +71,10 @@
+  try:
+   record['runtime']=runtime_check(plan);save()
+   frozen=json.loads((PROJECT/'work/tool-probe291/before.json').read_text('utf-8'))['consumed124_files'];require(frozen==plan['consumed124_files'] and all(sha(PROJECT/'work/branch-mainline289'/name)==value for name,value in frozen.items()),'Consumed124 package changed')
+-  sys.path.insert(0,str(PROJECT/'work/branch-mainline289'));from support import snapshot
++  from production_snapshot import snapshot
+   baseline=snapshot();require(baseline==plan['legacy_snapshot'],'Original production snapshot changed')
++  require(all(sha(PROJECT/'work/batch-platform342'/name)==digest for name,digest in plan['consumed180_files'].items()),'Consumed180 package changed')
++  require(all(sha(PROJECT/'work/batch-platform348'/name)==digest for name,digest in plan['consumed348_files'].items()),'Consumed348 package changed')
+   with tempfile.TemporaryDirectory(dir=ROOT,prefix='live-module-') as folder:
+    os.environ['FLOWCRAFT_DATA_DIR']=folder;sys.path[:0]=[str(ROOT),str(PROJECT/'backend')]
+    import httpx
+@@ -108,7 +110,12 @@
+    except BaseException as check:record['protection_error_type']=type(check).__name__
+   save();raise SystemExit('本批已停止且禁止重放；仅核对本机安全回执，未自动修复或重试。') from None
+  finally:
++  record['consumed180_kept']=all(sha(PROJECT/'work/batch-platform342'/name)==digest for name,digest in plan['consumed180_files'].items())
++  record['consumed348_kept']=all(sha(PROJECT/'work/batch-platform348'/name)==digest for name,digest in plan['consumed348_files'].items())
++  if not (record['consumed180_kept'] and record['consumed348_kept']):record.update(state='stopped_needs_review',error_type='ConsumedReceiptChanged')
++  save()
+   if boundary is not None:boundary.key=None;boundary.login_tokens=None
++  if not (record['consumed180_kept'] and record['consumed348_kept']):raise SystemExit('原180/348保护回执变化，整批已停止。')
+  print('本批声明规则及来源核对完成，非完整业务验收；安全回执已保存。')
+ 
+ if __name__=='__main__':
+--- tools/public-batch-platform342/fixture.json
++++ work/batch-platform350/fixture.json
+@@ -1,6 +1,6 @@
+ {
+   "app_type": "workflow",
+-  "task_name": "Sierra公开批量失败验收",
++  "task_name": "Sierra公开批量修复后收尾验收",
+   "input": {
+     "items_json": "[\" a \",\"ERR\",\"a\",\"\"]"
+   },
+@@ -14,4 +14,4 @@
+   },
+   "failure_policy": "continue_known",
+   "note": "固定公开例子：只有文字完全等于ERR时触发ValueError；其余去两端空白并大写，重复和空文字保留。不执行用户代码、模型或Dify；示例与计数是预期声明，不是平台运行结果。需Dify代码Sandbox及原生迭代能力，安装/运行行为与宿主费用未验收。采纳只填未保存计划，不自动保存、确认、构建、导入或运行；现有Task配置/模拟及费用门禁保持。"
+-}+}
+--- tools/public-batch-platform342/freeze_bundle.py
++++ work/batch-platform350/freeze_bundle.py
+@@ -1,37 +1,42 @@
+-"""Read-only local freeze. Never authorize or consume the proposed real batch."""
+-import json,sqlite3,contextlib,sys,uuid
++"""Freeze one new unapproved closeout batch. No approval/attempt/live work is created."""
++import json,sys,uuid
+ from pathlib import Path
+-ROOT=Path(__file__).resolve().parent;PROJECT=ROOT.parents[1]
+-sys.path[:0]=[str(ROOT),str(PROJECT/'backend'),str(PROJECT/'work/branch-mainline289')]
++ROOT=Path(__file__).resolve().parent;PROJECT=ROOT.parents[1];sys.path[:0]=[str(ROOT),str(PROJECT/'backend')]
+ from execute import sha,require,FROZEN,runtime_check
++from production_snapshot import ReadOnly,snapshot
+ from boundary import digest
+-from data_guard import capture
+-from support import snapshot
+-ENV='202bfb35-2f92-47c1-bc1b-eac32082181d'
+-WORKSPACE='c3306c18-ceb2-4bee-b2d1-796ce2048f17'
+-BUILD='0.341.0-cf06d6388885cb69a63c'
+-class ReadOnly:
+- root=PROJECT/'data'
+- @contextlib.contextmanager
+- def connect(self):
+-  db=sqlite3.connect((self.root/'flowcraft.sqlite3').as_uri()+'?mode=ro',uri=True)
+-  try:yield db
+-  finally:db.close()
++ENV='202bfb35-2f92-47c1-bc1b-eac32082181d';WORKSPACE='c3306c18-ceb2-4bee-b2d1-796ce2048f17';BUILD='0.345.0-c46bc340ea1580b02f52'
++
++def business(value):
++ value=json.loads(json.dumps(value));value['files'].pop('server.pid',None);return value
++
+ def freeze():
+- require(not (ROOT/'approval.json').exists() and not (ROOT/'attempt.json').exists(),'Cannot refreeze an approved or consumed package')
+- from urllib.parse import urlsplit
++ require(ROOT==PROJECT/'work/batch-platform350' and not sys.flags.optimize,'Only canonical asserted freeze')
++ require(not (ROOT/'approval.json').exists() and not (ROOT/'attempt.json').exists(),'Approved/consumed package cannot refreeze')
++ require(not (ROOT/'plan.json').exists() and not (ROOT/'manifest.json').exists(),'Frozen package cannot be overwritten')
+  from app.dsl_roundtrip import parse
+  from app.workflow_publication import core
+- store=ReadOnly()
++ store=ReadOnly();protected=snapshot();old=PROJECT/'work/batch-platform342';previous=PROJECT/'work/batch-platform348'
++ require(business(protected)==business(json.loads((previous/'post-stop-data-snapshot.json').read_text('utf-8'))),'Current production differs from consumed348 post-stop baseline')
+  with store.connect() as db:
+   objects=[(k,i,json.loads(v)) for k,i,v in db.execute('SELECT kind,id,value FROM objects')];secret_ids={r[0] for r in db.execute('SELECT id FROM secrets')}
+  env=next(v for k,i,v in objects if k=='environment' and i==ENV);tasks=[v for k,i,v in objects if k=='task']
+- require(len(tasks)==16 and env['console_workspace_id']==WORKSPACE and env['version']=='1.17.1','Original task/workspace baseline changed')
+- require(all(ENV+':'+key in secret_ids for key in ('console_login_email','console_login_password','service_api_key')),'Encrypted dedicated login/runtime binding missing')
+- require(env.get('console_login_binding')=={'base_url':env['base_url'],'version':env['version'],'workspace_id':WORKSPACE},'Saved identity not bound to original workspace')
+- url=urlsplit(env['base_url']);require(url.scheme in ('http','https') and url.netloc and url.path in ('','/') and not url.query and not url.fragment and not url.username and not url.password,'Unexpected Console origin')
+- legacy=snapshot();require(legacy==json.loads((PROJECT/'work/branch-mainline289/post-success-snapshot.json').read_text('utf-8')),'Original legacy state changed')
+- consumed=json.loads((PROJECT/'work/tool-probe291/before.json').read_text('utf-8'))['consumed124_files'];require(all(sha(PROJECT/'work/branch-mainline289'/name)==value for name,value in consumed.items()),'Consumed124 package changed')
++ require(len(tasks)==16 and env['console_workspace_id']==WORKSPACE and env['version']=='1.17.1','Original tasks/workspace changed')
++ require(env['base_url']=='http://127.0.0.1:8080','Dify origin changed')
++ require(all(ENV+':'+key in secret_ids for key in ('console_login_email','console_login_password','service_api_key')),'Encrypted credentials missing')
++ require(env.get('console_login_binding')=={'base_url':env['base_url'],'version':env['version'],'workspace_id':WORKSPACE},'Login identity not bound')
++ busy={'interviewing','planning','running','importing','building'}
++ require(all(t.get('status') not in busy and not t.get('active_interview_id') and not t.get('active_image_operation_id') and not any(r.get('status')=='pending' for r in t.get('runs',[])) for t in tasks),'Original tasks not idle')
++ consumed124=json.loads((PROJECT/'work/tool-probe291/before.json').read_text('utf-8'))['consumed124_files'];require(all(sha(PROJECT/'work/branch-mainline289'/name)==value for name,value in consumed124.items()),'Consumed124 changed')
++ report=json.loads((PROJECT/'docs/public-batch-platform-live-result-20261027.json').read_text('utf-8'))
++ for name,key in [('approval.json','approval_sha256'),('attempt.json','attempt_sha256'),('plan.json','plan_sha256'),('manifest.json','manifest_sha256')]:require(sha(old/name)==report[key],'Consumed180 receipts changed')
++ manifest180=json.loads((old/'manifest.json').read_text('utf-8'));require(all(sha(old/name)==value for name,value in manifest180['files'].items()),'Consumed180 program changed')
++ consumed180={name:sha(old/name) for name in set(manifest180['files'])|{'approval.json','attempt.json','manifest.json'}}
++ previous_report=json.loads((PROJECT/'docs/public-batch-closeout-live-result-20261027.json').read_text('utf-8'))
++ for name,key in [('approval.json','approval_sha256'),('attempt.json','attempt_sha256'),('plan.json','plan_sha256'),('manifest.json','manifest_sha256')]:require(sha(previous/name)==previous_report[key],'Consumed348 receipt changed')
++ previous_manifest=json.loads((previous/'manifest.json').read_text('utf-8'));require(all(sha(previous/name)==value for name,value in previous_manifest['files'].items()),'Consumed348 program changed')
++ previous_attempt=json.loads((previous/'attempt.json').read_text('utf-8'));require(previous_attempt['state']=='stopped_needs_review' and previous_attempt['dispatch_counts']=={'reads':0,'login':1,'import':0,'publish':0,'key':0,'run':0} and not previous_attempt.get('task_id'),'189 zero-dispatch scope not eligible for proposed transfer')
++ consumed348={name:sha(previous/name) for name in set(previous_manifest['files'])|{'approval.json','attempt.json','manifest.json','post-stop-data-snapshot.json','post-stop-proof.json'}}
+  apps=set()
+  def add(value):
+   if isinstance(value,str):
+@@ -42,17 +47,14 @@
+   if kind=='environment':add(value.get('service_app_id'))
+   elif kind=='task':
+    add(value.get('dify_app_id'))
+-   for run in value.get('runs',[]):add(run.get('app_id'));add(run.get('dify_app_id'))
++   for r in value.get('runs',[]):add(r.get('app_id'));add(r.get('dify_app_id'))
+   elif kind=='app_runtime_credential':add(value.get('app_id'))
+- binding_keys=('id','name','base_url','version','console_workspace_id','console_login_binding','connection_revision','service_app_id','capabilities','console_login_blocked')
++ keys=('id','name','base_url','version','console_workspace_id','console_login_binding','connection_revision','service_app_id','capabilities','console_login_blocked')
+  graph=digest(core(parse((ROOT/'candidate.yml').read_text('utf-8'),'workflow')['workflow']))
+- manifest_path=PROJECT/'.runtime/snapshots'/BUILD/'runtime-manifest.json'
+- plan={'schema_version':1,'batch_id':'public-batch-platform342','state':'frozen_unapproved','environment_id':ENV,'workspace_id':WORKSPACE,'runtime_build':BUILD,'runtime_process_sha256':sha(PROJECT/'runtime-process.ps1'),'runtime_manifest_sha256':sha(manifest_path),'graph_digest':graph,'limits':{'new_tasks':1,'reads':16,'login':1,'import':1,'publish':1,'key':1,'run':1,'model':0},'wall_seconds':600,'environment_binding':{k:env.get(k) for k in binding_keys},'original_app_ids':sorted(apps),'protected_data':capture(store),'legacy_snapshot':legacy,'consumed124_files':consumed,'approval_reply':'允许这批公开批量计算平台新范围','proposed_cumulative':{'real_runs_before':16,'real_runs_after_max':17,'app_publish_key_each_before':8,'app_publish_key_each_after_max':9,'management_reserved_before':413,'management_reserved_after':429,'login_reserved_before':28,'login_reserved_after':29,'model_actual':20,'model_conservative':24},'cost':{'estimate_usd':'0.01','bill_hard_cap':False,'host_sandbox_cost':'unknown','old_unknown_and_reserved_unchanged':True},'task_limits':{'max_started_runs':1,'max_total_minutes':10,'max_reported_cost_usd':'0.01'},'original_tasks':16,'model_calls':0,'retry':False,'automatic_cleanup':False,'business_acceptance_complete':False}
+- proof=runtime_check(plan)
+- require(capture(store)==plan['protected_data'],'Production data changed during read-only runtime check')
++ plan={'schema_version':1,'batch_id':'public-batch-platform350','state':'frozen_unapproved','environment_id':ENV,'workspace_id':WORKSPACE,'runtime_build':BUILD,'runtime_process_sha256':sha(PROJECT/'runtime-process.ps1'),'runtime_manifest_sha256':sha(PROJECT/'.runtime/snapshots'/BUILD/'runtime-manifest.json'),'graph_digest':graph,'limits':{'new_tasks':1,'reads':16,'login':1,'import':1,'publish':1,'key':1,'run':1,'model':0},'wall_seconds':600,'environment_binding':{k:env.get(k) for k in keys},'original_app_ids':sorted(apps),'protected_data':protected,'legacy_snapshot':protected,'consumed124_files':consumed124,'consumed180_files':consumed180,'consumed348_files':consumed348,'proposed_explicit_transfer':{'from_batch':'public-batch-platform348','requires_new_direct_human_approval':True,'zero_dispatch_slots':['new_tasks','import','publish','key','run'],'old180_slots_kept':True,'old_reads_login_and_cost_reservations_kept':True},'approval_reply':'允许改授189零派发范围并执行修复后新批','proposed_cumulative':{'actual_runs_before':16,'actual_runs_after_max':17,'actual_app_publish_key_each_before':8,'actual_app_publish_key_each_after_max':9,'management_reserved_before':445,'management_reserved_after':461,'login_reserved_before':30,'login_reserved_after':31,'model_actual':20,'model_conservative':24,'old180_task_resource_run_slots_kept':True,'zero_dispatch189_transfer_proposed':True,'resource_each_conservative_before':10,'resource_each_conservative_after':10,'runs_conservative_before':18,'runs_conservative_after':18},'cost':{'estimate_usd':'0.01','bill_hard_cap':False,'host_sandbox_cost':'unknown','old180_estimate_not_refunded':'0.01','old189_estimate_not_refunded':'0.01','old_unknown_and_reserved_unchanged':True},'task_limits':{'max_started_runs':1,'max_total_minutes':10,'max_reported_cost_usd':'0.01'},'original_tasks':16,'model_calls':0,'retry':False,'automatic_cleanup':False,'business_acceptance_complete':False}
++ proof=runtime_check(plan);require(snapshot()==protected,'Production changed during read-only freeze')
+  (ROOT/'plan.json').write_text(json.dumps(plan,ensure_ascii=False,indent=2),'utf-8')
+- manifest={'schema_version':1,'batch_id':plan['batch_id'],'files':{name:sha(ROOT/name) for name in sorted(FROZEN)}}
+- (ROOT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),'utf-8')
+- summary={'state':'frozen_unapproved','plan_sha256':sha(ROOT/'plan.json'),'manifest_sha256':sha(ROOT/'manifest.json'),'files':manifest['files'],'runtime':proof,'original16_kept':snapshot()==legacy,'production_mutations':0,'real_model_dify_http':0,'approval_created':False,'attempt_created':False}
+- (ROOT/'freeze-proof.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2),'utf-8');print(json.dumps({k:v for k,v in summary.items() if k not in ('files',)}))
++ manifest={'schema_version':1,'batch_id':plan['batch_id'],'files':{name:sha(ROOT/name) for name in sorted(FROZEN)}};(ROOT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),'utf-8')
++ result={'state':'frozen_unapproved','plan_sha256':sha(ROOT/'plan.json'),'manifest_sha256':sha(ROOT/'manifest.json'),'runtime':proof,'original16_kept':True,'consumed124_180_348_kept':True,'production_mutations':0,'real_model_dify_http':0,'approval_created':False,'attempt_created':False}
++ (ROOT/'freeze-proof.json').write_text(json.dumps(result,indent=2),'utf-8');print(json.dumps(result))
+ if __name__=='__main__':freeze()
+--- tools/public-batch-platform342/gates_check.py
++++ work/batch-platform350/gates_check.py
+@@ -2,13 +2,13 @@
+ import asyncio,copy,hashlib,json,os,shutil,sys,tempfile,uuid
+ from pathlib import Path
+ ROOT=Path(__file__).resolve().parent;PROJECT=ROOT.parents[1]
+-sys.path[:0]=[str(ROOT),str(PROJECT/'backend'),str(PROJECT/'work/branch-mainline289')]
++sys.path[:0]=[str(ROOT),str(PROJECT/'backend')]
+ import httpx
+ from execute import approved,validated_plan,claim_attempt,dispatch,sha,FROZEN
+ from boundary import Boundary,require,digest
+ from data_guard import capture,guarded_store,verify
+ from freeze_bundle import ReadOnly
+-from support import snapshot
++from production_snapshot import snapshot
+ production_before=capture(ReadOnly())
+ before=snapshot();require(not (ROOT/'approval.json').exists() and not (ROOT/'attempt.json').exists(),'Actual batch already authorized/consumed')
+ checks=[]
+--- tools/public-batch-platform342/local_rehearsal.py
++++ work/batch-platform350/local_rehearsal.py
+@@ -1,8 +1,8 @@
+ import os,sys,tempfile,json,copy
+ from pathlib import Path
+ ROOT=Path(__file__).resolve().parent;PROJECT=ROOT.parents[1]
+-sys.path.insert(0,str(PROJECT/'work/branch-mainline289'));from support import snapshot
+-before=snapshot();assert before==json.loads((PROJECT/'work/branch-mainline289/post-success-snapshot.json').read_text('utf-8'))
++from production_snapshot import snapshot
++before=snapshot();assert before==json.loads((ROOT/'plan.json').read_text('utf-8'))['protected_data']
+ with tempfile.TemporaryDirectory(dir=ROOT,prefix='stage-local-') as folder:
+  os.environ['FLOWCRAFT_DATA_DIR']=folder;sys.path[:0]=[str(ROOT),str(PROJECT/'backend')]
+  import httpx
+--- /dev/null
++++ work/batch-platform350/production_snapshot.py
+@@ -0,0 +1,13 @@
++"""Read-only current objects/ciphertexts/assets; no credential decryption or stale legacy baseline."""
++import contextlib,sqlite3
++from pathlib import Path
++from data_guard import capture
++PROJECT=Path(__file__).resolve().parents[2]
++class ReadOnly:
++ root=PROJECT/'data'
++ @contextlib.contextmanager
++ def connect(self):
++  db=sqlite3.connect((self.root/'flowcraft.sqlite3').as_uri()+'?mode=ro',uri=True)
++  try:yield db
++  finally:db.close()
++def snapshot():return capture(ReadOnly())
+--- tools/public-batch-platform342/rehearse_platform.py
++++ work/batch-platform350/rehearse_platform.py
+@@ -1,8 +1,8 @@
+ import os,sys,json,tempfile,copy,hashlib
+ from pathlib import Path
+ ROOT=Path(__file__).resolve().parent;PROJECT=ROOT.parents[1];mode=sys.argv[1] if len(sys.argv)==2 else 'success'
+-sys.path.insert(0,str(PROJECT/'work/branch-mainline289'));from support import snapshot
+-before=snapshot();assert before==json.loads((PROJECT/'work/branch-mainline289/post-success-snapshot.json').read_text('utf-8'))
++from production_snapshot import snapshot
++before=snapshot();assert before==json.loads((ROOT/'plan.json').read_text('utf-8'))['protected_data']
+ with tempfile.TemporaryDirectory(dir=ROOT,prefix='platform-rehearse-') as folder:
+  os.environ['FLOWCRAFT_DATA_DIR']=folder;sys.path[:0]=[str(ROOT),str(PROJECT/'backend')]
+  import httpx
