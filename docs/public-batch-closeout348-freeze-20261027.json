@@ -1,0 +1,46 @@
+{
+  "package": "work/batch-platform348",
+  "state": "frozen_unapproved",
+  "runtime": "0.345.0-c46bc340ea1580b02f52",
+  "plan_sha256": "a3efd8f63222e6296994ea8af65bc2118fe50f24d8c389bd1b00bccfb861da90",
+  "manifest_sha256": "64c42051a68e0f74486e06e4921eabdb074ec45e97492fb3f40fd49b364471fb",
+  "program_patch_sha256": "cc6d54d2a411a8ea4eafc4cb0d776a0c63988e62bfca616d94f9d8c18e695fb6",
+  "gates": 38,
+  "local_requests": 11,
+  "synthetic_success_dispatches": {
+    "reads": 11,
+    "login": 1,
+    "import": 1,
+    "publish": 1,
+    "key": 1,
+    "run": 1
+  },
+  "synthetic_login_failure_dispatches": {
+    "reads": 0,
+    "login": 1,
+    "import": 0,
+    "publish": 0,
+    "key": 0,
+    "run": 0
+  },
+  "physical_model_dify_http": 0,
+  "approval_created": false,
+  "attempt_created": false,
+  "files": {
+    "boundary.py": "7b4de131cc37c498990f139471b2aee3a87b86a658af56d01c0a979d83051760",
+    "candidate-plan.json": "d29240a2429537c0e63bfa06aa4b2b81b2da7b8b73a4ab7a40aa8c4f41921f50",
+    "candidate.yml": "5750ad3950262a269648362788a24c08e01d68be1f0734916de431311847ac90",
+    "data_guard.py": "1bc0593b3f2e8885a24b4d1931c4f0f378b90a5b1015d0908b2f00b9ffc8ea18",
+    "execute.py": "4667fc454146d6980383539c20828e1a0eca6fe9144255ef2b40778ec01c4ea8",
+    "fixture.json": "949de2a367733d4a9d69b38cfc9ce52df698cedf8aea5097aac88332d5290cca",
+    "freeze_bundle.py": "50c48db650ed568b1718f6e72469b854c1bdcb2d9104e3a8770cb23e964ef1f8",
+    "gates_check.py": "fcafcabdbbeb247601edee46463948a6e89217946acfe23f23d220e2a0bcb2c0",
+    "local_pipeline.py": "e4e99cff301c42cd833e1ab221f2efbea17e71ee7a3776d68872d8dff918aeed",
+    "local_rehearsal.py": "fe8c4fb4f6b957ef7826bcd1960f35bb9c86459eb4e03f43836addf4cf3f0a9e",
+    "plan.json": "a3efd8f63222e6296994ea8af65bc2118fe50f24d8c389bd1b00bccfb861da90",
+    "platform_pipeline.py": "b40880f757be6e5e675a0debebde0a2cbabc52f75a814581d3b46f259daf3275",
+    "production_snapshot.py": "4cd00952d58358b2fe2403b62e1f458027017e61583c08436029f3690ac5172b",
+    "rehearse_platform.py": "7e9251c2cf11fdfd05e586f9019c73e05b45fd223b76fbb71b1672ef4b21bd2b",
+    "synthetic_transport.py": "901df4c82aca6a4ff5fb5bddd109981133344672336f11f9484e03fd9db651d9"
+  }
+}
