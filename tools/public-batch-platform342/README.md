@@ -10,3 +10,5 @@
 
 
 2026-10-27/190：源程序dispatch已修原生HTTPX未读取响应/未绑定request时过早解析的问题；SyntheticDify现返回真实传输形态的未读取流。针对性验证backend/tests/test_batch_transport_response.py共16通过，含正常HTTPX登录及全API成功/8类停止；不改任何已消费work/batch-platform342或348，不解冻/重放旧批，源修复不是新的真实授权。
+
+2026-10-27/193：原生1.17.1未发布GET为HTTP200/null，源Boundary现接受该严格空值并保留404兼容；已见发布或发布后缺失不重新放行，已发布图清旧absence。替身默认原生null，27项定向包含两种全API路线及8类停止通过。350真实批已停止，Task/App已创建、本机publish unknown保留，源修复不解除旧一次性锁或授权重放。

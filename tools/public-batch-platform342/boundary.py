@@ -41,7 +41,7 @@ class Boundary:
   return entry
  def observed(self,entry,response):
   entry['status']=response.status_code;kind=entry['kind']
-  expected404=entry['method']=='GET' and self.app and entry['path']==f'/console/api/apps/{self.app}/workflows/publish' and self.counts['publish']==0 and response.status_code==404
+  expected404=entry['method']=='GET' and self.app and entry['path']==f'/console/api/apps/{self.app}/workflows/publish' and self.counts['publish']==0 and self.published is None and response.status_code==404
   if expected404:self.unpublished=True
   if response.status_code not in (200,201) and not expected404:
    from app.dify import DifyError
@@ -60,9 +60,15 @@ class Boundary:
      from app.dify import DifyError
      raise DifyError('本批工作空间不匹配，已停止。',code='workspace_mismatch')
     self.workspace_verified=True
-   elif kind=='reads' and self.app and entry['path']==f'/console/api/apps/{self.app}/workflows/publish' and value is not None:
-    from app.workflow_publication import core
-    require(digest(core(value))==self.graph_digest and isinstance(value.get('id'),str) and str(uuid.UUID(value['id']))==value['id'],'Published graph differs from frozen source');self.published=value['id'];self.record['published_workflow_id']=self.published
+   elif kind=='reads' and self.app and entry['path']==f'/console/api/apps/{self.app}/workflows/publish':
+    # Dify 1.17.1 returns HTTP200/null for an application with no published workflow.
+    if value is None:
+     require(self.published is None and self.counts['publish']==0,'Published workflow became absent; do not reopen publication')
+     self.unpublished=True
+    else:
+     self.unpublished=False
+     from app.workflow_publication import core
+     require(digest(core(value))==self.graph_digest and isinstance(value.get('id'),str) and str(uuid.UUID(value['id']))==value['id'],'Published graph differs from frozen source');self.published=value['id'];self.record['published_workflow_id']=self.published
    elif kind=='run':
     data=value.get('data',{});require(data.get('workflow_id')==self.published and value.get('workflow_run_id')==data.get('id') and isinstance(data.get('id'),str) and str(uuid.UUID(data['id']))==data['id'],'Execution is not bound to this published Workflow');self.executed=data.get('id');self.record['workflow_run_id']=self.executed
   return response

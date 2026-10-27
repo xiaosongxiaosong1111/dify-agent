@@ -1,0 +1,19 @@
+{
+  "state": "offline_fix_passed",
+  "test_file": "backend/tests/test_batch_transport_response.py",
+  "checks": 27,
+  "added_checks": 11,
+  "reproduced_before_fix": "HTTP200/null did not set unpublished, first publish denied before transport",
+  "source_contract": "Dify1.17.1 tag8387590 api/controllers/console/app/workflow.py PublishedWorkflowApi.get returns None when no published workflow",
+  "fix": "only literal null or compatible404 before any publication proves absence; actual published graph resets absence; missing after known publication rejects; no overwrite",
+  "full_normal_api_absence_modes": [
+    "native200_null",
+    "legacy404"
+  ],
+  "physical_model_dify_http": 0,
+  "original16_all_assets_masterkey_and_current17th_task_kept": true,
+  "authorized_login_tokens_and_previous_service_key_preserved": true,
+  "consumed124_180_348_350_kept": true,
+  "unknown_publication_not_rewritten": true,
+  "product_runtime_unchanged": "0.345.0-c46bc340ea1580b02f52"
+}

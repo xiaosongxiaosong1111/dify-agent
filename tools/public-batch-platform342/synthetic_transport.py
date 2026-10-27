@@ -27,8 +27,10 @@ class SyntheticDify:
   elif path.endswith('/workflows/publish'):
    if method=='POST':
     if self.mode=='fail_publish':status=502;value={'error':'PUBLIC_FIXTURE_ERROR'}
-    else:self.published=copy.deepcopy(self.draft)|{'id':str(uuid.uuid4())};value={'result':'success'}
-   else:value=copy.deepcopy(self.published) if self.published else {};status=200 if self.published else 404
+    else:self.published=copy.deepcopy(self.draft)|{'id':str(uuid.uuid4())};value={'result':'success','created_at':1700000000}
+   else:
+    value=copy.deepcopy(self.published);status=200
+    if self.published is None and self.mode=='unpublished_404':value={};status=404
   elif path.endswith('/api-keys'):
    if method=='POST' and self.mode=='fail_key':return _response(502,{'error':'PUBLIC_KEY_FAILURE'})
    if method=='POST':self.keys=[{'id':str(uuid.uuid4()),'token':'app-PUBLICFIXTURE-'+str(uuid.uuid4())}];value=self.keys[0]
