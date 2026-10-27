@@ -1,0 +1,127 @@
+{
+  "backlog": 198,
+  "batch_id": "c1-mainline354",
+  "state": "stopped_needs_review",
+  "phase": "vague_interview",
+  "business_acceptance_complete": false,
+  "approval_source": "direct_human_reply",
+  "question_ref": "call_dff5ebbda1384801be918f56c6a7d688 question0",
+  "reply": "允许这批C1完整新范围及模型账本扩大",
+  "plan_sha256": "0583bfe3d78430e939e29d80122d5900e70dbea3cc3941d7a48c26f5a8fe53de",
+  "manifest_sha256": "c808a1a9f79c03a4ca83e7d44466e8183678d9be4dfa39f697ac05b073216bc1",
+  "approval_sha256": "2817b44f3464744f68c973ed1854df2c589c994c578f80bde50390807853564e",
+  "attempt_sha256": "05b8845091886cb112b7e06275f7d2d6fb79a0bcdc837eab28a4eec47ef44abe",
+  "worker-started_sha256": "c4fa723333501dca118d2946323b123fb3d7a5d1cc6350e4174ef5715ce70ac3",
+  "task_id": "aa827c91-b683-4a34-9e7f-fa0789f5c252",
+  "revision": 3,
+  "status": "requirements",
+  "counts": {
+    "model": 1,
+    "reads": 2,
+    "login": 1,
+    "import": 0,
+    "publish": 0,
+    "key": 0,
+    "run": 0
+  },
+  "model_response_metadata": [
+    {
+      "phase": "vague_interview",
+      "usage": {
+        "prompt_tokens": 8624,
+        "completion_tokens": 1581,
+        "total_tokens": 10205,
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 8112,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "candidate_applied": false,
+  "expected_candidate_topics": [
+    "goal",
+    "audience",
+    "input",
+    "output",
+    "rules",
+    "knowledge",
+    "exceptions",
+    "tests",
+    "retrieval"
+  ],
+  "returned_topics": [
+    "goal",
+    "audience",
+    "input",
+    "output",
+    "rules",
+    "knowledge",
+    "exceptions",
+    "tests"
+  ],
+  "missing_topics": [
+    "retrieval"
+  ],
+  "failure_classification": "model_candidate_intake_contract_rejected_then_checker_null_dereference",
+  "review_files_submitted": 0,
+  "automatic_retry": false,
+  "ledger": {
+    "id": "40843a00-7f66-45d1-890e-0457860c2dc6",
+    "operation_id": "c4a2f2ad-8c28-49b9-b00d-17a85fe8e51b",
+    "status": "settled",
+    "cost_basis": "reported_usage",
+    "reserved_usd": "0.0186099",
+    "charged_usd": "0.004333872",
+    "usage": {
+      "prompt_tokens": 8624,
+      "completion_tokens": 1581,
+      "total_tokens": 10205,
+      "prompt_cache_hit_tokens": 512,
+      "prompt_cache_miss_tokens": 8112,
+      "prompt_tokens_details": {
+        "cached_tokens": 512
+      }
+    }
+  },
+  "protection": {
+    "original_17_objects_kept": true,
+    "old_secrets_kept_except_approved_auth": true,
+    "original_assets_masterkey_kept": true,
+    "old_consumed_files_kept": true,
+    "service_app_binding_kept": true,
+    "new_task_unapplied": true,
+    "single_settled_model_entry": true
+  },
+  "actual_cumulative": {
+    "tasks": 18,
+    "model_http": 21,
+    "apps": 9,
+    "publications": 9,
+    "keys": 9,
+    "runs": 17,
+    "formal_passed_runs": 15,
+    "dify_reported_tokens": 2287,
+    "known_configured_model_estimate_usd": "0.101167476"
+  },
+  "reserved_cumulative": {
+    "management_reads": 525,
+    "logins": 33,
+    "model_http": 29,
+    "resources_each": 12,
+    "runs": 22,
+    "model_estimate_book_usd": "0.700473652"
+  },
+  "remaining_new_slots_held": {
+    "model": 4,
+    "apps": 2,
+    "publications": 2,
+    "keys": 2,
+    "runs": 4
+  },
+  "billing_reconciled": false,
+  "runtime": "0.346.0-7335a462f131de075e28",
+  "original_runtime_pid": 21864
+}
