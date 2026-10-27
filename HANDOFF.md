@@ -5,7 +5,7 @@
 - 根E:\workSpace\dify-agent/main。185/186成果已推，186实现ed76f25/关闭2e0bdcf；187实现7fb3410/关闭48f36c1已推。运行0.345.0-c46bc340ea1580b02f52/285文件/PID29860，187/188无产品源码变化，不增版部署。
 - 本轮已修T087检索诊断四类及有限来源；91后端/GUI7/构建/原脚本与归属快照/原16保护过。187正常新空Task十阶段、两版ZIP r4→r6唯一无命中模板变化已过，无approved/Task直写绕门禁，固定替身5/真实HTTP0，未发现新产品阻断，不拿隔离过替代C1真实主链。
 - 188新独立C2包work/batch-platform348冻结：plan a3efd8f63222e6296994ea8af65bc2118fe50f24d8c389bd1b00bccfb861da90；manifest64c42051a68e0f74486e06e4921eabdb074ec45e97492fb3f40fd49b364471fb。38门禁/11本机请求、合成成功/首次登录失败即停过；完整差异和计划在docs/public-batch-closeout-plan-20261027.md及配套patch/json。
-- 本包真实模型/Dify0，原16/全部密文主Key资产/旧124和180保持，未创建实际approval.json/attempt.json；未获新范围，不得真实执行、伪造批准或沿用旧180批准。188实现待提交，commit存在后才done；189才是need-user真实执行。
+- 本包真实模型/Dify0，原16/全部密文主Key资产/旧124和180保持，未创建实际approval.json/attempt.json；未获新范围，不得真实执行、伪造批准或沿用旧180批准。188实现3579866已落且本机验收done；189为need-user真实执行，尚无新直接批准。
 - 固定收尾C1新真实售后整链、C2实际Sandbox部分失败、C3原25项最终结论；启用轻量才须C4比较，六组扩展不自动开发。Claude318失败无恢复证据不形式重试；sierra已删除。实际Codex仍可用，不能称额度用完。
 
 ## 2. 已消费批与保护
@@ -17,7 +17,7 @@
 
 ## 3. 下一步
 
-1. 188本机验收已过；提交方案/完整程序差异/冻结摘要、CHANGELOG/适用README/整份交接，commit存在后done，再关闭push，并登记189 need-user。原remote/main自主提交推送，精确safe.directory/require_escalated/HTTP1.1，不让用户代提交。
+1. 188本机验收已过，实现3579866已存在且done；关闭提交push后核精确origin，189已登记need-user，等待本包新直接批准。原remote/main自主提交推送，精确safe.directory/require_escalated/HTTP1.1，不让用户代提交。
 2. 新C2拟议范围：新Task1、App/首次发布/Key各1、固定公开四项运行1、管理读取16/加密登录1、模型0、10分钟、Dify估算0.01非账单硬限/宿主未知。管理429→445/登录29→30只在直接新批准后预留；实际运行16→最多17/资源各8→9，旧180未用槽继续保留，保守运行17→18/资源各9→10，不借退。详见冻结方案，异常整批停、不重试。
 3. 仅人类对本方案新直接批准到达后，记录实际question_ref/原回复及上述plan/manifest哈希为approval；核包/当前345源码与PID/原16/密文资产/124与180后单次execute.py live。执行前approval/attempt应不存在；若attempt已存在绝不重放。旧180首次登录502仍已消费，Docker恢复不授权重试。
 4. 现版345/PID29860，任何源码/运行绑定变化使新包前提失效，不能私自改冻结批准。后续部署另建快照/脚本、完整命令归属/原start-stop，不按端口杀。346/deploy.ps1已消费。
