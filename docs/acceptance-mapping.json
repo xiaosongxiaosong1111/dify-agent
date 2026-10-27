@@ -223,7 +223,7 @@
         "backend/tests/test_iteration_chain_upstream.py",
         "backend/tests/test_iteration_chain_objects.py"
       ],
-      "known_gap": "2026-10-20 新增21例本地隔离检查：文字／数值／明确Schema对象的生成代码连续执行至最终End失败清单，首／中／末项失败、全失败、空批次，原生停止策略与拒绝静默继续／丢弃，以及预览接受、保存后确认失效和旧修订拒绝；相关12文件439通过。已有2—8步纯Python链首次失败及后继跳过检查。本地执行仅固定开发样例；停止路径尚无完整失败项清单输出证据，平台实际停止／并发取消、真实确认到执行闭环、混合模型／HTTP／DAG／嵌套通用继续、恢复执行、其它消费者及真实业务仍未验收，不代表AT-14最终通过。",
+      "known_gap": "2026-10-27第196在真实Dify对现有公开Workflow完成4项受控异常继续、3成功/1预期失败及原索引1/ValueError JSON导出，匹配发布图及文件SHA；固定C2缺证关闭，见acceptance-at14-record及existing-batch-platform-live-result-20261027。历史21新增/439相关隔离结果保留，本次不重跑全量。原生停止完整失败清单/并发在途取消尚无真实证据，混合模型/HTTP/DAG/嵌套通用继续和恢复执行、其它消费者仍未验收；不是所有批量模式或AT14全部业务通过。",
       "final_acceptance_record": "docs/acceptance-at14-record.md"
     },
     {

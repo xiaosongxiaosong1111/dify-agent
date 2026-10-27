@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main，上次HEAD/origin d792a5c已推；本轮196真实回执待提交关闭。产品仍0.346.0-7335a462f131de075e28/287文件/所属PID21864，无产品变更部署或全量测试。
+- 根E:\workSpace\dify-agent/main，上次HEAD/origin d792a5c已推；本轮196真实回执23588d5已提交并验收done，待关闭推送；AT14当前映射同步真实继续及原生停止等限制。产品仍0.346.0-7335a462f131de075e28/287文件/所属PID21864，无产品变更部署或全量测试。
 - 用户call_04396287daa445e8abe71c0ea06c0c74 question0直接批准“允许这批现有App独立收尾范围”，绑定61dbbd3方案及353 plan fccc4f40/manifest71979f5f，已独占登记approval及attempt并唯一执行passed，禁止重放。实际11管理/1登录/发布Key运行各1，0新Task/App/导入/模型，管理/登录新预留477/32、旧全部槽和费用不退借。
 - 同Task db13bc92-3b25-4249-abfc-4c4b384a1d17/r6和App1cb02319-d42f-46b5-a1dd-34be136f83d6：加密重连原空间→新本机恢复声明/双确认→原首次发布→专属Key加密绑定/旧Key归档→公开4项一次运行及失败JSON导出完成。Task现run_completed，1/1运行上限已满，不追加第二例。
 - 新恢复1f9c554f-84e7-4727-939b-d4f334e79662已消费，新发布0b31b690-de97-4e55-ba7c-0696c52c8f3e succeeded，图922e9378-1770-461a-9559-d6a47da38a04与冻结核心图匹配。原350 publication1e5eeaee-aa6b-4ce7-8e4d-e3961f528010仍unknown/write_attempted=true，所有旧运行完整保留，不抹旧记录或重放旧批。
@@ -19,7 +19,7 @@
 
 ## 3. 下一步
 
-1. 196真实passed证据及旧对象保护已核，先提交回执/README/CHANGELOG/整份交接，再按实现commit和真实验收把BACKLOG196标done并提交推送，核精确origin/clean，存work/batch-platform353/finalization-proof.json；不是只准备未实际执行。
+1. 196真实回执23588d5已提交，实际passed及旧对象保护核对通过，已done；关闭推送后核精确origin/clean，存work/batch-platform353/finalization-proof.json。AT14当前映射同步固定继续实证及未验原生停止等限制，不重复实际批。
 2. 固定C2具体公开继续策略已完成，不再重放353、350或另起同例。当前r6已运行1/1满额，当前Key配App1cb；原124r12仍4/4满额不动。剩余先核固定C1/C3：不要按版本/测试数造百分比，也不重新扩六组候选；发现具体开发缺口才入BACKLOG，已完实现不重复。
 3. C1需要新空任务的访谈/逐项核对/确认/规划/两版发布运行/交付的完整真实来源；187只是隔离界面十阶段，124复用旧访谈，不可拿196批量替代。C3须保留25项已实现/隔离/真实/限制区别，196只补批量这项具体证据。C4仅交付启用轻量分工时做同例质量成本比较，不为验收默认开启。
 4. 本批任何未用管理/费用/零派发旧槽都不自动归还或借用；353 passed/approval/attempt永久消费。后续新模型/Dify资源费用范围先做可审查本机方案再按规则明确批准，不以本机证据或旧一次批代替。旧unknown及新声明consumed均保持，不能再用原零派发证明重复发布。
