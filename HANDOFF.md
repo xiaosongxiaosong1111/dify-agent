@@ -3,7 +3,7 @@
 ## 1. 当前状态
 
 - 根E:\workSpace\dify-agent/main，196真实结果23588d5/关闭f904fe0已推原GitHub main且精确origin/clean核对完成，work/batch-platform353/finalization-proof.json。产品仍0.346.0-7335a462f131de075e28/287文件/PID21864，197只开发执行包，不改产品/部署/全量测试。
-- 197新C1包已完成本机验收待实现commit：work/c1-mainline354，plan0583bfe3d78430e939e29d80122d5900e70dbea3cc3941d7a48c26f5a8fe53de / manifestc808a1a9f79c03a4ca83e7d44466e8183678d9be4dfa39f697ac05b073216bc1，15固定文件；公开tools/c1-mainline354及tools/check_c1_rehearsals354.py，docs/c1-blank-task-plan-20261027.md及preflight JSON。
+- 197新C1包实现0578d47已提交并验收done，198 need-user：work/c1-mainline354，plan0583bfe3d78430e939e29d80122d5900e70dbea3cc3941d7a48c26f5a8fe53de / manifestc808a1a9f79c03a4ca83e7d44466e8183678d9be4dfa39f697ac05b073216bc1，15固定文件；公开tools/c1-mainline354及tools/check_c1_rehearsals354.py，docs/c1-blank-task-plan-20261027.md及preflight JSON。
 - 本机62门禁及冻结同程序正常/6失败停止的准确阶段/计数通过。正常替身model5/read32/login1/import-publish-key各2/run4，新空Task正常门禁、三访谈/两规划、五结构复核、主动候选采纳、四例原生形状轨迹1/0/1/0、两版ZIP摘要/核心图仅固定文案变化通过。结构复核均synthetic_structural_checker/semantic_reviewed=false，非真实模型语义或业务通过；精确配置/扩展参数及轨迹经正常API，其余关键操作在界面，不伪称全部鼠标操作。
 - 当前实际模型/Dify/生产写入0，仍17Task、App9/pub9/Key9、运行17/正式15、tokens2287、模型20/保守24、管理477/登录32，旧全部费用/unknown/槽保持。354没有approval/attempt/worker-started；新范围只是拟议，不能因用户“继续直到额度”自动扩大具体旧次数/费用。
 - 拟198新独立批：Task1、模型5HTTP（各6000输出tokens/120秒、每阶段1次不自动修复重试）、App/首次发布/Key各2、四例及轨迹，48读/1登录，30分钟准入。新模型预留≤0.275+Dify估0.02，整批估算上界0.30 USD非账单硬限/宿主未知；旧模型账本0.425473652保留，加新模型后合并0.700473652须明确扩大旧0.45/0.5，不借退旧槽。拟管理525/登录33、模型保守29/资源保守各12/运行22，均尚未预留或批准。
@@ -19,7 +19,7 @@
 
 ## 3. 下一步
 
-1. 先提交197公开程序/方案/日志，再凭62门禁/正常及6停止/双包核对/生产保护标BACKLOG197 done并提交关闭交接push原main，核精确origin及clean，存work/c1-mainline354-check/finalization-proof.json；196已f904fe0推送完成，不重放353或旧售后。
+1. 197实现0578d47已提交，62门禁/正常及6停止/双包核对与生产保护通过，已done；关闭交接push后核精确origin/clean，存work/c1-mainline354-check/finalization-proof.json。198 need-user待新整批范围；196已f904fe0推送完成，不重放353或旧售后。
 2. 198需要新直接整批范围，固定方案docs/c1-blank-task-plan-20261027.md及双摘要0583bfe3/c808a1a9。Task1、model5、App/发布/Key各2、run4、read48/login1，估算0.30非硬限；模型估算账本合并0.700473652明确扩大旧0.45/0.5，原unknown/四保留槽/所有旧预留保持。当前未批准，禁止live，不从旧未用范围借用或自动退款。
 3. 获批后核原runtime/PID/287文件、17Task/模型定价和连接/最新353基线、全部消费文件；按直接回复登记新审批及525/33/模型29资源12运行22等预留。仅原work/c1-mainline354/execute.py live --playwright 固定绝对路径一次；attempt与worker-started独占，异常整批停、不阶段重试。
 4. 真实worker在五处等根代理复核：vague_interview/complete_interview/first_plan/changed_interview/changed_plan。看live-output/review-source-阶段.json的实际内容与source_sha256；核追问不提前搭建、全部主题/引用、只用检索资料且不硬编码政策、参数引用/失败语义，修改候选只变固定模板。自己按既有委托审，不向用户逐次索许可，也不冒充Claude/人类；用冻结submit_review.py --output live-output --stage ... --source-sha256 ... --note 具体说明提交agent_delegated。不接受未读内容的自动语义签收。
