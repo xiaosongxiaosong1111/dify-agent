@@ -1,0 +1,366 @@
+app:
+  description: 由 Sierra 工作流计划生成，目标 Dify 1.17.1。静态验证通过前不会导入。
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 未命名应用
+  use_icon_as_answer_icon: false
+dependencies: []
+kind: app
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      enabled: false
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: start
+        targetType: code
+      id: start-source-parse
+      source: start
+      sourceHandle: source
+      target: parse
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        sourceType: code
+        targetType: iteration
+      id: parse-source-batch
+      source: parse
+      sourceHandle: source
+      target: batch
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        sourceType: iteration
+        targetType: code
+      id: batch-source-batch_summary
+      source: batch
+      sourceHandle: source
+      target: batch_summary
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        sourceType: code
+        targetType: end
+      id: batch_summary-source-end
+      source: batch_summary
+      sourceHandle: source
+      target: end
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - id: batch__iteration_start-source-clean
+      source: batch__iteration_start
+      sourceHandle: source
+      target: clean
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+      data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: batch
+        sourceType: iteration-start
+        targetType: code
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 公开批量输入
+        type: start
+        variables:
+        - variable: items_json
+          label: items_json
+          type: paragraph
+          required: true
+          max_length: 50000
+          options: []
+      height: 100
+      id: start
+      position:
+        x: 80
+        y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        selected: false
+        title: 严格读取文字数组
+        type: code
+        code_language: python3
+        code: "import json\ndef main(items_json: str) -> dict:\n    items = json.loads(items_json)\n\
+          \    if not isinstance(items, list) or any(not isinstance(item, str) for\
+          \ item in items):\n        raise ValueError(\"输入须为JSON文字数组\")\n    return\
+          \ {\"items\": items}\n"
+        variables:
+        - variable: items_json
+          value_selector:
+          - start
+          - items_json
+        outputs:
+          items:
+            type: array[string]
+            children: null
+      height: 100
+      id: parse
+      position:
+        x: 380
+        y: 282
+      positionAbsolute:
+        x: 380
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        selected: false
+        title: 逐项公开计算
+        type: iteration
+        start_node_id: batch__iteration_start
+        iterator_selector:
+        - parse
+        - items
+        iterator_input_type: array[string]
+        output_selector:
+        - clean
+        - outcome
+        output_type: array[object]
+        is_parallel: false
+        parallel_nums: 1
+        error_handle_mode: terminated
+        flatten_output: false
+        width: 450
+        height: 220
+      height: 220
+      id: batch
+      position:
+        x: 680
+        y: 282
+      positionAbsolute:
+        x: 680
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 450
+      zIndex: 1
+    - id: batch__iteration_start
+      data:
+        type: iteration-start
+        title: ''
+        desc: ''
+        selected: false
+        isInIteration: true
+      parentId: batch
+      type: custom-iteration-start
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 704
+        y: 350
+      width: 44
+      height: 48
+      zIndex: 1002
+      draggable: false
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+    - data:
+        desc: ''
+        selected: false
+        title: 公开文字计算
+        type: code
+        code_language: python3
+        code: "# Sierra per-item outcomes v1\ndef _sierra_calculate(item: str) ->\
+          \ dict:\n    if item == \"ERR\":\n        raise ValueError(\"公开样例受控失败\"\
+          )\n    return {\"result\": item.strip().upper()}\n\n\ndef main(item: str,\
+          \ sierra_index: int) -> dict:\n    if not isinstance(item, str) or type(sierra_index)\
+          \ is not int or sierra_index < 0:\n        raise TypeError('Declared iteration\
+          \ input or index mismatch')\n    try:\n        result = _sierra_calculate(item)\n\
+          \    except (ValueError, TypeError, ZeroDivisionError, KeyError, IndexError,\
+          \ OverflowError) as _sierra_error:\n        return {'outcome': {'index':\
+          \ sierra_index, 'ok': False, 'value': None, 'error_category': type(_sierra_error).__name__}}\n\
+          \    if not isinstance(result, dict) or set(result) != {'result'} or not\
+          \ isinstance(result['result'], str):\n        raise TypeError('Declared\
+          \ string output mismatch')\n    return {'outcome': {'index': sierra_index,\
+          \ 'ok': True, 'value': result['result'], 'error_category': None}}\n"
+        variables:
+        - variable: item
+          value_selector:
+          - batch
+          - item
+        - variable: sierra_index
+          value_selector:
+          - batch
+          - index
+        outputs:
+          outcome:
+            type: object
+            children: null
+        isInIteration: true
+        isInLoop: false
+        iteration_id: batch
+      height: 100
+      id: clean
+      position:
+        x: 128
+        y: 68
+      positionAbsolute:
+        x: 808
+        y: 350
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      parentId: batch
+      zIndex: 1002
+    - data:
+        desc: ''
+        selected: false
+        title: 汇总逐项成功与失败
+        type: code
+        code_language: python3
+        code: "# Sierra iteration result summary v1\ndef main(results: list, source_items:\
+          \ list) -> dict:\n    if not isinstance(results, list) or not isinstance(source_items,\
+          \ list) or any(not isinstance(item, str) for item in source_items):\n  \
+          \      raise TypeError('Iteration result and original input must be arrays\
+          \ of declared types')\n    if len(results) != len(source_items):\n     \
+          \   raise TypeError('Iteration result count differs from original input')\n\
+          \    successes = []\n    failures = []\n    for expected_index, row in enumerate(results):\n\
+          \        if not isinstance(row, dict) or set(row) != {'index', 'ok', 'value',\
+          \ 'error_category'}:\n            raise TypeError('Iteration result fields\
+          \ mismatch')\n        if type(row['index']) is not int or row['index'] !=\
+          \ expected_index or type(row['ok']) is not bool:\n            raise TypeError('Iteration\
+          \ result index or status mismatch')\n        if row['ok']:\n           \
+          \ if not isinstance(row['value'], str) or row['error_category'] is not None:\n\
+          \                raise TypeError('Successful result contract mismatch')\n\
+          \            successes.append(row)\n        else:\n            if row['value']\
+          \ is not None or row['error_category'] not in ('ValueError', 'TypeError',\
+          \ 'ZeroDivisionError', 'KeyError', 'IndexError', 'OverflowError'):\n   \
+          \             raise TypeError('Failed result contract mismatch')\n     \
+          \       failures.append(row)\n    return {'items': results, 'successes':\
+          \ successes, 'failures': failures,\n            'total': len(results), 'succeeded':\
+          \ len(successes), 'failed': len(failures)}\n"
+        variables:
+        - variable: results
+          value_selector:
+          - batch
+          - output
+        - variable: source_items
+          value_selector:
+          - parse
+          - items
+        outputs:
+          items:
+            type: array[object]
+            children: null
+          successes:
+            type: array[object]
+            children: null
+          failures:
+            type: array[object]
+            children: null
+          total:
+            type: number
+            children: null
+          succeeded:
+            type: number
+            children: null
+          failed:
+            type: number
+            children: null
+      height: 100
+      id: batch_summary
+      position:
+        x: 1210
+        y: 282
+      positionAbsolute:
+        x: 1210
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        selected: false
+        title: end
+        type: end
+        outputs:
+        - variable: results
+          value_selector:
+          - batch_summary
+          - items
+        - variable: successes
+          value_selector:
+          - batch_summary
+          - successes
+        - variable: failures
+          value_selector:
+          - batch_summary
+          - failures
+        - variable: total
+          value_selector:
+          - batch_summary
+          - total
+        - variable: succeeded
+          value_selector:
+          - batch_summary
+          - succeeded
+        - variable: failed
+          value_selector:
+          - batch_summary
+          - failed
+      height: 100
+      id: end
+      position:
+        x: 1510
+        y: 282
+      positionAbsolute:
+        x: 1510
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 0
+      y: 0
+      zoom: 1
+  rag_pipeline_variables: []

@@ -1,0 +1,154 @@
+{
+  "state": "isolated_passed_real_unapproved",
+  "backlog": 179,
+  "runtime_build": "0.341.0-cf06d6388885cb69a63c",
+  "runtime_manifest_files": 279,
+  "new_product_runtime": false,
+  "gates": 38,
+  "normal_local_requests": 11,
+  "synthetic_success": {
+    "reads": 11,
+    "login": 1,
+    "import": 1,
+    "publish": 1,
+    "key": 1,
+    "run": 1
+  },
+  "failure_modes": {
+    "wrong_workspace": {
+      "phase": "reconnect",
+      "dispatch_counts": {
+        "reads": 2,
+        "login": 1,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "state": "stopped_needs_review"
+    },
+    "fail_login": {
+      "phase": "reconnect",
+      "dispatch_counts": {
+        "reads": 0,
+        "login": 1,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "state": "stopped_needs_review"
+    },
+    "import_401": {
+      "phase": "import",
+      "dispatch_counts": {
+        "reads": 2,
+        "login": 1,
+        "import": 1,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "state": "stopped_needs_review"
+    },
+    "fail_publish": {
+      "phase": "publish",
+      "dispatch_counts": {
+        "reads": 6,
+        "login": 1,
+        "import": 1,
+        "publish": 1,
+        "key": 0,
+        "run": 0
+      },
+      "state": "stopped_needs_review"
+    },
+    "fail_key": {
+      "phase": "create_key",
+      "dispatch_counts": {
+        "reads": 10,
+        "login": 1,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 0
+      },
+      "state": "stopped_needs_review"
+    },
+    "lost_key_reply": {
+      "phase": "create_key",
+      "dispatch_counts": {
+        "reads": 10,
+        "login": 1,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 0
+      },
+      "state": "stopped_needs_review"
+    },
+    "fail_run": {
+      "phase": "run",
+      "dispatch_counts": {
+        "reads": 11,
+        "login": 1,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 1
+      },
+      "state": "stopped_needs_review"
+    },
+    "bad_output": {
+      "phase": "run",
+      "dispatch_counts": {
+        "reads": 11,
+        "login": 1,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 1
+      },
+      "state": "stopped_needs_review"
+    }
+  },
+  "original16_unchanged": true,
+  "real_model_dify_http": 0,
+  "production_new_tasks": 0,
+  "actual_approval_created": false,
+  "actual_attempt_created": false,
+  "business_acceptance_complete": false,
+  "plan_sha256": "53b821675dfc812bf246a78c7ba408eb75e8a7adcaad2cd0f762a2686fe256d5",
+  "manifest_sha256": "25fd79d6af049e1f766a1bdd129bf87e6fbe80cc3a785eb842948da23a28dcd4",
+  "frozen_files": {
+    "boundary.py": "7b4de131cc37c498990f139471b2aee3a87b86a658af56d01c0a979d83051760",
+    "candidate-plan.json": "d29240a2429537c0e63bfa06aa4b2b81b2da7b8b73a4ab7a40aa8c4f41921f50",
+    "candidate.yml": "5750ad3950262a269648362788a24c08e01d68be1f0734916de431311847ac90",
+    "data_guard.py": "1bc0593b3f2e8885a24b4d1931c4f0f378b90a5b1015d0908b2f00b9ffc8ea18",
+    "execute.py": "ce5acb9a1012d0997b2e21de0b30871c3c8d263d0ee4c2474d944f9088772c75",
+    "fixture.json": "78f23855d4a07342fb4197b5614f5cb0a852073bc4a914d0d9b2f08b974c5b70",
+    "freeze_bundle.py": "00cc9ec1e642608a79b7a95122ae1fbe6e0feb03c719079b5a8270bd30183e1c",
+    "gates_check.py": "321772ef9125bdb81c92aabfeef7fae3fcbc0ac5137771e1e691c538aa7c6590",
+    "local_pipeline.py": "e4e99cff301c42cd833e1ab221f2efbea17e71ee7a3776d68872d8dff918aeed",
+    "local_rehearsal.py": "69f30f17ea57175c922bf63923d4fbd6dde2d3caa6aca8bc03e3ba0ed0604815",
+    "plan.json": "53b821675dfc812bf246a78c7ba408eb75e8a7adcaad2cd0f762a2686fe256d5",
+    "platform_pipeline.py": "b40880f757be6e5e675a0debebde0a2cbabc52f75a814581d3b46f259daf3275",
+    "rehearse_platform.py": "721c48d8c63d1b2c373cbfd1f3d82cfa95f69ff96d4d9d35bf5b142a5e61227a",
+    "synthetic_transport.py": "901df4c82aca6a4ff5fb5bddd109981133344672336f11f9484e03fd9db651d9"
+  },
+  "evidence_sha256": {
+    "freeze-proof.json": "7fe0ee558c24b2c94c91cd35977f118d53eaff735af095f9ebc5d8ba916e7215",
+    "gates-proof.json": "af95d374a883e3c0752af149b4b3e655e4667c15df9d97b5b70075397b74d687",
+    "local-rehearsal-proof.json": "16193dcfe7c10ebe68552a812fdd3986e5d55cee2b2bf6141c1bce2311535860",
+    "missing-approval-entry.log": "595ffb2b3d9a273b6f867c7ba96baf3802b397bee39b8bdaefa69dcd767d3a28",
+    "rehearse-success-proof.json": "13ae3e298b6ddd32ea6da4370d6aae9bd486af1041e60df77639b5248853773e",
+    "rehearse-wrong_workspace-proof.json": "e52678808a5121b675299d71220caccf66b3ef16245e76b994a1a06b65bef863",
+    "rehearse-fail_login-proof.json": "ea8547c49275b28cf8654e8f0303dcd3badb132953d9f4edde018c5186fb7dbd",
+    "rehearse-import_401-proof.json": "1382cee6e0769dce86a7d1bc9a6ea28c4c3dfef8a349f2297f5ac69849864632",
+    "rehearse-fail_publish-proof.json": "a8b6866105f88c42ed0bfefeac7d3a713aba4fb0515cf4bbce1313be18e53640",
+    "rehearse-fail_key-proof.json": "27f112c1a0789940ec7722d3ae4d51b4f18381049e091d31d20b88716b935b09",
+    "rehearse-lost_key_reply-proof.json": "11ff560e4e08c74dd5f4351cd6d91d87cc7fbbe3ddc41b2fe1814a7be94ae661",
+    "rehearse-fail_run-proof.json": "138571be45ebe181785c0d511bfed7bca85679eab4d867ee3c3e20fb30fa5b60",
+    "rehearse-bad_output-proof.json": "012debf5f0c9efec5dd94efa7b7b735b174a35e262c988d436397a11bbdfc066"
+  }
+}

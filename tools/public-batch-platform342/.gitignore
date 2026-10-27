@@ -1,0 +1,7 @@
+*
+!*.py
+!candidate.yml
+!candidate-plan.json
+!fixture.json
+!.gitignore
+!README.md

@@ -1,12 +1,13 @@
-# HANDOFF — Sierra（2026-10-27，第178交付）
+# HANDOFF — Sierra（2026-10-27，第179本机交付）
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；177实现c21f9b6/关闭644e755已推送clean，work/agent-mapping340/finalization-proof.json complete。178实现7ea0b5e且BACKLOG178已done，最终关闭/push以Git及work/public-batch341/finalization-proof.json为准。
-- 最终0.341.0-cf06d6388885cb69a63c/279文件，work/public-batch341/deployment-proof.json及managed-runtime-proof.json；所属PID/快照/原start-stop/health与前端200/原16全部对象设置账本密文主Key/124保持，真实外部0。首次341快照561b0fcb回执first-*保留，补强来源纯渲染门禁后重建/UI并最终部署，不回旧快照。
-- 空白Workflow新增无模型公开批量起步，明确继续受控异常或遇错终止、核完整代码和图后主动填未保存稿。已有流程/成果/App/引用或其他类型不覆盖，新编辑/错源/晚到失效，不保存/确认/执行，原配置/预算/模拟门禁保持。
-- 新11/相关97后端、新UI6和构建通过，未全量；仅测试固定公开函数，不执行用户代码。公开4项/3成功/1失败索引1是声明，不是平台成绩；Sandbox及真实批仍需新范围。T112仅scope_limited。
-- 本次01:18额度恢复已核实，最近95%/weekly45%/ordinaryUsageAllowed=true，尚未观测耗尽，持续实际不足即停；sierra一次性PAUSED防重复，结束删除，不新建/换号/购买/用券。Claude318失败无审查、CLI估算0/内部HTTP账单未知，无恢复不形式重试；304旧估算0.074255USD保持。
+- 已确认E:\workSpace\dify-agent/main；178实现7ea0b5e/关闭b9665cf6b048424a8275635b4ecf7ae6f5f0e096与origin/main一致，work/public-batch341/finalization-proof.json complete，不重复闭环。
+- 仍运行0.341.0-cf06d6388885cb69a63c/279文件，所属PID22248及源码/快照摘要已只读核实；179只增加执行器/定向验证和文档，不改产品源或另部署。
+- 179已完成正常新Task/intake受托核对/确认/构建、明确重连/新App首次发布/Key/单次运行执行器及冻结边界。38门禁、11正常本机API、同一流程替身1成功/8失败通过，缺少批准入口实际拒绝且未建attempt。公开代码tools/public-batch-platform342与本机冻结13文件一致，原16/旧消费包/账本/密文/主Key保持，真实模型/Dify HTTP0、生产新Task0。
+- work/batch-platform342/plan.json SHA53b821675dfc812bf246a78c7ba408eb75e8a7adcaad2cd0f762a2686fe256d5；manifest SHA25fd79d6af049e1f766a1bdd129bf87e6fbe80cc3a785eb842948da23a28dcd4。approval.json/attempt.json均不存在；candidate-manifest只是旧静态候选，不作批准或live身份。docs/public-batch-platform-plan-20261027.md及local-result为可审查范围，原始保护摘要清单/密文不入Git。
+- 本手动续跑实际额度已恢复，最近核对primary30%/weekly50%/ordinaryUsageAllowed=true，并未耗尽。之前交接提交命令因实际额度耗尽被自动审批拒绝、未执行，此次已重新核实与续接。sierra一次性任务已删除，无新定时任务。Claude318失败无结果/内部HTTP账单未知，无恢复证据不形式重试或冒充成功；304旧0.074255USD保持。
+- 179实现commit及关闭/push尚待本轮完成，以Git及work/batch-platform342/finalization-proof.json为准。不能把本机替身通过当真实Sandbox/业务或全项目完成。
 
 ## 2. 已消费批与保护
 
@@ -15,14 +16,15 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（178闭环，再准备最小实际批量联调本机包）
+## 3. 下一步（179提交关闭，再等待新单批授权）
 
-1. 核实work/public-batch341/finalization-proof.json/Git；178实现7ea0b5e/验收部署过，补关闭提交/push/clean，已complete不重复。当前0.341.0-cf06d6388885cb69a63c，deploy.ps1前提首次341/561b0fcb，禁止重放。
-2. 第一pending优先；已核讨论建议需需求检查复核、Workflow映射已有目标版本/输入签名/下载门禁，不重做。下一实质闭环是验证公开批量失败计算的实际Sandbox返回、逐项查看/失败下载；先仅本机冻结DSL/公开输入/预期及正常新Task创建与确认的执行器，不用legacy测试helper绕过intake/审批，不进行外部请求。完整可审查/验证后才申请新资源/运行范围，未就绪不索要空泛批准。
-3. 原16不变、新Task也不能在生产先建；旧r12 4/4已满，旧16运行/App发布Key各8及保守模型24/管理413/登录28界限保持，无现成可重用真实槽。新范围拟只代码图/模型0，具体读/登录/费用/资源边界须先冻结，不自动借退旧预留。
-4. 每push前CHANGELOG/适用README/整份交接；核原remote，git require_escalated/safe.directory=E:/workSpace/dify-agent/命令级HTTP1.1沿既有代理推main，不force/全局/TLS改动，不让用户代提交，work/生产数据/秘密不提交。
-5. 普通队列空本身不停，实际不足立即尽力交接停，不反复探额/重试/换号/购买/用券；不能把近额度当已耗尽。sierra已PAUSED，结束删除已完成一次性，不新建。
-6. 原16保护work/public-batch341/protect.py，所有消费批不重放，原账本费界和密文保持；新源新快照/所属PID不按端口杀。只读必要文件不通读或全量；Claude无恢复不形式重试/加预算/冒充审查。162—177 complete不重做。
+1. 核work/batch-platform342/local-final-proof.json、Git/公开源码副本及38门禁/11正常本机API/9替身路径；实现commit存在后才将BACKLOG179标done，记录实现SHA、添加180 need-user，再关闭commit/push原main。178已complete，禁止重复部署原341脚本。
+2. 完整方案已冻结：模型0、新Task1、App/首次发布/Key各1、公开四项一次运行，最多16管理读取/1登录，600秒/新Task1次10分钟/报价阈值0.01USD；估算0.01非账单硬限，宿主Sandbox费用未知。新增需明确批准，旧16运行/资源各8/管理413/登录28和保守模型24保持；批准后新上界17/9/429/29，不自动借退旧预留。
+3. 推送固定方案后仅问一次新整批批准，绑定实际直接用户回复/问答来源、plan及manifest摘要。此前所有回复均不覆盖本新批；不能代理伪造人类批准。未批准不运行live、不在生产先建Task，不探Dify/模型。若无新答复保持need-user，不改变冻结运行版本和保护数据。
+4. 收到本批直接批准才记录approval.json，唯一入口为项目根 .venv\Scripts\python.exe work\batch-platform342\execute.py live，管理员上下文核所属PID；公开tools副本拒绝live。先查attempt/旧回执，独占消费后只执行一次，所有出站先持久化计数。异常整批停，不阶段重试、不删资源；Key回执丢失保持unknown。批准或消费后禁止重冻结包/重放旧批。
+5. 真执行顺序明确重连原空间→正常新Task保存/访谈/确认/构建→新App导入/首次发布/新Key配对并归档旧Key→一次固定公开运行→核真实4/3/1/索引1及保存失败导出。仅证明公开声明与保存结果，不扩大到浏览器/节点轨迹/完整业务验收；原16不改，仅专用连接批准认证/运行配对字段及新单Task回执可变。
+6. 每push前CHANGELOG/适用README/整份交接；核原remote，git require_escalated/safe.directory精确项目、命令级HTTP1.1沿现有代理推main，不force/改全局或TLS，不让用户代提交。work/生产数据/秘密不提交，只有tools公开源码与安全文档入库。
+7. 实际额度不足立即尽力整份交接并停，不重试/换号/购买/用券；不能把近额度当耗尽，普通空队列不等于完成，按既定需求核实可行动项。只读必要文件，不通读290KB历史/全项目或跑全量。原16保护和所有消费批/unknown/预留保持；根运维日志允许自然追加，其余原任务资产/主Key严格保护。
 
 ## 4. 外部边界与账本
 
