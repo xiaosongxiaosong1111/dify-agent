@@ -1,13 +1,14 @@
-# HANDOFF — Sierra（194恢复已部署推送，195现有App独立包已冻结待批准）
+# HANDOFF — Sierra（196现有App真实批量收尾passed，固定C2缺证关闭）
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main；194实现01f6941/关闭4ce07ce已推原GitHub main，精确origin已核且当时clean；work/publication-recovery352/finalization-proof.json。产品0.346.0-7335a462f131de075e28/287文件/所属PID21864不变。
-- 194本机签封证据登记/双确认独立恢复声明/原发布入口一次新准备与原显式确认已实现；95定向后端/9界面/构建/原脚本部署过。旧unknown、Task历史/来源及旧账本保持；一次占用/派发同事务消费，证据不是独立网络审计或外部范围授权。实际仅登记1条agent_delegated本机证据，恢复声明0、真实Dify/模型/新TaskApp资源运行0。
-- 195现有App独立353程序及冻结包已实现61dbbd3并验收done，196 need-user：work/batch-platform353，batch existing-batch-platform353；plan fccc4f40cdf40018bc3458997c6cf1237c1bbd0fe927a31083394da1d3edf92e / manifest71979f5fdc1b86da9cf8afba11a35b2e880d816aafe9cd3327c94d1aa41aac3a，18固定文件。tools/existing-batch-platform353公开副本，docs/existing-batch-platform-plan-20261027.md和preflight摘要；冻结原样，不再改写。
-- 冻结同程序32准入/授权/一次消费门禁、1正常完整API主链及11失败停止过，替身成功读11/登录1/import0/发布Key运行各1，物理HTTP/模型0；work/existing-batch353-check/frozen有完整回执。实际生产改动/新声明/批准文件/attempt均0。原17/全部密文资产主Key/旧unknown及124/180/348/350完整保护，产品仍346不重部署。CLAUDE318未证明恢复，不为形式重试/冒充子审查；sierra已删除。
-- 现仅拟把350未派发发布/Key/运行各1明确改授新独立353；新16读/1登录需直接范围，新预留将461/31→477/32，当前仍461/31。0新Task/App/导入/模型，Dify新估算0.01非账单硬限/宿主未知，原未用槽/预留/unknown不退借。新批任何异常整批停、不重放，待196新直接批准。
-- 现Task db13bc92-3b25-4249-abfc-4c4b384a1d17/r6/imported及App1cb02319-d42f-46b5-a1dd-34be136f83d6；publication1e5eeaee-aa6b-4ce7-8e4d-e3961f528010仍unknown/write_attempted=true。192的350已终止：实际读6/登录1/import1/发布POST0/Key0/run0/模型0，旧包不可改或重放。原16保持；当前17Task、App9/pub8/Key8、运行16/正式14、tokens2287、模型20/保守24/管理461/登录31及旧费用保持。
+- 根E:\workSpace\dify-agent/main，上次HEAD/origin d792a5c已推；本轮196真实回执待提交关闭。产品仍0.346.0-7335a462f131de075e28/287文件/所属PID21864，无产品变更部署或全量测试。
+- 用户call_04396287daa445e8abe71c0ea06c0c74 question0直接批准“允许这批现有App独立收尾范围”，绑定61dbbd3方案及353 plan fccc4f40/manifest71979f5f，已独占登记approval及attempt并唯一执行passed，禁止重放。实际11管理/1登录/发布Key运行各1，0新Task/App/导入/模型，管理/登录新预留477/32、旧全部槽和费用不退借。
+- 同Task db13bc92-3b25-4249-abfc-4c4b384a1d17/r6和App1cb02319-d42f-46b5-a1dd-34be136f83d6：加密重连原空间→新本机恢复声明/双确认→原首次发布→专属Key加密绑定/旧Key归档→公开4项一次运行及失败JSON导出完成。Task现run_completed，1/1运行上限已满，不追加第二例。
+- 新恢复1f9c554f-84e7-4727-939b-d4f334e79662已消费，新发布0b31b690-de97-4e55-ba7c-0696c52c8f3e succeeded，图922e9378-1770-461a-9559-d6a47da38a04与冻结核心图匹配。原350 publication1e5eeaee-aa6b-4ce7-8e4d-e3961f528010仍unknown/write_attempted=true，所有旧运行完整保留，不抹旧记录或重放旧批。
+- 实际Run d7cfbf6c-abfc-4e2f-bd6e-6ddd55471cf1，本机record197e6083-39b6-4a69-8c61-cb8bb4256f0b：原生succeeded、本机success/声明passed，4总/3成功/1预期失败，原索引1/ValueError，原生5步/1.197485秒/0tokens。产品失败筛选/导出931字节，SHA e9f998b71e59cc2eae626a3127e051e4e731303bbbf768d899db4ab9c04acb94，work/batch-platform353/live-failure-items.json；不是宿主免费或全部业务签收。
+- 17Task数量不变，其它16/当前Task原需求配置确认成果与所有旧runs、全部旧资产主Key/邮箱密码密文/模型费用账本及124/180/348/350完整冻结消费保护。当前连接已配196 App，旧124修改版Key加密留档；只允许本批认证和运行配对/新回执密文更新。最新基线work/batch-platform353/post-success-data-snapshot.json，post-success-proof及docs/existing-batch-platform-live-result-20261027.md/json是安全证据。
+- 当前实际App9/pub9/Key9、运行17/正式15、报告tokens2287；模型实际20/保守24、资源保守各10/运行18，管理477/登录32。固定C2公开受控异常继续及失败原索引交付缺证关闭；C1新空任务完整链/C3最终结论/条件C4未全关闭。Claude318无恢复证据不形式重试/冒充子审查，sierra已删除；最近实际Codex33%/79%仍可用。
 
 ## 2. 已消费批与保护
 
@@ -18,14 +19,17 @@
 
 ## 3. 下一步
 
-1. 195实现61dbbd3已存在，32门禁/正常及11停止/完整execute.main隔离入口和生产保护通过，已done。关闭交接push后核精确origin及clean，存work/existing-batch353-check/finalization-proof.json；196 need-user，待方案61dbbd3冻结范围的新直接批准。194已01f6941/4ce07ce done/pushed，不重复。
-2. 196只在新直接人类批准完整353范围后执行；方案docs/existing-batch-platform-plan-20261027.md及双摘要fccc4f40/71979f5f。必须明确改授350零派发发布/Key/运行各1，另新16读/1登录/估算0.01USD（非账单硬限）；0Task/App/导入/模型。当前无批准/attempt，不得live；不能用旧350批准或本机恢复声明替代。
-3. 获批后先核实际runtime/PID/287文件、精确冻结哈希及17/现Task与证据来源/原unknown、旧124/180/348/350、整批容量；登记直接回复出处和新477/32管理登录预留后，仅原353 execute.py live一次。独占attempt即消费，任何异常整批停，不重试/不退借旧槽。原Task1次/10分钟及报价0.01阈值保持，原124r12满4/4不动。
-4. 新执行器复用现App：明确加密重连原空间→本机新声明/双确认（代理如实agent_delegated）→原发布prepare/confirm且当前图相同/未发布→新Key并旧Key加密留档→四项一次运行及失败原索引1下载；旧unknown/history保持，无新Task/App/import。实际App仍9、pub/Key最多8→9、运行16→17，保守各10/18及模型20/24不变；不宣称完整业务通过。
-5. 生产当前保护基线352 post-registration，353 plan内protected_data是其冻结同态；当前仅1条登记证据，无真实恢复声明。产品346/PID21864不变，352部署脚本已消费，未来需另建快照/核完整归属/原start-stop，不按端口杀；未获新真实范围时不扩功能候选或造微任务耗额度。
-6. 只复用加密凭据、不抄聊天密码/不输出或提交秘密/生产快照/work。原main自主commit/push精确safe.directory/require_escalated/HTTP1.1，每push更新根CHANGELOG/适用README及整份交接。不全量/通读历史；实际Codex不足交接立即停，不重试/换号/购买/用券。本轮继续受具体外部边界约束，不假称额度耗尽。
+1. 196真实passed证据及旧对象保护已核，先提交回执/README/CHANGELOG/整份交接，再按实现commit和真实验收把BACKLOG196标done并提交推送，核精确origin/clean，存work/batch-platform353/finalization-proof.json；不是只准备未实际执行。
+2. 固定C2具体公开继续策略已完成，不再重放353、350或另起同例。当前r6已运行1/1满额，当前Key配App1cb；原124r12仍4/4满额不动。剩余先核固定C1/C3：不要按版本/测试数造百分比，也不重新扩六组候选；发现具体开发缺口才入BACKLOG，已完实现不重复。
+3. C1需要新空任务的访谈/逐项核对/确认/规划/两版发布运行/交付的完整真实来源；187只是隔离界面十阶段，124复用旧访谈，不可拿196批量替代。C3须保留25项已实现/隔离/真实/限制区别，196只补批量这项具体证据。C4仅交付启用轻量分工时做同例质量成本比较，不为验收默认开启。
+4. 本批任何未用管理/费用/零派发旧槽都不自动归还或借用；353 passed/approval/attempt永久消费。后续新模型/Dify资源费用范围先做可审查本机方案再按规则明确批准，不以本机证据或旧一次批代替。旧unknown及新声明consumed均保持，不能再用原零派发证明重复发布。
+5. 最新保护基线353 post-success（旧352/350为历史），产品346/PID21864未部署改动；352部署脚本已消费，未来另建快照/核完整归属/原start-stop，不按端口杀。只复用加密凭据，不抄聊天密码、不输出或提交秘密/生产数据/work。
+6. 自主commit/push原main精确safe.directory/require_escalated/HTTP1.1，每push更新根CHANGELOG/适用README及整份交接。不全量或通读历史；实际Codex不足交接立即停，不重试/换号/购买/用券。按已确定收尾推进实质任务，不凭空拆任务耗额度。
 
 ## 4. 外部边界与账本
+
+- 第196新直接批准call_04396287daa445e8abe71c0ea06c0c74 question0，明确改授350零派发发布/Key/运行各1及新16管理/1登录，353仅执行一次passed。实际11读/1登录/发布Key运行各1，新Task/App/导入/模型0；管理/登录预留现477/32，旧461/31和所有旧预留/费用/unknown保持，未用5读不退借。
+- 当前Task17、App9/首次发布9/运行Key9、真实运行17/正式15、tokens2287；模型实际20/保守24、资源保守各10/运行18不变。公开四项3成功/1预期失败，原索引1/ValueError JSON已导出，0 tokens不是免费或账单核对；新Dify估算0.01非硬限，宿主未知。最新保护基线353 post-success。
 
 - 第192当前实际总Task17（原16保持），App9/首次发布8/运行Key8、真实运行16/正式passed14、tokens2287，不能把实际各资源再写成统一8或9。新认证令牌/CSRF按原空间检查提交，原运行Key和登录邮箱密码密文不变；发布本机unknown/一次性锁保持，实际POST0不自动改写。最新停止基线work/batch-platform350/post-stop-data-snapshot.json，源修复后也复核保持。
 
@@ -37,8 +41,8 @@
 
 - Sierra实际模型HTTP累计20，保守24（实际20+四旧保留槽4），124两阶段均已消费，无未派发新阶段；既有四槽0.20不借用。124新增按配置估算0.013001028 USD非账单，已知估算总0.096833604。95 unknown0.0188541、115 settled0.005404572及121 settled0.002954352均保持。
 - 原未释放模型包剩0.109785948仍保留，不自动退回为授权。已知0.096833604+四旧槽0.20+unknown0.0188541+剩包0.109785948仍0.425473652，旧0.45/0.5边界保持。124预留0.0472236+0.0501231=0.0973467，均不超每次0.055且合计不超0.10；两次返回据报告用量settled是配置估算，不是账单对账。
-- Dify累计实际16/正式passed14，案例App/首次发布/Key各8，累计报告tokens2287（原1779+124新增508），非账单。124管理实际32/登录1，保守413/28原预留上界保持；原0.02估算及0.17原整批边界不作为真实账单硬限。124/旧91/95/115/121均禁止重放，任务当前4/4已满，不追加第五例。
-- 当前专用环境202bfb35-2f92-47c1-bc1b-eac32082181d/原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17，当前Key配修改版App4682e8b8-30fa-4f1b-864c-fae85c577b6d；旧原版及第91Key加密归档。只复用加密登录，不从聊天复制密码，不输出任何密钥。
+- 截至124时Dify实际16/正式passed14，案例App/首次发布/Key各8，累计报告tokens2287（原1779+124新增508），非账单。124管理实际32/登录1，保守413/28原预留上界保持；原0.02估算及0.17原整批边界不作为真实账单硬限。124/旧91/95/115/121均禁止重放，任务当前4/4已满，不追加第五例。
+- 当前专用环境202bfb35-2f92-47c1-bc1b-eac32082181d/原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17，当前Key配196 App1cb02319-d42f-46b5-a1dd-34be136f83d6；124修改版App4682e8b8-30fa-4f1b-864c-fae85c577b6d及旧原版和第91Key均加密留档。只复用加密登录，不从聊天复制密码，不输出任何密钥。
 - 回答deepseek-flash/thinking=false/温度0.2/最大512、原FAQ d12cf081-5c52-41e3-b869-e94e6f8d37b1、TopK3/无阈值/无重排和全局模型/原任务策略不变。四个公开合成声明规则passed，不扩大到全25项签收、任意问题正确或更多真实客户数据。
 
 ## 5. 历史与执行要求

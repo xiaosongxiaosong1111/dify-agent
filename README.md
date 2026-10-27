@@ -1,6 +1,6 @@
 # Sierra
 
-当前版本还剩的必交项、25项验收边界和不自动扩展的功能范围，统一见[版本收尾清单](docs/RELEASE-CLOSEOUT.md)。
+公开批量真实收尾已通过：复用同一已导入App，独立恢复后完成首次发布、专属Key及四项计算，3成功/1预期失败，失败原索引1已导出；旧unknown和历史保留。没有新建Task/App或模型调用。[实际结果与边界](docs/existing-batch-platform-live-result-20261027.md)。
 
 公开批量新350批已重连原空间并导入App，原生null保护已修；0.346补充已导入Workflow的本机证据登记及一次独立发布恢复，旧unknown和历史保留。证据已登记，真实恢复/发布/Key/试跑尚未执行。[恢复入口及边界](docs/publication-recovery.md)。现有App的独立真实收尾程序已冻结并通过本机正常/失败核对，等待明确新范围，旧批不重放。[具体下一步](docs/existing-batch-platform-plan-20261027.md)。[实际进展、交付包与恢复边界](docs/public-batch-remaining-live-result-20261027.md)。
 
@@ -15,7 +15,7 @@ Sierra 是本机 Dify 搭建助手：选择应用类型，整理需求和材料�
 - **检索结果证据**：运行诊断区分无命中、返回片段、证据不足和技术失败，可核对有限来源ID/平台分数；不自动判业务相关性或改成绩。[说明](docs/retrieval-diagnostic-evidence.md)。
 - **本机代码样例**：已保存的根Python纯计算节点可填写独立JSON、核方案后单次隔离执行，查看实际返回/错误/超时并只读恢复回执；原确认和平台成绩保持，目标Sandbox另验。[范围](docs/local-code-samples.md)。
 - **后台连接恢复**：首次连接本机后台失败后，可明确“重新读取工作区”；保留未保存编辑和新任务选择，读取超时不自动重试，也不重发模型或平台操作。[范围](docs/workspace-connection-recovery.md)。
-- **批量平台核对准备**：有界执行器和正常新任务门禁已在隔离环境验证，公开源码及冻结方案可审查；第180获新批准后首次登录502即停止，未创建生产任务/平台资源或运行，真实Sandbox仍未验证，失败批不重放。[本批结果](docs/public-batch-platform-live-result-20261027.md)。 之后已恢复原Docker/Dify容器，仅健康元数据核对，未重新登录或运行。[依赖恢复](docs/dify-local-service-restoration-20261027.md)。[方案与边界](docs/public-batch-platform-plan-20261027.md)。
+- **批量真实平台**：第196复用已导入App，经独立恢复首次发布和专属Key绑定，公开四项一次运行得到3成功/1预期失败，失败原索引1经产品下载核SHA；旧unknown和已消费批保留，不重复派发。该证据限于固定公开继续策略，不代表任意代码或全业务通过。[真实结果](docs/existing-batch-platform-live-result-20261027.md)。
 - **无模型批量起步**：空白Workflow先明确失败策略，核固定公开代码和完整图后填未保存草稿；保留原索引、重复和空文字，不自动保存或执行。[范围](docs/public-batch-starter.md)。
 - **Agent目标连接核对**：目标连接变化使旧映射预览、下载和知悉勾选失效，输入保持；当前来源与连接摘要一致才允许继续，静态预览超时不自动重试。[范围](docs/agent-mapping-source.md)。
 - **运行历史聚焦**：默认最近20条，可按修订/App和失败/待核对状态筛选；旧窗保留位置，长JSON明确展开，全部旧记录仍可查看。[范围](docs/run-history-window.md)。
