@@ -1,0 +1,23 @@
+"""Read-only preparation; never creates approval, attempt, Task or platform traffic."""
+import copy,json,sys
+from pathlib import Path
+ROOT=Path(__file__).resolve().parent;PROJECT=ROOT.parents[1];sys.path[:0]=[str(ROOT),str(PROJECT/'backend')]
+from execute import FROZEN,LIMITS,runtime_check,validated
+from support import ReadOnly,sha,current
+from guard import capture,digest,require
+PLAYWRIGHT=r'C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\node_modules\playwright'
+ENV='202bfb35-2f92-47c1-bc1b-eac32082181d';PROVIDER='9513f594-c256-46b7-882a-35d9871bf9d0';BUILD='0.346.0-7335a462f131de075e28'
+
+def freeze():
+ require(ROOT==PROJECT/'work/c1-mainline354' and not any((ROOT/name).exists() for name in ('plan.json','manifest.json','approval.json','attempt.json')),'Freeze only a new canonical package')
+ store=ReadOnly(PROJECT/'data');before=capture(store);baseline=json.loads((PROJECT/'work/batch-platform353/post-success-data-snapshot.json').read_text('utf-8'));require(before==baseline,'Latest successful data baseline changed')
+ env=store.get('environment',ENV);provider=store.get('provider',PROVIDER)
+ require(env['version']=='1.17.1' and env['console_workspace_id']=='c3306c18-ceb2-4bee-b2d1-796ce2048f17' and env.get('console_login_binding')=={'base_url':env['base_url'],'version':env['version'],'workspace_id':env['console_workspace_id']},'Dedicated original workspace changed')
+ require(provider['base_url']=='https://api.deepseek.com' and provider['model']=='deepseek-flash' and provider.get('protocol')=='openai-compatible' and provider['pricing']['input_per_million_usd']==.3 and provider['pricing']['output_per_million_usd']==1.2,'Chosen main model/pricing changed')
+ require(store.has_secret(PROVIDER,'api_key') and all(store.has_secret(ENV,k) for k in ('console_login_email','console_login_password','service_api_key')),'Encrypted selected credentials missing')
+ package=json.loads((PROJECT/'work/batch-platform353/plan.json').read_text('utf-8'));old=copy.deepcopy(package['consumed_files']);manifest=json.loads((PROJECT/'work/batch-platform353/manifest.json').read_text('utf-8'));old['batch-platform353']=copy.deepcopy(manifest['files'])|{name:sha(PROJECT/'work/batch-platform353'/name) for name in ('manifest.json','approval.json','attempt.json')}
+ plan={'schema_version':1,'batch_id':'c1-mainline354','state':'frozen_unapproved','limits':LIMITS,'wall_seconds':1800,'max_each_model_estimate_usd':'0.055','max_new_model_estimate_usd':'0.275','max_model_output_tokens':6000,'max_model_http_seconds':120,'new_dify_estimate_usd':'0.02','new_batch_estimate_upper_usd':'0.30','model_estimate_book_before_usd':'0.425473652','model_estimate_book_upper_usd':'0.700473652','billing_hard_cap':False,'host_cost':'unknown','environment_id':ENV,'provider_id':PROVIDER,'environment_sha256':digest(env),'provider_sha256':digest(provider),'runtime_build':BUILD,'runtime_process_sha256':sha(PROJECT/'runtime-process.ps1'),'runtime_manifest_sha256':sha(PROJECT/'.runtime/snapshots'/BUILD/'runtime-manifest.json'),'protected_data':before,'consumed_files':old,'playwright_path':PLAYWRIGHT,'proposed_cumulative':{'tasks_before':17,'tasks_after':18,'actual_model_before':20,'actual_model_after_max':25,'conservative_model_before':24,'conservative_model_after':29,'actual_resource_each_before':9,'actual_resource_each_after_max':11,'conservative_resource_each_before':10,'conservative_resource_each_after':12,'actual_runs_before':17,'actual_runs_after_max':21,'conservative_runs_before':18,'conservative_runs_after':22,'management_reserved_before':477,'management_reserved_after':525,'login_reserved_before':32,'login_reserved_after':33},'new_scope_approved':False,'old_unknown_and_reservations_kept':True,'business_acceptance_complete':False}
+ current(PROJECT,plan);proof=runtime_check(plan);require(capture(store)==before,'Production changed during read-only freeze');require(Path(PLAYWRIGHT).is_dir(),'Pinned Playwright unavailable')
+ (ROOT/'plan.json').write_text(json.dumps(plan,ensure_ascii=False,indent=2),'utf-8');(ROOT/'manifest.json').write_text(json.dumps({'schema_version':1,'batch_id':plan['batch_id'],'files':{name:sha(ROOT/name) for name in sorted(FROZEN)}},indent=2),'utf-8');validated(ROOT)
+ out={'state':'frozen_unapproved','plan_sha256':sha(ROOT/'plan.json'),'manifest_sha256':sha(ROOT/'manifest.json'),'frozen_files':len(FROZEN),'runtime':proof,'production_unchanged':capture(store)==before,'physical_model_dify_http':0,'approval_created':False,'attempt_created':False};(ROOT/'freeze-proof.json').write_text(json.dumps(out,indent=2),'utf-8');print(json.dumps(out))
+if __name__=='__main__':freeze()

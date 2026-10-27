@@ -1,14 +1,14 @@
-# HANDOFF — Sierra（196现有App真实批量收尾passed，固定C2缺证关闭）
+# HANDOFF — Sierra（C2真实passed，197新空任务C1独立包冻结待新范围）
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main，上次HEAD/origin d792a5c已推；本轮196真实回执23588d5已提交并验收done，待关闭推送；AT14当前映射同步真实继续及原生停止等限制。产品仍0.346.0-7335a462f131de075e28/287文件/所属PID21864，无产品变更部署或全量测试。
-- 用户call_04396287daa445e8abe71c0ea06c0c74 question0直接批准“允许这批现有App独立收尾范围”，绑定61dbbd3方案及353 plan fccc4f40/manifest71979f5f，已独占登记approval及attempt并唯一执行passed，禁止重放。实际11管理/1登录/发布Key运行各1，0新Task/App/导入/模型，管理/登录新预留477/32、旧全部槽和费用不退借。
-- 同Task db13bc92-3b25-4249-abfc-4c4b384a1d17/r6和App1cb02319-d42f-46b5-a1dd-34be136f83d6：加密重连原空间→新本机恢复声明/双确认→原首次发布→专属Key加密绑定/旧Key归档→公开4项一次运行及失败JSON导出完成。Task现run_completed，1/1运行上限已满，不追加第二例。
-- 新恢复1f9c554f-84e7-4727-939b-d4f334e79662已消费，新发布0b31b690-de97-4e55-ba7c-0696c52c8f3e succeeded，图922e9378-1770-461a-9559-d6a47da38a04与冻结核心图匹配。原350 publication1e5eeaee-aa6b-4ce7-8e4d-e3961f528010仍unknown/write_attempted=true，所有旧运行完整保留，不抹旧记录或重放旧批。
-- 实际Run d7cfbf6c-abfc-4e2f-bd6e-6ddd55471cf1，本机record197e6083-39b6-4a69-8c61-cb8bb4256f0b：原生succeeded、本机success/声明passed，4总/3成功/1预期失败，原索引1/ValueError，原生5步/1.197485秒/0tokens。产品失败筛选/导出931字节，SHA e9f998b71e59cc2eae626a3127e051e4e731303bbbf768d899db4ab9c04acb94，work/batch-platform353/live-failure-items.json；不是宿主免费或全部业务签收。
-- 17Task数量不变，其它16/当前Task原需求配置确认成果与所有旧runs、全部旧资产主Key/邮箱密码密文/模型费用账本及124/180/348/350完整冻结消费保护。当前连接已配196 App，旧124修改版Key加密留档；只允许本批认证和运行配对/新回执密文更新。最新基线work/batch-platform353/post-success-data-snapshot.json，post-success-proof及docs/existing-batch-platform-live-result-20261027.md/json是安全证据。
-- 当前实际App9/pub9/Key9、运行17/正式15、报告tokens2287；模型实际20/保守24、资源保守各10/运行18，管理477/登录32。固定C2公开受控异常继续及失败原索引交付缺证关闭；C1新空任务完整链/C3最终结论/条件C4未全关闭。Claude318无恢复证据不形式重试/冒充子审查，sierra已删除；最近实际Codex33%/79%仍可用。
+- 根E:\workSpace\dify-agent/main，196真实结果23588d5/关闭f904fe0已推原GitHub main且精确origin/clean核对完成，work/batch-platform353/finalization-proof.json。产品仍0.346.0-7335a462f131de075e28/287文件/PID21864，197只开发执行包，不改产品/部署/全量测试。
+- 197新C1包已完成本机验收待实现commit：work/c1-mainline354，plan0583bfe3d78430e939e29d80122d5900e70dbea3cc3941d7a48c26f5a8fe53de / manifestc808a1a9f79c03a4ca83e7d44466e8183678d9be4dfa39f697ac05b073216bc1，15固定文件；公开tools/c1-mainline354及tools/check_c1_rehearsals354.py，docs/c1-blank-task-plan-20261027.md及preflight JSON。
+- 本机62门禁及冻结同程序正常/6失败停止的准确阶段/计数通过。正常替身model5/read32/login1/import-publish-key各2/run4，新空Task正常门禁、三访谈/两规划、五结构复核、主动候选采纳、四例原生形状轨迹1/0/1/0、两版ZIP摘要/核心图仅固定文案变化通过。结构复核均synthetic_structural_checker/semantic_reviewed=false，非真实模型语义或业务通过；精确配置/扩展参数及轨迹经正常API，其余关键操作在界面，不伪称全部鼠标操作。
+- 当前实际模型/Dify/生产写入0，仍17Task、App9/pub9/Key9、运行17/正式15、tokens2287、模型20/保守24、管理477/登录32，旧全部费用/unknown/槽保持。354没有approval/attempt/worker-started；新范围只是拟议，不能因用户“继续直到额度”自动扩大具体旧次数/费用。
+- 拟198新独立批：Task1、模型5HTTP（各6000输出tokens/120秒、每阶段1次不自动修复重试）、App/首次发布/Key各2、四例及轨迹，48读/1登录，30分钟准入。新模型预留≤0.275+Dify估0.02，整批估算上界0.30 USD非账单硬限/宿主未知；旧模型账本0.425473652保留，加新模型后合并0.700473652须明确扩大旧0.45/0.5，不借退旧槽。拟管理525/登录33、模型保守29/资源保守各12/运行22，均尚未预留或批准。
+- 196的353已唯一执行passed且永久消费，真实11读/1登录/发布Key运行各1，无新TaskApp/import/模型；Task db13bc92/r6及App1cb02319已run_completed/1次满额，原publication1e5eeaee仍unknown/write_attempted=true。当前连接配196 App，旧124修改版Key已加密归档。最新生产基线work/batch-platform353/post-success-data-snapshot.json；197 freeze内protected_data同态，所有原17及密文资产/主Key、124/180/348/350/353完整消费保持。
+- Claude Code既有网关实际DeepSeek，318无恢复证据不形式重试/提高预算/冒充子审查；本轮由根代理实现核对。sierra已删除。实际Codex最近79%/86%仍可用，不说额度耗尽，不用重置券或换号。
 
 ## 2. 已消费批与保护
 
@@ -19,12 +19,13 @@
 
 ## 3. 下一步
 
-1. 196真实回执23588d5已提交，实际passed及旧对象保护核对通过，已done；关闭推送后核精确origin/clean，存work/batch-platform353/finalization-proof.json。AT14当前映射同步固定继续实证及未验原生停止等限制，不重复实际批。
-2. 固定C2具体公开继续策略已完成，不再重放353、350或另起同例。当前r6已运行1/1满额，当前Key配App1cb；原124r12仍4/4满额不动。剩余先核固定C1/C3：不要按版本/测试数造百分比，也不重新扩六组候选；发现具体开发缺口才入BACKLOG，已完实现不重复。
-3. C1需要新空任务的访谈/逐项核对/确认/规划/两版发布运行/交付的完整真实来源；187只是隔离界面十阶段，124复用旧访谈，不可拿196批量替代。C3须保留25项已实现/隔离/真实/限制区别，196只补批量这项具体证据。C4仅交付启用轻量分工时做同例质量成本比较，不为验收默认开启。
-4. 本批任何未用管理/费用/零派发旧槽都不自动归还或借用；353 passed/approval/attempt永久消费。后续新模型/Dify资源费用范围先做可审查本机方案再按规则明确批准，不以本机证据或旧一次批代替。旧unknown及新声明consumed均保持，不能再用原零派发证明重复发布。
-5. 最新保护基线353 post-success（旧352/350为历史），产品346/PID21864未部署改动；352部署脚本已消费，未来另建快照/核完整归属/原start-stop，不按端口杀。只复用加密凭据，不抄聊天密码、不输出或提交秘密/生产数据/work。
-6. 自主commit/push原main精确safe.directory/require_escalated/HTTP1.1，每push更新根CHANGELOG/适用README及整份交接。不全量或通读历史；实际Codex不足交接立即停，不重试/换号/购买/用券。按已确定收尾推进实质任务，不凭空拆任务耗额度。
+1. 先提交197公开程序/方案/日志，再凭62门禁/正常及6停止/双包核对/生产保护标BACKLOG197 done并提交关闭交接push原main，核精确origin及clean，存work/c1-mainline354-check/finalization-proof.json；196已f904fe0推送完成，不重放353或旧售后。
+2. 198需要新直接整批范围，固定方案docs/c1-blank-task-plan-20261027.md及双摘要0583bfe3/c808a1a9。Task1、model5、App/发布/Key各2、run4、read48/login1，估算0.30非硬限；模型估算账本合并0.700473652明确扩大旧0.45/0.5，原unknown/四保留槽/所有旧预留保持。当前未批准，禁止live，不从旧未用范围借用或自动退款。
+3. 获批后核原runtime/PID/287文件、17Task/模型定价和连接/最新353基线、全部消费文件；按直接回复登记新审批及525/33/模型29资源12运行22等预留。仅原work/c1-mainline354/execute.py live --playwright 固定绝对路径一次；attempt与worker-started独占，异常整批停、不阶段重试。
+4. 真实worker在五处等根代理复核：vague_interview/complete_interview/first_plan/changed_interview/changed_plan。看live-output/review-source-阶段.json的实际内容与source_sha256；核追问不提前搭建、全部主题/引用、只用检索资料且不硬编码政策、参数引用/失败语义，修改候选只变固定模板。自己按既有委托审，不向用户逐次索许可，也不冒充Claude/人类；用冻结submit_review.py --output live-output --stage ... --source-sha256 ... --note 具体说明提交agent_delegated。不接受未读内容的自动语义签收。
+5. 若内容不合要求用--decision reject写一次拒绝/stop；若实际Codex不足立刻best-effort写live-output/stop.json及整份交接，停止新出站/不重试/换号/买额度/用券。在途请求无法保证取消，预算和旧unknown原样保留。worker每次运输和API写入检查停止标记，过期/源变/重复复核拒绝；不要修改冻结程序或手改真实候选绕模型证据。
+6. 预检复核用tools/check_c1_rehearsals354.py指定新的work输出/固定Playwright，源码目录62 gates（其源位置拒绝live测试需在源码目录调用）逐字节同冻结；不要直接在canonical work无参数运行gates误当live入口。生产始终17基线，源首版固定代码只供synthetic末端，不得预置进真实Task；受限界面仅展示本批Task与所选资料，配置和轨迹是正常API不是直写。
+7. 剩余C1新空任务真实链/C3最终25项及条件C4，C2固定公开继续缺证已196关闭，六组扩展不自动做。只复用加密凭据、不抄聊天密码、不输出/提交秘密/生产数据/work；commit/push原main精确safe.directory/require_escalated/HTTP1.1，每push更新根CHANGELOG/适用README及整份交接。不全量或通读历史；旧部署脚本已消费，不按端口杀进程。
 
 ## 4. 外部边界与账本
 
