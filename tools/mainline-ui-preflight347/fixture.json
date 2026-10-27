@@ -1,0 +1,194 @@
+{
+  "source": "0.205 public synthetic C07, approved one-time model response; local replay only",
+  "requirements": {
+    "goal": "为公开合成售后知识问答准备静态Workflow，完整命中/无命中两分支。",
+    "audience": "开发人员与内部演示用户。",
+    "input": "必填query文本。",
+    "output": "唯一answer字符串。",
+    "rules": "必须先检索configuration.dataset_ids中的kb_developer_policy；top_k=3，无rerank/阈值；有结果才按检索内容用配置模型回答；无命中明确未找到并提示人工，不凭常识编造。",
+    "knowledge": "已接受模拟ID kb_developer_policy，仅用于静态生成，真实库未创建。本次不发送真实库ID、名称、文档或目录，不执行检索。",
+    "exceptions": "无命中严格返回：未在资料库中找到与问题相关的内容，无法据此作答，请转人工处理。模型/检索执行错误保持失败，不重试、不静默回退或伪造成功。本次只静态交付，尚未导入或运行。",
+    "tests": "有命中走受资料约束回答；空结果给未找到并提示人工；真实知识质量未验证。"
+  },
+  "configuration": {
+    "assistant_provider_id": null,
+    "dify_model_provider": "langgenius/openai/openai",
+    "dify_model": "gpt-4o-mini",
+    "temperature": 0.2,
+    "max_tokens": 2048,
+    "model_parameters": {},
+    "opening_statement": "",
+    "suggested_questions": [],
+    "conversation_memory": false,
+    "memory_turns": 5,
+    "dataset_ids": [
+      "kb_developer_policy"
+    ],
+    "retrieval_top_k": 3,
+    "mock_dependencies": [],
+    "resource_plan": "只创建新的应用，不覆盖已有应用或知识库。"
+  },
+  "plan": {
+    "schema_version": 1,
+    "nodes": [
+      {
+        "id": "start",
+        "type": "start",
+        "title": "开始",
+        "config": {
+          "variables": [
+            {
+              "variable": "query",
+              "type": "text-input",
+              "required": true
+            }
+          ]
+        }
+      },
+      {
+        "id": "retrieval",
+        "type": "knowledge-retrieval",
+        "title": "检索开发规范",
+        "config": {
+          "dataset_source": "node",
+          "dataset_ids": [
+            "kb_developer_policy"
+          ],
+          "query_variable_selector": [
+            "start",
+            "query"
+          ],
+          "top_k": 3,
+          "score_threshold": null,
+          "reranking_enable": false
+        }
+      },
+      {
+        "id": "check_hits",
+        "type": "if-else",
+        "title": "判断是否有命中",
+        "config": {
+          "cases": [
+            {
+              "case_id": "case1",
+              "logical_operator": "and",
+              "conditions": [
+                {
+                  "variable_selector": [
+                    "retrieval",
+                    "result"
+                  ],
+                  "varType": "array[object]",
+                  "comparison_operator": "not empty",
+                  "value": ""
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "llm_answer",
+        "type": "llm",
+        "title": "按资料回答",
+        "config": {
+          "model": {
+            "provider": "langgenius/openai/openai",
+            "name": "gpt-4o-mini",
+            "mode": "chat",
+            "completion_params": {
+              "temperature": 0.2,
+              "max_tokens": 2048
+            }
+          },
+          "system_prompt": "你只依据下方检索到的资料回答问题。不得使用资料之外的知识、常识或猜测补充。若资料不足以回答，明确说明未找到相关内容并提示人工处理。",
+          "user_prompt": "用户问题：{{#start.query#}}\n\n检索资料：{{#context#}}",
+          "context_variable_selector": [
+            "retrieval",
+            "result"
+          ]
+        }
+      },
+      {
+        "id": "answer_nohit",
+        "type": "template-transform",
+        "title": "无命中提示",
+        "config": {
+          "template": "未在资料库中找到与问题相关的内容，无法据此作答，请转人工处理。",
+          "variables": []
+        }
+      },
+      {
+        "id": "end",
+        "type": "end",
+        "title": "输出",
+        "config": {
+          "outputs": [
+            {
+              "variable": "answer",
+              "value_selector": [
+                "llm_answer",
+                "text"
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "end_nohit",
+        "type": "end",
+        "title": "输出（无命中）",
+        "config": {
+          "outputs": [
+            {
+              "variable": "answer",
+              "value_selector": [
+                "answer_nohit",
+                "output"
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "edges": [
+      {
+        "source": "start",
+        "target": "retrieval"
+      },
+      {
+        "source": "retrieval",
+        "target": "check_hits"
+      },
+      {
+        "source": "check_hits",
+        "target": "llm_answer",
+        "source_handle": "case1"
+      },
+      {
+        "source": "check_hits",
+        "target": "answer_nohit",
+        "source_handle": "false"
+      },
+      {
+        "source": "llm_answer",
+        "target": "end"
+      },
+      {
+        "source": "answer_nohit",
+        "target": "end_nohit"
+      }
+    ]
+  },
+  "changed_fallback": "知识库暂无相关信息，请联系人工客服并提供订单号。",
+  "labels": {
+    "goal": "业务目标",
+    "audience": "目标用户",
+    "input": "输入内容",
+    "output": "期望输出",
+    "rules": "关键业务规则",
+    "knowledge": "资料与依赖",
+    "exceptions": "异常处理",
+    "tests": "验收场景"
+  }
+}
