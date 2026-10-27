@@ -201,12 +201,14 @@
       "deliverable": "接口说明",
       "acceptance": "聊天、任务、确认、运行和错误字段明确",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "docs/development-tasks.md",
+        "docs/RELEASE-CLOSEOUT.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_scope": "2026-10-27 BACKLOG185；仅收尾清单所述实现与既有证据，非完整业务签收"
     },
     {
       "id": "T015",
@@ -870,12 +872,14 @@
       "deliverable": "方案建议工具",
       "acceptance": "用户不懂规则时有具体选项和例子，确认后采用",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "docs/development-tasks.md",
+        "docs/RELEASE-CLOSEOUT.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_scope": "2026-10-27 BACKLOG185；仅收尾清单所述实现与既有证据，非完整业务签收"
     },
     {
       "id": "T056",
@@ -1300,12 +1304,14 @@
       "deliverable": "资料与建库方案",
       "acceptance": "新增／复用／修改动作及影响由用户确认",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "docs/development-tasks.md",
+        "docs/RELEASE-CLOSEOUT.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_scope": "2026-10-27 BACKLOG185；仅收尾清单所述实现与既有证据，非完整业务签收"
     },
     {
       "id": "T085",
@@ -1313,12 +1319,14 @@
       "deliverable": "知识库执行工具",
       "acceptance": "记录实际资源 ID；重试不盲目重复创建；失败项清晰",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "docs/development-tasks.md",
+        "docs/RELEASE-CLOSEOUT.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_scope": "2026-10-27 BACKLOG185；仅收尾清单所述实现与既有证据，非完整业务签收"
     },
     {
       "id": "T086",
@@ -1342,12 +1350,14 @@
       "deliverable": "检索报告",
       "acceptance": "区分无答案、低相关和技术失败，结果有来源",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "docs/development-tasks.md",
+        "docs/RELEASE-CLOSEOUT.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_scope": "2026-10-27 BACKLOG185；仅收尾清单所述实现与既有证据，非完整业务签收"
     },
     {
       "id": "T088",
@@ -1457,12 +1467,14 @@
       "deliverable": "修复工具",
       "acceptance": "保持确认方案；修复前后有差异；改变关键选择转待确认",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "docs/development-tasks.md",
+        "docs/RELEASE-CLOSEOUT.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_scope": "2026-10-27 BACKLOG185；仅收尾清单所述实现与既有证据，非完整业务签收"
     },
     {
       "id": "T096",
@@ -1600,12 +1612,14 @@
       "deliverable": "最新版本导入工具",
       "acceptance": "读取方式失败时可上传文件，不静默使用旧版本覆盖",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "docs/development-tasks.md",
+        "docs/RELEASE-CLOSEOUT.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_scope": "2026-10-27 BACKLOG185；仅收尾清单所述实现与既有证据，非完整业务签收"
     },
     {
       "id": "T106",
@@ -1613,12 +1627,14 @@
       "deliverable": "版本差异报告",
       "acceptance": "对照生成基线定位人工改动和受影响需求",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "docs/development-tasks.md",
+        "docs/RELEASE-CLOSEOUT.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_scope": "2026-10-27 BACKLOG185；仅收尾清单所述实现与既有证据，非完整业务签收"
     },
     {
       "id": "T107",
@@ -1626,12 +1642,14 @@
       "deliverable": "合并与修改工具",
       "acceptance": "默认保留当前改动，冲突时确认，不整份静默重写",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "docs/development-tasks.md",
+        "docs/RELEASE-CLOSEOUT.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_scope": "2026-10-27 BACKLOG185；仅收尾清单所述实现与既有证据，非完整业务签收"
     },
     {
       "id": "T108",
@@ -1683,12 +1701,14 @@
       "deliverable": "Chatflow 扩展",
       "acceptance": "连续消息、缺关键信息、上下文规则在实际应用验证",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "docs/development-tasks.md",
+        "docs/RELEASE-CLOSEOUT.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_scope": "2026-10-27 BACKLOG185；仅收尾清单所述实现与既有证据，非完整业务签收"
     },
     {
       "id": "T112",
@@ -1864,12 +1884,14 @@
       "deliverable": "路由规则",
       "acceptance": "仅范围明确任务下放；主 Agent 持有用户对话与确认",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "docs/development-tasks.md",
+        "docs/RELEASE-CLOSEOUT.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_scope": "2026-10-27 BACKLOG185；仅收尾清单所述实现与既有证据，非完整业务签收"
     },
     {
       "id": "T125",
@@ -1877,12 +1899,14 @@
       "deliverable": "轻量任务工具",
       "acceptance": "只给必要信息，输出有格式与检查，不复制全部历史",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "docs/development-tasks.md",
+        "docs/RELEASE-CLOSEOUT.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_scope": "2026-10-27 BACKLOG185；仅收尾清单所述实现与既有证据，非完整业务签收"
     },
     {
       "id": "T126",

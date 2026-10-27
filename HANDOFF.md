@@ -1,11 +1,12 @@
-# HANDOFF — Sierra（第184已部署，Git闭环中）
+# HANDOFF — Sierra（185收尾范围复核，下一项检索诊断）
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；183实现a834a45/关闭364158f已推送complete。184现已部署0.344.0-984c788dcc6b2bad3530/284文件/PID39656，后端14/相关8、GUI6/真实归属清理1/构建过，原16/180状态/密文主Key/资产和124/180保护。
-- 旧修订样例可显式核归属资源/确认清理，原unknown/result不改、只记last_cleanup；CID漂移/错归属/晚到拒绝，已知维护ID只读恢复，不重执行代码。实际Dify/模型0。
-- 原180登录1/管理0/模型0/资源运行0的502失败永不重放；管理429/登录29预留及全部旧费用边界保持。
-- 184实现5bb57dd已落且done；关闭/push与clean以work/code-maintenance345/finalization-proof.json为准；sierra已删除，Claude318无恢复不形式重试。
+- 工作根E:\workSpace\dify-agent/main。184实现5bb57dd/关闭ed7fd74均已推原remote，0.344.0-984c788dcc6b2bad3530/284文件/PID39656；不重放345/deploy.ps1。
+- 用户要求解决每日目标不清；185已完成12项实现范围复核及原25项对照，docs/RELEASE-CLOSEOUT.md固定本版本必交C1新空任务完整主链、C2真实批量部分失败、C3逐项最终结论，启用轻量时加C4真实比较。六组扩展不自动入队，不计算虚假完成百分比。
+- acceptance_audit --runtime已过25场景/25记录；只核映射，不执行全量测试或声明业务通过。分层索引12项改current_evidence，acceptance_closed仍false。文档更新不增产品版本或部署。
+- 确证T087检索诊断缺口：node_observations只处理HTTP/提取，不区分检索空结果、缺失和技术失败；下一186只修此实质问题，后回固定收尾项。新增模型/Dify0，原16及密文/资产/账本/消费包未动。
+- 本次实际额度已恢复可用（起始primary4%/weekly62%），不可沿用上一窗口已耗尽结论。Claude318失败无恢复证据，未形式重试或冒充子审查；sierra已删除。
 
 ## 2. 已消费批与保护
 
@@ -16,10 +17,10 @@
 
 ## 3. 下一步
 
-1. 184所有针对性验收和新快照部署已过，核Git闭环；实现commit存在后才done，再关闭push，complete后不重放345/deploy.ps1（旧343前提已消费）。
-2. 当前0.344.0-984c788dcc6b2bad3530，后续新部署按所属PID39656及新固定快照/原start-stop保护，不按端口杀。原16逻辑基线取180 post-stop，根PID/运维日志另核，密文资产与124/180原样。
-3. 普通队列空先有限核实既定需求事实缺口，不把切片验收当全项目完成；实际额度不足立即尽力整份交接停，不重试/换号/购买/用券，不能把近额度当已耗尽。
-4. 原真实批/unknown/费用/模型20与保守24、Dify16/14、资源各8/tokens2287保持，不自动借退或重放；新真实范围须独立方案。每push前CHANGELOG/适用README/整份交接，原remote/精确safe.directory/require_escalated/HTTP1.1，不让用户代提交；work/数据/秘密不提交，不全量或通读历史。
+1. 185文档验收已过；实现commit存在后才done，再关闭commit/push。随后只按BACKLOG186开发T087检索诊断：以受控原生轨迹复现空结果误导，保留来源/原验收状态，不猜低相关或业务答案，不复制正文/凭据。
+2. 代码改动只针对性验证；部署另建固定快照及新work保护脚本，以当前344/PID39656重核完整命令，使用原start/stop，不按端口杀。180 post-stop逻辑/密文资产及124/180文件保护，PID/运维日志另核；不重跑旧部署。
+3. 完成后回docs/RELEASE-CLOSEOUT.md的C1/C2/C3，不增加可选功能凑队列；新真实批先做可审查方案再取明确范围。180首次登录502已消费，Docker恢复不授权重试；既有资源/费用/unknown/预留不借退。
+4. 重要成果自主提交推送原main，push前CHANGELOG/适用README/整份交接；Git用精确safe.directory/require_escalated/HTTP1.1，不让用户代提交；work/数据/秘密不提交，不全量或通读历史。实际Codex不足立即尽力整份交接并停，不重试/换号/购买/用券。
 
 ## 4. 外部边界与账本
 
