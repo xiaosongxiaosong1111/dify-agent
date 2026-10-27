@@ -6,7 +6,7 @@
 - 192直接批准call_2025a29d3fcf463dab94fc76b4a4130f，明确改授189零派发范围，350的33870609/91cbcedd已消费。实际重连原空间成功，新Task db13bc92-3b25-4249-abfc-4c4b384a1d17/r6及App1cb02319-d42f-46b5-a1dd-34be136f83d6已导入；读6/登录1/import1/发布POST0/Key0/run0/model0，发布前保护拒绝即停，绝不重放。
 - Task仍imported，publication1e5eeaee-aa6b-4ce7-8e4d-e3961f528010为unknown/write_attempted=true；实际POST0由底层准入计数证明，但不抹旧unknown或解一次性锁。原16对象/所有原资产主Key/运行Key与登录资料密文、旧124/180/348及350冻结消费回执保持，仅批准的新console_token/csrf已核原空间后更新。当前共17Task。
 - 193已按固定标签1.17.1/8387590复现根因：PublishedWorkflowApi.get无发布返回HTTP200/null，product已支持、源Boundary只认404。源现严格null或兼容404仅在未见任何发布身份/次数0时允许；已有发布清旧absence，已见发布后缺失/坏值仍拒绝。未读流替身默认原生null，27定向（两种正常API全链/8停止/SDK/Cookie/不覆盖）过，新增真实HTTP0；旧unknown及停止基线完全保持。
-- docs/public-batch-remaining-live-result-20261027.md/json和unpublished-null-guard-result-20261027.json，work/unpublished-null351有复现/检查/保护；193待提交，commit存在后才done。work/batch-platform350/imported-unpublished-r6-delivery.zip是保存的同版DSL/报告/README包，20002字节/SHA3c9d1bb9...，已核摘要，platform/business仍false，不是试跑成绩。
+- docs/public-batch-remaining-live-result-20261027.md/json和unpublished-null-guard-result-20261027.json，work/unpublished-null351有复现/检查/保护；193实现4941014已存在且离线验收done；最终关闭/push/clean核对见work/unpublished-null351/finalization-proof.json。work/batch-platform350/imported-unpublished-r6-delivery.zip是保存的同版DSL/报告/README包，20002字节/SHA3c9d1bb9...，已核摘要，platform/business仍false，不是试跑成绩。
 - 管理461/登录31、模型20/保守24、App9/pub8/Key8、运行16/正式14与旧unknown/槽/费用保持。C2实际Sandbox仍未跑；C1/C3及条件C4保留，六组扩展不自动做。Claude318无恢复不形式重试；sierra已删除。实际Codex仍可用，不称额度用尽。
 
 ## 2. 已消费批与保护
@@ -18,7 +18,7 @@
 
 ## 3. 下一步
 
-1. 193源修复/27定向及原数据保护已过，提交实现、192实际结果、CHANGELOG/适用README/整份交接；commit存在后done，关闭push并核精确origin。192只blocked，旧350/348/180绝不修改或重放。
+1. 193源修复/27定向及原数据保护已过，实现4941014已存在且done；关闭提交push后核精确origin，结果放finalization-proof.json。192只blocked，旧350/348/180绝不修改或重放。
 2. 本轮真实批已终止，不把未用发布/Key/运行当可直接续派。现有Task/App已创建，不能再说192全范围零派发，也不靠另造Task/App绕发布unknown。下一次继续时先评审现有App安全恢复：可信未派发证据与独立恢复记录、原unknown/来源保留、当前图与发布状态需在新明确范围内核对；当前没有已验证恢复实现/新冻结包，不先申请重放或实际执行。
 3. product workflow_publication.source对该App任何write_attempted旧记录均拒绝再次发布，不能简单再prepare/confirm或直接改write_attempted=false。即使源guard修好，原记录不会自动升级/解锁；不能把实际POST0推成平台当前仍未发布或已通过。
 4. 最新保护基线350 post-stop，含新Task17/获批认证更新/发布unknown；348基线只历史。原16/运行Key/登录密文资产、旧124/180/348/350冻结及消费保护。当前管理461/登录31和所有旧估算保留，模型20/24、实际App9/pub8/Key8、运行16/正式14；新实际范围须具体批准，不退借旧槽。
