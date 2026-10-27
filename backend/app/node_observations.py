@@ -1,5 +1,8 @@
 """Fixed native extraction status only; never copy business output or reason."""
-def extract(row):
+def extract(row,secrets=()):
+ if row.get("node_type")=="knowledge-retrieval":
+  from .retrieval_observations import extract as retrieval
+  return retrieval(row,secrets)
  if row.get('node_type')=='http-request':
   outputs=row.get('outputs');truncated=row.get('outputs_truncated');code=outputs.get('status_code') if isinstance(outputs,dict) else None
   known=(truncated is None or truncated is False) and type(code) is int and 100<=code<=599
@@ -13,6 +16,9 @@ def extract(row):
 
 def finding(node):
  observations=node.get('observations') or {}
+ if observations.get("basis")=="native_retrieval_result":
+  from .retrieval_observations import finding as retrieval_finding
+  return retrieval_finding(node)
  if node.get('status')=='succeeded' and observations.get('http_status_class')=='non_2xx':
   return {'category':'http_response_business_check','title':'HTTP节点执行完成，响应不是2xx','basis':'native_http_status_code','confidence':'已记录','node_type':'http-request','node_id':node['node_id'],'execution_id':node['id'],'recommendation':f"已记录HTTP状态码 {observations['http_status_code']}。本机目标版本关闭重试且无异常策略时，非2xx可仍为节点成功；请核对已确认的可接受状态码、返回体和业务分支。404无记录、304未修改等也可能是明确业务结果，不能自动把整体或样例改判失败。2xx同样不保证业务正确；更改重试会改变请求次数及费用，不能为消除提示而自动启用重试或改验收。"}
  if node.get('status')!='succeeded' or (node.get('observations') or {}).get('extraction_status')!='not_extracted':return None

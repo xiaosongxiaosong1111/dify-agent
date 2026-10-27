@@ -121,7 +121,7 @@ def findings_for_display(report):
         if not isinstance(node,dict):return findings
         observation=node.get('observations') or {}
         if not isinstance(observation,dict):return findings
-        if node.get('status')!='succeeded' or node.get('error') or observation.get('extraction_status') in {'not_extracted','unknown'} or observation.get('http_status_class') in {'non_2xx','unknown'}:
+        if node.get('status')!='succeeded' or node.get('error') or observation.get('extraction_status') in {'not_extracted','unknown'} or observation.get('http_status_class') in {'non_2xx','unknown'} or observation.get('retrieval_status') in {'empty','unknown','technical_failure'}:
             return findings
     return [{'category':'execution_trace_success','title':'采集轨迹未发现执行失败','basis':'complete_success_trace','confidence':'已记录','recommendation':'本次远端终态与采集到的完整节点轨迹均为成功。仍须核对验收预期、资料内容与方案来源；执行成功不等于完整业务验收通过。'}]
 
@@ -150,7 +150,7 @@ def parse_trace(detail,trace,rid,secrets):
         from .node_metrics import extract
         node['metrics']=extract(row,lambda v:safe_text(v,secrets,128))
         from .node_observations import extract as observe
-        observation=observe(row)
+        observation=observe(row,secrets)
         if observation is not None:node['observations']=observation
         nodes.append(node)
     failed=[node for node in nodes if node['status'] in {'failed','exception'} or node['error']]
