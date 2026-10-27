@@ -1,0 +1,13 @@
+{
+  "state": "offline_fix_passed",
+  "test_file": "backend/tests/test_batch_transport_response.py",
+  "checks": 16,
+  "original_failure_reproduced": "ResponseNotRead at response.json before response.aread",
+  "native_transport_contract": "unread async stream and no attached request",
+  "fix": "attach admitted request, await body before observer, preserve status/read flag, close and stop on failure",
+  "controlled_full_pipeline_modes": 9,
+  "physical_model_dify_http": 0,
+  "consumed348_180_124_unchanged": true,
+  "post_stop_original16_all_ciphertexts_assets_unchanged": true,
+  "product_runtime_unchanged": "0.345.0-c46bc340ea1580b02f52"
+}

@@ -2,6 +2,15 @@
 import copy,json,uuid
 import httpx
 from boundary import require
+class SyntheticStream(httpx.AsyncByteStream):
+ def __init__(self,raw):self.raw=raw
+ async def __aiter__(self):
+  for offset in range(0,len(self.raw),17):yield self.raw[offset:offset+17]
+
+def _response(status,value,headers=None):
+ raw=json.dumps(value,ensure_ascii=False,allow_nan=False).encode('utf-8')
+ return httpx.Response(status,headers=[('content-type','application/json'),('content-length',str(len(raw)))]+(headers or []),stream=SyntheticStream(raw))
+
 class SyntheticDify:
  def __init__(self,boundary,mode='success'):self.boundary=boundary;self.mode=mode;self.draft=None;self.published=None;self.app=None;self.keys=[];self.count=0
  async def __call__(self,request):
@@ -11,7 +20,7 @@ class SyntheticDify:
   elif path=='/console/api/workspaces/current/summary':value={'id':self.boundary.workspace if self.mode!='wrong_workspace' else 'wrong-workspace'}
   elif path=='/console/api/apps/imports':
    from app.dsl_roundtrip import parse
-   if self.mode=='import_401':return httpx.Response(401,json={'error':'PUBLIC_UNAUTHORIZED'},request=request)
+   if self.mode=='import_401':return _response(401,{'error':'PUBLIC_UNAUTHORIZED'})
    body=json.loads(request.content);self.app=str(uuid.uuid4());self.draft=parse(body['yaml_content'],'workflow')['workflow']|{'hash':'public-native-draft'};value={'status':'completed','app_id':self.app}
   elif path==f'/console/api/apps/{self.app}':value={'id':self.app,'mode':'workflow'}
   elif path.endswith('/workflows/draft'):value=copy.deepcopy(self.draft)
@@ -21,7 +30,7 @@ class SyntheticDify:
     else:self.published=copy.deepcopy(self.draft)|{'id':str(uuid.uuid4())};value={'result':'success'}
    else:value=copy.deepcopy(self.published) if self.published else {};status=200 if self.published else 404
   elif path.endswith('/api-keys'):
-   if method=='POST' and self.mode=='fail_key':return httpx.Response(502,json={'error':'PUBLIC_KEY_FAILURE'},request=request)
+   if method=='POST' and self.mode=='fail_key':return _response(502,{'error':'PUBLIC_KEY_FAILURE'})
    if method=='POST':self.keys=[{'id':str(uuid.uuid4()),'token':'app-PUBLICFIXTURE-'+str(uuid.uuid4())}];value=self.keys[0]
    else:value={'data':self.keys}
   elif path=='/v1/workflows/run':
@@ -30,4 +39,4 @@ class SyntheticDify:
    if self.mode=='bad_output':outputs['results'][1]['index']=99
    value={'workflow_run_id':rid,'data':{'id':rid,'workflow_id':self.published['id'],'status':'failed' if self.mode=='fail_run' else 'succeeded','outputs':outputs,'elapsed_time':.2,'total_tokens':0}}
   else:raise RuntimeError('Unsupported synthetic path')
-  return httpx.Response(status,json=value,headers=headers,request=request)
+  return _response(status,value,headers)

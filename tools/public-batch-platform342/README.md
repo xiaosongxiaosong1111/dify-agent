@@ -7,3 +7,6 @@
 执行器从正常新Task、人工intake受托核对和确认门禁构建，只允许新App/发布/Key/运行各一次。所有HTTP先检查边界并落消费计数，任何异常停止；原16任务、原配置/账本/密文及任务文件保持，仅专用连接的批准续接/运行Key配对及新回执允许变化。根服务日志是运维追加日志，不作为冻结业务文件。
 
 `local_rehearsal.py`、`rehearse_platform.py` 和 `gates_check.py` 是隔离验证程序；实际临时Store与替身HTTP，不能据此宣称真实Sandbox通过。先读[冻结方案](../../docs/public-batch-platform-plan-20261027.md)。
+
+
+2026-10-27/190：源程序dispatch已修原生HTTPX未读取响应/未绑定request时过早解析的问题；SyntheticDify现返回真实传输形态的未读取流。针对性验证backend/tests/test_batch_transport_response.py共16通过，含正常HTTPX登录及全API成功/8类停止；不改任何已消费work/batch-platform342或348，不解冻/重放旧批，源修复不是新的真实授权。
