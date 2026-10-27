@@ -324,12 +324,16 @@
       "deliverable": "事件服务",
       "acceptance": "页面断连可重新取得权威状态，不只依赖历史动画",
       "kind": "implementation_work",
-      "implementation_review": "not_reaudited",
+      "implementation_review": "current_evidence",
       "evidence": [
-        "docs/development-tasks.md"
+        "frontend/src/WorkspaceRecovery.tsx",
+        "frontend/src/App.tsx",
+        "frontend/src/TaskListState.ts",
+        "docs/workspace-connection-recovery.md"
       ],
       "historical_status_20261020": "进行中",
-      "acceptance_closed": false
+      "acceptance_closed": false,
+      "review_note": "0.342新增首次本机连接失败后明确重读工作区，摘要/当前权威详情与新选择/未保存草稿/超时/错误保护；新UI10/加载7/同修订顺序4通过，原16及180允许诊断状态、密文主Key/旧消费包保持，本项真实模型/Dify0。仅本机明确恢复切片，不关闭所有事件流/恢复竞争或真实平台验收。"
     },
     {
       "id": "T023",

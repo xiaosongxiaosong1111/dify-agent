@@ -1,13 +1,13 @@
-# HANDOFF — Sierra（2026-10-27，第180停止，继续181功能）
+# HANDOFF — Sierra（2026-10-27，第181功能交付）
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main；第179实现3511a88/关闭fab69b5已推送，公开执行器/38门禁/11正常API/9替身路径均通过。第180真实批按最新直接批准仅执行一次，首次登录502立即停止，状态blocked，不重放。
-- 实际登录1、管理读取0、模型0，新Task/App/首次发布/Key/运行0；attempt stopped_needs_review/reconnect。仅新增重连失败a7992a7b-0da1-43d6-9705-9232d24766e5及诊断f3196bb7-70ae-4922-86a2-2e8aba884fc7，login_service_error，未提交新令牌，旧Key绑定保持。
-- 原16及全部旧非连接对象、所有原密文、任务文件/主Key/124冻结31文件保持，work/batch-platform342/post-stop-protection-proof.json及docs/public-batch-platform-live-result-20261027.md/json。连接仅批准诊断元数据改变；根服务日志自然追加。
-- 仍运行0.341.0-cf06d6388885cb69a63c/279文件/PID22248，未另部署。只读Docker诊断服务Stopped/引擎管道不存在，原目标127.0.0.1:8080；未额外探HTTP/启动Docker/重放，不据此断言502唯一根因或密码错误。
-- 181 pending：T022首次本机后台连接失败后缺显式工作区重读入口；已核App初始化Promise.all及RuntimeStatus仅刷新版本，先隔离复现再实现，普通本机功能不需扩大真实批。
-- 最近实际额度primary37%/weekly51%/ordinaryUsageAllowed=true，未耗尽；sierra一次性已删除。Claude318失败无结果/内部HTTP账单未知，无恢复不形式重试/冒充成功，304旧估算0.074255USD保持。
+- E:\workSpace\dify-agent/main；179实现3511a88/关闭fab69b5、180失败回执d1b2883已推送。180已直接批准但首次登录502立即停止，blocked且不可重放；docs/public-batch-platform-live-result-20261027.md/json，work/batch-platform342/live-finalization-proof.json。
+- 新181已实现并部署0.342.0-a531de7dd66e803432c8/279文件/PID2756：首次本机后台失败后明确重新读取工作区，保留原/新草稿和新选择、15秒单组/超时不自动重试，未读取成功不假报无任务，不重发模型或Dify。旧缺口隔离复现，新UI10/加载7/顺序4及构建通过，后台仅版本/未全量。
+- work/workspace-reconnect342/deployment-proof.json及managed-runtime-proof.json核原所属PID22248→2756/原start-stop/固定源码快照/health及前端200；原16及180允许诊断状态、全部密文主Key/任务资产、124/180消费包保持。本项真实模型/Dify0；180实际登录1/管理0/资源运行0另计。
+- 181目前doing且验收过，待实现commit、done关闭提交/push后以Git及work/workspace-reconnect342/finalization-proof.json为准。docs/workspace-connection-recovery.md和CHANGELOG/README/开发索引已更新，不把切片测试当全项目完成。
+- 180新Task/App/发布/Key/运行0，旧Key配对保持。只读本机诊断Docker服务Stopped/引擎管道不存在，原目标127.0.0.1:8080；没有恢复Docker/额外探Dify HTTP/再登，不断言502唯一根因或密码错误。
+- 最近实际额度primary47%/weekly53%/ordinaryUsageAllowed=true，未耗尽；sierra一次性已删除。Claude318失败无结果/内部HTTP账单未知，无恢复不形式重试/冒充成功，304旧估算0.074255USD保持。
 
 ## 2. 已消费批与保护
 
@@ -16,15 +16,15 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（先关闭180失败回执，再开发181）
+## 3. 下一步（181提交关闭，再按既定需求有限核实）
 
-1. 本轮提交/push第180安全结果、CHANGELOG/README/整份交接，保存work/batch-platform342/live-finalization-proof.json；本批blocked不能标done，不能重放唯一入口或剩余阶段。179已complete不重做。
-2. 取第一pending181：定向隔离复现首次Sierra后台连接失败、后台恢复后只刷新运行版本不恢复任务/配置；补明确只读工作区重读、忙/超时/晚到与选择来源保护，保存草稿/新选择，不重发写请求。针对性UI/相关来源回归和原16保护，固定快照/所属PID原脚本受管理部署，不跑全量。
-3. 180批准来源call_273fbb51b4d94624aa57012b7dcc779a/question0，直接回复“允许这批公开批量计算平台新范围”，绑定fab69b5及plan53b821675dfc812bf246a78c7ba408eb75e8a7adcaad2cd0f762a2686fe256d5/manifest25fd79d6af049e1f766a1bdd129bf87e6fbe80cc3a785eb842948da23a28dcd4。approval/attempt原样保留，已消费不重冻结/改写/再登。未派发Task/资源/运行不自动改授，新真实范围先完成可审查本机方案再按边界授权。
-4. 新16管理读取/1登录预留保留，累计保守429/29；实际管理0/登录1，Dify实际16/正式passed14和资源各8/报告tokens2287不变，模型20/保守24不变。原unknown/settled/四旧槽及费用边界不退不借。新0.01USD是整批估算非账单硬限，宿主费用未知；没有新模型或运行不能宣称免费。
-5. 每push前CHANGELOG/适用README/整份交接；核原remote，git require_escalated、精确safe.directory与命令级HTTP1.1沿原代理推main，不force/改全局/TLS，不让用户代提交。work/生产数据/秘密不提交。
-6. 原16现保护基线含180允许连接诊断变化，应以post-stop-data-snapshot及只读核对为准；旧289/341保护helper对全连接旧摘要已过时，不能改旧回执或用不匹配结果冒充保护。任务/全部密文及主Key仍原样。新部署需新快照和所属PID验证，不能按端口杀进程。
-7. 队列空先核既定需求可行动缺口，不造微任务/扩大六组候选；实际额度不足立即尽力整份交接停，不重试/换号/购买/用券，不谎称已耗尽。只读必要文件/历史按编号，不通读项目/290KB历史；Claude无恢复不为形式重试。
+1. 先核work/workspace-reconnect342的reproduction/ui10/loading7/sequence4/build/deployment与managed-runtime保护回执；181验收已过但实现commit未落，须实现commit后才将181 done，再关闭commit/push及finalization-proof。180回执d1b2883已推送blocked不重放，179已complete。
+2. 当前运行0.342.0-a531de7dd66e803432c8，所属PID2756；deploy.ps1前提旧341/cf06已消耗，只允许后续新部署脚本核新当前版本与PID，不能重放同脚本或按端口杀。protect.py以180 post-stop逻辑摘要为基线，排除根server.pid/运维日志等生命周期文件，保留全部旧任务资产和主Key，124/180冻结包原样。旧289/341全连接保护helper基线已过时，不篡改旧证据。
+3. 普通pending空不等于项目完成；先有限核查既定需求中具体可开发缺口，有事实再入队，一次一项，不造微任务。已核T055有只读头脑风暴/需求检查及明确确认路线，不能因not_reaudited标签算全未实现；T014主要契约文档，T078独立受限样例执行缺Docker环境，不能用宿主exec代替；六组明确未适配能力是扩展候选，不自动扩大承诺。181补T022只读恢复切片，不关闭所有事件流/平台或全25业务验收。
+4. 180直接批准call_273fbb51b4d94624aa57012b7dcc779a/question0，绑定fab69b5/plan53b821675dfc812bf246a78c7ba408eb75e8a7adcaad2cd0f762a2686fe256d5/manifest25fd79d6af049e1f766a1bdd129bf87e6fbe80cc3a785eb842948da23a28dcd4；approval/attempt原样保留，唯一入口已消费，禁止重冻结/改写/再登/阶段重试。资源/运行未派发不自动改授。进一步真实Sandbox先恢复依赖、完成独立可审查方案再按旧边界授权，不能复用本批剩余次数。
+5. 保守管理429/登录29（180新16/1预留不退），Dify实际16/正式passed14、资源各8/报告tokens2287、模型实际20/保守24保持；旧unknown/settled/四旧槽及费用不借不退。0.01USD是180估算非账单硬限，宿主费用未知；本机恢复不代表Dify平台已恢复。
+6. 每push前CHANGELOG/适用README/整份交接；核原remote，git require_escalated、精确safe.directory及命令级HTTP1.1沿原代理推main，不force/改全局/TLS，不让用户代提交。work/生产数据/秘密不提交。
+7. 实际额度不足立即尽力整份交接停，不重试/换号/购买/用券，不把可用额度说成耗尽。只读必要文件/历史按编号，不通读项目/290KB历史或跑全量；Claude无恢复不形式重试。无已核实可行动缺口时记录真实阻碍，不宣称项目已全完。
 
 ## 4. 外部边界与账本
 
