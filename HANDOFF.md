@@ -6,7 +6,7 @@
 - 用户call_986f6b8b5035400b9679c36420a1795a question0直接批准新348，a3efd8f6/64c42051、真实approval及独占attempt已消费。实际Dify登录HTTP200，但本机重连502/unclassified/RuntimeError停止；管理0/登录1/模型0、新Task资源运行0。认证/空间未核对，新令牌未提交，不归因密码错误。
 - 只读独立保护核过：原16对象、全部原密文/主Key/资产、旧124与180/348冻结与消费回执保持；新增重连c14b5fb9-44d1-4ceb-9d3f-6f245b91c15b/失败5656795c-a6ca-4697-9932-41cce3c5c22b及专用连接允许诊断变化。新基线work/batch-platform348/post-stop-data-snapshot.json，不再用180旧诊断基线冒充最新。
 - 190离线复现根因：原生HTTPX传输返回未读响应且尚无request，执行器立刻response.json触发ResponseNotRead；旧预缓冲替身漏测。源dispatch先绑定已准入request/读完整正文再观察JSON与Cookie，失败关响应/停，保留状态与读取标志；SyntheticDify改未读取流。16定向检查（HTTPX SDK登录/普通与Host-Cookie、完整正常API成功/8停止）通过，新增真实HTTP0，原停止基线再次完全保持。
-- docs/public-batch-closeout-live-result-20261027.md/json及transport-response-order-result-20261027.json，work/transport-response349有复现/检查/保护回执。190实现待提交，commit存在前不done；189失败blocked，不重放或把源修复拷入原包执行。
+- docs/public-batch-closeout-live-result-20261027.md/json及transport-response-order-result-20261027.json，work/transport-response349有复现/检查/保护回执。190实现06c8fb3已存在且离线验收done；189失败blocked，不重放或把源修复拷入原包执行。
 - 固定C1/C2/C3及条件C4保持，六组扩展不自动入队；Claude318失败无恢复不形式重试，sierra已删除。实际Codex仍可用，不称额度耗尽。
 
 ## 2. 已消费批与保护
@@ -18,7 +18,7 @@
 
 ## 3. 下一步
 
-1. 190源修复/16定向检查已过，提交实现及实际失败结果、CHANGELOG/适用README/整份交接；commit存在后done，关闭push。189仅blocked，不能重放已消费348，旧342/124也不动；不重新登录。
+1. 190源修复/16定向检查已过，实现06c8fb3已存在且done；关闭提交push后核origin。191准备修复后独立剩余整批，不直接登录。189仅blocked，不能重放已消费348，旧342/124也不动；不重新登录。
 2. 若继续C2实际验证，须在已修执行器基础上准备新的独立剩余整批，绑定当前345/最新348停止基线，真实形态流末端检查，原资源/任务/运行零派发范围只能经用户明确改授，不自动借退。新管理读取/登录需新明确范围；先完成具体可审查包，不直接重复旧阶段。
 3. 新基线348 post-stop包含本次unclassified连接诊断变化和原16/所有密文资产。旧180保护基线仅历史，源修复后本轮已重新比对348/180/124冻结及消费文件全部保持；不能为通过改旧回执。
 4. 当前管理445/登录30、真实模型20/保守24、Dify16/正式14、资源各8、保守资源各10/运行18及unknown/费用/未释放槽保持。只有登录1实际派发，不把HTTP200当登录/免费；只用加密凭据，不抄聊天密码，不提交work/生产数据/秘密。
