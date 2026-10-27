@@ -1,0 +1,17 @@
+{
+  "app_type": "workflow",
+  "task_name": "Sierra公开批量失败验收",
+  "input": {
+    "items_json": "[\" a \",\"ERR\",\"a\",\"\"]"
+  },
+  "expected": {
+    "total": 4,
+    "succeeded": 3,
+    "failed": 1,
+    "failed_indices": [
+      1
+    ]
+  },
+  "failure_policy": "continue_known",
+  "note": "固定公开例子：只有文字完全等于ERR时触发ValueError；其余去两端空白并大写，重复和空文字保留。不执行用户代码、模型或Dify；示例与计数是预期声明，不是平台运行结果。需Dify代码Sandbox及原生迭代能力，安装/运行行为与宿主费用未验收。采纳只填未保存计划，不自动保存、确认、构建、导入或运行；现有Task配置/模拟及费用门禁保持。"
+}

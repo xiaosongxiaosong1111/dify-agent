@@ -1,0 +1,30 @@
+{
+  "state": "frozen_unapproved",
+  "backlog": 195,
+  "batch_id": "existing-batch-platform353",
+  "plan_sha256": "fccc4f40cdf40018bc3458997c6cf1237c1bbd0fe927a31083394da1d3edf92e",
+  "manifest_sha256": "71979f5fdc1b86da9cf8afba11a35b2e880d816aafe9cd3327c94d1aa41aac3a",
+  "frozen_files": 18,
+  "gates": 32,
+  "synthetic_success": 1,
+  "synthetic_stop_scenarios": 11,
+  "synthetic_success_counts": {
+    "reads": 11,
+    "login": 1,
+    "import": 0,
+    "publish": 1,
+    "key": 1,
+    "run": 1
+  },
+  "physical_model_dify_http": 0,
+  "production_mutations": 0,
+  "new_tasks_apps": 0,
+  "approval_created": false,
+  "attempt_created": false,
+  "original17_unknown_ciphertexts_assets_and_consumed_batches_kept": true,
+  "runtime": "0.346.0-7335a462f131de075e28",
+  "proposed_scope_approved": false,
+  "business_acceptance_complete": false,
+  "same_frozen_full_execute_entry_verified": true,
+  "full_entry_only_runtime_inspection_stubbed": true
+}

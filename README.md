@@ -2,7 +2,7 @@
 
 当前版本还剩的必交项、25项验收边界和不自动扩展的功能范围，统一见[版本收尾清单](docs/RELEASE-CLOSEOUT.md)。
 
-公开批量新350批已重连原空间并导入App，原生null保护已修；0.346补充已导入Workflow的本机证据登记及一次独立发布恢复，旧unknown和历史保留。证据已登记，真实恢复/发布/Key/试跑尚未执行。[恢复入口及边界](docs/publication-recovery.md)。[实际进展、交付包与恢复边界](docs/public-batch-remaining-live-result-20261027.md)。
+公开批量新350批已重连原空间并导入App，原生null保护已修；0.346补充已导入Workflow的本机证据登记及一次独立发布恢复，旧unknown和历史保留。证据已登记，真实恢复/发布/Key/试跑尚未执行。[恢复入口及边界](docs/publication-recovery.md)。现有App的独立真实收尾程序已冻结并通过本机正常/失败核对，等待明确新范围，旧批不重放。[具体下一步](docs/existing-batch-platform-plan-20261027.md)。[实际进展、交付包与恢复边界](docs/public-batch-remaining-live-result-20261027.md)。
 
 Sierra 是本机 Dify 搭建助手：选择应用类型，整理需求和材料，确认配置与流程，再生成 DSL、发布和试跑。只展示真实取得的结果，静态检查与真实业务验收分别记录。
 

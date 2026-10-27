@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "nodes": [
+    {
+      "id": "start",
+      "type": "start",
+      "title": "公开批量输入",
+      "config": {
+        "variables": [
+          {
+            "variable": "items_json",
+            "type": "paragraph",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "parse",
+      "type": "code",
+      "title": "严格读取文字数组",
+      "config": {
+        "code_language": "python3",
+        "code": "import json\ndef main(items_json: str) -> dict:\n    items = json.loads(items_json)\n    if not isinstance(items, list) or any(not isinstance(item, str) for item in items):\n        raise ValueError(\"输入须为JSON文字数组\")\n    return {\"items\": items}\n",
+        "variables": [
+          {
+            "variable": "items_json",
+            "value_selector": [
+              "start",
+              "items_json"
+            ]
+          }
+        ],
+        "outputs": {
+          "items": {
+            "type": "array[string]",
+            "children": null
+          }
+        }
+      }
+    },
+    {
+      "id": "batch",
+      "type": "iteration",
+      "title": "逐项公开计算",
+      "config": {
+        "iterator_selector": [
+          "parse",
+          "items"
+        ],
+        "iterator_input_type": "array[string]",
+        "output_selector": [
+          "clean",
+          "outcome"
+        ],
+        "output_type": "array[object]",
+        "is_parallel": false,
+        "error_handle_mode": "terminated",
+        "flatten_output": false,
+        "nodes": [
+          {
+            "id": "clean",
+            "type": "code",
+            "title": "公开文字计算",
+            "config": {
+              "code_language": "python3",
+              "code": "# Sierra per-item outcomes v1\ndef _sierra_calculate(item: str) -> dict:\n    if item == \"ERR\":\n        raise ValueError(\"公开样例受控失败\")\n    return {\"result\": item.strip().upper()}\n\n\ndef main(item: str, sierra_index: int) -> dict:\n    if not isinstance(item, str) or type(sierra_index) is not int or sierra_index < 0:\n        raise TypeError('Declared iteration input or index mismatch')\n    try:\n        result = _sierra_calculate(item)\n    except (ValueError, TypeError, ZeroDivisionError, KeyError, IndexError, OverflowError) as _sierra_error:\n        return {'outcome': {'index': sierra_index, 'ok': False, 'value': None, 'error_category': type(_sierra_error).__name__}}\n    if not isinstance(result, dict) or set(result) != {'result'} or not isinstance(result['result'], str):\n        raise TypeError('Declared string output mismatch')\n    return {'outcome': {'index': sierra_index, 'ok': True, 'value': result['result'], 'error_category': None}}\n",
+              "variables": [
+                {
+                  "variable": "item",
+                  "value_selector": [
+                    "batch",
+                    "item"
+                  ]
+                },
+                {
+                  "variable": "sierra_index",
+                  "value_selector": [
+                    "batch",
+                    "index"
+                  ]
+                }
+              ],
+              "outputs": {
+                "outcome": {
+                  "type": "object",
+                  "children": null
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "batch_summary",
+      "type": "code",
+      "title": "汇总逐项成功与失败",
+      "config": {
+        "code_language": "python3",
+        "code": "# Sierra iteration result summary v1\ndef main(results: list, source_items: list) -> dict:\n    if not isinstance(results, list) or not isinstance(source_items, list) or any(not isinstance(item, str) for item in source_items):\n        raise TypeError('Iteration result and original input must be arrays of declared types')\n    if len(results) != len(source_items):\n        raise TypeError('Iteration result count differs from original input')\n    successes = []\n    failures = []\n    for expected_index, row in enumerate(results):\n        if not isinstance(row, dict) or set(row) != {'index', 'ok', 'value', 'error_category'}:\n            raise TypeError('Iteration result fields mismatch')\n        if type(row['index']) is not int or row['index'] != expected_index or type(row['ok']) is not bool:\n            raise TypeError('Iteration result index or status mismatch')\n        if row['ok']:\n            if not isinstance(row['value'], str) or row['error_category'] is not None:\n                raise TypeError('Successful result contract mismatch')\n            successes.append(row)\n        else:\n            if row['value'] is not None or row['error_category'] not in ('ValueError', 'TypeError', 'ZeroDivisionError', 'KeyError', 'IndexError', 'OverflowError'):\n                raise TypeError('Failed result contract mismatch')\n            failures.append(row)\n    return {'items': results, 'successes': successes, 'failures': failures,\n            'total': len(results), 'succeeded': len(successes), 'failed': len(failures)}\n",
+        "variables": [
+          {
+            "variable": "results",
+            "value_selector": [
+              "batch",
+              "output"
+            ]
+          },
+          {
+            "variable": "source_items",
+            "value_selector": [
+              "parse",
+              "items"
+            ]
+          }
+        ],
+        "outputs": {
+          "items": {
+            "type": "array[object]",
+            "children": null
+          },
+          "successes": {
+            "type": "array[object]",
+            "children": null
+          },
+          "failures": {
+            "type": "array[object]",
+            "children": null
+          },
+          "total": {
+            "type": "number",
+            "children": null
+          },
+          "succeeded": {
+            "type": "number",
+            "children": null
+          },
+          "failed": {
+            "type": "number",
+            "children": null
+          }
+        }
+      }
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "config": {
+        "outputs": [
+          {
+            "variable": "results",
+            "value_selector": [
+              "batch_summary",
+              "items"
+            ]
+          },
+          {
+            "variable": "successes",
+            "value_selector": [
+              "batch_summary",
+              "successes"
+            ]
+          },
+          {
+            "variable": "failures",
+            "value_selector": [
+              "batch_summary",
+              "failures"
+            ]
+          },
+          {
+            "variable": "total",
+            "value_selector": [
+              "batch_summary",
+              "total"
+            ]
+          },
+          {
+            "variable": "succeeded",
+            "value_selector": [
+              "batch_summary",
+              "succeeded"
+            ]
+          },
+          {
+            "variable": "failed",
+            "value_selector": [
+              "batch_summary",
+              "failed"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "start",
+      "target": "parse"
+    },
+    {
+      "source": "parse",
+      "target": "batch"
+    },
+    {
+      "source": "batch",
+      "target": "batch_summary"
+    },
+    {
+      "source": "batch_summary",
+      "target": "end"
+    }
+  ]
+}

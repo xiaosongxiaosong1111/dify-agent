@@ -1,13 +1,13 @@
-# HANDOFF — Sierra（194独立发布恢复已部署，真实C2待新独立范围）
+# HANDOFF — Sierra（194恢复已部署推送，195现有App独立包已冻结待批准）
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main；上次HEAD/origin c182dbc。194实现01f6941已存在并验收done，待本轮关闭推送；产品已0.346.0-7335a462f131de075e28/287文件/PID21864，由原PID29860/345核完整归属后原stop/start部署。
-- 新增Workflow已提交报告/冻结回执本机证据登记、双确认独立恢复声明、原入口一次新发布准备与原显式确认。旧unknown/write_attempted/Task历史不改；签封/当前修订App环境成果/旧发布与运行摘要绑定，并发唯一占用、派发同事务消费；新可能派发后旧声明/证据不可再用，重启不派发。证据是事后本机一致性/操作者声明，不是独立网络审计或外部范围授权。
-- 95定向后端（含原Workflow/Chatflow发布）、9界面及build过；物理HTTP/模型替身禁止；快照/health及前端200/原17密文资产主Key/124与180及348/350冻结消费保护通过。docs/publication-recovery.md及result-20261027.json；work/publication-recovery352保留测试/部署/登记保护，tools/publication-recovery-ui352为可复核隔离界面检查。
-- 实际350证据已按用户既有常规委托以agent_delegated登记1条（来源完整c182dbc、docs/public-batch-remaining-live-result-20261027.json），实际恢复声明0、Dify/模型HTTP0、新Task/App/发布/Key/运行0。唯一新增对象publication_dispatch_evidence，当前有效；旧unknown和所有旧账本完整。新保护基线work/publication-recovery352/post-registration-snapshot.json；350 post-stop为此前完整基线，仅差新证据和运行PID。
-- 192直接批准的350已消费终止：读6/登录1/import1/发布POST0/Key0/run0/model0。Task db13bc92-3b25-4249-abfc-4c4b384a1d17/r6仍imported，App1cb02319-d42f-46b5-a1dd-34be136f83d6；publication1e5eeaee-aa6b-4ce7-8e4d-e3961f528010仍unknown/write_attempted=true。193源null保护4941014/关闭c182dbc已推；旧包不改或重放。
-- 当前17Task，模型20/保守24、App9/pub8/Key8、运行16/正式14、tokens2287、管理461/登录31及旧unknown/预留/费用保持。当前Key仍配旧124修改版App，不动登录资料/运行Key。C1/C2/C3及条件C4未全签收，六组扩展不自动做。Claude318无恢复证据不形式重试或冒充子审查；sierra已删除。实际Codex可用，本轮最近16%/76%，不是耗尽。
+- 根E:\workSpace\dify-agent/main；194实现01f6941/关闭4ce07ce已推原GitHub main，精确origin已核且当时clean；work/publication-recovery352/finalization-proof.json。产品0.346.0-7335a462f131de075e28/287文件/所属PID21864不变。
+- 194本机签封证据登记/双确认独立恢复声明/原发布入口一次新准备与原显式确认已实现；95定向后端/9界面/构建/原脚本部署过。旧unknown、Task历史/来源及旧账本保持；一次占用/派发同事务消费，证据不是独立网络审计或外部范围授权。实际仅登记1条agent_delegated本机证据，恢复声明0、真实Dify/模型/新TaskApp资源运行0。
+- 195现有App独立353程序及冻结包已完成，尚待实现commit再done：work/batch-platform353，batch existing-batch-platform353；plan fccc4f40cdf40018bc3458997c6cf1237c1bbd0fe927a31083394da1d3edf92e / manifest71979f5fdc1b86da9cf8afba11a35b2e880d816aafe9cd3327c94d1aa41aac3a，18固定文件。tools/existing-batch-platform353公开副本，docs/existing-batch-platform-plan-20261027.md和preflight摘要；冻结原样，不再改写。
+- 冻结同程序32准入/授权/一次消费门禁、1正常完整API主链及11失败停止过，替身成功读11/登录1/import0/发布Key运行各1，物理HTTP/模型0；work/existing-batch353-check/frozen有完整回执。实际生产改动/新声明/批准文件/attempt均0。原17/全部密文资产主Key/旧unknown及124/180/348/350完整保护，产品仍346不重部署。CLAUDE318未证明恢复，不为形式重试/冒充子审查；sierra已删除。
+- 现仅拟把350未派发发布/Key/运行各1明确改授新独立353；新16读/1登录需直接范围，新预留将461/31→477/32，当前仍461/31。0新Task/App/导入/模型，Dify新估算0.01非账单硬限/宿主未知，原未用槽/预留/unknown不退借。新批任何异常整批停、不重放，待196新直接批准。
+- 现Task db13bc92-3b25-4249-abfc-4c4b384a1d17/r6/imported及App1cb02319-d42f-46b5-a1dd-34be136f83d6；publication1e5eeaee-aa6b-4ce7-8e4d-e3961f528010仍unknown/write_attempted=true。192的350已终止：实际读6/登录1/import1/发布POST0/Key0/run0/模型0，旧包不可改或重放。原16保持；当前17Task、App9/pub8/Key8、运行16/正式14、tokens2287、模型20/保守24/管理461/登录31及旧费用保持。
 
 ## 2. 已消费批与保护
 
@@ -18,12 +18,12 @@
 
 ## 3. 下一步
 
-1. 194实现01f6941已提交，95/9/构建及部署保护过，已done；本轮关闭推送后核精确origin及clean，保存work/publication-recovery352/finalization-proof.json。BACKLOG195 pending，下一先开发本机新独立C2包，不请求真实Dify。
-2. 接固定C2，不造新Task/App绕unknown。下一开发项应是现有App的新独立有界执行包：只复用db13bc92/r6/App1cb02319和已登记证据，经本机独立声明→原发布准备/确认→专属Key→四项一次运行/失败原索引下载。先本机完整隔离核正常/停止/旧对象保护，再形成可审查冻结方案；未取得新直接范围前不请求真实Dify。
-3. 旧350的发布/Key/运行零派发不代表可直接继续使用；旧批已终止，须明确改授，不自动借退旧管理/登录/费用。真实准备也有Dify读取及认证可能费用，应计入新范围；本机恢复声明不授予外部范围，不从HTTP200/null推出当前未发布。
-4. 现已登记证据只本机一致性，代理真实记agent_delegated，无人工批准伪造。产品保留原保护，无recovery_id仍409；声明只一次且仍每次远端核当前图和发布状态。新尝试未知需再停，不自动修历史或复用旧证据。首批只Workflow，Chatflow不扩。
-5. 当前保护基线352 post-registration；原17/全密文资产/主Key/旧unknown、124/180/348/350冻结消费不变。346已部署，work/publication-recovery352/deploy.ps1也已消费；以后另建快照及核所属PID/完整命令/原start-stop，不按端口杀。
-6. 只用加密凭据、不抄聊天密码，不提交work/生产数据/秘密。原main自主commit/push精确safe.directory/require_escalated/HTTP1.1；不全量或通读历史。实际Codex不足整份交接立即停，不重试/换号/购买/用券。持续做固定收尾实质工作，不凭空拆任务耗额度。
+1. 提交195公开程序及冻结方案后，凭32门禁/1正常/11停止/生产保护把BACKLOG195标done，再提交关闭交接/CHANGELOG并push原main，核精确origin与clean，存work/existing-batch353-check/finalization-proof.json。194已01f6941/4ce07ce done/pushed，不重复。
+2. 196只在新直接人类批准完整353范围后执行；方案docs/existing-batch-platform-plan-20261027.md及双摘要fccc4f40/71979f5f。必须明确改授350零派发发布/Key/运行各1，另新16读/1登录/估算0.01USD（非账单硬限）；0Task/App/导入/模型。当前无批准/attempt，不得live；不能用旧350批准或本机恢复声明替代。
+3. 获批后先核实际runtime/PID/287文件、精确冻结哈希及17/现Task与证据来源/原unknown、旧124/180/348/350、整批容量；登记直接回复出处和新477/32管理登录预留后，仅原353 execute.py live一次。独占attempt即消费，任何异常整批停，不重试/不退借旧槽。原Task1次/10分钟及报价0.01阈值保持，原124r12满4/4不动。
+4. 新执行器复用现App：明确加密重连原空间→本机新声明/双确认（代理如实agent_delegated）→原发布prepare/confirm且当前图相同/未发布→新Key并旧Key加密留档→四项一次运行及失败原索引1下载；旧unknown/history保持，无新Task/App/import。实际App仍9、pub/Key最多8→9、运行16→17，保守各10/18及模型20/24不变；不宣称完整业务通过。
+5. 生产当前保护基线352 post-registration，353 plan内protected_data是其冻结同态；当前仅1条登记证据，无真实恢复声明。产品346/PID21864不变，352部署脚本已消费，未来需另建快照/核完整归属/原start-stop，不按端口杀；未获新真实范围时不扩功能候选或造微任务耗额度。
+6. 只复用加密凭据、不抄聊天密码/不输出或提交秘密/生产快照/work。原main自主commit/push精确safe.directory/require_escalated/HTTP1.1，每push更新根CHANGELOG/适用README及整份交接。不全量/通读历史；实际Codex不足交接立即停，不重试/换号/购买/用券。本轮继续受具体外部边界约束，不假称额度耗尽。
 
 ## 4. 外部边界与账本
 
