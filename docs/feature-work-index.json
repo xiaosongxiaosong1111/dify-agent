@@ -1207,12 +1207,18 @@
       "kind": "implementation_work",
       "implementation_review": "scope_limited",
       "evidence": [
-        "backend/app/workflow_plan.py",
-        "docs/python-entry-contract.md"
+        "backend/app/code_samples.py",
+        "backend/app/code_sample_policy.py",
+        "backend/app/code_sample_docker.py",
+        "backend/app/code_sample_worker.py",
+        "backend/tests/test_code_samples.py",
+        "backend/tests/test_code_sample_transport.py",
+        "frontend/src/LocalCodeSamplePanel.tsx",
+        "docs/local-code-samples.md"
       ],
       "historical_status_20261020": "进行中",
       "acceptance_closed": false,
-      "review_note": "本轮已核当前为静态语法/入口契约与既有Dify整图试跑路线，未提供独立本机受限样例执行器；执行边界/超时/错误及目标环境仍未验收，本次不执行用户代码。"
+      "review_note": "0.343新增独立本机受限根Workflow Python纯计算样例，固定已有镜像/无网无挂载/非root只读与资源时限，明确JSON/来源/一次确认，响应丢失只读核对已知回执。新103+相关25、真实临时容器10场景、UI10（3真实本机）/工作区10通过；原16及180状态/密文主Key/消费包保持，Dify/模型0。仅有限库/方法/顶层JSON合同，未知清理仍保留待显式维护；目标Sandbox/任意代码/嵌套/其他语言/业务不据此关闭。"
     },
     {
       "id": "T079",

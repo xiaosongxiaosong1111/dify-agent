@@ -80,10 +80,11 @@ async def lifespan(application):
     schedule_publications.recover()
     runtime_files.recover()
     file_runs.recover()
+    code_samples_recover()
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.342.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.343.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -121,6 +122,8 @@ def require_revision(task, revision):
 
 
 def require_idle(task):
+    from .code_samples import busy as code_samples_busy
+    if code_samples_busy(store,task.get('id')):raise HTTPException(409,'此任务的本机隔离样例仍在执行，请等待原回执。')
     from .app_runtime_key_creation import busy as key_creation_busy
     if key_creation_busy(store, task.get('environment_id')): raise HTTPException(409, '此连接正在创建运行Key，请等待并核对原记录。')
     from .saved_console_reconnect import busy as reconnect_busy
@@ -2415,3 +2418,6 @@ from .iteration_results import register as register_iteration_results
 register_iteration_results(sys.modules[__name__])
 from .public_batch_starter import register as register_public_batch_starter
 register_public_batch_starter(sys.modules[__name__])
+
+from .code_samples import register as register_code_samples
+register_code_samples(sys.modules[__name__])
