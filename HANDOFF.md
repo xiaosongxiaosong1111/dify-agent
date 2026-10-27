@@ -1,14 +1,11 @@
-# HANDOFF — Sierra（2026-10-27，第183已提交，继续184）
+# HANDOFF — Sierra（第184已部署，Git闭环中）
 
 ## 1. 当前状态
 
-- E:\workSpace\dify-agent/main，182关闭f239967/181关闭545bfe9已推送complete。183实现a834a45且验收部署已过、done；关闭push以work/code-sample344/finalization-proof.json为准。184 pending是未知资源显式维护及历史定位，不重执行代码。
-- 实际0.343.0-acc2b737f71b060f9344/283文件，原342所属PID2756核验后原start-stop部署，新PID见work/code-sample344/managed-runtime-proof.json；源码/快照/health及前端200，原16及180允许状态、全部密文主Key/资产、124/180消费包保持。
-- 183根Workflow Python纯计算本机样例已接通：显式JSON→准备绑定Task/完整保存计划/节点代码/输入原文/worker/镜像/边界→单次确认→实际容器返回/错误/超时/输出合同。响应丢失按已知proposal ID只读找回，不能用同代码输入的另一准备记录替代；未知清理保留unknown且不引导重发，不改原确认/平台成绩。
-- 新103/相关25后端128通过；10真实临时容器场景、新UI10（3真实计算）及工作区UI10、最终构建通过，work/code-sample344/release-proof.json及各proof。属性白名单拒绝反射/format/帧/模式匹配，流式请求140KB前置上限；初始CPU/壁钟同3秒竞争已改壁钟3/CPU4，旧回执保留。所有测试容器已按归属清理，未执行宿主用户代码；本项Dify/模型HTTP0，绝非目标Sandbox/业务验收。
-- 独立固定已装镜像ceede5b9、无网络/宿主挂载/端口发布、65534非root/只读/capdrop/no-new-privileges/seccomp、128MiB/1CPU/32pids、计算3s/CPU4s/start等待8s及输出界限，空CLI认证/代理配置。本次仅根纯计算/有限math-json方法与顶层输出，未知资源仍需操作者明确维护，后续可补显式归属核对/清理入口。
-- 182既有Docker引擎及原Dify15运行/1初始化完成、关键健康/8080监听，未加Dify HTTP；180仍仅登录1/管理0/模型0/资源运行0的502消费失败，不重放。
-- 最近额度primary82%/weekly58%/ordinaryUsageAllowed=true，尚未耗尽；sierra一次性已删除。Claude318无恢复不形式重试/冒充审查，304旧估算0.074255USD保持。
+- E:\workSpace\dify-agent/main；183实现a834a45/关闭364158f已推送complete。184现已部署0.344.0-984c788dcc6b2bad3530/284文件/PID39656，后端14/相关8、GUI6/真实归属清理1/构建过，原16/180状态/密文主Key/资产和124/180保护。
+- 旧修订样例可显式核归属资源/确认清理，原unknown/result不改、只记last_cleanup；CID漂移/错归属/晚到拒绝，已知维护ID只读恢复，不重执行代码。实际Dify/模型0。
+- 原180登录1/管理0/模型0/资源运行0的502失败永不重放；管理429/登录29预留及全部旧费用边界保持。
+- Git实现/关闭/push与clean以work/code-maintenance345/finalization-proof.json为准；sierra已删除，Claude318无恢复不形式重试。
 
 ## 2. 已消费批与保护
 
@@ -17,14 +14,12 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（183提交闭环，继续明确的未知资源维护缺口）
+## 3. 下一步
 
-1. 183实现a834a45且验收已过已done，完成关闭commit/push及work/code-sample344/finalization-proof.json，complete后不重复。当前部署343/acc2已过，不重跑同deploy脚本（前提旧342已消费）。
-2. 按已验证事实，后续明确功能缺口是本机样例unknown残留的显式归属核对/清理与旧修订历史定位：当前需操作者按容器名维护，测试注入unknown真实存在直到显式测试清理；应增加专用确认、只核同Task原UUID/标签/镜像资源，不执行代码、不按端口/前缀删、不把已清理改成已执行通过。已入BACKLOG184 pending，一次一项，不为耗额度造微任务。若实际额度不足即先整份记录本项当前状态，不擅自说用尽。
-3. 183只能已保存根Workflow Python同步main/明确JSON，复杂children/引用DSL/JS/嵌套/动态入口明确拒绝；有限库/方法、无输入取值/模型调用、任务确认与旧账本不变。code_sample记录单独保存，后台require_idle阻止并发Task写，重启executing转unknown不自动派发；清理核归属，未知不清不明资源或重执行。不能把局部容器验证说成通用安全认证或目标Dify成绩。
-4. 后续部署必须以实际343/新PID为前提，新固定快照/所属PID/原start-stop，原16保护基线取180 post-stop（排除根PID/运维日志），新维护只可改归属的code_sample回执，124/180所有消费包原样。不要按端口杀或动原Dify容器。
-5. 180原批准/attempt已消费，plan53b82167/manifest25fd79d6绑定fab69b5/call_273fbb51b4d94624aa57012b7dcc779a，不改/重冻结/再登/阶段重试。182恢复依赖不扩真实批授权；管理429/登录29保留，Dify16/14/资源各8/tokens2287、模型20/24及旧unknown/settled/四槽/费用不借不退。
-6. 每push前CHANGELOG/适用README/整份交接，核原remote，git require_escalated/精确safe.directory/命令级HTTP1.1沿原代理推main，不force/改全局/TLS、不让用户代提交；work/生产数据/秘密不提交。实际不足立即尽力交接停，不重试/换号/购买/用券；必要文件/历史编号单段，不通读项目/290KB历史或全量；Claude无恢复不形式重试。
+1. 184所有针对性验收和新快照部署已过，核Git闭环；实现commit存在后才done，再关闭push，complete后不重放345/deploy.ps1（旧343前提已消费）。
+2. 当前0.344.0-984c788dcc6b2bad3530，后续新部署按所属PID39656及新固定快照/原start-stop保护，不按端口杀。原16逻辑基线取180 post-stop，根PID/运维日志另核，密文资产与124/180原样。
+3. 普通队列空先有限核实既定需求事实缺口，不把切片验收当全项目完成；实际额度不足立即尽力整份交接停，不重试/换号/购买/用券，不能把近额度当已耗尽。
+4. 原真实批/unknown/费用/模型20与保守24、Dify16/14、资源各8/tokens2287保持，不自动借退或重放；新真实范围须独立方案。每push前CHANGELOG/适用README/整份交接，原remote/精确safe.directory/require_escalated/HTTP1.1，不让用户代提交；work/数据/秘密不提交，不全量或通读历史。
 
 ## 4. 外部边界与账本
 

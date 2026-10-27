@@ -2,7 +2,7 @@ import {useEffect,useRef,useState} from 'react';
 import {useOwnedActivity} from './useActivityOwnership';
 type Node={id:string;type:string;title?:string;config?:Record<string,unknown>};
 type Result={status:string;output_json?:string;error_category?:string;cleanup_verified:boolean};
-type Row={schema_version:number;id:string;task_id:string;revision:number;node_id:string;state:string;review_token:string;code_sha256:string;input_text_sha256:string;image_id:string;profile:string;limits:Record<string,unknown>;verification:string;business_verified:boolean;dify_sandbox_verified:boolean;task_changed:boolean;result?:Result;note:string};
+type Row={schema_version:number;id:string;task_id:string;revision:number;node_id:string;state:string;review_token:string;code_sha256:string;input_text_sha256:string;image_id:string;profile:string;limits:Record<string,unknown>;verification:string;business_verified:boolean;dify_sandbox_verified:boolean;task_changed:boolean;result?:Result;last_cleanup?:{verified:boolean;status:string};note:string};
 const LIMITS={"wall_seconds":3,"cpu_seconds":4,"host_wait_seconds":8,"memory_bytes":134217728,"cpus":1,"pids":32,"code_bytes":32768,"input_bytes":65536,"output_bytes":32768,"printed_bytes":4096,"network":"none","host_mounts":false,"read_only_root":true,"user":"65534:65534","capabilities":"drop_all","no_new_privileges":true,"image_pulled":false};
 const IMAGE='sha256:ceede5b903afaa20348f7ad80ebf847379dc56d886a99b9ec6a08913dacd7732';
 const sha=async(text:string)=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text)))).map(x=>x.toString(16).padStart(2,'0')).join('');
@@ -36,7 +36,7 @@ export default function LocalCodeSamplePanel({taskId,revision,plan,sourceScope,b
    if(!row.limits||Object.keys(row.limits).length!==Object.keys(LIMITS).length||Object.entries(LIMITS).some(([key,value])=>row.limits[key]!==value))throw Error('回执资源边界不匹配，未提供执行确认。');
    if(kind==='execute'&&row.id!==proposal!.id)throw Error('执行回执不属于此次准备方案。');
    if(row.result&&(!resultLabel[row.result.status]&&row.result.status!=='passed'||typeof row.result.cleanup_verified!=='boolean'||row.result.output_json!==undefined&&(typeof row.result.output_json!=='string'||new TextEncoder().encode(row.result.output_json).length>32768)))throw Error('本机结果协议不完整，未显示不确定成绩。');
-   setProposal(row);setResult(kind==='prepare'?null:row);setAck(false);setSent(['executing','unknown'].includes(row.state));
+   setProposal(row);setResult(kind==='prepare'?null:row);setAck(false);setSent(row.state==='executing'||row.state==='unknown'&&row.last_cleanup?.verified!==true);
   }catch(e){if(still())setError(e instanceof Error&&e.name!=='AbortError'?e.message:'读取中断或超时；已派发本机工作可能仍在完成/清理，请只读核对原回执，不自动重发。')}
   finally{clearTimeout(timer);if(ticket.current===id){active.current=false;setWorking('');report(false)}}
  }
@@ -52,6 +52,6 @@ export default function LocalCodeSamplePanel({taskId,revision,plan,sourceScope,b
   </fieldset>
   {working&&<p role="status">{working==='execute'?'正在执行本机隔离样例并核对清理…':'正在读取/准备本机样例…'} 切换或新编辑后不采用旧回执，已派发工作仍可能完成。</p>}
   {error&&<div role="alert" className="callout amber">{error}</div>}
-  {result&&<div className="callout" style={{display:'block'}}><strong>{label[result.state]}</strong>{result.result&&<><p>{resultLabel[result.result.status]||'仅顶层JSON输出合同通过'}{result.result.error_category?' · '+result.result.error_category:''}</p>{result.result.output_json!==undefined&&<pre style={{whiteSpace:'pre-wrap',maxHeight:300,overflow:'auto'}}>{result.result.output_json}</pre>}<p>{result.result.cleanup_verified?'本次临时容器已核对清理。':`清理未确认；保留原回执，本次预期容器sierra-code-${result.id}，不要据此重跑。`}</p></>}<p>本机样例证据，不代表目标Sandbox、完整流程、业务规则或新修订通过。</p></div>}
+  {result&&<div className="callout" style={{display:'block'}}><strong>{label[result.state]}</strong>{result.result&&<><p>{resultLabel[result.result.status]||'仅顶层JSON输出合同通过'}{result.result.error_category?' · '+result.result.error_category:''}</p>{result.result.output_json!==undefined&&<pre style={{whiteSpace:'pre-wrap',maxHeight:300,overflow:'auto'}}>{result.result.output_json}</pre>}<p>{result.last_cleanup?.verified?'资源已另行核对清理；原执行状态保持。':result.result.cleanup_verified?'本次临时容器已核对清理。':`清理未确认；保留原回执，本次预期容器sierra-code-${result.id}，不要据此重跑。`}</p></>}<p>本机样例证据，不代表目标Sandbox、完整流程、业务规则或新修订通过。</p></div>}
  </details>;
 }

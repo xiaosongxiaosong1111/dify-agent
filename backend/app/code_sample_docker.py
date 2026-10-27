@@ -71,7 +71,7 @@ class LocalDocker:
   if value.get('id')!=IMAGE or REPOSITORY not in (value.get('digests') or []) or value.get('os')!='linux' or value.get('volumes'):raise DockerProblem('supported_image_missing')
   return {'image_id':IMAGE,'repository_digest':REPOSITORY,'profile':PROFILE,'limits':LIMITS,'local_engine':True,'default_seccomp_verified':True,'image_pulled':False}
  def inspect(self,ident):
-  return self.json('inspect',ident,'--format','{"id":{{json .Id}},"name":{{json .Name}},"image":{{json .Image}},"config_image":{{json .Config.Image}},"user":{{json .Config.User}},"labels":{{json .Config.Labels}},"mounts":{{json .Mounts}},"host":{{json .HostConfig}}}')
+  return self.json('inspect',ident,'--format','{"id":{{json .Id}},"name":{{json .Name}},"image":{{json .Image}},"config_image":{{json .Config.Image}},"user":{{json .Config.User}},"state":{{json .State.Status}},"labels":{{json .Config.Labels}},"mounts":{{json .Mounts}},"host":{{json .HostConfig}}}')
  def owned(self,value,operation):
   return bool(value.get('image')==IMAGE and value.get('config_image')==IMAGE and value.get('name')=='/sierra-code-'+operation and (value.get('labels') or {}).get(LABEL)==operation and (value.get('labels') or {}).get(LABEL+'.profile')==PROFILE)
  def profile(self,value,operation):

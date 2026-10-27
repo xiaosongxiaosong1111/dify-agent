@@ -81,10 +81,11 @@ async def lifespan(application):
     runtime_files.recover()
     file_runs.recover()
     code_samples_recover()
+    code_sample_maintenance_recover()
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.343.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.344.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -2421,3 +2422,6 @@ register_public_batch_starter(sys.modules[__name__])
 
 from .code_samples import register as register_code_samples
 register_code_samples(sys.modules[__name__])
+
+from .code_sample_maintenance import register as register_code_sample_maintenance
+register_code_sample_maintenance(sys.modules[__name__])

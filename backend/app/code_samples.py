@@ -8,7 +8,7 @@ KIND='code_sample'
 TYPES={'string','number','boolean','object','array[string]','array[number]','array[boolean]','array[object]'}
 NOTE='仅本机受限纯计算样例：固定已安装镜像、无网络或宿主文件挂载、非root/只读及资源时限；不读取真实上游、不调用Dify/模型、不改变原任务确认或平台成绩。不是目标Sandbox或完整业务验收。'
 
-def busy(store,task_id=None):return any(r.get('state')=='executing' and (task_id is None or r.get('task_id')==task_id) for r in store.list(KIND))
+def busy(store,task_id=None):return any(r.get('state')=='executing' and (task_id is None or r.get('task_id')==task_id) for kind in (KIND,'code_sample_cleanup') for r in store.list(kind))
 def text_sha(value):return hashlib.sha256(value.encode('utf-8')).hexdigest()
 def fingerprint(task):return docker.digest({'id':task['id'],'revision':task['revision'],'app_type':task['app_type'],'plan':task.get('workflow_plan'),'reference':task.get('dsl_reference')})
 
@@ -49,7 +49,7 @@ async def body(request,fields):
    return out
   value=json.loads(raw,object_pairs_hook=unique,parse_constant=lambda _:(_ for _ in ()).throw(ValueError()))
   if not isinstance(value,dict) or set(value)!=set(fields) or type(value.get('revision'))is not int or not 0<value['revision']<=9007199254740991:raise ValueError()
-  if any(not isinstance(value.get(k),str) or not value[k] for k in fields if k not in ('revision','acknowledge_limits')):raise ValueError()
+  if any(not isinstance(value.get(k),str) or not value[k] for k in fields if k not in ('revision','acknowledge_limits','acknowledge_cleanup')):raise ValueError()
   return value
  except (ValueError,TypeError,UnicodeError,RecursionError):raise HTTPException(422,'本机样例请求格式或大小无效，未回显代码和输入，也未派发容器。') from None
 
@@ -61,7 +61,7 @@ def inputs(text,names):
  except (ValueError,TypeError,UnicodeError,RecursionError):raise HTTPException(422,'样例须为64KB内无重复键/非有限数/数值损失的完整JSON对象，键与节点输入别名一致；未派发。') from None
 
 def public(row):
- fields=('id','task_id','revision','node_id','state','created_at','expires_at','source_sha256','code_sha256','input_sha256','input_text_sha256','review_token','image_id','profile','limits','result','started_at','completed_at','phase','create_dispatches','start_dispatches','source_current_at_return')
+ fields=('id','task_id','revision','node_id','state','created_at','expires_at','source_sha256','code_sha256','input_sha256','input_text_sha256','review_token','image_id','profile','limits','result','started_at','completed_at','phase','create_dispatches','start_dispatches','source_current_at_return','last_cleanup')
  return {k:copy.deepcopy(row[k]) for k in fields if k in row}|{'schema_version':1,'verification':'local_sample_only','dify_sandbox_verified':False,'business_verified':False,'task_changed':False,'note':NOTE}
 
 def register(h):
