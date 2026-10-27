@@ -17,6 +17,7 @@ NOTE = '只发布已核对的新应用；不创建Key、不试跑。Dify发布�
 class Prepare(BaseModel):
     model_config = ConfigDict(extra='forbid')
     revision: StrictInt
+    recovery_id: StrictStr | None = None
 
 
 class Confirm(Prepare):
@@ -65,7 +66,7 @@ def core(workflow):
 def public(row):
     return {k: copy.deepcopy(row[k]) for k in ('id', 'task_id', 'revision', 'app_id', 'app_type', 'environment_id',
             'environment_url', 'environment_version', 'artifact_sha256', 'graph_digest',
-            'review_token', 'state', 'expires_at', 'created_at', 'write_attempted', 'workflow_id', 'message') if k in row} | {
+            'review_token', 'recovery_id', 'state', 'expires_at', 'created_at', 'write_attempted', 'workflow_id', 'message') if k in row} | {
             'note': NOTE, 'new_apps': 0, 'publish_attempts': 1, 'new_keys': 0, 'runs': 0,
             'planned_console_reads': 7 if row.get('app_type') == 'advanced-chat' else 5,
             'authentication_may_add_reads': True, 'automatic_retry': False, 'business_verified': False}
@@ -74,7 +75,7 @@ def public(row):
 def register(h):
     router = APIRouter()
 
-    def source(task):
+    def source(task, recovery_id=None, proposal_id=None):
         h.require_intake(task)
         mode = task.get('app_type')
         if mode not in {'workflow', 'advanced-chat'}:
@@ -105,19 +106,24 @@ def register(h):
         if (not imports or (imports[-1].get('dsl_baseline') or {}).get('app', {}).get('mode') != mode
                 or digest(core((imports[-1].get('dsl_baseline') or {}).get('workflow', {}))) != digest(graph)):
             raise HTTPException(409, '当前成果与本修订的新建导入依据不一致，不能发布未知来源应用。')
-        # Any earlier dispatched publication is one-shot, even after a local revision change.
-        for row in h.store.list(KIND):
-            if (row.get('app_id') == app and row.get('environment_id') == env['id']
-                    and row.get('write_attempted')):
-                raise HTTPException(409, '该App已有发布派发记录，禁止重复发布；请先在Dify核对原结果。')
+        attempted = [r for r in h.store.list(KIND) if r.get('app_id') == app
+                     and r.get('environment_id') == env['id'] and r.get('write_attempted')]
+        if attempted:
+            if not recovery_id:
+                raise HTTPException(409, '该App已有发布派发记录，禁止重复发布；请先在Dify核对原结果或登记独立恢复依据。')
+            from .publication_recovery import require_recovery
+            require_recovery(h, task, recovery_id, proposal_id)
+        elif recovery_id:
+            raise HTTPException(409, '当前App没有适用的未知发布恢复依据。')
         binding = {'task_id': task['id'], 'revision': task['revision'], 'app_id': app, 'app_type': mode,
                    'environment': h.env_snapshot(env), 'artifact_sha256': hashlib.sha256(h.artifact_path(task).read_bytes()).hexdigest(),
                    'graph_digest': digest(graph), 'pause_generation': task.get('pause_generation', 0)}
+        if recovery_id: binding.update(recovery_id=recovery_id, publication_proposal_id=proposal_id)
         return binding, env, graph
 
     def check(task_id, binding):
         task = h.get_task(task_id)
-        current, env, graph = source(task)
+        current, env, graph = source(task, binding.get('recovery_id'), binding.get('publication_proposal_id'))
         if digest(current) != digest(binding):
             raise HTTPException(409, '任务、成果或环境已变化，原发布核对失效；未派发发布。')
         if task.get('status') == 'paused': raise HTTPException(409, '任务已暂停，未派发发布。')
@@ -153,7 +159,8 @@ def register(h):
         with h.store.lock:
             task = h.get_task(item_id); h.require_idle(task); h.require_revision(task, payload.revision)
             if task.get('status') == 'paused': raise HTTPException(409, '任务已暂停，请先明确恢复。')
-            binding, env, graph = source(task)
+            proposal_id = str(uuid.uuid4())
+            binding, env, graph = source(task, payload.recovery_id, proposal_id)
         try:
             draft = await remote(h.DifyClient(env, h.store), binding['app_id'], graph, binding['app_type'])
         except DifyError as exc:
@@ -161,14 +168,20 @@ def register(h):
             raise HTTPException(502, '发布前只读核对未通过。' + error_message(exc) + ' 未发送发布。', headers={'X-Sierra-Dify-Code':code(exc)}) from None
         with h.store.lock:
             task, env, _ = check(item_id, binding); h.require_idle(task)
-            row = {'id': str(uuid.uuid4()), 'task_id': item_id, 'revision': payload.revision,
+            row = {'id': proposal_id, 'task_id': item_id, 'revision': payload.revision,
                    'app_id': binding['app_id'], 'app_type': binding['app_type'], 'environment_id': env['id'], 'environment_url': env['base_url'],
                    'environment_version': env['version'], 'binding': binding, 'artifact_sha256': binding['artifact_sha256'],
                    'graph_digest': binding['graph_digest'], 'draft_hash': draft['hash'], 'draft_digest': digest(draft),
                    'created_at': h.now(), 'expires_at': time.time() + 900, 'write_attempted': False,
                    'state': 'ready', 'message': '草稿匹配且尚未发布。请核对目标后明确确认。'}
+            if payload.recovery_id: row['recovery_id'] = payload.recovery_id
             row['review_token'] = digest(row)
-            h.store.put(KIND, row['id'], row)
+            changes = [(KIND, row['id'], row)]
+            if payload.recovery_id:
+                from .publication_recovery import reserve, RECOVERY
+                recovery = reserve(h, task, payload.recovery_id, row['id'])
+                changes.append((RECOVERY, recovery['id'], recovery))
+            h.store.put_many(changes)
             return public(row)
 
     @router.post('/api/tasks/{item_id}/workflow-publication/confirm')
@@ -178,6 +191,7 @@ def register(h):
             row = h.store.get(KIND, payload.proposal_id)
             if (not row or row['task_id'] != item_id or row['revision'] != payload.revision
                     or row['review_token'] != payload.review_token or row['state'] != 'ready'
+                    or row.get('recovery_id') != payload.recovery_id
                     or row['expires_at'] < time.time() or payload.confirm_publish is not True):
                 raise HTTPException(409, '发布核对不存在、已使用、过期或未明确同意；请重新核对。')
             task, env, graph = check(item_id, row['binding'])
@@ -193,11 +207,16 @@ def register(h):
                 check(item_id, row['binding'])
                 if digest(draft) != row['draft_digest']:
                     raise HTTPException(409, 'Dify草稿在核对后有变化，请重新核对；未发布。')
+                recovery_change = []
+                if row.get('recovery_id'):
+                    from .publication_recovery import consume, RECOVERY
+                    recovery = consume(h, h.get_task(item_id), row['recovery_id'], row['id'])
+                    recovery_change = [(RECOVERY, recovery['id'], recovery)]
                 row.update(state='publishing', write_attempted=True)
                 record['write_attempted'] = True
                 current = h.get_task(item_id)
                 next(r for r in current['runs'] if r['id'] == record['id']).update(record)
-                h.store.put_many([(KIND, row['id'], row), ('task', item_id, current)])
+                h.store.put_many([(KIND, row['id'], row), ('task', item_id, current)] + recovery_change)
             # Dify 1.17.1 has no conditional hash parameter on this endpoint.
             await client.request('POST', f"/console/api/apps/{row['app_id']}/workflows/publish",
                                  credential='console_token', json={'marked_name': 'Sierra r' + str(payload.revision),

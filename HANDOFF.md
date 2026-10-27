@@ -1,13 +1,13 @@
-# HANDOFF — Sierra（192已导入后停止，193原生null保护已修）
+# HANDOFF — Sierra（194独立发布恢复已部署，真实C2待新独立范围）
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main，先前HEAD/origin ae1b221已推；产品仍0.345.0-c46bc340ea1580b02f52/285文件/PID29860，193只改执行器源/定向测试，不改产品或部署。
-- 192直接批准call_2025a29d3fcf463dab94fc76b4a4130f，明确改授189零派发范围，350的33870609/91cbcedd已消费。实际重连原空间成功，新Task db13bc92-3b25-4249-abfc-4c4b384a1d17/r6及App1cb02319-d42f-46b5-a1dd-34be136f83d6已导入；读6/登录1/import1/发布POST0/Key0/run0/model0，发布前保护拒绝即停，绝不重放。
-- Task仍imported，publication1e5eeaee-aa6b-4ce7-8e4d-e3961f528010为unknown/write_attempted=true；实际POST0由底层准入计数证明，但不抹旧unknown或解一次性锁。原16对象/所有原资产主Key/运行Key与登录资料密文、旧124/180/348及350冻结消费回执保持，仅批准的新console_token/csrf已核原空间后更新。当前共17Task。
-- 193已按固定标签1.17.1/8387590复现根因：PublishedWorkflowApi.get无发布返回HTTP200/null，product已支持、源Boundary只认404。源现严格null或兼容404仅在未见任何发布身份/次数0时允许；已有发布清旧absence，已见发布后缺失/坏值仍拒绝。未读流替身默认原生null，27定向（两种正常API全链/8停止/SDK/Cookie/不覆盖）过，新增真实HTTP0；旧unknown及停止基线完全保持。
-- docs/public-batch-remaining-live-result-20261027.md/json和unpublished-null-guard-result-20261027.json，work/unpublished-null351有复现/检查/保护；193实现4941014已存在且离线验收done；最终关闭/push/clean核对见work/unpublished-null351/finalization-proof.json。work/batch-platform350/imported-unpublished-r6-delivery.zip是保存的同版DSL/报告/README包，20002字节/SHA3c9d1bb9...，已核摘要，platform/business仍false，不是试跑成绩。
-- 管理461/登录31、模型20/保守24、App9/pub8/Key8、运行16/正式14与旧unknown/槽/费用保持。C2实际Sandbox仍未跑；C1/C3及条件C4保留，六组扩展不自动做。Claude318无恢复不形式重试；sierra已删除。实际Codex仍可用，不称额度用尽。
+- 根E:\workSpace\dify-agent/main；上次HEAD/origin c182dbc。194本轮实现待提交，验收后关闭；产品已0.346.0-7335a462f131de075e28/287文件/PID21864，由原PID29860/345核完整归属后原stop/start部署。
+- 新增Workflow已提交报告/冻结回执本机证据登记、双确认独立恢复声明、原入口一次新发布准备与原显式确认。旧unknown/write_attempted/Task历史不改；签封/当前修订App环境成果/旧发布与运行摘要绑定，并发唯一占用、派发同事务消费；新可能派发后旧声明/证据不可再用，重启不派发。证据是事后本机一致性/操作者声明，不是独立网络审计或外部范围授权。
+- 95定向后端（含原Workflow/Chatflow发布）、9界面及build过；物理HTTP/模型替身禁止；快照/health及前端200/原17密文资产主Key/124与180及348/350冻结消费保护通过。docs/publication-recovery.md及result-20261027.json；work/publication-recovery352保留测试/部署/登记保护，tools/publication-recovery-ui352为可复核隔离界面检查。
+- 实际350证据已按用户既有常规委托以agent_delegated登记1条（来源完整c182dbc、docs/public-batch-remaining-live-result-20261027.json），实际恢复声明0、Dify/模型HTTP0、新Task/App/发布/Key/运行0。唯一新增对象publication_dispatch_evidence，当前有效；旧unknown和所有旧账本完整。新保护基线work/publication-recovery352/post-registration-snapshot.json；350 post-stop为此前完整基线，仅差新证据和运行PID。
+- 192直接批准的350已消费终止：读6/登录1/import1/发布POST0/Key0/run0/model0。Task db13bc92-3b25-4249-abfc-4c4b384a1d17/r6仍imported，App1cb02319-d42f-46b5-a1dd-34be136f83d6；publication1e5eeaee-aa6b-4ce7-8e4d-e3961f528010仍unknown/write_attempted=true。193源null保护4941014/关闭c182dbc已推；旧包不改或重放。
+- 当前17Task，模型20/保守24、App9/pub8/Key8、运行16/正式14、tokens2287、管理461/登录31及旧unknown/预留/费用保持。当前Key仍配旧124修改版App，不动登录资料/运行Key。C1/C2/C3及条件C4未全签收，六组扩展不自动做。Claude318无恢复证据不形式重试或冒充子审查；sierra已删除。实际Codex可用，本轮最近16%/76%，不是耗尽。
 
 ## 2. 已消费批与保护
 
@@ -18,12 +18,12 @@
 
 ## 3. 下一步
 
-1. 193源修复/27定向及原数据保护已过，实现4941014已存在且done；关闭提交push后核精确origin，结果放finalization-proof.json。192只blocked，旧350/348/180绝不修改或重放。
-2. 本轮真实批已终止，不把未用发布/Key/运行当可直接续派。现有Task/App已创建，不能再说192全范围零派发，也不靠另造Task/App绕发布unknown。下一次继续时先评审现有App安全恢复：可信未派发证据与独立恢复记录、原unknown/来源保留、当前图与发布状态需在新明确范围内核对；当前没有已验证恢复实现/新冻结包，不先申请重放或实际执行。
-3. product workflow_publication.source对该App任何write_attempted旧记录均拒绝再次发布，不能简单再prepare/confirm或直接改write_attempted=false。即使源guard修好，原记录不会自动升级/解锁；不能把实际POST0推成平台当前仍未发布或已通过。
-4. 最新保护基线350 post-stop，含新Task17/获批认证更新/发布unknown；348基线只历史。原16/运行Key/登录密文资产、旧124/180/348/350冻结及消费保护。当前管理461/登录31和所有旧估算保留，模型20/24、实际App9/pub8/Key8、运行16/正式14；新实际范围须具体批准，不退借旧槽。
-5. 产品345/PID29860未部署，346脚本已消费。需部署另建快照/脚本/完整命令归属/原start-stop，不按端口杀。只用加密凭据、不抄聊天密码，不提交work/生产数据/秘密；原main自主commit/push精确safe.directory/require_escalated/HTTP1.1，每push更新日志/README/交接。
-6. 不全量或通读历史；实际Codex不足尽力整份交接立即停，不重试/换号/购买/用券。此时真实收尾受已消费/unknown边界阻断，不编造新开发任务或百分比耗额度。
+1. 先提交194实现，再按真实95/9/构建及保护结果把BACKLOG194标done并提交交接；每push更新CHANGELOG/适用README，核精确origin和clean，保存work/publication-recovery352/finalization-proof.json。只有实现commit存在才能done。
+2. 接固定C2，不造新Task/App绕unknown。下一开发项应是现有App的新独立有界执行包：只复用db13bc92/r6/App1cb02319和已登记证据，经本机独立声明→原发布准备/确认→专属Key→四项一次运行/失败原索引下载。先本机完整隔离核正常/停止/旧对象保护，再形成可审查冻结方案；未取得新直接范围前不请求真实Dify。
+3. 旧350的发布/Key/运行零派发不代表可直接继续使用；旧批已终止，须明确改授，不自动借退旧管理/登录/费用。真实准备也有Dify读取及认证可能费用，应计入新范围；本机恢复声明不授予外部范围，不从HTTP200/null推出当前未发布。
+4. 现已登记证据只本机一致性，代理真实记agent_delegated，无人工批准伪造。产品保留原保护，无recovery_id仍409；声明只一次且仍每次远端核当前图和发布状态。新尝试未知需再停，不自动修历史或复用旧证据。首批只Workflow，Chatflow不扩。
+5. 当前保护基线352 post-registration；原17/全密文资产/主Key/旧unknown、124/180/348/350冻结消费不变。346已部署，work/publication-recovery352/deploy.ps1也已消费；以后另建快照及核所属PID/完整命令/原start-stop，不按端口杀。
+6. 只用加密凭据、不抄聊天密码，不提交work/生产数据/秘密。原main自主commit/push精确safe.directory/require_escalated/HTTP1.1；不全量或通读历史。实际Codex不足整份交接立即停，不重试/换号/购买/用券。持续做固定收尾实质工作，不凭空拆任务耗额度。
 
 ## 4. 外部边界与账本
 
