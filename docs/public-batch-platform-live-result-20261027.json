@@ -1,0 +1,59 @@
+{
+  "state": "stopped_and_protected",
+  "attempt_sha256": "77923f96c75295b041c7651cac16c2a715bc0cff9ba59977c8cd1b22c2a70a3d",
+  "approval_sha256": "74cbb7715f212e51f928856bd499a44903d1d0cebf656e4c2d6d7f1118087643",
+  "plan_sha256": "53b821675dfc812bf246a78c7ba408eb75e8a7adcaad2cd0f762a2686fe256d5",
+  "manifest_sha256": "25fd79d6af049e1f766a1bdd129bf87e6fbe80cc3a785eb842948da23a28dcd4",
+  "original_tasks": 16,
+  "original_non_connection_objects_unchanged": true,
+  "all_original_ciphertexts_unchanged": true,
+  "all_original_assets_and_master_key_unchanged": true,
+  "operational_logs_excluded": true,
+  "consumed124_unchanged": true,
+  "new_task_app_publish_key_run_each": 0,
+  "model_http": 0,
+  "login_http": 1,
+  "login_status": 502,
+  "management_reads": 0,
+  "automatic_retry": false,
+  "console_login_blocked": true,
+  "new_receipts": [
+    {
+      "id": "a7992a7b-0da1-43d6-9705-9232d24766e5",
+      "state": "failed",
+      "environment_id": "202bfb35-2f92-47c1-bc1b-eac32082181d",
+      "diagnostic_code": "login_service_error",
+      "attempted": true,
+      "kind": "saved_console_reconnect"
+    },
+    {
+      "id": "f3196bb7-70ae-4922-86a2-2e8aba884fc7",
+      "state": null,
+      "environment_id": "202bfb35-2f92-47c1-bc1b-eac32082181d",
+      "diagnostic_code": null,
+      "attempted": null,
+      "kind": "console_connection_failure"
+    }
+  ],
+  "platform_acceptance_passed": false,
+  "model_counts_actual_conservative": [
+    20,
+    24
+  ],
+  "dify_runs_actual_passed": [
+    16,
+    14
+  ],
+  "resources_each_actual": 8,
+  "new_management_login_reservations_kept": [
+    16,
+    1
+  ],
+  "conservative_management_login": [
+    429,
+    29
+  ],
+  "old_unknown_and_held_kept": true,
+  "docker_readonly_diagnostic": "com.docker.service_stopped_engine_named_pipe_missing",
+  "service_root_cause_proven": false
+}
