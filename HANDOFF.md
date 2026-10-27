@@ -5,7 +5,7 @@
 - E:\workSpace\dify-agent/main；183实现a834a45/关闭364158f已推送complete。184现已部署0.344.0-984c788dcc6b2bad3530/284文件/PID39656，后端14/相关8、GUI6/真实归属清理1/构建过，原16/180状态/密文主Key/资产和124/180保护。
 - 旧修订样例可显式核归属资源/确认清理，原unknown/result不改、只记last_cleanup；CID漂移/错归属/晚到拒绝，已知维护ID只读恢复，不重执行代码。实际Dify/模型0。
 - 原180登录1/管理0/模型0/资源运行0的502失败永不重放；管理429/登录29预留及全部旧费用边界保持。
-- Git实现/关闭/push与clean以work/code-maintenance345/finalization-proof.json为准；sierra已删除，Claude318无恢复不形式重试。
+- 184实现5bb57dd已落且done；关闭/push与clean以work/code-maintenance345/finalization-proof.json为准；sierra已删除，Claude318无恢复不形式重试。
 
 ## 2. 已消费批与保护
 
