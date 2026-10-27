@@ -1,0 +1,115 @@
+{
+  "state": "existing_local_stack_restored",
+  "new_dify_http": 0,
+  "login_model_run_requests": 0,
+  "batch180_replayed": false,
+  "new_containers_volumes_apps": 0,
+  "container_creation_predates_restoration": true,
+  "existing_container_count": 16,
+  "running_container_count": 15,
+  "completed_init_count": 1,
+  "api_sandbox_db_redis_local_sandbox_healthy": true,
+  "target_version": "1.17.1",
+  "original16_project_data_ciphertexts_and_assets_unchanged": true,
+  "consumed180_kept": true,
+  "console_or_sandbox_business_acceptance": false,
+  "service_lifecycle_note": "Privileged helper may stop after WSL engine starts; current named pipe and container state are the readiness evidence.",
+  "container_summary": [
+    {
+      "name": "/dify-local-worker-1",
+      "image": "langgenius/dify-api:1.17.1",
+      "status": "running",
+      "health": "not_configured"
+    },
+    {
+      "name": "/dify-local-api-1",
+      "image": "langgenius/dify-api:1.17.1",
+      "status": "running",
+      "health": "healthy"
+    },
+    {
+      "name": "/dify-local-agent_backend-1",
+      "image": "langgenius/dify-agent-backend:1.17.1",
+      "status": "running",
+      "health": "not_configured"
+    },
+    {
+      "name": "/dify-local-plugin_daemon-1",
+      "image": "langgenius/dify-plugin-daemon:0.6.10-local",
+      "status": "running",
+      "health": "not_configured"
+    },
+    {
+      "name": "/dify-local-worker_beat-1",
+      "image": "langgenius/dify-api:1.17.1",
+      "status": "running",
+      "health": "not_configured"
+    },
+    {
+      "name": "/dify-local-nginx-1",
+      "image": "nginx:latest",
+      "status": "running",
+      "health": "not_configured"
+    },
+    {
+      "name": "/dify-local-sandbox-1",
+      "image": "langgenius/dify-sandbox:0.2.15",
+      "status": "running",
+      "health": "healthy"
+    },
+    {
+      "name": "/dify-local-api_websocket-1",
+      "image": "langgenius/dify-api:1.17.1",
+      "status": "running",
+      "health": "not_configured"
+    },
+    {
+      "name": "/dify-local-web-1",
+      "image": "langgenius/dify-web:1.17.1",
+      "status": "running",
+      "health": "not_configured"
+    },
+    {
+      "name": "/dify-local-db_postgres-1",
+      "image": "postgres:15-alpine",
+      "status": "running",
+      "health": "healthy"
+    },
+    {
+      "name": "/dify-local-init_permissions-1",
+      "image": "busybox:latest",
+      "status": "exited",
+      "health": "not_configured"
+    },
+    {
+      "name": "/dify-local-ssrf_proxy-1",
+      "image": "ubuntu/squid:latest",
+      "status": "running",
+      "health": "not_configured"
+    },
+    {
+      "name": "/dify-local-redis-1",
+      "image": "redis:6-alpine",
+      "status": "running",
+      "health": "healthy"
+    },
+    {
+      "name": "/dify-local-agent_ssrf_proxy-1",
+      "image": "ubuntu/squid:latest",
+      "status": "running",
+      "health": "not_configured"
+    },
+    {
+      "name": "/dify-local-weaviate-1",
+      "image": "cr.weaviate.io/semitechnologies/weaviate:1.39.2",
+      "status": "running",
+      "health": "not_configured"
+    },
+    {
+      "name": "/dify-local-local_sandbox-1",
+      "image": "langgenius/dify-agent-local-sandbox:1.17.1",
+      "status": "running",
+      "health": "healthy"
+    }
+  ]
+}
