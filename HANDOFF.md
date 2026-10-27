@@ -7,7 +7,7 @@
 - 179已完成正常新Task/intake受托核对/确认/构建、明确重连/新App首次发布/Key/单次运行执行器及冻结边界。38门禁、11正常本机API、同一流程替身1成功/8失败通过，缺少批准入口实际拒绝且未建attempt。公开代码tools/public-batch-platform342与本机冻结13文件一致，原16/旧消费包/账本/密文/主Key保持，真实模型/Dify HTTP0、生产新Task0。
 - work/batch-platform342/plan.json SHA53b821675dfc812bf246a78c7ba408eb75e8a7adcaad2cd0f762a2686fe256d5；manifest SHA25fd79d6af049e1f766a1bdd129bf87e6fbe80cc3a785eb842948da23a28dcd4。approval.json/attempt.json均不存在；candidate-manifest只是旧静态候选，不作批准或live身份。docs/public-batch-platform-plan-20261027.md及local-result为可审查范围，原始保护摘要清单/密文不入Git。
 - 本手动续跑实际额度已恢复，最近核对primary30%/weekly50%/ordinaryUsageAllowed=true，并未耗尽。之前交接提交命令因实际额度耗尽被自动审批拒绝、未执行，此次已重新核实与续接。sierra一次性任务已删除，无新定时任务。Claude318失败无结果/内部HTTP账单未知，无恢复证据不形式重试或冒充成功；304旧0.074255USD保持。
-- 179实现commit及关闭/push尚待本轮完成，以Git及work/batch-platform342/finalization-proof.json为准。不能把本机替身通过当真实Sandbox/业务或全项目完成。
+- 179实现3511a88已提交且队列done，180为need-user；最终关闭/push以Git及work/batch-platform342/finalization-proof.json为准。不能把本机替身通过当真实Sandbox/业务或全项目完成。
 
 ## 2. 已消费批与保护
 
@@ -16,9 +16,9 @@
 - 第95直接批准call_d147de690b78424eb2ec78b4f7c3f4d5 question0“允许这整批新范围”，绑定46f23e8。work/complete-mainline270/approval.json已用；plan3988d4f1af4a91e37350188c4ed4f4b9e153ebfbdd95de7f5f4b12c0dacb7eaf/manifest744adc4e712b543278984f0eda6d8333d2c00da9ad580da9589e4b6af40bfb58。首次执行stopped_needs_review：调用器1/实际模型HTTP0/DifyHTTP0/管理0/登录0/外部资源0，仅新增空任务。server.py两处request.url()把HTTPX URL属性当函数，首处在原始运输层前TypeError，被适配器包装为协议错误。未取得模型响应，不归因模型/供应商；根代理最初中间表述已公开纠正。原包禁止重放/改写。
 - 95原unknown唯一entry：failed_or_interrupted/reserved_unknown_usage，reserved0.0188541USD、charged null/usage空，不清零、不伪造账单对账。原15全部对象含连接、全部密文/主Key及旧回执逐项不变，docs/complete-mainline-live-result-20261024.json，005ce46；原95文件不可修改。
 
-## 3. 下一步（179提交关闭，再等待新单批授权）
+## 3. 下一步（179本机关闭，180等待新单批授权）
 
-1. 核work/batch-platform342/local-final-proof.json、Git/公开源码副本及38门禁/11正常本机API/9替身路径；实现commit存在后才将BACKLOG179标done，记录实现SHA、添加180 need-user，再关闭commit/push原main。178已complete，禁止重复部署原341脚本。
+1. 核work/batch-platform342/finalization-proof.json及Git；179实现3511a88、38门禁/11正常本机API/9替身路径已通过且done，180 need-user。关闭/push未完成时仅补Git闭环；complete后不重复。本机运行341及178已complete，禁止重放原部署脚本。
 2. 完整方案已冻结：模型0、新Task1、App/首次发布/Key各1、公开四项一次运行，最多16管理读取/1登录，600秒/新Task1次10分钟/报价阈值0.01USD；估算0.01非账单硬限，宿主Sandbox费用未知。新增需明确批准，旧16运行/资源各8/管理413/登录28和保守模型24保持；批准后新上界17/9/429/29，不自动借退旧预留。
 3. 推送固定方案后仅问一次新整批批准，绑定实际直接用户回复/问答来源、plan及manifest摘要。此前所有回复均不覆盖本新批；不能代理伪造人类批准。未批准不运行live、不在生产先建Task，不探Dify/模型。若无新答复保持need-user，不改变冻结运行版本和保护数据。
 4. 收到本批直接批准才记录approval.json，唯一入口为项目根 .venv\Scripts\python.exe work\batch-platform342\execute.py live，管理员上下文核所属PID；公开tools副本拒绝live。先查attempt/旧回执，独占消费后只执行一次，所有出站先持久化计数。异常整批停，不阶段重试、不删资源；Key回执丢失保持unknown。批准或消费后禁止重冻结包/重放旧批。
