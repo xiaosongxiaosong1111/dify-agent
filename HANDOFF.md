@@ -5,7 +5,7 @@
 - E:\workSpace\dify-agent/main；179/180/181均已推送，181实现22f03eb/关闭545bfe9，work/workspace-reconnect342/finalization-proof.json complete。180仍blocked，首次登录502只派发1登录/0管理/0模型/0资源运行，不重放。
 - 仍运行0.342.0-a531de7dd66e803432c8/279文件/PID2756，首次本机失败后明确工作区重读已交付；UI10/加载7/顺序4/构建/原脚本部署通过，原16与180允许状态、密文主Key/资产和124/180保持，未全量。
 - 182沿用户原启动Dify授权，仅启动既有Docker服务/Desktop，原dify-local 16容器创建时间均早于恢复，15运行/1正常完成初始化；API/Sandbox/DB/Redis/local_sandbox健康，8080监听。特权辅助Windows服务后续可停止，Docker引擎和容器实际正常。work/dify-service343/restoration-proof.json，docs/dify-local-service-restoration-20261027.md/json。
-- 182无新容器/卷/拉镜像，无新增Dify HTTP/登录/模型/运行，全部Sierra数据/密文/资产及180回执与before完全相同；未验证恢复后登录或Sandbox业务，不把元数据健康当通过。182验收过且doing，待证据实现commit→done→关闭push。
+- 182无新容器/卷/拉镜像，无新增Dify HTTP/登录/模型/运行，全部Sierra数据/密文/资产及180回执与before完全相同；未验证恢复后登录或Sandbox业务，不把元数据健康当通过。182验收与实现证据e9aa3d3已过且done，关闭push以work/dify-service343/finalization-proof.json为准。183 pending为根Python纯计算节点独立受限本机样例执行。
 - 引擎恢复后T078独立代码受限样例执行可进一步开发：当前仅静态入口和Dify整图路线，无独立执行器。只读核既有公开镜像langgenius/dify-api:1.17.1，ID/RepoDigest sha256:ceede5b903afaa20348f7ad80ebf847379dc56d886a99b9ec6a08913dacd7732，入口/bin/bash /entrypoint.sh；未执行/拉镜像。后续独立项须明确无网络/无宿主挂载/只读资源/时间边界、源/样例/返回合同，不能用宿主exec替代。
 - 最近额度primary47%/weekly53%/ordinaryUsageAllowed=true，未耗尽；sierra一次性已删除。Claude318失败无恢复不形式重试/冒充成功；304估算0.074255USD单列保持。
 
@@ -18,8 +18,8 @@
 
 ## 3. 下一步（182关闭，再做T078独立受限样例执行）
 
-1. 先落182证据实现commit，再将182 done并关闭/push，记work/dify-service343/finalization-proof.json；验收已过但未有本项commit时不提前done。181 complete不重复部署；180已消费失败不重放，未派发资源不自动改授。
-2. 下一已核实功能缺口T078：根Workflow Python代码节点独立本机受限样例验证，先明确小范围纯计算/允许库与JSON合同、公开镜像固定ID、无网络/无宿主挂载/只读/CPU内存进程/输入输出/耗时限制，校验明确采纳与源修订/代码/输入，根代理不在宿主exec用户代码。开发和安全边界隔离验证只用临时Task/可归属临时容器，不读原Dify容器凭据、不调用Dify/模型，不算目标Sandbox业务通过。先入BACKLOG新行，一次一项，再实现端到端界面与必要测试；不要继续堆空泛验收材料。
+1. 182实现证据e9aa3d3且验收过已done，补关闭/push及work/dify-service343/finalization-proof.json；complete后不重复启动原Docker服务/Desktop。181 complete不重复部署；180已消费失败不重放，未派发资源不自动改授。
+2. 下一已核实功能缺口T078：根Workflow Python代码节点独立本机受限样例验证，先明确小范围纯计算/允许库与JSON合同、公开镜像固定ID、无网络/无宿主挂载/只读/CPU内存进程/输入输出/耗时限制，校验明确采纳与源修订/代码/输入，根代理不在宿主exec用户代码。开发和安全边界隔离验证只用临时Task/可归属临时容器，不读原Dify容器凭据、不调用Dify/模型，不算目标Sandbox业务通过。已入BACKLOG183 pending，一次一项，实现端到端界面与必要测试；不要继续堆空泛验收材料。
 3. 当前Sierra342/PID2756，后续新快照/所属PID原start-stop受管理部署；旧341→342脚本前提已消费，不重放/按端口杀。保护用work/workspace-reconnect342/protect.py及180 post-stop逻辑数据，排除生命周期PID/根运维日志，保留所有业务资产/密文主Key和124/180原回执。
 4. 180批准call_273fbb51b4d94624aa57012b7dcc779a/question0绑定fab69b5及plan53b82167/manifest25fd79d6，approval/attempt原样保留，不改/重冻结/再登/阶段重试。恢复原引擎没有扩大新的真实Dify范围；进一步平台批须完成独立可审查包并按边界授权。
 5. 管理保守429/登录29（180新16/1不退），实际180只登录1/读取0；Dify实际16/正式passed14/资源各8/tokens2287，模型20/24和旧unknown/settled/四槽/费用保持。不自动借退，0.01估算非账单硬限、宿主成本未知。

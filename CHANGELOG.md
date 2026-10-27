@@ -4,6 +4,8 @@
 
 ## 第182：恢复既有Dify本机依赖 — 2026-10-27
 
+实现证据提交：`e9aa3d3`；BACKLOG182验收关闭。
+
 - 沿用户原启动Dify授权启动原Docker Desktop，原dify-local 16容器（15运行/1正常完成初始化）及创建时间/1.17.1镜像核对，API/Sandbox/DB/Redis/local_sandbox健康，8080监听。没有新建或拉取容器/卷/镜像。[恢复说明](docs/dify-local-service-restoration-20261027.md)。
 - 全程仅本机元数据，新增Dify HTTP/登录/模型/运行0，原16及180状态、全部凭据/资产/旧消费回执保持；Sierra仍0.342。180已消费失败不重放，不据此宣称登录或Sandbox业务通过。继续T078受限本机样例执行功能核实与开发。
 
