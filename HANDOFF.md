@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main；上次HEAD/origin c182dbc。194本轮实现待提交，验收后关闭；产品已0.346.0-7335a462f131de075e28/287文件/PID21864，由原PID29860/345核完整归属后原stop/start部署。
+- 根E:\workSpace\dify-agent/main；上次HEAD/origin c182dbc。194实现01f6941已存在并验收done，待本轮关闭推送；产品已0.346.0-7335a462f131de075e28/287文件/PID21864，由原PID29860/345核完整归属后原stop/start部署。
 - 新增Workflow已提交报告/冻结回执本机证据登记、双确认独立恢复声明、原入口一次新发布准备与原显式确认。旧unknown/write_attempted/Task历史不改；签封/当前修订App环境成果/旧发布与运行摘要绑定，并发唯一占用、派发同事务消费；新可能派发后旧声明/证据不可再用，重启不派发。证据是事后本机一致性/操作者声明，不是独立网络审计或外部范围授权。
 - 95定向后端（含原Workflow/Chatflow发布）、9界面及build过；物理HTTP/模型替身禁止；快照/health及前端200/原17密文资产主Key/124与180及348/350冻结消费保护通过。docs/publication-recovery.md及result-20261027.json；work/publication-recovery352保留测试/部署/登记保护，tools/publication-recovery-ui352为可复核隔离界面检查。
 - 实际350证据已按用户既有常规委托以agent_delegated登记1条（来源完整c182dbc、docs/public-batch-remaining-live-result-20261027.json），实际恢复声明0、Dify/模型HTTP0、新Task/App/发布/Key/运行0。唯一新增对象publication_dispatch_evidence，当前有效；旧unknown和所有旧账本完整。新保护基线work/publication-recovery352/post-registration-snapshot.json；350 post-stop为此前完整基线，仅差新证据和运行PID。
@@ -18,7 +18,7 @@
 
 ## 3. 下一步
 
-1. 先提交194实现，再按真实95/9/构建及保护结果把BACKLOG194标done并提交交接；每push更新CHANGELOG/适用README，核精确origin和clean，保存work/publication-recovery352/finalization-proof.json。只有实现commit存在才能done。
+1. 194实现01f6941已提交，95/9/构建及部署保护过，已done；本轮关闭推送后核精确origin及clean，保存work/publication-recovery352/finalization-proof.json。BACKLOG195 pending，下一先开发本机新独立C2包，不请求真实Dify。
 2. 接固定C2，不造新Task/App绕unknown。下一开发项应是现有App的新独立有界执行包：只复用db13bc92/r6/App1cb02319和已登记证据，经本机独立声明→原发布准备/确认→专属Key→四项一次运行/失败原索引下载。先本机完整隔离核正常/停止/旧对象保护，再形成可审查冻结方案；未取得新直接范围前不请求真实Dify。
 3. 旧350的发布/Key/运行零派发不代表可直接继续使用；旧批已终止，须明确改授，不自动借退旧管理/登录/费用。真实准备也有Dify读取及认证可能费用，应计入新范围；本机恢复声明不授予外部范围，不从HTTP200/null推出当前未发布。
 4. 现已登记证据只本机一致性，代理真实记agent_delegated，无人工批准伪造。产品保留原保护，无recovery_id仍409；声明只一次且仍每次远端核当前图和发布状态。新尝试未知需再停，不自动修历史或复用旧证据。首批只Workflow，Chatflow不扩。
