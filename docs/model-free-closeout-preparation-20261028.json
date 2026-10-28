@@ -1,0 +1,57 @@
+{
+  "backlog": 216,
+  "state": "partial_preparation",
+  "complete": false,
+  "local_scope_checks": 23,
+  "actual_saved_source_audit": {
+    "state": "saved_model_source_audited",
+    "preparation_complete": false,
+    "task_id": "aa827c91-b683-4a34-9e7f-fa0789f5c252",
+    "revision": 13,
+    "comparison": {
+      "state": "two_literal_locations_only",
+      "original_sha256": "3b49d1f2a6933d0cde7fdb2a7d4f7e6ad2ad12e289e059ef554ba490291bb6d7",
+      "candidate_sha256": "f75cccb9ec3ca33eaff2daa56d403df79dbd7118ead37abd57a3838316f79afe",
+      "changed_fields": [
+        {
+          "node_id": "answer_llm",
+          "field": "config.system_prompt"
+        },
+        {
+          "node_id": "no_hit_text",
+          "field": "config.template"
+        }
+      ],
+      "other_content_unchanged": true,
+      "candidate_changed": false,
+      "network_requested": false,
+      "resource_authorized": false,
+      "platform_checked": false,
+      "business_verified": false
+    },
+    "existing_original_runs_passed": 2,
+    "existing_model_ledger_entries": 6,
+    "original18_and_consumed_packages_kept": true,
+    "credentials_decrypted": false,
+    "network_requested": false,
+    "new_model_http": 0,
+    "new_platform_actions": 0,
+    "resource_authorized": false,
+    "proposed_remaining_scope_not_approved": {
+      "model": 0,
+      "reads": 28,
+      "login": 1,
+      "import": 1,
+      "publish": 1,
+      "key": 1,
+      "run": 2,
+      "new_tasks": 0,
+      "new_libraries": 0
+    },
+    "note": "仅本机核原模型完整来源和两处话术范围；完整零模型执行器、隔离验收、冻结方案及新直接批准尚未完成，不得真实执行。"
+  },
+  "live_executor_implemented": false,
+  "final_scope_frozen": false,
+  "direct_scope_approval_recorded": false,
+  "real_model_dify_http": 0
+}
