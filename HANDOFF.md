@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main，上一已推0137403，203实现d79ecd4已done。204新17/相关102共119定向及零HTTP实际运输构造过，本机Dify三类SDK对localhost/IP回环显式直连，远端代理/HTTPS CA环境保持。当前0.348.0-06fd6ec09994a7bc45a6/287文件/PID26424，核原35976/347快照与执行文件后原stop/start，health前端200；实现待本次commit/push，不全量或重建前端。
+- 根E:\workSpace\dify-agent/main，上一已推0137403，203实现d79ecd4已done。204新17/相关102共119定向及零HTTP实际运输构造过，本机Dify三类SDK对localhost/IP回环显式直连，远端代理/HTTPS CA环境保持。当前0.348.0-06fd6ec09994a7bc45a6/287文件/PID26424，核原35976/347快照与执行文件后原stop/start，health前端200；实现0544cea已提交，204定向验收done，关闭状态待提交/push；205 pending回主线C1，不全量或重建前端。
 - 202按call_9f16d8d23ec54c7ebdf5f0aa044fc0c8 question0直接批准唯一执行357，在reconnect首个登录HTTP502停止。actual login1/read-model-import-publish-key-run全0，五处内容复核未开始，work/c1-existing357全18固定文件及plan/manifest/approval/attempt/worker-started永久消费，不修改或重放。旧354同样永久消费。
 - 原空Task aa827c91-b683-4a34-9e7f-fa0789f5c252/r3/requirements仍8字段全空，无图/成果/App/运行；198失败及settled0.004333872保持。18Task、全部预算/密文/主Key/资产/旧消费保持，仅202环境记录失败及暂停；原服务Key配196 App1cb02319不变，登录邮箱密码密文保持。
 - 最新基线work/loopback359/post-deploy-data-snapshot.json，除server.pid外与358 post-recovery/357 post-stop相同。当前零HTTP证实默认HTTPX本机路由为AsyncHTTPProxy（四类环境变量为空），新显式运输本机变AsyncConnectionPool、远端仍代理；不能唯一归因旧502。旧Docker不可达/进程观察来自受限上下文，不证明引擎当时停止，辅助服务Stopped亦不证明引擎停止。管理员上下文现16栈/5服务健康；文档已补解释纠正，实际旧失败/计数/费用/冻结回执不回写。
@@ -17,7 +17,7 @@
 
 ## 3. 下一步
 
-1. 204本机Dify直连修复已部署348，119定向与保护通过，docs/dify-loopback-transport.md/json。实现commit存在后才204 done，再提交关闭日志/整份交接并推原main，存work/loopback359/finalization-proof.json。不把零HTTP路由复现称重新登录或502唯一根因。
+1. 204本机Dify直连修复已部署348，119定向与保护通过，docs/dify-loopback-transport.md/json。实现0544cea已存在且验收过，204已done；关闭日志/整份交接提交并推原main，存work/loopback359/finalization-proof.json。不把零HTTP路由复现称重新登录或502唯一根因。
 2. 用户本轮要求继续到实际额度用尽，实际额度已恢复primary1%/weekly0%/ordinaryUsageAllowed=true（未用券）。204关闭后回C1，准备独立新身份续做包，合入348直连与203消费前就绪/HTTP分类传播。在实际运行权限下核服务，不能把沙箱不可访问当引擎停止。只本机准备/隔离，不修改或重放357/354。
 3. 下一真实范围须新直接明确改授357全未派发5模型、资源各2、4运行；复用原空Task不新Task/库，保守模型30/账本0.755473652及资源各12/运行22不再增加。新管理读取/登录仍需明确范围；先做可审查执行包再一次询问，不把“继续开发”伪造成具体改授。
 4. C1真实链和原Chatflow订单链仍未通过；C2仅固定公开继续通过，C3结论不等于25业务通过，六组扩展不自动做。针对确证缺口开发，不造微任务耗额度、不全量/通读历史。
