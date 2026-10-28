@@ -9,7 +9,7 @@
 - 198后基线work/c1-mainline354/post-stop-data-snapshot.json及post-stop-proof.json；199部署后历史基线work/intake355-deploy/post-deploy-data-snapshot.json及deployment-proof.json；本轮原start恢复同快照后最新基线work/c1-existing357-check/post-start-data-snapshot.json及restart-proof.json，除server.pid外与199后完全一致；原17对象/账本、除批准原空间新认证外全部原密文、原服务Key/邮箱密码、全部资产主Key、全部旧消费文件逐项保持。专用连接仍配196 App，无新Key切换。
 - 现18Task、实际模型21/保守30（旧4槽保持，357明确改授4槽并新增1槽待派发）、App/发布/Key实际各9、运行17/正式15、Dify tokens2287。管理/登录预留573/34、模型保守30、模型账本0.755473652，资源保守各12/运行22；全部旧预留及本批未派发范围不退、不借、不重放。
 
-- 202新357已唯一执行并永久消费，stopped_needs_review/reconnect；实际login1/HTTP502，read/model/import/publish/key/run全0。原18Task/账本及全部原密文/资产/服务Key/旧消费文件完全保持，只有原环境新增失败诊断及暂停。模型无新费用条目；新预留573/34、保守模型30/0.755473652、资源各12/运行22全保留，不重放或借退5未派发模型槽。
+- 202新357已唯一执行并永久消费，stopped_needs_review/reconnect；实际login1/HTTP502，read/model/import/publish/key/run全0。原18Task/账本及全部原密文/资产/服务Key/旧消费文件完全保持，只有原环境新增失败诊断及暂停。203已恢复既有Dify服务并完成源码修复（d79ecd4），23定向/66门禁及旧保护通过，产品仍347未新部署；最新保护基线work/local-readiness358/post-recovery-data-snapshot.json与357 post-stop相同。模型无新费用条目；新预留573/34、保守模型30/0.755473652、资源各12/运行22全保留，不重放或借退5未派发模型槽。
 - 最新基线work/c1-existing357/post-stop-data-snapshot.json及post-stop-proof.json，安全结果docs/c1-existing-task-live-result-20261028.md/json。原空Task仍r3/需求空，198失败与settled保持。离线Docker管道不存在、服务Stopped、Desktop/backend进程不在，不据此声称502唯一根因。执行器非成功HTTP先RuntimeError遮住SDK分类，下一只离线修传播及消费前就绪核对，不修改已消费work。
 
 ## 2. 已有成果与剩余
@@ -24,9 +24,9 @@
 1. 202真实停止回执ff49999已提交推送，357永久消费（approval/attempt/worker-started均存在），只登录1/HTTP502，模型/管理/资源运行全0；无新模型费用。原18任务及预算、全部密文/资产/主Key/服务Key和所有旧消费回执逐项保持，环境记录unclassified并暂停。公开docs/c1-existing-task-live-result-20261028.md/json，旧记录不能回写新分类或重试。
 2. 203已恢复原com.docker.service及原Docker Desktop，未pull/create/compose up/新卷；16原dify-local容器名称/镜像匹配182记录，创建早于2026-10-27，15运行/1正常初始化、API/Postgres/Redis/Sandbox/local_sandbox五项健康。恢复后未发Dify HTTP或模型/运行请求，原Sierra自动登录暂停不清除。最新基线work/local-readiness358/post-recovery-data-snapshot.json与357 post-stop完全相同，proof.json及docs/local-dify-readiness-result-20261028.json。
 3. 203源码tools/c1-existing357新增local_readiness.py（未来完整19文件），只对已知localhost:8080原dify-local栈读取Docker version/ps白名单元数据，16必要服务/5健康/1.17.1核心版本/8080映射检查，失败固定安全码，不反射CLI正文、不自动启动或重试。源码main先current/runtime/readiness再claim，未就绪不消费、不登录；远程目标不借宿主Docker推断。
-4. 源码guard非成功HTTP先halt，再把原response交给原SDK安全分类（login_service_error或login_rejected），下一出站一律拒绝；原预期未发布404保持特例，旧202 unclassified不回填。23定向用例/66原门禁/替身503整链login1即停通过，实际HTTP0。docs/local-dify-readiness.md。实现commit存在且上述验收过后才能标203 done，随后提交关闭状态并推送日志/整份交接；本项不改产品，当前仍347/PID35976/287文件，不需要新快照部署或全量。
+4. 源码guard非成功HTTP先halt，再把原response交给原SDK安全分类（login_service_error或login_rejected），下一出站一律拒绝；原预期未发布404保持特例，旧202 unclassified不回填。23定向用例/66原门禁/替身503整链login1即停通过，实际HTTP0。docs/local-dify-readiness.md。实现d79ecd4已提交且上述验收完成，203已done；关闭状态提交后推送并核精确origin/clean，保存work/local-readiness358/finalization-proof.json；本项不改产品，当前仍347/PID35976/287文件，不需要新快照部署或全量。
 5. work/c1-existing357原18固定文件及plan/manifest/approval/attempt/worker-started全保持；开发源码已不与该冻结版逐字同版，不能再用旧357的冻结比较工具把新源码当已批准执行器。当前没有新冻结付费包或批准，旧批及5未派发模型/资源运行槽不重放、不自动改授。下一真实模型/登录必须独立可审查方案及新直接范围；本轮不立即反复制造付费准备。
-6. 203关闭后普通队列无pending，已知确证的就绪/分类缺陷已修；C1主链质量/原Chatflow订单链仍缺真实观察，C2仅固定公开继续通过/C3结论不等于业务签收。后续继续先核最新队列和实际新证据，仅确证可复现缺口入队，不能造微任务耗额度或假称项目完成。最近实际Codex主11%/周95%且ordinaryUsageAllowed=true，仍未耗尽；真不足立即尽力整份交接/stop，不重试/换号/购买/用券。
+6. 203已done，普通队列无pending，已知确证的就绪/分类缺陷已修；C1主链质量/原Chatflow订单链仍缺真实观察，C2仅固定公开继续通过/C3结论不等于业务签收。后续继续先核最新队列和实际新证据，仅确证可复现缺口入队，不能造微任务耗额度或假称项目完成。最近实际Codex主11%/周95%且ordinaryUsageAllowed=true，仍未耗尽；真不足立即尽力整份交接/stop，不重试/换号/购买/用券。
 7. Claude既有网关318失败且内部用量未知，无恢复证据不形式重试/加预算/冒充子审查，本轮根代理完成。Playwright固定绝对路径C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\node_modules\playwright，不18760、不全量/通读历史。Git原main每push前根日志/适用README/整份交接，排除work/data/凭据/供应商原文，不按端口杀进程或重放旧部署。
 
 ## 4. 账本及外部边界
