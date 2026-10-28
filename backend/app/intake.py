@@ -18,10 +18,11 @@ def model_review_outline(task):
         'topic_rule':'required_check_topics和intake_standard是更新前标准；checks必须按requirements_patch合并后的候选逐项返回。候选正文即使是拟议或needs_input，触发新专项也须增加对应检查；不添加未触发主题或为凑清单新增业务。',
         'conditional_check_topics':[{'id':key,'label':SPECIAL[key][0],'text_pattern':pattern} for key,pattern in PATTERNS.items()],
         'candidate_topic_rule':'conditional_check_topics仅为可触发的ID目录，不是全选清单；按候选需求及原需求用户消息匹配，当前图触发的主题也保留。检索或知识库触发retrieval，不能仅因knowledge已检查而省略。例：原8个基础主题，候选新增知识库检索则须9行，含retrieval；仍有缺口可标needs_input，不用建议自证complete。外部接口匹配需排除sierra_runtime_entry明确的本机空值/错误返回契约说明；真实业务接口仍需external。',
+        'prebuild_review_rule':'“先整理草案和逐项核对，待我/用户确认再搭建”是本次搭建前草案复核，不因此新增batch；逐项处理业务数据、核对订单、多条、数组、批量或已有迭代图仍必须检查batch，不能省略真实业务。',
         'material_sources':[{'id':m['id'],'name':m['name']} for m in task.get('materials',[]) if m.get('status')=='parsed'],
         'source_rule':'material证据的id必须使用这里的真实id，不能使用文件名；quote必须逐字来自该来源。',
         'question_fields':['topic','question','recommendation','reason','experience','cost','manual_work'],
-        'question_rule':'追问字段必须逐字使用question_fields，人工影响字段为manual_work，不能写manualWork；每个追问的topic必须对应一个status=needs_input的检查项；全部明确时questions必须为空，不能一边写complete一边追问。',
+        'question_rule':'追问字段必须逐字使用question_fields，人工影响字段为manual_work，不能写manualWork；每个追问的topic必须对应一个status=needs_input的检查项。同一topic最多一问，该主题的多个缺口合并在同一问题中，只挑1—3个优先主题；全部明确时questions必须为空，不能一边写complete一边追问。',
         'decision_rule':'已明确的模型和参数不是笔误推测；可用状态留待资源核对。缺少准备好的资源不自动等于业务需求不清。',
     }
 
@@ -59,13 +60,21 @@ def external_business_text(text):
         return ''
     return LOCAL_RESULT_DISTINCTION.sub('',LOCAL_ENTRY_DECLARATION.sub(local,text))
 
+PREBUILD_ITEM_REVIEW=re.compile(
+    r'(?P<draft>先(?:整理)?(?:需求)?草案(?:和|与|并)\s*)逐项(?P<review>核对|检查|复核)'
+    r'(?=\s*[，,；;]\s*待(?:我|用户)?确认(?:后)?再(?:搭建|构建|生成流程))')
+
+def batch_business_text(text):
+    """Exclude only the explicit pre-build draft review phrase, keeping real items."""
+    return PREBUILD_ITEM_REVIEW.sub(lambda m:m['draft']+m['review'],text)
+
 def topics(task):
     result=[{'id':key,'label':label,'question':question,'special':False} for key,(label,question) in BASE.items()]
     chosen=[]
     if task['app_type'] in {'advanced-chat','agent'}:chosen+=['memory','dialogue']
     if task['app_type']=='agent':chosen.append('agent_tools')
     text='\n'.join(task['requirements'].values())+'\n'+'\n'.join(m.get('content','') for m in task.get('messages',[]) if requirement_user(m))
-    chosen += [key for key,pattern in PATTERNS.items() if re.search(pattern,external_business_text(text) if key=='external' else text,re.I)]
+    chosen += [key for key,pattern in PATTERNS.items() if re.search(pattern,external_business_text(text) if key=='external' else batch_business_text(text) if key=='batch' else text,re.I)]
     if 'batch' not in chosen and any(n.get('type')=='iteration' for n in (task.get('workflow_plan') or {}).get('nodes',[])):chosen.append('batch')
     from .iteration_outcomes import has_protocol
     if has_protocol(task.get('workflow_plan')):chosen.append('batch_outcomes')
@@ -144,7 +153,8 @@ def validate_review(task,value,*,evidence_task=None):
     fields={'topic','question','recommendation','reason','experience','cost','manual_work'}
     for q in questions:
         if not isinstance(q,dict) or set(q)!=fields or not all(isinstance(q.get(k),str) for k in fields):raise ReviewContractError('追问须包含问题、推荐、理由及体验／费用／人工影响。')
-        if q['topic'] not in gaps or q['topic'] in asked or any(not q[k].strip() or len(q[k])>3000 for k in fields):raise ReviewContractError('追问主题须对应尚未解决的缺口，内容不能为空或超长。')
+        if q['topic'] in asked:raise ReviewContractError('追问主题重复：同一主题最多一个优先问题，请合并该主题的缺口。')
+        if q['topic'] not in gaps or any(not q[k].strip() or len(q[k])>3000 for k in fields):raise ReviewContractError('追问主题须对应尚未解决的缺口，内容不能为空或超长。')
         asked.add(q['topic'])
     return copy.deepcopy(value)
 

@@ -1,14 +1,12 @@
-# HANDOFF — Sierra（206认证首访谈真实通过，第二轮误判已停；下一207离线修复）
+# HANDOFF — Sierra（207误判已修部署349，206首访谈保留/旧批不重放）
 
 ## 1. 当前状态
 
-- 最新206已唯一执行并停止，actual model2/read2/login1/资源运行0，首轮真实访谈已复核通过、第二轮误加batch拒绝。Task r5/requirements，实际模型23/已知配置估算累计0.110133588；新停止基线work/c1-resume360/post-stop-data-snapshot.json，旧360永久消费。下一207离线修复，原18和旧消费保持。
-
-- 根E:\workSpace\dify-agent/main，上一已推0137403，203实现d79ecd4已done。204新17/相关102共119定向及零HTTP实际运输构造过，本机Dify三类SDK对localhost/IP回环显式直连，远端代理/HTTPS CA环境保持。当前0.348.0-06fd6ec09994a7bc45a6/287文件/PID26424，核原35976/347快照与执行文件后原stop/start，health前端200；204实现0544cea/关闭9fcc3e6已提交推送且done，205实现6ff9cb3已提交且隔离验收done，206已直接批准并登记新approval；本次关闭推送后核origin/clean存work/c1-resume360-verified/finalization-proof.json，不全量或重建前端。
-- 202按call_9f16d8d23ec54c7ebdf5f0aa044fc0c8 question0直接批准唯一执行357，在reconnect首个登录HTTP502停止。actual login1/read-model-import-publish-key-run全0，五处内容复核未开始，work/c1-existing357全18固定文件及plan/manifest/approval/attempt/worker-started永久消费，不修改或重放。旧354同样永久消费。
-- 原空Task aa827c91-b683-4a34-9e7f-fa0789f5c252/r3/requirements仍8字段全空，无图/成果/App/运行；198失败及settled0.004333872保持。18Task、全部预算/密文/主Key/资产/旧消费保持，仅202环境记录失败及暂停；原服务Key配196 App1cb02319不变，登录邮箱密码密文保持。
-- 最新基线work/loopback359/post-deploy-data-snapshot.json，除server.pid外与358 post-recovery/357 post-stop相同。当前零HTTP证实默认HTTPX本机路由为AsyncHTTPProxy（四类环境变量为空），新显式运输本机变AsyncConnectionPool、远端仍代理；不能唯一归因旧502。旧Docker不可达/进程观察来自受限上下文，不证明引擎当时停止，辅助服务Stopped亦不证明引擎停止。管理员上下文现16栈/5服务健康；文档已补解释纠正，实际旧失败/计数/费用/冻结回执不回写。
-- 实际模型21/保守30，App/发布/Key各9、运行17/正式15、tokens2287；管理/登录预留573/34，资源保守各12/运行22、模型账本0.755473652保持。357未派发5模型/两版资源/4运行不自动改授；本次实际Dify/模型新增HTTP0，未新登录或解除暂停。
+- 根E:\workSpace\dify-agent/main，206回执183c2a4已推，旧360永久消费。207已修搭建前草案“逐项核对”误加batch，精准排除元指令、真实逐项业务和迭代图仍查；补同topic一问提示与固定重复诊断，不自动改候选。新18/相关76共94定向及原候选离线复核过。当前0.349.0-602bce0b6435996a669b/287文件/PID5540，核原26424/348快照/执行文件后原stop/start，health前端200，待实现commit/push。
+- 206新360按call_6261e7a7e6244d548faf1435daa257bd question0直接批准唯一执行。原空间登录/应用列表/空间摘要200，首轮真实模型九项needs_input/不提前搭建，经根代理source419da27d...实际复核通过。第二完整需求轮旧代码误触batch应9却要求10，候选未应用，整批停；另三questions同rules仍无效，349离线正确9后明确拒绝重复，不能把修复当原候选通过。
+- actual model2/read2/login1/新资源运行0，模型累计23/保守30；新两笔settled配置估算0.008966112，已知累计0.110133588，非供应商账单。读取预留573/登录35/资源各12/运行22及模型账本0.755473652保持，未派发3模型/46读取/两版资源/4运行不自动退借或改授。
+- Task18，所选aa827c91-b683-4a34-9e7f-fa0789f5c252/r5/requirements为首轮未决草案，原198失败与settled、首轮真实复核、第二轮用户完整说明及失败候选均保留；未确认/无图/成果/App/运行。原17对象/账本/所选旧历史、所有密文（206只批准原空间新console/CSRF）/原服务Key/邮箱密码/资产主Key与全部消费旧包保持。
+- 新基线work/prebuild361/post-deploy-data-snapshot.json，除server.pid外与work/c1-resume360/post-stop-data-snapshot.json相同；旧360全19文件/plan/manifest/approval/attempt/worker-started全保持。348本机直连实际原空间成功认证，旧502不唯一归因；受限Docker观察不证明引擎停止，管理员上下文才可核实际服务。
 
 ## 2. 已有成果与剩余
 
@@ -19,16 +17,15 @@
 
 ## 3. 下一步
 
-1. 206用户call_6261e7a7e6244d548faf1435daa257bd question0直接批准后360仅执行一次，永久消费；原空间登录/应用列表/空间摘要200，model2/read2/login1/资源运行0，首轮实际九主题追问已根代理按source419da27d...复核通过，不提前搭建。第二完整需求轮程序误触发batch期望10项而返9项，候选未应用，整批停止。不得继续阶段/登录/调用剩余3槽或重放。
-2. 先提交206安全回执/日志/整份交接，206 blocked不done。docs/c1-resume-live-result-20261028.md/json；新基线work/c1-resume360/post-stop-data-snapshot.json和proof.json。原17对象/账本、所选旧消息/版本/失败及原settled、全部密文（除批准原空间新console/CSRF）、原服务Key/邮箱密码/资产主Key和消费旧包保持。当前r5未决草案/未确认/无图/无资源运行；完整用户说明和失败候选均保留。
-3. 下一207 pending修确定性误判：topics中“逐项”把“先整理草案和逐项核对，待我/用户确认再搭建”当批量业务，须只排除明确搭建前草案语句，实际业务逐项处理/订单/多条/数组及迭代图继续batch；不广泛删除词或放宽主题数量。候选另有三questions同为rules，仍属契约无效；补精确同topic最多一问/合并缺口的模型提示，重复仍拒绝，不自动合并或改当前候选。不发实际模型/Dify或重放360，只定向验证/必要部署。
-4. 实际模型累计23、两笔新settled配置估算0.008966112（非账单），已知累计0.110133588；模型保守30/读取573/登录35/资源各12/运行22、账本0.755473652保持。未派发3模型/46读取/两版资源及4运行保留，不自动归还/借用；旧四槽/unknown/全部旧费用保持。新生成App/发布/Key实际仍各9、运行17/正式15、tokens2287、Task18。
-5. 当前348/287文件/PID26424；后续207实质改动才新固定快照、所属PID/命令/执行文件核验后原stop/start，不按端口杀进程。管理员上下文服务健康，旧受限Docker观察不是停机证明；348已实际成功原空间重连，不据此唯一解释旧502。五处实际复核只完成第一处，不能把第二轮结构拒绝写成根代理语义通过或失败。
-6. 用户要求持续实质开发至实际Codex不足，普通使用可用不假称耗尽；不足尽力整份交接/stop，不重试/换号/购买/用券。Claude网关318失败且无恢复证据不形式重试/加预算/冒充审查。本轮根代理核对。Playwright固定C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\node_modules\playwright，不18760、不全量/通读历史；每push前根日志/适用README/整份交接，不提交work/data/凭据/模型原文。
+1. 207已实质修复并部署349，94定向/原实际候选离线与保护过，docs/prebuild-intake-review.md及prebuild-intake-review-result-20261028.json。实现commit存在后才207 done，随后提交关闭/日志/整份交接并推原main，核精确origin/clean。旧206回执183c2a4/360不修改不重放。
+2. 用户要求持续实质推进至实际额度不足；207关闭后应保留已实际通过的首轮访谈，避免反复从头。可准备新的独立剩余链：正常界面再明确完整公开需求（直接说明query用于问题上下文但事实只用资料、订单号只固定提示不加字段/外部系统、不另加分类器），仅3次模型用于明确访谈/原版规划/修改规划；修改阶段用产品已有代理人工逐项复核，明确agent_delegated非人类/模型验证。此方案尚未实现或批准，不能现在写生产Task或用旧3槽。
+3. 若采用该正常门禁路径，拟明确改授360未派发3模型/46读取/两版资源/4运行，复用刚证明的原空间token只做只读身份核对，登录0；模型/读取/资源及费用上界均不增加。先实现隔离验证和可审查冻结方案，再一次请求对应明确改授，不凭“继续到额度”伪造人类答复。不用手改旧模型图或approved助手绕门禁；人工步骤须用现有正常API/界面、说明来源和actor，真实规划仍由模型两次生成并逐项复核。
+4. 当前真实C1仍未完整通过，C2只固定公开继续范围已闭合，C3结论不等于全25业务通过，原Chatflow订单链尚未验收。下一只按既定主线确证需要推进，不做六组扩展或无意义微任务；所有已消费批、旧unknown、费用及保留槽继续有效，不退借/重试。
+5. 实际Codex普通可用，不假称耗尽；真实不足立即尽力整份交接/stop，不重试/换号/购买/用券。Claude网关318失败/用量未知，无恢复证据不形式重试/加预算/冒充审查，本轮根代理核对。Playwright固定C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\node_modules\playwright，不18760、不全量/通读历史。旧部署脚本消费，不按端口杀进程；每push前根日志/适用README/整份交接，排除work/data/凭据/供应商原文。
 
 ## 4. 账本及外部边界
 
-- 206新直接批准call_6261e7a7e6244d548faf1435daa257bd question0“允许改授原范围并新增1次登录”，绑定6ff9cb3/cff740ae/b66d7bbc。明确改授357零派发5模型/48读取/两版资源/4运行，仅增1登录，现登录预留35；模型保守30/账本0.755473652、读取573、资源12/运行22/Task18保持，旧失败/unknown/费用原样保留。当前新360有approval，尚无attempt/worker-started或新真实HTTP。
+- 206新直接批准call_6261e7a7e6244d548faf1435daa257bd question0“允许改授原范围并新增1次登录”，绑定6ff9cb3/cff740ae/b66d7bbc。明确改授357零派发5模型/48读取/两版资源/4运行，仅增1登录，现登录预留35；模型保守30/账本0.755473652、读取573、资源12/运行22/Task18保持，旧失败/unknown/费用原样保留。360已有approval/attempt/worker-started且永久消费，实际2模型/2读取/1登录；首轮通过、第二轮拒绝后停止，未派发3模型/46读取/资源各2/运行4保持，不自动续做。
 
 - 202新直接批准call_9f16d8d23ec54c7ebdf5f0aa044fc0c8 question0，“允许本批明确改授及新增范围”，绑定2fa5744/ab658875/e4414769。明确改授198未派发4模型及资源各2/run4，另增1模型/48读/1登录，旧全部费用/unknown/其余槽与旧消费保持。当前新预留573/34、模型保守30/账本0.755473652，资源保守各12/运行22/Task18不增；本批实际Dify登录1/HTTP502、管理读取和模型/资源/运行0；包已消费，不重放。
 
@@ -41,5 +38,5 @@
 ## 5. 保护与历史
 
 - 91 passed/95失败/115/121/124/180/189/192/196/198和全部已消费包永久不重放，不改旧失败回执。350 publication1e5eeaee-aa6b-4ce7-8e4d-e3961f528010仍unknown/write_attempted=true；196独立恢复并不改旧unknown。95唯一unknown不清零，旧请求未知不伪造成0。具体历史只按编号找公开结果或Git旧交接，不通读development-resume。
-- 当前保护以loopback359/post-deploy-data-snapshot.json为准（与358 post-recovery/357 post-stop除server.pid外相同，含新环境失败/暂停；原18/全部费用密文资产保持），353 post-success是历史17Task基线，不能要求批准后的新状态与旧全量完全相同。新增检查/修复不写生产数据；新Task自身失败记录和费用不得删除。
+- 当前保护以prebuild361/post-deploy-data-snapshot.json为准（与360 post-stop除server.pid外相同，包含206新r5草案/两新settled及原空间新认证；原17/所选旧历史和全部费用密文资产保持），353 post-success是历史17Task基线，不能要求批准后的新状态与旧全量完全相同。新增检查/修复不写生产数据；新Task自身失败记录和费用不得删除。
 - 用户重要成果自主commit/push原GitHub main，每push前更新根CHANGELOG及适用README/状态/整份交接；Git exact safe.directory=E:/workSpace/dify-agent、require_escalated、HTTP/1.1，不force或改全局代理/TLS。明确暂存源码/安全文档，不提交work/data/供应商原文/秘密，保留其他未提交改动。sierra自动化已删除。

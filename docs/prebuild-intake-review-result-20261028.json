@@ -1,0 +1,58 @@
+{
+  "backlog": 207,
+  "state": "verified_with_limits",
+  "real_response_retained_sha256": "4a28ed046a0ab04b2473ad12e92b9051e2adb87307bc6761f4dec23c5877088a",
+  "historical_expected_topics": [
+    "goal",
+    "audience",
+    "input",
+    "output",
+    "rules",
+    "knowledge",
+    "exceptions",
+    "tests",
+    "batch",
+    "retrieval"
+  ],
+  "corrected_expected_topics": [
+    "goal",
+    "audience",
+    "input",
+    "output",
+    "rules",
+    "knowledge",
+    "exceptions",
+    "tests",
+    "retrieval"
+  ],
+  "corrected_topic_count": 9,
+  "duplicate_questions_still_rejected": true,
+  "remaining_diagnostic": "追问主题重复：同一主题最多一个优先问题，请合并该主题的缺口。",
+  "original_candidate_not_applied_or_edited": true,
+  "new_tests": 18,
+  "targeted_total": 94,
+  "real_model_dify_http": 0,
+  "original18_all_data_kept": true,
+  "consumed360_unchanged": true,
+  "runtime_build": "0.349.0-602bce0b6435996a669b",
+  "deployment": {
+    "state": "verified",
+    "build_id": "0.349.0-602bce0b6435996a669b",
+    "source_runtime_files_matched": 287,
+    "original18_and_ledger_kept": true,
+    "ciphertexts_assets_masterkey_kept": true,
+    "all_consumed_packages_kept": true,
+    "health_and_frontend200": true,
+    "physical_model_dify_http": 0
+  },
+  "managed_process": {
+    "pid_registration_complete": true,
+    "verified_pid": 5540,
+    "state": "managed_runtime_verified",
+    "original_start_stop_scripts": true,
+    "build_id": "0.349.0-602bce0b6435996a669b",
+    "process_ownership_verified": true,
+    "real_model_dify_http": 0,
+    "previous_owned_pid": 26424
+  }
+}
