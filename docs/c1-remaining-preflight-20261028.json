@@ -1,0 +1,151 @@
+{
+  "backlog": 208,
+  "state": "frozen_unapproved",
+  "plan_sha256": "b83ec3363e00943e2e47ed53e633835d5bf9717181f186f0942fed9ce077a6a0",
+  "manifest_sha256": "887bbafc31b38944a8e8b363c229e1fc41f7f905ad041417e86abf7076c6da64",
+  "frozen_files": 22,
+  "gates": 76,
+  "reuse_guard_checks": 26,
+  "scenarios": [
+    {
+      "mode": "success",
+      "state": "passed",
+      "phase": "modified_miss",
+      "counts": {
+        "model": 3,
+        "reads": 31,
+        "login": 0,
+        "import": 2,
+        "publish": 2,
+        "key": 2,
+        "run": 4
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "expired_session",
+      "state": "stopped_needs_review",
+      "phase": "workspace_check",
+      "counts": {
+        "model": 0,
+        "reads": 1,
+        "login": 0,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "wrong_workspace",
+      "state": "stopped_needs_review",
+      "phase": "workspace_check",
+      "counts": {
+        "model": 0,
+        "reads": 1,
+        "login": 0,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_model",
+      "state": "stopped_needs_review",
+      "phase": "complete_interview",
+      "counts": {
+        "model": 1,
+        "reads": 1,
+        "login": 0,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "invalid_plan",
+      "state": "stopped_needs_review",
+      "phase": "first_plan",
+      "counts": {
+        "model": 2,
+        "reads": 1,
+        "login": 0,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_publish",
+      "state": "stopped_needs_review",
+      "phase": "original_publish",
+      "counts": {
+        "model": 2,
+        "reads": 5,
+        "login": 0,
+        "import": 1,
+        "publish": 1,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_run",
+      "state": "stopped_needs_review",
+      "phase": "original_hit",
+      "counts": {
+        "model": 2,
+        "reads": 10,
+        "login": 0,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 1
+      },
+      "physical_http": 0
+    }
+  ],
+  "inherited_real_first_interview": {
+    "source_sha256": "419da27d1c128e6f06112c4c2f52143397607a5e62489f812ae0b31e85ed445c",
+    "new_model_call": false,
+    "new_review": false,
+    "human_signoff": false
+  },
+  "changed_intake": "normal_product_api_agent_declared_not_model_or_human",
+  "new_content_review_points": 4,
+  "synthetic_semantic_reviews": false,
+  "production_unchanged": true,
+  "physical_model_dify_http": 0,
+  "approval_created": false,
+  "attempt_created": false,
+  "runtime": {
+    "local_dify_readiness": {
+      "applicable": true,
+      "ready": true,
+      "compose_project": "dify-local",
+      "required_containers": 16,
+      "healthy_services": [
+        "api",
+        "db_postgres",
+        "local_sandbox",
+        "redis",
+        "sandbox"
+      ],
+      "dify_http_requests": 0,
+      "login_verified": false,
+      "business_verified": false
+    },
+    "verified_pid": 5540,
+    "original_runtime_kept": true,
+    "source_manifest_files": 287
+  },
+  "global_reservation_limits_not_increased": true
+}
