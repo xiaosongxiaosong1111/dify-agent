@@ -36,5 +36,36 @@ def register(h):
     @h.app.get('/api/tasks/{item_id}/planning/{run_id}/candidate')
     def read(item_id:str,run_id:str):
         with h.store.lock:return candidate(h.get_task(item_id),run_id)
+    @h.app.get('/api/tasks/{item_id}/planning/{run_id}/saved-state')
+    def read_saved_state(item_id:str,run_id:str):
+        from fastapi.responses import JSONResponse
+        with h.store.lock:value=saved_state(h.get_task(item_id),run_id)
+        return JSONResponse(value,headers={'Cache-Control':'no-store'})
     from .retained_boolean_preview import register as register_boolean_preview
     register_boolean_preview(h)
+
+
+def saved_state(task,run_id):
+    """Compare saved content exactly; neither provenance nor adoption is inferred."""
+    if task.get('app_type') not in ('workflow','advanced-chat'):
+        raise HTTPException(422,'当前类型不支持流程候选与已保存流程比较。')
+    source=candidate(task,run_id)
+    plan=task.get('workflow_plan')
+    if plan is None:
+        comparison='missing'
+    else:
+        if not isinstance(plan,dict) or not plan:
+            raise HTTPException(422,'当前保存的流程无法完整核对；未比较。')
+        try:
+            current=json.dumps(plan,ensure_ascii=False,sort_keys=True,separators=(',',':'),allow_nan=False)
+            retained=json.dumps(json.loads(source['plan_text']),ensure_ascii=False,sort_keys=True,separators=(',',':'),allow_nan=False)
+        except (ValueError,TypeError,RecursionError,OverflowError):
+            raise HTTPException(422,'当前保存的流程无法完整核对；未比较。') from None
+        inspect_text(current)
+        comparison='same' if current==retained else 'different'
+    stale=task.get('plan_stale',False)
+    if type(stale) is not bool:raise HTTPException(422,'当前保存状态无法核对；未比较。')
+    return {'task_id':task['id'],'planning_run_id':run_id,'current_revision':source['current_revision'],
+            'input_revision':source['input_revision'],'comparison':comparison,'plan_stale':stale,
+            'verification':'local_saved_plan_comparison','network_requested':False,'task_changed':False,
+            'platform_checked':False,'business_verified':False}

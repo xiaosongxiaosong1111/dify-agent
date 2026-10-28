@@ -1,0 +1,98 @@
+{
+  "backlog": 215,
+  "state": "deployed_verified",
+  "backend_targeted_checks": 48,
+  "new_backend_checks": 23,
+  "existing_related_checks": 25,
+  "built_ui_cases": [
+    {
+      "case": "same",
+      "heading": "当前已保存流程与这份保留候选完全一致",
+      "requests": 1,
+      "historical_pause_preserved": true
+    },
+    {
+      "case": "different",
+      "heading": "当前已保存流程与这份保留候选不同",
+      "requests": 1,
+      "historical_pause_preserved": true
+    },
+    {
+      "case": "stale",
+      "heading": "当前保存图与保留候选一致，但方案已过期",
+      "requests": 1,
+      "historical_pause_preserved": true
+    },
+    {
+      "case": "missing",
+      "heading": "当前尚无已保存流程",
+      "requests": 1,
+      "historical_pause_preserved": true
+    },
+    {
+      "case": "http_failure",
+      "heading": "当前保存状态未核实",
+      "requests": 1,
+      "historical_pause_preserved": true
+    },
+    {
+      "case": "wrong_revision",
+      "heading": "当前保存状态未核实",
+      "requests": 1,
+      "historical_pause_preserved": true
+    },
+    {
+      "case": "wrong_task",
+      "heading": "当前保存状态未核实",
+      "requests": 1,
+      "historical_pause_preserved": true
+    },
+    {
+      "case": "wrong_verification",
+      "heading": "当前保存状态未核实",
+      "requests": 1,
+      "historical_pause_preserved": true
+    }
+  ],
+  "actual_deployed_response": {
+    "task_id": "aa827c91-b683-4a34-9e7f-fa0789f5c252",
+    "planning_run_id": "8df8ad8f-07b6-4323-a16a-8b85620ad163",
+    "current_revision": 13,
+    "input_revision": 12,
+    "comparison": "same",
+    "plan_stale": false,
+    "verification": "local_saved_plan_comparison",
+    "network_requested": false,
+    "task_changed": false,
+    "platform_checked": false,
+    "business_verified": false
+  },
+  "read_only_no_decryption_or_external_requests": true,
+  "historical_paused_record_unchanged": true,
+  "content_match_not_adoption_or_provenance": true,
+  "stale_match_not_confirmation": true,
+  "no_new_model_dify_http": 0,
+  "original18_ledgers_ciphertexts_assets_consumed_kept": true,
+  "deployment": {
+    "state": "verified",
+    "build_id": "0.351.0-3ab205b3fbb44bae4789",
+    "source_runtime_files_matched": 287,
+    "original18_and_ledger_kept": true,
+    "ciphertexts_assets_masterkey_kept": true,
+    "all_consumed_packages_kept": true,
+    "health_and_frontend200": true,
+    "physical_model_dify_http": 0
+  },
+  "managed_runtime": {
+    "pid_registration_complete": true,
+    "verified_pid": 4172,
+    "state": "managed_runtime_verified",
+    "original_start_stop_scripts": true,
+    "build_id": "0.351.0-3ab205b3fbb44bae4789",
+    "process_ownership_verified": true,
+    "real_model_dify_http": 0,
+    "previous_owned_pid": 23776
+  },
+  "ui_mutating_requests": 0,
+  "existing_build_size_warning_retained": true
+}
