@@ -1,0 +1,45 @@
+{
+  "backlog": 214,
+  "state": "model_candidate_adopted_and_static_delivered",
+  "task_id": "aa827c91-b683-4a34-9e7f-fa0789f5c252",
+  "before_revision": 12,
+  "current_revision": 13,
+  "plan_source": "manual",
+  "retained_model_candidate_sha256": "f75cccb9ec3ca33eaff2daa56d403df79dbd7118ead37abd57a3838316f79afe",
+  "retained_candidate_unedited": true,
+  "normal_ui_read_load_validate_save_confirm_build_download": true,
+  "original_failure_and_model_candidates_unchanged": true,
+  "original17_and_all_old_budgets_runs_publications_kept": true,
+  "all_ciphertexts_assets_masterkey_and_consumed_packages_kept": true,
+  "model_dify_http": 0,
+  "new_platform_resources_runs": 0,
+  "new_model_ledger_entries": 0,
+  "bundle_pair": [
+    {
+      "filename": "original-live.zip",
+      "revision": 9,
+      "app_id": "e4785b06-7cf5-4923-8c7b-f1a9c4ead380",
+      "sha256": "a0349ce009047e99aef15efbadff4e66068bad1ffc97db9aac607332ec9de65e",
+      "manifest_file_hashes_verified": true,
+      "graph_sha256": "561b1bd4b43f88e670dbe4fa69f77820d599b68d3a3357f670aff97d86c9a5ff",
+      "platform_checked": false
+    },
+    {
+      "filename": "modified-static.zip",
+      "revision": 13,
+      "app_id": null,
+      "sha256": "db2287d5c9e1313a7181bdadc2dc04f7f4cb94a803366944f923546f025b28f1",
+      "manifest_file_hashes_verified": true,
+      "graph_sha256": "dbc2241b79f728419ead9df164d6f4fac0b5fe9a63c1ca1fcdfbc25808721a77",
+      "platform_checked": false
+    }
+  ],
+  "only_core_graph_changes": [
+    "no_hit_text.data.template",
+    "answer_llm.data.prompt_template.system.text same literal substitution"
+  ],
+  "changed_version_platform_passed": false,
+  "business_verified": false,
+  "historical_365_stopped_unchanged": true,
+  "local_helper_correction": "首次辅助脚本漏放行确认配置前的无改值PATCH；计划已存r13，按当前修订续确认/构建，不重复采纳。"
+}
