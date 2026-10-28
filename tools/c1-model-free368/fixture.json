@@ -1,0 +1,59 @@
+{
+  "source": "Existing r13 retained complete model plan; no new model calls. Rehearsal copies public saved case/history into disposable data, never production writes.",
+  "configuration": {
+    "assistant_provider_id": "9513f594-c256-46b7-882a-35d9871bf9d0",
+    "dify_model_provider": "langgenius/deepseek/deepseek",
+    "dify_model": "deepseek-flash",
+    "temperature": 0.2,
+    "max_tokens": 512,
+    "model_parameters": {
+      "thinking": false
+    },
+    "opening_statement": "",
+    "suggested_questions": [],
+    "conversation_memory": false,
+    "memory_turns": 5,
+    "dataset_ids": [
+      "d12cf081-5c52-41e3-b869-e94e6f8d37b1"
+    ],
+    "retrieval_top_k": 3,
+    "mock_dependencies": [],
+    "mock_dependency_bindings": [],
+    "resource_plan": "仅拟独立零模型368：从已保存r13原模型完整计划继续，仅更新资源说明，并同步验收说明里唯一旧固定文字；通过正常代理逐项复核/确认，原模型图不改，仅正常重新校验/静态构建；不再访谈/规划/手改图，不新Task或库。明确改授365未派发28管理读取、App/首次发布/Key各1、两例运行及原生轨迹；仅新1次加密登录36→37，其他模型30/读取573/资源12/运行22/模型账本0.755473652不增。Sierra模型HTTP0，Dify新增估算0.01 USD非账单硬限/宿主未知，原Task4次20分钟策略不改，本批30分钟准入。既定两处同话术替换（空分支模板及LLM资料不足提示）以原模型SHA严格核其它完整图保持；不按单物理字段推断业务改动。新App不覆盖旧原版，新Key切连接旧Key加密归档，任何异常整批停止不重试/二次登录，全部旧失败unknown/费用和预留保持。新直接明确改授前不真实执行。"
+  },
+  "changed_fallback": "知识库暂无相关信息，请联系人工客服，并提供订单号和商品型号。",
+  "task_name": "Sierra新空任务完整交付验收",
+  "before_literal": "知识库暂无相关信息，请联系人工客服，并提供订单号。",
+  "cases": [
+    {
+      "id": "after-sales-hit",
+      "name": "有命中：七天未拆封退货",
+      "required": true,
+      "input": {
+        "query": "ZXRET715在签收后七天内且未拆封，能否退货？请给出政策编号。"
+      },
+      "expectation": {
+        "mode": "contains",
+        "target": "result",
+        "expected": [
+          "ZXRET715",
+          "七天",
+          "未拆封"
+        ]
+      }
+    },
+    {
+      "id": "after-sales-miss",
+      "name": "无命中：固定人工提示",
+      "required": true,
+      "input": {
+        "query": "ZXUNLISTED90371"
+      },
+      "expectation": {
+        "mode": "equals",
+        "target": "result",
+        "expected": "知识库暂无相关信息，请联系人工客服，并提供订单号和商品型号。"
+      }
+    }
+  ]
+}

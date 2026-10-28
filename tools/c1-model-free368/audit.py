@@ -2,7 +2,7 @@
 import argparse,json,sys
 from pathlib import Path
 PROJECT=Path(__file__).resolve().parents[2]
-sys.path[:0]=[str(Path(__file__).resolve().parent),str(PROJECT/'work/c1-planning365')]
+sys.path.insert(0,str(Path(__file__).resolve().parent))
 from literal_scope import check
 from support import ReadOnly,sha
 from guard import capture,digest

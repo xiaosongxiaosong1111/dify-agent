@@ -1,0 +1,209 @@
+{
+  "backlog": 216,
+  "state": "frozen_unapproved_verified",
+  "final_plan_sha256": "7fea9063dac6e957dd044b071cfc3cf4fa7c90e4a25df5ab501e051e480ed475",
+  "final_manifest_sha256": "39e79c2c9470d8db32a20861664e1ee6dffd8985426037ac39c160178eac1616",
+  "final_frozen_files": 24,
+  "pure_scope_and_zero_model_checks": 36,
+  "admission_and_review_gates": 53,
+  "guarded_store_checks": 29,
+  "frozen_fixture_scenarios": [
+    {
+      "mode": "success",
+      "state": "passed",
+      "phase": "modified_miss",
+      "counts": {
+        "model": 0,
+        "reads": 17,
+        "login": 1,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 2
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_login",
+      "state": "stopped_needs_review",
+      "phase": "reconnect",
+      "counts": {
+        "model": 0,
+        "reads": 0,
+        "login": 1,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "expired_session",
+      "state": "stopped_needs_review",
+      "phase": "reconnect",
+      "counts": {
+        "model": 0,
+        "reads": 2,
+        "login": 1,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "wrong_workspace",
+      "state": "stopped_needs_review",
+      "phase": "reconnect",
+      "counts": {
+        "model": 0,
+        "reads": 2,
+        "login": 1,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_import",
+      "state": "stopped_needs_review",
+      "phase": "modified_import",
+      "counts": {
+        "model": 0,
+        "reads": 2,
+        "login": 1,
+        "import": 1,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "old_app_import",
+      "state": "stopped_needs_review",
+      "phase": "modified_import",
+      "counts": {
+        "model": 0,
+        "reads": 2,
+        "login": 1,
+        "import": 1,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_publish",
+      "state": "stopped_needs_review",
+      "phase": "modified_publish",
+      "counts": {
+        "model": 0,
+        "reads": 6,
+        "login": 1,
+        "import": 1,
+        "publish": 1,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_key",
+      "state": "stopped_needs_review",
+      "phase": "modified_key",
+      "counts": {
+        "model": 0,
+        "reads": 10,
+        "login": 1,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_run",
+      "state": "stopped_needs_review",
+      "phase": "modified_hit",
+      "counts": {
+        "model": 0,
+        "reads": 11,
+        "login": 1,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 1
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "wrong_trace",
+      "state": "stopped_needs_review",
+      "phase": "modified_hit",
+      "counts": {
+        "model": 0,
+        "reads": 14,
+        "login": 1,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 1
+      },
+      "physical_http": 0
+    }
+  ],
+  "existing_history_copied_not_replayed": true,
+  "synthetic_semantic_reviews": false,
+  "local_criteria_text_sync_only_and_same_plan_revalidation": true,
+  "reviewed_content_bound_before_all_platform_stages": true,
+  "actual_runtime_readiness": {
+    "local_dify_readiness": {
+      "applicable": true,
+      "ready": true,
+      "compose_project": "dify-local",
+      "required_containers": 16,
+      "healthy_services": [
+        "api",
+        "db_postgres",
+        "local_sandbox",
+        "redis",
+        "sandbox"
+      ],
+      "dify_http_requests": 0,
+      "login_verified": false,
+      "business_verified": false
+    },
+    "verified_pid": 4172,
+    "original_runtime_kept": true,
+    "source_manifest_files": 287
+  },
+  "production_unchanged": true,
+  "real_model_dify_http": 0,
+  "approval_created": false,
+  "attempt_created": false,
+  "business_verified": false,
+  "unapproved_prior_variant_kept": true,
+  "scope": {
+    "new_tasks": 0,
+    "new_libraries": 0,
+    "model": 0,
+    "reads": 28,
+    "login": 1,
+    "import": 1,
+    "publish": 1,
+    "key": 1,
+    "run": 2
+  },
+  "old_unknown_and_reservations_kept": true,
+  "new_login_reserved_upper_if_approved": 37,
+  "new_dify_estimate_usd": "0.01",
+  "billing_hard_cap": false,
+  "host_cost": "unknown"
+}
