@@ -1,0 +1,362 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "runtime_build": "0.347.0-1b052af3a24e6f1d591e",
+  "baseline": "docs/requirements-v1.0.md",
+  "baseline_sha256": "7ab6d186c77a3091764de32612314d56442351ba17c824bbd908856cc71ffe62",
+  "review_completed": true,
+  "business_acceptance_complete": false,
+  "human_signoff": false,
+  "release_ready": false,
+  "real_model_dify_requests_added": 0,
+  "lightweight_routing_enabled": false,
+  "original_case_section_11_complete": false,
+  "original_case_limit": "当前优先核公开合成Workflow知识问答；原§11 Chatflow/订单模拟/缺订单号/订单查询完整案例未由当前证据替代或删除。",
+  "items": [
+    {
+      "id": "AT-01",
+      "scenario": "用户只给模糊目标",
+      "expected": "追问目标、输入输出和规则；不提前搭建。",
+      "verdict": "真实空任务候选结构失败；0.347修复尚未真实重验",
+      "observed": "198首轮未提前搭建，模型8项漏retrieval；199严格拒绝及替身追问链通过",
+      "remaining_or_limit": "独立批准的新空任务真实访谈能覆盖候选主题、只追问且不提前搭建",
+      "evidence": [
+        "docs/acceptance-at01-record.md",
+        "docs/c1-blank-task-live-result-20261028.md",
+        "docs/intake-candidate-topics.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-02",
+      "scenario": "用户不知道分类规则",
+      "expected": "提出规则与例子，确认后采用。",
+      "verdict": "规则建议质量未验收",
+      "observed": "隔离建议→主动采纳→确认门禁通过",
+      "remaining_or_limit": "真实缺规则输入能给可选规则及例子，用户明确采用后才进入需求",
+      "evidence": [
+        "docs/acceptance-at02-record.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-03",
+      "scenario": "文档与参考 DSL 冲突",
+      "expected": "指出冲突，确认最终依据。",
+      "verdict": "语义冲突识别未验收",
+      "observed": "隔离来源与冲突裁定门禁通过",
+      "remaining_or_limit": "真实混合文档与DSL冲突能定位两处来源，裁定前不选边",
+      "evidence": [
+        "docs/acceptance-at03-record.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-04",
+      "scenario": "参考程度未明确",
+      "expected": "询问借鉴／保留／复现，并记录选择。",
+      "verdict": "三种参考方式的真实修改链未验收",
+      "observed": "借鉴/保留/复现选择和来源记录隔离通过",
+      "remaining_or_limit": "相同参考DSL分别核三种选择，修改范围与明确选择一致",
+      "evidence": [
+        "docs/acceptance-at04-record.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-05",
+      "scenario": "用户所选类型不适合需求",
+      "expected": "说明原因与方案，等待决定，不自动换类型。",
+      "verdict": "类型协商质量未验收",
+      "observed": "三应用类型缺口提示和不自动换类型隔离通过",
+      "remaining_or_limit": "真实不适合需求能说明理由/替代，操作者未选择前类型不变",
+      "evidence": [
+        "docs/acceptance-at05-record.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-06",
+      "scenario": "只有原始知识资料",
+      "expected": "检查、提出整理与建库方案，确认后执行可用操作。",
+      "verdict": "限定建库路线，未覆盖任意整理与高质量索引",
+      "observed": "经济索引有真实库/文档技术证据；整理方案及确认隔离通过",
+      "remaining_or_limit": "只对批准资料验证可用路线/索引状态/命中，未适配路线明确受限，不重复旧创建",
+      "evidence": [
+        "docs/acceptance-at06-record.md",
+        "docs/knowledge-provisioning-contract.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-07",
+      "scenario": "多个知识库可选",
+      "expected": "提出选择及理由，确认具体库。",
+      "verdict": "真实选库理由质量未验收",
+      "observed": "具体库ID选择及确认已有隔离记录；124复用指定FAQ取得命中/无命中",
+      "remaining_or_limit": "多个真实候选库须有可审查的选择理由/权限/资料范围，固定指定FAQ不代替模型选库质量",
+      "evidence": [
+        "docs/acceptance-at07-record.md",
+        "docs/after-sales-two-version-delivery-20261025.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-08",
+      "scenario": "资料业务事实矛盾",
+      "expected": "保留来源、请用户裁定，不静默选一份。",
+      "verdict": "真实事实矛盾识别未验收",
+      "observed": "来源保留/显式裁定/未知项阻止确认隔离通过",
+      "remaining_or_limit": "真实两来源相互冲突能同时列证据、追问裁定且不擅自合并",
+      "evidence": [
+        "docs/acceptance-at08-record.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-09",
+      "scenario": "模型简单聊天可用但工具能力不足",
+      "expected": "标记能力不足，提供调整建议，不继续当全能模型使用。",
+      "verdict": "工具能力有界，聊天可用不证明任意工具可用",
+      "observed": "0.291已有OpenAI兼容固定工具请求形状探测及来源绑定/失败标记，隔离通过；不执行工具、不回注结果或启动Agent循环，未以真实Key测试",
+      "remaining_or_limit": "选定模型/工具须有实际能力证据，未适配工具只报告条件，不能借聊天成功升级能力",
+      "evidence": [
+        "docs/acceptance-at09-record.md",
+        "docs/RELEASE-CLOSEOUT.md",
+        "docs/provider-tool-request-probe.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-10",
+      "scenario": "接口未提供且用户接受模拟",
+      "expected": "显式采用模拟方案，标记位置及真实接入待办。",
+      "verdict": "订单模拟标记已实现，原始Chatflow订单整链仍未验收",
+      "observed": "0.271—0.274补标记/位置/接入待办及订单建议；隔离记录通过",
+      "remaining_or_limit": "原要求§11的Chatflow缺订单号/查询模拟/接口接入指南须在同一链验收，当前纯Workflow知识问答不能替代",
+      "evidence": [
+        "docs/acceptance-at10-record.md",
+        "docs/core-delivery-focus.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-11",
+      "scenario": "未确认配置或资源操作",
+      "expected": "程序阻止执行，显示待确认内容。",
+      "verdict": "程序门禁隔离通过，当前真实新链未贯通",
+      "observed": "确认/修订/资源计划隔离门禁；124及196按显式确认发布",
+      "remaining_or_limit": "C1当前新任务真实链检查需求/配置/资源确认，未确认时不派发，变源后旧确认不生效",
+      "evidence": [
+        "docs/acceptance-at11-record.md",
+        "docs/after-sales-two-version-delivery-20261025.md",
+        "docs/existing-batch-platform-live-result-20261027.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-12",
+      "scenario": "DSL 变量引用错误",
+      "expected": "定位并修复，再检查，不删业务分支。",
+      "verdict": "受限变量检查/修复，非通用自动修复",
+      "observed": "变量引用诊断及显式修正/重检隔离通过",
+      "remaining_or_limit": "代表错误图定位至变量/节点，显式修正后保留业务分支，并在批准平台核对结果",
+      "evidence": [
+        "docs/acceptance-at12-record.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-13",
+      "scenario": "已导入但关键样例失败",
+      "expected": "标为需修复或阶段成果，不宣称完成。",
+      "verdict": "阶段成果与成功分离有证据，真实失败修复链未验收",
+      "observed": "隔离关键样例失败不完成；198真实结构拒绝未建图且费用保留",
+      "remaining_or_limit": "独立真实关键样例失败→明确需修复→针对修复后重确认验证，导入/节点成功不能替代业务结果",
+      "evidence": [
+        "docs/acceptance-at13-record.md",
+        "docs/c1-blank-task-live-result-20261028.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-14",
+      "scenario": "批量任务部分失败",
+      "expected": "按已确认策略继续或停止，输出失败项。",
+      "verdict": "固定公开继续策略已核实，整体批量能力受限",
+      "observed": "196四项真实3成功/1预期失败，原索引1失败JSON/发布图绑定通过",
+      "remaining_or_limit": "固定C2缺证关闭；原生停止完整失败清单/在途取消/混合与嵌套继续不得宣称支持，扩展须另定范围",
+      "evidence": [
+        "docs/existing-batch-platform-live-result-20261027.md",
+        "docs/acceptance-at14-record.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-15",
+      "scenario": "连续对话信息不完整",
+      "expected": "按规则追问，验证上下文行为。",
+      "verdict": "复杂对话缺参及上下文质量未验收",
+      "observed": "早期两轮真实技术链及隔离上下文/缺参检查",
+      "remaining_or_limit": "代表真实连续会话含指代/缺信息，须观察追问及上下文隔离；Workflow单次问答不替代Chatflow",
+      "evidence": [
+        "docs/acceptance-at15-record.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-16",
+      "scenario": "自动触发或人工审核能力不足",
+      "expected": "说明环境缺口和替代方案，等待确认。",
+      "verdict": "仅限定根触发/人工路线，复杂组合明确受限",
+      "observed": "环境缺口和等待确认隔离通过，有限根节点能力已有实现",
+      "remaining_or_limit": "限定路线需真实环境核对；复杂身份/邮件/表单/恢复和组合不默认可用，不把模板当已送达",
+      "evidence": [
+        "docs/acceptance-at16-record.md",
+        "docs/RELEASE-CLOSEOUT.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-17",
+      "scenario": "切换到客户环境",
+      "expected": "重新核对版本、认证和资源映射。",
+      "verdict": "真实客户环境迁移未验收",
+      "observed": "版本/认证/资源重新绑定隔离通过；当前原空间重连不是迁移",
+      "remaining_or_limit": "另一明确批准环境复核版本/权限/资源映射，旧确认失效，登记版本不当探测",
+      "evidence": [
+        "docs/acceptance-at17-record.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-18",
+      "scenario": "用户在 Dify 手动修改后继续",
+      "expected": "获取／接收最新版本，保留改动再处理新增要求。",
+      "verdict": "受限代码/标题/布局往返有技术证据，非任意DSL保留",
+      "observed": "读取最新DSL及三方差异/冲突/保留隔离通过，受限独立App已有真实技术链",
+      "remaining_or_limit": "约定适配范围内验证外部手改后新要求保留，复杂未知节点/跨环境冲突明确阻止或协商",
+      "evidence": [
+        "docs/acceptance-at18-record.md",
+        "docs/dsl-roundtrip-contract.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-19",
+      "scenario": "修改配置或需求",
+      "expected": "相关确认与测试失效，重新确认和试跑。",
+      "verdict": "真实单文案修改有证据，非所有配置变更通过",
+      "observed": "124两版规划/显式采纳/新发布和四例轨迹；199隔离正常确认链",
+      "remaining_or_limit": "C1新任务链重验当前修改失效/重新确认；其它配置变更按影响重验，不泛化固定单文案",
+      "evidence": [
+        "docs/acceptance-at19-record.md",
+        "docs/after-sales-two-version-delivery-20261025.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-20",
+      "scenario": "执行中暂停并关闭程序",
+      "expected": "保存阶段及结果，恢复后不盲目重复外部操作。",
+      "verdict": "未知状态保留有真实证据，各阶段关闭恢复未验收",
+      "observed": "350发布unknown保留；196独立恢复没有重写旧unknown，198停止不重放",
+      "remaining_or_limit": "受控各阶段中断/重启核持久化与唯一派发；未知不得自动重发，已入队请求不保证取消",
+      "evidence": [
+        "docs/acceptance-at20-record.md",
+        "docs/existing-batch-platform-live-result-20261027.md",
+        "docs/c1-blank-task-live-result-20261028.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-21",
+      "scenario": "同一错误反复无进展或到达上限",
+      "expected": "暂停、汇报证据和下一步，不无限重试。",
+      "verdict": "次数/无进展门禁有隔离证据，非供应商费用硬封顶",
+      "observed": "各预算与停止隔离记录；198首次异常整批停，未用槽保留",
+      "remaining_or_limit": "业务进展须真实内容复核；在途/宿主费用未知，配置估算和Sierra试跑阈值不当供应商硬限",
+      "evidence": [
+        "docs/acceptance-at21-record.md",
+        "docs/c1-blank-task-live-result-20261028.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-22",
+      "scenario": "Dify 断开",
+      "expected": "可以生成待验证成果，明确未完成导入和试跑。",
+      "verdict": "真实登录失败停止有证据，恢复后的完整业务未验收",
+      "observed": "180/189登录或重连失败停，离线可保存待验证成果；196原App单次恢复成功",
+      "remaining_or_limit": "完整当前断连场景核未导入/未运行标记和恢复后的业务结果，不把连通当业务通过",
+      "evidence": [
+        "docs/acceptance-at22-record.md",
+        "docs/public-batch-closeout-live-result-20261027.json",
+        "docs/existing-batch-platform-live-result-20261027.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-23",
+      "scenario": "需求需要新建外部系统",
+      "expected": "提出方案及接入条件，不擅自扩大开发范围。",
+      "verdict": "真实模型范围判断/方案质量未验收",
+      "observed": "新系统接入条件/范围外讨论及确认隔离通过",
+      "remaining_or_limit": "代表未知外部系统需求，实际方案须列条件/费用/人工影响，确认前不扩开发或创建资源",
+      "evidence": [
+        "docs/acceptance-at23-record.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-24",
+      "scenario": "用户恢复旧版本",
+      "expected": "保存历史，以恢复版本为基础重新确认／验证。",
+      "verdict": "旧版恢复隔离通过，当前真实应用恢复整链未验收",
+      "observed": "版本历史、来源确认和失效规则隔离通过",
+      "remaining_or_limit": "当前界面选旧版恢复后保留现历史，重确认/新运行绑定恢复版本，不覆盖旧成绩",
+      "evidence": [
+        "docs/acceptance-at24-record.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    },
+    {
+      "id": "AT-25",
+      "scenario": "启用轻量模型分工",
+      "expected": "比较全链路成功率、总用量和费用，计入重试开销。",
+      "verdict": "未启用，不宣称轻量路由质量或费用节省",
+      "observed": "本机无assistant_routing记录，默认enabled=false；隔离路由和用量含重试通过",
+      "remaining_or_limit": "仅若明确启用产品轻量路由，才按相同案例对比全链质量/全部调用和费用；Claude CLI委派不代替产品比较",
+      "evidence": [
+        "docs/acceptance-at25-record.md",
+        "docs/lightweight-upgrade.md"
+      ],
+      "full_business_accepted": false,
+      "review_actor": "agent_delegated"
+    }
+  ]
+}

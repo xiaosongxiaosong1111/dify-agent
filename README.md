@@ -2,6 +2,8 @@
 
 C1新空任务真实批198已获批准并仅执行一次：首轮模型候选漏检索专项，后端拒绝且整批停止；尚未创建App或运行。0.347已部署候选主题提示与拒绝诊断修复，37后端/9检查器及替身全链通过，真实C1仍未完成；旧批及未派发槽不重放或借退。[实际结果与边界](docs/c1-blank-task-live-result-20261028.md)。
 
+当前还缺哪些结果，统一见[25项收尾结论与限制](docs/acceptance-closeout-20261028.md)。C1真实新任务主链仍未通过，原Chatflow订单模拟完整案例仍未验证；不以版本或测试数算完成比例。
+
 公开批量真实收尾已通过：复用同一已导入App，独立恢复后完成首次发布、专属Key及四项计算，3成功/1预期失败，失败原索引1已导出；旧unknown和历史保留。没有新建Task/App或模型调用。[实际结果与边界](docs/existing-batch-platform-live-result-20261027.md)。
 
 公开批量新350批已重连原空间并导入App，原生null保护已修；0.346补充已导入Workflow的本机证据登记及一次独立发布恢复，旧unknown和历史保留。证据已登记，真实恢复/发布/Key/试跑尚未执行。[恢复入口及边界](docs/publication-recovery.md)。现有App的独立真实收尾程序已冻结并通过本机正常/失败核对，等待明确新范围，旧批不重放。[具体下一步](docs/existing-batch-platform-plan-20261027.md)。[实际进展、交付包与恢复边界](docs/public-batch-remaining-live-result-20261027.md)。
