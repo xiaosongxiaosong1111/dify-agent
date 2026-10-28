@@ -1,0 +1,216 @@
+{
+  "backlog": 206,
+  "batch_id": "c1-resume360",
+  "state": "stopped_needs_review",
+  "phase": "complete_interview",
+  "automatic_retry": false,
+  "business_acceptance_complete": false,
+  "authorization_source": "direct_human_reply",
+  "question_ref": "call_6261e7a7e6244d548faf1435daa257bd question0",
+  "reply": "允许改授原范围并新增1次登录",
+  "plan_sha256": "cff740ae3e96c86f3a045e51455c66ae49bd84571db794d0630aabf12294aa32",
+  "manifest_sha256": "b66d7bbcc26729cdc6970f21ecf18f217c602170abfc7d5f93c05d952b0566c6",
+  "approval_sha256": "bfb4c30ac8e747a2b5b3081c8d446a4f0c7261f73dde0a02e530ff1f10434858",
+  "attempt_sha256": "6de6b11c02e4108bd98220f5d65856c245a8de1bc035289b63a7c519d594b390",
+  "worker-started_sha256": "0483dfd287f8f8b494da9eb266a10940f75d4319e6539431c2a89405bea18d38",
+  "task_id": "aa827c91-b683-4a34-9e7f-fa0789f5c252",
+  "revision": 5,
+  "status": "requirements",
+  "counts": {
+    "model": 2,
+    "reads": 2,
+    "login": 1,
+    "import": 0,
+    "publish": 0,
+    "key": 0,
+    "run": 0
+  },
+  "dispatches": [
+    {
+      "method": "POST",
+      "path": "/console/api/login",
+      "kind": "login",
+      "status": 200,
+      "phase": "reconnect",
+      "response_body_read": true
+    },
+    {
+      "method": "GET",
+      "path": "/console/api/apps",
+      "kind": "reads",
+      "status": 200,
+      "phase": "reconnect",
+      "response_body_read": true
+    },
+    {
+      "method": "GET",
+      "path": "/console/api/workspaces/current/summary",
+      "kind": "reads",
+      "status": 200,
+      "phase": "reconnect",
+      "response_body_read": true
+    },
+    {
+      "method": "POST",
+      "path": "/chat/completions",
+      "kind": "model",
+      "status": 200,
+      "phase": "vague_interview",
+      "response_body_read": true
+    },
+    {
+      "method": "POST",
+      "path": "/chat/completions",
+      "kind": "model",
+      "status": 200,
+      "phase": "complete_interview",
+      "response_body_read": true
+    }
+  ],
+  "reviews": {
+    "vague_interview": {
+      "source_sha256": "419da27d1c128e6f06112c4c2f52143397607a5e62489f812ae0b31e85ed445c",
+      "actor": "agent_delegated",
+      "note": "根代理按既有委托实际阅读本轮需求、九项检查及三追问：目标仅记原话，其余字段明确未决；九主题均needs_input、引文对应原用户消息，推荐范围和资料准备均标建议未采纳。需求未确认、未生成图，不把配置库ID当已验证资料。允许进入既定公开完整答复阶段，不代表人类签收或业务通过。",
+      "semantic_reviewed": true
+    }
+  },
+  "model_response_metadata": [
+    {
+      "phase": "vague_interview",
+      "usage": {
+        "prompt_tokens": 10134,
+        "completion_tokens": 1133,
+        "total_tokens": 11267,
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 9622,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "finish_reason": "stop"
+    },
+    {
+      "phase": "complete_interview",
+      "usage": {
+        "prompt_tokens": 13378,
+        "completion_tokens": 2311,
+        "total_tokens": 15689,
+        "prompt_cache_hit_tokens": 7040,
+        "prompt_cache_miss_tokens": 6338,
+        "prompt_tokens_details": {
+          "cached_tokens": 7040
+        }
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "failure_classification": "false_batch_topic_from_prebuild_intake_review_phrase",
+  "expected_topics_current_code": [
+    "goal",
+    "audience",
+    "input",
+    "output",
+    "rules",
+    "knowledge",
+    "exceptions",
+    "tests",
+    "batch",
+    "retrieval"
+  ],
+  "returned_candidate_topics": [
+    "goal",
+    "audience",
+    "input",
+    "output",
+    "rules",
+    "knowledge",
+    "exceptions",
+    "tests",
+    "retrieval"
+  ],
+  "false_positive_topic": "batch",
+  "duplicate_question_topics": [
+    "rules"
+  ],
+  "candidate_applied": false,
+  "first_vague_interview_applied_and_agent_reviewed": true,
+  "new_model_ledger_entries": [
+    {
+      "id": "bc08b874-4a83-4a1c-a272-5541913554ff",
+      "operation_id": "bdfa98a7-9209-4634-86f5-236f438a60e0",
+      "kind": "interview",
+      "status": "settled",
+      "reserved_usd": "0.0202314",
+      "charged_usd": "0.004249272",
+      "cost_basis": "reported_usage",
+      "usage": {
+        "prompt_tokens": 10134,
+        "completion_tokens": 1133,
+        "total_tokens": 11267,
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 9622,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      }
+    },
+    {
+      "id": "67673988-f988-400c-b4a6-fc8d331c0099",
+      "operation_id": "39a13861-3430-42e5-92c2-6ba12c471421",
+      "kind": "interview",
+      "status": "settled",
+      "reserved_usd": "0.0241272",
+      "charged_usd": "0.00471684",
+      "cost_basis": "reported_usage",
+      "usage": {
+        "prompt_tokens": 13378,
+        "completion_tokens": 2311,
+        "total_tokens": 15689,
+        "prompt_cache_hit_tokens": 7040,
+        "prompt_cache_miss_tokens": 6338,
+        "prompt_tokens_details": {
+          "cached_tokens": 7040
+        }
+      }
+    }
+  ],
+  "new_configured_model_estimate_usd": "0.008966112",
+  "known_cumulative_configured_model_estimate_usd": "0.110133588",
+  "billing_reconciled": false,
+  "protection": {
+    "other_original17_objects_and_ledgers_kept": true,
+    "selected_old_failure_messages_versions_and_settled_entry_kept": true,
+    "all_original_ciphertexts_except_approved_console_csrf_kept": true,
+    "all_assets_masterkey_and_old_consumed_files_kept": true,
+    "new_tasks": 0,
+    "existing_service_key_binding_kept": true
+  },
+  "actual_cumulative": {
+    "tasks": 18,
+    "model_http": 23,
+    "apps": 9,
+    "publications": 9,
+    "keys": 9,
+    "runs": 17,
+    "formal_passed_runs": 15,
+    "dify_reported_tokens": 2287
+  },
+  "reserved_cumulative": {
+    "model_http": 30,
+    "management_reads": 573,
+    "logins": 35,
+    "resources_each": 12,
+    "runs": 22,
+    "model_estimate_book_usd": "0.755473652"
+  },
+  "unissued_current_scope_held": {
+    "model": 3,
+    "reads": 46,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 4
+  },
+  "runtime_build": "0.348.0-06fd6ec09994a7bc45a6"
+}
