@@ -1,0 +1,206 @@
+{
+  "backlog": 213,
+  "state": "stopped_needs_review",
+  "phase": "changed_plan",
+  "question_ref": "call_cb4ee44ab5ae45b39cd23f7a93315aae question0",
+  "reviewed_scope_plan_commit": "81047b9",
+  "implementation": "a0a81a6",
+  "dispatch_counts": {
+    "model": 2,
+    "reads": 17,
+    "login": 1,
+    "import": 1,
+    "publish": 1,
+    "key": 1,
+    "run": 2
+  },
+  "task_id": "aa827c91-b683-4a34-9e7f-fa0789f5c252",
+  "revision": 12,
+  "task_status": "paused",
+  "requirements_confirmed": true,
+  "configuration_confirmed": false,
+  "plan_stale": true,
+  "candidate_unchanged_sha256": "f75cccb9ec3ca33eaff2daa56d403df79dbd7118ead37abd57a3838316f79afe",
+  "first_plan_sha256": "3b49d1f2a6933d0cde7fdb2a7d4f7e6ad2ad12e289e059ef554ba490291bb6d7",
+  "candidate_diff_paths": [
+    ".nodes[3].config.system_prompt",
+    ".nodes[4].config.template"
+  ],
+  "semantic_note": "两处相同固定话术同步增加商品型号，未新增业务分支；不符本批仅template单字段假设，根代理拒绝并停止，未手改候选/放宽检查。",
+  "reviews": [
+    {
+      "stage": "reviewed_requirements",
+      "source_sha256": "3e67cb632e8818dd12b2adad6f3408c4b0fdae780b64af5ec5b8366a0dab1d61",
+      "decision": "proceed",
+      "actor": "agent_delegated"
+    },
+    {
+      "stage": "first_plan",
+      "source_sha256": "8409a709a97a0fb4983da3220873c6d47ead4a76a15640e1c9021790a61f4756",
+      "decision": "proceed",
+      "actor": "agent_delegated"
+    },
+    {
+      "stage": "changed_requirements_manual",
+      "source_sha256": "88ae69b4fe307cbe4c1fcb320eb499a36a32010eca2e94358475fa614dcefeff",
+      "decision": "proceed",
+      "actor": "agent_delegated"
+    },
+    {
+      "stage": "changed_plan",
+      "source_sha256": "f43169fc42dea8520945dcdf5d806d18f2a1f2313cdb19c7dbeefe6bdd94e498",
+      "decision": "reject",
+      "actor": "agent_delegated"
+    }
+  ],
+  "model_entries": [
+    {
+      "id": "e09f9dcc-9805-4897-8b71-35d13cf11340",
+      "operation_id": "8c5acda4-c172-4fc4-b444-2d1333d9f485",
+      "revision": 8,
+      "kind": "plan",
+      "provider_id": "9513f594-c256-46b7-882a-35d9871bf9d0",
+      "model": "deepseek-flash",
+      "pricing": {
+        "input_per_million_usd": 0.3,
+        "cached_input_per_million_usd": 0.006,
+        "output_per_million_usd": 1.2
+      },
+      "reserved_usd": "0.0498039",
+      "charged_usd": "0.010063368",
+      "status": "settled",
+      "cost_basis": "reported_usage",
+      "modality": "text",
+      "image_reserve_is_estimate": false,
+      "usage": {
+        "prompt_tokens": 31278,
+        "completion_tokens": 598,
+        "total_tokens": 31876,
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 31150,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        }
+      },
+      "started_at": "2026-10-28T11:05:14.231898+00:00",
+      "policy_revision": 0,
+      "call_status": "returned",
+      "finished_at": "2026-10-28T11:05:17.249186+00:00",
+      "elapsed_seconds": 3.011
+    },
+    {
+      "id": "cae02874-0d49-4943-ae8c-c3ded81388cb",
+      "operation_id": "8df8ad8f-07b6-4323-a16a-8b85620ad163",
+      "revision": 12,
+      "kind": "plan",
+      "provider_id": "9513f594-c256-46b7-882a-35d9871bf9d0",
+      "model": "deepseek-flash",
+      "pricing": {
+        "input_per_million_usd": 0.3,
+        "cached_input_per_million_usd": 0.006,
+        "output_per_million_usd": 1.2
+      },
+      "reserved_usd": "0.0533241",
+      "charged_usd": "0.00457836",
+      "status": "settled",
+      "cost_basis": "reported_usage",
+      "modality": "text",
+      "image_reserve_is_estimate": false,
+      "usage": {
+        "prompt_tokens": 34178,
+        "completion_tokens": 602,
+        "total_tokens": 34780,
+        "prompt_cache_hit_tokens": 21760,
+        "prompt_cache_miss_tokens": 12418,
+        "prompt_tokens_details": {
+          "cached_tokens": 21760
+        }
+      },
+      "started_at": "2026-10-28T11:08:26.398439+00:00",
+      "policy_revision": 0,
+      "call_status": "returned",
+      "finished_at": "2026-10-28T11:08:28.847115+00:00",
+      "elapsed_seconds": 2.441
+    }
+  ],
+  "new_model_settled_estimate_usd": "0.014641728",
+  "known_cumulative_model_estimate_usd": "0.132110088",
+  "billing_hard_cap": false,
+  "actual_model_cumulative": 26,
+  "actual_resource_each_cumulative": 10,
+  "actual_runs_cumulative": 19,
+  "formal_passed_runs_cumulative": 17,
+  "current_original_app_id": "e4785b06-7cf5-4923-8c7b-f1a9c4ead380",
+  "original_runs": [
+    {
+      "local_run_id": "67dd8fda-1e2b-4c76-9d2c-96cd08afb34e",
+      "native_run_id": "a93f95f9-cc14-4011-bc40-3dc0bae3df95",
+      "workflow_id": "0a6be031-98ae-4357-8069-f96db328885c",
+      "revision": 9,
+      "evaluation": "passed",
+      "output": {
+        "result": "可以。依据政策编号 ZXRET715：签收后七天内、商品未拆封，可申请退货。"
+      },
+      "reported_tokens": 250,
+      "trace_matched": true,
+      "llm_nodes": 1
+    },
+    {
+      "local_run_id": "71974efc-104a-4304-8878-9df26d9d4ae6",
+      "native_run_id": "48ae935d-2785-48c3-88b7-4dff92f9c8b7",
+      "workflow_id": "0a6be031-98ae-4357-8069-f96db328885c",
+      "revision": 9,
+      "evaluation": "passed",
+      "output": {
+        "result": "知识库暂无相关信息，请联系人工客服，并提供订单号。"
+      },
+      "reported_tokens": 0,
+      "trace_matched": true,
+      "llm_nodes": 0
+    }
+  ],
+  "unissued_current_scope": {
+    "model": 0,
+    "reads": 28,
+    "login": 0,
+    "import": 1,
+    "publish": 1,
+    "key": 1,
+    "run": 2
+  },
+  "reserved_cumulative": {
+    "model": 30,
+    "reads": 573,
+    "login": 36,
+    "resource_each": 12,
+    "runs": 22,
+    "model_book_usd": "0.755473652"
+  },
+  "old_unknown_and_reservations_kept": true,
+  "business_acceptance_complete": false,
+  "protection": {
+    "state": "verified_stopped",
+    "original17_and_old_objects_kept": true,
+    "selected_old_history_and_ledger_kept_by_actual_guard": true,
+    "old_ciphertexts_kept_except_approved_auth_runtime": true,
+    "old_runtime_key_archived": true,
+    "original_assets_masterkey_and_consumed_files_kept": true,
+    "zero_login_archive_kept_unattempted": true,
+    "task_count": 18,
+    "dispatch_counts": {
+      "model": 2,
+      "reads": 17,
+      "login": 1,
+      "import": 1,
+      "publish": 1,
+      "key": 1,
+      "run": 2
+    }
+  },
+  "replay_forbidden": true,
+  "plan_sha256": "89fb7906c056d4b4809d8805c654a04e048a4cf24e8330eefa1473c2c3dff9ef",
+  "manifest_sha256": "942488627b2e3f92ebaaf4c6fc1997717b1b1e64c6cfb778796ceab0ac5304cf",
+  "approval_sha256": "51ec2c8defbf6948fd17042d8fdfdab6058e9c7ebcb2916dbddc875827353380",
+  "attempt_sha256": "a863eb9fdd8b8bf8289d7ddd417bcb61150711ad1446394725b57509c98f5cda",
+  "worker-started_sha256": "9a543682666edbf334a12b7a7fe4133186ece658971126e7db1fa851fd194908"
+}
