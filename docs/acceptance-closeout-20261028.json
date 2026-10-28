@@ -17,15 +17,16 @@
       "id": "AT-01",
       "scenario": "用户只给模糊目标",
       "expected": "追问目标、输入输出和规则；不提前搭建。",
-      "verdict": "真实模糊输入追问已观察，完整新任务两版链尚未闭合",
-      "observed": "206首轮真实模型返回九主题待补充及三个优先问题，根代理实际读源通过，未提前搭建；后续完整需求轮的batch误判已离线修复，213原版完成发布和两例",
-      "remaining_or_limit": "固定公开模糊目标的追问已有证据；不能扩展为任意模糊目标质量通过，修改版平台收尾仍待217新直接范围",
+      "verdict": "固定公开模糊输入追问及后续两版Workflow证据已取得",
+      "observed": "206首轮实际九主题追问且未提前搭建；后续本机修复/保存候选复核来源保持；213原版及217修改版两例和双包均通过",
+      "remaining_or_limit": "仅此固定公开目标；任意模糊目标理解质量、原Chatflow订单链和全部业务仍未验收",
       "evidence": [
         "docs/acceptance-at01-record.md",
         "docs/c1-blank-task-live-result-20261028.md",
         "docs/intake-candidate-topics.md",
         "docs/c1-resume-live-result-20261028.md",
-        "docs/c1-planning-live-result-20261028.md"
+        "docs/c1-planning-live-result-20261028.md",
+        "docs/model-free-closeout-live-result-20261029.md"
       ],
       "full_business_accepted": false,
       "review_actor": "agent_delegated"
@@ -156,15 +157,16 @@
       "id": "AT-11",
       "scenario": "未确认配置或资源操作",
       "expected": "程序阻止执行，显示待确认内容。",
-      "verdict": "原版真实确认到发布运行已观察，修改版仍仅静态",
-      "observed": "213恢复需求/原版模型计划/改单句代理声明实际复核；原版r9在确认后新App首次发布及两例通过。214修改版r13正常保存/配置确认/静态构建，未平台发布",
-      "remaining_or_limit": "当前修改版仍欠新独立平台阶段；隔离未确认拒绝门禁不等于已真实执行所有负例，原资源/修订边界不扩大",
+      "verdict": "固定新任务两版实际确认至发布运行已观察",
+      "observed": "213原版正常确认后发布两例；217 r16代理逐项读源后正常需求确认/原图重新校验/配置确认/构建，再新App发布两例，变更后旧确认未沿用",
+      "remaining_or_limit": "未确认负例及跨全部业务门禁仍以隔离记录为界；正常代理复核非人类签收，不能泛化资源授权",
       "evidence": [
         "docs/acceptance-at11-record.md",
         "docs/after-sales-two-version-delivery-20261025.md",
         "docs/existing-batch-platform-live-result-20261027.md",
         "docs/c1-planning-live-result-20261028.md",
-        "docs/retained-plan-static-delivery-20261028.md"
+        "docs/retained-plan-static-delivery-20261028.md",
+        "docs/model-free-closeout-live-result-20261029.md"
       ],
       "full_business_accepted": false,
       "review_actor": "agent_delegated"
@@ -268,14 +270,15 @@
       "id": "AT-19",
       "scenario": "修改配置或需求",
       "expected": "相关确认与测试失效，重新确认和试跑。",
-      "verdict": "原版与修改候选及静态差异已有证据，修改版平台结果未取得",
-      "observed": "124两版真实四例保持；213新空任务原版两例通过，第二模型只同步改两处相同固定提示，其余完整图保持，过窄执行包按约定停止。214正常采用完整原候选并静态交付r13",
-      "remaining_or_limit": "不修改旧批规则后续跑；217仅在新范围批准后验证修改版平台及两例，不能泛化为任意需求或配置修改通过",
+      "verdict": "固定单句变更两版平台与交付已通过",
+      "observed": "213/217两版各两例/原生LLM1-0/核心图匹配，第二模型原候选只同步两处相同提示，214正常采用、217重新确认并发布；两ZIP摘要核对通过",
+      "remaining_or_limit": "仅固定话术变更，历史过窄执行假设拒绝保持；不泛化其它需求/模型/配置变更质量",
       "evidence": [
         "docs/acceptance-at19-record.md",
         "docs/after-sales-two-version-delivery-20261025.md",
         "docs/c1-planning-live-result-20261028.md",
-        "docs/retained-plan-static-delivery-20261028.md"
+        "docs/retained-plan-static-delivery-20261028.md",
+        "docs/model-free-closeout-live-result-20261029.md"
       ],
       "full_business_accepted": false,
       "review_actor": "agent_delegated"
@@ -299,14 +302,15 @@
       "id": "AT-21",
       "scenario": "同一错误反复无进展或到达上限",
       "expected": "暂停、汇报证据和下一步，不无限重试。",
-      "verdict": "真实异常整批停止已有证据，非供应商费用硬封顶",
-      "observed": "198/206/209/213各已消费批按异常停止；213第四处根代理实际读源reject后未派发第二App，保留失败/settled/unknown及剩余槽，不自动重放",
-      "remaining_or_limit": "固定停止事实不证明任意自动修复的业务进展；在途和宿主费用未知，配置估算不当账单硬限，新范围不得借旧预留",
+      "verdict": "真实异常停止及新明确独立收尾有证据，非账单硬限",
+      "observed": "旧198/206/209/213异常停止/费用/预留保持；217凭新直接范围独立一次通过，搭建模型0、两例后Task4/4，不重放旧批",
+      "remaining_or_limit": "固定停止/复核事实不证明任意修复业务进展；在途/宿主费用未知，预留不自动退借，不能派发第五次",
       "evidence": [
         "docs/acceptance-at21-record.md",
         "docs/c1-blank-task-live-result-20261028.md",
         "docs/c1-resume-live-result-20261028.md",
-        "docs/c1-planning-live-result-20261028.md"
+        "docs/c1-planning-live-result-20261028.md",
+        "docs/model-free-closeout-live-result-20261029.md"
       ],
       "full_business_accepted": false,
       "review_actor": "agent_delegated"
@@ -315,15 +319,16 @@
       "id": "AT-22",
       "scenario": "Dify 断开",
       "expected": "可以生成待验证成果，明确未完成导入和试跑。",
-      "verdict": "加密重连及原版后续平台链已观察，非任意断点恢复验收",
-      "observed": "180/189登录失败停止；196原App恢复成功；213一次加密重连证明原空间后，新原版App首次发布及命中/无命中两例通过，修改版停止不伪造通过",
-      "remaining_or_limit": "同空间该次重连不证明自然令牌到期自动续期或所有阶段断连恢复；当前修改版仍只静态，不把health200当业务通过",
+      "verdict": "显式加密重连后两版平台链已有观察，非任意断点恢复",
+      "observed": "213/217各在独立批准中一次加密重连证明同一原空间，随后各自新App发布/两例；旧失败和unknown保留，离线r13成果正常接续为r17",
+      "remaining_or_limit": "仍未观察自然令牌过期自动续期或所有阶段断连恢复，不将显式登录成功当全部认证/业务场景通过",
       "evidence": [
         "docs/acceptance-at22-record.md",
         "docs/public-batch-closeout-live-result-20261027.json",
         "docs/existing-batch-platform-live-result-20261027.md",
         "docs/c1-planning-live-result-20261028.md",
-        "docs/retained-plan-static-delivery-20261028.md"
+        "docs/retained-plan-static-delivery-20261028.md",
+        "docs/model-free-closeout-live-result-20261029.md"
       ],
       "full_business_accepted": false,
       "review_actor": "agent_delegated"
@@ -369,6 +374,7 @@
       "review_actor": "agent_delegated"
     }
   ],
-  "last_update_backlog": 219,
-  "last_update_scope": "仅按206/213/214既有公开回执更新AT-01/11/19/21/22；其它20项保留200原结论。本次不重新执行，不代表重新验收全部25项。"
+  "last_update_backlog": 217,
+  "last_update_scope": "2026-10-29仅按217实际回执补五项及固定C1，原20项结论不重审；未新增模型或运行，真实操作仅本批已声明范围。",
+  "fixed_public_workflow_c1_evidence_complete": true
 }

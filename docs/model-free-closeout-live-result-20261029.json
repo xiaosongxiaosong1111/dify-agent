@@ -1,0 +1,199 @@
+{
+  "backlog": 217,
+  "batch_id": "c1-model-free368",
+  "state": "passed",
+  "question_ref": "call_60c50947caeb42e693862d0b03076932 question0",
+  "reply": "允许明确改授并新增1次登录，执行此批",
+  "reviewed_scope_plan_commit": "8e175db",
+  "dispatch_counts": {
+    "model": 0,
+    "reads": 17,
+    "login": 1,
+    "import": 1,
+    "publish": 1,
+    "key": 1,
+    "run": 2
+  },
+  "task_id": "aa827c91-b683-4a34-9e7f-fa0789f5c252",
+  "revision": 17,
+  "task_status": "run_completed",
+  "app_id": "9b73f33e-7ce8-447c-a0d8-cec3ccb3bd8a",
+  "review": {
+    "reviewed_model_plan": {
+      "source_sha256": "d2fbb256d4805abe31fcecbcbc0166febc2a6c141a797d9380cadb72c28a6364",
+      "actor": "agent_delegated",
+      "note": "根代理实际读取当前r16八项需求、完整七节点六连接、配置、两例及九项代理声明。输出/验收说明/无命中期望均为增加商品型号后的同一固定文字；图保持已保存原模型候选，检索非空到一次回答LLM、空到固定模板，result两出口一致；只用指定FAQ库/TopK3/无阈值不重排，deepseek-flash思考关/0.2/512，未新增订单接口或人工客服。资源说明仅本批授权范围，旧两次保留、补两次仍4次20分钟；按用户委托继续正常需求确认/原图校验/配置确认与构建，然后新App平台两例。这里是根代理逐项内容复核，非新模型生成、人类签收或平台/完整业务通过；检索相关性、范围外问题和异常传播仍不能泛化。",
+      "semantic_reviewed": true,
+      "requirement_review_source": "agent_declared",
+      "assessment_source": "retained_model_candidate",
+      "model_generated": false,
+      "human_signoff": false
+    }
+  },
+  "comparison": {
+    "state": "two_literal_locations_only",
+    "original_sha256": "3b49d1f2a6933d0cde7fdb2a7d4f7e6ad2ad12e289e059ef554ba490291bb6d7",
+    "candidate_sha256": "f75cccb9ec3ca33eaff2daa56d403df79dbd7118ead37abd57a3838316f79afe",
+    "changed_fields": [
+      {
+        "node_id": "answer_llm",
+        "field": "config.system_prompt"
+      },
+      {
+        "node_id": "no_hit_text",
+        "field": "config.template"
+      }
+    ],
+    "other_content_unchanged": true,
+    "candidate_changed": false,
+    "network_requested": false,
+    "resource_authorized": false,
+    "platform_checked": false,
+    "business_verified": false
+  },
+  "observed_two_version_cases": [
+    {
+      "local_run_id": "67dd8fda-1e2b-4c76-9d2c-96cd08afb34e",
+      "revision": 9,
+      "app_id": "e4785b06-7cf5-4923-8c7b-f1a9c4ead380",
+      "workflow_id": "0a6be031-98ae-4357-8069-f96db328885c",
+      "native_run_id": "a93f95f9-cc14-4011-bc40-3dc0bae3df95",
+      "status": "succeeded",
+      "evaluation": "passed",
+      "input": {
+        "query": "ZXRET715在签收后七天内且未拆封，能否退货？请给出政策编号。"
+      },
+      "output": {
+        "result": "可以。依据政策编号 ZXRET715：签收后七天内、商品未拆封，可申请退货。"
+      },
+      "llm_nodes": 1,
+      "reported_total_tokens": 250,
+      "native_source_graph_matched": true
+    },
+    {
+      "local_run_id": "71974efc-104a-4304-8878-9df26d9d4ae6",
+      "revision": 9,
+      "app_id": "e4785b06-7cf5-4923-8c7b-f1a9c4ead380",
+      "workflow_id": "0a6be031-98ae-4357-8069-f96db328885c",
+      "native_run_id": "48ae935d-2785-48c3-88b7-4dff92f9c8b7",
+      "status": "succeeded",
+      "evaluation": "passed",
+      "input": {
+        "query": "ZXUNLISTED90371"
+      },
+      "output": {
+        "result": "知识库暂无相关信息，请联系人工客服，并提供订单号。"
+      },
+      "llm_nodes": 0,
+      "reported_total_tokens": 0,
+      "native_source_graph_matched": true
+    },
+    {
+      "local_run_id": "646c6254-92e4-4fa2-b4ec-a3754b2ad4da",
+      "revision": 17,
+      "app_id": "9b73f33e-7ce8-447c-a0d8-cec3ccb3bd8a",
+      "workflow_id": "17279dd5-b732-4251-bccd-78a93719f42a",
+      "native_run_id": "7e9b2714-6af8-4596-b46d-d9ba1143dcfb",
+      "status": "succeeded",
+      "evaluation": "passed",
+      "input": {
+        "query": "ZXRET715在签收后七天内且未拆封，能否退货？请给出政策编号。"
+      },
+      "output": {
+        "result": "可以。依据政策编号 ZXRET715：签收后七天内、商品未拆封，可申请退货。"
+      },
+      "llm_nodes": 1,
+      "reported_total_tokens": 252,
+      "native_source_graph_matched": true
+    },
+    {
+      "local_run_id": "bbac4f69-9ef2-45ac-8b04-14d639db0e98",
+      "revision": 17,
+      "app_id": "9b73f33e-7ce8-447c-a0d8-cec3ccb3bd8a",
+      "workflow_id": "17279dd5-b732-4251-bccd-78a93719f42a",
+      "native_run_id": "281eaae3-f4d3-40d7-90d9-354fc3779d0c",
+      "status": "succeeded",
+      "evaluation": "passed",
+      "input": {
+        "query": "ZXUNLISTED90371"
+      },
+      "output": {
+        "result": "知识库暂无相关信息，请联系人工客服，并提供订单号和商品型号。"
+      },
+      "llm_nodes": 0,
+      "reported_total_tokens": 0,
+      "native_source_graph_matched": true
+    }
+  ],
+  "bundles": [
+    {
+      "version": "original",
+      "revision": 9,
+      "app_id": "e4785b06-7cf5-4923-8c7b-f1a9c4ead380",
+      "sha256": "a0349ce009047e99aef15efbadff4e66068bad1ffc97db9aac607332ec9de65e",
+      "file_hashes_verified": true,
+      "local_bundle_flags": {
+        "platform_checked": false,
+        "business_verified": false,
+        "network_requested": false
+      }
+    },
+    {
+      "version": "modified",
+      "revision": 17,
+      "app_id": "9b73f33e-7ce8-447c-a0d8-cec3ccb3bd8a",
+      "sha256": "82c71c74d9bba75d363b34d8522a41d47a9f94a4dafba3c8e3543689b22458de",
+      "file_hashes_verified": true,
+      "local_bundle_flags": {
+        "platform_checked": false,
+        "business_verified": false,
+        "network_requested": false
+      }
+    }
+  ],
+  "protection": {
+    "other_original_tasks_objects_and_ledgers_kept": true,
+    "old_ciphertexts_kept_except_approved_auth_runtime": true,
+    "original_assets_masterkey_kept": true,
+    "old_runtime_keys_archived": true,
+    "new_tasks": 0,
+    "existing_failed_history_and_ledger_kept": true
+  },
+  "existing_tasks": 18,
+  "existing_model_ledger_entries": 6,
+  "new_model_entries": 0,
+  "known_configured_model_estimate_usd": "0.132110088",
+  "new_dify_estimate_usd": "0.01",
+  "billing_hard_limit": false,
+  "actual_cumulative": {
+    "model_http": 26,
+    "app": 11,
+    "publish": 11,
+    "runtime_key": 11,
+    "service_runs": 21,
+    "formally_passed_runs": 19
+  },
+  "reserved_upper_bounds": {
+    "model_http": 30,
+    "management_reads": 573,
+    "login": 37,
+    "app": 12,
+    "publish": 12,
+    "runtime_key": 12,
+    "service_runs": 22,
+    "model_estimate_book_usd": "0.755473652"
+  },
+  "task_run_capacity": "4/4 used; 20 minute policy kept; no fifth run authorized",
+  "fixed_public_workflow_c1_evidence_complete": true,
+  "all_25_business_acceptance_complete": false,
+  "original_chatflow_order_case_complete": false,
+  "human_signoff": false,
+  "old_failed_batches_replayed": false,
+  "old_unknown_and_reservations_kept": true,
+  "bundle_note": "ZIP verification flags describe local packaging only; actual platform evidence is the separate saved native run/graph records.",
+  "plan_sha256": "7fea9063dac6e957dd044b071cfc3cf4fa7c90e4a25df5ab501e051e480ed475",
+  "manifest_sha256": "39e79c2c9470d8db32a20861664e1ee6dffd8985426037ac39c160178eac1616",
+  "approval_sha256": "acf94977c15e1f457a911b2a7d534c9666a24015c0a535244fabc74b2632abb2",
+  "attempt_sha256": "423aaa91e9192e8562397b46e1de1f888d33f3313eb33fbfd3c1c28fa96f978c",
+  "worker-started_sha256": "7cf01c5ff265586e6e680b09aad0d31754535a32ab4f83f0b9aef42f9d675d5c"
+}
