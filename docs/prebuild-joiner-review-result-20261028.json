@@ -1,0 +1,51 @@
+{
+  "backlog": 210,
+  "state": "verified_with_limits",
+  "fix": "搭建前草案复核语境允许省略连接词和/与/并，真实逐项业务仍查batch",
+  "targeted_unique_checks": 128,
+  "test_groups": {
+    "intake_related": 99,
+    "prebuild_and_saved_recovery": 52,
+    "overlap": 23
+  },
+  "retained_candidate_strict_replay": {
+    "response_sha256": "80ac1eb52b285b0297c6130e40368209285b122f26e96a52c8c791a130e9dbac",
+    "topic_count": 9,
+    "topics": [
+      "goal",
+      "audience",
+      "input",
+      "output",
+      "rules",
+      "knowledge",
+      "exceptions",
+      "tests",
+      "retrieval"
+    ],
+    "candidate_not_applied": true,
+    "strict_validation": "passed"
+  },
+  "candidate_applied": false,
+  "physical_model_dify_http": 0,
+  "production_unchanged_except_server_pid": true,
+  "managed_runtime": {
+    "pid_registration_complete": true,
+    "verified_pid": 23776,
+    "state": "managed_runtime_verified",
+    "original_start_stop_scripts": true,
+    "build_id": "0.350.0-5573729a63cea499840a",
+    "process_ownership_verified": true,
+    "real_model_dify_http": 0,
+    "previous_owned_pid": 5540
+  },
+  "deployment": {
+    "state": "verified",
+    "build_id": "0.350.0-5573729a63cea499840a",
+    "source_runtime_files_matched": 287,
+    "original18_and_ledger_kept": true,
+    "ciphertexts_assets_masterkey_kept": true,
+    "all_consumed_packages_kept": true,
+    "health_and_frontend200": true,
+    "physical_model_dify_http": 0
+  }
+}

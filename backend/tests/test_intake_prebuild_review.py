@@ -9,6 +9,7 @@ from app.intake import topics,model_review_outline,validate_review,ReviewContrac
 
 FIXTURE=Path(__file__).resolve().parents[2]/'tools/c1-resume360/fixture.json'
 PHRASE='先整理草案和逐项核对，待我确认再搭建。'
+NO_JOINER='先整理草案逐项核对，待用户确认后再搭建。'
 
 def task(phrase=PHRASE):
     req=json.loads(FIXTURE.read_text(encoding='utf-8'))['requirements']
@@ -21,6 +22,7 @@ def ids(t):return {row['id'] for row in topics(t)}
     PHRASE,'先整理草案和逐项核对，待用户确认再搭建。',
     '先整理需求草案与逐项检查，待我确认后再构建。',
     '先草案并逐项复核，待用户确认后再生成流程。',
+    NO_JOINER,'先整理需求草案逐项检查，待我确认后再构建。',
 ])
 def test_explicit_prebuild_intake_phrase_does_not_add_batch_or_modify_sources(phrase):
     t=task(phrase);before=copy.deepcopy(t);assert len(ids(t))==9 and 'batch' not in ids(t)
@@ -28,12 +30,14 @@ def test_explicit_prebuild_intake_phrase_does_not_add_batch_or_modify_sources(ph
     assert any(phrase in s['text'] for s in model_sources(t))
     outline=model_review_outline(t)
     assert 'batch' not in outline['required_check_topics'] and '同一topic最多一问' in outline['question_rule']
+    assert '先整理草案逐项核对' in outline['prebuild_review_rule']
 
 @pytest.mark.parametrize('business',[
     '逐项核对订单，待我确认再搭建。','逐项处理工单。','多条退货记录。',
     '输入为数组。','批量处理。','iteration 节点。','batch processing。',
     '先整理草案和逐项核对订单，待我确认再搭建。',
     '业务需要逐项核对，待我确认再搭建。',
+    '先整理草案逐项核对订单，待用户确认后再搭建。',
 ])
 def test_real_itemwise_business_is_preserved_alongside_prebuild_phrase(business):
     t=task();t['requirements']['rules']+=' '+business;assert 'batch' in ids(t)
@@ -57,7 +61,8 @@ def test_missing_required_topic_and_bad_evidence_still_rejected():
     with pytest.raises(ReviewContractError,match='引文不存在'):validate_review(t,value)
 
 @pytest.mark.parametrize('duplicate',[False,True])
-def test_normal_message_api_uses_nine_topics_and_keeps_review_gate(client,monkeypatch,duplicate):
+@pytest.mark.parametrize('phrase',[PHRASE,NO_JOINER])
+def test_normal_message_api_uses_nine_topics_and_keeps_review_gate(client,monkeypatch,duplicate,phrase):
     t=client.post('/api/tasks',json={'name':'公开搭建前核对回归','app_type':'workflow'}).json();p=provider(client)
     t=client.patch('/api/tasks/'+t['id'],json={'requirements':task()['requirements'],'configuration':{'assistant_provider_id':p['id']}}).json()
     calls=[]
@@ -69,7 +74,7 @@ def test_normal_message_api_uses_nine_topics_and_keeps_review_gate(client,monkey
         if duplicate:value['questions'].append(copy.deepcopy(value['questions'][0]))
         calls.append(1);return json.dumps({'message':'仍需核对规则，不搭建。','requirements_patch':{},'intake_review':value},ensure_ascii=False),{'prompt_tokens':100,'completion_tokens':100}
     monkeypatch.setattr(main,'call_model',model)
-    r=client.post('/api/tasks/'+t['id']+'/messages',json={'content':PHRASE});assert r.status_code==200,r.text
+    r=client.post('/api/tasks/'+t['id']+'/messages',json={'content':phrase});assert r.status_code==200,r.text
     after=r.json();assert calls==[1] and after['requirements']==t['requirements']
     assert not after['requirements_confirmed'] and not after['configuration_confirmed'] and not after.get('workflow_plan') and not after.get('artifact') and not after['runs']
     if duplicate:assert not after.get('intake_review') and '追问主题重复' in after['messages'][-1]['content'] and not after['interview_attempts'][-1]['applied']

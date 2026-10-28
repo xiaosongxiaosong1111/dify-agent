@@ -18,7 +18,7 @@ def model_review_outline(task):
         'topic_rule':'required_check_topics和intake_standard是更新前标准；checks必须按requirements_patch合并后的候选逐项返回。候选正文即使是拟议或needs_input，触发新专项也须增加对应检查；不添加未触发主题或为凑清单新增业务。',
         'conditional_check_topics':[{'id':key,'label':SPECIAL[key][0],'text_pattern':pattern} for key,pattern in PATTERNS.items()],
         'candidate_topic_rule':'conditional_check_topics仅为可触发的ID目录，不是全选清单；按候选需求及原需求用户消息匹配，当前图触发的主题也保留。检索或知识库触发retrieval，不能仅因knowledge已检查而省略。例：原8个基础主题，候选新增知识库检索则须9行，含retrieval；仍有缺口可标needs_input，不用建议自证complete。外部接口匹配需排除sierra_runtime_entry明确的本机空值/错误返回契约说明；真实业务接口仍需external。',
-        'prebuild_review_rule':'“先整理草案和逐项核对，待我/用户确认再搭建”是本次搭建前草案复核，不因此新增batch；逐项处理业务数据、核对订单、多条、数组、批量或已有迭代图仍必须检查batch，不能省略真实业务。',
+        'prebuild_review_rule':'“先整理草案和逐项核对，待我/用户确认再搭建”及省略连接词的“先整理草案逐项核对，待用户确认后再搭建”是本次搭建前草案复核，不因此新增batch；逐项处理业务数据、核对订单、多条、数组、批量或已有迭代图仍必须检查batch，不能省略真实业务。',
         'material_sources':[{'id':m['id'],'name':m['name']} for m in task.get('materials',[]) if m.get('status')=='parsed'],
         'source_rule':'material证据的id必须使用这里的真实id，不能使用文件名；quote必须逐字来自该来源。',
         'question_fields':['topic','question','recommendation','reason','experience','cost','manual_work'],
@@ -61,7 +61,7 @@ def external_business_text(text):
     return LOCAL_RESULT_DISTINCTION.sub('',LOCAL_ENTRY_DECLARATION.sub(local,text))
 
 PREBUILD_ITEM_REVIEW=re.compile(
-    r'(?P<draft>先(?:整理)?(?:需求)?草案(?:和|与|并)\s*)逐项(?P<review>核对|检查|复核)'
+    r'(?P<draft>先(?:整理)?(?:需求)?草案(?:和|与|并)?\s*)逐项(?P<review>核对|检查|复核)'
     r'(?=\s*[，,；;]\s*待(?:我|用户)?确认(?:后)?再(?:搭建|构建|生成流程))')
 
 def batch_business_text(text):
