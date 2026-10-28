@@ -1,0 +1,95 @@
+{
+  "backlog": 202,
+  "batch_id": "c1-existing357",
+  "state": "stopped_needs_review",
+  "phase": "reconnect",
+  "automatic_retry": false,
+  "business_acceptance_complete": false,
+  "authorization_source": "direct_human_reply",
+  "question_ref": "call_9f16d8d23ec54c7ebdf5f0aa044fc0c8 question0",
+  "reply": "允许本批明确改授及新增范围",
+  "plan_sha256": "ab658875a50940336c18433b5de960f392df136be02d0d143f1fd1fc3132b464",
+  "manifest_sha256": "e4414769ebb25ddf57ea1b203cf053de124dbb34d563e6915df2fb84e04d664c",
+  "approval_sha256": "85ea2509fb48bf3de1dfc705b1b7e12e15c7686916b2530e3291247c15f2f0e0",
+  "attempt_sha256": "e4b17dfb238911f14cd954cae439df65d898b8c93bc29c7939343cdfe2d6feec",
+  "worker-started_sha256": "d11c2bccc769e964f51ad20a4ec0149056579b7bdbeec886b4a59b5b3b2ed0f9",
+  "task_id": "aa827c91-b683-4a34-9e7f-fa0789f5c252",
+  "revision": 3,
+  "task_unchanged": true,
+  "counts": {
+    "model": 0,
+    "reads": 0,
+    "login": 1,
+    "import": 0,
+    "publish": 0,
+    "key": 0,
+    "run": 0
+  },
+  "dispatches": [
+    {
+      "method": "POST",
+      "path": "/console/api/login",
+      "kind": "login",
+      "status": 502,
+      "phase": "reconnect",
+      "response_body_read": true
+    }
+  ],
+  "api_failure": {
+    "path": "/api/environments/202bfb35-2f92-47c1-bc1b-eac32082181d/saved-login/reconnect",
+    "status": 502
+  },
+  "error_type": "RuntimeError",
+  "safe_connection_failure": {
+    "code": "unclassified",
+    "http_status": null,
+    "stage": null,
+    "created_at": null
+  },
+  "protection": {
+    "all18_tasks_and_ledgers_exactly_kept": true,
+    "all_ciphertexts_exactly_kept": true,
+    "all_assets_masterkey_exactly_kept": true,
+    "all_old_consumed_files_kept": true,
+    "new_tasks": 0,
+    "new_apps": 0,
+    "existing_service_app_binding_kept": true
+  },
+  "offline_observation": {
+    "docker_engine_pipe_available": false,
+    "docker_service_running": false,
+    "docker_desktop_process_present": false,
+    "causality_uniquely_proven": false
+  },
+  "actual_cumulative": {
+    "tasks": 18,
+    "model_http": 21,
+    "apps": 9,
+    "publications": 9,
+    "keys": 9,
+    "runs": 17,
+    "formal_passed_runs": 15,
+    "dify_reported_tokens": 2287,
+    "known_configured_model_estimate_usd": "0.101167476"
+  },
+  "reserved_cumulative": {
+    "management_reads": 573,
+    "logins": 34,
+    "model_http": 30,
+    "resources_each": 12,
+    "runs": 22,
+    "model_estimate_book_usd": "0.755473652"
+  },
+  "unissued_current_scope_held": {
+    "model": 5,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 4,
+    "reads": 48
+  },
+  "new_model_cost_entry": false,
+  "billing_reconciled": false,
+  "runtime": "0.347.0-1b052af3a24e6f1d591e",
+  "replay_forbidden": true
+}
