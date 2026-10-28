@@ -1,5 +1,7 @@
 # 复用原空任务的独立357真实停止回执
 
+2026-10-28第204诊断修正：此前Docker不可达观察来自受限上下文，不能证明引擎当时确实停止；com.docker.service停止也不等于引擎停止。管理员上下文现栈健康；已零HTTP复现系统代理把loopback路由到代理的问题并修复，仍不能唯一归因旧502。实际登录502、原失败状态/计数/费用及冻结回执保持。见[dify-loopback-transport.md](dify-loopback-transport.md)。
+
 2026-10-28，BACKLOG202。202独立357按新直接批准只执行一次，在reconnect首个Dify登录HTTP502停止并永久消费；实际登录1/读取0/模型0/新TaskApp发布Key运行0，五处内容复核均未开始。原18Task及账本/全部密文资产主Key/原服务Key和全部旧消费包逐项保持，仅原环境记录本次安全失败并暂停自动登录。预留573/34、模型保守30及账本0.755473652、资源各12/运行22全保留，不借退未派发5槽或重放。
 
 直接批准call_9f16d8d23ec54c7ebdf5f0aa044fc0c8 question0：“允许本批明确改授及新增范围”，绑定2fa5744的[冻结方案](c1-existing-task-plan-20261028.md)；plan ab658875 / manifest e4414769。完整摘要和安全计数见[c1-existing-task-live-result-20261028.json](c1-existing-task-live-result-20261028.json)。work/c1-existing357中approval/attempt/worker-started均已占用；post-stop-data-snapshot.json及post-stop-proof.json为最新保护基线。

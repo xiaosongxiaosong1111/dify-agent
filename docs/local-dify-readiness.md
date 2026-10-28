@@ -1,5 +1,7 @@
 # 本机Dify消费前就绪检查与失败HTTP传播（203）
 
+2026-10-28第204诊断修正：此前Docker不可达观察来自受限上下文，不能证明引擎当时确实停止；com.docker.service停止也不等于引擎停止。管理员上下文现栈健康；已零HTTP复现系统代理把loopback路由到代理的问题并修复，仍不能唯一归因旧502。实际登录502、原失败状态/计数/费用及冻结回执保持。见[dify-loopback-transport.md](dify-loopback-transport.md)。
+
 2026-10-28，第202真实批在Dify登录502停止，模型/管理/资源运行0。离线引擎管道不存在、Desktop进程不在；本次恢复原com.docker.service和原Docker Desktop，未重新登录或重放357。16容器名称和镜像与182恢复一致、创建时间均早于2026-10-27；15运行、原初始化容器正常退出，API/Postgres/Redis/Sandbox/local_sandbox五项健康。没有pull/create/compose up/新卷或新App操作。
 
 ## 修复后的开发源码

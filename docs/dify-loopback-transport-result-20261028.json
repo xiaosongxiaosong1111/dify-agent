@@ -1,0 +1,57 @@
+{
+  "backlog": 204,
+  "state": "verified_with_limits",
+  "date": "2026-10-28",
+  "no_proxy_values_or_credentials_exported": true,
+  "proxy_environment_variables_present": {
+    "HTTP_PROXY": false,
+    "HTTPS_PROXY": false,
+    "ALL_PROXY": false,
+    "NO_PROXY": false
+  },
+  "zero_http_routing_observations": [
+    {
+      "target": "http://127.0.0.1:8080",
+      "default_pool": "AsyncHTTPProxy",
+      "dify_client_pool": "AsyncConnectionPool"
+    },
+    {
+      "target": "https://localhost:8443",
+      "default_pool": "AsyncHTTPProxy",
+      "dify_client_pool": "AsyncConnectionPool"
+    },
+    {
+      "target": "https://api.deepseek.com",
+      "default_pool": "AsyncHTTPProxy",
+      "dify_client_pool": "AsyncHTTPProxy"
+    }
+  ],
+  "login_workspace_access_all_three_clients_covered": true,
+  "tls_environment_kept": true,
+  "new_targeted_tests": 17,
+  "targeted_total": 119,
+  "real_dify_or_model_http": 0,
+  "historical502_unique_cause_proven": false,
+  "restricted_docker_observation_proves_engine_stopped": false,
+  "runtime_build": "0.348.0-06fd6ec09994a7bc45a6",
+  "deployment": {
+    "state": "verified",
+    "build_id": "0.348.0-06fd6ec09994a7bc45a6",
+    "source_runtime_files_matched": 287,
+    "original18_and_ledger_kept": true,
+    "ciphertexts_assets_masterkey_kept": true,
+    "all_consumed_packages_kept": true,
+    "health_and_frontend200": true,
+    "physical_model_dify_http": 0
+  },
+  "managed_process": {
+    "pid_registration_complete": true,
+    "verified_pid": 26424,
+    "state": "managed_runtime_verified",
+    "original_start_stop_scripts": true,
+    "build_id": "0.348.0-06fd6ec09994a7bc45a6",
+    "process_ownership_verified": true,
+    "real_model_dify_http": 0,
+    "previous_owned_pid": 35976
+  }
+}

@@ -91,5 +91,13 @@
   "new_model_cost_entry": false,
   "billing_reconciled": false,
   "runtime": "0.347.0-1b052af3a24e6f1d591e",
-  "replay_forbidden": true
+  "replay_forbidden": true,
+  "diagnostic_interpretation_correction_20261028": {
+    "restricted_context_inaccessibility_does_not_prove_engine_stopped": true,
+    "engine_stopped_before_start_proven": false,
+    "privileged_check_current_stack_healthy": true,
+    "current_system_proxy_loopback_route_issue_reproduced_without_http": true,
+    "historical502_unique_cause_proven": false,
+    "reference": "docs/dify-loopback-transport.md"
+  }
 }

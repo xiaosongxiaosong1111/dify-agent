@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import base64
+import ipaddress
+from urllib.parse import urlsplit
 import httpx
 from .providers import checked_url
 
@@ -23,6 +25,18 @@ class DifyClient:
         base = checked_url(env["base_url"])
         # Environment points to the instance root, not an arbitrary API endpoint.
         self.base = base.rstrip("/")
+
+    def _client_options(self):
+        host = urlsplit(self.base).hostname or ""
+        local = host.lower().rstrip(".") == "localhost"
+        if not local:
+            try:
+                local = ipaddress.ip_address(host).is_loopback
+            except ValueError:
+                pass
+        # An explicit direct transport prevents system proxy discovery for loopback.
+        # Keep trust_env on the transport so local HTTPS still honors CA settings.
+        return {"transport": httpx.AsyncHTTPTransport(proxy=None, trust_env=True)} if local else {}
 
     async def request(self, method, path, *, credential, secret_owner=None, _console_refreshed=False, **kwargs):
         if secret_owner is not None and credential != "dataset_api_key":
@@ -56,7 +70,7 @@ class DifyClient:
             # Dify verifies header AND cookie, including secure host-prefixed deployments.
             headers["Cookie"] = f"csrf_token={csrf}; __Host-csrf_token={csrf}"
         try:
-            async with httpx.AsyncClient(timeout=90, follow_redirects=False) as client:
+            async with httpx.AsyncClient(timeout=90, follow_redirects=False, **self._client_options()) as client:
                 response = await client.request(method, self.base + path, headers=headers, **kwargs)
             if response.is_error:
                 if credential == 'console_token' and response.status_code == 401:
@@ -93,7 +107,7 @@ class DifyClient:
         """Authenticate once and verify console access before returning transient tokens."""
         phase = 'login'
         try:
-            async with httpx.AsyncClient(timeout=30, follow_redirects=False) as client:
+            async with httpx.AsyncClient(timeout=30, follow_redirects=False, **self._client_options()) as client:
                 response = await client.post(self.base + "/console/api/login", json={
                     "email": email, "password": base64.b64encode(password.encode("utf-8")).decode("ascii"),
                     "remember_me": False,
@@ -131,7 +145,7 @@ class DifyClient:
             csrf = tokens['csrf_token']
             headers = {'Authorization': 'Bearer ' + tokens['console_token'], 'X-CSRF-Token': csrf,
                        'Cookie': f'csrf_token={csrf}; __Host-csrf_token={csrf}'}
-            async with httpx.AsyncClient(timeout=30, follow_redirects=False) as client:
+            async with httpx.AsyncClient(timeout=30, follow_redirects=False, **self._client_options()) as client:
                 response = await client.get(self.base + '/console/api/workspaces/current/summary', headers=headers)
             if response.status_code != 200:
                 raise DifyError('工作空间身份接口未成功返回，原凭据未替换。', code='workspace_probe_failed', http_status=response.status_code)

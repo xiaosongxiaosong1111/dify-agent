@@ -170,5 +170,13 @@
     "tools/c1-existing357/guard.py": "7a86a799e208a287f8164daba58fe2d1079cbb92333ef6ef3a3b510aec8a447d",
     "tools/test_c1_local_readiness.py": "76ba64c71e9f188da8477617c7cd59294b7b05413d6e42101ba82c1ce0511b5c"
   },
-  "new_frozen_batch_or_approval": false
+  "new_frozen_batch_or_approval": false,
+  "diagnostic_interpretation_correction_20261028": {
+    "restricted_context_inaccessibility_does_not_prove_engine_stopped": true,
+    "engine_stopped_before_start_proven": false,
+    "privileged_check_current_stack_healthy": true,
+    "current_system_proxy_loopback_route_issue_reproduced_without_http": true,
+    "historical502_unique_cause_proven": false,
+    "reference": "docs/dify-loopback-transport.md"
+  }
 }
