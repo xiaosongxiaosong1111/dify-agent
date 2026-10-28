@@ -69,7 +69,7 @@ class Boundary:
    elif method=='POST' and path=='/v1/workflows/run':
     app=self.current;case_index=0 if phase.endswith('_hit') else 1 if phase.endswith('_miss') else None
     require(app in self.apps and case_index is not None and self.apps[app]['key'] is not None and request.headers.get('authorization')=='Bearer '+self.apps[app]['key'] and isinstance(body,dict) and set(body)=={'inputs','response_mode','user'} and body['inputs']==self.fixture['cases'][case_index]['input'] and body['response_mode']=='blocking' and body['user']=='flowcraft-local','Unexpected run/input/key');kind='run'
-  require(kind is not None,'Unapproved method/path');caps={'model':2,'reads':45,'login':0,'import':2,'publish':2,'key':2,'run':4};require(self.counts[kind]<caps[kind],'Dispatch limit reached')
+  require(kind is not None,'Unapproved method/path');caps={'model':2,'reads':45,'login':1,'import':2,'publish':2,'key':2,'run':4};require(self.counts[kind]<caps[kind],'Dispatch limit reached')
   if kind in ('publish','key','run'):
    app=self.current;per=self.apps[app]['counts']
    if kind=='run':
@@ -132,7 +132,7 @@ def guarded_store(base,old,environment,provider,boundary,fixture,initial_task,in
   def _put_object(self,conn,states,kind,item,value):
    self.object_check(kind,item,value);return super()._put_object(conn,states,kind,item,value)
   def secret(self,item,key):
-   allowed=item==provider['id'] and key=='api_key' or item==environment['id'] and key in ('console_token','csrf_token','service_api_key','dataset_api_key') or any(item==environment['id']+':app-runtime:'+app and key=='service_api_key' for app in boundary.apps) or item.endswith(':previous-runtime-key') and item.removesuffix(':previous-runtime-key') in self.key_proposals and key=='service_api_key'
+   allowed=item==provider['id'] and key=='api_key' or item==environment['id'] and key in ('console_login_email','console_login_password','console_token','csrf_token','service_api_key','dataset_api_key') or any(item==environment['id']+':app-runtime:'+app and key=='service_api_key' for app in boundary.apps) or item.endswith(':previous-runtime-key') and item.removesuffix(':previous-runtime-key') in self.key_proposals and key=='service_api_key'
    require(allowed,'Unrelated credential decryption forbidden');return super().secret(item,key)
   def secret_check(self,sets):
    for owner,values in sets.items():
@@ -156,7 +156,7 @@ def verify(store,old,environment,boundary):
  now=capture(store);eid=environment['id']
  store.object_check('task',boundary.owner,store.get('task',boundary.owner));store.object_check('task_budget',boundary.owner,store.get('task_budget',boundary.owner))
  require(all(now['objects'].get(k)==v for k,v in old['objects'].items() if k not in {'environment:'+eid,'task:'+boundary.owner,'task_budget:'+boundary.owner}),'Original object changed')
- allowed={eid+':'+k for k in ('service_api_key',)};require(all(now['secrets'].get(k)==v for k,v in old['secrets'].items() if k not in allowed),'Original ciphertext changed')
+ allowed={eid+':'+k for k in ('console_token','csrf_token','service_api_key')};require(all(now['secrets'].get(k)==v for k,v in old['secrets'].items() if k not in allowed),'Original ciphertext changed')
  require(all(now['files'].get(k)==v for k,v in old['files'].items()),'Original asset/masterkey changed')
  require(len(store.list('task'))==sum(k.startswith('task:') for k in old['objects']),'Task count changed')
  with store.connect() as db:

@@ -84,7 +84,7 @@ def run(mode,output,playwright,plan=None,record=None,save_callback=None):
   @h.app.post('/__batch/phase')
   def phase(value:dict):
    name=value.get('phase');require(name in PHASES and value.get('task_id')==boundary.owner,'Wrong phase source')
-   previous=record.get('phase');expected=PHASES[0] if previous=='workspace_check' else PHASES[PHASES.index(previous)+1] if previous in PHASES and previous!=PHASES[-1] else None
+   previous=record.get('phase');expected=PHASES[0] if previous=='reconnect' else PHASES[PHASES.index(previous)+1] if previous in PHASES and previous!=PHASES[-1] else None
    require(name==expected,'Phase skipped/repeated');task=h.get_task(boundary.owner)
    if name in ('first_plan','original_import','changed_plan','modified_import'):
     required={'first_plan':'reviewed_requirements','original_import':'first_plan','changed_plan':'changed_requirements_manual','modified_import':'changed_plan'}[name];require(required in record.get('reviews',{}),'Explicit local content review missing')
@@ -99,15 +99,14 @@ def run(mode,output,playwright,plan=None,record=None,save_callback=None):
   def review(value:dict):require(value.get('task_id')==boundary.owner and value.get('stage')==record.get('phase'),'Review phase mismatch');return reviews.prepare(value['stage'])
   @h.app.get('/__batch/review-stage')
   def poll(stage:str):return reviews.poll(stage)
-  record['phase']='workspace_check';save()
+  record['phase']='reconnect';save()
   try:
    if live:
     from inheritance import inherited
     record['inherited_review']=inherited(plan,initial_task,PROJECT)
    else:record['inherited_review']={'source':'synthetic_prior_model_shape','semantic_reviewed':False,'new_model_call':False}
-   import asyncio
-   from app.dify import DifyClient
-   identity=asyncio.run(DifyClient(environment,store).workspace());require(identity.get('id')==environment['console_workspace_id'] and boundary.workspace_verified,'Original workspace session proof missing')
+   with TestClient(h.app) as api:
+    base='/api/environments/'+environment['id']+'/saved-login/';r=api.post(base+'reconnect-plan',json={});require(r.status_code==200,'Reconnect plan failed');request=r.json();r=api.post(base+'reconnect',json={'plan_id':request['id'],'review_token':request['review_token'],'confirm_reconnect':True});require(r.status_code==200 and r.json()['record']['state']=='succeeded' and boundary.workspace_verified,'Explicit original workspace reconnect failed')
    save()
   except BaseException as exc:
    boundary.halted=True;record.update(state='stopped_needs_review',error_type=type(exc).__name__,protection=verify(store,before,environment,boundary));save();raise

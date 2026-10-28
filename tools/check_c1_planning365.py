@@ -6,7 +6,7 @@ p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argum
 sys.path[:0]=[str(ROOT),str(PROJECT/'backend')]
 from execute import validated
 from support import ReadOnly,current
-validated(ROOT);expected={'success':('passed','modified_miss',2,31,0,2,2,2,4),'expired_session':('stopped_needs_review','workspace_check',0,1,0,0,0,0,0),'wrong_workspace':('stopped_needs_review','workspace_check',0,1,0,0,0,0,0),'fail_model':('stopped_needs_review','first_plan',1,1,0,0,0,0,0),'invalid_plan':('stopped_needs_review','first_plan',1,1,0,0,0,0,0),'fail_publish':('stopped_needs_review','original_publish',1,5,0,1,1,0,0),'fail_run':('stopped_needs_review','original_hit',1,10,0,1,1,1,1)}
+validated(ROOT);expected={'success':('passed','modified_miss',2,32,1,2,2,2,4),'fail_login':('stopped_needs_review','reconnect',0,0,1,0,0,0,0),'expired_session':('stopped_needs_review','reconnect',0,2,1,0,0,0,0),'wrong_workspace':('stopped_needs_review','reconnect',0,2,1,0,0,0,0),'fail_model':('stopped_needs_review','first_plan',1,2,1,0,0,0,0),'invalid_plan':('stopped_needs_review','first_plan',1,2,1,0,0,0,0),'fail_publish':('stopped_needs_review','original_publish',1,6,1,1,1,0,0),'fail_run':('stopped_needs_review','original_hit',1,11,1,1,1,1,1)}
 plan=validated(ROOT);current(PROJECT,plan)
 def run(mode):
  folder=out/mode;r=subprocess.run([str(PROJECT/'.venv/Scripts/python.exe'),str(ROOT/'rehearse.py'),'--mode',mode,'--output',str(folder),'--playwright',args.playwright],cwd=PROJECT,capture_output=True,text=True,encoding='utf-8',errors='replace')

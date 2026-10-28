@@ -20,7 +20,7 @@ def write(path,value):path.write_text(json.dumps(value,ensure_ascii=False),'utf-
 with tempfile.TemporaryDirectory(dir=PROJECT/'work',prefix='c1-gates-') as folder:
  root=Path(folder)/'work/c1-planning365';root.mkdir(parents=True)
  for name in execute.FROZEN-{'plan.json'}:(root/name).write_bytes((ROOT/name).read_bytes())
- plan={'schema_version':1,'batch_id':'c1-planning365','target_task_id':'aa827c91-b683-4a34-9e7f-fa0789f5c252','explicit_regrant':{'from_batch':'c1-remaining362','model':2,'reads':45,'import':2,'publish':2,'key':2,'run':4,'new_model_slots':0,'new_reads':0,'new_login':0},'limits':execute.LIMITS,'wall_seconds':1800,'max_each_model_estimate_usd':'0.055','max_new_model_estimate_usd':'0.110'};write(root/'plan.json',plan)
+ plan={'schema_version':1,'batch_id':'c1-planning365','target_task_id':'aa827c91-b683-4a34-9e7f-fa0789f5c252','explicit_regrant':{'from_batch':'c1-remaining362','model':2,'reads':45,'import':2,'publish':2,'key':2,'run':4,'new_model_slots':0,'new_reads':0,'new_login':1},'limits':execute.LIMITS,'wall_seconds':1800,'max_each_model_estimate_usd':'0.055','max_new_model_estimate_usd':'0.110'};write(root/'plan.json',plan)
  def manifest():write(root/'manifest.json',{'schema_version':1,'batch_id':plan['batch_id'],'files':{name:sha(root/name) for name in execute.FROZEN}})
  manifest();assert execute.validated(root)==plan;checks.append('complete exact frozen scope')
  rejected('missing direct approval',lambda:execute.approved(root,plan))
@@ -84,7 +84,7 @@ with tempfile.TemporaryDirectory(dir=PROJECT/'work',prefix='c1-gates-') as folde
  b=boundary()
  for _ in range(45):b.admit(httpx.Request('GET','https://public-dify.invalid/console/api/apps?page=1&limit=1'))
  rejected('45 reads is final cap',lambda:b.admit(httpx.Request('GET','https://public-dify.invalid/console/api/apps?page=1&limit=1')));assert b.counts['reads']==45
- b=boundary();rejected('zero login cap',lambda:b.admit(httpx.Request('POST','https://public-dify.invalid/console/api/login',json={'email':'public@example.invalid','password':'PUBLIC_ONLY','remember_me':False})))
+ b=boundary();b.counts['login']=1;rejected('one explicit login cap',lambda:b.admit(httpx.Request('POST','https://public-dify.invalid/console/api/login',json={'email':'public@example.invalid','password':'PUBLIC_ONLY','remember_me':False})))
  for change in ('truncated','tool_call','missing_role'):
   b=boundary();value={'choices':[{'finish_reason':'stop','message':{'role':'assistant','content':'{}'}}],'usage':{'prompt_tokens':1,'completion_tokens':1}}
   if change=='truncated':value['choices'][0]['finish_reason']='length'

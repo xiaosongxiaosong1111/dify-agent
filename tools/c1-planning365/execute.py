@@ -5,7 +5,7 @@ from guard import require
 from support import sha,current,ReadOnly
 from local_readiness import NotReady
 ROOT=Path(__file__).resolve().parent;PROJECT=ROOT.parents[1]
-LIMITS={'new_tasks':0,'model':2,'reads':45,'login':0,'import':2,'publish':2,'key':2,'run':4}
+LIMITS={'new_tasks':0,'model':2,'reads':45,'login':1,'import':2,'publish':2,'key':2,'run':4}
 FROZEN={'execute.py','support.py','freeze.py','guard.py','transport.py','worker.py','synthetic.py','rehearse.py','reviews.py','submit_review.py','verify_delivery.py','gates_check.py','journey.cjs','interview-result.cjs','fixture.json','plan.json','reuse_policy.py','reuse_checks.py','local_readiness.py','inheritance.py','seed.py','manual_review.cjs'}
 
 def validated(root):
@@ -13,7 +13,7 @@ def validated(root):
  from app.publication_dispatch_receipt import strict_json,safe_path
  manifest=strict_json((root/'manifest.json').read_bytes());require(manifest.get('schema_version')==1 and set(manifest.get('files',{}))==FROZEN,'Frozen file set invalid')
  for name,value in manifest['files'].items():require(sha(safe_path(root,name))==value,'Frozen source changed')
- plan=strict_json((root/'plan.json').read_bytes());require(plan.get('schema_version')==1 and plan.get('batch_id')=='c1-planning365' and manifest.get('batch_id')==plan['batch_id'] and plan.get('limits')==LIMITS and all(type(v) is int for v in plan['limits'].values()) and plan.get('wall_seconds')==1800 and plan.get('max_each_model_estimate_usd')=='0.055' and plan.get('max_new_model_estimate_usd')=='0.110' and plan.get('target_task_id')=='aa827c91-b683-4a34-9e7f-fa0789f5c252' and all(type(v) is int for k,v in plan.get('explicit_regrant',{}).items() if k!='from_batch') and plan.get('explicit_regrant')=={'from_batch':'c1-remaining362','model':2,'reads':45,'import':2,'publish':2,'key':2,'run':4,'new_model_slots':0,'new_reads':0,'new_login':0},'Frozen scope invalid')
+ plan=strict_json((root/'plan.json').read_bytes());require(plan.get('schema_version')==1 and plan.get('batch_id')=='c1-planning365' and manifest.get('batch_id')==plan['batch_id'] and plan.get('limits')==LIMITS and all(type(v) is int for v in plan['limits'].values()) and plan.get('wall_seconds')==1800 and plan.get('max_each_model_estimate_usd')=='0.055' and plan.get('max_new_model_estimate_usd')=='0.110' and plan.get('target_task_id')=='aa827c91-b683-4a34-9e7f-fa0789f5c252' and all(type(v) is int for k,v in plan.get('explicit_regrant',{}).items() if k!='from_batch') and plan.get('explicit_regrant')=={'from_batch':'c1-remaining362','model':2,'reads':45,'import':2,'publish':2,'key':2,'run':4,'new_model_slots':0,'new_reads':0,'new_login':1},'Frozen scope invalid')
  return plan
 
 def approved(root,plan):
