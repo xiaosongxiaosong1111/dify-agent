@@ -16,7 +16,7 @@
 
 ## 3. 下一步
 
-1. 210实现d8eb1ef/关闭dc4550f已存在，350/287文件/PID23776，128唯一项定向及原归属部署/原18保护过。211已通过正常saved-intake-candidates/2/preview/adopt把209原候选恢复r6→r7未确认草稿，九项complete/无问题，source=saved_model_candidate，原三失败/四费用及旧消息版本保持，新模型/Dify0；根代理实际完整复核，详情docs/saved-intake-recovery-20261028.md/json。证据commit存在后才211 done，随后提交关闭。
+1. 210实现d8eb1ef/关闭dc4550f已存在，350/287文件/PID23776，128唯一项定向及原归属部署/原18保护过。211已通过正常saved-intake-candidates/2/preview/adopt把209原候选恢复r6→r7未确认草稿，九项complete/无问题，source=saved_model_candidate，原三失败/四费用及旧消息版本保持，新模型/Dify0；根代理实际完整复核，详情docs/saved-intake-recovery-20261028.md/json。证据f381db2已提交且验收完成，211 done；212已pending两规划剩余链。
 2. 本机恢复是新明确主动草稿操作，不是原362继续或失败重分类；原candidate原文SHA80ac1eb5...保持，root preview source SHA24ff213bdf8fd9a75327dedefe6970b8571df34b129741b07c2d8fe4dc2cd7a8，复核/来源work/saved-intake364/source.json及root-review.json。仍未确认需求或配置、无图/成果/App/运行，不能称完整C1完成。
 3. 下一实质缺证是两次真实模型规划→两版交付，可从当前r7正常确认后继续，不应再调用访谈。先只开发/隔离必要独立剩余两规划方案，拟明确改授362未派发2模型/45读/资源各2/run4、登录0，0新Task/库，总模型30/573读取/35登录/资源12/运行22和0.755473652账本不增；旧消费包永不重放，不凭继续开发自动使用槽。修改后仍正常代理逐项复核并明确非模型或人类，两个流程仍由模型原候选生成。
 4. C1仍欠两版规划至交付，C2固定公开继续已闭合，C3仅25项结论索引，原Chatflow订单链未验收。不按版本/测试数算项目比例，不扩六组候选，不为耗额度造任务。当前非额度停止；实际不足立即尽力整份交接/stop，不重试换号购买用券。
