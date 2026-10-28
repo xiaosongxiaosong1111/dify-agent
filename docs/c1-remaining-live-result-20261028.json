@@ -1,0 +1,80 @@
+{
+  "backlog": 209,
+  "state": "stopped_needs_review",
+  "phase": "complete_interview",
+  "scope_approved_direct": true,
+  "question_ref": "call_c3356f0944d9444e8802a635fec5571a question0",
+  "implementation": "e2683e3",
+  "plan_sha256": "b83ec3363e00943e2e47ed53e633835d5bf9717181f186f0942fed9ce077a6a0",
+  "manifest_sha256": "887bbafc31b38944a8e8b363c229e1fc41f7f905ad041417e86abf7076c6da64",
+  "approval_sha256": "31e1047342c518c7eea0e3e3fbc8e86436e91c5703d607d447cc3a9318c5d0cc",
+  "attempt_sha256": "d4cee8574d364839f9ae1604a0ab3bf2c5382e62a03682e1c430c17ca0677e26",
+  "worker-started_sha256": "88f12cf87d7c70ef7cd352d15b300cffe2f0c74812f88e95ca68cda528629ef1",
+  "dispatch_counts": {
+    "model": 1,
+    "reads": 1,
+    "login": 0,
+    "import": 0,
+    "publish": 0,
+    "key": 0,
+    "run": 0
+  },
+  "task_revision": 6,
+  "candidate_applied": false,
+  "candidate_content_review_completed": false,
+  "failure": "等义搭建前指令省略连接词和，误触发batch，候选9项/程序10项",
+  "raw_candidate_retained_sha256": "80ac1eb52b285b0297c6130e40368209285b122f26e96a52c8c791a130e9dbac",
+  "new_model_estimate_settled_usd": "0.007334772",
+  "model_usage": {
+    "prompt_tokens": 15123,
+    "completion_tokens": 2457,
+    "cache_hit_tokens": 512,
+    "cache_miss_tokens": 14611,
+    "total_tokens": 17580
+  },
+  "model_entry_id": "3e140760-1c26-4192-9152-dcb0cda1e2cd",
+  "model_operation_id": "30775f6b-3305-43c1-ade7-64f8bbd143b6",
+  "new_model_reserved_usd": "0.0262227",
+  "billing_hard_cap": false,
+  "known_cumulative_model_estimate_usd": "0.117468360",
+  "global_reservations": {
+    "model": 30,
+    "reads": 573,
+    "login": 35,
+    "resource_each": 12,
+    "run": 22,
+    "model_estimate_book_usd": "0.755473652"
+  },
+  "unissued_current_scope": {
+    "model": 2,
+    "reads": 45,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 4
+  },
+  "old_unknown_and_reservations_kept": true,
+  "protection": {
+    "state": "verified_stopped",
+    "other17_and_old_objects_kept": true,
+    "all_auth_runtime_ciphertexts_assets_masterkey_kept": true,
+    "selected_old_history_and_ledger_kept_by_actual_guard": true,
+    "all_consumed_packages_kept": true,
+    "original18": true,
+    "real_counts": {
+      "model": 1,
+      "reads": 1,
+      "login": 0,
+      "import": 0,
+      "publish": 0,
+      "key": 0,
+      "run": 0
+    },
+    "model_cumulative_actual": 24,
+    "known_config_estimate_usd": "0.117468360",
+    "new_resources_runs": 0,
+    "automatic_retry": false
+  },
+  "business_acceptance_complete": false,
+  "replay_forbidden": true
+}
