@@ -15,10 +15,13 @@ def model_review_outline(task):
     """Give the model exact current identifiers instead of asking it to infer them."""
     return {
         'required_check_topics':[row['id'] for row in topics(task)],
-        'topic_rule':'按当前主题逐项返回，不能添加未触发主题或给它们填写不适用；若修改需求实际引入新的专项，按 intake_standard 对应规则核对，不为补全清单而新增业务。',
+        'topic_rule':'required_check_topics和intake_standard是更新前标准；checks必须按requirements_patch合并后的候选逐项返回。候选正文即使是拟议或needs_input，触发新专项也须增加对应检查；不添加未触发主题或为凑清单新增业务。',
+        'conditional_check_topics':[{'id':key,'label':SPECIAL[key][0],'text_pattern':pattern} for key,pattern in PATTERNS.items()],
+        'candidate_topic_rule':'conditional_check_topics仅为可触发的ID目录，不是全选清单；按候选需求及原需求用户消息匹配，当前图触发的主题也保留。检索或知识库触发retrieval，不能仅因knowledge已检查而省略。例：原8个基础主题，候选新增知识库检索则须9行，含retrieval；仍有缺口可标needs_input，不用建议自证complete。外部接口匹配需排除sierra_runtime_entry明确的本机空值/错误返回契约说明；真实业务接口仍需external。',
         'material_sources':[{'id':m['id'],'name':m['name']} for m in task.get('materials',[]) if m.get('status')=='parsed'],
         'source_rule':'material证据的id必须使用这里的真实id，不能使用文件名；quote必须逐字来自该来源。',
-        'question_rule':'每个追问的topic必须对应一个status=needs_input的检查项；全部明确时questions必须为空，不能一边写complete一边追问。',
+        'question_fields':['topic','question','recommendation','reason','experience','cost','manual_work'],
+        'question_rule':'追问字段必须逐字使用question_fields，人工影响字段为manual_work，不能写manualWork；每个追问的topic必须对应一个status=needs_input的检查项；全部明确时questions必须为空，不能一边写complete一边追问。',
         'decision_rule':'已明确的模型和参数不是笔误推测；可用状态留待资源核对。缺少准备好的资源不自动等于业务需求不清。',
     }
 

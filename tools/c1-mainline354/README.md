@@ -1,3 +1,5 @@
+第199源码修复说明：原work/c1-mainline354已在198唯一执行并停止，15文件原包永久消费，绝不覆盖或重放。本目录现为修复后的开发源码，新增interview-result.cjs（未来完整清单16文件），不是新的冻结或授权包；旧check_c1_rehearsals354的逐字冻结比较仅适用于原197快照。已加入HTTP200但候选拒绝/缺本轮模型复核时的安全停止诊断，绑定origin_revision；不能以旧复核掩盖新失败。定向验证见tools/check_c1_interview_result355.cjs及docs/intake-candidate-topics.md，不运行生产live、不准备新付费批。
+
 # C1新空任务同一用户流程：新独立执行包
 
 实际live仅允许原work/c1-mainline354目录、固定全文件哈希与新的直接批准；缺批准不构造生产Store。attempt及worker-started各一次，不能重放或阶段重试。源目录不能live。

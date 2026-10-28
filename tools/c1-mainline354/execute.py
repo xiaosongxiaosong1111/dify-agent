@@ -5,7 +5,7 @@ from guard import require
 from support import sha,current
 ROOT=Path(__file__).resolve().parent;PROJECT=ROOT.parents[1]
 LIMITS={'new_tasks':1,'model':5,'reads':48,'login':1,'import':2,'publish':2,'key':2,'run':4}
-FROZEN={'execute.py','support.py','freeze.py','guard.py','transport.py','worker.py','synthetic.py','rehearse.py','reviews.py','submit_review.py','verify_delivery.py','gates_check.py','journey.cjs','fixture.json','plan.json'}
+FROZEN={'execute.py','support.py','freeze.py','guard.py','transport.py','worker.py','synthetic.py','rehearse.py','reviews.py','submit_review.py','verify_delivery.py','gates_check.py','journey.cjs','interview-result.cjs','fixture.json','plan.json'}
 
 def validated(root):
  sys.path.insert(0,str(PROJECT/'backend'))
