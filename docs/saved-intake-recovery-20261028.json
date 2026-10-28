@@ -1,0 +1,23 @@
+{
+  "backlog": 211,
+  "state": "recovered_unconfirmed_draft",
+  "task_id": "aa827c91-b683-4a34-9e7f-fa0789f5c252",
+  "source_revision": 6,
+  "draft_revision": 7,
+  "attempt_index": 2,
+  "source_sha256": "24ff213bdf8fd9a75327dedefe6970b8571df34b129741b07c2d8fe4dc2cd7a8",
+  "root_actor": "agent_delegated",
+  "model_source": "saved_model_candidate",
+  "original_candidate_sha256": "80ac1eb52b285b0297c6130e40368209285b122f26e96a52c8c791a130e9dbac",
+  "all9_checks_complete": true,
+  "requirements_confirmed": false,
+  "configuration_confirmed": false,
+  "new_plan_app_artifact_runs": 0,
+  "original_failure_candidates_messages_versions_and_costs_kept": true,
+  "other17_all_objects_kept": true,
+  "all_secrets_assets_masterkey_and_consumed_files_kept": true,
+  "real_model_dify_http": 0,
+  "new_model_ledger_entries": 0,
+  "business_verified": false,
+  "old_batch_resumed": false
+}
