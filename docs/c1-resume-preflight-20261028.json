@@ -1,0 +1,216 @@
+{
+  "state": "frozen_unapproved",
+  "plan_sha256": "cff740ae3e96c86f3a045e51455c66ae49bd84571db794d0630aabf12294aa32",
+  "manifest_sha256": "b66d7bbcc26729cdc6970f21ecf18f217c602170abfc7d5f93c05d952b0566c6",
+  "frozen_files": 19,
+  "runtime": {
+    "local_dify_readiness": {
+      "applicable": true,
+      "ready": true,
+      "compose_project": "dify-local",
+      "required_containers": 16,
+      "healthy_services": [
+        "api",
+        "db_postgres",
+        "local_sandbox",
+        "redis",
+        "sandbox"
+      ],
+      "dify_http_requests": 0,
+      "login_verified": false,
+      "business_verified": false
+    },
+    "verified_pid": 26424,
+    "original_runtime_kept": true,
+    "source_manifest_files": 287
+  },
+  "production_unchanged": true,
+  "physical_model_dify_http": 0,
+  "approval_created": false,
+  "attempt_created": false,
+  "backlog": 205,
+  "target_task_id": "aa827c91-b683-4a34-9e7f-fa0789f5c252",
+  "source_failed_batch": "c1-existing357",
+  "explicit_regrant": {
+    "from_batch": "c1-existing357",
+    "model": 5,
+    "reads": 48,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 4,
+    "new_model_slots": 0,
+    "new_reads": 0,
+    "new_login": 1
+  },
+  "limits": {
+    "new_tasks": 0,
+    "model": 5,
+    "reads": 48,
+    "login": 1,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 4
+  },
+  "proposed_cumulative": {
+    "tasks_before": 18,
+    "tasks_after": 18,
+    "actual_model_before": 21,
+    "actual_model_after_max": 26,
+    "conservative_model_before": 30,
+    "conservative_model_after": 30,
+    "actual_resource_each_before": 9,
+    "actual_resource_each_after_max": 11,
+    "conservative_resource_each_before": 12,
+    "conservative_resource_each_after": 12,
+    "actual_runs_before": 17,
+    "actual_runs_after_max": 21,
+    "conservative_runs_before": 22,
+    "conservative_runs_after": 22,
+    "management_reserved_before": 573,
+    "management_reserved_after": 573,
+    "login_reserved_before": 34,
+    "login_reserved_after": 35
+  },
+  "model_estimate_book_before_usd": "0.755473652",
+  "model_estimate_book_upper_usd": "0.755473652",
+  "model_estimate_upper_usd": "0.275",
+  "dify_estimate_usd": "0.02",
+  "batch_estimate_upper_usd": "0.30",
+  "billing_hard_cap": false,
+  "gates": 66,
+  "reuse_guard_checks": 26,
+  "isolated_scenarios": [
+    {
+      "mode": "success",
+      "state": "passed",
+      "phase": "modified_miss",
+      "counts": {
+        "model": 5,
+        "reads": 32,
+        "login": 1,
+        "import": 2,
+        "publish": 2,
+        "key": 2,
+        "run": 4
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_login",
+      "state": "stopped_needs_review",
+      "phase": "reconnect",
+      "counts": {
+        "model": 0,
+        "reads": 0,
+        "login": 1,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "wrong_workspace",
+      "state": "stopped_needs_review",
+      "phase": "reconnect",
+      "counts": {
+        "model": 0,
+        "reads": 2,
+        "login": 1,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_model",
+      "state": "stopped_needs_review",
+      "phase": "complete_interview",
+      "counts": {
+        "model": 2,
+        "reads": 2,
+        "login": 1,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "invalid_plan",
+      "state": "stopped_needs_review",
+      "phase": "first_plan",
+      "counts": {
+        "model": 3,
+        "reads": 2,
+        "login": 1,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_publish",
+      "state": "stopped_needs_review",
+      "phase": "original_publish",
+      "counts": {
+        "model": 3,
+        "reads": 6,
+        "login": 1,
+        "import": 1,
+        "publish": 1,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_run",
+      "state": "stopped_needs_review",
+      "phase": "original_hit",
+      "counts": {
+        "model": 3,
+        "reads": 11,
+        "login": 1,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 1
+      },
+      "physical_http": 0
+    }
+  ],
+  "http200_intake_rejection": {
+    "state": "passed",
+    "stage": "vague_interview",
+    "http200_candidate_rejected": true,
+    "no_content_review_or_next_stage": true,
+    "new_model_dispatches": 1,
+    "new_tasks": 0,
+    "old_failure_and_settled_cost_kept": true,
+    "physical_http": 0
+  },
+  "delivery": {
+    "state": "passed",
+    "same_task": true,
+    "original_revision": 5,
+    "modified_revision": 8,
+    "file_hashes_verified": true,
+    "only_core_graph_change": "no_hit_template.data.template",
+    "platform_checked": false,
+    "business_verified": false
+  },
+  "admission_order_checks": 2,
+  "readiness_precedes_claim": true,
+  "semantic_reviews": false,
+  "human_scope_approved": false,
+  "business_acceptance_complete": false
+}
