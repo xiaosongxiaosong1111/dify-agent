@@ -1,4 +1,4 @@
-# HANDOFF — Sierra（额度恢复继续；216零模型收尾包本机完成/待新直接批准）
+# HANDOFF — Sierra（额度恢复继续；216已提交；217待新直接批准）
 
 ## 1. 当前状态
 
@@ -17,7 +17,7 @@
 ## 3. 下一步
 
 1. 当前用户已明确“现在继续开发直到额度结束”，实际普通额度恢复（本轮开始5小时4%/周16%），已继续上次中断的216。上次quota在CreateProcess前拒绝的boundary/test两文件已实际续测通过；当前36纯范围/零模型边界通过，未换号/购买或用重置券。当前351-3ab205b3fbb44bae4789/287文件/PID4172，数据基线work/saved-plan367/post-deploy-data-snapshot.json，原18/全部费用密文资产/消费包保持。
-2. 216完整零搭建模型执行器已开发、本机隔离及固定，详情docs/model-free-closeout-plan-20261028.md、model-free-closeout-preflight-20261028.json。最终work/c1-model-free368共24文件，plan7fea9063dac6e957dd044b071cfc3cf4fa7c90e4a25df5ab501e051e480ed475 / manifest39e79c2c9470d8db32a20861664e1ee6dffd8985426037ac39c160178eac1616；源tools/c1-model-free368。53准入/复核、29实际GuardedStore保护、36纯范围、固定正常和9停止精确计数过，正常0模型/17读/1登录/资源各1/运行2，实际HTTP/生产写入0。实现commit存在后才216 done，再提交关闭/日志/交接并推main。
+2. 216完整零搭建模型执行器已开发、本机隔离及固定，详情docs/model-free-closeout-plan-20261028.md、model-free-closeout-preflight-20261028.json。最终work/c1-model-free368共24文件，plan7fea9063dac6e957dd044b071cfc3cf4fa7c90e4a25df5ab501e051e480ed475 / manifest39e79c2c9470d8db32a20861664e1ee6dffd8985426037ac39c160178eac1616；源tools/c1-model-free368。53准入/复核、29实际GuardedStore保护、36纯范围、固定正常和9停止精确计数过，正常0模型/17读/1登录/资源各1/运行2，实际HTTP/生产写入0。实现8e175db已存在，216 done；217 need-user，仅获新直接范围后执行。关闭记录及更新日志一起推main。
 3. 最终程序从实际r13开始，正常入口更新资源说明及验收说明唯一旧固定文字（与现有新输出/test_cases一致），代理逐项复核/需求确认、同一已保存原模型图重新校验、配置确认/构建，预计r17；不改图、不新访谈/规划。根代理实际读一处当前完整来源后显式proceed/reject，内容绑定要求需求/配置/图/样例/类型/环境/材料均不变，正常版本/确认/成果元数据可变化；所有平台阶段前检查。当前生产仍r13、没有做这些真实本机步骤或平台操作。
 4. 下一仅新直接具体批准后执行此独立368，不能沿用365已消费授权：拟明确改授365剩28读/资源各1/两运行，0模型/Task/库，只新增1加密登录36→37，其它保守模型30/读取573/资源12/运行22/模型账本0.755473652不增，Dify新增估0.01非账单硬限/宿主未知。Sierra模型0，Dify命中例仍实际执行一次回答LLM，费用属Dify。当前无approval/attempt/worker-started，不得先发认证或平台请求；旧365及所有失败/unknown/预留保持不退借。
 5. 当前原版r9 App e4785b06...及两例/原生LLM1-0已实际通过，修改版r13仅静态、app_id=null，C1仍欠该平台收尾。旧未批准23文件版本完整归档work/c1-model-free368-before-criteria-sync（cedccbd9/8e568cb5），无attempt，不执行；只用最终24文件。旧零登录365归档同样不执行。所有已有Task/案例/费用不重放或改判，原4次20分钟策略不变。
