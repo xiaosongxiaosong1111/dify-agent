@@ -1,7 +1,7 @@
 // Render the independent build; upstream requests are restricted to local GETs.
 const {chromium}=require(process.argv[2]),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),http=require('node:http');
 const project=path.resolve(__dirname,'..'),dist=path.resolve(process.argv[3]),output=path.resolve(process.argv[4]);
-assert(dist.startsWith(path.join(project,'work')+path.sep));assert(output.startsWith(path.join(project,'work')+path.sep));fs.mkdirSync(output,{recursive:true});
+assert(dist===path.join(project,'frontend','dist')||dist.startsWith(path.join(project,'work')+path.sep));assert(output.startsWith(path.join(project,'work')+path.sep));fs.mkdirSync(output,{recursive:true});
 const id='aa827c91-b683-4a34-9e7f-fa0789f5c252',name='Sierra新空任务完整交付验收';
 const cases=[
  ['saved','已有保存流程，可直接核对节点'],

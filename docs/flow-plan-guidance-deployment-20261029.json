@@ -1,0 +1,22 @@
+{
+  "backlog": 220,
+  "state": "deployed_verified",
+  "source_implementation": "32fdd4f",
+  "runtime": "0.352.0-737bdc8e3d4d8e269d74",
+  "version": "0.352.0",
+  "source_runtime_files_matched": 287,
+  "verified_pid": 13540,
+  "previous_owned_pid": 4172,
+  "original_start_stop_scripts": true,
+  "six_page_states_verified": true,
+  "draft_survives_page_readback": true,
+  "actual_saved_r17_guidance_verified": true,
+  "visual_reviewed": true,
+  "original18_and_ledger_kept": true,
+  "ciphertexts_assets_masterkey_kept": true,
+  "all_consumed_packages_kept": true,
+  "model_dify_http": 0,
+  "mutating_browser_requests": 0,
+  "all_25_business_acceptance_complete": false,
+  "protection_baseline": "work/flow-guidance369/deploy/post-deploy-data-snapshot.json"
+}

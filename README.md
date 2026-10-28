@@ -1,6 +1,8 @@
 # Sierra
 
-2026-10-29最新：第217固定368唯一真实执行通过：0搭建模型/17管理读取/1加密登录/App发布Key各1/运行2；r17两例passed、原生LLM1/0及发布/本地核心图匹配、两版ZIP摘要通过。固定公开Workflow C1证据补齐，含保留的历史失败/跨批恢复，非全25或原Chatflow订单链通过。原18/六费用/旧unknown与全部预留保持；此Task4/4满，不重放或第五次。 218流程页修正尚未部署，下一项220只做受管理部署与定向核对。见[真实结果](docs/model-free-closeout-live-result-20261029.md)。
+当前本机已部署0.352：保存流程可直接继续核对，无需再次生成；固定公开Workflow C1两版四例与双包已补齐。仍不是原25项或原Chatflow订单链全部验收，详情见[流程继续指引](docs/flow-plan-guidance.md)和[实际C1结果](docs/model-free-closeout-live-result-20261029.md)。
+
+2026-10-29最新：第217固定368唯一真实执行通过：0搭建模型/17管理读取/1加密登录/App发布Key各1/运行2；r17两例passed、原生LLM1/0及发布/本地核心图匹配、两版ZIP摘要通过。固定公开Workflow C1证据补齐，含保留的历史失败/跨批恢复，非全25或原Chatflow订单链通过。原18/六费用/旧unknown与全部预留保持；此Task4/4满，不重放或第五次。 218流程页修正已由220部署并核对。见[真实结果](docs/model-free-closeout-live-result-20261029.md)。
 
 修改版零搭建模型收尾执行器已完成本机验证/冻结，复用已保存图并同步验收说明，仅剩新App/发布/Key和两例平台证据；新具体范围尚未批准。[固定方案](docs/model-free-closeout-plan-20261028.md)。
 
