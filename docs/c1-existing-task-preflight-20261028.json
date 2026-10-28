@@ -1,0 +1,226 @@
+{
+  "state": "frozen_unapproved",
+  "plan_sha256": "ab658875a50940336c18433b5de960f392df136be02d0d143f1fd1fc3132b464",
+  "manifest_sha256": "e4414769ebb25ddf57ea1b203cf053de124dbb34d563e6915df2fb84e04d664c",
+  "frozen_files": [
+    "execute.py",
+    "fixture.json",
+    "freeze.py",
+    "gates_check.py",
+    "guard.py",
+    "interview-result.cjs",
+    "journey.cjs",
+    "plan.json",
+    "rehearse.py",
+    "reuse_checks.py",
+    "reuse_policy.py",
+    "reviews.py",
+    "submit_review.py",
+    "support.py",
+    "synthetic.py",
+    "transport.py",
+    "verify_delivery.py",
+    "worker.py"
+  ],
+  "runtime": {
+    "verified_pid": 35976,
+    "original_runtime_kept": true,
+    "source_manifest_files": 287
+  },
+  "production_unchanged": true,
+  "physical_model_dify_http": 0,
+  "approval_created": false,
+  "attempt_created": false,
+  "backlog": 201,
+  "target_task_id": "aa827c91-b683-4a34-9e7f-fa0789f5c252",
+  "original_failed_batch": "c1-mainline354",
+  "gates": 66,
+  "reuse_guard_checks": 26,
+  "isolated_scenarios": [
+    {
+      "mode": "success",
+      "state": "passed",
+      "phase": "modified_miss",
+      "counts": {
+        "model": 5,
+        "reads": 32,
+        "login": 1,
+        "import": 2,
+        "publish": 2,
+        "key": 2,
+        "run": 4
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_login",
+      "state": "stopped_needs_review",
+      "phase": "reconnect",
+      "counts": {
+        "model": 0,
+        "reads": 0,
+        "login": 1,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "wrong_workspace",
+      "state": "stopped_needs_review",
+      "phase": "reconnect",
+      "counts": {
+        "model": 0,
+        "reads": 2,
+        "login": 1,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_model",
+      "state": "stopped_needs_review",
+      "phase": "complete_interview",
+      "counts": {
+        "model": 2,
+        "reads": 2,
+        "login": 1,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "invalid_plan",
+      "state": "stopped_needs_review",
+      "phase": "first_plan",
+      "counts": {
+        "model": 3,
+        "reads": 2,
+        "login": 1,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_publish",
+      "state": "stopped_needs_review",
+      "phase": "original_publish",
+      "counts": {
+        "model": 3,
+        "reads": 6,
+        "login": 1,
+        "import": 1,
+        "publish": 1,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_run",
+      "state": "stopped_needs_review",
+      "phase": "original_hit",
+      "counts": {
+        "model": 3,
+        "reads": 11,
+        "login": 1,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 1
+      },
+      "physical_http": 0
+    }
+  ],
+  "http200_intake_rejection": {
+    "state": "passed",
+    "stage": "vague_interview",
+    "http200_candidate_rejected": true,
+    "no_content_review_or_next_stage": true,
+    "new_model_dispatches": 1,
+    "new_tasks": 0,
+    "old_failure_and_settled_cost_kept": true,
+    "physical_http": 0
+  },
+  "same_task_two_delivery": {
+    "state": "passed",
+    "same_task": true,
+    "original_revision": 5,
+    "modified_revision": 8,
+    "file_hashes_verified": true,
+    "only_core_graph_change": "no_hit_template.data.template",
+    "platform_checked": false,
+    "business_verified": false
+  },
+  "restart": {
+    "state": "same_snapshot_restored",
+    "saved_old_pid_absent": true,
+    "no_process_stopped": true,
+    "original_start_script": true,
+    "current_pid": 35976,
+    "business18_ledger_ciphertexts_assets_kept": true,
+    "runtime_build": "0.347.0-1b052af3a24e6f1d591e",
+    "new_real_model_dify_http": 0
+  },
+  "limits": {
+    "new_tasks": 0,
+    "model": 5,
+    "reads": 48,
+    "login": 1,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 4
+  },
+  "explicit_regrant": {
+    "from_batch": "c1-mainline354",
+    "model": 4,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 4,
+    "new_model_slots": 1,
+    "new_reads": 48,
+    "new_login": 1
+  },
+  "proposed_cumulative": {
+    "tasks_before": 18,
+    "tasks_after": 18,
+    "actual_model_before": 21,
+    "actual_model_after_max": 26,
+    "conservative_model_before": 29,
+    "conservative_model_after": 30,
+    "actual_resource_each_before": 9,
+    "actual_resource_each_after_max": 11,
+    "conservative_resource_each_before": 12,
+    "conservative_resource_each_after": 12,
+    "actual_runs_before": 17,
+    "actual_runs_after_max": 21,
+    "conservative_runs_before": 22,
+    "conservative_runs_after": 22,
+    "management_reserved_before": 525,
+    "management_reserved_after": 573,
+    "login_reserved_before": 33,
+    "login_reserved_after": 34
+  },
+  "new_model_estimate_upper_usd": "0.275",
+  "new_dify_estimate_usd": "0.02",
+  "new_batch_estimate_upper_usd": "0.30",
+  "model_estimate_book_before_usd": "0.700473652",
+  "model_estimate_book_upper_usd": "0.755473652",
+  "billing_hard_cap": false,
+  "old_reservations_preserved": true,
+  "business_acceptance_complete": false,
+  "human_scope_approved": false
+}
