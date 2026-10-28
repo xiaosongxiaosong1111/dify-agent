@@ -79,7 +79,9 @@ class Boundary:
  def observed(self,entry,response):
   kind,path=entry['kind'],entry['path'];expected404=entry['method']=='GET' and any(path==f'/console/api/apps/{a}/workflows/publish' and not v['published'] and not v['counts']['publish'] for a,v in self.apps.items()) and response.status_code==404
   if expected404:self.apps[path.split('/')[4]]['unpublished']=True;return response
-  require(response.status_code in (200,201),'Non-success response; stop without reauthentication/retry');value=response.json()
+  if response.status_code not in (200,201):
+   self.halted=True;self.record['failed_http']={'phase':entry.get('phase'),'kind':kind,'http_status':response.status_code};return response
+  value=response.json()
   if kind=='model':
    from app.providers import usage_summary
    choice=value.get('choices',[None])[0] if isinstance(value,dict) and isinstance(value.get('choices'),list) and value['choices'] else None

@@ -2,10 +2,11 @@
 import argparse,base64,json,os,subprocess,sys,urllib.request
 from pathlib import Path
 from guard import require
-from support import sha,current
+from support import sha,current,ReadOnly
+from local_readiness import NotReady
 ROOT=Path(__file__).resolve().parent;PROJECT=ROOT.parents[1]
 LIMITS={'new_tasks':0,'model':5,'reads':48,'login':1,'import':2,'publish':2,'key':2,'run':4}
-FROZEN={'execute.py','support.py','freeze.py','guard.py','transport.py','worker.py','synthetic.py','rehearse.py','reviews.py','submit_review.py','verify_delivery.py','gates_check.py','journey.cjs','interview-result.cjs','fixture.json','plan.json','reuse_policy.py','reuse_checks.py'}
+FROZEN={'execute.py','support.py','freeze.py','guard.py','transport.py','worker.py','synthetic.py','rehearse.py','reviews.py','submit_review.py','verify_delivery.py','gates_check.py','journey.cjs','interview-result.cjs','fixture.json','plan.json','reuse_policy.py','reuse_checks.py','local_readiness.py'}
 
 def validated(root):
  sys.path.insert(0,str(PROJECT/'backend'))
@@ -45,18 +46,21 @@ def runtime_check(plan):
  script="$ErrorActionPreference='Stop'; Set-Location -LiteralPath 'E:\\workSpace\\dify-agent'; . .\\runtime-process.ps1; $p=Get-CimInstance Win32_Process -Filter 'ProcessId = "+str(pid)+"'; if(-not $p -or -not (Test-SierraCommandLine ([string]$p.CommandLine) 'E:\\workSpace\\dify-agent')){throw 'PID ownership mismatch'}; @{executable=$p.ExecutablePath;command=$p.CommandLine} | ConvertTo-Json -Compress"
  encoded=base64.b64encode(script.encode('utf-16-le')).decode();result=subprocess.run(['powershell','-NoProfile','-NonInteractive','-EncodedCommand',encoded],capture_output=True,timeout=20,creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0));require(result.returncode==0,'Managed PID verification failed')
  process=json.loads(result.stdout.decode('utf-8-sig'));require(Path(process['executable']).resolve()==(PROJECT/'.venv/Scripts/python.exe').resolve() and str(folder/'backend').lower() in process['command'].lower(),'Saved PID is not frozen runtime process')
- return {'verified_pid':pid,'original_runtime_kept':True,'source_manifest_files':len(values['files'])}
+ from local_readiness import check
+ env=ReadOnly(PROJECT/'data').get('environment',plan['environment_id']);readiness=check(env['base_url'])
+ return {'local_dify_readiness':readiness,'verified_pid':pid,'original_runtime_kept':True,'source_manifest_files':len(values['files'])}
 
 
 def main():
  require(ROOT==PROJECT/'work/c1-existing357' and not sys.flags.optimize,'Source/optimized entry cannot execute live')
  parser=argparse.ArgumentParser();parser.add_argument('action',choices=['live']);parser.add_argument('--playwright',required=True);args=parser.parse_args()
  plan=validated(ROOT);approved(ROOT,plan);require(args.playwright==plan['playwright_path'] and Path(args.playwright).is_absolute() and Path(args.playwright).is_dir(),'Use frozen absolute Playwright module path')
+ current(PROJECT,plan);admission_runtime=runtime_check(plan)
  record={'batch_id':plan['batch_id'],'state':'admission_started','phase':'preflight','automatic_retry':False,'business_acceptance_complete':False,'plan_sha256':sha(ROOT/'plan.json'),'manifest_sha256':sha(ROOT/'manifest.json'),'approval_sha256':sha(ROOT/'approval.json')};claim(ROOT,record)
  def save():
   path=ROOT/'attempt-writing.tmp';path.write_text(json.dumps(record,ensure_ascii=False,indent=2),'utf-8');os.replace(path,ROOT/'attempt.json')
  try:
-  record['runtime']=runtime_check(plan);current(PROJECT,plan);save()
+  record['runtime']=admission_runtime;current(PROJECT,plan);save()
   output=ROOT/'live-output';output.mkdir(exist_ok=False)
   from worker import run
   run('live',output,args.playwright,plan,record,save)
@@ -65,4 +69,5 @@ def main():
  print('C1原空需求任务两版固定公开主链已完成；真实语义与25项最终结论仍按实际证据逐项核对。')
 if __name__=='__main__':
  try:main()
+ except NotReady as exc:raise SystemExit(str(exc)) from None
  except (RuntimeError,ValueError,OSError,KeyError):raise SystemExit('新直接范围、冻结或一次入口无效，未开启新真实阶段，不自动重试。') from None

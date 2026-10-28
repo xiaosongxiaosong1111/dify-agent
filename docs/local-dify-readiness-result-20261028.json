@@ -1,0 +1,174 @@
+{
+  "backlog": 203,
+  "state": "passed_with_limits",
+  "existing_containers": 16,
+  "running": 15,
+  "completed_init": 1,
+  "healthy_services": 5,
+  "same_names_images_as_previous_restoration": true,
+  "containers_created_before_20261027": true,
+  "container_summary": [
+    {
+      "id": "38cf758f305fd2575ba70db95f5ed1ae0df177f63d8a852a22cadc6337fa32a2",
+      "name": "/dify-local-worker-1",
+      "created": "2026-10-09T13:33:27.298454987Z",
+      "image": "langgenius/dify-api:1.17.1",
+      "state": "running",
+      "health": null,
+      "exit_code": 0
+    },
+    {
+      "id": "c47174454d226044ab9b276aa97ff7af305a03b7dcd573ac6d020f20db675233",
+      "name": "/dify-local-api-1",
+      "created": "2026-10-09T13:33:27.297686585Z",
+      "image": "langgenius/dify-api:1.17.1",
+      "state": "running",
+      "health": "healthy",
+      "exit_code": 0
+    },
+    {
+      "id": "dd9c40c2ed42cc869d0713cbc9d334566e9f05647e4c3502ef70b9aa280fe15a",
+      "name": "/dify-local-agent_backend-1",
+      "created": "2026-10-09T13:33:26.177314648Z",
+      "image": "langgenius/dify-agent-backend:1.17.1",
+      "state": "running",
+      "health": null,
+      "exit_code": 0
+    },
+    {
+      "id": "f7f82af433791252eb771b0c92c01a9e5ce6be13486b85ecf05c26ea18814f3a",
+      "name": "/dify-local-plugin_daemon-1",
+      "created": "2026-10-09T13:33:25.555094151Z",
+      "image": "langgenius/dify-plugin-daemon:0.6.10-local",
+      "state": "running",
+      "health": null,
+      "exit_code": 0
+    },
+    {
+      "id": "3768166518dee25bb8be7bc7738e4a24ccf8d244ccf340cdf4d92f898e66d477",
+      "name": "/dify-local-worker_beat-1",
+      "created": "2026-10-09T13:33:25.536142726Z",
+      "image": "langgenius/dify-api:1.17.1",
+      "state": "running",
+      "health": null,
+      "exit_code": 0
+    },
+    {
+      "id": "496717ebcc9a5a34697d58517bfcdd82edf5921923d2668e5dc0b5a6385bf161",
+      "name": "/dify-local-nginx-1",
+      "created": "2026-10-09T08:42:10.433881037Z",
+      "image": "nginx:latest",
+      "state": "running",
+      "health": null,
+      "exit_code": 0
+    },
+    {
+      "id": "a604bcb3531d5fb871a06a0fd04b5dc602cade947c353f2f549418f859d7f204",
+      "name": "/dify-local-sandbox-1",
+      "created": "2026-10-09T08:42:04.376071478Z",
+      "image": "langgenius/dify-sandbox:0.2.15",
+      "state": "running",
+      "health": "healthy",
+      "exit_code": 0
+    },
+    {
+      "id": "eb97b24763cc0907d0d717f1eb7be5132c159c19f19103426e473256caa973e3",
+      "name": "/dify-local-api_websocket-1",
+      "created": "2026-10-09T08:42:04.352319277Z",
+      "image": "langgenius/dify-api:1.17.1",
+      "state": "running",
+      "health": null,
+      "exit_code": 0
+    },
+    {
+      "id": "769d22a67d25d6dbbfdff9d17b2141a6544ad5704c77d43da3a09aa8170ebecb",
+      "name": "/dify-local-web-1",
+      "created": "2026-10-09T08:42:04.30702857Z",
+      "image": "langgenius/dify-web:1.17.1",
+      "state": "running",
+      "health": null,
+      "exit_code": 0
+    },
+    {
+      "id": "2dd298271a9a05b37140b7a9a0e5024ff806031d48769c2d04188d86a2154dba",
+      "name": "/dify-local-db_postgres-1",
+      "created": "2026-10-09T08:40:42.048527058Z",
+      "image": "postgres:15-alpine",
+      "state": "running",
+      "health": "healthy",
+      "exit_code": 0
+    },
+    {
+      "id": "382add78e65164b56de341df3eb0b149d2d1823f07ff8366b78de67826f14efa",
+      "name": "/dify-local-init_permissions-1",
+      "created": "2026-10-09T08:40:42.037247449Z",
+      "image": "busybox:latest",
+      "state": "exited",
+      "health": null,
+      "exit_code": 0
+    },
+    {
+      "id": "4ffff6e30495874d0ab29de51f3f86422bbb770657621bdf77569f4fd58b22cd",
+      "name": "/dify-local-ssrf_proxy-1",
+      "created": "2026-10-09T08:40:42.034953082Z",
+      "image": "ubuntu/squid:latest",
+      "state": "running",
+      "health": null,
+      "exit_code": 0
+    },
+    {
+      "id": "27f4283da2513fe28fff5a3badc041bc1e5419c773e2baeb595943a529e391bf",
+      "name": "/dify-local-redis-1",
+      "created": "2026-10-09T08:40:42.034929669Z",
+      "image": "redis:6-alpine",
+      "state": "running",
+      "health": "healthy",
+      "exit_code": 0
+    },
+    {
+      "id": "1c9381afb70f43f11eeefc51ba7dc00114c53e25c1cad1cbb8da71d638670e5e",
+      "name": "/dify-local-agent_ssrf_proxy-1",
+      "created": "2026-10-09T08:40:42.030925093Z",
+      "image": "ubuntu/squid:latest",
+      "state": "running",
+      "health": null,
+      "exit_code": 0
+    },
+    {
+      "id": "a16a1c51cfc3654e2497c213d2309f018d37b96b6f85f700981f38da2343c9b7",
+      "name": "/dify-local-weaviate-1",
+      "created": "2026-10-09T08:40:42.021916082Z",
+      "image": "cr.weaviate.io/semitechnologies/weaviate:1.39.2",
+      "state": "running",
+      "health": null,
+      "exit_code": 0
+    },
+    {
+      "id": "9cf45ab66c6b1fc7dfb5132de178d93de39407280f16b30ae2de4d7d436f1bf9",
+      "name": "/dify-local-local_sandbox-1",
+      "created": "2026-10-09T08:40:42.005128395Z",
+      "image": "langgenius/dify-agent-local-sandbox:1.17.1",
+      "state": "running",
+      "health": "healthy",
+      "exit_code": 0
+    }
+  ],
+  "original_service_and_desktop_started_only": true,
+  "pull_create_compose_up_or_volume_creation": false,
+  "new_dify_http_after_stopped202": 0,
+  "new_model_http": 0,
+  "login_or_business_verified": false,
+  "sierra18_all_objects_ledger_ciphertexts_assets_kept": true,
+  "consumed357_and_all_old_files_kept": true,
+  "sierra_runtime": "0.347.0-1b052af3a24e6f1d591e",
+  "targeted_tests": 23,
+  "existing_source_gates": 66,
+  "isolated_login503_stopped_with_one_dispatch": true,
+  "development_source_sha256": {
+    "tools/c1-existing357/local_readiness.py": "084ea48d24aa523a38d926db7deb89b28453dd7ba9f328c7beded70f65a45520",
+    "tools/c1-existing357/execute.py": "b04af007cf3a01c5b9b5d8dd8838e530e620f3f5e94e64abe14bb51b66d35585",
+    "tools/c1-existing357/guard.py": "7a86a799e208a287f8164daba58fe2d1079cbb92333ef6ef3a3b510aec8a447d",
+    "tools/test_c1_local_readiness.py": "76ba64c71e9f188da8477617c7cd59294b7b05413d6e42101ba82c1ce0511b5c"
+  },
+  "new_frozen_batch_or_approval": false
+}
