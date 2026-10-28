@@ -1,0 +1,153 @@
+{
+  "backlog": 212,
+  "state": "needs_direct_login_authorization",
+  "current_frozen_version": "zero_login_unapproved_not_attempted",
+  "plan_sha256": "adfebb05c468570e8bbdf836f119c58ee8fad7766e69dcf73d130a08413ed0c8",
+  "manifest_sha256": "d4d7d976e39ff50fd31bde9496542cc3efe7588232a65c2a8034d19ded335044",
+  "frozen_files": 22,
+  "gates": 75,
+  "reuse_guard_checks": 26,
+  "isolated_scenarios": [
+    {
+      "mode": "success",
+      "state": "passed",
+      "phase": "modified_miss",
+      "counts": {
+        "model": 2,
+        "reads": 31,
+        "login": 0,
+        "import": 2,
+        "publish": 2,
+        "key": 2,
+        "run": 4
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "expired_session",
+      "state": "stopped_needs_review",
+      "phase": "workspace_check",
+      "counts": {
+        "model": 0,
+        "reads": 1,
+        "login": 0,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "wrong_workspace",
+      "state": "stopped_needs_review",
+      "phase": "workspace_check",
+      "counts": {
+        "model": 0,
+        "reads": 1,
+        "login": 0,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_model",
+      "state": "stopped_needs_review",
+      "phase": "first_plan",
+      "counts": {
+        "model": 1,
+        "reads": 1,
+        "login": 0,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "invalid_plan",
+      "state": "stopped_needs_review",
+      "phase": "first_plan",
+      "counts": {
+        "model": 1,
+        "reads": 1,
+        "login": 0,
+        "import": 0,
+        "publish": 0,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_publish",
+      "state": "stopped_needs_review",
+      "phase": "original_publish",
+      "counts": {
+        "model": 1,
+        "reads": 5,
+        "login": 0,
+        "import": 1,
+        "publish": 1,
+        "key": 0,
+        "run": 0
+      },
+      "physical_http": 0
+    },
+    {
+      "mode": "fail_run",
+      "state": "stopped_needs_review",
+      "phase": "original_hit",
+      "counts": {
+        "model": 1,
+        "reads": 10,
+        "login": 0,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 1
+      },
+      "physical_http": 0
+    }
+  ],
+  "isolated_semantic_reviews": false,
+  "current_session_metadata": {
+    "token_metadata": "local_unverified_jwt_exp_only",
+    "remaining_seconds": -300,
+    "valid_for_batch_30min": false,
+    "network_requests": 0,
+    "token_printed": false
+  },
+  "local_model_dify_http": 0,
+  "production_unchanged": true,
+  "approval_attempt_created": false,
+  "auto_review_rejected_login_scope_edit_before_execution": true,
+  "requested_login_scope": 1,
+  "existing_frozen_login_scope": 0,
+  "runtime": {
+    "local_dify_readiness": {
+      "applicable": true,
+      "ready": true,
+      "compose_project": "dify-local",
+      "required_containers": 16,
+      "healthy_services": [
+        "api",
+        "db_postgres",
+        "local_sandbox",
+        "redis",
+        "sandbox"
+      ],
+      "dify_http_requests": 0,
+      "login_verified": false,
+      "business_verified": false
+    },
+    "verified_pid": 23776,
+    "original_runtime_kept": true,
+    "source_manifest_files": 287
+  },
+  "final_one_login_version_implemented": false
+}

@@ -1,0 +1,232 @@
+{
+  "source": "Public planning-only continuation; prior interview and saved draft recovered through normal product API, no new interview model call.",
+  "requirements": {
+    "goal": "为内部演示用户制作蓝杉商店公开合成售后知识问答 Workflow，仅处理退货与保修政策问答。",
+    "audience": "内部开发与演示用户；不接入真实客户资料。",
+    "input": "单个必填 query 文本，每次只处理一个问题。空白输入由入口拒绝且不派发模型（Sierra 本机普通试跑接口对必填文本以 strip 判空，派发前拒绝且不创建运行记录；不证明 Dify 直接入口行为，最终 DSL 入口声明仍须核对）。",
+    "output": "只输出 result 字符串。命中时根据资料回答并带政策编号；无命中严格返回：知识库暂无相关信息，请联系人工客服，并提供订单号。（固定文字逐字保留，含句号）",
+    "rules": "先检索；检索结果非空才调用一次回答 LLM，提示中只使用检索资料；结果为空直接走固定文字分支，不调用 LLM，不编造政策。 query用于检索和回答问题上下文，政策事实只能来自检索资料，不能将问题文字当作政策事实。固定提示中的订单号仅为文字，不新增订单号输入或查询系统。不新增分类器或分支；检索是否为空决定两条路径，范围外提问不保证检索一定为空。",
+    "knowledge": "仅使用公开合成 FAQ 库 d12cf081-5c52-41e3-b869-e94e6f8d37b1，TopK3，无分数阈值、不重排。后续回答模型 deepseek-flash，thinking=false，温度 0.2，最大输出 512。需在已批准的新独立批中核对可用性，未执行前不称已验证。",
+    "exceptions": "query 空白直接拒绝；检索失败或回答模型失败必须明确报错并停止，不把失败伪装为无命中（Sierra 本机接口对已知平台失败返回错误终态并保留诊断，未知终态不算成功，成功 result 与 HTTP 错误分开；不证明 Dify 直调或图节点实际错误传播）。转人工仅为固定提示文字，不接入客服系统。",
+    "tests": "命中输入“ZXRET715在签收后七天内且未拆封，能否退货？请给出政策编号。”应在 result 包含 ZXRET715、七天、未拆封；无命中输入 ZXUNLISTED90371 应在 result 严格等于以上原文固定回复。仅这两条声明不代表完整业务验收。"
+  },
+  "configuration": {
+    "assistant_provider_id": "9513f594-c256-46b7-882a-35d9871bf9d0",
+    "dify_model_provider": "langgenius/deepseek/deepseek",
+    "dify_model": "deepseek-flash",
+    "temperature": 0.2,
+    "max_tokens": 512,
+    "model_parameters": {
+      "thinking": false
+    },
+    "opening_statement": "",
+    "suggested_questions": [],
+    "conversation_memory": false,
+    "memory_turns": 5,
+    "dataset_ids": [
+      "d12cf081-5c52-41e3-b869-e94e6f8d37b1"
+    ],
+    "retrieval_top_k": 3,
+    "mock_dependencies": [],
+    "mock_dependency_bindings": [],
+    "resource_plan": "仅拟新独立365：从当前r7已恢复完整需求草稿继续，继承360真实首访谈及209完整原候选/211本机恢复证据，不新访谈/Task/库/登录。明确改授362未派发2模型、45管理读取、App/首次发布/Key各2和4运行；总模型30/读取573/登录35/资源12/运行22/账本0.755473652不增。两模型仅原版规划/修改规划，每阶段一次各6000输出tokens/120秒，单次估算预留≤0.055合计≤0.110，Dify估0.02/整批估0.13非账单硬限，宿主未知。已恢复需求与单文案修改分别根代理逐项复核，修改走正常代理声明API非模型或人类验证；两图仍采纳模型原候选，两版各两例/原生轨迹/ZIP。复用原空间会话只读身份证明，401或任何异常整批停/不重试不自动登录，新Key切连接旧Key加密留档，原4次20分钟策略和所有旧失败费用预留保持，30分钟准入。"
+  },
+  "plan": {
+    "schema_version": 1,
+    "nodes": [
+      {
+        "id": "start",
+        "type": "start",
+        "title": "开始",
+        "config": {
+          "variables": [
+            {
+              "variable": "query",
+              "type": "text-input",
+              "required": true
+            }
+          ]
+        }
+      },
+      {
+        "id": "retrieve",
+        "type": "knowledge-retrieval",
+        "title": "检索售后政策",
+        "config": {
+          "query_variable_selector": [
+            "start",
+            "query"
+          ],
+          "dataset_source": "node",
+          "dataset_ids": [
+            "d12cf081-5c52-41e3-b869-e94e6f8d37b1"
+          ],
+          "top_k": 3,
+          "score_threshold": null,
+          "reranking_enable": false
+        }
+      },
+      {
+        "id": "check",
+        "type": "if-else",
+        "title": "检索结果是否非空",
+        "config": {
+          "cases": [
+            {
+              "case_id": "hit_case",
+              "logical_operator": "and",
+              "conditions": [
+                {
+                  "variable_selector": [
+                    "retrieve",
+                    "result"
+                  ],
+                  "comparison_operator": "not empty",
+                  "value": "",
+                  "varType": "array[object]"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "answer_llm",
+        "type": "llm",
+        "title": "依据资料回答",
+        "config": {
+          "system_prompt": "你是蓝杉商店的售后政策问答助手。只能依据检索到的资料回答，不得补充资料之外的事实、金额、时效或政策编号。回答时须给出所依据的政策编号，并保持与资料一致的时间与条件表述。若资料不足，只依据资料陈述可得内容。",
+          "user_prompt": "用户问题：{{#start.query#}}\n\n检索资料：\n{{#context#}}",
+          "context_variable_selector": [
+            "retrieve",
+            "result"
+          ],
+          "model": {
+            "provider": "langgenius/deepseek/deepseek",
+            "name": "deepseek-flash",
+            "mode": "chat",
+            "completion_params": {
+              "temperature": 0.2,
+              "max_tokens": 512,
+              "thinking": false
+            }
+          }
+        }
+      },
+      {
+        "id": "no_hit_text",
+        "type": "template-transform",
+        "title": "固定无命中回复",
+        "config": {
+          "template": "知识库暂无相关信息，请联系人工客服，并提供订单号。",
+          "variables": []
+        }
+      },
+      {
+        "id": "hit_end",
+        "type": "end",
+        "title": "命中输出",
+        "config": {
+          "outputs": [
+            {
+              "variable": "result",
+              "value_selector": [
+                "answer_llm",
+                "text"
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "no_hit_end",
+        "type": "end",
+        "title": "无命中输出",
+        "config": {
+          "outputs": [
+            {
+              "variable": "result",
+              "value_selector": [
+                "no_hit_text",
+                "output"
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "edges": [
+      {
+        "source": "start",
+        "target": "retrieve"
+      },
+      {
+        "source": "retrieve",
+        "target": "check"
+      },
+      {
+        "source": "check",
+        "target": "answer_llm",
+        "source_handle": "hit_case"
+      },
+      {
+        "source": "check",
+        "target": "no_hit_text",
+        "source_handle": "false"
+      },
+      {
+        "source": "answer_llm",
+        "target": "hit_end"
+      },
+      {
+        "source": "no_hit_text",
+        "target": "no_hit_end"
+      }
+    ]
+  },
+  "changed_fallback": "知识库暂无相关信息，请联系人工客服，并提供订单号和商品型号。",
+  "labels": {
+    "goal": "业务目标",
+    "audience": "目标用户",
+    "input": "输入内容",
+    "output": "期望输出",
+    "rules": "关键业务规则",
+    "knowledge": "资料与依赖",
+    "exceptions": "异常处理",
+    "tests": "验收场景"
+  },
+  "task_name": "Sierra新空任务完整交付验收",
+  "before_literal": "知识库暂无相关信息，请联系人工客服，并提供订单号。",
+  "cases": [
+    {
+      "id": "after-sales-hit",
+      "name": "有命中：七天未拆封退货",
+      "required": true,
+      "input": {
+        "query": "ZXRET715在签收后七天内且未拆封，能否退货？请给出政策编号。"
+      },
+      "expectation": {
+        "mode": "contains",
+        "target": "result",
+        "expected": [
+          "ZXRET715",
+          "七天",
+          "未拆封"
+        ]
+      }
+    },
+    {
+      "id": "after-sales-miss",
+      "name": "无命中：固定人工提示",
+      "required": true,
+      "input": {
+        "query": "ZXUNLISTED90371"
+      },
+      "expectation": {
+        "mode": "equals",
+        "target": "result",
+        "expected": "知识库暂无相关信息，请联系人工客服，并提供订单号。"
+      }
+    }
+  ]
+}
