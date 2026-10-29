@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "state": "frozen_not_approved",
+  "batch_id": "first-case-trace376",
+  "plan_sha256": "d85d57bbf982218f6008d70c89b7960be797414bdc3ebac9139d91802f07b356",
+  "manifest_sha256": "bdb4c34b811e6604a25a830549eb91e5e57d86c75276355970dbe668b9761d06",
+  "hashed_files": 11,
+  "protected_tasks": 19,
+  "old_evidence_files": 287,
+  "post375_data_unchanged": true,
+  "runtime": {
+    "verified_pid": 35272,
+    "runtime_build": "0.356.0-5476d30269eac2811387",
+    "source_files_matched": 289
+  },
+  "readiness": {
+    "applicable": true,
+    "ready": true,
+    "compose_project": "dify-local",
+    "required_containers": 16,
+    "healthy_services": [
+      "api",
+      "db_postgres",
+      "local_sandbox",
+      "redis",
+      "sandbox"
+    ],
+    "dify_http_requests": 0,
+    "login_verified": false,
+    "business_verified": false
+  },
+  "targeted_tests": 39,
+  "public_protocol_cases": 11,
+  "rehearsal_physical_http": 0,
+  "scope": {
+    "reads": 10,
+    "login": 1,
+    "model": 0,
+    "new_tasks": 0,
+    "import": 0,
+    "publish": 0,
+    "key": 0,
+    "run": 0
+  },
+  "explicit_regrant": {
+    "from_batch": "chatflow-order375",
+    "reads": 10,
+    "new_reads": 0,
+    "new_login": 1
+  },
+  "proposed_conservative_upper": {
+    "model": 30,
+    "reads": 701,
+    "login": 39,
+    "import": 14,
+    "publish": 14,
+    "key": 14,
+    "run": 36
+  },
+  "approval_exists": false,
+  "attempt_exists": false,
+  "new_real_dify_http": 0,
+  "new_model_http": 0,
+  "business_case_retested": false
+}
