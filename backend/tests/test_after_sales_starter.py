@@ -68,6 +68,8 @@ def test_retrieved_public_facts_reach_compiled_answer_messages():
     assert any(query in p for p in rendered)
     assert inputs()['no_hit_reply'] in '\n'.join(rendered)
     assert public_context not in text  # No policy facts hardcoded into the template.
+    instructions='\n'.join(p['text'] for p in answer['prompt_template'] if p['role']=='system')
+    assert all(term in instructions for term in ('适用条件','政策编号','结论')), 'Policy answer omits the required completeness instruction'
 
 
 @pytest.mark.parametrize('key,value',[('workflow_plan',{'nodes':[]}),('artifact',{'revision':3}),('dsl_reference',{'id':'original'}),('dify_app_id','existing'),('agent_plan',{'scope':'text'})])

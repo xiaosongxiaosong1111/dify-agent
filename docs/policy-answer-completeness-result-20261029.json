@@ -1,0 +1,22 @@
+{
+  "stage": "after",
+  "state": "deployed_prompt_contract_verified",
+  "runtime_build": "0.358.0-5b2b413df12148f3e015",
+  "verified_pid": 572,
+  "files_matched": 289,
+  "changed_runtime_files": [
+    "backend/app/after_sales_starter.py",
+    "backend/app/main.py"
+  ],
+  "tasks": 20,
+  "original_data_secrets_assets_kept": true,
+  "consumed_files_kept": 325,
+  "new_model_dify_http": 0,
+  "backlog": 232,
+  "targeted_tests": 52,
+  "old_prompt_contract_failure_reproduced": true,
+  "model_semantic_verification": false,
+  "actual_fixed_graph_retested": false,
+  "business_verified": false,
+  "protection_baseline": "work/policy-completeness379/post-deploy-data-snapshot.json"
+}
