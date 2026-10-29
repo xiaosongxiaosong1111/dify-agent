@@ -1,0 +1,540 @@
+{
+  "schema_version": 1,
+  "backlog": 243,
+  "batch_id": "stateful-chatflow386",
+  "state": "fixed_manual_chatflow_two_versions_passed",
+  "human_question_ref": "call_b34be6397c6c460c9a25e7198ef715e4 q0",
+  "runtime": {
+    "verified_pid": 29024,
+    "runtime_build": "0.361.0-6a7fa27661878cc800e9",
+    "source_files_matched": 289
+  },
+  "counts": {
+    "model": 0,
+    "reads": 80,
+    "login": 1,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 14
+  },
+  "physical_http": 101,
+  "task_id": "0623a2ae-e668-438d-8390-cb09d46c68db",
+  "revision": 13,
+  "app_id": "3f17cfaa-8f94-4126-8083-995c6d92be73",
+  "published": [
+    {
+      "app_id": "41b5dc01-04cb-49ff-8512-9ff99073250e",
+      "workflow_id": "28623a90-ceb7-4cd6-84e4-a5c0bb0463e1",
+      "revision": 7
+    },
+    {
+      "app_id": "3f17cfaa-8f94-4126-8083-995c6d92be73",
+      "workflow_id": "4264d71a-764c-4dd7-a829-8f74450d0bc4",
+      "revision": 13
+    }
+  ],
+  "case_results": [
+    {
+      "version": "original",
+      "case_id": "faq-hit",
+      "run_id": "df03bf22-69f1-4640-8aa4-e8a27788fc42",
+      "revision": 7,
+      "app_id": "41b5dc01-04cb-49ff-8512-9ff99073250e",
+      "status": "success",
+      "rule_status": "passed",
+      "service_turns": 1,
+      "diagnostic_ids": [
+        "a4831c05-b2c8-4b6e-8007-6fbbbc49c3bc"
+      ]
+    },
+    {
+      "version": "original",
+      "case_id": "faq-no-answer",
+      "run_id": "7e69061e-7dba-4aa1-83d4-e3c9a35b4100",
+      "revision": 7,
+      "app_id": "41b5dc01-04cb-49ff-8512-9ff99073250e",
+      "status": "success",
+      "rule_status": "passed",
+      "service_turns": 1,
+      "diagnostic_ids": [
+        "b2b88344-e845-4601-94fa-5cb8375f80f9"
+      ]
+    },
+    {
+      "version": "original",
+      "case_id": "clarify",
+      "run_id": "7c1cca96-dd33-46b2-ae79-878d5de185d0",
+      "revision": 7,
+      "app_id": "41b5dc01-04cb-49ff-8512-9ff99073250e",
+      "status": "success",
+      "rule_status": "passed",
+      "service_turns": 1,
+      "diagnostic_ids": [
+        "430c28af-3524-4a98-a0ee-451ba620e0ee"
+      ]
+    },
+    {
+      "version": "original",
+      "case_id": "order-found",
+      "run_id": "69312fc3-64c7-4977-87a3-6f5b7b9320b3",
+      "revision": 7,
+      "app_id": "41b5dc01-04cb-49ff-8512-9ff99073250e",
+      "status": "success",
+      "rule_status": "passed",
+      "service_turns": 1,
+      "diagnostic_ids": [
+        "c5adc432-655c-4512-8862-bd680fe29050"
+      ]
+    },
+    {
+      "version": "original",
+      "case_id": "order-not-found",
+      "run_id": "7ce3769f-6048-4229-a060-224a6334477e",
+      "revision": 7,
+      "app_id": "41b5dc01-04cb-49ff-8512-9ff99073250e",
+      "status": "success",
+      "rule_status": "passed",
+      "service_turns": 1,
+      "diagnostic_ids": [
+        "1b578b7d-c40a-4fc7-b66b-485fad142549"
+      ]
+    },
+    {
+      "version": "original",
+      "case_id": "missing-then-order",
+      "run_id": "94a939e6-4090-451d-a83d-68d586f4387d",
+      "revision": 7,
+      "app_id": "41b5dc01-04cb-49ff-8512-9ff99073250e",
+      "status": "success",
+      "rule_status": "passed",
+      "service_turns": 2,
+      "diagnostic_ids": [
+        "bcb1ea29-34bc-4527-aaa1-5c13fc941e87",
+        "bf07b1f7-dca9-44ee-bbc2-56732df9120b"
+      ]
+    },
+    {
+      "version": "modified",
+      "case_id": "faq-hit",
+      "run_id": "20eb7a8e-667c-43d5-a8c6-bbe0b1264f1d",
+      "revision": 13,
+      "app_id": "3f17cfaa-8f94-4126-8083-995c6d92be73",
+      "status": "success",
+      "rule_status": "passed",
+      "service_turns": 1,
+      "diagnostic_ids": [
+        "e2f6416b-a1e5-412f-8a52-de0ef59b6384"
+      ]
+    },
+    {
+      "version": "modified",
+      "case_id": "faq-no-answer",
+      "run_id": "fcf78960-9db8-4d58-85e9-78e3889d04a5",
+      "revision": 13,
+      "app_id": "3f17cfaa-8f94-4126-8083-995c6d92be73",
+      "status": "success",
+      "rule_status": "passed",
+      "service_turns": 1,
+      "diagnostic_ids": [
+        "90a679e1-a715-4c82-9db0-4611d6bf8e77"
+      ]
+    },
+    {
+      "version": "modified",
+      "case_id": "clarify",
+      "run_id": "9ecec315-c63d-4994-b564-e44ea1be97d7",
+      "revision": 13,
+      "app_id": "3f17cfaa-8f94-4126-8083-995c6d92be73",
+      "status": "success",
+      "rule_status": "passed",
+      "service_turns": 1,
+      "diagnostic_ids": [
+        "f585b82a-f090-46b7-82d6-a2bbb1daafca"
+      ]
+    },
+    {
+      "version": "modified",
+      "case_id": "order-found",
+      "run_id": "cbb20fdc-a306-4a75-a5da-fd6df197ca8d",
+      "revision": 13,
+      "app_id": "3f17cfaa-8f94-4126-8083-995c6d92be73",
+      "status": "success",
+      "rule_status": "passed",
+      "service_turns": 1,
+      "diagnostic_ids": [
+        "5c2e7bf6-0d00-43ce-a43f-3fee41d9405d"
+      ]
+    },
+    {
+      "version": "modified",
+      "case_id": "order-not-found",
+      "run_id": "fe807c1b-ba8b-4b36-a5a1-dab2d176e35d",
+      "revision": 13,
+      "app_id": "3f17cfaa-8f94-4126-8083-995c6d92be73",
+      "status": "success",
+      "rule_status": "passed",
+      "service_turns": 1,
+      "diagnostic_ids": [
+        "9cae6cf7-6a58-4c50-b5d5-705ec7879ada"
+      ]
+    },
+    {
+      "version": "modified",
+      "case_id": "missing-then-order",
+      "run_id": "f1dce99b-05dd-4cb3-9563-c9fac545e361",
+      "revision": 13,
+      "app_id": "3f17cfaa-8f94-4126-8083-995c6d92be73",
+      "status": "success",
+      "rule_status": "passed",
+      "service_turns": 2,
+      "diagnostic_ids": [
+        "b140210f-34a5-42a2-898c-1bc06120a300",
+        "7ca4cde4-b530-4e72-8ebf-434da3eecf3e"
+      ]
+    }
+  ],
+  "normal_traces": [
+    {
+      "version": "original",
+      "case_id": "faq-hit",
+      "turn": 1,
+      "native_run_id": "72d4e72b-a01a-4c50-8030-ea00fa3d59e2",
+      "node_ids": [
+        "check_hit",
+        "collect_docs",
+        "consume_order_wait",
+        "faq_answer",
+        "grounded_answer",
+        "intent",
+        "order_followup",
+        "retrieve",
+        "route_order_followup",
+        "start"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "faq-no-answer",
+      "turn": 1,
+      "native_run_id": "b32b7f59-7dcf-4804-8bf1-40fc059403c2",
+      "node_ids": [
+        "check_hit",
+        "collect_docs",
+        "consume_order_wait",
+        "faq_answer",
+        "grounded_answer",
+        "intent",
+        "order_followup",
+        "retrieve",
+        "route_order_followup",
+        "start"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "clarify",
+      "turn": 1,
+      "native_run_id": "f0c4d917-3ad5-4659-a08b-b081762a8b24",
+      "node_ids": [
+        "clarify",
+        "clarify_answer",
+        "consume_order_wait",
+        "intent",
+        "order_followup",
+        "route_order_followup",
+        "start"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "order-found",
+      "turn": 1,
+      "native_run_id": "86100f74-0d5c-4fc4-bc93-5d77983c7711",
+      "node_ids": [
+        "check_order",
+        "check_order_value",
+        "consume_order_wait",
+        "extract_order",
+        "intent",
+        "order_answer",
+        "order_followup",
+        "order_lookup",
+        "route_order_followup",
+        "start",
+        "validate_order"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "order-not-found",
+      "turn": 1,
+      "native_run_id": "6f8a2913-5df2-436f-bc08-9179efba4de8",
+      "node_ids": [
+        "check_order",
+        "check_order_value",
+        "consume_order_wait",
+        "extract_order",
+        "intent",
+        "order_answer",
+        "order_followup",
+        "order_lookup",
+        "route_order_followup",
+        "start",
+        "validate_order"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "missing-then-order",
+      "turn": 1,
+      "native_run_id": "fb0e80de-7117-4e8f-8cfd-15af8deef052",
+      "node_ids": [
+        "check_order",
+        "check_order_value",
+        "consume_order_wait",
+        "extract_order",
+        "intent",
+        "missing_order",
+        "missing_order_answer",
+        "order_followup",
+        "request_order_wait",
+        "route_order_followup",
+        "start",
+        "validate_order"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "missing-then-order",
+      "turn": 2,
+      "native_run_id": "a68bdf47-2993-44bb-8d4c-ce049d462a46",
+      "node_ids": [
+        "check_order",
+        "check_order_value",
+        "consume_order_wait",
+        "extract_order",
+        "order_answer",
+        "order_followup",
+        "order_lookup",
+        "route_order_followup",
+        "start",
+        "validate_order"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "modified",
+      "case_id": "faq-hit",
+      "turn": 1,
+      "native_run_id": "09330c8b-72d9-48a3-9188-4877cc537524",
+      "node_ids": [
+        "check_hit",
+        "collect_docs",
+        "consume_order_wait",
+        "faq_answer",
+        "grounded_answer",
+        "intent",
+        "order_followup",
+        "retrieve",
+        "route_order_followup",
+        "start"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "modified",
+      "case_id": "faq-no-answer",
+      "turn": 1,
+      "native_run_id": "b0cc3506-7f54-4894-925b-8e11ee6f1096",
+      "node_ids": [
+        "check_hit",
+        "collect_docs",
+        "consume_order_wait",
+        "faq_answer",
+        "grounded_answer",
+        "intent",
+        "order_followup",
+        "retrieve",
+        "route_order_followup",
+        "start"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "modified",
+      "case_id": "clarify",
+      "turn": 1,
+      "native_run_id": "012bac56-160f-4ac7-9873-1ccdc4ef34ec",
+      "node_ids": [
+        "clarify",
+        "clarify_answer",
+        "consume_order_wait",
+        "intent",
+        "order_followup",
+        "route_order_followup",
+        "start"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "modified",
+      "case_id": "order-found",
+      "turn": 1,
+      "native_run_id": "2b2771ef-5fc4-41b0-b21e-1c51f591f9ba",
+      "node_ids": [
+        "check_order",
+        "check_order_value",
+        "consume_order_wait",
+        "extract_order",
+        "intent",
+        "order_answer",
+        "order_followup",
+        "order_lookup",
+        "route_order_followup",
+        "start",
+        "validate_order"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "modified",
+      "case_id": "order-not-found",
+      "turn": 1,
+      "native_run_id": "c9f53abf-cccb-4f04-86bc-5f1488773325",
+      "node_ids": [
+        "check_order",
+        "check_order_value",
+        "consume_order_wait",
+        "extract_order",
+        "intent",
+        "order_answer",
+        "order_followup",
+        "order_lookup",
+        "route_order_followup",
+        "start",
+        "validate_order"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "modified",
+      "case_id": "missing-then-order",
+      "turn": 1,
+      "native_run_id": "0feedac6-534f-405e-8f34-028d45613459",
+      "node_ids": [
+        "check_order",
+        "check_order_value",
+        "consume_order_wait",
+        "extract_order",
+        "intent",
+        "missing_order",
+        "missing_order_answer",
+        "order_followup",
+        "request_order_wait",
+        "route_order_followup",
+        "start",
+        "validate_order"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "modified",
+      "case_id": "missing-then-order",
+      "turn": 2,
+      "native_run_id": "e6a7a083-e44e-4fe1-a39d-69c0382b4cde",
+      "node_ids": [
+        "check_order",
+        "check_order_value",
+        "consume_order_wait",
+        "extract_order",
+        "order_answer",
+        "order_followup",
+        "order_lookup",
+        "route_order_followup",
+        "start",
+        "validate_order"
+      ],
+      "source_graph_matched": true
+    }
+  ],
+  "deliveries": [
+    {
+      "version": "original",
+      "task_id": "0623a2ae-e668-438d-8390-cb09d46c68db",
+      "revision": 7,
+      "app_id": "41b5dc01-04cb-49ff-8512-9ff99073250e",
+      "sha256": "de5e72648a48d652c8523b782289a47bd75523eb623945c3e7aec56ac6216fe8",
+      "path": "work/stateful-chatflow386/live-output/original.zip",
+      "local_flags_kept_false": true
+    },
+    {
+      "version": "modified",
+      "task_id": "0623a2ae-e668-438d-8390-cb09d46c68db",
+      "revision": 13,
+      "app_id": "3f17cfaa-8f94-4126-8083-995c6d92be73",
+      "sha256": "35d5d244911b7de4ca3816d17ee7e9daa9b4db822aeb93a15c3a782d5f440913",
+      "path": "work/stateful-chatflow386/live-output/modified.zip",
+      "local_flags_kept_false": true
+    }
+  ],
+  "state_owner_binding": {
+    "task_id": "0623a2ae-e668-438d-8390-cb09d46c68db",
+    "declaration_count": 2,
+    "only_deterministic_ids_changed": true
+  },
+  "same_conversation_followup_bypassed_classifier": true,
+  "failure_diagnostic_used": false,
+  "protection": {
+    "original_objects_kept": true,
+    "old_credentials_and_assets_kept": true,
+    "dedicated_connection_only": true
+  },
+  "protected_old_tasks": 23,
+  "current_tasks": 24,
+  "protected_old_consumed_files": 388,
+  "usage": {
+    "prompt_tokens": 15342,
+    "completion_tokens": 849,
+    "total_tokens": 16191,
+    "platform_quoted_usd": "0",
+    "is_billed_total": false,
+    "host_cost_unknown": true
+  },
+  "new_conservative_upper": {
+    "model": 30,
+    "reads": 1341,
+    "login": 44,
+    "import": 24,
+    "publish": 24,
+    "key": 24,
+    "run": 106
+  },
+  "model_estimate_book_upper_usd": "0.755473652",
+  "new_dify_estimate_usd": "0.10",
+  "estimate_is_bill_hard_cap": false,
+  "remaining_management_reads_held": 48,
+  "model_autonomous_planning_verified": false,
+  "original_section11_complete": false,
+  "business_acceptance_complete": false,
+  "human_signoff": false,
+  "claude_review_completed": false,
+  "sealed_evidence_files": 413,
+  "receipt_sha256": {
+    "plan.json": "cf0c13f433c309db977c864b244b9bb2223cbbcb0a05a0a4a73f28aa9b3263c6",
+    "manifest.json": "67c8a1623e21a389db4cd8874e14d271b45012ab31d5d51540d48d2e596f54f6",
+    "approval.json": "022c0090bdf2eb5ff8f37fa9ace97055ac0da4e7a035c40d14ef69daa50154d3",
+    "attempt.json": "e4cbd862c8a42e623d0ea6b7736494c2c93c2f85b336c345a8c568cddca77782",
+    "worker-started.json": "003a3a560139f4b121db3d805b266c67c01556cc74fc0b55c54ea6b59c18026a",
+    "live-output/progress.json": "81dd51968406e75b1dd04506c165ad0062ac8785d5c3031a401d6349287a09ac",
+    "local-task-audit.json": "ee20ea79760082ae11ab2b70f050f6137ed5cde2ae70c0b958d4786180086676",
+    "post-live-data-snapshot.json": "7fd9cef77cb9d6e39d97eed3e5cf95136dec7e6f9a776c137ac7227e4313c7a9",
+    "sealed-evidence-sha256.json": "65e6395d0aebcfea4c51199614dd535293d7eb6b51927a75ba45b536f07a2a4a"
+  }
+}
