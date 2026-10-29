@@ -1,0 +1,194 @@
+{
+  "backlog": 234,
+  "batch_id": "complete-policy380",
+  "state": "failed_missing_order_first_turn_stopped_consumed",
+  "human_question_ref": "call_14745c342af64442b0c9a528431e8ba9 q0",
+  "counts": {
+    "model": 0,
+    "reads": 33,
+    "login": 1,
+    "import": 1,
+    "publish": 1,
+    "key": 1,
+    "run": 6
+  },
+  "physical_http": 43,
+  "task_id": "7d68f455-2775-4d6c-a236-3655c693a0c1",
+  "revision": 5,
+  "app_id": "6cf78b7d-3a1b-4868-af4d-870322673b02",
+  "published_workflow_id": "8fcf9034-34ad-47de-9376-fde7741d11c4",
+  "cases": [
+    {
+      "id": "faq-hit",
+      "local_run_id": "0b26e0b9-fb89-4063-9691-e10bd28656b9",
+      "evaluation": "passed",
+      "answer": "可以退货。政策编号：ZXRET715。适用条件为签收后七天内、商品未拆封；拆封后不适用该退货规则。",
+      "turns_executed": 1,
+      "complete": true
+    },
+    {
+      "id": "faq-no-answer",
+      "local_run_id": "ac072b12-f2b1-42ae-b29e-5a767b6724d3",
+      "evaluation": "passed",
+      "answer": "知识库暂无相关信息，请联系人工客服，并提供订单号。",
+      "turns_executed": 1,
+      "complete": true
+    },
+    {
+      "id": "clarify",
+      "local_run_id": "53a55a40-6040-40cf-89f2-61582a9bdad9",
+      "evaluation": "passed",
+      "answer": "目前只支持售后资料问答和模拟订单查询，请说明您的诉求。",
+      "turns_executed": 1,
+      "complete": true
+    },
+    {
+      "id": "order-found",
+      "local_run_id": "fb9f1199-bbea-48f1-aaf6-2a497811a332",
+      "evaluation": "passed",
+      "answer": "【模拟订单查询，非真实订单】合成样例：已发货。",
+      "turns_executed": 1,
+      "complete": true
+    },
+    {
+      "id": "order-not-found",
+      "local_run_id": "2ccfe291-3f60-4e44-ab29-f4e506e6ec0d",
+      "evaluation": "passed",
+      "answer": "【模拟订单查询，非真实订单】合成样例中没有该订单，请核对订单号或联系人工客服。",
+      "turns_executed": 1,
+      "complete": true
+    },
+    {
+      "id": "missing-then-order",
+      "local_run_id": "56ac367d-1ee6-48f1-86d5-542a08b16aae",
+      "evaluation": "failed",
+      "answer": "【模拟订单查询，非真实订单】请提供订单号。",
+      "turns_executed": 1,
+      "complete": false
+    }
+  ],
+  "native_traces": [
+    {
+      "version": "original",
+      "case_id": "faq-hit",
+      "turn": 1,
+      "native_run_id": "efb3250f-f205-49c3-ae23-31ab9f72e4f7",
+      "node_ids": [
+        "check_hit",
+        "collect_docs",
+        "faq_answer",
+        "grounded_answer",
+        "intent",
+        "retrieve",
+        "start"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "faq-no-answer",
+      "turn": 1,
+      "native_run_id": "b62c1cd3-1307-4267-8032-e2ea6b1d44f0",
+      "node_ids": [
+        "check_hit",
+        "collect_docs",
+        "faq_answer",
+        "grounded_answer",
+        "intent",
+        "retrieve",
+        "start"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "clarify",
+      "turn": 1,
+      "native_run_id": "2b35a594-5c08-4ecb-a8c5-ca29c6374d44",
+      "node_ids": [
+        "clarify",
+        "clarify_answer",
+        "intent",
+        "start"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "order-found",
+      "turn": 1,
+      "native_run_id": "0b017117-0bda-4a5b-b6a9-a2676e5ca948",
+      "node_ids": [
+        "check_order",
+        "extract_order",
+        "intent",
+        "order_answer",
+        "order_lookup",
+        "start"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "order-not-found",
+      "turn": 1,
+      "native_run_id": "b55168b8-1de9-47f3-8cab-5a22c4775c07",
+      "node_ids": [
+        "check_order",
+        "extract_order",
+        "intent",
+        "order_answer",
+        "order_lookup",
+        "start"
+      ],
+      "source_graph_matched": true
+    }
+  ],
+  "first_five_cases_passed": true,
+  "sixth_first_turn_failed": true,
+  "sixth_second_turn_dispatched": false,
+  "second_version_or_zip": false,
+  "token_usage_totals": {
+    "prompt_tokens": 6670,
+    "completion_tokens": 369,
+    "total_tokens": 7039
+  },
+  "reported_price_not_bill": true,
+  "original20_kept": true,
+  "total_tasks": 21,
+  "old_evidence_files_kept": 325,
+  "protection": {
+    "original_objects_kept": true,
+    "old_credentials_and_assets_kept": true,
+    "dedicated_connection_only": true
+  },
+  "conservative_upper": {
+    "model": 30,
+    "reads": 957,
+    "login": 41,
+    "resources_each": 18,
+    "service": 64
+  },
+  "actual_cumulative": {
+    "sierra_models": 26,
+    "resources_each": 14,
+    "service": 29,
+    "formally_passed_service": 24
+  },
+  "model_estimate_book_upper_usd": "0.755473652",
+  "unused_batch_reads_retained": 95,
+  "unused_batch_resources_each_retained": 1,
+  "unused_batch_service_retained": 8,
+  "runtime": "0.358.0-5b2b413df12148f3e015",
+  "evidence_sha256": {
+    "plan.json": "0bad3a04f6ad0c7496a154c429376828b42aaa052c423ddb37b5654f34bfb257",
+    "manifest.json": "7dea2ace6a50b72213a4a7f986c4443f468c86cf4ccc9c07bb3b2dcae7fdfb37",
+    "approval.json": "193828283f2bec0d736138206577fd6e08f7a69d590f5f1d19ed8d7ad25aba6b",
+    "attempt.json": "51487da12a37b01899d676324f96a2a6e754866d9f859e30d3999fef818660ff",
+    "worker-started.json": "f37b40628a808106635c8d2ee067e0c4a1281b4cfe0522934080436ee96a8135",
+    "live-output/progress.json": "f8b16944706bd4b9b7dd7dacc71fae5994fd456adb1dff3bf1734761c91c7ae1",
+    "post-live-data-snapshot.json": "ea1e6ec2ac1210d37ddaf46d9586690840de2f6c7c51507e16a44875f5bb362a"
+  },
+  "protection_baseline": "work/complete-policy380/post-live-data-snapshot.json",
+  "business_verified": false
+}
