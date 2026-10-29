@@ -17,9 +17,9 @@
 
 ## 3. 下一步
 
-1. 376已成功消费，禁止续跑/追加读/重试；保留冻结、approval/attempt/worker/progress及post-read数据。10次读取改授已全部使用，余旧375未派发105读/旧资源Service仍保留不退借。先提交推送实际结果，取得commit后关闭228。
+1. 376已成功消费，禁止续跑/追加读/重试；保留冻结、approval/attempt/worker/progress及post-read数据。10次读取改授已全部使用，余旧375未派发105读/旧资源Service仍保留不退借。实际结果1d153c5已提交，228验收关闭；229已入队doing，继续本机复现模板上下文缺口。
 2. 实际路径start→intent→retrieve→collect_docs→check_hit→grounded_answer→faq_answer，检索2片段、17节点16边三方核心图一致。FAQ economy，两文档enabled/未archived/索引completed且各1/1段；原has_more=true/total=2保持不翻页。没有片段正文或模型实际提示采样，不能仅凭摘要认定含所需答案；原失败不改判。
-3. 已发现可开发具体缺口：backend/app/after_sales_starter.py的grounded_answer绑定retrieve.result，但user/system提示没有{{#context#}}。官方Dify1.17.1依赖graphon0.7.0的LLM basic prompt只替换专用占位符，不因context.enabled自动追加。先把229加入队列，本机公开检索事实渲染回归复现旧模板遗漏，再仅修售后模板提示，保留模型/分支/规则/其它图及原19业务。不要自动修改已发布App/旧Task或重放375/376。官方源src/graphon/nodes/llm/node.py _build_basic_prompt_messages、llm_utils.py CONTEXT_PLACEHOLDER已按固定tag读取。
+3. 已发现可开发具体缺口：backend/app/after_sales_starter.py的grounded_answer绑定retrieve.result，但user/system提示没有{{#context#}}。官方Dify1.17.1依赖graphon0.7.0的LLM basic prompt只替换专用占位符，不因context.enabled自动追加。229已加入doing，本机公开检索事实渲染回归复现旧模板遗漏，再仅修售后模板提示，保留模型/分支/规则/其它图及原19业务。不要自动修改已发布App/旧Task或重放375/376。官方源src/graphon/nodes/llm/node.py _build_basic_prompt_messages、llm_utils.py CONTEXT_PLACEHOLDER已按固定tag读取。
 4. 当前保护基线work/first-case-trace376/post-read-data-snapshot.json（含正常新增诊断/认证，19Task），已只读重核287旧证据及数据完全一致；不要用375前基线错误比较。若部署修复，先核原356/PID35272/289文件归属，再原stop/start，核新固定快照并精确保护新基线。不按端口杀进程；仅定向验证，不全量或另起18760。
 5. 未见Codex实际额度不足；持续实质开发，不因小模块停止、不造微任务。实际不足立刻停、尽可能整份交接，不重试/换号/购买/重置券。Claude318失败/用量未知无恢复证据，不形式重试或冒充子审查，本轮根代理。只读必要文件/历史编号，不通读290KB历史；单次sierra已触发删除不重建。每push先根CHANGELOG/适用README/状态/整份交接，排除work/data/秘密/模型原文。
 
