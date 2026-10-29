@@ -2,7 +2,7 @@
 from __future__ import annotations
 import copy,hashlib,json,re,uuid
 from fastapi import HTTPException
-from pydantic import BaseModel,ConfigDict,StrictBool,StrictInt
+from pydantic import BaseModel,ConfigDict,StrictBool,StrictInt,Field
 from .dify import DifyClient,DifyError
 
 
@@ -10,6 +10,7 @@ class DiagnoseRequest(BaseModel):
     model_config=ConfigDict(extra='forbid')
     revision:StrictInt
     read_remote:StrictBool=False
+    turn_index:StrictInt|None=Field(default=None,ge=1,le=10)
 
 
 def binding(env):
@@ -30,7 +31,26 @@ def safe_text(value,secrets=(),limit=4000):
     return value[:limit]+('（摘要已截断）' if len(value)>limit else '')
 
 
-def selected_result(run):
+def explicit_turn(run,index):
+    result=run.get('result');case=run.get('test_case')
+    if (type(index) is not int or not 1<=index<=10 or run.get('app_type') not in {'advanced-chat','agent'}
+            or not isinstance(result,dict) or result.get('conversation_case') is not True
+            or not isinstance(case,dict) or not isinstance(case.get('followups'),list)
+            or not 1<=len(case['followups'])<=9 or index>1+len(case['followups'])):
+        raise HTTPException(422,'仅可选择本记录已保存多轮样例中的轮次，不改用单轮或其它来源。')
+    turns=result.get('turns',[]);pending=result.get('pending_turn')
+    if not isinstance(turns,list) or len(turns)>10:
+        raise HTTPException(422,'保存轮次格式不完整，未猜测其它结果。')
+    matches=[t for t in turns+([pending] if pending is not None else []) if isinstance(t,dict) and type(t.get('index')) is int and t['index']==index]
+    if len(matches)!=1:
+        raise HTTPException(422,'所选轮次尚未派发、缺失或不唯一，不回退到末轮或其它记录。')
+    return matches[0],matches[0] is pending
+
+
+def selected_result(run,turn_index=None):
+    if turn_index is not None:
+        step,_=explicit_turn(run,turn_index)
+        return step['result'] if isinstance(step.get('result'),dict) else {},turn_index
     result=run.get('result')
     if not isinstance(result,dict):return {},None
     if result.get('conversation_case') is True:
@@ -105,7 +125,7 @@ def classify(error,kind=None):
 def findings_for_display(report):
     """Replace only empty generic placeholders; never rewrite stored evidence."""
     findings=copy.deepcopy(report.get('findings',[]))
-    if report.get('saved_status')!='success' or report.get('saved_error') or report.get('saved_result_status') not in (None,'','succeeded'):
+    if report.get('selected_turn_status',report.get('saved_status'))!='success' or report.get('saved_error') or report.get('saved_result_status') not in (None,'','succeeded'):
         return findings
     if len(findings)!=1:return findings
     original=findings[0]
@@ -126,14 +146,19 @@ def findings_for_display(report):
     return [{'category':'execution_trace_success','title':'采集轨迹未发现执行失败','basis':'complete_success_trace','confidence':'已记录','recommendation':'本次远端终态与采集到的完整节点轨迹均为成功。仍须核对验收预期、资料内容与方案来源；执行成功不等于完整业务验收通过。'}]
 
 
-def analyze(run,secrets=()):
-    result,turn=selected_result(run)
+def analyze(run,secrets=(),turn_index=None):
+    result,turn=selected_result(run,turn_index)
+    context=run
+    if turn_index is not None:
+        step,pending=explicit_turn(run,turn_index)
+        context={**run,'evaluation':step.get('evaluation'),'status':run.get('status') if pending else step.get('status'),
+            'error':run.get('error') if pending else '', 'http_status':run.get('http_status') if pending else None}
     data=result.get('data') if isinstance(result,dict) else None
-    error=(data.get('error') if isinstance(data,dict) else None) or (result.get('error') if isinstance(result,dict) else None) or run.get('error') or ''
+    error=(data.get('error') if isinstance(data,dict) else None) or (result.get('error') if isinstance(result,dict) else None) or context.get('error') or ''
     text=safe_text(error,secrets)
-    mismatch=run.get('status')=='success' and (run.get('evaluation') or {}).get('status')=='failed'
+    mismatch=context.get('status')=='success' and (context.get('evaluation') or {}).get('status')=='failed'
     finding={'category':'expectation_mismatch','title':'执行已返回，但声明的验收规则未通过','basis':'saved_evaluation','confidence':'已记录','recommendation':'核对原始需求、样例预期和实际结果；不能为使检查通过而直接放宽预期。'} if mismatch else classify(text)
-    if not mismatch and run.get('http_status') in {401,403}:
+    if not mismatch and context.get('http_status') in {401,403}:
         finding={'category':'dify_access','title':'Dify 接口拒绝访问','basis':'saved_http_status','confidence':'已记录','recommendation':'核对该环境的登录、应用运行凭据及权限；接口拒绝不等于应用节点执行失败。'}
     return {'selected_turn':turn,'saved_status':run.get('status'),'remote_run_id':remote_id(result,run.get('app_type')),'saved_error':text,'findings':[finding],'nodes':[],'remote_status':None,'trace_state':'local_only','notes':['诊断不会修改原运行、验收结论、DSL 或配置，也不会派发模型或重跑。','来源判断以采集时为准，使用建议前须重新核对当前环境与方案。']+(['本次结果未知；即使读取到远端终态，也仍需单独核对，重跑保护保持。'] if run.get('status')=='unknown' else []),'node_count':0,'truncated':False}
 
@@ -185,6 +210,7 @@ class DiagnosticsManager:
                 if not run or run.get('kind')!='run':raise HTTPException(404,'本任务没有该试跑记录；导入诊断尚未适配。')
                 if run.get('status')=='pending':raise HTTPException(409,'该运行尚未结束，先保留检查点，不启动诊断。')
                 run=copy.deepcopy(run);stamp=source_hash(run)
+                if payload.turn_index is not None:explicit_turn(run,payload.turn_index)
                 env=h.store.get('environment',run.get('environment_id')) if run.get('environment_id') else None
                 secrets=[h.store.secret(env['id'],key) for key in h.SECRET_FIELDS if key!='api_key'] if env else []
                 provider=task.get('configuration',{}).get('assistant_provider_id')
@@ -192,8 +218,12 @@ class DiagnosticsManager:
                 from .diagnostic_graph_source import artifact as graph_artifact,initial as graph_initial,compare as graph_compare,fingerprint
                 local_graph=graph_artifact(h,task)
                 current_binding=(task.get('dify_app_id'),task.get('environment_id'),copy.deepcopy(task.get('artifact')))
-            report=analyze(run,secrets);detail=trace=None
-            selected,_=selected_result(run);data=selected.get('data')
+            report=analyze(run,secrets,payload.turn_index);detail=trace=None
+            if payload.turn_index is not None:
+                step,pending=explicit_turn(run,payload.turn_index)
+                report.update(selection_mode='explicit_turn',selected_turn_status=run.get('status') if pending else step.get('status'))
+                report['notes'].append('本次明确选择已保存的一轮；整体运行状态、其它轮次及验收结论保持，不将后续轮错误归给本轮。')
+            selected,_=selected_result(run,payload.turn_index);data=selected.get('data')
             report['saved_result_status']=safe_text(data.get('status'),secrets,100) if isinstance(data,dict) else None
             report['source_graph']=graph_initial(local_graph)
             if payload.read_remote:

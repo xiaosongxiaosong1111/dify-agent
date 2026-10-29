@@ -1,0 +1,49 @@
+{
+  "backlog": 224,
+  "state": "deployed_isolated_verified",
+  "runtime": "0.356.0-5476d30269eac2811387",
+  "source_runtime_files_matched": 289,
+  "verified_pid": 35272,
+  "targeted_backend_tests": 124,
+  "ui_cases": [
+    {
+      "case": "normal",
+      "diagnostic_posts_to_temporary_store": 4
+    },
+    {
+      "case": "whole_failed",
+      "diagnostic_posts_to_temporary_store": 2
+    },
+    {
+      "case": "pending",
+      "diagnostic_posts_to_temporary_store": 1
+    },
+    {
+      "case": "duplicate",
+      "diagnostic_posts_to_temporary_store": 0
+    },
+    {
+      "case": "late_source",
+      "diagnostic_posts_to_temporary_store": 1
+    }
+  ],
+  "automatic_repair_reads": 0,
+  "physical_model_dify_http": 0,
+  "normal_diagnostic_saves_to_public_store": 4,
+  "production_smoke": {
+    "state": "passed",
+    "current_workflow_revision_kept": 17,
+    "old_run_count_kept": 4,
+    "current_test_cases_kept": 2,
+    "multi_turn_controls_not_shown_on_single_workflow": true,
+    "mutating_requests": 0,
+    "foreign_requests": 0,
+    "actual_chatflow_conversation_run": false
+  },
+  "original18_and_ledger_kept": true,
+  "ciphertexts_assets_masterkey_kept": true,
+  "all_consumed_packages_kept": true,
+  "actual_chatflow_turn_trace_verified": false,
+  "business_acceptance_complete": false,
+  "protection_baseline": "work/turn-diagnostic374/post-deploy-data-snapshot.json"
+}
