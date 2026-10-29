@@ -13,6 +13,8 @@ from .workflow_plan import compile_workflow_plan
 
 NOTE = ('仅准备售后资料问答及合成订单分支：不调用模型、不执行代码、不保存或创建资源。'
         '分类、订单号提取及资料回答在未来真实运行时会调用所选模型并可能收费；检索也可能产生费用。'
+        '草稿声明两个每会话布尔标记登记和消费缺号追问，首次均false，不跨会话共享；'
+        '仅已等待且本轮只含1—64位字母数字下划线连字符单号时绕过分类，普通新问题仍分类。'
         '分类/提取/检索效果未验证，技术失败仍可终止，不承诺全部异常转人工。'
         '没有推断模板覆盖其它需求；主动采用后仍须复核完整图、保存、确认并按原范围导入和试跑。')
 COLLECT_CODE = ('def main(documents: list) -> dict:\n'
@@ -23,6 +25,12 @@ ORDER_VALUE_CODE = ('def main(order_no: str) -> dict:\n'
     '    if not isinstance(order_no, str):\n'
     '        raise ValueError("提取的订单号须为文字，不转换类型或把类型错误当缺号。")\n'
     '    return {"has_order": bool(order_no.strip())}\n')
+FOLLOWUP_CODE = ('import re\n'
+    'def main(query: str, requested: bool, consumed: bool) -> dict:\n'
+    '    if not isinstance(query, str) or type(requested) is not bool or type(consumed) is not bool:\n'
+    '        raise ValueError("补号路由需要文字输入和明确布尔会话标记，不转换类型。")\n'
+    '    identifier = bool(re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}", query.strip()))\n'
+    '    return {"is_followup": requested != consumed and identifier, "consume_value": requested, "next_request": not requested}\n')
 
 
 def digest(value):
@@ -55,6 +63,15 @@ def prepare(task, inputs):
         node(i, 'template-transform', title, {'template': text, 'variables': []})
         node(i+'_answer', 'answer', title+'输出', {'answer': '{{#'+i+'.output#}}'})
     node('start','start','开始',{'variables':[]})
+    node('order_followup','code','识别本会话等待中的补号',{'code_language':'python3','code':FOLLOWUP_CODE,
+        'variables':[{'variable':'query','value_selector':['sys','query']},
+            {'variable':'requested','value_selector':['conversation','order_wait_requested']},
+            {'variable':'consumed','value_selector':['conversation','order_wait_consumed']}],
+        'outputs':{key:{'type':'boolean','children':None} for key in ('is_followup','consume_value','next_request')}})
+    node('consume_order_wait','assigner','消费上一轮补号等待',{'items':[{
+        'variable_selector':['conversation','order_wait_consumed'],'input_type':'variable','operation':'over-write','value':['order_followup','consume_value']}]})
+    node('route_order_followup','if-else','明确等待中的单号直接接续',{'cases':[{'case_id':'continue_order','logical_operator':'and','conditions':[
+        {'variable_selector':['order_followup','is_followup'],'varType':'boolean','comparison_operator':'is','value':True}]}]})
     node('intent','question-classifier','售后诉求分类',{
         'classes':[{'id':'clarify','name':'不明确或不属于资料问答和订单查询的请求','label':'澄清需求'},
             {'id':'faq','name':'产品、售后或政策资料问答，不是查询某个订单的状态','label':'资料问答'},
@@ -94,16 +111,24 @@ def prepare(task, inputs):
         'variables':[{'variable':'order_id','value_selector':['extract_order','order_no']}],
         'outputs':{'result':{'type':'string','children':None},'status':{'type':'string','children':None}}})
     node('order_answer','answer','模拟查询输出',{'answer':'{{#order_lookup.result#}}'})
+    node('request_order_wait','assigner','登记本轮补号等待',{'items':[{
+        'variable_selector':['conversation','order_wait_requested'],'input_type':'variable','operation':'over-write','value':['order_followup','next_request']}]})
     reply('missing_order','订单号提取失败追问',inputs['missing_order_reply'])
-    edges = [('start','intent',None),('intent','clarify','clarify'),('clarify','clarify_answer',None),
+    edges = [('start','order_followup',None),('order_followup','consume_order_wait',None),
+        ('consume_order_wait','route_order_followup',None),('route_order_followup','intent','false'),
+        ('route_order_followup','extract_order','continue_order'),('intent','clarify','clarify'),('clarify','clarify_answer',None),
         ('intent','retrieve','faq'),('retrieve','collect_docs',None),('collect_docs','check_hit',None),
         ('check_hit','grounded_answer','found'),('grounded_answer','faq_answer',None),
         ('check_hit','no_hit','false'),('no_hit','no_hit_answer',None),('intent','extract_order','order'),
         ('extract_order','check_order',None),('check_order','validate_order','extracted'),
         ('validate_order','check_order_value',None),('check_order_value','order_lookup','has_order'),
-        ('check_order_value','missing_order','false'),('order_lookup','order_answer',None),
-        ('check_order','missing_order','false'),('missing_order','missing_order_answer',None)]
-    graph = {'schema_version':1,'nodes':nodes,'edges':[{'source':a,'target':b,**({'source_handle':c} if c else {})} for a,b,c in edges]}
+        ('check_order_value','request_order_wait','false'),('order_lookup','order_answer',None),
+        ('check_order','request_order_wait','false'),('request_order_wait','missing_order',None),('missing_order','missing_order_answer',None)]
+    states=[{'name':name,'var_type':'boolean','initial_value':False,'description':description,
+        'persistence_policy':'per_conversation','unwritten_policy':'retain_current'} for name,description in [
+        ('order_wait_requested','本会话缺号追问的登记标记；与消费标记不同表示等待补号，不跨会话共享。'),
+        ('order_wait_consumed','本会话已消费的追问标记；每轮先消费旧等待，新缺号再登记。')]]
+    graph = {'schema_version':1,'conversation_variables':states,'nodes':nodes,'edges':[{'source':a,'target':b,**({'source_handle':c} if c else {})} for a,b,c in edges]}
     value = prepare_order(task, render(graph), 'order_lookup', ['extract_order','order_no'], inputs['records_text'], inputs['dependency'])
     graph = parse(value['plan_text'])
     _, validation = compile_workflow_plan({**task,'workflow_plan':graph})
@@ -146,7 +171,7 @@ def register(h):
             return {'task_id':item_id,'revision':task['revision'],'app_type':task['app_type'],
                 'request_nonce':str(payload.request_nonce),'input_sha256':digest(inputs),
                 'plan_text':text,'plan_sha256':hashlib.sha256(text.encode()).hexdigest(),
-                'verification':'local_after_sales_template_preview','note':NOTE,'node_count':19,
+                'verification':'local_after_sales_template_preview','note':NOTE,'node_count':23,
                 'warnings':validation.get('warnings',[]),'task_changed':False,'model_called':False,
                 'network_requested':False,'code_executed':False,'platform_checked':False,'business_verified':False}
     h.app.include_router(router)

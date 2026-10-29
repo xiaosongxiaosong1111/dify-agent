@@ -11,6 +11,10 @@ def graph():return json.loads(prepare(context(),inputs())[0])
 def walk(plan,success,order_no,queries):
     """Execute only the repository-owned public order branch after extraction."""
     nodes={n['id']:n for n in plan['nodes']};values={'extract_order':{'__is_success':success,'order_no':order_no}}
+    values['conversation']={r['name']:r['initial_value'] for r in plan.get('conversation_variables',[])}
+    if 'order_followup' in nodes:
+        scope={};exec(nodes['order_followup']['config']['code'],scope)
+        values['order_followup']=scope['main']('查询订单',False,False)
     def next_node(source,handle='source'):
         edges=[e for e in plan['edges'] if e['source']==source and e.get('source_handle','source')==handle]
         assert len(edges)==1
@@ -29,6 +33,9 @@ def walk(plan,success,order_no,queries):
                     assert c['comparison_operator']=='is' and type(c['value']) is bool
                     checks.append(actual is c['value'])
             current=next_node(current,case['case_id'] if all(checks) else 'false')
+        elif node['type']=='assigner':
+            for item in cfg['items']:values['conversation'][item['variable_selector'][1]]=values[item['value'][0]][item['value'][1]]
+            current=next_node(current)
         elif node['type']=='code':
             assert current in {'validate_order','order_lookup'}
             if current=='order_lookup':queries.append(current)

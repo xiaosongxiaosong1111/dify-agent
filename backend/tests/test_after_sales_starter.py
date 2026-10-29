@@ -33,10 +33,13 @@ def test_full_graph_has_grounded_faq_no_hit_order_success_failure_and_clarificat
     edges={(e['source'],e['sourceHandle'],e['target']) for e in root['workflow']['graph']['edges']}
     assert {('intent','clarify','clarify'),('intent','faq','retrieve'),('intent','order','extract_order'),
         ('check_hit','found','grounded_answer'),('check_hit','false','no_hit'),
-        ('check_order','extracted','validate_order'),('check_order','false','missing_order'),
+        ('check_order','extracted','validate_order'),('check_order','false','request_order_wait'),
         ('validate_order','source','check_order_value'),('check_order_value','has_order','order_lookup'),
-        ('check_order_value','false','missing_order')}<=edges
-    assert len(native)==19 and len(edges)==19
+        ('check_order_value','false','request_order_wait'),('request_order_wait','source','missing_order'),
+        ('start','source','order_followup'),('order_followup','source','consume_order_wait'),
+        ('consume_order_wait','source','route_order_followup'),('route_order_followup','continue_order','extract_order'),
+        ('route_order_followup','false','intent')}<=edges
+    assert len(native)==23 and len(edges)==24
     assert native['retrieve']['dataset_ids']==['existing-faq'] and native['retrieve']['multiple_retrieval_config']['top_k']==3
     for node_id in ['intent','extract_order','grounded_answer']:
         assert native[node_id]['model']['name']=='chosen-model' and native[node_id]['model']['provider']=='test/provider'
@@ -117,6 +120,21 @@ def prepared(client):
 def body(task):return {**inputs(),'revision':task['revision'],'request_nonce':str(uuid4()),'acknowledge_scope':True}
 
 
+def review_saved_state(client,task):
+    path='/api/tasks/'+task['id'];current=client.get(path+'/intake').json()
+    answers={r['id']:task['requirements'].get(r['id'],'公开合成售后草稿：复用已选FAQ；订单仅本机合成模拟，不接真实系统。') for r in current['standard']}
+    answers['conversation_state']='两个boolean标记order_wait_requested/order_wait_consumed，新会话均false且互相隔离；不相等表示等待补号。每轮先消费等待，仅等待且符合原单号格式时绕过分类，仍走原提取及非空守卫；未提供有效单号重新登记，新话题正常分类。未写入保留当前值，不保存订单号或敏感资料，不计数、不跨会话恢复。'
+    response=client.post(path+'/intake/manual',json={'revision':task['revision'],'context_token':current['context_token'],'answers':answers,'acknowledge_review':True,'actor':'agent_delegated','actor_note':'公开合成测试，逐项核对模板状态语义；非模型验证或人类签收。'})
+    assert response.status_code==200,response.text
+    task=response.json()
+    response=client.post(path+'/confirm',json={'revision':task['revision'],'kind':'requirements'})
+    assert response.status_code==200,response.text
+    task=response.json()
+    response=client.post(path+'/plan',json={'revision':task['revision'],'plan_text':json.dumps(task['workflow_plan'],ensure_ascii=False)})
+    assert response.status_code==200,response.text
+    return response.json()
+
+
 def test_actual_preview_readonly_then_explicit_save_confirm_and_static_download(client,monkeypatch):
     task=prepared(client);path='/api/tasks/'+task['id'];payload=body(task);original=copy.deepcopy(task);budget=main.store.get('task_budget',task['id'])
     def forbid(*args,**kwargs):pytest.fail('Preview must not write or decrypt')
@@ -125,13 +143,17 @@ def test_actual_preview_readonly_then_explicit_save_confirm_and_static_download(
         response=client.post(path+'/after-sales-plan-preview',json=payload)
     assert response.status_code==200,response.text
     value=response.json();assert value['input_sha256']==digest(inputs()) and value['request_nonce']==payload['request_nonce']
-    assert value['node_count']==len(json.loads(value['plan_text'])['nodes'])==19
+    assert value['node_count']==len(json.loads(value['plan_text'])['nodes'])==23
     assert all(value[k] is False for k in ['task_changed','model_called','network_requested','code_executed','platform_checked','business_verified'])
     assert main.get_task(task['id'])==original and main.store.get('task_budget',task['id'])==budget
     saved=client.post(path+'/plan',json={'revision':task['revision'],'plan_text':value['plan_text']})
     assert saved.status_code==200,saved.text
     task=saved.json();assert not task['configuration_confirmed'] and task['plan_source']=='manual'
-    assert client.post(path+'/confirm',json={'revision':task['revision'],'kind':'configuration'}).status_code==200
+    confirmation=client.post(path+'/confirm',json={'revision':task['revision'],'kind':'configuration'})
+    assert confirmation.status_code==422  # New state declarations require a current explicit review.
+    task=review_saved_state(client,task)
+    confirmation=client.post(path+'/confirm',json={'revision':task['revision'],'kind':'configuration'})
+    assert confirmation.status_code==200,confirmation.text
     result=client.post(path+'/build',json={'revision':task['revision']});assert result.status_code==200,result.text
     artifact=client.get(path+'/artifact');assert artifact.status_code==200 and '模拟' in artifact.text
     assert client.get(path+'/report').status_code==200

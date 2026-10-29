@@ -1,6 +1,8 @@
 # Sierra核心交付顺序（2026-10-29）
 
-当前运行0.360.0，权威队列docs/BACKLOG.md，交接HANDOFF.md；不从版本号或测试数推算完成百分比。
+当前运行0.361.0，权威队列docs/BACKLOG.md，交接HANDOFF.md；不从版本号或测试数推算完成百分比。
+
+241已部署等待补号的每会话确定路由，175相关定向通过，23Task/388消费保持。新图23节点/24边、2个布尔声明；下一需完整核对真实导入发布及双轮轨迹的精确状态边界，旧384不重放。[修复](pending-order-routing.md)。
 
 固定Workflow C1已有真实两版四例/原生LLM1-0/双ZIP证据，跨多个独立批准批，旧失败保留，非一次无中断成功。[结果](model-free-closeout-live-result-20261029.md)。固定C2公开继续策略3成功/1预期失败及原索引失败JSON下载，只证明该固定案例。[结果](existing-batch-platform-live-result-20261027.md)。
 

@@ -82,6 +82,8 @@ def saved_after_sales(client):
     task=blank_after_sales(client);text,_=starter(task,starter_inputs())
     response=client.post('/api/tasks/'+task['id']+'/plan',json={'revision':task['revision'],'plan_text':text})
     assert response.status_code==200,response.text
+    from test_after_sales_starter import review_saved_state
+    review_saved_state(client,response.json())
     return main.get_task(task['id'])
 
 

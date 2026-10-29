@@ -1,36 +1,27 @@
-# HANDOFF — Sierra（240/384补号澄清已获准诊断封存，241待加每会话确定路由；360/23Task）
+# HANDOFF — Sierra（241确定补号路由已部署361，待实现新状态图完整核对；23Task）
 
 ## 1. 当前状态
 
-- 240按call_1983b4da729a48f3b85da8b5e243c0dd q0明确批准全部新范围及例外，384唯一执行/消费：37读1登录/Task1/资源各1/Service7/搭建模型0，共48 HTTP。前五例/追问首轮过，补号第二轮failed后获准4GET/1报告确认clarify分支并封存，无后续外部写入/Service。23Task原22/367消费及密文保持；安全结果docs/continuation-chatflow-live-result-20261029.md/json。
-
-- 237按call_04cbd9d61092473791ace6e2ce29a0b1 q0新直接批准唯一执行382并消费：33读1登录/Task1/资源各1/Service7/搭建模型0，共44 HTTP。前五例/带业务守卫轨迹过，缺号首轮固定追问过，同会话补号返回范围说明而failed即停；22Task原21/346消费及密文资产保持。安全结果docs/guarded-chatflow-live-result-20261029.md/json。
-
-- 234按call_14745c342af64442b0c9a528431e8ba9 q0新直接批准唯一执行380并消费：33读1登录/Task1/资源各1/Service6/模型0，共43 HTTP。原版前五例/五份原生轨迹过，第六缺号首轮规则failed即停，未发补号第二轮/诊断/第二版/ZIP。21Task原20/325消费及密文资产保持。安全结果docs/complete-policy-live-result-20261029.md/json。
-
-- 231按call_ec642cce38c5403bb7a3535c0ffd7ad8 q0新直接批准唯一执行378，首例缺条件规则failed后永久停止/消费。实际13管理读/1登录/Task1/资源各1/Service1/模型0，共18 HTTP；20Task原19/304消费及密文资产保持，未追加节点/其它样例/第二版/ZIP。安全回执docs/corrected-chatflow-live-result-20261029.md/json。
-
-- 228按call_88f2d09849de46aeb7d3bf8b71f6a314 q0直接允许10读改授及新增1登录，唯一376执行完成/消费；实际10管理GET/1登录，0模型/Task/资源/Service，保存1诊断且原业务/规则失败保持。安全结果docs/first-case-trace-live-result-20261029.md/json；原生run8ce750c7-9abd-4d08-8180-23bba648b2e7，路径检索有2片段并进入grounded_answer，不是空检索/空分支。
-
-- 根E:\workSpace\dify-agent/main，运行0.360.0-b8edf5ed1f3251b03bed/289文件/PID26172。Docker Desktop此前按既有启动授权恢复，原dify-local16服务/健康及1.17.1镜像已核；229补上下文后357已保留，232再只补通用政策完整性system提示及版本，原归属脚本部署358。
-- 226按用户call_e81418955baa45b6ab79e316294a1f8e q0“允许这批完整新范围”唯一执行375，永久停止/消费。实际0搭建模型/13管理读/1登录/Task1/App首次发布Key各1/Service1，共18 HTTP；FAQ首例success但原包含ZXRET715/七天/未拆封规则failed，实际回答原无答案固定文字。未追加远端诊断/其余样例/第二版/ZIP，不重试或借余槽。
-- 375历史新增第19Task，原18保持。新Task62bb060f-b7fa-4397-acb0-ba931c7dbfb2/r5/run_completed，两确认true/plan_stale=false，Appaa4a052e-c7b4-4b84-b4bf-4fe741afb22f，发布图b4ef4a54-e19a-4c86-ae3b-9ac2b46accf3。本机runf7576baa-61f4-43b2-80d9-4ad0609c897f，消息091f7f7e-a0b8-46e2-8abd-d7db285ed11c/会话b4fbd90f-1b62-49f4-b90c-d55d725e1d0e；首停时无原生轨迹，后376已读取原生8ce750c7...并保留诊断。
-- 安全回执docs/chatflow-order-platform-live-result-20261029.md/json；授权后保护基线work/chatflow-order375/post-live-data-snapshot.json（排除server.pid），原18/旧对象/六settled/全部密文资产与消费文件已核保持，专用Key切新App、旧Key加密归档。
+- 根E:\workSpace\dify-agent/main，运行0.361.0-6a7fa27661878cc800e9/289文件/PID29024。241只改售后模板及版本：两会话boolean登记/消费等待，先消费，仅等待中的原格式单号绕过分类进原提取/严格成功/非空守卫；普通新话题仍分类，缺号重新登记。23节点24边、每状态唯一writer保持。新增状态必须正常逐项复核、重确认需求和保存当前计划，未绕门禁。
+- 旧图控制分类错误反例1项实际失败，修复后20新路径及相关售后/状态/提取/正常API共146通过，另29模拟读取/准入门禁通过，总175。原start/stop归属部署，原23Task/密文账本资产及388消费文件保持。work/pending-order385/verify.py、before/after-deploy.json及post-deploy-data-snapshot.json。安全说明docs/pending-order-routing.md/json。模型/Dify HTTP新增0，真实新图未执行。241验收已过待实现提交后关闭。
+- 240/384按call_1983b4da729a48f3b85da8b5e243c0dd q0“允许全部新范围及失败轮只读诊断例外”唯一执行后永久消费。37管理GET（含失败轮4）/1登录/Task1/资源各1/Service7/搭建模型0，共48 HTTP。前五例/缺号首轮passed，补号第二轮failed；唯一获准失败轮诊断确认start/intent/clarify/clarify_answer，源图匹配，4GET/1本机报告后停止，无后续外部写入/Service。原22及367消费保护，现23Task。安全结果docs/continuation-chatflow-live-result-20261029.md/json，最新实际回执提交1d97042。
+- 384新Task9fe06b70-97fc-402b-8553-ffbbaa7e4e4e/r5、App14fcba5c-eada-4fe5-870a-7a1ee9120517；失败runf78a8598-c693-4acd-a382-a771fd2fc243，第2轮native e1a513c5-8442-4fec-b9b9-7b77ea4f9182，本机诊断678f7203-02f7-43f2-ae73-2be304cd1560。没有读取或保存实际提示历史原文，不推断它内容。后续没有修改版/双ZIP，原失败/期望保持。
+- Docker Desktop此前按既有启动授权恢复，原dify-local16服务/健康及1.17.1镜像已核；不要更新镜像或新建服务。Claude318失败/用量未知无恢复证据，不形式重试或冒充审查，本轮根代理完成。
 
 ## 2. 已有成果与剩余
 
-- 固定Workflow C1已有真实两版四例/LLM1-0/双ZIP证据，跨多个批准批及历史失败保留，非一次无中断成功。原Taskaa827c91-b683-4a34-9e7f-fa0789f5c252/r17/run_completed/4次满，App9b73f33e-7ce8-447c-a0d8-cec3ccb3bd8a，发布图17279dd5-b732-4251-bccd-78a93719f42a，native7e9b2714-6af8-4596-b46d-d9ba1143dcfb/281eaae3-f4d3-40d7-90d9-354fc3779d0c，252/0tokens；旧原版r9 Appe4785b06-7cf5-4923-8c7b-f1a9c4ead380/250-0tokens保持。原版work/retained-plan366/original-live.zip及修改版work/c1-model-free368/live-output/modified.zip/旧r13静态ZIP保持，不给本机ZIP flags改true。
-- 固定C2第196公开四项继续策略3成功/1预期失败、原索引1失败JSON已有真实证据；不泛化任意批量。原25质量/原§11 Chatflow完整订单链仍未通过，375仅取得导入发布Key及一条业务失败。C4未启用，无assistant_routing，不宣称节省；六组未适配扩展不自动开发。
-- 221历史正文查看/222消息映射/223两轮订单草稿/224逐轮诊断均已定向/界面/保护部署并推，最新224实现ad2c150/关闭bbda254/交接ee982cd。225执行器实现2e2340a/关闭01bc998/询问交接af1dc37已推；35门禁/13公开替身场景不升级成真实质量。
+- 固定Workflow C1真实两版四例/LLM1-0/双ZIP已有跨批准批证据，旧失败保留，非一次无中断成功。原Taskaa827c91-b683-4a34-9e7f-fa0789f5c252/r17/4次满，修改App9b73f33e-7ce8-447c-a0d8-cec3ccb3bd8a；原版Appe4785b06-7cf5-4923-8c7b-f1a9c4ead380。原版work/retained-plan366/original-live.zip、修改版work/c1-model-free368/live-output/modified.zip和旧r13静态ZIP保持，不给本机flags改true。
+- 固定C2第196公开四项继续策略3成功/1预期失败及原索引1失败JSON已有证据，不泛化任意批量。原25项与完整§11 Chatflow仍未通过，C4未启用/no assistant_routing/无节省结论，六组未适配扩展不自动混入。
+- 357补检索context占位、358补政策完整性、359加业务非空守卫、360补有限接续分类提示；384已实证仅提示未解决补号，所以361引入已有每会话状态能力限定路由。旧图/任务不自动升级。221历史正文、222消息映射、223两轮样例、224逐轮诊断均已部署推送。
 
 ## 3. 下一步
 
-1. 240/384永久消费封存，禁止追加读/续跑/修改版/ZIP或重试。新Task9fe06b70-97fc-402b-8553-ffbbaa7e4e4e/r5、App14fcba5c-eada-4fe5-870a-7a1ee9120517、第六runf78a8598-c693-4acd-a382-a771fd2fc243；前五例及追问首轮passed，同会话补号仍failed。唯一获准失败轮第2诊断native e1a513c5-8442-4fec-b9b9-7b77ea4f9182，节点start/intent/clarify/clarify_answer、源图匹配，4GET后已封存，无后续外部写入/Service。不推断真实历史原文，原期望/失败不改。
-2. 241 pending：用已有每会话布尔状态和assigner，为刚追问后的格式单号补充增加确定路由。全局限制每状态只有1根writer，不放松：拟两标记order_wait_requested/order_wait_consumed，首次false；等待=不相等。每轮代码读等待/判断1—64位原合成单号格式，输出consume_value=旧requested、next_request=!旧requested；先唯一writer更新consumed再分流，等待且仅编号绕过分类进原extract_order/业务守卫，其它走intent；缺号唯一writer把requested写成next_request再固定追问。普通新话题消费等待，跨会话不共享，不自动把无上下文编号当订单。拟4新节点，23节点/24边，声明2个布尔；应先实际编译核数/唯一writer及两轮控制分类错误路径，不造模型遵循结论。
-3. 注意既有conversation_state.native按Task.id确定状态UUID；后续新执行器不能直接用public-contract原型的状态ID比较实际Task原生DSL。应仅按已审查的两个声明/初值/读写规则，依本次新Task UUID做确定实例化，验证只有声明ID变化、图/配置/声明其它字段完全不变，保留冻结文件原样。publication.core包含conversation_variables，导入和发布也需比对。旧工具禁止conversation_variables的边界只可在新包改成精确允许这两声明，不改旧包或整体放松。
-4. 当前保护基线work/continuation-chatflow384/post-live-data-snapshot.json（23Task/授权新Key/失败诊断），原22及367旧消费保持。部署要核360/PID26172/289快照归属后原stop/start，保护384及更旧全部消费；不能跑旧22保护或按端口杀进程。服务App14fcba5c...旧Key加密归档；只复用加密资料，不抄聊天密码或输出提交秘密。
-5. 先提交推送实际回执/日志/README/状态/本交接，再做241本机修复。未来新真实范围需完整冻结和直接批准，不能把384有限诊断例外用于旧382等或继续读384。384余91读/资源1/7Service、382余95/1/7、380余95/1/8、378余115/1/13、375余105/1/13及费用不退借，376无剩余。主模型30/账本0.755473652不增；原§11完整接续/修改版/双交付仍缺实际证据。
-6. 未观察实际Codex不足，持续实质推进；不足立即停尽力整份交接，不重试/换号/购买/重置券，不造微任务。Claude318失败/用量未知无恢复证据，不形式重试/冒充审查，本轮根代理。只读必要文件/历史编号，不全量/通读290KB历史/另起18760；单次sierra已触发删除，每push前日志/适用README/状态/整份交接，排除work/data/模型原文/秘密，原GitHub main自主提交推送。
+1. 241实现/175定向/保护部署已完成，先commit/push实现和根CHANGELOG/README/状态/整份交接，再按实际commit关闭241。下一242：实现新的独立完整状态图验收包；不重放384或其它已消费批，不因普通队列空停止。
+2. 仅新工具可精确允许两状态声明。conversation_state.native按Task.id确定UUID，冻结public-contract原型与新Task不同：创建本次新Task后只按确定uuid5替换声明ID，验证图/配置/初值false/名称类型/其它声明字段完全一致，冻结文件保持原样。publication.core包含conversation_variables，边界要核导入/草稿/发布/诊断对应声明，不能整体放松旧禁止状态的检查。
+3. 新正常API流程先保存计划后追加明确conversation_state复核，再重确认需求、重保存同图，确认配置构建。新轨迹公共前缀start/order_followup/consume_order_wait/route_order_followup；缺号首轮还需request_order_wait，第二轮补号必须绕过intent且经extract_order/非空守卫/lookup。替身协议只证明边界，不冒充模型效果。
+4. 先完成新本机完整隔离/源绑定冻结/可审查方案，再统一请求新直接批准。拟新完整两版六例/最后两轮、12启动14Service/两版资源各2/Task1/128读1登录/60分钟及失败轮最多4GET例外需明确新范围，当前未冻结未批准。搭建模型/新库0，Dify内部仍调用模型，估0.10 USD非账单硬限/宿主未知。旧余槽和费用不自动退借。普通委托不覆盖新增具体外部额度。
+5. 最新数据保护是work/pending-order385/post-deploy-data-snapshot.json（与384 post-live相同，23Task/新Key/失败报告，排除server.pid），原388消费均保持。部署核361/PID29024/.venv执行文件/289快照后原脚本，不按端口杀进程；后端未运行则原start.ps1并等health200。只读必要文件/历史按编号，不全量/不通读290KB/不另起18760。
+6. 未观察实际Codex不足，继续实质推进；实际不足立停尽力整份交接，不重试/换号/购买/重置券。每push前根CHANGELOG/适用README/状态/整份交接，原GitHub main自主提交推送，排除work/data/原模型文/秘密。单次sierra已触发删除，无需再造定时任务。
 
 ## 4. 账本及外部边界
 

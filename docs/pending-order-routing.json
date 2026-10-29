@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "backlog": 241,
+  "runtime": "0.361.0-6a7fa27661878cc800e9",
+  "pid": 29024,
+  "runtime_files": 289,
+  "nodes": 23,
+  "edges": 24,
+  "state_names": ["order_wait_requested", "order_wait_consumed"],
+  "initial_values": [false, false],
+  "targeted_passed": 175,
+  "old_counterexample_failed": true,
+  "protected_tasks": 23,
+  "protected_consumed_files": 388,
+  "data_secrets_assets_kept": true,
+  "new_model_dify_http": 0,
+  "actual_new_platform_verified": false,
+  "business_accepted": false,
+  "claude_review_completed": false
+}
