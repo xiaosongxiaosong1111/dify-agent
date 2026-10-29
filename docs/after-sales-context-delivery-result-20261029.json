@@ -1,0 +1,21 @@
+{
+  "backlog": 229,
+  "state": "deployed_isolated_verified",
+  "runtime": "0.357.0-c038db013b5e96bc4d3e",
+  "pid": 32940,
+  "runtime_files": 289,
+  "runtime_files_changed": [
+    "backend/app/after_sales_starter.py",
+    "backend/app/main.py"
+  ],
+  "before_regression": "failed_missing_retrieved_context_in_compiled_messages",
+  "targeted_tests": 52,
+  "physical_model_dify_http": 0,
+  "public_normal_api_preview_save_confirm_static_download": true,
+  "old19_business_ledger_ciphertexts_assets_kept": true,
+  "consumed_files_kept": 304,
+  "existing_task_or_app_graph_changed": false,
+  "published_fix_retested": false,
+  "business_verified": false,
+  "protection_baseline": "work/context-delivery377/post-deploy-data-snapshot.json"
+}

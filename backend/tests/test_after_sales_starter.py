@@ -53,6 +53,23 @@ def test_collector_distinguishes_empty_result_from_invalid_transport_data():
     with pytest.raises(ValueError):scope['main'](None)
 
 
+def test_retrieved_public_facts_reach_compiled_answer_messages():
+    """Dify graphon0.7.0 substitutes context only at its dedicated placeholder."""
+    task=context();text,_=prepare(task,inputs())
+    content,checked=compile_workflow_plan({**task,'workflow_plan':json.loads(text)})
+    answer=next(n['data'] for n in yaml.safe_load(content)['workflow']['graph']['nodes'] if n['id']=='grounded_answer')
+    assert checked['valid'] and answer['context']=={'enabled':True,'variable_selector':['retrieve','result']}
+    public_context='公开政策ZXRET715：签收七天内且未拆封可退货。'
+    query='ZXRET715在签收后七天内且未拆封，能否退货？'
+    # The tagged engine replaces {{#context#}} before normal variable expansion;
+    # merely enabling node.context does not append it to any prompt message.
+    rendered=[p['text'].replace('{{#context#}}',public_context).replace('{{#sys.query#}}',query) for p in answer['prompt_template']]
+    assert any(public_context in p for p in rendered), 'Bound retrieval was omitted from actual prompt messages'
+    assert any(query in p for p in rendered)
+    assert inputs()['no_hit_reply'] in '\n'.join(rendered)
+    assert public_context not in text  # No policy facts hardcoded into the template.
+
+
 @pytest.mark.parametrize('key,value',[('workflow_plan',{'nodes':[]}),('artifact',{'revision':3}),('dsl_reference',{'id':'original'}),('dify_app_id','existing'),('agent_plan',{'scope':'text'})])
 def test_saved_sources_are_never_replaced(key,value):
     task=context();task[key]=value;original=copy.deepcopy(task)
