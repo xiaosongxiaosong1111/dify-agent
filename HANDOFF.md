@@ -16,7 +16,7 @@
 
 ## 3. 下一步
 
-1. 222已开发、定向验证并部署0.354.0-b00d7d8eae337c029251/289文件/PID31388：普通阻塞Chatflow只有消息/会话ID，原诊断无workflow_run_id即缺证；固定1.17.1源码确认后，明确read_remote才按原App消息GET核唯一消息/会话并取原生ID，再走原run/节点/发布图对照。原Workflow/已有合法runID不多读，坏原生ID不借消息查找绕过，无效/错源不猜task_id或列表、不存消息正文，不改旧状态或重跑。源chatflow_diagnostic_source.py/run_diagnostics.py及RunDiagnosticPanel说明；docs/chatflow-message-diagnostics.md/result JSON。待实现commit后222 done，关闭/根日志/整份交接并push。
+1. 222已开发、定向验证并部署0.354.0-b00d7d8eae337c029251/289文件/PID31388：普通阻塞Chatflow只有消息/会话ID，原诊断无workflow_run_id即缺证；固定1.17.1源码确认后，明确read_remote才按原App消息GET核唯一消息/会话并取原生ID，再走原run/节点/发布图对照。原Workflow/已有合法runID不多读，坏原生ID不借消息查找绕过，无效/错源不猜task_id或列表、不存消息正文，不改旧状态或重跑。源chatflow_diagnostic_source.py/run_diagnostics.py及RunDiagnosticPanel说明；docs/chatflow-message-diagnostics.md/result JSON。实现aa56dfb已存在、222 done，关闭/根日志/整份交接一起push。
 2. 76后端定向、类型检查/正式构建、4正常界面场景/视觉通过；公开临时Store正常替身4管理GET、错会话/404各1、缺ID0，先本地分析无远端。初次辅助脚本漏展开记录导致按钮不可见，修正后过，日志保留，非真实批失败。实际8765只GET查看原Workflow r17旧诊断，轨迹保持且无假消息映射，未发新diagnose POST；原18/六费用/全部密文资产与消费文件保持，health/前端200。
 3. 真实Chatflow消息映射仍未出站验证，不能据隔离绿升级原§11订单链/原25业务。未来明确批准的真实范围应把额外消息GET及原后续读取/认证续接纳入，不借旧预留或自动派发。当前所有真实模型/Dify新增0。最新保护基线work/chatflow-diagnostic371/post-deploy-data-snapshot.json，与370基线仅server.pid变；既有C1 Task仍r17/run_completed/两确认true/plan_stale=false/App9b73f33e.../4次已满，禁止第五次。
 4. 221实现552f96b/关闭73287dd均已推：历史正文需求/配置/图/样例JSON按需4000码点分页、整份2MB、来源绑定/精确大数，不恢复或改当前确认/App/草稿；33新增/31恢复共64后端、9界面、实际r17看r9旧图/视觉和353部署过。该功能保持。217固定C1真实四例双包保持，220保存流程引导保持，不重放任何旧包或升级全25/Chatflow质量。
