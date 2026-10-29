@@ -1,0 +1,28 @@
+{
+  "stage": "after",
+  "state": "deployed_configuration_verified",
+  "runtime_build": "0.360.0-b8edf5ed1f3251b03bed",
+  "verified_pid": 26172,
+  "files_matched": 289,
+  "changed_runtime_files": [
+    "backend/app/after_sales_starter.py",
+    "backend/app/main.py"
+  ],
+  "tasks": 22,
+  "original_data_secrets_assets_kept": true,
+  "consumed_files_kept": 367,
+  "new_model_dify_http": 0,
+  "backlog": 238,
+  "targeted_tests": 89,
+  "real_failure_reproduction": "382_same_conversation_followup_failed",
+  "changed_template_fields": [
+    "intent.classes.order.name",
+    "intent.instruction"
+  ],
+  "nodes": 19,
+  "edges": 19,
+  "model_semantic_verification": false,
+  "actual_fixed_graph_retested": false,
+  "business_verified": false,
+  "protection_baseline": "work/order-continuation383/post-deploy-data-snapshot.json"
+}

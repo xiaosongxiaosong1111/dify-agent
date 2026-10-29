@@ -1,6 +1,6 @@
 # Sierra核心交付顺序（2026-10-29）
 
-当前运行0.359.0，权威队列docs/BACKLOG.md，交接HANDOFF.md；不从版本号或测试数推算完成百分比。
+当前运行0.360.0，权威队列docs/BACKLOG.md，交接HANDOFF.md；不从版本号或测试数推算完成百分比。
 
 固定Workflow C1已有真实两版四例/原生LLM1-0/双ZIP证据，跨多个独立批准批，旧失败保留，非一次无中断成功。[结果](model-free-closeout-live-result-20261029.md)。固定C2公开继续策略3成功/1预期失败及原索引失败JSON下载，只证明该固定案例。[结果](existing-batch-platform-live-result-20261027.md)。
 
@@ -15,3 +15,5 @@
 新可审查完整范围见[382独立方案](guarded-chatflow-plan-20261029.md)。
 
 237/382已新直接执行并消费：前五例/有效订单业务守卫轨迹过，缺号首轮原文追问过，同会话补号却返回范围说明而failed即停；现22Task。下一238只补有限会话接续分类说明，不把新会话孤立编号自动当订单，原失败和费用不变。[最新结果](guarded-chatflow-live-result-20261029.md)。
+
+238已补会话内追问后补号分类说明并89相关定向/360保护部署过，原22/367消费保持；未核真实新模型效果，不加状态架构或改旧期望。[修复](order-continuation-classification.md)。

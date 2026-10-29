@@ -58,8 +58,11 @@ def prepare(task, inputs):
     node('intent','question-classifier','售后诉求分类',{
         'classes':[{'id':'clarify','name':'不明确或不属于资料问答和订单查询的请求','label':'澄清需求'},
             {'id':'faq','name':'产品、售后或政策资料问答，不是查询某个订单的状态','label':'资料问答'},
-            {'id':'order','name':'查询具体订单状态，包括尚未提供订单号的查询','label':'模拟订单查询'}],
-        'query_variable_selector':['sys','query'],'instruction':'按诉求分类，不明确时选clarify；只有明确订单查询才选order。',
+            {'id':'order','name':'查询具体订单状态，包括尚未提供订单号的查询，以及本会话被追问订单号后补充订单号','label':'模拟订单查询'}],
+        'query_variable_selector':['sys','query'],'instruction':
+            '先结合本会话历史识别当前诉求。若上一轮在订单查询中要求提供订单号，本轮只补充订单号，也属于order，'
+            '不因缺少查询订单字样而选clarify。没有该订单上下文时，不把孤立编号自动当订单；真正不明确或范围外才选clarify。'
+            '资料问题选faq，不以旧订单上下文覆盖用户明确的新诉求。',
         'unmatched_policy':{'behavior':'first_class','class_id':'clarify'}})
     reply('clarify','说明可处理范围',inputs['clarify_reply'])
     node('retrieve','knowledge-retrieval','检索已选资料',{'dataset_source':'task','query_variable_selector':['sys','query']})

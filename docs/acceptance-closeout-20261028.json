@@ -409,11 +409,11 @@
     "evidence": "docs/first-case-trace-live-result-20261029.md"
   },
   "latest_related_code_fix": {
-    "backlog": 235,
-    "runtime": "0.359.0-17860f0f9043dfa61c21",
-    "state": "deployed_controlled_order_branch_verified",
+    "backlog": 238,
+    "runtime": "0.360.0-b8edf5ed1f3251b03bed",
+    "state": "deployed_configuration_verified",
     "actual_fixed_graph_retested": false,
     "full_business_accepted": false,
-    "evidence": "docs/order-value-guard.md"
+    "evidence": "docs/order-continuation-classification.md"
   }
 }
