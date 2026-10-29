@@ -3,7 +3,7 @@
 ## 1. 当前状态
 
 - 根E:\workSpace\dify-agent/main，运行0.361.0-6a7fa27661878cc800e9/289文件/PID29024。241只改售后模板及版本：两会话boolean登记/消费等待，先消费，仅等待中的原格式单号绕过分类进原提取/严格成功/非空守卫；普通新话题仍分类，缺号重新登记。23节点24边、每状态唯一writer保持。新增状态必须正常逐项复核、重确认需求和保存当前计划，未绕门禁。
-- 旧图控制分类错误反例1项实际失败，修复后20新路径及相关售后/状态/提取/正常API共146通过，另29模拟读取/准入门禁通过，总175。原start/stop归属部署，原23Task/密文账本资产及388消费文件保持。work/pending-order385/verify.py、before/after-deploy.json及post-deploy-data-snapshot.json。安全说明docs/pending-order-routing.md/json。模型/Dify HTTP新增0，真实新图未执行。241验收已过待实现提交后关闭。
+- 旧图控制分类错误反例1项实际失败，修复后20新路径及相关售后/状态/提取/正常API共146通过，另29模拟读取/准入门禁通过，总175。原start/stop归属部署，原23Task/密文账本资产及388消费文件保持。work/pending-order385/verify.py、before/after-deploy.json及post-deploy-data-snapshot.json。安全说明docs/pending-order-routing.md/json。模型/Dify HTTP新增0，真实新图未执行。241实现3c7322e已推，验收实际通过，现关闭。
 - 240/384按call_1983b4da729a48f3b85da8b5e243c0dd q0“允许全部新范围及失败轮只读诊断例外”唯一执行后永久消费。37管理GET（含失败轮4）/1登录/Task1/资源各1/Service7/搭建模型0，共48 HTTP。前五例/缺号首轮passed，补号第二轮failed；唯一获准失败轮诊断确认start/intent/clarify/clarify_answer，源图匹配，4GET/1本机报告后停止，无后续外部写入/Service。原22及367消费保护，现23Task。安全结果docs/continuation-chatflow-live-result-20261029.md/json，最新实际回执提交1d97042。
 - 384新Task9fe06b70-97fc-402b-8553-ffbbaa7e4e4e/r5、App14fcba5c-eada-4fe5-870a-7a1ee9120517；失败runf78a8598-c693-4acd-a382-a771fd2fc243，第2轮native e1a513c5-8442-4fec-b9b9-7b77ea4f9182，本机诊断678f7203-02f7-43f2-ae73-2be304cd1560。没有读取或保存实际提示历史原文，不推断它内容。后续没有修改版/双ZIP，原失败/期望保持。
 - Docker Desktop此前按既有启动授权恢复，原dify-local16服务/健康及1.17.1镜像已核；不要更新镜像或新建服务。Claude318失败/用量未知无恢复证据，不形式重试或冒充审查，本轮根代理完成。
@@ -16,7 +16,7 @@
 
 ## 3. 下一步
 
-1. 241实现/175定向/保护部署已完成，先commit/push实现和根CHANGELOG/README/状态/整份交接，再按实际commit关闭241。下一242：实现新的独立完整状态图验收包；不重放384或其它已消费批，不因普通队列空停止。
+1. 241实现3c7322e已推、175定向/保护部署通过并关闭。下一242 pending：实现新的独立完整状态图验收包；不重放384或其它已消费批，不因普通队列空停止。
 2. 仅新工具可精确允许两状态声明。conversation_state.native按Task.id确定UUID，冻结public-contract原型与新Task不同：创建本次新Task后只按确定uuid5替换声明ID，验证图/配置/初值false/名称类型/其它声明字段完全一致，冻结文件保持原样。publication.core包含conversation_variables，边界要核导入/草稿/发布/诊断对应声明，不能整体放松旧禁止状态的检查。
 3. 新正常API流程先保存计划后追加明确conversation_state复核，再重确认需求、重保存同图，确认配置构建。新轨迹公共前缀start/order_followup/consume_order_wait/route_order_followup；缺号首轮还需request_order_wait，第二轮补号必须绕过intent且经extract_order/非空守卫/lookup。替身协议只证明边界，不冒充模型效果。
 4. 先完成新本机完整隔离/源绑定冻结/可审查方案，再统一请求新直接批准。拟新完整两版六例/最后两轮、12启动14Service/两版资源各2/Task1/128读1登录/60分钟及失败轮最多4GET例外需明确新范围，当前未冻结未批准。搭建模型/新库0，Dify内部仍调用模型，估0.10 USD非账单硬限/宿主未知。旧余槽和费用不自动退借。普通委托不覆盖新增具体外部额度。
