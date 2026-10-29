@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "date": "2026-10-29",
-  "runtime_build": "0.361.0-6a7fa27661878cc800e9",
+  "runtime_build": "0.362.0-5d9519236777f804ea5e",
   "baseline": "docs/requirements-v1.0.md",
   "baseline_sha256": "7ab6d186c77a3091764de32612314d56442351ba17c824bbd908856cc71ffe62",
   "review_completed": true,
@@ -11,7 +11,7 @@
   "real_model_dify_requests_added": 0,
   "lightweight_routing_enabled": false,
   "original_case_section_11_complete": false,
-  "original_case_limit": "386已完成限定人工Chatflow双版六例/14轨迹/双ZIP；仍缺自主语义链、原始资料冲突路径及集中接口替换指南，不等于全部§11签收。",
+  "original_case_limit": "386限定人工Chatflow双版六例/14轨迹/双ZIP及245集中替换指南已有；自主语义链和原始资料冲突路径未完整观察，不等于全部§11签收。",
   "items": [
     {
       "id": "AT-01",
@@ -145,12 +145,13 @@
       "scenario": "接口未提供且用户接受模拟",
       "expected": "显式采用模拟方案，标记位置及真实接入待办。",
       "verdict": "限定人工Chatflow双版订单模拟及缺号接续已真实通过",
-      "observed": "原模拟标记/位置/接入待办保持；386两版六例及14轮轨迹/双ZIP通过，订单有无/缺号后同会话补号实际正确，回复明确模拟。",
-      "remaining_or_limit": "仅公开合成表，非真实订单接口；交付报告有接入待办，但缺少集中节点输入输出/下游引用/替换复验步骤指南，列245开发；非自主规划或全部§11签收。",
+      "observed": "原模拟标记/位置/接入待办保持；386两版六例及14轮轨迹/双ZIP通过，订单有无/缺号后同会话补号实际正确，回复明确模拟。 245另补集中接口替换指南，从构建DSL导出节点输入输出/下游引用及待补资料/复验步骤；26定向和现有r13本机导出通过，旧ZIP保持。",
+      "remaining_or_limit": "仅公开合成表和结构指南，真实接口/认证/字段/错误处理尚待明确和验证；非自主规划或全部§11签收。",
       "evidence": [
         "docs/acceptance-at10-record.md",
         "docs/core-delivery-focus.md",
-        "docs/stateful-chatflow-live-result-20261029.md"
+        "docs/stateful-chatflow-live-result-20261029.md",
+        "docs/mock-integration-guide.md"
       ],
       "full_business_accepted": false,
       "review_actor": "agent_delegated"
@@ -382,16 +383,12 @@
       "review_actor": "agent_delegated"
     }
   ],
-  "last_update_backlog": 244,
+  "last_update_backlog": 245,
   "last_update_scope": {
     "changed_items": [
-      "AT-01",
-      "AT-10",
-      "AT-13",
-      "AT-19",
-      "AT-22"
+      "AT-10"
     ],
-    "basis": "243/386已保存实际回执和双ZIP只读检查",
+    "basis": "245新指南功能及定向/本机现有任务导出证据",
     "new_model_dify_http": 0,
     "all25_reexecuted": false
   },

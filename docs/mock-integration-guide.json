@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "backlog": 245,
+  "runtime": "0.362.0-5d9519236777f804ea5e",
+  "pid": 32184,
+  "targeted_passed": 26,
+  "before_failure_observed": true,
+  "deployment": {
+    "stage": "after",
+    "state": "passed",
+    "runtime_build": "0.362.0-5d9519236777f804ea5e",
+    "verified_pid": 32184,
+    "files_matched": 290,
+    "changed_runtime_files": [
+      "backend/app/delivery_bundle.py",
+      "backend/app/main.py"
+    ],
+    "added_runtime_files": [
+      "backend/app/mock_integration_guide.py"
+    ],
+    "protected_tasks": 24,
+    "consumed_evidence_files_kept": 414,
+    "old_zip_kept": true,
+    "data_secrets_assets_kept": true,
+    "new_model_dify_http": 0
+  },
+  "local_bundle_check": {
+    "state": "passed",
+    "local_api_gets": 1,
+    "task_id": "0623a2ae-e668-438d-8390-cb09d46c68db",
+    "revision": 13,
+    "files": 5,
+    "guide_sha256": "24e51a20d91b6804fae1c48ad6a077399ba5e9e8ac0b38c29a43448dd115f09b",
+    "guide_bytes": 2143,
+    "bundle_sha256": "90797671ada215c9d8a0e2ab3e658b3ab1962153308e6f398c8d7e50adcfcc66",
+    "built_dsl_original_bytes_kept": true,
+    "old_zip_kept": true,
+    "data_secrets_assets_kept": true,
+    "new_model_dify_http": 0,
+    "business_acceptance_extended": false
+  },
+  "new_model_dify_http": 0,
+  "business_acceptance_extended": false,
+  "claude_review_completed": false
+}

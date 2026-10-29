@@ -11,6 +11,7 @@ from fastapi.responses import Response
 from .dsl import TARGET_DIFY_VERSION, DSL_VERSION
 from .dsl_roundtrip import parse, MAX_BYTES
 from .plan_drafts import _SECRET, _ASSIGNMENT
+from .mock_integration_guide import render as integration_guide
 
 REPORT_LIMIT = 8_000_000
 NOTE = ('本包仅打包同一已保存修订的本机成果和记录；静态校验、规则通过及文件摘要不证明平台实时状态、'
@@ -65,7 +66,7 @@ def register(h):
                 raise HTTPException(404, '当前成果不可读取，请核对文件后重新生成。') from None
             content = check_text(raw, MAX_BYTES)
             try:
-                parse(content, mode)
+                native=parse(content, mode)
             except (ValueError, TypeError, RecursionError):
                 raise HTTPException(422, '当前DSL的类型、版本、结构或秘密变量不符合无凭据交付条件，未打包。') from None
             recorded_hash = artifact.get('sha256')
@@ -74,6 +75,14 @@ def register(h):
             before = task_digest(task)
             report = bytes(h.report(item_id).body)
             check_text(report, REPORT_LIMIT)
+            try:
+                guide=integration_guide(task,native)
+            except (ValueError,KeyError,TypeError,AttributeError,RecursionError):
+                raise HTTPException(422,'模拟依赖绑定或节点契约不可读取，未打包，不猜测或回显内容。') from None
+            extra=[]
+            if guide:
+                guide_raw=guide.encode();check_text(guide_raw,REPORT_LIMIT)
+                extra.append(('integration-guide.md',guide_raw))
             if task_digest(h.get_task(item_id)) != before:
                 raise HTTPException(409, '打包期间保存记录已变化，请重新核对当前进度后下载；未返回混合版本。')
             artifact_name = f'dify-{mode}-r{revision}.yaml'
@@ -88,9 +97,9 @@ def register(h):
                 'business_verified': False, 'network_requested': False, 'task_changed': False,
                 'mock_dependencies': task.get('configuration', {}).get('mock_dependencies', []),
                 'files': {name: {'sha256': sha(value), 'bytes': len(value)} for name, value in
-                    ((artifact_name, raw), (report_name, report))}, 'note': NOTE}
+                    ((artifact_name, raw), (report_name, report), *extra)}, 'note': NOTE}
             readme = (f'# Sierra 本机交付包 · r{revision}\n\n{NOTE}\n\n'
-                'DSL和说明在同一后台锁定读取中打包；manifest.json记录二者原始字节的SHA256与大小，'
+                'DSL、报告及有模拟声明时的integration-guide.md在同一后台锁定读取中打包；manifest.json记录各文件原始字节的SHA256与大小，'
                 '清单自身不作签名或来源认证。解压后请先核对类型、版本、待办和验证边界。\n\n'
                 '旧成果若没有构建摘要，仅记录导出当时字节；不能反推它从构建以来从未变化。'
                 '新成果有构建摘要时内容不符会拒绝打包。报告可能含需求及样例等业务文字，分享前请自行核对。\n').encode()
@@ -99,7 +108,7 @@ def register(h):
             check_text(manifest_raw, REPORT_LIMIT)
             buffer = io.BytesIO()
             with zipfile.ZipFile(buffer, 'w', compression=zipfile.ZIP_DEFLATED) as archive:
-                for name, value in ((artifact_name, raw), (report_name, report), ('README.md', readme),
+                for name, value in ((artifact_name, raw), (report_name, report), *extra, ('README.md', readme),
                         ('manifest.json', manifest_raw)):
                     archive.writestr(name, value)
         return Response(buffer.getvalue(), media_type='application/zip', headers={

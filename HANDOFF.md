@@ -1,8 +1,10 @@
-# HANDOFF — Sierra（243/386人工Chatflow双版六例真实完成；361/24Task）
+# HANDOFF — Sierra（243/386人工Chatflow双版六例完成，245集中接口指南已部署362；24Task）
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main，运行0.361.0-6a7fa27661878cc800e9/289文件/PID29024。代码实现3c7322e、241关闭7026b55；新包实现d1dc2cd/关闭e74f4ef已推。241确定接续路由175定向通过，不放松状态唯一writer或正常准入门禁。
+- 245新增mock_integration_guide.py及delivery_bundle导出：指南按已构建原生DSL列输入selector/参数、显式输出类型、下游引用、待补接口资料和替换复验步骤；不复制代码/表，不自动接入，未知明确待补。摘要入manifest，原DSL/report字节/false flags保持，无模拟仍四文件。旧反例实际失败，10新+相关共26定向过；原脚本362/290/PID32184保护部署，原24Task/414消费及双ZIP保持。只1本机GET核当前r13五文件包，模型Dify0。docs/mock-integration-guide.md/json，补充本机包work/integration-guide389/modified-with-guide.zip，旧386原包不改。
+
+- 根E:\workSpace\dify-agent/main，运行0.362.0-5d9519236777f804ea5e/290文件/PID32184。代码实现3c7322e、241关闭7026b55；新包实现d1dc2cd/关闭e74f4ef已推。241确定接续路由175定向通过，不放松状态唯一writer或正常准入门禁。
 - 243/386按call_b34be6397c6c460c9a25e7198ef715e4 q0“允许全部新范围及限定状态实例化、失败轮诊断例外”唯一执行正常完成/永久消费，CLI exit0。0搭建模型/80管理GET/1加密登录/Task1/资源各2/Service14，共101 HTTP；12启动/14逐轮原生轨迹/双ZIP均取得，未用失败诊断例外。原23Task/388旧消费/密文资产保持，现24Task。
 - 新Task0623a2ae-e668-438d-8390-cb09d46c68db，最终r13/run_completed，两确认true/plan_stale=false，12/12启动满，禁止第13次。原版r7 App41b5dc01-04cb-49ff-8512-9ff99073250e/发布28623a90-ceb7-4cd6-84e4-a5c0bb0463e1；修改版r13 App3f17cfaa-8f94-4126-8083-995c6d92be73/发布4264d71a-764c-4dd7-a829-8f74450d0bc4。新Key切修改版，旧Key加密归档。
 - 两版政策命中/资料无相关答案/范围外/模拟订单有无/缺号后同会话补号六例均passed。原生轨迹含状态控制前缀；缺号登记等待且不查询，补号第二轮绕过intent，经extract_order/check_order/validate_order/check_order_value/order_lookup。两状态仅按本Task UUID确定实例化，初值False/图/其它声明保持。资料无相关答案两版均经grounded_answer，是片段不足兜底，不能称空检索。
@@ -19,9 +21,9 @@
 
 ## 3. 下一步
 
-1. 243唯一执行正常通过、保护审计完成，实际结果11dd7cc已推并关闭。244按现有386证据更新AT-01/10/13/19/22，原20项保持，基线/25唯一条目/证据链接检查通过，模型Dify0；docs/remaining-work-20261029.md已列明确剩余。244实现991f682已推且检查通过并关闭，下一245 pending：交付包集中接口替换指南。实际386 ZIP只有DSL/report/README/manifest，报告仅replacement_todo，缺节点输入输出/下游引用/待补接口资料/替换复验步骤；按原§11第7步补产品导出功能，不连接真实接口/不改旧ZIP。
+1. 243真实结果11dd7cc/关闭20f2227已推；244剩余清单991f682/关闭3a93e60已推。245功能/26定向/保护部署及现有任务本机导出已通过，先实现提交再关闭245。已确认集中指南缺口已补，按docs/remaining-work-20261029.md核下一自主语义质量/版本边界具体范围；新模型Dify/资源费用尚无新授权，不重复人工固定图或造微任务。
 2. 386已消费且12启动满，禁止追加Service/读取/诊断/重放。未用48读/费用保持，旧384余91/资源1/7Service及更旧槽不借退。新外部模型/Dify/资源费用需完成可审查方案后一次直接批准，常规委托不扩大具体边界。
-3. 最新保护基线work/stateful-chatflow386/post-live-data-snapshot.json（24Task/修改版Key/全部新轨迹），sealed-evidence-sha256.json的413条及索引自身摘要均核；原双ZIP和所有旧失败/unknown/费用保持，不能跑旧23Task部署保护。部署核361/PID29024/.venv/289快照归属后原start/stop，不按端口杀进程；后端停才原start.ps1并等health200。
+3. 最新保护基线work/integration-guide389/post-deploy-data-snapshot.json（与386 post-live相同、24Task/修改版Key/全部轨迹），该目录consumed-sha256.json保护414条（386封存413及索引自身）；原双ZIP和所有旧失败/unknown/费用保持，不能跑旧23Task部署保护。部署核362/PID32184/.venv/290快照归属后原start/stop，不按端口杀进程；后端停才原start.ps1并等health200。
 4. 只复用加密凭据，不抄聊天密码/输出提交秘密。只读必要文件/历史按编号，不通读项目或290KB历史，不全量测试/另起18760。尚无实际Codex额度不足，继续实质工作；不足即停尽力整份交接，不重试/换号/购买/重置券。单次sierra已触发删除。
 5. 自主commit/push原GitHub main，每push前根CHANGELOG/适用README/状态/整份交接，排除work/data/模型原文/秘密；按实际结果不造模型质量/签收/费用节省。
 

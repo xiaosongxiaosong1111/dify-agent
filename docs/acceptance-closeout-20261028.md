@@ -1,8 +1,8 @@
 # 原25项验收边界（按386现有证据更新）
 
-2026-10-29，第244仅按已保存回执及ZIP更新AT-01/10/13/19/22，其余20项原结论保持。未重跑全部25项，新增模型/Dify请求0，未伪造人类签收。运行361。
+2026-10-29，第244仅按已保存回执及ZIP更新AT-01/10/13/19/22，其余20项原结论保持。未重跑全部25项，新增模型/Dify请求0，未伪造人类签收。245另仅更新AT-10新增指南功能证据，未重跑原25，运行362。
 
-386限定人工Chatflow双版六例/14原生轨迹/双ZIP已真实通过；固定Workflow C1和C2旧证据保持。原失败/unknown/费用不改判。模型自主Chatflow语义质量、原始资料冲突路径和集中接口替换指南仍欠，不能宣布全部§11/25项或项目完成。详见[实际结果](stateful-chatflow-live-result-20261029.md)及[下一步清单](remaining-work-20261029.md)。
+386限定人工Chatflow双版六例/14原生轨迹/双ZIP已真实通过；固定Workflow C1和C2旧证据保持。原失败/unknown/费用不改判。模型自主Chatflow语义质量、原始资料冲突路径仍欠；245已补集中接口替换指南，不能宣布全部§11/25项或项目完成。详见[实际结果](stateful-chatflow-live-result-20261029.md)及[下一步清单](remaining-work-20261029.md)。
 
 | 原项 | 当前结论 | 已观察范围 | 剩余或限制 | 依据 |
 |---|---|---|---|---|
@@ -15,7 +15,7 @@
 | AT-07 多个知识库可选 | 真实选库理由质量未验收 | 具体库ID选择及确认已有隔离记录；124复用指定FAQ取得命中/无命中 | 多个真实候选库须有可审查的选择理由/权限/资料范围，固定指定FAQ不代替模型选库质量 | [acceptance-at07-record](acceptance-at07-record.md)、[after-sales-two-version-delivery-20261025](after-sales-two-version-delivery-20261025.md) |
 | AT-08 资料业务事实矛盾 | 真实事实矛盾识别未验收 | 来源保留/显式裁定/未知项阻止确认隔离通过 | 真实两来源相互冲突能同时列证据、追问裁定且不擅自合并 | [acceptance-at08-record](acceptance-at08-record.md) |
 | AT-09 模型简单聊天可用但工具能力不足 | 工具能力有界，聊天可用不证明任意工具可用 | 0.291已有OpenAI兼容固定工具请求形状探测及来源绑定/失败标记，隔离通过；不执行工具、不回注结果或启动Agent循环，未以真实Key测试 | 选定模型/工具须有实际能力证据，未适配工具只报告条件，不能借聊天成功升级能力 | [acceptance-at09-record](acceptance-at09-record.md)、[RELEASE-CLOSEOUT](RELEASE-CLOSEOUT.md)、[provider-tool-request-probe](provider-tool-request-probe.md) |
-| AT-10 接口未提供且用户接受模拟 | 限定人工Chatflow双版订单模拟及缺号接续已真实通过 | 原模拟标记/位置/接入待办保持；386两版六例及14轮轨迹/双ZIP通过，订单有无/缺号后同会话补号实际正确，回复明确模拟。 | 仅公开合成表，非真实订单接口；交付报告有接入待办，但缺少集中节点输入输出/下游引用/替换复验步骤指南，列245开发；非自主规划或全部§11签收。 | [acceptance-at10-record](acceptance-at10-record.md)、[core-delivery-focus](core-delivery-focus.md)、[stateful-chatflow-live-result-20261029](stateful-chatflow-live-result-20261029.md) |
+| AT-10 接口未提供且用户接受模拟 | 限定人工Chatflow双版订单模拟及缺号接续已真实通过 | 原模拟标记/位置/接入待办保持；386两版六例及14轮轨迹/双ZIP通过，订单有无/缺号后同会话补号实际正确，回复明确模拟。 245另补集中接口替换指南，从构建DSL导出节点输入输出/下游引用及待补资料/复验步骤；26定向和现有r13本机导出通过，旧ZIP保持。 | 仅公开合成表和结构指南，真实接口/认证/字段/错误处理尚待明确和验证；非自主规划或全部§11签收。 | [acceptance-at10-record](acceptance-at10-record.md)、[core-delivery-focus](core-delivery-focus.md)、[stateful-chatflow-live-result-20261029](stateful-chatflow-live-result-20261029.md)、[mock-integration-guide](mock-integration-guide.md) |
 | AT-11 未确认配置或资源操作 | 固定新任务两版实际确认至发布运行已观察 | 213原版正常确认后发布两例；217 r16代理逐项读源后正常需求确认/原图重新校验/配置确认/构建，再新App发布两例，变更后旧确认未沿用 | 未确认负例及跨全部业务门禁仍以隔离记录为界；正常代理复核非人类签收，不能泛化资源授权 | [acceptance-at11-record](acceptance-at11-record.md)、[after-sales-two-version-delivery-20261025](after-sales-two-version-delivery-20261025.md)、[existing-batch-platform-live-result-20261027](existing-batch-platform-live-result-20261027.md)、[c1-planning-live-result-20261028](c1-planning-live-result-20261028.md)、[retained-plan-static-delivery-20261028](retained-plan-static-delivery-20261028.md)、[model-free-closeout-live-result-20261029](model-free-closeout-live-result-20261029.md) |
 | AT-12 DSL 变量引用错误 | 受限变量检查/修复，非通用自动修复 | 变量引用诊断及显式修正/重检隔离通过 | 代表错误图定位至变量/节点，显式修正后保留业务分支，并在批准平台核对结果 | [acceptance-at12-record](acceptance-at12-record.md) |
 | AT-13 已导入但关键样例失败 | 阶段成果与成功分离有证据，真实失败修复链未验收 | 原198结构拒绝和阶段成果保持；384实际补号failed后获准4GET定位clarify，241根代理开发确定状态路由；386新人工图双版六例及原生轨迹通过，原失败不改判。 | 这是开发代理修复产品模板后新独立批的观察，不证明产品能自主定位并修复任意失败；不把导入/节点成功当业务正确。 | [acceptance-at13-record](acceptance-at13-record.md)、[c1-blank-task-live-result-20261028](c1-blank-task-live-result-20261028.md)、[chatflow-message-diagnostics](chatflow-message-diagnostics.md)、[stateful-chatflow-live-result-20261029](stateful-chatflow-live-result-20261029.md) |
