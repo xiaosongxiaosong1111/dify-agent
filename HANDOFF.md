@@ -1,6 +1,8 @@
-# HANDOFF — Sierra（241确定补号路由已部署361，待实现新状态图完整核对；23Task）
+# HANDOFF — Sierra（241确定补号路由已部署361，新386完整核对包已冻结待直接批准；23Task）
 
 ## 1. 当前状态
+
+- 242新tools/stateful-chatflow386和新门禁已完成：76门禁/20公开协议、原23/388消费密文和快照Docker预检通过，真实HTTP0。15文件冻结plan cf0c13f433c309db977c864b244b9bb2223cbbcb0a05a0a4a73f28aa9b3263c6 / manifest67c8a1623e21a389db4cd8874e14d271b45012ab31d5d51540d48d2e596f54f6，无approval/attempt/worker，尚未直接批准。docs/stateful-chatflow-plan-20261029.md及安全preflight JSON。
 
 - 根E:\workSpace\dify-agent/main，运行0.361.0-6a7fa27661878cc800e9/289文件/PID29024。241只改售后模板及版本：两会话boolean登记/消费等待，先消费，仅等待中的原格式单号绕过分类进原提取/严格成功/非空守卫；普通新话题仍分类，缺号重新登记。23节点24边、每状态唯一writer保持。新增状态必须正常逐项复核、重确认需求和保存当前计划，未绕门禁。
 - 旧图控制分类错误反例1项实际失败，修复后20新路径及相关售后/状态/提取/正常API共146通过，另29模拟读取/准入门禁通过，总175。原start/stop归属部署，原23Task/密文账本资产及388消费文件保持。work/pending-order385/verify.py、before/after-deploy.json及post-deploy-data-snapshot.json。安全说明docs/pending-order-routing.md/json。模型/Dify HTTP新增0，真实新图未执行。241实现3c7322e已推，验收实际通过，现关闭。
@@ -16,10 +18,10 @@
 
 ## 3. 下一步
 
-1. 241实现3c7322e已推、175定向/保护部署通过并关闭。下一242 pending：实现新的独立完整状态图验收包；不重放384或其它已消费批，不因普通队列空停止。
+1. 241实现3c7322e/关闭7026b55已推。242本机实现/76门禁/20全链/最终冻结/预检实际通过，先实现提交后关闭242，新增243 need-user：对386全部新增范围及限定状态实例化/唯一失败轮诊断例外统一取得直接批准，当前不能执行真实新批。
 2. 仅新工具可精确允许两状态声明。conversation_state.native按Task.id确定UUID，冻结public-contract原型与新Task不同：创建本次新Task后只按确定uuid5替换声明ID，验证图/配置/初值false/名称类型/其它声明字段完全一致，冻结文件保持原样。publication.core包含conversation_variables，边界要核导入/草稿/发布/诊断对应声明，不能整体放松旧禁止状态的检查。
 3. 新正常API流程先保存计划后追加明确conversation_state复核，再重确认需求、重保存同图，确认配置构建。新轨迹公共前缀start/order_followup/consume_order_wait/route_order_followup；缺号首轮还需request_order_wait，第二轮补号必须绕过intent且经extract_order/非空守卫/lookup。替身协议只证明边界，不冒充模型效果。
-4. 先完成新本机完整隔离/源绑定冻结/可审查方案，再统一请求新直接批准。拟新完整两版六例/最后两轮、12启动14Service/两版资源各2/Task1/128读1登录/60分钟及失败轮最多4GET例外需明确新范围，当前未冻结未批准。搭建模型/新库0，Dify内部仍调用模型，估0.10 USD非账单硬限/宿主未知。旧余槽和费用不自动退借。普通委托不覆盖新增具体外部额度。
+4. 先完成新本机完整隔离/源绑定冻结/可审查方案，再统一请求新直接批准。新386固定完整两版六例/最后两轮、12启动14Service/两版资源各2/Task1/128读1登录/60分钟及失败轮最多4GET例外需明确新范围，已冻结但未批准。搭建模型/新库0，Dify内部仍调用模型，估0.10 USD非账单硬限/宿主未知。旧余槽和费用不自动退借。普通委托不覆盖新增具体外部额度。
 5. 最新数据保护是work/pending-order385/post-deploy-data-snapshot.json（与384 post-live相同，23Task/新Key/失败报告，排除server.pid），原388消费均保持。部署核361/PID29024/.venv执行文件/289快照后原脚本，不按端口杀进程；后端未运行则原start.ps1并等health200。只读必要文件/历史按编号，不全量/不通读290KB/不另起18760。
 6. 未观察实际Codex不足，继续实质推进；实际不足立停尽力整份交接，不重试/换号/购买/重置券。每push前根CHANGELOG/适用README/状态/整份交接，原GitHub main自主提交推送，排除work/data/原模型文/秘密。单次sierra已触发删除，无需再造定时任务。
 

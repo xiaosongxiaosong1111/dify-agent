@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "state": "frozen_not_approved",
+  "backlog": 242,
+  "batch_id": "stateful-chatflow386",
+  "plan_sha256": "cf0c13f433c309db977c864b244b9bb2223cbbcb0a05a0a4a73f28aa9b3263c6",
+  "manifest_sha256": "67c8a1623e21a389db4cd8874e14d271b45012ab31d5d51540d48d2e596f54f6",
+  "frozen_files": 15,
+  "protected_tasks": 23,
+  "protected_consumed_files": 388,
+  "runtime": {
+    "verified_pid": 29024,
+    "runtime_build": "0.361.0-6a7fa27661878cc800e9",
+    "source_files_matched": 289
+  },
+  "docker_readiness": {
+    "applicable": true,
+    "ready": true,
+    "compose_project": "dify-local",
+    "required_containers": 16,
+    "healthy_services": [
+      "api",
+      "db_postgres",
+      "local_sandbox",
+      "redis",
+      "sandbox"
+    ],
+    "dify_http_requests": 0,
+    "login_verified": false,
+    "business_verified": false
+  },
+  "gates_passed": 76,
+  "gates_log_sha256": "73353a403ba9dd59d99e1795a9842c042230ce527cc30948eef4897aae182125",
+  "public_protocol_cases": 20,
+  "rehearsal_proof_sha256": "e491c995b8d900afd45305a15704e7b0a2c1ceba585f3069b9fa86ab435f7ee2",
+  "success_counts": {
+    "model": 0,
+    "reads": 80,
+    "login": 1,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 14
+  },
+  "state_policy": {
+    "names": [
+      "order_wait_requested",
+      "order_wait_consumed"
+    ],
+    "type": "boolean",
+    "initial_values": [
+      false,
+      false
+    ],
+    "owner_ids": "uuid5:sierra:conversation:{task_id}:{name}",
+    "only_declaration_ids_change": true,
+    "followup_bypasses_classifier": true,
+    "explicit_post_plan_review": true
+  },
+  "failure_diagnostic_policy": {
+    "business_rule_failure_only": true,
+    "max_reports": 1,
+    "max_management_reads": 4,
+    "post_failure_service_requests": 0,
+    "post_failure_remote_writes": 0,
+    "stop_after_capture": true
+  },
+  "physical_model_dify_http": 0,
+  "approval_present": false,
+  "attempt_present": false,
+  "real_business_verified": false,
+  "claude_review_completed": false
+}
