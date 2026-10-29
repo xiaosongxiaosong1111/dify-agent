@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "backlog": 246,
+  "runtime": "0.363.0-337d1119bd845a02a18b",
+  "targeted_passed": 156,
+  "new_gate_tests": 15,
+  "before_counterexamples_failed": 4,
+  "baseline_fixture_failures_confirmed": 12,
+  "deployment": {
+    "stage": "after",
+    "state": "passed",
+    "runtime_build": "0.363.0-337d1119bd845a02a18b",
+    "verified_pid": 20300,
+    "files_matched": 290,
+    "changed_runtime_files": [
+      "backend/app/main.py",
+      "backend/app/workflow_plan.py",
+      "docs/workflow-plan-contract.md"
+    ],
+    "protected_tasks": 24,
+    "consumed_evidence_files_kept": 414,
+    "retained_guide_zip_kept": true,
+    "protected_evidence_and_zip_files": 415,
+    "data_secrets_assets_kept": true,
+    "new_model_dify_http": 0
+  },
+  "retained_graphs": {
+    "state": "passed",
+    "graphs": [
+      {
+        "version": "original",
+        "revision": 7,
+        "retained_native_equal": true,
+        "invalid_copy_rejected": true
+      },
+      {
+        "version": "modified",
+        "revision": 13,
+        "retained_native_equal": true,
+        "invalid_copy_rejected": true
+      }
+    ],
+    "task_owner_id_preserved_for_state_uuids": true,
+    "production_task_changed": false,
+    "old_zip_changed": false,
+    "model_dify_http": 0,
+    "actual_new_platform_verified": false
+  },
+  "resume_check": {
+    "state": "passed",
+    "runtime": "0.363.0-337d1119bd845a02a18b",
+    "protected_tasks": 24,
+    "protected_files": 415,
+    "data_secrets_assets_kept": true,
+    "source_files_matched": 290,
+    "new_model_dify_http": 0,
+    "previous_targeted_tests": 156,
+    "tests_reexecuted": false
+  },
+  "previous_commit_command_not_executed_due_usage_review_failure": true,
+  "new_model_dify_http": 0,
+  "actual_new_business_verified": false,
+  "claude_review_completed": false
+}

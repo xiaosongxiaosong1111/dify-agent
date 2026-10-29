@@ -133,6 +133,7 @@ def test_retrieval_uses_explicit_ids_and_fallback_top_k() -> None:
         "id": "retrieve", "type": "knowledge-retrieval", "title": "检索", "config": {},
     })
     plan["nodes"][2]["config"]["context_variable_selector"] = ["retrieve", "result"]
+    plan["nodes"][2]["config"]["user_prompt"] += " 资料：{{#context#}}"
     plan["edges"] = [
         {"source": "start", "target": "retrieve"},
         {"source": "retrieve", "target": "llm"},

@@ -316,6 +316,12 @@ def validate_plan(task: dict, plan: dict, *, _scope_types=None, _scope_file_item
             selector = config.get("context_variable_selector")
             if selector is not None and (not isinstance(selector, list) or len(selector) != 2):
                 errors.append(f"LLM {node_id}.context_variable_selector 必须是 [节点ID, 变量名]")
+            if isinstance(system_prompt,str) and isinstance(user_prompt,str):
+                uses_context=any('{{#context#}}' in prompt for prompt in (system_prompt,user_prompt))
+                if selector is not None and not uses_context:
+                    errors.append(f"LLM {node_id} 已绑定检索上下文，但 system_prompt 或 user_prompt 中须明确引用 {{{{#context#}}}}；仅绑定不会自动把资料加入提示词，不自动改写。")
+                elif selector is None and uses_context:
+                    errors.append(f"LLM {node_id} 使用 {{{{#context#}}}} 时须明确提供 context_variable_selector，不自动选择检索节点或把空上下文当资料。")
         elif kind=='document-extractor':
             from .document_extractor import validate as validate_document,NOTE as DOCUMENT_NOTE
             errors.extend(f'文档提取 {node_id}：{message}' for message in validate_document(config))

@@ -19,6 +19,7 @@ def plan(owner='iteration',mode='workflow'):
     child=cfg['nodes'][0];cfg['nodes']=[retrieval,child]
     # Bind a typed array into the final code, without executing code on this host.
     child['config']['variables'].append({'variable':'hits','value_selector':['search','result']})
+    child['config']['code']=child['config']['code'].replace('def main(', 'def main(hits: list, ',1)
     return p
 
 

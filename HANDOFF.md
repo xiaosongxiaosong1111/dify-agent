@@ -1,16 +1,14 @@
-# HANDOFF — Sierra（243/386人工Chatflow双版六例完成，245集中接口指南已部署362；24Task）
+# HANDOFF — Sierra（246通用上下文门禁已部署363，上轮额度拒绝后恢复补交；24Task）
 
 ## 1. 当前状态
 
-- 245新增mock_integration_guide.py及delivery_bundle导出：指南按已构建原生DSL列输入selector/参数、显式输出类型、下游引用、待补接口资料和替换复验步骤；不复制代码/表，不自动接入，未知明确待补。摘要入manifest，原DSL/report字节/false flags保持，无模拟仍四文件。旧反例实际失败，10新+相关共26定向过；原脚本362/290/PID32184保护部署，原24Task/414消费及双ZIP保持。只1本机GET核当前r13五文件包，模型Dify0。docs/mock-integration-guide.md/json，补充本机包work/integration-guide389/modified-with-guide.zip，旧386原包不改。
-
-- 根E:\workSpace\dify-agent/main，运行0.362.0-5d9519236777f804ea5e/290文件/PID32184。代码实现3c7322e、241关闭7026b55；新包实现d1dc2cd/关闭e74f4ef已推。241确定接续路由175定向通过，不放松状态唯一writer或正常准入门禁。
-- 243/386按call_b34be6397c6c460c9a25e7198ef715e4 q0“允许全部新范围及限定状态实例化、失败轮诊断例外”唯一执行正常完成/永久消费，CLI exit0。0搭建模型/80管理GET/1加密登录/Task1/资源各2/Service14，共101 HTTP；12启动/14逐轮原生轨迹/双ZIP均取得，未用失败诊断例外。原23Task/388旧消费/密文资产保持，现24Task。
-- 新Task0623a2ae-e668-438d-8390-cb09d46c68db，最终r13/run_completed，两确认true/plan_stale=false，12/12启动满，禁止第13次。原版r7 App41b5dc01-04cb-49ff-8512-9ff99073250e/发布28623a90-ceb7-4cd6-84e4-a5c0bb0463e1；修改版r13 App3f17cfaa-8f94-4126-8083-995c6d92be73/发布4264d71a-764c-4dd7-a829-8f74450d0bc4。新Key切修改版，旧Key加密归档。
-- 两版政策命中/资料无相关答案/范围外/模拟订单有无/缺号后同会话补号六例均passed。原生轨迹含状态控制前缀；缺号登记等待且不查询，补号第二轮绕过intent，经extract_order/check_order/validate_order/check_order_value/order_lookup。两状态仅按本Task UUID确定实例化，初值False/图/其它声明保持。资料无相关答案两版均经grounded_answer，是片段不足兜底，不能称空检索。
-- 安全结果docs/stateful-chatflow-live-result-20261029.md/json。work/stateful-chatflow386/local-task-audit.json、post-live-data-snapshot.json及sealed-evidence-sha256.json（413条，含旧388、冻结回执及双ZIP）；索引自身SHA65e6395d0aebcfea4c51199614dd535293d7eb6b51927a75ba45b536f07a2a4a另核。双ZIP在该批live-output/original.zip、modified.zip，包内本机flags仍false，真实结果单列。
-- 15342输入/849输出/16191总tokens，平台报价0 USD非账单/不证明免费，宿主未知；估0.10非硬账单限，余48管理读取及旧费用不退借。新保守1341读/44登录/资源各24/Service106，主模型30/账本0.755473652保持。
-- Docker原dify-local16服务/1.17.1健康已预检，不升级/新建服务。Claude318失败/用量未知无恢复证据，不形式重试或冒充子审查；根代理完成本轮。
+- 根E:\workSpace\dify-agent/main，实际运行0.363.0-337d1119bd845a02a18b/290文件/PID20300，health200。246只改workflow_plan.py上下文门禁、main.py版本及模型流程契约；无新模型/Dify请求。上次最终文档更新/commit/push的exec在进程创建前被“usage limit”自动审批失败拒绝，未执行；当时仅docs/llm-context-usage.md已创建，代码/测试/队列未提交。今日用户明确继续后核对保持，正在补交，不冒称此前提交成功。
+- 246四个旧反例确认：绑定检索但实际提示缺context占位、占位无绑定，两应用类型均误通过。现在system/user任一精确引用即可，容器复用同门禁；手工保存前拒绝，受控模型候选保留原文/诊断/用量，不覆盖旧图，不自动补提示/选来源/追加模型。15新+相关共156定向实际过；12旧夹具失败先在362确认，只有hits函数参数和保存后state_sequence快照两处测试修正，无生产规则放松。日志work/llm-context390/targeted-fixed.log（121）及planning-paths-fixed.log（35）。
+- 363按原脚本保护部署，原24Task/账本密文资产、414消费及指南ZIP合415文件保持。实际386原r7/修改r13只读重编译保持Task owner ID，原生与旧ZIP一致；删引用副本拒绝，未改Task/旧图/包/费用。2026-10-30恢复核源码快照/数据/415证据及所属PID过，未重复测试。docs/llm-context-usage.md/json。
+- 245接口替换指南实现5d47c5b/关闭0cd750d已推：26定向及362保护部署/现有r13本机导出过，五文件指南包work/integration-guide389/modified-with-guide.zip，旧386双包不改。指南只导出结构契约与待补资料/复验步骤，不接真实接口。
+- 243/386人工Chatflow双版六例/14原生轨迹/双ZIP真实通过，实际80读1登录/Task1/资源各2/Service14/搭建模型0，共101HTTP。用户call_b34be6397c6c460c9a25e7198ef715e4 q0直接批准全部新范围和例外后唯一执行，永久消费；未用失败诊断例外。新Task0623a2ae-e668-438d-8390-cb09d46c68db/r13/run_completed，12/12启动满，两确认true/plan_stale=false。原23Task/388消费保持，现24Task。
+- 原版r7 App41b5dc01-04cb-49ff-8512-9ff99073250e/发布28623a90-ceb7-4cd6-84e4-a5c0bb0463e1；修改版r13 App3f17cfaa-8f94-4126-8083-995c6d92be73/发布4264d71a-764c-4dd7-a829-8f74450d0bc4。两版缺号首轮登记等待且不查询，补号同会话绕过intent，经提取/非空守卫查询；无答案例是有片段不足后的grounded_answer兜底，不能称空检索。Key切修改版、旧Key加密归档。
+- 安全实际结果docs/stateful-chatflow-live-result-20261029.md/json。work/stateful-chatflow386/post-live-data-snapshot.json及sealed-evidence-sha256.json（413条）/索引自身SHA65e6395d0aebcfea4c51199614dd535293d7eb6b51927a75ba45b536f07a2a4a保持；双ZIP及平台15342输入/849输出/16191tokens、0报价非账单不变。保守模型30/1341读/44登录/资源各24/Service106，模型账本0.755473652保持；实际累计模型26/资源18/Service57/逐次规则命中50。
 
 ## 2. 已有成果与剩余
 
@@ -21,11 +19,11 @@
 
 ## 3. 下一步
 
-1. 243真实结果11dd7cc/关闭20f2227已推；244剩余清单991f682/关闭3a93e60已推。245实现5d47c5b已推，26定向/保护部署及现有任务本机导出验收通过并关闭。已确认集中指南缺口已补，按docs/remaining-work-20261029.md核下一自主语义质量/版本边界具体范围；新增真实模型/Dify/资源费用尚无新授权。当前无新pending及已复现可直接修的代码问题，原25代表性真实语义/版本观察尚缺，不能据此判全部代码或项目验收完成。后续先制定一份具体整批方案再按边界取得直接授权，不重复已通过人工固定图、造微任务或为耗额度扩调用。尚未观察实际Codex不足，本轮停止于新的真实观察范围边界。
-2. 386已消费且12启动满，禁止追加Service/读取/诊断/重放。未用48读/费用保持，旧384余91/资源1/7Service及更旧槽不借退。新外部模型/Dify/资源费用需完成可审查方案后一次直接批准，常规委托不扩大具体边界。
-3. 最新保护基线work/integration-guide389/post-deploy-data-snapshot.json（与386 post-live相同、24Task/修改版Key/全部轨迹），该目录consumed-sha256.json保护414条（386封存413及索引自身）；原双ZIP和所有旧失败/unknown/费用保持，不能跑旧23Task部署保护。部署核362/PID32184/.venv/290快照归属后原start/stop，不按端口杀进程；后端停才原start.ps1并等health200。
-4. 只复用加密凭据，不抄聊天密码/输出提交秘密。只读必要文件/历史按编号，不通读项目或290KB历史，不全量测试/另起18760。尚无实际Codex额度不足，继续实质工作；不足即停尽力整份交接，不重试/换号/购买/重置券。单次sierra已触发删除。
-5. 自主commit/push原GitHub main，每push前根CHANGELOG/适用README/状态/整份交接，排除work/data/模型原文/秘密；按实际结果不造模型质量/签收/费用节省。
+1. 246代码、模型契约、15新增/相关共156定向、363保护部署和386双版只读原生一致性已实际通过。上次提交整条exec被实际额度审批失败拒绝，命令未执行、不能冒称已推；今日2026-10-30用户明确继续后已核原24Task/415证据、290源码快照及PID20300归属保持，补齐日志交接。先实现提交推送，再按实际commit关闭246。
+2. 下一从既定版本边界核对历史预览/恢复是否保持Task owner ID（会话声明UUID由Task.id确定），仅读version_content.py/version_restore.py及相应测试；有实际代码反例才入队修复，正确就不造微任务。自主模型Chatflow质量仍未验收，未来真实新范围先完成可审查方案再取得直接批准，不重复人工固定图。
+3. 386已消费且12/12启动满，禁止追加运行/诊断/重放；余48读及费用和旧384等余槽不退借。新模型/Dify/资源费用尚无新授权。只复用加密资料，不抄聊天密码/输出提交秘密。
+4. 最新数据保护work/llm-context390/post-deploy-data-snapshot.json，consumed-sha256.json共415条（旧386封存413及索引自身+保留指南ZIP）；resume-protection-20261030.json核当前状态。原24Task、账本密文资产、旧双ZIP及补充包保持。部署核363/PID20300/.venv/290快照后原start/stop，不按端口杀进程；停服才原start.ps1等health200。
+5. 已观察上轮实际Codex额度拒绝，未重试/换号/购买/用券；此次用户已明确恢复继续，以实际可用为准。若再次额度不足立停，尽力整份交接；审批失败若使写入无法执行如实报告，不绕过。Claude318失败/用量未知无恢复证据，不形式重试或冒充子审查。只读必要文件，不全量/通读290KB/另起18760。每push前CHANGELOG/适用README/状态/整份交接，排除work/data/原模型文/秘密，自主推原GitHub main。
 
 ## 4. 账本及外部边界
 

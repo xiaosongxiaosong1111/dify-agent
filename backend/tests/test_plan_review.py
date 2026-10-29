@@ -46,7 +46,7 @@ def test_legacy_implicit_template_task_still_works_without_data_migration(client
 
 @pytest.mark.parametrize('key,value',[('workflow_plan',{'schema_version':1}),('dsl_reference',{'id':'kept'}),('artifact',{'revision':1}),('dify_app_id','kept')])
 def test_preview_never_replaces_existing_source_or_saved_work(client,key,value):
-    t=ready(client);t[key]=value;before=copy.deepcopy(t);main.store.put('task',t['id'],t)
+    t=ready(client);t[key]=value;main.store.put('task',t['id'],t);before=copy.deepcopy(main.get_task(t['id']))
     r=client.post('/api/tasks/'+t['id']+'/linear-plan-preview',json={'revision':t['revision'],'request_nonce':str(uuid.uuid4())})
     assert r.status_code==422 and client.get('/api/tasks/'+t['id']).json()==before
 
