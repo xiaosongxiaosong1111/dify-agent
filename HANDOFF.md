@@ -1,4 +1,4 @@
-# HANDOFF — Sierra（224逐轮诊断已部署356；原18及全部真实边界保持）
+# HANDOFF — Sierra（225原Chatflow订单双版执行器已冻结待新批准；356及原18保持）
 
 ## 1. 当前状态
 
@@ -16,12 +16,14 @@
 
 ## 3. 下一步
 
-1. 224逐轮诊断已开发、定向验收并部署0.356.0-5476d30269eac2811387/289文件/PID35272，实现ad2c150/关闭bbda254已推，实际验收完成后224 done。原355固定快照已复现：接口拒绝turn_index且只选末轮/失败轮，无法诊断首轮。现显式选已保存唯一轮次，默认旧自动行为保持；切轮只看所属报告，不自动远端读取/全部采集，整体结果/unknown和成绩保持，首轮不借后续错误，成功轮及旧报告不自动准备修复。源run_diagnostics.py/RunDiagnosticPanel.tsx，docs/diagnostic-turn-selection.md及result JSON。
-2. 124项相关后端、类型检查/正式构建、5公开临时Store界面及视觉通过：两轮分别读/切换无请求/回看、整体失败中首轮成功、未知待核对轮保持、重复轮拒绝、变源409。辅助脚本先后遗漏展开摘要/标题全值及正常保存的updated_at/state_sequence，已修并严格核预期保存次数；失败日志保留，非真实批失败。实际r17只GET核单轮Workflow不误显示逐轮控件，原四运行/两样例不变，模型Dify0，真实Chatflow新轨迹未出站。
-3. 本轮原355服务未运行，原start恢复355/PID35660并核health200、289源快照及原18保持；之后核其项目Python/固定快照归属，仅原stop/start部署356，health/前端200、289全文件匹配。最新保护基线work/turn-diagnostic374/post-deploy-data-snapshot.json，原18/账本密文资产/全部消费包保持，与372基线只server.pid变化。C1仍r17/run_completed/两确认true/plan_stale=false/App9b73f33e.../4次已满，禁止第五次或旧批重放。
-4. 用户继续开发，优先原§11 Chatflow售后订单链的具体可复现缺口；旧有限复核结论只代表当时范围，不称代码全完。224提交后续核FR40/41的run_comparison.py/RunComparisonPanel与原说明，确认其当前明确限定单轮且拒绝多轮/复用会话，不会截上下文冒充比较，本轮不把已明确限制改判新缺陷。队列再无pending/doing，本次有限核对未确认新的当前范围代码阻断；下一应形成原Chatflow完整真实批的可审查方案后请求新范围，不为耗额度添加对照扩展或重写旧Workflow C1。221历史正文/222消息映射/223两轮草稿及固定Workflow C1/批量C2保持；原25语义质量/原Chatflow订单实际链和逐轮轨迹仍未验收，六组扩展不自动开发。
-5. 没有新的真实批授权；任何新模型/每轮Service/资源/读取登录须先完成完整可审查本机方案及对应直接批准，不借旧槽、重放或反复重写已闭合Workflow C1。本轮尚未观察到实际Codex不足，遇不足立即停、尽力整份交接，不重试/换号/购买/重置券。
-6. Claude318失败/用量未知无恢复证据，不形式重试或冒充审查，本轮根代理完成。只读必要文件，不通读项目/290KB历史、不跑全量/18760，Playwright绝对模块。单次sierra已触发暂停删除，未再定时。每push先根CHANGELOG/适用README/状态/整份交接，排除work/data/ZIP/模型原文/秘密，所有原资源费用/unknown/消费不重试边界继续有效。
+1. 用户继续至实际Codex不足，当前未观察到不足。225已入队doing：原Chatflow订单人工模板双版本独立平台核对执行器与完整新范围，源tools/chatflow-order375；只做本机开发/隔离及冻结，当前没有新直接批准/approval/attempt，不执行真实批。原356-5476d30269eac2811387/289文件/PID35272保持，224实现ad2c150/关闭bbda254及交接ee982cd已推。
+2. 拟新Task1/App首次发布Key各2，0Sierra搭建模型/新库/真实订单接口，正常产品API人工17节点模板，两版只两处同无答案文案同步加商品型号；每版6样例（资料命中/无答案、范围外、模拟订单有/无、缺号后补号），6启动/7Service，两版12启动/14Service，逐轮映射/节点及发布图核对/双ZIP。本范围不是模型自主访谈规划或完整原§11/25质量验收。无答案允许空检索固定分支或资料片段不足时LLM兜底，不把后者当空检索。
+3. 新范围拟128管理读取/1次加密登录、整批60分钟、新Task12启动/45分钟，Dify估0.10 USD非账单硬限/宿主未知；Sierra模型30/账本0.755473652不变，新保守读取701/登录38/资源各14/Service36只是拟议，不是当前授权。原18/旧unknown及全部费用/未用槽保持不退借，新Key切专用连接并加密归档旧Key，任何异常整批停不阶段重试。
+4. 本机完整正常替身已通过：0模型/80管理读取/1登录/App发布Key各2/14Service，原公开保护对象/密文资产保持；首次缺replacement_todo静态拒绝，第二次HTTPX未附request使Cookie解析拒绝，均仅公开临时Store，已按原合同/真实未读响应协议修正，旧日志保留，不是实际批失败。35项独立边界测试通过（首次测试import路径遗漏，修正后过），另补旧导入result.app_id保护；两种正常无答案路径及11停止共13场景已过，源前后哈希绑定，work/chatflow-order375-local/rehearsal-release及rehearsal-proof.json；未跑全量或真实外部。
+5. 消费前只读核对先因Docker未启动阻止，未消费/登录；已按既有启动授权启动E:\workSpace\DockerDesktop\Docker Desktop.exe/PID25424，原dify-local 16服务及健康/1.17.1镜像、356所属PID35272/289快照就绪通过（work/chatflow-order375-local/admission-proof.json），Dify HTTP0/未验证登录。最终原18/全部密文资产消费及289源快照保护已过，work/chatflow-order375已唯一冻结15文件，plan97cad3a40f431b781513415af5ffac34dcefd0b03520575b334d62c4fca5fa45/manifest98807f3da253228a8aa48ac00d270e9586bf83695fdfa10c8140450fe2865e4c，execute validate已过，尚无approval/attempt。完整docs/chatflow-order-platform-plan-20261029.md及preflight JSON/根日志/README/状态已写，下一实现commit后225 done并关闭/push，再一次请求新完整范围，不执行未批准live。冻结入口严格要求最终源与证明一致；live只允许canonical、非优化模式、新直接批准对应plan/manifest、原数据/环境/运行快照/PID归属及Docker就绪，再唯一消费；不用旧365/368消费包或旧许可。未新直接批准时不真实登录/模型/Dify。
+6. 1.17.1官方workflow_run_fields.py已只读核实Console详情不含workflow_id，只有实际图等字段；执行器不伪造该字段硬绑发布ID，按App消息/会话关联run并分别核执行/发布/本地图。来源见https://raw.githubusercontent.com/langgenius/dify/1.17.1/api/fields/workflow_run_fields.py。
+7. 原保护基线work/turn-diagnostic374/post-deploy-data-snapshot.json，当前C1仍r17/run_completed/两确认true/plan_stale=false/App9b73f33e.../4次已满，禁止第五次及所有旧批重放。221/222/223/224及固定Workflow C1/批量C2保持，原Chatflow实际质量仍缺；六组未适配扩展不自动开发。实际Codex不足立刻停，尽力整份交接，不重试/换号/购买/重置券。
+8. Claude318失败/用量未知无恢复证据，不形式重试或冒充审查，本轮根代理。只读必要文件，不通读项目/290KB历史、不跑全量/18760；此次执行器是正常API路径，无Playwright依赖。sierra单次已删除，未再定时。每push先根CHANGELOG/适用README/状态/整份交接，排除work/data/ZIP/模型原文/秘密，所有旧资源费用/unknown/消费边界继续有效。
 
 ## 4. 账本及外部边界
 

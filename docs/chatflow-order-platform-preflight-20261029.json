@@ -1,0 +1,85 @@
+{
+  "backlog": 225,
+  "state": "frozen_not_approved",
+  "runtime_preserved": "0.356.0-5476d30269eac2811387",
+  "targeted_scope_tests": 35,
+  "isolated_protocol_cases": 13,
+  "normal_counts": {
+    "model": 0,
+    "reads": 80,
+    "login": 1,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 14
+  },
+  "source_hash_bound_before_after": true,
+  "prefix_stopping_verified": true,
+  "production_task_count_kept": 18,
+  "old_objects_ciphertexts_assets_and_consumed_receipts_kept": true,
+  "physical_model_dify_http": 0,
+  "freeze": {
+    "state": "frozen_not_approved",
+    "files": 15,
+    "plan_sha256": "97cad3a40f431b781513415af5ffac34dcefd0b03520575b334d62c4fca5fa45",
+    "manifest_sha256": "98807f3da253228a8aa48ac00d270e9586bf83695fdfa10c8140450fe2865e4c",
+    "physical_model_dify_http": 0
+  },
+  "proposed_limits_not_authorized": {
+    "new_tasks": 1,
+    "model": 0,
+    "reads": 128,
+    "login": 1,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 14
+  },
+  "proposed_conservative_upper_not_authorized": {
+    "model": 30,
+    "reads": 701,
+    "login": 38,
+    "import": 14,
+    "publish": 14,
+    "key": 14,
+    "run": 36
+  },
+  "proposed_new_dify_estimate_usd": "0.10",
+  "estimate_is_hard_bill_limit": false,
+  "host_cost_unknown": true,
+  "model_estimate_book_upper_usd_unchanged": "0.755473652",
+  "new_direct_approval_present": false,
+  "attempt_present": false,
+  "actual_chatflow_business_verified": false,
+  "model_autonomous_intake_or_planning_verified": false,
+  "full_original_section11_complete": false,
+  "business_acceptance_complete": false,
+  "read_only_admission": {
+    "state": "read_only_admission_ready_not_approved",
+    "runtime": {
+      "verified_pid": 35272,
+      "runtime_build": "0.356.0-5476d30269eac2811387",
+      "source_files_matched": 289
+    },
+    "local_dify_readiness": {
+      "applicable": true,
+      "ready": true,
+      "compose_project": "dify-local",
+      "required_containers": 16,
+      "healthy_services": [
+        "api",
+        "db_postgres",
+        "local_sandbox",
+        "redis",
+        "sandbox"
+      ],
+      "dify_http_requests": 0,
+      "login_verified": false,
+      "business_verified": false
+    },
+    "dify_http_requests": 0,
+    "credentials_decrypted": false,
+    "new_approval_present": false,
+    "attempt_present": false
+  }
+}
