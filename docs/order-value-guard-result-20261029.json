@@ -1,0 +1,25 @@
+{
+  "stage": "after",
+  "state": "deployed_controlled_order_branch_verified",
+  "runtime_build": "0.359.0-17860f0f9043dfa61c21",
+  "verified_pid": 4028,
+  "files_matched": 289,
+  "changed_runtime_files": [
+    "backend/app/after_sales_starter.py",
+    "backend/app/main.py"
+  ],
+  "tasks": 21,
+  "original_data_secrets_assets_kept": true,
+  "consumed_files_kept": 346,
+  "new_model_dify_http": 0,
+  "backlog": 235,
+  "targeted_tests": 83,
+  "new_order_path_cases": 13,
+  "old_blank_counterexamples_failed": 4,
+  "template_nodes": 19,
+  "template_edges": 19,
+  "strict_extractor_success_guard_kept": true,
+  "actual_fixed_graph_retested": false,
+  "business_verified": false,
+  "protection_baseline": "work/order-value381/post-deploy-data-snapshot.json"
+}

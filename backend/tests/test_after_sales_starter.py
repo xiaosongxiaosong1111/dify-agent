@@ -33,7 +33,10 @@ def test_full_graph_has_grounded_faq_no_hit_order_success_failure_and_clarificat
     edges={(e['source'],e['sourceHandle'],e['target']) for e in root['workflow']['graph']['edges']}
     assert {('intent','clarify','clarify'),('intent','faq','retrieve'),('intent','order','extract_order'),
         ('check_hit','found','grounded_answer'),('check_hit','false','no_hit'),
-        ('check_order','extracted','order_lookup'),('check_order','false','missing_order')}<=edges
+        ('check_order','extracted','validate_order'),('check_order','false','missing_order'),
+        ('validate_order','source','check_order_value'),('check_order_value','has_order','order_lookup'),
+        ('check_order_value','false','missing_order')}<=edges
+    assert len(native)==19 and len(edges)==19
     assert native['retrieve']['dataset_ids']==['existing-faq'] and native['retrieve']['multiple_retrieval_config']['top_k']==3
     for node_id in ['intent','extract_order','grounded_answer']:
         assert native[node_id]['model']['name']=='chosen-model' and native[node_id]['model']['provider']=='test/provider'
@@ -122,6 +125,7 @@ def test_actual_preview_readonly_then_explicit_save_confirm_and_static_download(
         response=client.post(path+'/after-sales-plan-preview',json=payload)
     assert response.status_code==200,response.text
     value=response.json();assert value['input_sha256']==digest(inputs()) and value['request_nonce']==payload['request_nonce']
+    assert value['node_count']==len(json.loads(value['plan_text'])['nodes'])==19
     assert all(value[k] is False for k in ['task_changed','model_called','network_requested','code_executed','platform_checked','business_verified'])
     assert main.get_task(task['id'])==original and main.store.get('task_budget',task['id'])==budget
     saved=client.post(path+'/plan',json={'revision':task['revision'],'plan_text':value['plan_text']})

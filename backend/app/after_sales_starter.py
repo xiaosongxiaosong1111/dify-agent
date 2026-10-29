@@ -19,6 +19,10 @@ COLLECT_CODE = ('def main(documents: list) -> dict:\n'
     '    if not isinstance(documents, list):\n'
     '        raise ValueError("检索结果须为列表，不将异常当无命中。")\n'
     '    return {"has_result": bool(documents)}\n')
+ORDER_VALUE_CODE = ('def main(order_no: str) -> dict:\n'
+    '    if not isinstance(order_no, str):\n'
+    '        raise ValueError("提取的订单号须为文字，不转换类型或把类型错误当缺号。")\n'
+    '    return {"has_order": bool(order_no.strip())}\n')
 
 
 def digest(value):
@@ -78,6 +82,11 @@ def prepare(task, inputs):
         'failure_policy':{'behavior':'explicit_success_branch','guard_node_id':'check_order','success_case_id':'extracted'}})
     node('check_order','if-else','提取成功后才能查询',{'cases':[{'case_id':'extracted','logical_operator':'and','conditions':[
         {'variable_selector':['extract_order','__is_success'],'varType':'number','comparison_operator':'=','value':'1'}]}]})
+    node('validate_order','code','核对业务订单号非空',{'code_language':'python3','code':ORDER_VALUE_CODE,
+        'variables':[{'variable':'order_no','value_selector':['extract_order','order_no']}],
+        'outputs':{'has_order':{'type':'boolean','children':None}}})
+    node('check_order_value','if-else','非空订单号才能查询',{'cases':[{'case_id':'has_order','logical_operator':'and','conditions':[
+        {'variable_selector':['validate_order','has_order'],'varType':'boolean','comparison_operator':'is','value':True}]}]})
     node('order_lookup','code','合成订单查询（非真实接口）',{'code_language':'python3','code':template({}),
         'variables':[{'variable':'order_id','value_selector':['extract_order','order_no']}],
         'outputs':{'result':{'type':'string','children':None},'status':{'type':'string','children':None}}})
@@ -87,7 +96,9 @@ def prepare(task, inputs):
         ('intent','retrieve','faq'),('retrieve','collect_docs',None),('collect_docs','check_hit',None),
         ('check_hit','grounded_answer','found'),('grounded_answer','faq_answer',None),
         ('check_hit','no_hit','false'),('no_hit','no_hit_answer',None),('intent','extract_order','order'),
-        ('extract_order','check_order',None),('check_order','order_lookup','extracted'),('order_lookup','order_answer',None),
+        ('extract_order','check_order',None),('check_order','validate_order','extracted'),
+        ('validate_order','check_order_value',None),('check_order_value','order_lookup','has_order'),
+        ('check_order_value','missing_order','false'),('order_lookup','order_answer',None),
         ('check_order','missing_order','false'),('missing_order','missing_order_answer',None)]
     graph = {'schema_version':1,'nodes':nodes,'edges':[{'source':a,'target':b,**({'source_handle':c} if c else {})} for a,b,c in edges]}
     value = prepare_order(task, render(graph), 'order_lookup', ['extract_order','order_no'], inputs['records_text'], inputs['dependency'])
@@ -132,7 +143,7 @@ def register(h):
             return {'task_id':item_id,'revision':task['revision'],'app_type':task['app_type'],
                 'request_nonce':str(payload.request_nonce),'input_sha256':digest(inputs),
                 'plan_text':text,'plan_sha256':hashlib.sha256(text.encode()).hexdigest(),
-                'verification':'local_after_sales_template_preview','note':NOTE,'node_count':17,
+                'verification':'local_after_sales_template_preview','note':NOTE,'node_count':19,
                 'warnings':validation.get('warnings',[]),'task_changed':False,'model_called':False,
                 'network_requested':False,'code_executed':False,'platform_checked':False,'business_verified':False}
     h.app.include_router(router)
