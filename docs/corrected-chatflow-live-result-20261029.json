@@ -1,0 +1,82 @@
+{
+  "backlog": 231,
+  "batch_id": "corrected-chatflow378",
+  "state": "failed_rule_stopped_consumed",
+  "human_question_ref": "call_ec642cce38c5403bb7a3535c0ffd7ad8 q0",
+  "counts": {
+    "model": 0,
+    "reads": 13,
+    "login": 1,
+    "import": 1,
+    "publish": 1,
+    "key": 1,
+    "run": 1
+  },
+  "physical_http": 18,
+  "task_id": "0f9467f9-f54c-45cf-91b1-b52e23bf67b8",
+  "revision": 5,
+  "local_run_id": "9bf74dca-d545-4dd6-9748-0bccae09b4ff",
+  "app_id": "57082fe4-e2d7-4c25-ad89-6b24a08dff51",
+  "published_workflow_id": "31a159a2-f88c-4d16-8c20-a70a7f676d1f",
+  "message_id": "0fc8efa9-e074-4419-9c12-15ba696eba68",
+  "conversation_id": "5adf92b3-6da2-42f1-a06d-2f69d07f0df9",
+  "answer": "可以退货。政策编号：ZXRET715。",
+  "evaluation_status": "failed",
+  "expected_contains": [
+    "ZXRET715",
+    "七天",
+    "未拆封"
+  ],
+  "missing_expected": [
+    "七天",
+    "未拆封"
+  ],
+  "retrieval_resources_returned": 2,
+  "usage": {
+    "prompt_tokens": 1026,
+    "completion_tokens": 72,
+    "total_tokens": 1098,
+    "total_price": "0",
+    "currency": "USD"
+  },
+  "reported_price_not_bill": true,
+  "native_trace_read": false,
+  "remaining_cases_second_version_zip_executed": false,
+  "original19_kept": true,
+  "total_tasks": 20,
+  "old_evidence_files_kept": 304,
+  "protection": {
+    "original_objects_kept": true,
+    "old_credentials_and_assets_kept": true,
+    "dedicated_connection_only": true
+  },
+  "conservative_upper": {
+    "model": 30,
+    "reads": 829,
+    "login": 40,
+    "resources_each": 16,
+    "service": 50
+  },
+  "actual_cumulative": {
+    "sierra_models": 26,
+    "resources_each": 13,
+    "service": 23,
+    "formally_passed_service": 19
+  },
+  "model_estimate_book_upper_usd": "0.755473652",
+  "unused_batch_reads_retained": 115,
+  "unused_batch_resources_each_retained": 1,
+  "unused_batch_service_retained": 13,
+  "runtime": "0.357.0-c038db013b5e96bc4d3e",
+  "evidence_sha256": {
+    "plan.json": "fe213d6872661aad06bc144a5990ca7c33c5388f9d40432be510a6eb31211725",
+    "manifest.json": "cb4f91d4bf8f459b34ae6174ce47e1cd930737e0fbdfb5cc0794b10f8dcf3b80",
+    "approval.json": "45a4b214efc3c5463fa6cd77d90e13ff27b64daeadebb14eb859a667b77727e0",
+    "attempt.json": "07b9c75dfc6ba98aaac328de8da9f0419e2c7e136162ea1b3d96b7b15bb8aabc",
+    "worker-started.json": "606820ddccbe1b8604680aaea39167f7d48fc01a51b18e7484e9e7c9bf9ffe58",
+    "live-output/progress.json": "088b5bd40ffb13c1cc77fe8559ead7db892a166525c3e0398d0692e1d12535cf",
+    "post-live-data-snapshot.json": "124e554ce3306a841b04f69fc920e2f371474b58df58d2ed255ef1d94cab16c0"
+  },
+  "protection_baseline": "work/corrected-chatflow378/post-live-data-snapshot.json",
+  "business_verified": false
+}

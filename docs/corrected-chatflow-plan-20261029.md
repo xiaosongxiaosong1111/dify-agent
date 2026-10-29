@@ -1,4 +1,6 @@
-# 修复上下文后的独立完整Chatflow批378（未批准）
+# 修复上下文后的独立完整Chatflow批378（执行前冻结方案）
+
+当前：已获call_ec642cce38c5403bb7a3535c0ffd7ad8 q0新直接批准并唯一执行/消费，首例条件完整性规则failed即停。下文未批准/拟议按冻结时点理解。[实际结果](corrected-chatflow-live-result-20261029.md)。
 
 375首例失败后已停止，376新直接批准的10读1登录已完成诊断并消费：检索2片段、进入grounded_answer。229已离线复现并修复提示缺少Dify上下文占位符的问题，部署357。旧Task、App、失败规则及回答保持。[实际诊断](first-case-trace-live-result-20261029.md)、[代码修复与部署](after-sales-context-delivery.md)。
 

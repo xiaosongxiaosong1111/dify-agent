@@ -1,14 +1,14 @@
-# HANDOFF — Sierra（230已实现，231待新378完整范围；357/19Task保持）
+# HANDOFF — Sierra（231/378首例缺条件失败即停，下一232补模板；357/20Task）
 
 ## 1. 当前状态
 
-- 230实现67ce71e已验收提交并关闭，231 need-user：新378完整方案37门禁/13公开场景及19/304保护过，已冻结15条目，无新approval/attempt/真实HTTP；仅下一新完整范围直接批准待定。
+- 231按call_ec642cce38c5403bb7a3535c0ffd7ad8 q0新直接批准唯一执行378，首例缺条件规则failed后永久停止/消费。实际13管理读/1登录/Task1/资源各1/Service1/模型0，共18 HTTP；20Task原19/304消费及密文资产保持，未追加节点/其它样例/第二版/ZIP。安全回执docs/corrected-chatflow-live-result-20261029.md/json。
 
 - 228按call_88f2d09849de46aeb7d3bf8b71f6a314 q0直接允许10读改授及新增1登录，唯一376执行完成/消费；实际10管理GET/1登录，0模型/Task/资源/Service，保存1诊断且原业务/规则失败保持。安全结果docs/first-case-trace-live-result-20261029.md/json；原生run8ce750c7-9abd-4d08-8180-23bba648b2e7，路径检索有2片段并进入grounded_answer，不是空检索/空分支。
 
 - 根E:\workSpace\dify-agent/main，运行0.357.0-c038db013b5e96bc4d3e/289文件/PID32940。Docker Desktop此前按既有启动授权恢复，原dify-local16服务/健康及1.17.1镜像已核；229只改售后模板user_prompt及版本，已按原归属脚本部署357。
 - 226按用户call_e81418955baa45b6ab79e316294a1f8e q0“允许这批完整新范围”唯一执行375，永久停止/消费。实际0搭建模型/13管理读/1登录/Task1/App首次发布Key各1/Service1，共18 HTTP；FAQ首例success但原包含ZXRET715/七天/未拆封规则failed，实际回答原无答案固定文字。未追加远端诊断/其余样例/第二版/ZIP，不重试或借余槽。
-- 当前19Task，原18保持。新Task62bb060f-b7fa-4397-acb0-ba931c7dbfb2/r5/run_completed，两确认true/plan_stale=false，Appaa4a052e-c7b4-4b84-b4bf-4fe741afb22f，发布图b4ef4a54-e19a-4c86-ae3b-9ac2b46accf3。本机runf7576baa-61f4-43b2-80d9-4ad0609c897f，消息091f7f7e-a0b8-46e2-8abd-d7db285ed11c/会话b4fbd90f-1b62-49f4-b90c-d55d725e1d0e；尚无原生run/轨迹。
+- 375历史新增第19Task，原18保持。新Task62bb060f-b7fa-4397-acb0-ba931c7dbfb2/r5/run_completed，两确认true/plan_stale=false，Appaa4a052e-c7b4-4b84-b4bf-4fe741afb22f，发布图b4ef4a54-e19a-4c86-ae3b-9ac2b46accf3。本机runf7576baa-61f4-43b2-80d9-4ad0609c897f，消息091f7f7e-a0b8-46e2-8abd-d7db285ed11c/会话b4fbd90f-1b62-49f4-b90c-d55d725e1d0e；首停时无原生轨迹，后376已读取原生8ce750c7...并保留诊断。
 - 安全回执docs/chatflow-order-platform-live-result-20261029.md/json；授权后保护基线work/chatflow-order375/post-live-data-snapshot.json（排除server.pid），原18/旧对象/六settled/全部密文资产与消费文件已核保持，专用Key切新App、旧Key加密归档。
 
 ## 2. 已有成果与剩余
@@ -19,18 +19,18 @@
 
 ## 3. 下一步
 
-1. 228/376已唯一成功/消费，结果1d153c5/关闭46bb503；10读1登录、0模型/Task/资源/Service，原FAQ业务failed保持。229上下文修复4e97a0e/关闭a0662ff已部署推送357：公开旧回归1失败，52相关定向/正常API静态交付通过，原19/304消费精确保持。新图实际效果仍未试跑，不能升级业务。
-2. 230新独立378完整方案本机已完成：复用375审查过正常API链，但固定357新模板、强制拒绝旧context遗漏图，原19/375及376和更旧304消费保护；37门禁/13完整公开协议场景真实HTTP0，15文件新冻结plan fe213d6872661aad06bc144a5990ca7c33c5388f9d40432be510a6eb31211725 / manifest cb4f91d4bf8f459b34ae6174ce47e1cd930737e0fbdfb5cc0794b10f8dcf3b80。work/corrected-chatflow378，无approval/attempt；源tools/corrected-chatflow378、测试backend/tests/test_corrected_chatflow_boundary.py，proof work/corrected-chatflow378-local/rehearsal-proof.json，来源摘要已绑定。
-3. 拟完整新增Task1/App首次发布Key各2、两版各6例（最后缺号补号两轮）、12启动14Service/逐轮轨迹/双ZIP、128管理读1登录；0Sierra模型/新库，Task45分钟/整批60分钟，Dify新估0.10 USD非账单硬限/宿主未知。拟保守读取701→829、登录39→40、资源14→16、Service36→50，模型30/账本0.755473652不增。旧375余105读/资源1/13Service及全部旧费用保持不借退；378不是改授，需完整新直接批准。第二版只两处同文案加商品型号，原期望不放宽，技术/规则异常整批停不重试。手工模板不是模型自主访谈规划或全§11/25项。
-4. 230实现67ce71e已提交完整方案/日志/状态/交接并验收关闭，231 need-user。推原GitHub main后统一询问绑定最终摘要的新完整范围。未获新直接答复前不生成approval/attempt或live，不能用375/376旧批准代替。取得批准后先核原19/304旧证据、冻结源、357运行归属/Docker，再唯一执行，异常停，未用槽不自动返还。
-5. 当前运行357-c038db013b5e96bc4d3e/289文件/PID32940；read-only预检通过。保护基线work/context-delivery377/post-deploy-data-snapshot.json（含正常376诊断/认证，19Task），不误用旧18或375前基线。源变化/部署须原固定快照及执行文件/PID核验后原start/stop，不按端口杀进程。旧App/Task不自动改图；只复用加密凭据，不从聊天复制密码或输出提交秘密。
-6. 未观察实际Codex不足，持续实质开发；不足立即停尽力整份交接，不重试/换号/购买/重置券。不因小模块停、不造微任务；若仅剩明确新外部范围则准确记录授权等待，不谎称额度耗尽。Claude318失败/用量未知无恢复证据，不形式重试或冒充审查。只读必要文件/历史编号，不全量/不通读290KB历史/另起18760；sierra单次已触发删除不重建。每push前根日志及适用README/状态/整份交接，排除work/data/模型原文/秘密。
+1. 231/378已永久消费并停，禁止重放/追加诊断/继续其它阶段。新Task0f9467f9-f54c-45cf-91b1-b52e23bf67b8/r5/run_completed、App57082fe4-e2d7-4c25-ad89-6b24a08dff51、发布图31a159a2-f88c-4d16-8c20-a70a7f676d1f，run9bf74dca-d545-4dd6-9748-0bccae09b4ff，message0fc8efa9-e074-4419-9c12-15ba696eba68/cid5adf92b3-6da2-42f1-a06d-2f69d07f0df9。实际答“可以退货。政策编号：ZXRET715。”；旧contains要求ZXRET715/七天/未拆封，缺后两项failed。输入/规则/原失败不改判。
+2. 保存响应带2份公开检索来源（有政策条件），新图已含context占位符，但未读原生模型提示或节点。新Token1026/72/1098、平台报价0USD不是账单或免费。不能只因有编号就改为通过。20Task保护基线work/corrected-chatflow378/post-live-data-snapshot.json，原19/304旧消费/资产精确保留，专用Key切新App旧Key加密归档。
+3. 232 pending：模板系统提示要求只按资料，却未明确完整列适用条件，模型只给结论/编号；先公开编译提示回归复现缺指令，再只补通用“资料明确给出的政策适用条件/编号/结论”要求，不硬编码政策事实、不放宽期望。定向验证后核357/PID32940/289快照归属，基于新20Task/全部378及更旧消费保护，用原stop/start部署；旧Task/App不自动改图，真实新效果未批准不能复跑。
+4. 先提交推送378实际失败/日志/README/状态/本交接，再做232；不能为首例failed继续消耗378剩余115读/资源1/13Service。375余105读/资源1/13Service和所有费用也继续保留不退借，376已成功消费无剩余。需要新真实范围必须完整本机可审查方案及直接新批准，不能自造改授。
+5. 229上下文修复4e97a0e/关闭a0662ff已部署357，52定向/原19及304消费保护通过；378实际不再无答案，但不证明其它质量或模型实际完整提示。原§11订单/连续会话/修改版双交付及25项仍未通过。主Sierra模型0新增，原模型设置和加密资料不变。
+6. 未观察实际Codex额度不足，继续实质开发；不足立即停尽力整份交接，不重试/换号/购买/重置券。不造微任务或重复小验收。Claude318失败/用量未知无恢复证据，不形式重试或冒充审查。本轮根代理；只读必要文件/历史编号，不全量/通读290KB历史/另起18760；sierra单次已触发删除不重建。每push先根日志/适用README/状态/整份交接，排除work/data/模型原文/秘密。
 
 ## 4. 账本及外部边界
 
 - 375直接新范围128读/1登录/资源各2/14Service，已实际13/1/各1/1后失败停止；其未派发115读中10已直接改授376并用满，其余105读/各1/13Service及费用保留，不自动返还或借用。新Task12启动/45分钟，本次1启动1Service，未用本机限制不等于外部授权。新增Dify估0.10 USD非账单硬限/宿主未知；返回报价0 USD但956tokens，不证明免费。
-- 保守模型30/管理读取701/登录39/App发布Key各14/Service36/模型账本0.755473652保持；实际累计Sierra模型26/资源各12/Service22，正式通过仍19。六settled配置估算0.132110088非账单不变；213两模型e09f9dcc-9805-4897-8b71-35d13cf11340/cae02874-0d49-4943-ae8c-c3ded81388cb共0.014641728，209/206/198既有费用保持；旧95 unknown0.0188541、四槽0.20、旧剩包0.109785948及115/121 settled不退借。
-- 专用环境202bfb35-2f92-47c1-bc1b-eac32082181d/原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17，服务App现aa4a052e...；旧9b73f33e/e4785b06/196App1cb02319/124App4682e8b8及所有旧Key加密留档。只复用保存加密资料，绝不从聊天复制密码或输出提交凭据。
+- 保守模型30/管理读取829/登录40/App发布Key各16/Service50/模型账本0.755473652保持；实际累计Sierra模型26/资源各13/Service23，正式通过仍19。六settled配置估算0.132110088非账单不变；213两模型e09f9dcc-9805-4897-8b71-35d13cf11340/cae02874-0d49-4943-ae8c-c3ded81388cb共0.014641728，209/206/198既有费用保持；旧95 unknown0.0188541、四槽0.20、旧剩包0.109785948及115/121 settled不退借。
+- 专用环境202bfb35-2f92-47c1-bc1b-eac32082181d/原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17，服务App现57082fe4...，原aa4a052e Key已加密归档；旧9b73f33e/e4785b06/196App1cb02319/124App4682e8b8及所有旧Key加密留档。只复用保存加密资料，绝不从聊天复制密码或输出提交凭据。
 - 全局模型9513f594-c256-46b7-882a-35d9871bf9d0/deepseek-flash和价格保持；Dify thinking=false/0.2/512，FAQd12cf081-5c52-41e3-b869-e94e6f8d37b1/TopK3/无阈值不重排。不新增库，不覆盖旧App。
 
 ## 5. 保护与历史
