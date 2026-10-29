@@ -1,0 +1,190 @@
+{
+  "backlog": 240,
+  "batch_id": "continuation-chatflow384",
+  "state": "followup_failed_diagnostic_captured_sealed",
+  "human_question_ref": "call_1983b4da729a48f3b85da8b5e243c0dd q0",
+  "counts": {
+    "model": 0,
+    "reads": 37,
+    "login": 1,
+    "import": 1,
+    "publish": 1,
+    "key": 1,
+    "run": 7
+  },
+  "physical_http": 48,
+  "task_id": "9fe06b70-97fc-402b-8553-ffbbaa7e4e4e",
+  "revision": 5,
+  "app_id": "14fcba5c-eada-4fe5-870a-7a1ee9120517",
+  "published_workflow_id": "ce85fdd4-5129-4050-9ab5-7e8cea82b5af",
+  "first_five_cases_passed": true,
+  "normal_traces": [
+    {
+      "version": "original",
+      "case_id": "faq-hit",
+      "turn": 1,
+      "native_run_id": "6605bbcc-b76a-410e-b81e-897099590687",
+      "node_ids": [
+        "check_hit",
+        "collect_docs",
+        "faq_answer",
+        "grounded_answer",
+        "intent",
+        "retrieve",
+        "start"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "faq-no-answer",
+      "turn": 1,
+      "native_run_id": "f2b38d37-3fce-4a63-9379-960fe7afa2ab",
+      "node_ids": [
+        "check_hit",
+        "collect_docs",
+        "faq_answer",
+        "grounded_answer",
+        "intent",
+        "retrieve",
+        "start"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "clarify",
+      "turn": 1,
+      "native_run_id": "6e6187d0-253b-40e4-8f61-567563601955",
+      "node_ids": [
+        "clarify",
+        "clarify_answer",
+        "intent",
+        "start"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "order-found",
+      "turn": 1,
+      "native_run_id": "a5bcdcdd-c355-49f5-b948-204e5987a30e",
+      "node_ids": [
+        "check_order",
+        "check_order_value",
+        "extract_order",
+        "intent",
+        "order_answer",
+        "order_lookup",
+        "start",
+        "validate_order"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "order-not-found",
+      "turn": 1,
+      "native_run_id": "bdded317-060b-4e08-821a-f82579d17e88",
+      "node_ids": [
+        "check_order",
+        "check_order_value",
+        "extract_order",
+        "intent",
+        "order_answer",
+        "order_lookup",
+        "start",
+        "validate_order"
+      ],
+      "source_graph_matched": true
+    }
+  ],
+  "missing_order_run_id": "f78a8598-c693-4acd-a382-a771fd2fc243",
+  "turns": [
+    {
+      "index": 1,
+      "input": {
+        "query": "我想查询订单状态，但尚未提供订单号。"
+      },
+      "expected": "订单查询目前为模拟，请提供订单号。",
+      "actual": "订单查询目前为模拟，请提供订单号。",
+      "evaluation": "passed",
+      "message_id": "c8787b27-f7dc-4633-ae39-8c1462c62ef9",
+      "conversation_id": "5443ebf8-4af1-4ede-91f6-bdfb1323275f"
+    },
+    {
+      "index": 2,
+      "input": {
+        "query": "DEMO-001"
+      },
+      "expected": "【模拟订单查询，非真实订单】合成样例：已发货。",
+      "actual": "目前只支持售后资料问答和模拟订单查询，请说明您的诉求。",
+      "evaluation": "failed",
+      "message_id": "51b5e337-afa7-4c3c-af4b-6e3ea3be5ae0",
+      "conversation_id": "5443ebf8-4af1-4ede-91f6-bdfb1323275f"
+    }
+  ],
+  "failure_capture": {
+    "state": "captured",
+    "case_id": "missing-then-order",
+    "turn": 2,
+    "reports_attempted": 1,
+    "management_reads": 4,
+    "native_run_id": "e1a513c5-8442-4fec-b9b9-7b77ea4f9182",
+    "node_ids": [
+      "clarify",
+      "clarify_answer",
+      "intent",
+      "start"
+    ],
+    "remote_status": "succeeded",
+    "source_graph_matched": true
+  },
+  "post_failure_external_writes_service": 0,
+  "second_version_or_zip": false,
+  "original22_kept": true,
+  "total_tasks": 23,
+  "old_consumed_files_kept": 367,
+  "protection": {
+    "original_objects_kept": true,
+    "old_credentials_and_assets_kept": true,
+    "dedicated_connection_only": true
+  },
+  "token_usage_totals": {
+    "prompt_tokens": 7994,
+    "completion_tokens": 443,
+    "total_tokens": 8437
+  },
+  "reported_price_not_bill": true,
+  "conservative_upper": {
+    "model": 30,
+    "reads": 1213,
+    "login": 43,
+    "resources_each": 22,
+    "service": 92
+  },
+  "actual_cumulative": {
+    "sierra_models": 26,
+    "resources_each": 16,
+    "service": 43,
+    "service_rules_passed": 36
+  },
+  "batch_service_rules_passed": 6,
+  "batch_complete_cases_passed": 5,
+  "model_estimate_book_upper_usd": "0.755473652",
+  "unused_batch_reads_retained": 91,
+  "unused_batch_resources_each_retained": 1,
+  "unused_batch_service_retained": 7,
+  "runtime": "0.360.0-b8edf5ed1f3251b03bed",
+  "evidence_sha256": {
+    "plan.json": "d6d510749bd035480f22eac84e883a7e4a22b83ac55556e27742f12e8ee57592",
+    "manifest.json": "2eb35bb615d54fcc88ef8c4d900a74a1fa69d01603c4fbdf49844f2d616b3239",
+    "approval.json": "e563cea70a2aeb6f3b5a106311a1bbc83950214ea529867dfb66f7fc6fb276ca",
+    "attempt.json": "c51f11375ed70c4859dc49ece59398b3e5785b8f139f91d4812ec66824a5ce5f",
+    "worker-started.json": "05a68089c14cc69d07170411e55e21fc4fb390605303ac7e73081f07bc0ebcf8",
+    "live-output/progress.json": "936e800a5c9de223fc1f6d40d866c7ac440369cadde2df735f9e079f5564a8fa",
+    "post-live-data-snapshot.json": "2b1c8713c24601d8ca7e382925ed471af5b203c44e40d8bd3cec0a9adf39eca1"
+  },
+  "protection_baseline": "work/continuation-chatflow384/post-live-data-snapshot.json",
+  "business_verified": false
+}

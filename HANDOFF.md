@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（239已实现，240待新384完整范围及有限失败诊断批准；360/22Task）
+# HANDOFF — Sierra（240/384补号澄清已获准诊断封存，241待加每会话确定路由；360/23Task）
 
 ## 1. 当前状态
 
-- 239实现d54082b已验收关闭，240 need-user：384新完整方案含拟明确失败轮单报告/4GET封存例外，57门禁/17公开全链/冻结入口过，15条目plan d6d51074/manifest2eb35bb6，无新approval/attempt/真实HTTP；等待全部新范围及例外直接批准。
+- 240按call_1983b4da729a48f3b85da8b5e243c0dd q0明确批准全部新范围及例外，384唯一执行/消费：37读1登录/Task1/资源各1/Service7/搭建模型0，共48 HTTP。前五例/追问首轮过，补号第二轮failed后获准4GET/1报告确认clarify分支并封存，无后续外部写入/Service。23Task原22/367消费及密文保持；安全结果docs/continuation-chatflow-live-result-20261029.md/json。
 
 - 237按call_04cbd9d61092473791ace6e2ce29a0b1 q0新直接批准唯一执行382并消费：33读1登录/Task1/资源各1/Service7/搭建模型0，共44 HTTP。前五例/带业务守卫轨迹过，缺号首轮固定追问过，同会话补号返回范围说明而failed即停；22Task原21/346消费及密文资产保持。安全结果docs/guarded-chatflow-live-result-20261029.md/json。
 
@@ -25,20 +25,18 @@
 
 ## 3. 下一步
 
-1. 237/382永久消费/停止，2fd1cc1已推：33读1登录/Task1/资源各1/Service7/搭建模型0；前五例/业务守卫轨迹过，缺号首轮原文追问过，同会话补号DEMO-001第二轮范围说明failed即停，该例无原生提示/轨迹，不断言本次记忆内容。原结果/期望不改，不能续跑/追加读/修改版或重试。
-2. 238接续分类修复905a81e/关闭ff9aa3c已推并部署360-b8edf5ed1f3251b03bed/289文件/PID26172，只补order类别/instruction有限历史接续，保留无上下文孤立编号/明确新话题边界；89相关售后/两轮/分类记忆/原生保留定向及正常API过，原22/367消费密文保持，实际新模型效果未运行，不造模拟模型通过或加状态架构。
-3. 239新独立384完整方案本机已完成：固定360/19节点19边/接续分类、业务守卫及原22/367消费保护。57门禁/17完整公开全链真实HTTP0；work/continuation-chatflow384，15条目+manifest，plan d6d510749bd035480f22eac84e883a7e4a22b83ac55556e27742f12e8ee57592 / manifest2eb35bb615d54fcc88ef8c4d900a74a1fa69d01603c4fbdf49844f2d616b3239。源tools/continuation-chatflow384、测试backend/tests/test_continuation_batch_boundary.py、proof work/continuation-chatflow384-local/rehearsal-proof.json，无approval/attempt。安全方案docs/continuation-chatflow-plan-20261029.md及preflightJSON含三个失败捕获公开结果。
-4. 新方案拟明确失败诊断例外：仅Service执行成功但业务规则failed，立即停后续发布/Key/Service/外部写入，只允许唯一已失败轮最多4管理GET（原消息→native详情→节点→当前发布）/1本机报告，然后封存。严格单消息/会话/顺序，禁止其它GET/外部写入/登录/Service，诊断失败不重试；技术/认证/来源异常立即停。此例外尚未批准，绝不应用旧382或任何旧消费包，必须新直接答复绑定最终failure_diagnostic_policy及摘要。
-5. 拟完整新增Task1/资源各2/12启动14Service/逐轮轨迹双ZIP，128管理读含失败例外4GET/1登录，0Sierra模型/新库，Task45分钟/整批60分钟，Dify新估0.10USD非账单硬限/宿主未知。拟保守读取1085→1213、登录42→43、资源20→22、Service78→92，主模型30/账本0.755473652不增；原22/旧unknown/费用和余槽不退借。原全部期望保持，两版只两处无答案文案加商品型号，业务守卫/接续配置保持；不是模型自主规划/全§11/25签收。
-6. 239实现d54082b已提交完整方案/日志/README/状态/交接并验收关闭，240 need-user；推main后统一询问全部新范围和明确失败诊断例外。新直接答复前不生成approval/attempt/live，旧批准不适用；批准后先核原22/367旧证据/冻结源、360运行归属/Docker，再唯一执行。当前预检无登录/DifyHTTP。不按端口杀进程，不抄聊天密码/输出提交秘密。
-7. 保护基线work/order-continuation383/post-deploy-data-snapshot.json（22Task/授权新Key和认证），不误用旧21保护。服务App4f568de2...旧Key加密归档；382余95读/资源1/7Service、380余95/1/8、378余115/1/13、375余105/1/13及费用不退借，376无剩余。原§11完整连续会话/修改版双交付仍缺实际证据。
-8. 未观察实际Codex不足，持续实质推进；不足立即停尽力整份交接，不重试/换号/购买/重置券，不造微任务。若只剩新副作用授权则准确记录等待，不谎称额度耗尽。Claude318失败/用量未知无恢复证据，不形式重试/冒充审查，本轮根代理。只读必要文件/历史编号，不全量/通读290KB历史/另起18760；单次sierra已触发删除，每push先日志/适用README/状态/整份交接，排除work/data/模型原文/秘密，原GitHub main自主提交推送。
+1. 240/384永久消费封存，禁止追加读/续跑/修改版/ZIP或重试。新Task9fe06b70-97fc-402b-8553-ffbbaa7e4e4e/r5、App14fcba5c-eada-4fe5-870a-7a1ee9120517、第六runf78a8598-c693-4acd-a382-a771fd2fc243；前五例及追问首轮passed，同会话补号仍failed。唯一获准失败轮第2诊断native e1a513c5-8442-4fec-b9b9-7b77ea4f9182，节点start/intent/clarify/clarify_answer、源图匹配，4GET后已封存，无后续外部写入/Service。不推断真实历史原文，原期望/失败不改。
+2. 241 pending：用已有每会话布尔状态和assigner，为刚追问后的格式单号补充增加确定路由。全局限制每状态只有1根writer，不放松：拟两标记order_wait_requested/order_wait_consumed，首次false；等待=不相等。每轮代码读等待/判断1—64位原合成单号格式，输出consume_value=旧requested、next_request=!旧requested；先唯一writer更新consumed再分流，等待且仅编号绕过分类进原extract_order/业务守卫，其它走intent；缺号唯一writer把requested写成next_request再固定追问。普通新话题消费等待，跨会话不共享，不自动把无上下文编号当订单。拟4新节点，23节点/24边，声明2个布尔；应先实际编译核数/唯一writer及两轮控制分类错误路径，不造模型遵循结论。
+3. 注意既有conversation_state.native按Task.id确定状态UUID；后续新执行器不能直接用public-contract原型的状态ID比较实际Task原生DSL。应仅按已审查的两个声明/初值/读写规则，依本次新Task UUID做确定实例化，验证只有声明ID变化、图/配置/声明其它字段完全不变，保留冻结文件原样。publication.core包含conversation_variables，导入和发布也需比对。旧工具禁止conversation_variables的边界只可在新包改成精确允许这两声明，不改旧包或整体放松。
+4. 当前保护基线work/continuation-chatflow384/post-live-data-snapshot.json（23Task/授权新Key/失败诊断），原22及367旧消费保持。部署要核360/PID26172/289快照归属后原stop/start，保护384及更旧全部消费；不能跑旧22保护或按端口杀进程。服务App14fcba5c...旧Key加密归档；只复用加密资料，不抄聊天密码或输出提交秘密。
+5. 先提交推送实际回执/日志/README/状态/本交接，再做241本机修复。未来新真实范围需完整冻结和直接批准，不能把384有限诊断例外用于旧382等或继续读384。384余91读/资源1/7Service、382余95/1/7、380余95/1/8、378余115/1/13、375余105/1/13及费用不退借，376无剩余。主模型30/账本0.755473652不增；原§11完整接续/修改版/双交付仍缺实际证据。
+6. 未观察实际Codex不足，持续实质推进；不足立即停尽力整份交接，不重试/换号/购买/重置券，不造微任务。Claude318失败/用量未知无恢复证据，不形式重试/冒充审查，本轮根代理。只读必要文件/历史编号，不全量/通读290KB历史/另起18760；单次sierra已触发删除，每push前日志/适用README/状态/整份交接，排除work/data/模型原文/秘密，原GitHub main自主提交推送。
 
 ## 4. 账本及外部边界
 
 - 375直接新范围128读/1登录/资源各2/14Service，已实际13/1/各1/1后失败停止；其未派发115读中10已直接改授376并用满，其余105读/各1/13Service及费用保留，不自动返还或借用。新Task12启动/45分钟，本次1启动1Service，未用本机限制不等于外部授权。新增Dify估0.10 USD非账单硬限/宿主未知；返回报价0 USD但956tokens，不证明免费。
-- 保守模型30/管理读取1085/登录42/App发布Key各20/Service78/模型账本0.755473652保持；实际累计Sierra模型26/资源各15/Service36，逐次规则命中30（本批五单轮+追问首轮共6），完整业务未闭合。六settled配置估算0.132110088非账单不变；213两模型e09f9dcc-9805-4897-8b71-35d13cf11340/cae02874-0d49-4943-ae8c-c3ded81388cb共0.014641728，209/206/198既有费用保持；旧95 unknown0.0188541、四槽0.20、旧剩包0.109785948及115/121 settled不退借。
-- 专用环境202bfb35-2f92-47c1-bc1b-eac32082181d/原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17，服务App现4f568de2...，原6cf78b7d Key已加密归档，原57082fe4 Key已加密归档，原aa4a052e Key已加密归档；旧9b73f33e/e4785b06/196App1cb02319/124App4682e8b8及所有旧Key加密留档。只复用保存加密资料，绝不从聊天复制密码或输出提交凭据。
+- 保守模型30/管理读取1213/登录43/App发布Key各22/Service92/模型账本0.755473652保持；实际累计Sierra模型26/资源各16/Service43，逐次规则命中36（本批五单轮+追问首轮共6），完整业务未闭合。六settled配置估算0.132110088非账单不变；213两模型e09f9dcc-9805-4897-8b71-35d13cf11340/cae02874-0d49-4943-ae8c-c3ded81388cb共0.014641728，209/206/198既有费用保持；旧95 unknown0.0188541、四槽0.20、旧剩包0.109785948及115/121 settled不退借。
+- 专用环境202bfb35-2f92-47c1-bc1b-eac32082181d/原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17，服务App现14fcba5c...，原4f568de2 Key已加密归档，原6cf78b7d Key已加密归档，原57082fe4 Key已加密归档，原aa4a052e Key已加密归档；旧9b73f33e/e4785b06/196App1cb02319/124App4682e8b8及所有旧Key加密留档。只复用保存加密资料，绝不从聊天复制密码或输出提交凭据。
 - 全局模型9513f594-c256-46b7-882a-35d9871bf9d0/deepseek-flash和价格保持；Dify thinking=false/0.2/512，FAQd12cf081-5c52-41e3-b869-e94e6f8d37b1/TopK3/无阈值不重排。不新增库，不覆盖旧App。
 
 ## 5. 保护与历史

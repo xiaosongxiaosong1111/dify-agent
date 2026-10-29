@@ -1,4 +1,6 @@
-# 360会话接续修复后完整新批384（未批准，含有限失败轮诊断例外）
+# 360会话接续修复后完整新批384（执行前冻结方案）
+
+当前：用户call_1983b4da729a48f3b85da8b5e243c0dd q0已明确批准全部范围及例外并唯一执行/消费；补号failed后已4GET捕获澄清分支并封存。下文按冻结前时点理解。[实际结果](continuation-chatflow-live-result-20261029.md)。
 
 382新直接执行后前五例/业务守卫轨迹及缺号首轮原文追问过，同会话只补DEMO-001却返回范围说明，failed即封存。238仅补order类别和有限接续分类指令，89相关定向/360保护部署过，不硬编码编号或增加状态架构，旧Task/App/原期望不变。[真实失败](guarded-chatflow-live-result-20261029.md)、[代码修复](order-continuation-classification.md)。
 
