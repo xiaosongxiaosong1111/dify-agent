@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "date": "2026-10-28",
-  "runtime_build": "0.356.0-5476d30269eac2811387",
+  "date": "2026-10-29",
+  "runtime_build": "0.361.0-6a7fa27661878cc800e9",
   "baseline": "docs/requirements-v1.0.md",
   "baseline_sha256": "7ab6d186c77a3091764de32612314d56442351ba17c824bbd908856cc71ffe62",
   "review_completed": true,
@@ -11,7 +11,7 @@
   "real_model_dify_requests_added": 0,
   "lightweight_routing_enabled": false,
   "original_case_section_11_complete": false,
-  "original_case_limit": "当前优先核公开合成Workflow知识问答；原§11 Chatflow/订单模拟/缺订单号/订单查询完整案例未由当前证据替代或删除。",
+  "original_case_limit": "386已完成限定人工Chatflow双版六例/14轨迹/双ZIP；仍缺自主语义链、原始资料冲突路径及集中接口替换指南，不等于全部§11签收。",
   "items": [
     {
       "id": "AT-01",
@@ -19,14 +19,15 @@
       "expected": "追问目标、输入输出和规则；不提前搭建。",
       "verdict": "固定公开模糊输入追问及后续两版Workflow证据已取得",
       "observed": "206首轮实际九主题追问且未提前搭建；后续本机修复/保存候选复核来源保持；213原版及217修改版两例和双包均通过",
-      "remaining_or_limit": "仅此固定公开目标；任意模糊目标理解质量、原Chatflow订单链和全部业务仍未验收",
+      "remaining_or_limit": "仅固定Workflow模糊目标已观察；386人工Chatflow平台链已通过，但未覆盖Chatflow从模糊目标自主访谈/规划或任意目标理解质量。",
       "evidence": [
         "docs/acceptance-at01-record.md",
         "docs/c1-blank-task-live-result-20261028.md",
         "docs/intake-candidate-topics.md",
         "docs/c1-resume-live-result-20261028.md",
         "docs/c1-planning-live-result-20261028.md",
-        "docs/model-free-closeout-live-result-20261029.md"
+        "docs/model-free-closeout-live-result-20261029.md",
+        "docs/stateful-chatflow-live-result-20261029.md"
       ],
       "full_business_accepted": false,
       "review_actor": "agent_delegated"
@@ -143,12 +144,13 @@
       "id": "AT-10",
       "scenario": "接口未提供且用户接受模拟",
       "expected": "显式采用模拟方案，标记位置及真实接入待办。",
-      "verdict": "订单模拟标记已实现，原始Chatflow订单整链仍未验收",
-      "observed": "0.271—0.274补标记/位置/接入待办及订单建议；隔离记录通过",
-      "remaining_or_limit": "原要求§11的Chatflow缺订单号/查询模拟/接口接入指南须在同一链验收，当前纯Workflow知识问答不能替代",
+      "verdict": "限定人工Chatflow双版订单模拟及缺号接续已真实通过",
+      "observed": "原模拟标记/位置/接入待办保持；386两版六例及14轮轨迹/双ZIP通过，订单有无/缺号后同会话补号实际正确，回复明确模拟。",
+      "remaining_or_limit": "仅公开合成表，非真实订单接口；交付报告有接入待办，但缺少集中节点输入输出/下游引用/替换复验步骤指南，列245开发；非自主规划或全部§11签收。",
       "evidence": [
         "docs/acceptance-at10-record.md",
-        "docs/core-delivery-focus.md"
+        "docs/core-delivery-focus.md",
+        "docs/stateful-chatflow-live-result-20261029.md"
       ],
       "full_business_accepted": false,
       "review_actor": "agent_delegated"
@@ -189,12 +191,13 @@
       "scenario": "已导入但关键样例失败",
       "expected": "标为需修复或阶段成果，不宣称完成。",
       "verdict": "阶段成果与成功分离有证据，真实失败修复链未验收",
-      "observed": "隔离关键样例失败不完成；198真实结构拒绝未建图且费用保留；222已补阻塞Chatflow消息身份到原生运行的诊断适配，76后端/4界面隔离通过，尚未真实Chatflow出站",
-      "remaining_or_limit": "独立真实关键样例失败→明确需修复→针对修复后重确认验证，导入/节点成功不能替代业务结果",
+      "observed": "原198结构拒绝和阶段成果保持；384实际补号failed后获准4GET定位clarify，241根代理开发确定状态路由；386新人工图双版六例及原生轨迹通过，原失败不改判。",
+      "remaining_or_limit": "这是开发代理修复产品模板后新独立批的观察，不证明产品能自主定位并修复任意失败；不把导入/节点成功当业务正确。",
       "evidence": [
         "docs/acceptance-at13-record.md",
         "docs/c1-blank-task-live-result-20261028.md",
-        "docs/chatflow-message-diagnostics.md"
+        "docs/chatflow-message-diagnostics.md",
+        "docs/stateful-chatflow-live-result-20261029.md"
       ],
       "full_business_accepted": false,
       "review_actor": "agent_delegated"
@@ -273,14 +276,15 @@
       "scenario": "修改配置或需求",
       "expected": "相关确认与测试失效，重新确认和试跑。",
       "verdict": "固定单句变更两版平台与交付已通过",
-      "observed": "213/217两版各两例/原生LLM1-0/核心图匹配，第二模型原候选只同步两处相同提示，214正常采用、217重新确认并发布；两ZIP摘要核对通过",
-      "remaining_or_limit": "仅固定话术变更，历史过窄执行假设拒绝保持；不泛化其它需求/模型/配置变更质量",
+      "observed": "原213/217 Workflow两版证据保持；386人工Chatflow原版r7通过，需求无答案文案两处同步加商品型号后正常失效/代理复核/重确认重存，r13新App六例/逐轮轨迹/双ZIP通过。",
+      "remaining_or_limit": "限定手工模板文字修改，不证明自然语言修改由模型正确规划，亦不等于任意节点/模型/配置变更质量。",
       "evidence": [
         "docs/acceptance-at19-record.md",
         "docs/after-sales-two-version-delivery-20261025.md",
         "docs/c1-planning-live-result-20261028.md",
         "docs/retained-plan-static-delivery-20261028.md",
-        "docs/model-free-closeout-live-result-20261029.md"
+        "docs/model-free-closeout-live-result-20261029.md",
+        "docs/stateful-chatflow-live-result-20261029.md"
       ],
       "full_business_accepted": false,
       "review_actor": "agent_delegated"
@@ -322,15 +326,16 @@
       "scenario": "Dify 断开",
       "expected": "可以生成待验证成果，明确未完成导入和试跑。",
       "verdict": "显式加密重连后两版平台链已有观察，非任意断点恢复",
-      "observed": "213/217各在独立批准中一次加密重连证明同一原空间，随后各自新App发布/两例；旧失败和unknown保留，离线r13成果正常接续为r17",
-      "remaining_or_limit": "仍未观察自然令牌过期自动续期或所有阶段断连恢复，不将显式登录成功当全部认证/业务场景通过",
+      "observed": "原213/217显式加密重连同空间证据保持；386再次独立一次加密重连，原23/旧Key加密保持，后续双版App发布及14Service正常完成。",
+      "remaining_or_limit": "仍未观察自然令牌过期自动续期或所有阶段断连恢复，不将显式重连成功当全部认证/业务通过。",
       "evidence": [
         "docs/acceptance-at22-record.md",
         "docs/public-batch-closeout-live-result-20261027.json",
         "docs/existing-batch-platform-live-result-20261027.md",
         "docs/c1-planning-live-result-20261028.md",
         "docs/retained-plan-static-delivery-20261028.md",
-        "docs/model-free-closeout-live-result-20261029.md"
+        "docs/model-free-closeout-live-result-20261029.md",
+        "docs/stateful-chatflow-live-result-20261029.md"
       ],
       "full_business_accepted": false,
       "review_actor": "agent_delegated"
@@ -377,26 +382,36 @@
       "review_actor": "agent_delegated"
     }
   ],
-  "last_update_backlog": 217,
-  "last_update_scope": "2026-10-29仅按217实际回执补五项及固定C1，原20项结论不重审；未新增模型或运行，真实操作仅本批已声明范围。",
+  "last_update_backlog": 244,
+  "last_update_scope": {
+    "changed_items": [
+      "AT-01",
+      "AT-10",
+      "AT-13",
+      "AT-19",
+      "AT-22"
+    ],
+    "basis": "243/386已保存实际回执和双ZIP只读检查",
+    "new_model_dify_http": 0,
+    "all25_reexecuted": false
+  },
   "fixed_public_workflow_c1_evidence_complete": true,
   "latest_real_attempt": {
-    "backlog": 240,
-    "case": "Continuation classifier followup",
-    "state": "followup_failed_diagnostic_captured_sealed",
-    "new_sierra_models": 0,
-    "dify_reads": 37,
-    "dify_logins": 1,
-    "new_apps_publications_keys_each": 1,
-    "service_requests": 7,
-    "normal_native_traces": 5,
-    "failed_turn_diagnostic_reads": 4,
-    "failed_turn_diagnostic_reports": 1,
-    "failed_turn_branch": "clarify",
-    "post_failure_service_writes": 0,
-    "old22_kept": true,
-    "total_tasks": 23,
-    "evidence": "docs/continuation-chatflow-live-result-20261029.md"
+    "backlog": 243,
+    "batch": "stateful-chatflow386",
+    "state": "fixed_manual_chatflow_two_versions_passed",
+    "new_tasks": 1,
+    "management_reads": 80,
+    "login": 1,
+    "model": 0,
+    "new_apps_publications_keys_each": 2,
+    "service_requests": 14,
+    "normal_native_traces": 14,
+    "deliveries": 2,
+    "failure_diagnostic_used": false,
+    "total_tasks": 24,
+    "old23_kept": true,
+    "evidence": "docs/stateful-chatflow-live-result-20261029.md"
   },
   "latest_failure_diagnostic": {
     "backlog": 228,
@@ -411,11 +426,12 @@
     "evidence": "docs/first-case-trace-live-result-20261029.md"
   },
   "latest_related_code_fix": {
-    "backlog": 238,
-    "runtime": "0.360.0-b8edf5ed1f3251b03bed",
-    "state": "deployed_configuration_verified",
-    "actual_fixed_graph_retested": false,
+    "backlog": 241,
+    "runtime": "0.361.0-6a7fa27661878cc800e9",
+    "state": "deployed_and_fixed_public_graph_retested",
+    "actual_fixed_graph_retested": true,
     "full_business_accepted": false,
-    "evidence": "docs/order-continuation-classification.md"
-  }
+    "evidence": "docs/pending-order-routing.md"
+  },
+  "fixed_manual_chatflow_two_versions_complete": true
 }
