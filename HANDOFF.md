@@ -1,6 +1,8 @@
-# HANDOFF — Sierra（233新380完整方案冻结待直接范围，358/20Task/325旧消费保持）
+# HANDOFF — Sierra（233已实现，234待新380完整范围；358/20Task/325旧消费保持）
 
 ## 1. 当前状态
+
+- 233实现63a1d36已验收关闭，234 need-user：380新完整方案38门禁/13公开全链/冻结入口通过，15条目plan0bad3a04/manifest7dea2ace；无新approval/attempt/真实HTTP，等待最终全部新增范围直接批准。
 
 - 231按call_ec642cce38c5403bb7a3535c0ffd7ad8 q0新直接批准唯一执行378，首例缺条件规则failed后永久停止/消费。实际13管理读/1登录/Task1/资源各1/Service1/模型0，共18 HTTP；20Task原19/304消费及密文资产保持，未追加节点/其它样例/第二版/ZIP。安全回执docs/corrected-chatflow-live-result-20261029.md/json。
 
@@ -23,7 +25,7 @@
 2. 232政策完整性提示修复5d78b3b/关闭f683e7a已推并部署358-5b2b413df12148f3e015/289文件/PID572。只补资料明确给出的适用条件/编号/结论，不硬编码事实，保留上下文引用/模型/分支/原规则，旧Task/App不自动迁移。修改前提示合同1失败，52相关定向/正常API静态交付及20Task/325消费保护过；不是模型语义验证，实际新效果未复测。
 3. 233新独立完整380方案已本机完成：复用378正常API链，但固定358/强制资料占位符和完整性要求；38门禁/13完整公开场景及20/325旧消费保护过，真实HTTP0。work/complete-policy380，15条目+manifest；plan0bad3a04f6ad0c7496a154c429376828b42aaa052c423ddb37b5654f34bfb257 / manifest7dea2ace6a50b72213a4a7f986c4443f468c86cf4ccc9c07bb3b2dcae7fdfb37。源tools/complete-policy380、测试backend/tests/test_complete_policy_boundary.py、proof work/complete-policy380-local/rehearsal-proof.json；尚无approval/attempt。docs/complete-policy-plan-20261029.md及安全preflightJSON。
 4. 拟全部新Task1/资源各2/12启动14Service/逐轮轨迹双ZIP、128读1登录，0Sierra模型/新库，Task45分钟/整批60分钟，Dify新估0.10USD非账单硬限/宿主未知。拟保守读取829→957、登录40→41、资源16→18、Service50→64，主模型30/账本0.755473652不增；原20及全部旧失败/unknown/预留不借退。两版各六例（末例两轮）原期望保持，第二版仅两处无答案文案加商品型号。任何异常整批停不重试，不为诊断继续后续。不是模型自主规划或全§11/25验收。
-5. 先提交233完整方案、日志/README/状态/本交接；取得实现commit后关闭233、新增234 need-user并推main，再统一询问最终摘要和全部新范围。新直接答复前不生成approval/attempt/live；旧375/376/378批准不适用。批准后先核原20/325消费/冻结源、358快照及所属PID、Docker，再唯一执行；当前预检无登录/DifyHTTP。不按端口杀进程，不复制聊天密码或输出/提交秘密。
+5. 233实现63a1d36已提交完整方案、日志/README/状态/交接并验收关闭，234 need-user；推main后统一询问最终摘要和全部新范围。新直接答复前不生成approval/attempt/live；旧375/376/378批准不适用。批准后先核原20/325消费/冻结源、358快照及所属PID、Docker，再唯一执行；当前预检无登录/DifyHTTP。不按端口杀进程，不复制聊天密码或输出/提交秘密。
 6. 保护基线work/policy-completeness379/post-deploy-data-snapshot.json（含378新增第20Task/资源/认证），不误用旧19保护。现服务App57082fe4...、旧Key加密归档；原§11订单/连续会话/修改版双交付和25质量仍未通过。未观察Codex实际不足，持续实质推进；实际不足立即停尽力整份交接，不重试/换号/购买/重置券。不造微任务；若仅剩新副作用授权则准确记录等待，不谎称额度耗尽。
 7. Claude318失败/用量未知无恢复证据，不形式重试或冒充审查，本轮根代理。只读必要文件/历史编号，不全量/通读290KB历史/另起18760；单次sierra已触发删除。每push先根日志/适用README/状态/整份交接，排除work/data/模型原文/秘密，原GitHub main自主提交推送。
 
