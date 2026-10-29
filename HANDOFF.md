@@ -1,6 +1,8 @@
-# HANDOFF — Sierra（230新378完整方案已冻结，待新直接范围；357/19Task保持）
+# HANDOFF — Sierra（230已实现，231待新378完整范围；357/19Task保持）
 
 ## 1. 当前状态
+
+- 230实现67ce71e已验收提交并关闭，231 need-user：新378完整方案37门禁/13公开场景及19/304保护过，已冻结15条目，无新approval/attempt/真实HTTP；仅下一新完整范围直接批准待定。
 
 - 228按call_88f2d09849de46aeb7d3bf8b71f6a314 q0直接允许10读改授及新增1登录，唯一376执行完成/消费；实际10管理GET/1登录，0模型/Task/资源/Service，保存1诊断且原业务/规则失败保持。安全结果docs/first-case-trace-live-result-20261029.md/json；原生run8ce750c7-9abd-4d08-8180-23bba648b2e7，路径检索有2片段并进入grounded_answer，不是空检索/空分支。
 
@@ -20,7 +22,7 @@
 1. 228/376已唯一成功/消费，结果1d153c5/关闭46bb503；10读1登录、0模型/Task/资源/Service，原FAQ业务failed保持。229上下文修复4e97a0e/关闭a0662ff已部署推送357：公开旧回归1失败，52相关定向/正常API静态交付通过，原19/304消费精确保持。新图实际效果仍未试跑，不能升级业务。
 2. 230新独立378完整方案本机已完成：复用375审查过正常API链，但固定357新模板、强制拒绝旧context遗漏图，原19/375及376和更旧304消费保护；37门禁/13完整公开协议场景真实HTTP0，15文件新冻结plan fe213d6872661aad06bc144a5990ca7c33c5388f9d40432be510a6eb31211725 / manifest cb4f91d4bf8f459b34ae6174ce47e1cd930737e0fbdfb5cc0794b10f8dcf3b80。work/corrected-chatflow378，无approval/attempt；源tools/corrected-chatflow378、测试backend/tests/test_corrected_chatflow_boundary.py，proof work/corrected-chatflow378-local/rehearsal-proof.json，来源摘要已绑定。
 3. 拟完整新增Task1/App首次发布Key各2、两版各6例（最后缺号补号两轮）、12启动14Service/逐轮轨迹/双ZIP、128管理读1登录；0Sierra模型/新库，Task45分钟/整批60分钟，Dify新估0.10 USD非账单硬限/宿主未知。拟保守读取701→829、登录39→40、资源14→16、Service36→50，模型30/账本0.755473652不增。旧375余105读/资源1/13Service及全部旧费用保持不借退；378不是改授，需完整新直接批准。第二版只两处同文案加商品型号，原期望不放宽，技术/规则异常整批停不重试。手工模板不是模型自主访谈规划或全§11/25项。
-4. 先提交230完整方案、日志/README/状态/本交接；取得实现commit后关闭230并新增231 need-user，推原GitHub main，再统一询问绑定最终摘要的新完整范围。未获新直接答复前不生成approval/attempt或live，不能用375/376旧批准代替。取得批准后先核原19/304旧证据、冻结源、357运行归属/Docker，再唯一执行，异常停，未用槽不自动返还。
+4. 230实现67ce71e已提交完整方案/日志/状态/交接并验收关闭，231 need-user。推原GitHub main后统一询问绑定最终摘要的新完整范围。未获新直接答复前不生成approval/attempt或live，不能用375/376旧批准代替。取得批准后先核原19/304旧证据、冻结源、357运行归属/Docker，再唯一执行，异常停，未用槽不自动返还。
 5. 当前运行357-c038db013b5e96bc4d3e/289文件/PID32940；read-only预检通过。保护基线work/context-delivery377/post-deploy-data-snapshot.json（含正常376诊断/认证，19Task），不误用旧18或375前基线。源变化/部署须原固定快照及执行文件/PID核验后原start/stop，不按端口杀进程。旧App/Task不自动改图；只复用加密凭据，不从聊天复制密码或输出提交秘密。
 6. 未观察实际Codex不足，持续实质开发；不足立即停尽力整份交接，不重试/换号/购买/重置券。不因小模块停、不造微任务；若仅剩明确新外部范围则准确记录授权等待，不谎称额度耗尽。Claude318失败/用量未知无恢复证据，不形式重试或冒充审查。只读必要文件/历史编号，不全量/不通读290KB历史/另起18760；sierra单次已触发删除不重建。每push前根日志及适用README/状态/整份交接，排除work/data/模型原文/秘密。
 
