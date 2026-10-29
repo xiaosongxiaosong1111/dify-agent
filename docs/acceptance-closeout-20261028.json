@@ -393,5 +393,25 @@
     "old18_kept": true,
     "total_tasks": 19,
     "evidence": "docs/chatflow-order-platform-live-result-20261029.md"
+  },
+  "latest_failure_diagnostic": {
+    "backlog": 228,
+    "state": "diagnostic_complete_no_retest",
+    "reads": 10,
+    "login": 1,
+    "service": 0,
+    "models": 0,
+    "retrieval_result_count": 2,
+    "answer_branch_observed": true,
+    "original_rule_failed_kept": true,
+    "evidence": "docs/first-case-trace-live-result-20261029.md"
+  },
+  "latest_related_code_fix": {
+    "backlog": 229,
+    "runtime": "0.357.0-c038db013b5e96bc4d3e",
+    "state": "deployed_isolated_verified",
+    "actual_fixed_graph_retested": false,
+    "full_business_accepted": false,
+    "evidence": "docs/after-sales-context-delivery.md"
   }
 }
