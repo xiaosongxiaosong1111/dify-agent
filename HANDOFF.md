@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（227独立诊断376本机已验证/冻结，未获新改授；19Task，356保持）
+# HANDOFF — Sierra（227已实现，228待376独立诊断新改授；19Task，356保持）
 
 ## 1. 当前状态
 
-- 227独立诊断执行器本机准备完成：39门禁/11公开协议场景及375后19Task/287旧回执保护过，已冻结新376（11文件+manifest），未生成approval/attempt、真实HTTP0。方案docs/first-case-trace-plan-20261029.md；实现待提交，227仍doing，取得实现commit后关闭并新增228 need-user。
+- 227独立诊断执行器本机准备完成：39门禁/11公开协议场景及375后19Task/287旧回执保护过，已冻结新376（11文件+manifest），未生成approval/attempt、真实HTTP0。方案docs/first-case-trace-plan-20261029.md；实现fdde875，227已验收关闭，228 need-user，等待新直接范围批准。
 
 - 根E:\workSpace\dify-agent/main，运行0.356.0-5476d30269eac2811387/289文件/PID35272。Docker Desktop此前按既有启动授权恢复，原dify-local16服务/健康及1.17.1镜像已核；未改产品代码或部署。
 - 226按用户call_e81418955baa45b6ab79e316294a1f8e q0“允许这批完整新范围”唯一执行375，永久停止/消费。实际0搭建模型/13管理读/1登录/Task1/App首次发布Key各1/Service1，共18 HTTP；FAQ首例success但原包含ZXRET715/七天/未拆封规则failed，实际回答原无答案固定文字。未追加远端诊断/其余样例/第二版/ZIP，不重试或借余槽。
@@ -20,7 +20,7 @@
 1. 226/375永久消费，ea97f81已推真实失败回执，禁止重放/继续/放宽规则。首例无答案不能定位根因；官方graphon0.7.0两段纯条件离线核对未复现布尔假设，work/condition-source376/proof.json，不据此改图。
 2. 227新独立376工具已完成本机39门禁/11完整公开场景及冻结；正常最多10读/1登录，保存1诊断且原失败规则保持；认证/错源/发布图变化/索引失败/并发编辑立即停止，真实HTTP0。并发编辑保留不覆盖。源码tools/first-case-trace376，定向测试backend/tests/test_first_case_trace_boundary.py；最终公开演练work/first-case-trace376-local/rehearsal-final及rehearsal-proof.json。只用公开临时数据，不改生产。
 3. 新376拟明确改授375未派发115读中的10读，另增1加密登录38→39；固定原Taskr5/run/消息会话App，明确重连原空间，然后消息→原生运行/节点/发布图4读，FAQ元数据/第一页最多2文档及索引状态最多4读，加认证2读。0Sierra模型/Task/资源/Service，10分钟。读总701/其它上界及旧费用不增，只拟议，尚无新直接批准。读取库文档仅受控元数据，不存名称/正文/原错误；has_more不翻页，不宣称全库/业务通过。本机正常诊断会追加1报告及时间序号，认证仅旋转console/CSRF及新重连记录，服务Key/密码/原业务保持。
-4. 最终新376 plan d85d57bbf982218f6008d70c89b7960be797414bdc3ebac9139d91802f07b356 / manifest bdb4c34b811e6604a25a830549eb91e5e57d86c75276355970dbe668b9761d06；work/first-case-trace376，11哈希条目另加manifest。execute.py validate已过；新approval/attempt不存在，不得用375旧批准代替。先提交完整方案和根日志/README/状态/本交接，关闭227、新增228 need-user并推送；再统一询问绑定最终摘要的新10读取改授及1登录批准，答复前不live。冻结后不改源以绕过失败；异常整批停不重试，不能自动借其它旧槽。当前阻断为新直接授权，不是额度耗尽。
+4. 最终新376 plan d85d57bbf982218f6008d70c89b7960be797414bdc3ebac9139d91802f07b356 / manifest bdb4c34b811e6604a25a830549eb91e5e57d86c75276355970dbe668b9761d06；work/first-case-trace376，11哈希条目另加manifest。execute.py validate已过；新approval/attempt不存在，不得用375旧批准代替。实现fdde875已提交完整方案和根日志/README/状态/交接；227已按验收关闭，228 need-user。推送后统一询问绑定最终摘要的新10读取改授及1登录批准，答复前不live。冻结后不改源以绕过失败；异常整批停不重试，不能自动借其它旧槽。当前阻断为新直接授权，不是额度耗尽。
 5. 取得新直接答复后仅按冻结包唯一执行；先核当前来源/旧375及更旧287证据、356运行归属和Docker就绪，复用加密资料，不复制聊天密码。只追加授权诊断，取得实际分支证据后再修确证问题；原375失败、其它样例/双版订单链未通过保持。当前保护基线work/chatflow-order375/post-live-data-snapshot.json（19Task/新Key，排除server.pid）；不得运行要求原18全量相同的374旧保护。
 6. 用户要求持续至实际Codex不足，本轮尚未观察不足；不足立即停并尽力整份交接，不反复重试/换号/购买/重置券。不因模块完成停止，也不造微任务；若仅剩明确新副作用授权则准确报告等待。Claude318失败/用量未知无恢复证据，不形式重试或冒充子审查，本轮根代理。
 7. 只读必要文件，不通读项目/290KB历史，不全量测试/另起18760。若产品修复需部署，固定快照及所属PID/执行文件核验后原start/stop，不按端口杀进程。Playwright仍绝对模块路径；单次sierra已触发删除，不重建定时。每push前根CHANGELOG及适用README/状态、整份交接，排除work/data/ZIP/模型原文/秘密。
