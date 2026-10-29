@@ -35,11 +35,11 @@ def selected_result(run):
     if not isinstance(result,dict):return {},None
     if result.get('conversation_case') is True:
         pending=result.get('pending_turn')
-        if isinstance(pending,dict):return pending.get('result') or {},pending.get('index')
+        if isinstance(pending,dict):return pending['result'] if isinstance(pending.get('result'),dict) else {},pending.get('index')
         turns=result.get('turns',[])
         if isinstance(turns,list) and turns:
-            selected=next((t for t in reversed(turns) if isinstance(t,dict) and (t.get('evaluation') or {}).get('status')=='failed'),turns[-1])
-            if isinstance(selected,dict):return selected.get('result') or {},selected.get('index')
+            selected=next((t for t in reversed(turns) if isinstance(t,dict) and isinstance(t.get('evaluation'),dict) and t['evaluation'].get('status')=='failed'),turns[-1])
+            if isinstance(selected,dict):return selected['result'] if isinstance(selected.get('result'),dict) else {},selected.get('index')
         return {},None
     return result,None
 
@@ -197,16 +197,28 @@ class DiagnosticsManager:
             report['saved_result_status']=safe_text(data.get('status'),secrets,100) if isinstance(data,dict) else None
             report['source_graph']=graph_initial(local_graph)
             if payload.read_remote:
-                reason=None
+                reason=None;message_source=None
                 if run.get('app_type') not in {'workflow','advanced-chat'}:reason='该记录缺少可核对的类型快照，或属于原生 Agent；目前仅可本地诊断。'
                 elif not env or run.get('environment_binding')!=binding(env):reason='历史记录缺少环境绑定或连接已变更；不会把旧记录发往当前实例。'
-                elif not report['remote_run_id']:reason='保存结果没有唯一、合法的 workflow_run_id；不能猜测远端运行。'
+                elif not report['remote_run_id']:
+                    if run.get('app_type')!='advanced-chat':reason='保存结果没有唯一、合法的 workflow_run_id；不能猜测远端运行。'
+                    elif env.get('version')!='1.17.1':reason='消息到原生运行的只读映射仅适配已登记Dify1.17.1；不猜其它版本接口。'
+                    else:
+                        from .chatflow_diagnostic_source import reference
+                        expected=run.get('result',{}).get('conversation_id') if report['selected_turn'] is not None else None
+                        try:message_source=reference(selected,expected)
+                        except DifyError as exc:reason=safe_text(str(exc),secrets)
                 try:app=str(uuid.UUID(run.get('app_id')))
                 except (ValueError,TypeError,AttributeError):app=None;reason=reason or '运行没有可靠 App ID 快照；不会改用当前应用。'
                 if reason:report.update(trace_state='unavailable',trace_error=reason)
                 else:
                     try:
                         client=DifyClient(env,h.store);rid=report['remote_run_id']
+                        if message_source is not None:
+                            from .chatflow_diagnostic_source import resolve
+                            resolution=await resolve(client,app,message_source)
+                            rid=resolution['workflow_run_id'];report.update(remote_run_id=rid,remote_id_resolution=resolution)
+                            report['notes'].append('本次先按所选保存消息ID与会话ID核对消息记录，再定位原生运行；仅保留身份映射，不保存消息正文，不重跑。')
                         detail=await client.request('GET',f'/console/api/apps/{app}/workflow-runs/{rid}',credential='console_token')
                         if not isinstance(detail,dict) or detail.get('id')!=rid:raise DifyError('Dify 返回的运行标识不匹配，本次不读取节点。')
                         trace=await client.request('GET',f'/console/api/apps/{app}/workflow-runs/{rid}/node-executions',credential='console_token')

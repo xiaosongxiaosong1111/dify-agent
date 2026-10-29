@@ -2,7 +2,7 @@
 
 2026-10-29第217更新：第217固定368唯一真实执行通过：0搭建模型/17管理读取/1加密登录/App发布Key各1/运行2；r17两例passed、原生LLM1/0及发布/本地核心图匹配、两版ZIP摘要通过。固定公开Workflow C1证据补齐，含保留的历史失败/跨批恢复，非全25或原Chatflow订单链通过。原18/六费用/旧unknown与全部预留保持；此Task4/4满，不重放或第五次。 本次只补五项真实结果，其它20项保留原结论；原表的旧阶段状态按当时记录理解。
 
-2026-10-28，初始BACKLOG200，最新219只按206/213/214既有公开回执更新AT-01/11/19/21/22；当前运行353，其它20项保留200原结论。本次未重新验收全部25项。根代理按既有委托核对原25项和已有回执，未新增测试、模型或Dify请求。逐项结论已整理；**当前不能宣告项目全部验收或交付完成**，也没有伪造人类签收。
+2026-10-28，初始BACKLOG200，最新219只按206/213/214既有公开回执更新AT-01/11/19/21/22；当前运行354，其它20项保留200原结论。本次未重新验收全部25项。根代理按既有委托核对原25项和已有回执，未新增测试、模型或Dify请求。逐项结论已整理；**当前不能宣告项目全部验收或交付完成**，也没有伪造人类签收。
 
 C2固定公开继续策略及失败项下载已有真实证据。C1已观察206真实模糊输入追问；213原版r9新App/发布/Key及命中、无命中两例通过；214修改版r13从完整原模型候选正常采用并静态交付，217已补修改版r17新App/两例和双包，固定Workflow C1证据完成。旧失败、unknown和费用不改判。C3逐项记录当前可支持结论及未覆盖条件，不把隔离记录升级为业务通过。C4当前未启用产品轻量路由，不宣称节省。
 
@@ -22,7 +22,7 @@ C2固定公开继续策略及失败项下载已有真实证据。C1已观察206�
 | AT-10 接口未提供且用户接受模拟 | 订单模拟标记已实现，原始Chatflow订单整链仍未验收 | 0.271—0.274补标记/位置/接入待办及订单建议；隔离记录通过 | 原要求§11的Chatflow缺订单号/查询模拟/接口接入指南须在同一链验收，当前纯Workflow知识问答不能替代 | [acceptance-at10-record](acceptance-at10-record.md)、[core-delivery-focus](core-delivery-focus.md) |
 | AT-11 未确认配置或资源操作 | 固定新任务两版实际确认至发布运行已观察 | 213原版正常确认后发布两例；217 r16代理逐项读源后正常需求确认/原图重新校验/配置确认/构建，再新App发布两例，变更后旧确认未沿用 | 未确认负例及跨全部业务门禁仍以隔离记录为界；正常代理复核非人类签收，不能泛化资源授权 | [acceptance-at11-record](acceptance-at11-record.md)、[after-sales-two-version-delivery-20261025](after-sales-two-version-delivery-20261025.md)、[existing-batch-platform-live-result-20261027](existing-batch-platform-live-result-20261027.md)、[c1-planning-live-result-20261028](c1-planning-live-result-20261028.md)、[retained-plan-static-delivery-20261028](retained-plan-static-delivery-20261028.md)、[model-free-closeout-live-result-20261029](model-free-closeout-live-result-20261029.md) |
 | AT-12 DSL 变量引用错误 | 受限变量检查/修复，非通用自动修复 | 变量引用诊断及显式修正/重检隔离通过 | 代表错误图定位至变量/节点，显式修正后保留业务分支，并在批准平台核对结果 | [acceptance-at12-record](acceptance-at12-record.md) |
-| AT-13 已导入但关键样例失败 | 阶段成果与成功分离有证据，真实失败修复链未验收 | 隔离关键样例失败不完成；198真实结构拒绝未建图且费用保留 | 独立真实关键样例失败→明确需修复→针对修复后重确认验证，导入/节点成功不能替代业务结果 | [acceptance-at13-record](acceptance-at13-record.md)、[c1-blank-task-live-result-20261028](c1-blank-task-live-result-20261028.md) |
+| AT-13 已导入但关键样例失败 | 阶段成果与成功分离有证据，真实失败修复链未验收 | 隔离关键样例失败不完成；198真实结构拒绝未建图且费用保留；222已补阻塞Chatflow消息身份到原生运行的诊断适配，76后端/4界面隔离通过，尚未真实Chatflow出站 | 独立真实关键样例失败→明确需修复→针对修复后重确认验证，导入/节点成功不能替代业务结果 | [acceptance-at13-record](acceptance-at13-record.md)、[c1-blank-task-live-result-20261028](c1-blank-task-live-result-20261028.md)、[Chatflow消息诊断](chatflow-message-diagnostics.md) |
 | AT-14 批量任务部分失败 | 固定公开继续策略已核实，整体批量能力受限 | 196四项真实3成功/1预期失败，原索引1失败JSON/发布图绑定通过 | 固定C2缺证关闭；原生停止完整失败清单/在途取消/混合与嵌套继续不得宣称支持，扩展须另定范围 | [existing-batch-platform-live-result-20261027](existing-batch-platform-live-result-20261027.md)、[acceptance-at14-record](acceptance-at14-record.md) |
 | AT-15 连续对话信息不完整 | 复杂对话缺参及上下文质量未验收 | 早期两轮真实技术链及隔离上下文/缺参检查 | 代表真实连续会话含指代/缺信息，须观察追问及上下文隔离；Workflow单次问答不替代Chatflow | [acceptance-at15-record](acceptance-at15-record.md) |
 | AT-16 自动触发或人工审核能力不足 | 仅限定根触发/人工路线，复杂组合明确受限 | 环境缺口和等待确认隔离通过，有限根节点能力已有实现 | 限定路线需真实环境核对；复杂身份/邮件/表单/恢复和组合不默认可用，不把模板当已送达 | [acceptance-at16-record](acceptance-at16-record.md)、[RELEASE-CLOSEOUT](RELEASE-CLOSEOUT.md) |

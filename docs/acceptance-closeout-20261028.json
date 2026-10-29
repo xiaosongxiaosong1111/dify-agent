@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "date": "2026-10-28",
-  "runtime_build": "0.353.0-c7c4b4aa476ce7fa1e1e",
+  "runtime_build": "0.354.0-b00d7d8eae337c029251",
   "baseline": "docs/requirements-v1.0.md",
   "baseline_sha256": "7ab6d186c77a3091764de32612314d56442351ba17c824bbd908856cc71ffe62",
   "review_completed": true,
@@ -189,11 +189,12 @@
       "scenario": "已导入但关键样例失败",
       "expected": "标为需修复或阶段成果，不宣称完成。",
       "verdict": "阶段成果与成功分离有证据，真实失败修复链未验收",
-      "observed": "隔离关键样例失败不完成；198真实结构拒绝未建图且费用保留",
+      "observed": "隔离关键样例失败不完成；198真实结构拒绝未建图且费用保留；222已补阻塞Chatflow消息身份到原生运行的诊断适配，76后端/4界面隔离通过，尚未真实Chatflow出站",
       "remaining_or_limit": "独立真实关键样例失败→明确需修复→针对修复后重确认验证，导入/节点成功不能替代业务结果",
       "evidence": [
         "docs/acceptance-at13-record.md",
-        "docs/c1-blank-task-live-result-20261028.md"
+        "docs/c1-blank-task-live-result-20261028.md",
+        "docs/chatflow-message-diagnostics.md"
       ],
       "full_business_accepted": false,
       "review_actor": "agent_delegated"

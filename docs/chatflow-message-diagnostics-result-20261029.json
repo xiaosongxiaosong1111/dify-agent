@@ -1,0 +1,60 @@
+{
+  "backlog": 222,
+  "state": "deployed_isolated_verified",
+  "runtime": "0.354.0-b00d7d8eae337c029251",
+  "version": "0.354.0",
+  "source_runtime_files_matched": 289,
+  "verified_pid": 31388,
+  "previous_owned_pid": 29440,
+  "targeted_backend_checks": 76,
+  "built_ui_cases": [
+    {
+      "case": "normal",
+      "diagnostic_posts_to_temporary_store": 2,
+      "expected_state": "节点轨迹已读取"
+    },
+    {
+      "case": "wrong_conversation",
+      "diagnostic_posts_to_temporary_store": 2,
+      "expected_state": "读取失败"
+    },
+    {
+      "case": "lookup_failure",
+      "diagnostic_posts_to_temporary_store": 2,
+      "expected_state": "读取失败"
+    },
+    {
+      "case": "missing_identity",
+      "diagnostic_posts_to_temporary_store": 2,
+      "expected_state": "缺少可信来源"
+    }
+  ],
+  "fixture_management_reads": {
+    "normal": 4,
+    "wrong_conversation": 1,
+    "lookup_failure": 1,
+    "missing_identity": 0
+  },
+  "production_workflow_read_only_smoke": {
+    "state": "passed",
+    "existing_workflow_diagnostic_display_kept": true,
+    "no_false_chat_message_mapping": true,
+    "diagnostic_requests_sent": 0,
+    "mutating_requests": 0,
+    "foreign_requests": 0,
+    "actual_chatflow_remote_verification": false
+  },
+  "original18_and_ledger_kept": true,
+  "ciphertexts_assets_masterkey_kept": true,
+  "all_consumed_packages_kept": true,
+  "physical_model_dify_http": 0,
+  "actual_chatflow_message_mapping_verified": false,
+  "whole_business_acceptance_complete": false,
+  "tagged_primary_sources": [
+    "https://raw.githubusercontent.com/langgenius/dify/1.17.1/api/core/app/apps/advanced_chat/generate_response_converter.py",
+    "https://raw.githubusercontent.com/langgenius/dify/1.17.1/api/core/app/apps/advanced_chat/generate_task_pipeline.py",
+    "https://raw.githubusercontent.com/langgenius/dify/1.17.1/api/controllers/console/app/message.py",
+    "https://raw.githubusercontent.com/langgenius/dify/1.17.1/api/fields/conversation_fields.py"
+  ],
+  "protection_baseline": "work/chatflow-diagnostic371/post-deploy-data-snapshot.json"
+}

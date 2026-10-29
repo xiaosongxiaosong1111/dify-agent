@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（221历史正文只读已部署353；固定C1证据保持）
+# HANDOFF — Sierra（222 Chatflow诊断适配已部署354；221历史只读与C1保持）
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main，353-c7c4b4aa476ce7fa1e1e/288文件/PID29440。用户对call_60c50947caeb42e693862d0b03076932 question0直接答“允许明确改授并新增1次登录，执行此批”；217按8e175db方案/24文件最终368唯一执行passed。
+- 根E:\workSpace\dify-agent/main，354-b00d7d8eae337c029251/289文件/PID31388。用户对call_60c50947caeb42e693862d0b03076932 question0直接答“允许明确改授并新增1次登录，执行此批”；217按8e175db方案/24文件最终368唯一执行passed。
 - 实际0搭建模型/17读/1加密登录/App首次发布Key各1/运行2。r13资源说明/验收说明旧文字同步→r16代理实际读源d2fbb256d4805abe31fcecbcbc0166febc2a6c141a797d9380cadb72c28a6364复核→正常确认/原图重新校验→r17配置确认/构建/新App发布/两例/ZIP通过。仍为完整原模型保留候选，两处同话术变化其余完整图保持。
 - 当前18Task；所选aa827c91-b683-4a34-9e7f-fa0789f5c252/r17/run_completed，两确认true、plan_stale=false，App9b73f33e-7ce8-447c-a0d8-cec3ccb3bd8a，发布图17279dd5-b732-4251-bccd-78a93719f42a。新原生run7e9b2714-6af8-4596-b46d-d9ba1143dcfb/281eaae3-f4d3-40d7-90d9-354fc3779d0c，passed/LLM1-0/252-0tokens，三方核心图匹配，0tokens不等于免费。
 - 新保护基线work/c1-model-free368/post-live-data-snapshot.json，公开docs/model-free-closeout-live-result-20261029.md/json；原17/旧失败/六settled模型费用/全部旧unknown及预留/消费包/原资产主Key保持。服务连接切新Key、旧Key加密归档。
@@ -16,12 +16,12 @@
 
 ## 3. 下一步
 
-1. 221功能已开发、定向验证和部署：原历史页只展示字段/节点数量，无旧正文；新VersionContentPanel在比较后显式按需读取需求/配置/完整Workflow/Agent/样例JSON保存值，每页4000码点、整份2MB、当前/历史来源绑定。缺字段/变源/越界/疑似凭据/坏编码拒绝，大整数文字精确、代码仅文字；不恢复旧版或改当前确认/App、草稿，不读材料或凭据库。源backend/app/version_content.py、frontend/src/VersionContentPanel.tsx及HistoryPanel接入，docs/history-content.md/result JSON。实现552f96b已存在、221 done，关闭/日志/整份交接一起推main。
-2. 当前0.353.0-c7c4b4aa476ce7fa1e1e/288源快照文件匹配/PID29440，旧352/PID13540归属后仅原stop/start部署；33新增/31原恢复共64后端、类型检查/正式构建/9实际浏览器（显式读/翻页/大数/代码纯文字/晚到旧快照/错误来源与失败不重试）、实际8765 r17查看旧r9完整3265字JSON/视觉通过。原18/账本密文资产/消费文件保持，health前端200、模型Dify0。公开临时检查最初Store传str失败已改Path再跑过，保留日志，不冒称首轮通过。
-3. 最新保护基线work/version-content370/post-deploy-data-snapshot.json（与369部署基线仅server.pid不同），整个新特性未改Task、版本、确认、原生运行、费用、主Key/旧Key或消费回执。当前aa827c91...r17/run_completed/两确认true/plan_stale=false/App9b73f33e...，原4/4次数已满，禁止第五次。353 source新模块仅只读，真实C1始终是217旧四例/双包，不由本功能新增业务通过。
-4. 固定C1：217回执2f519d0/关闭19d12d5已推；220发布3627aa2/关闭5b1ad9d已推，352已有保存流程引导保持。原25质量/原§11 Chatflow订单链仍待真实证据，C4未启用，不升级六组明确未适配扩展。当前普通队列无下一pending时，应从既定需求有限核实实质可开发缺口后入队，一次一项；不为耗额度造微任务或重跑旧样例，也不因完成小模块自动停止。
-5. 当前用户要求持续开发至实际Codex不足，本轮尚未观察到不足。一旦实际不足立刻停并尽力整份交接，不重试/换号/购买/用重置券；若只剩外部质量核对且有限检查没有可行动代码缺口，报告真实限制，不能谎称额度用尽或项目全验收。Claude318失败/用量未知、恢复无证据，不为形式重试/加预算或冒充审查，本轮根代理核对。只读必要文件，不通读项目/290KB历史/跑全量/另开18760，Playwright绝对模块路径保持。
-6. sierra单次03:12已触发后暂停并删除，不再自动安排；当前是之后用户直接批准217和再次明确继续开发的工作。每push先根CHANGELOG/适用README和状态/整份交接，排除work/data/ZIP/原模型正文/秘密；全部旧实际请求/资源/费用与不重试边界有效，无新增外部副作用许可。
+1. 222已开发、定向验证并部署0.354.0-b00d7d8eae337c029251/289文件/PID31388：普通阻塞Chatflow只有消息/会话ID，原诊断无workflow_run_id即缺证；固定1.17.1源码确认后，明确read_remote才按原App消息GET核唯一消息/会话并取原生ID，再走原run/节点/发布图对照。原Workflow/已有合法runID不多读，坏原生ID不借消息查找绕过，无效/错源不猜task_id或列表、不存消息正文，不改旧状态或重跑。源chatflow_diagnostic_source.py/run_diagnostics.py及RunDiagnosticPanel说明；docs/chatflow-message-diagnostics.md/result JSON。待实现commit后222 done，关闭/根日志/整份交接并push。
+2. 76后端定向、类型检查/正式构建、4正常界面场景/视觉通过；公开临时Store正常替身4管理GET、错会话/404各1、缺ID0，先本地分析无远端。初次辅助脚本漏展开记录导致按钮不可见，修正后过，日志保留，非真实批失败。实际8765只GET查看原Workflow r17旧诊断，轨迹保持且无假消息映射，未发新diagnose POST；原18/六费用/全部密文资产与消费文件保持，health/前端200。
+3. 真实Chatflow消息映射仍未出站验证，不能据隔离绿升级原§11订单链/原25业务。未来明确批准的真实范围应把额外消息GET及原后续读取/认证续接纳入，不借旧预留或自动派发。当前所有真实模型/Dify新增0。最新保护基线work/chatflow-diagnostic371/post-deploy-data-snapshot.json，与370基线仅server.pid变；既有C1 Task仍r17/run_completed/两确认true/plan_stale=false/App9b73f33e.../4次已满，禁止第五次。
+4. 221实现552f96b/关闭73287dd均已推：历史正文需求/配置/图/样例JSON按需4000码点分页、整份2MB、来源绑定/精确大数，不恢复或改当前确认/App/草稿；33新增/31恢复共64后端、9界面、实际r17看r9旧图/视觉和353部署过。该功能保持。217固定C1真实四例双包保持，220保存流程引导保持，不重放任何旧包或升级全25/Chatflow质量。
+5. 用户要求持续开发到实际Codex不足，本轮尚未观察不足；不因模块完成停，应按既定需求有限核实下一实质缺口后入队，一次一项，不造微任务/重复样例/默认扩展六组未适配范围。仅剩外部质量缺证且无可行动代码缺口时按AGENTS说明真实限制，不能谎称额度耗尽或项目全验收。一旦实际不足立即停并尽力整份交接，不重试换号购买用券。
+6. Claude318失败/用量未知、恢复无证据，不形式重试/加预算/冒充审查，本轮根代理核对。只读必要文件，不通读项目/290KB历史，不全量/另开18760，Playwright绝对路径保持。单次sierra已在03:12触发后暂停删除，未再排定时；每push前根CHANGELOG/适用README/状态/整份交接，排除work/data/ZIP/原模型正文/秘密，原外部资源/费用和失败不重试边界继续有效。
 
 ## 4. 账本及外部边界
 
