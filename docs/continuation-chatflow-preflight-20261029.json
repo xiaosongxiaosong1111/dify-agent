@@ -1,0 +1,146 @@
+{
+  "backlog": 239,
+  "state": "frozen_not_approved",
+  "batch_id": "continuation-chatflow384",
+  "plan_sha256": "d6d510749bd035480f22eac84e883a7e4a22b83ac55556e27742f12e8ee57592",
+  "manifest_sha256": "2eb35bb615d54fcc88ef8c4d900a74a1fa69d01603c4fbdf49844f2d616b3239",
+  "hashed_files": 15,
+  "original_tasks": 22,
+  "consumed_files_kept": 367,
+  "runtime": {
+    "verified_pid": 26172,
+    "runtime_build": "0.360.0-b8edf5ed1f3251b03bed",
+    "source_files_matched": 289
+  },
+  "docker": {
+    "applicable": true,
+    "ready": true,
+    "compose_project": "dify-local",
+    "required_containers": 16,
+    "healthy_services": [
+      "api",
+      "db_postgres",
+      "local_sandbox",
+      "redis",
+      "sandbox"
+    ],
+    "dify_http_requests": 0,
+    "login_verified": false,
+    "business_verified": false
+  },
+  "targeted_tests": 57,
+  "complete_public_protocol_cases": 17,
+  "physical_model_dify_http": 0,
+  "limits": {
+    "new_tasks": 1,
+    "model": 0,
+    "reads": 128,
+    "login": 1,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 14
+  },
+  "failure_diagnostic_policy": {
+    "business_rule_failure_only": true,
+    "max_reports": 1,
+    "max_management_reads": 4,
+    "post_failure_service_requests": 0,
+    "post_failure_remote_writes": 0,
+    "stop_after_capture": true
+  },
+  "failure_capture_public_cases": {
+    "business_failure": {
+      "state": "stopped",
+      "counts": {
+        "model": 0,
+        "reads": 17,
+        "login": 1,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 1
+      },
+      "capture": {
+        "state": "captured",
+        "case_id": "faq-hit",
+        "turn": null,
+        "reports_attempted": 1,
+        "management_reads": 4,
+        "native_run_id": "c1868d02-f3a9-4eda-9137-68024994c226",
+        "node_ids": [
+          "check_hit",
+          "collect_docs",
+          "faq_answer",
+          "grounded_answer",
+          "intent",
+          "retrieve",
+          "start"
+        ],
+        "remote_status": "succeeded",
+        "source_graph_matched": true
+      }
+    },
+    "second_turn_business_failure": {
+      "state": "stopped",
+      "counts": {
+        "model": 0,
+        "reads": 37,
+        "login": 1,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 7
+      },
+      "capture": {
+        "state": "captured",
+        "case_id": "missing-then-order",
+        "turn": 2,
+        "reports_attempted": 1,
+        "management_reads": 4,
+        "native_run_id": "7ff360ab-5b07-424a-9c97-9dc86a1fa786",
+        "node_ids": [
+          "clarify",
+          "clarify_answer",
+          "intent",
+          "start"
+        ],
+        "remote_status": "succeeded",
+        "source_graph_matched": true
+      }
+    },
+    "failure_diagnostic_error": {
+      "state": "stopped",
+      "counts": {
+        "model": 0,
+        "reads": 16,
+        "login": 1,
+        "import": 1,
+        "publish": 1,
+        "key": 1,
+        "run": 1
+      },
+      "capture": {
+        "state": "requested",
+        "case_id": "faq-hit",
+        "turn": null,
+        "reports_attempted": 1,
+        "management_reads": 3
+      }
+    }
+  },
+  "new_conservative_upper": {
+    "model": 30,
+    "reads": 1213,
+    "login": 43,
+    "import": 22,
+    "publish": 22,
+    "key": 22,
+    "run": 92
+  },
+  "new_dify_estimate_usd": "0.10",
+  "estimate_is_bill_hard_cap": false,
+  "model_estimate_book_upper_usd": "0.755473652",
+  "approval_exists": false,
+  "attempt_exists": false
+}

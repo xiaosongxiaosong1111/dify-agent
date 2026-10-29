@@ -1,5 +1,7 @@
 # 当前版本收尾清单
 
+2026-10-29第237—239：382前五例和缺号首轮过，同会话补号第二轮failed即停；238只补有限接续分类文本并89相关定向/360保护部署过。239新384完整方案含拟议单失败轮4GET报告封存例外，57门禁/17公开全链过，原22/367消费保持，无新批准/真实HTTP，原§11/25结论不升级。[实际结果](guarded-chatflow-live-result-20261029.md)、[修复](order-continuation-classification.md)、[新方案](continuation-chatflow-plan-20261029.md)。
+
 2026-10-29第234—236：380原版前五例/原生轨迹真实过，缺号首轮规则failed即停；235独立查询前非空守卫已83定向/359保护部署过，21Task/346消费保持。236新382完整方案41门禁/15公开场景及冻结通过，待新直接范围，原§11连续补号/修改版/双交付未升级。[实际进展](complete-policy-live-result-20261029.md)、[修复](order-value-guard.md)、[新方案](guarded-chatflow-plan-20261029.md)。
 
 2026-10-29第231—233：378新直接执行首例有编号却缺条件，failed即停；20Task原19保持。232补通用完整性提示，52定向/358保护部署过，原20及325消费证据保持；233新380完整方案本机验证冻结，尚无新批准/实际运行，不升级原§11/25质量。[失败](corrected-chatflow-live-result-20261029.md)、[修复](policy-answer-completeness.md)、[新范围](complete-policy-plan-20261029.md)。
