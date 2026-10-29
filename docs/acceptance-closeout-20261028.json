@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "date": "2026-10-28",
-  "runtime_build": "0.352.0-737bdc8e3d4d8e269d74",
+  "runtime_build": "0.353.0-c7c4b4aa476ce7fa1e1e",
   "baseline": "docs/requirements-v1.0.md",
   "baseline_sha256": "7ab6d186c77a3091764de32612314d56442351ba17c824bbd908856cc71ffe62",
   "review_completed": true,
@@ -351,10 +351,11 @@
       "scenario": "用户恢复旧版本",
       "expected": "保存历史，以恢复版本为基础重新确认／验证。",
       "verdict": "旧版恢复隔离通过，当前真实应用恢复整链未验收",
-      "observed": "版本历史、来源确认和失效规则隔离通过",
+      "observed": "版本历史、来源确认和失效规则隔离通过；221新增历史正文按需只读查看，当前r17读取旧r9图不恢复、未改确认及App，新增/相关64后端及9页面、生产只读保护通过",
       "remaining_or_limit": "当前界面选旧版恢复后保留现历史，重确认/新运行绑定恢复版本，不覆盖旧成绩",
       "evidence": [
-        "docs/acceptance-at24-record.md"
+        "docs/acceptance-at24-record.md",
+        "docs/history-content.md"
       ],
       "full_business_accepted": false,
       "review_actor": "agent_delegated"

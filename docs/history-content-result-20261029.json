@@ -1,0 +1,81 @@
+{
+  "backlog": 221,
+  "state": "deployed_verified",
+  "runtime": "0.353.0-c7c4b4aa476ce7fa1e1e",
+  "version": "0.353.0",
+  "source_runtime_files_matched": 288,
+  "verified_pid": 29440,
+  "previous_owned_pid": 13540,
+  "targeted_backend_checks": {
+    "new_history_content": 33,
+    "existing_restore": 31,
+    "unique_total": 64
+  },
+  "ui_scenarios": [
+    {
+      "case": "normal",
+      "content_reads": 5,
+      "restore_requests": 0
+    },
+    {
+      "case": "wrong_version",
+      "content_reads": 1,
+      "restore_requests": 0
+    },
+    {
+      "case": "wrong_section",
+      "content_reads": 1,
+      "restore_requests": 0
+    },
+    {
+      "case": "bad_page_hash",
+      "content_reads": 1,
+      "restore_requests": 0
+    },
+    {
+      "case": "changed_next_source",
+      "content_reads": 2,
+      "restore_requests": 0
+    },
+    {
+      "case": "stale",
+      "content_reads": 1,
+      "restore_requests": 0
+    },
+    {
+      "case": "missing",
+      "content_reads": 1,
+      "restore_requests": 0
+    },
+    {
+      "case": "bad_flags",
+      "content_reads": 1,
+      "restore_requests": 0
+    },
+    {
+      "case": "late_old_version",
+      "content_reads": 2,
+      "restore_requests": 0
+    }
+  ],
+  "actual_saved_history_ui": {
+    "state": "passed",
+    "current_revision_kept": 17,
+    "historical_revision_viewed": 9,
+    "pages": 1,
+    "full_saved_plan_text_matched": true,
+    "mutating_requests": 0,
+    "foreign_requests": 0,
+    "model_dify_http": 0,
+    "version_restored": false
+  },
+  "original18_and_ledger_kept": true,
+  "ciphertexts_assets_masterkey_kept": true,
+  "all_consumed_packages_kept": true,
+  "original_start_stop_scripts": true,
+  "source_text_is_json_saved_values_not_original_file_bytes": true,
+  "history_restored": false,
+  "model_dify_http": 0,
+  "business_acceptance_complete": false,
+  "protection_baseline": "work/version-content370/post-deploy-data-snapshot.json"
+}

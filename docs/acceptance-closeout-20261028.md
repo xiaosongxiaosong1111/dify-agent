@@ -2,7 +2,7 @@
 
 2026-10-29第217更新：第217固定368唯一真实执行通过：0搭建模型/17管理读取/1加密登录/App发布Key各1/运行2；r17两例passed、原生LLM1/0及发布/本地核心图匹配、两版ZIP摘要通过。固定公开Workflow C1证据补齐，含保留的历史失败/跨批恢复，非全25或原Chatflow订单链通过。原18/六费用/旧unknown与全部预留保持；此Task4/4满，不重放或第五次。 本次只补五项真实结果，其它20项保留原结论；原表的旧阶段状态按当时记录理解。
 
-2026-10-28，初始BACKLOG200，最新219只按206/213/214既有公开回执更新AT-01/11/19/21/22；当前运行352，其它20项保留200原结论。本次未重新验收全部25项。根代理按既有委托核对原25项和已有回执，未新增测试、模型或Dify请求。逐项结论已整理；**当前不能宣告项目全部验收或交付完成**，也没有伪造人类签收。
+2026-10-28，初始BACKLOG200，最新219只按206/213/214既有公开回执更新AT-01/11/19/21/22；当前运行353，其它20项保留200原结论。本次未重新验收全部25项。根代理按既有委托核对原25项和已有回执，未新增测试、模型或Dify请求。逐项结论已整理；**当前不能宣告项目全部验收或交付完成**，也没有伪造人类签收。
 
 C2固定公开继续策略及失败项下载已有真实证据。C1已观察206真实模糊输入追问；213原版r9新App/发布/Key及命中、无命中两例通过；214修改版r13从完整原模型候选正常采用并静态交付，217已补修改版r17新App/两例和双包，固定Workflow C1证据完成。旧失败、unknown和费用不改判。C3逐项记录当前可支持结论及未覆盖条件，不把隔离记录升级为业务通过。C4当前未启用产品轻量路由，不宣称节省。
 
@@ -33,7 +33,7 @@ C2固定公开继续策略及失败项下载已有真实证据。C1已观察206�
 | AT-21 同一错误反复无进展或到达上限 | 真实异常停止及新明确独立收尾有证据，非账单硬限 | 旧198/206/209/213异常停止/费用/预留保持；217凭新直接范围独立一次通过，搭建模型0、两例后Task4/4，不重放旧批 | 固定停止/复核事实不证明任意修复业务进展；在途/宿主费用未知，预留不自动退借，不能派发第五次 | [acceptance-at21-record](acceptance-at21-record.md)、[c1-blank-task-live-result-20261028](c1-blank-task-live-result-20261028.md)、[c1-resume-live-result-20261028](c1-resume-live-result-20261028.md)、[c1-planning-live-result-20261028](c1-planning-live-result-20261028.md)、[model-free-closeout-live-result-20261029](model-free-closeout-live-result-20261029.md) |
 | AT-22 Dify 断开 | 显式加密重连后两版平台链已有观察，非任意断点恢复 | 213/217各在独立批准中一次加密重连证明同一原空间，随后各自新App发布/两例；旧失败和unknown保留，离线r13成果正常接续为r17 | 仍未观察自然令牌过期自动续期或所有阶段断连恢复，不将显式登录成功当全部认证/业务场景通过 | [acceptance-at22-record](acceptance-at22-record.md)、[public-batch-closeout-live-result-20261027](public-batch-closeout-live-result-20261027.json)、[existing-batch-platform-live-result-20261027](existing-batch-platform-live-result-20261027.md)、[c1-planning-live-result-20261028](c1-planning-live-result-20261028.md)、[retained-plan-static-delivery-20261028](retained-plan-static-delivery-20261028.md)、[model-free-closeout-live-result-20261029](model-free-closeout-live-result-20261029.md) |
 | AT-23 需求需要新建外部系统 | 真实模型范围判断/方案质量未验收 | 新系统接入条件/范围外讨论及确认隔离通过 | 代表未知外部系统需求，实际方案须列条件/费用/人工影响，确认前不扩开发或创建资源 | [acceptance-at23-record](acceptance-at23-record.md) |
-| AT-24 用户恢复旧版本 | 旧版恢复隔离通过，当前真实应用恢复整链未验收 | 版本历史、来源确认和失效规则隔离通过 | 当前界面选旧版恢复后保留现历史，重确认/新运行绑定恢复版本，不覆盖旧成绩 | [acceptance-at24-record](acceptance-at24-record.md) |
+| AT-24 用户恢复旧版本 | 旧版恢复隔离通过，当前真实应用恢复整链未验收 | 版本历史、来源确认和失效规则隔离通过；221新增历史正文按需只读查看，当前r17读取旧r9图不恢复、未改确认及App，新增/相关64后端及9页面、生产只读保护通过 | 当前界面选旧版恢复后保留现历史，重确认/新运行绑定恢复版本，不覆盖旧成绩 | [acceptance-at24-record](acceptance-at24-record.md)、[历史正文只读查看](history-content.md) |
 | AT-25 启用轻量模型分工 | 未启用，不宣称轻量路由质量或费用节省 | 本机无assistant_routing记录，默认enabled=false；隔离路由和用量含重试通过 | 仅若明确启用产品轻量路由，才按相同案例对比全链质量/全部调用和费用；Claude CLI委派不代替产品比较 | [acceptance-at25-record](acceptance-at25-record.md)、[lightweight-upgrade](lightweight-upgrade.md) |
 
 217独立收尾已通过，固定公开Workflow C1证据补齐，不再派发本Task第五例或重放任何旧批。下一项220部署218已验证的流程页引导；原25项质量、原§11 Chatflow订单链、条件C4及六组未适配范围仍保留，不能据固定案例声称全项目完成。
