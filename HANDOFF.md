@@ -1,6 +1,8 @@
-# HANDOFF — Sierra（236新382完整方案冻结待直接范围，359/21Task/346旧消费保持）
+# HANDOFF — Sierra（236已实现，237待新382完整范围；359/21Task/346旧消费保持）
 
 ## 1. 当前状态
+
+- 236实现056cd31已验收关闭，237 need-user：382新完整方案41门禁/15公开全链/冻结入口过，15条目plan ef8db0f7/manifest e15eef19，无新approval/attempt/真实HTTP；等待最终全部新增范围直接批准。
 
 - 234按call_14745c342af64442b0c9a528431e8ba9 q0新直接批准唯一执行380并消费：33读1登录/Task1/资源各1/Service6/模型0，共43 HTTP。原版前五例/五份原生轨迹过，第六缺号首轮规则failed即停，未发补号第二轮/诊断/第二版/ZIP。21Task原20/325消费及密文资产保持。安全结果docs/complete-policy-live-result-20261029.md/json。
 
@@ -25,7 +27,7 @@
 2. 235守卫修复8222c34/关闭01fcde2已推部署359-17860f0f9043dfa61c21/289文件/PID4028。保留原严格提取成功单条件，另加validate_order代码和check_order_value IF，空白固定追问不查询、类型错停止，有效仍原模拟查询。13新路径及相关售后/样例/两轮/提取共83定向/正常API静态交付过，19节点19边，原21/346消费精确保持；实际新图未试跑，旧App/Task不自动迁移。
 3. 236新独立382完整方案已完成本机验证/冻结：固定359及原21/346消费保护，合同强制业务守卫代码/路由，无旧17节点图或捷径；有效订单原生轨迹必须含validate_order/check_order_value，缺号首轮不得含order_lookup。41门禁/15完整公开协议场景（含成功但空白正例、绕过守卫轨迹反例）真实HTTP0。work/guarded-chatflow382，15条目+manifest；plan ef8db0f7ffa722ac13c47cbf7b62c068bbc60c0188ba2dd8a0ee1f6ab1235830 / manifest e15eef199d606488c98eae563c15d4de532dffde7e503009ca6909b5759eb951。源tools/guarded-chatflow382、测试backend/tests/test_guarded_chatflow_boundary.py、proof work/guarded-chatflow382-local/rehearsal-proof.json；无approval/attempt。docs/guarded-chatflow-plan-20261029.md及安全preflightJSON。
 4. 拟全部新Task1/App首次发布Key各2、12启动14Service/逐轮轨迹双ZIP、128读1登录，0Sierra模型/新库，Task45分钟/整批60分钟，Dify新估0.10USD非账单硬限/宿主未知。拟保守读取957→1085、登录41→42、资源18→20、Service64→78，主模型30/账本0.755473652不增；原21/全部旧失败/unknown/费用和余槽不退借。两版各六例（末例两轮），原全部期望保持；第二版只两处无答案文案加商品型号，19节点守卫保持，任何异常整批停不重试。不是模型自主规划/全§11/25签收。
-5. 先提交236完整方案/日志/README/状态/本交接，取得实现commit后关闭236、新增237 need-user并推main，再统一询问最终摘要及全部新范围。新直接答复前不生成approval/attempt/live，旧375/376/378/380批准不适用。批准后先核原21/346消费/冻结源、359运行归属及Docker，再唯一执行；当前预检无登录/DifyHTTP。不按端口杀进程，不抄聊天密码/输出提交秘密。
+5. 236实现056cd31已提交完整方案/日志/README/状态/交接并验收关闭，237 need-user；推main后统一询问最终摘要及全部新范围。新直接答复前不生成approval/attempt/live，旧375/376/378/380批准不适用。批准后先核原21/346消费/冻结源、359运行归属及Docker，再唯一执行；当前预检无登录/DifyHTTP。不按端口杀进程，不抄聊天密码/输出提交秘密。
 6. 保护基线work/order-value381/post-deploy-data-snapshot.json（21Task/授权新Key和认证），不误用旧20保护。当前服务App6cf78b7d...、旧Key加密归档。380余95读/资源1/8Service、378余115/1/13、375余105/1/13和全部费用不借退，376无剩余。原§11连续补号、修改版及双交付仍缺真实证据，不把隔离或控制输出当模型遵循。
 7. 未观察实际Codex不足，持续实质推进；不足立即停尽力整份交接，不重试/换号/购买/重置券。不造微任务；若只剩新副作用授权则准确记录等待，不谎称额度耗尽。Claude318失败/用量未知无恢复证据，不形式重试/冒充审查，本轮根代理。只读必要文件/历史编号，不全量/通读290KB历史/另起18760，单次sierra已触发删除；每push先日志/适用README/状态/整份交接，排除work/data/模型原文/秘密，原GitHub main自主提交推送。
 
