@@ -16,7 +16,7 @@
 
 ## 3. 下一步
 
-1. 223已开发、定向验证并部署0.355.0-2737a3da0a7775be88ae/289文件/PID35752：售后模板样例快捷入口原来仅单轮，新可显式选已有合成单号（默认不选），在完整匹配/已确认构建且记忆已明确启用的Chatflow模板上，增缺号追问→仅补该单号的两轮草稿。正常追加/保存保留followups，按完整轮次判重，保留原单轮；不改记忆/图/上限或运行，Workflow精确拒绝不建议启用记忆。源after_sales_cases.py/AfterSalesCaseDrafts.tsx/AcceptancePanel；docs/after-sales-continuation.md/result JSON。待实现commit后223 done，关闭/日志/整份交接并push。
+1. 223已开发、定向验证并部署0.355.0-2737a3da0a7775be88ae/289文件/PID35752：售后模板样例快捷入口原来仅单轮，新可显式选已有合成单号（默认不选），在完整匹配/已确认构建且记忆已明确启用的Chatflow模板上，增缺号追问→仅补该单号的两轮草稿。正常追加/保存保留followups，按完整轮次判重，保留原单轮；不改记忆/图/上限或运行，Workflow精确拒绝不建议启用记忆。源after_sales_cases.py/AfterSalesCaseDrafts.tsx/AcceptancePanel；docs/after-sales-continuation.md/result JSON。实现c74f9e9，实际验收后223 done；关闭/日志/整份交接提交后push。继续从既定需求核实下一实质缺口再入队。
 2. 19新增/13原单轮共32后端、类型检查/正式构建、6正常界面/视觉通过，含正常追加保存、旧单轮并存、完整重复拒绝、记忆关闭/错单号/坏行/变源拒绝；公开临时Store只正常新增保存样例、确认和成果失效，旧运行及账本保持。初次更名夹具未重建，原成果守卫拒绝；重新构建后过，日志保留，非产品或真实批失败。实际仅GET核r17 Workflow不显示Chatflow接续控件，原四运行/两样例保持，原18/六费用/全部密文资产和消费回执保持，模型Dify0。
 3. 最新保护基线work/after-sales-continuation372/post-deploy-data-snapshot.json，与371基线仅server.pid变；核旧354/PID31388归属后原stop/start，health前端200，所有源快照289一致。当前C1 aa827c91...仍r17/run_completed/两确认true/plan_stale=false/App9b73f33e.../4次已满，禁止第五次或旧批重放。原25/原§11 Chatflow订单链仍有真实质量缺证，223两轮未来成功执行计划有2次Service及每轮模型成本，不因准备草稿自动加授权或上限。
 4. 222实现aa56dfb/关闭7083a06已推；354补阻塞Chatflow消息/会话严格映射原生run，76后端/4界面/视觉及保护部署过，旧Workflow不多读；真实Chatflow映射仍未出站。221实现552f96b/关闭73287dd已推；353历史正文按需4000码点分页/2MB/来源绑定/大数文字/不恢复，64后端9界面及实际r17读r9旧图/保护部署过。两项保持；固定C1既有四例双ZIP、220已存图指引保持，不据当前功能称全25或原订单链通过。
