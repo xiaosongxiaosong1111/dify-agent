@@ -16,7 +16,7 @@
 
 ## 3. 下一步
 
-1. 221功能已开发、定向验证和部署：原历史页只展示字段/节点数量，无旧正文；新VersionContentPanel在比较后显式按需读取需求/配置/完整Workflow/Agent/样例JSON保存值，每页4000码点、整份2MB、当前/历史来源绑定。缺字段/变源/越界/疑似凭据/坏编码拒绝，大整数文字精确、代码仅文字；不恢复旧版或改当前确认/App、草稿，不读材料或凭据库。源backend/app/version_content.py、frontend/src/VersionContentPanel.tsx及HistoryPanel接入，docs/history-content.md/result JSON。待实现commit存在后221 done，关闭/日志/整份交接并推main。
+1. 221功能已开发、定向验证和部署：原历史页只展示字段/节点数量，无旧正文；新VersionContentPanel在比较后显式按需读取需求/配置/完整Workflow/Agent/样例JSON保存值，每页4000码点、整份2MB、当前/历史来源绑定。缺字段/变源/越界/疑似凭据/坏编码拒绝，大整数文字精确、代码仅文字；不恢复旧版或改当前确认/App、草稿，不读材料或凭据库。源backend/app/version_content.py、frontend/src/VersionContentPanel.tsx及HistoryPanel接入，docs/history-content.md/result JSON。实现552f96b已存在、221 done，关闭/日志/整份交接一起推main。
 2. 当前0.353.0-c7c4b4aa476ce7fa1e1e/288源快照文件匹配/PID29440，旧352/PID13540归属后仅原stop/start部署；33新增/31原恢复共64后端、类型检查/正式构建/9实际浏览器（显式读/翻页/大数/代码纯文字/晚到旧快照/错误来源与失败不重试）、实际8765 r17查看旧r9完整3265字JSON/视觉通过。原18/账本密文资产/消费文件保持，health前端200、模型Dify0。公开临时检查最初Store传str失败已改Path再跑过，保留日志，不冒称首轮通过。
 3. 最新保护基线work/version-content370/post-deploy-data-snapshot.json（与369部署基线仅server.pid不同），整个新特性未改Task、版本、确认、原生运行、费用、主Key/旧Key或消费回执。当前aa827c91...r17/run_completed/两确认true/plan_stale=false/App9b73f33e...，原4/4次数已满，禁止第五次。353 source新模块仅只读，真实C1始终是217旧四例/双包，不由本功能新增业务通过。
 4. 固定C1：217回执2f519d0/关闭19d12d5已推；220发布3627aa2/关闭5b1ad9d已推，352已有保存流程引导保持。原25质量/原§11 Chatflow订单链仍待真实证据，C4未启用，不升级六组明确未适配扩展。当前普通队列无下一pending时，应从既定需求有限核实实质可开发缺口后入队，一次一项；不为耗额度造微任务或重跑旧样例，也不因完成小模块自动停止。
