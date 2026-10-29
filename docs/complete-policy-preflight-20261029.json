@@ -1,0 +1,58 @@
+{
+  "backlog": 233,
+  "state": "frozen_not_approved",
+  "batch_id": "complete-policy380",
+  "plan_sha256": "0bad3a04f6ad0c7496a154c429376828b42aaa052c423ddb37b5654f34bfb257",
+  "manifest_sha256": "7dea2ace6a50b72213a4a7f986c4443f468c86cf4ccc9c07bb3b2dcae7fdfb37",
+  "hashed_files": 15,
+  "original_tasks": 20,
+  "consumed_files_kept": 325,
+  "runtime": {
+    "verified_pid": 572,
+    "runtime_build": "0.358.0-5b2b413df12148f3e015",
+    "source_files_matched": 289
+  },
+  "docker": {
+    "applicable": true,
+    "ready": true,
+    "compose_project": "dify-local",
+    "required_containers": 16,
+    "healthy_services": [
+      "api",
+      "db_postgres",
+      "local_sandbox",
+      "redis",
+      "sandbox"
+    ],
+    "dify_http_requests": 0,
+    "login_verified": false,
+    "business_verified": false
+  },
+  "targeted_tests": 38,
+  "complete_public_protocol_cases": 13,
+  "physical_model_dify_http": 0,
+  "limits": {
+    "new_tasks": 1,
+    "model": 0,
+    "reads": 128,
+    "login": 1,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 14
+  },
+  "new_conservative_upper": {
+    "model": 30,
+    "reads": 957,
+    "login": 41,
+    "import": 18,
+    "publish": 18,
+    "key": 18,
+    "run": 64
+  },
+  "new_dify_estimate_usd": "0.10",
+  "estimate_is_bill_hard_cap": false,
+  "model_estimate_book_upper_usd": "0.755473652",
+  "approval_exists": false,
+  "attempt_exists": false
+}

@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "task_name": "Sierra政策完整性Chatflow订单双版核对",
+  "environment_id": "202bfb35-2f92-47c1-bc1b-eac32082181d",
+  "workspace_id": "c3306c18-ceb2-4bee-b2d1-796ce2048f17",
+  "requirements": {
+    "goal": "为内部演示用户提供售后资料问答及合成订单查询Chatflow，仅使用公开合成资料和订单，不接入客户数据。",
+    "audience": "内部开发和演示用户；不接入真实客户或真实订单系统。",
+    "input": "每次一个必填query文字；新样例新会话，缺少订单号时追问，下一轮只补明确订单号。",
+    "output": "输出answer文字；订单回复明确标为模拟。缺号逐字回复：订单查询目前为模拟，请提供订单号。 范围外逐字回复：目前只支持售后资料问答和模拟订单查询，请说明您的诉求。 资料无答案逐字回复：知识库暂无相关信息，请联系人工客服，并提供订单号。",
+    "rules": "先分类资料问答、订单查询或范围外。资料支路先检索；空结果直接固定无答案回复，有片段才调用回答模型且只依据片段；片段不足仍用同一无答案文字，不编造政策。订单支路只提取明确订单号，提取失败不查询而追问；成功才查询唯一合成表。记忆明确启用最近5轮；同一缺号追问后补DEMO-001须仍走订单支路，不猜其它单号；不同样例不复用会话。",
+    "knowledge": "复用公开合成FAQ d12cf081-5c52-41e3-b869-e94e6f8d37b1，TopK3、无阈值、不重排。订单接口缺少，明确采用订单查询模拟，唯一合成表DEMO-001=合成样例：已发货。分类/提取/回答模型deepseek-flash，thinking=false、温度0.2、最大输出512。",
+    "exceptions": "技术调用失败停止，不冒充无命中或提取失败；未知不重跑。无答案可来自空检索或有片段但不足，分别记录轨迹，不把后者称作空检索。转人工只是文字，不创建人工服务或外部接口。",
+    "tests": "六个公开样例：资料命中、资料无相关答案、范围外、订单存在、订单不存在、缺号后同会话补号；最后样例两轮，其余单轮。每版6次启动/7次Service，每轮严格检查并读取对应轨迹，任一失败整批停止，不改预期。"
+  },
+  "configuration": {
+    "dify_model_provider": "langgenius/deepseek/deepseek",
+    "dify_model": "deepseek-flash",
+    "temperature": 0.2,
+    "max_tokens": 512,
+    "model_parameters": {
+      "thinking": false
+    },
+    "opening_statement": "内部公开演示：订单为合成模拟，非真实订单。",
+    "suggested_questions": [],
+    "conversation_memory": true,
+    "memory_turns": 5,
+    "dataset_ids": [
+      "d12cf081-5c52-41e3-b869-e94e6f8d37b1"
+    ],
+    "retrieval_top_k": 3,
+    "mock_dependencies": [
+      "订单查询模拟"
+    ],
+    "mock_dependency_bindings": [
+      {
+        "node_id": "order_lookup",
+        "dependency": "订单查询模拟",
+        "replacement_todo": "真实订单接口的地址、认证、字段与失败策略补齐后，另行确认接入并替换此模拟节点；本批不连接真实订单。"
+      }
+    ],
+    "resource_plan": "仅待新直接批准的375独立整批：新Task1，人工售后模板两版，App/首次发布/Key各2，12启动/14Service及逐轮轨迹/双ZIP；0搭建模型/新库/真实订单接口。最多128管理读取、1次加密登录、60分钟整批，原12次启动/45分钟任务限制累计不清零；Dify估0.10 USD非账单硬限，宿主未知。新Key切专用连接，旧Key加密留档；原18/旧unknown/费用预留和消费包保持，任何异常整批停、不重试。"
+  },
+  "inputs": {
+    "source_text": "",
+    "dependency": "订单查询模拟",
+    "records_text": "{\"DEMO-001\":\"合成样例：已发货。\"}",
+    "no_hit_reply": "知识库暂无相关信息，请联系人工客服，并提供订单号。",
+    "missing_order_reply": "订单查询目前为模拟，请提供订单号。",
+    "clarify_reply": "目前只支持售后资料问答和模拟订单查询，请说明您的诉求。"
+  },
+  "changed_no_hit_reply": "知识库暂无相关信息，请联系人工客服，并提供订单号和商品型号。",
+  "cases": [
+    {
+      "id": "faq-hit",
+      "name": "资料政策命中",
+      "input": {
+        "query": "ZXRET715在签收后七天内且未拆封，能否退货？请给出政策编号。"
+      },
+      "expectation": {
+        "mode": "contains",
+        "target": "answer",
+        "expected": [
+          "ZXRET715",
+          "七天",
+          "未拆封"
+        ]
+      },
+      "required": true
+    },
+    {
+      "id": "faq-no-answer",
+      "name": "资料无相关答案",
+      "input": {
+        "query": "请查询售后资料中的政策编号 ZXUNLISTED90371。"
+      },
+      "expectation": {
+        "mode": "equals",
+        "target": "answer",
+        "expected": "知识库暂无相关信息，请联系人工客服，并提供订单号。"
+      },
+      "required": true
+    },
+    {
+      "id": "clarify",
+      "name": "范围外请求澄清",
+      "input": {
+        "query": "请帮我预订去火星的机票。"
+      },
+      "expectation": {
+        "mode": "equals",
+        "target": "answer",
+        "expected": "目前只支持售后资料问答和模拟订单查询，请说明您的诉求。"
+      },
+      "required": true
+    },
+    {
+      "id": "order-found",
+      "name": "模拟订单存在",
+      "input": {
+        "query": "查询订单 DEMO-001"
+      },
+      "expectation": {
+        "mode": "equals",
+        "target": "answer",
+        "expected": "【模拟订单查询，非真实订单】合成样例：已发货。"
+      },
+      "required": true
+    },
+    {
+      "id": "order-not-found",
+      "name": "模拟订单不存在",
+      "input": {
+        "query": "查询订单 UNLISTED-DEMO"
+      },
+      "expectation": {
+        "mode": "equals",
+        "target": "answer",
+        "expected": "【模拟订单查询，非真实订单】合成样例中没有该订单，请核对订单号或联系人工客服。"
+      },
+      "required": true
+    },
+    {
+      "id": "missing-then-order",
+      "name": "先缺号再补号的同会话",
+      "input": {
+        "query": "我想查询订单状态，但尚未提供订单号。"
+      },
+      "expectation": {
+        "mode": "equals",
+        "target": "answer",
+        "expected": "订单查询目前为模拟，请提供订单号。"
+      },
+      "followups": [
+        {
+          "input": {
+            "query": "DEMO-001"
+          },
+          "expectation": {
+            "mode": "equals",
+            "target": "answer",
+            "expected": "【模拟订单查询，非真实订单】合成样例：已发货。"
+          }
+        }
+      ],
+      "required": true
+    }
+  ],
+  "scope_note": "人工固定模板平台核对，非模型自主访谈/规划，不关闭全§11或25业务质量。"
+}

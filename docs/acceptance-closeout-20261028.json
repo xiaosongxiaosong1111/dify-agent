@@ -407,11 +407,11 @@
     "evidence": "docs/first-case-trace-live-result-20261029.md"
   },
   "latest_related_code_fix": {
-    "backlog": 229,
-    "runtime": "0.357.0-c038db013b5e96bc4d3e",
-    "state": "deployed_isolated_verified",
+    "backlog": 232,
+    "runtime": "0.358.0-5b2b413df12148f3e015",
+    "state": "deployed_prompt_contract_verified",
     "actual_fixed_graph_retested": false,
     "full_business_accepted": false,
-    "evidence": "docs/after-sales-context-delivery.md"
+    "evidence": "docs/policy-answer-completeness.md"
   }
 }
