@@ -118,9 +118,9 @@ export function AcceptancePanel({ taskId,revision,artifactStamp,drafts, appType,
     <CaseSetPanel taskId={taskId} revision={revision} appType={appType} draftScope={JSON.stringify(drafts)} disabled={busy||!canSave} onAppend={rows=>{if(rows.some(row=>drafts.some(d=>d.id===row.id)))return false;const added=casesToDrafts(rows);try{if(!sameJson(draftsToCases(added),rows))return false}catch{return false}onChange([...drafts,...added]);return true}}/>
     <div className="callout">保存样例后需要重新确认需求与配置；已有流程计划也需复核。关键词或结构通过只证明已声明的规则。</div><p className="hint">首轮、追问输入和严格等值期望会核对完整JSON原文；重复字段或数值舍入会阻止保存并保留草稿，不自动选最后一项、转成文字或null。长编号若需精确保留，请先明确采用文本方案。</p>
     {appType==='advanced-chat'&&<AfterSalesCaseDrafts taskId={taskId} revision={revision} scope={artifactStamp} dependencies={mockDependencies} disabled={busy||!canSave||dirty} onAppend={rows=>{
-      const duplicate=rows.some(row=>drafts.some(d=>{try{const input=JSON.parse(d.inputText),expected=JSON.parse(d.expectedText);return d.mode==='equals'&&d.target==='answer'&&input&&typeof input==='object'&&Object.keys(input).length===1&&input.query===row.input.query&&expected===row.expectation.expected&&!d.followups?.length}catch{return false}}));
+      const duplicate=rows.some(row=>drafts.some(d=>{try{return sameJson(draftToTurn(d,'原样例'),{input:row.input,expectation:row.expectation})&&sameJson((d.followups||[]).map((t,i)=>draftToTurn(t,`原样例第${i+2}轮`)),row.followups||[])}catch{return false}}));
       if(duplicate)return false;
-      onChange([...drafts,...rows.map(row=>({...newCaseDraft(appType),name:row.name,inputText:JSON.stringify(row.input,null,2),mode:'equals' as const,target:'answer',expectedText:JSON.stringify(row.expectation.expected)}))]);return true;
+      onChange([...drafts,...casesToDrafts(rows.map(row=>({id:crypto.randomUUID(),name:row.name,input:row.input,expectation:row.expectation,required:true,...(row.followups?{followups:row.followups}:{})})))]);return true;
     }}/>}
     {drafts.map((c, i) => <fieldset className="case-card" key={c.id} disabled={busy}>
       <legend>样例 {i + 1}</legend>

@@ -1,0 +1,73 @@
+{
+  "backlog": 223,
+  "state": "deployed_isolated_verified",
+  "runtime": "0.355.0-2737a3da0a7775be88ae",
+  "version": "0.355.0",
+  "source_runtime_files_matched": 289,
+  "verified_pid": 35752,
+  "previous_owned_pid": 31388,
+  "targeted_backend_checks": {
+    "new": 19,
+    "related_single_turn": 13,
+    "unique_total": 32
+  },
+  "ui_scenarios": [
+    {
+      "case": "normal",
+      "preview_requests": 2,
+      "case_saves_to_temporary_store": 1,
+      "model_dify_http": 0
+    },
+    {
+      "case": "duplicate",
+      "preview_requests": 2,
+      "case_saves_to_temporary_store": 0,
+      "model_dify_http": 0
+    },
+    {
+      "case": "memory_off",
+      "preview_requests": 2,
+      "case_saves_to_temporary_store": 0,
+      "model_dify_http": 0
+    },
+    {
+      "case": "forged_followup",
+      "preview_requests": 2,
+      "case_saves_to_temporary_store": 0,
+      "model_dify_http": 0
+    },
+    {
+      "case": "malformed_row",
+      "preview_requests": 2,
+      "case_saves_to_temporary_store": 0,
+      "model_dify_http": 0
+    },
+    {
+      "case": "bad_source",
+      "preview_requests": 2,
+      "case_saves_to_temporary_store": 0,
+      "model_dify_http": 0
+    }
+  ],
+  "normal_two_turn_case_saved_to_public_store": true,
+  "old_single_turn_case_kept": true,
+  "duplicate_compares_complete_turns": true,
+  "memory_enabled_by_feature": false,
+  "physical_model_dify_http": 0,
+  "production_read_only_smoke": {
+    "state": "passed",
+    "current_workflow_revision_kept": 17,
+    "old_run_count_kept": 4,
+    "current_test_cases_kept": 2,
+    "chatflow_only_controls_not_shown_on_workflow": true,
+    "mutating_requests": 0,
+    "foreign_requests": 0,
+    "actual_chatflow_conversation_run": false
+  },
+  "original18_and_ledger_kept": true,
+  "ciphertexts_assets_masterkey_kept": true,
+  "all_consumed_packages_kept": true,
+  "actual_chatflow_order_conversation_verified": false,
+  "business_acceptance_complete": false,
+  "protection_baseline": "work/after-sales-continuation372/post-deploy-data-snapshot.json"
+}

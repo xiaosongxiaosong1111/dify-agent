@@ -16,7 +16,7 @@ NOTE=('仅为匹配的售后人工模板准备订单支路样例草稿，不推�
       '逐项选择后只追加未保存样例，实际运行次数/费用仍须原批准，不自动提高上限。')
 
 
-def propose(task,dependency):
+def propose(task,dependency,continuation_order_id=None):
     if task.get('app_type')!='advanced-chat' or task.get('dsl_reference') or task.get('dsl_overlay'):
         raise ValueError('仅支持无保留DSL覆盖的匹配售后Chatflow人工模板，不换类型或推断手改语义。')
     graph=task.get('workflow_plan')
@@ -38,6 +38,14 @@ def propose(task,dependency):
     while missing in records:index+=1;missing='UNLISTED-DEMO_'+str(index)
     row('not_found','模拟订单不存在','查询订单 '+missing,NOT_FOUND_REPLY)
     row('missing_order','未提供订单号时追问','我想查询订单状态，但尚未提供订单号。',messages['missing_order_reply'])
+    if continuation_order_id is not None:
+        if ((task.get('configuration') or {}).get('conversation_memory') is not True
+                or not isinstance(continuation_order_id,str) or continuation_order_id not in records):
+            raise ValueError('接续样例须明确选已有合成订单，并先声明保存对话记忆；不改配置或猜订单。')
+        row('missing_then_found:'+continuation_order_id,'缺号追问后补订单 '+continuation_order_id,
+            '我想查询订单状态，但尚未提供订单号。',messages['missing_order_reply'])
+        rows[-1]['followups']=[{'input':{'query':continuation_order_id},
+            'expectation':{'mode':'equals','target':'answer','expected':PREFIX+records[continuation_order_id]}}]
     return rows,hashlib.sha256(text.encode()).hexdigest()
 
 
@@ -47,6 +55,7 @@ def register(h):
         revision:StrictInt=Field(ge=1)
         dependency:StrictStr=Field(min_length=1,max_length=2000)
         request_nonce:UUID
+        continuation_order_id:StrictStr|None=Field(default=None,min_length=1,max_length=64,pattern=r'^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$')
     router=APIRouter(route_class=DraftRoute)
     @router.post('/api/tasks/{item_id}/after-sales-cases-preview')
     async def read(item_id:str,payload:Payload,request:Request):
@@ -60,8 +69,12 @@ def register(h):
             artifact=task.get('artifact') or {}
             if not task.get('requirements_confirmed') or not task.get('configuration_confirmed') or task.get('plan_stale') or artifact.get('revision')!=task['revision'] or (artifact.get('validation') or {}).get('valid') is not True:
                 raise HTTPException(422,'请先确认当前方案并构建有效静态成果，再读取样例；不从旧成果猜测。')
+            if payload.continuation_order_id is not None and task.get('app_type')!='advanced-chat':
+                raise HTTPException(422,'连续订单草稿仅用于明确选择的Chatflow，不切换应用类型或要求Workflow启用记忆。')
+            if payload.continuation_order_id is not None and (task.get('configuration') or {}).get('conversation_memory') is not True:
+                raise HTTPException(422,'准备缺号后补号的两轮样例，须先明确启用并保存对话记忆，再复核构建；这里不修改记忆或保证分类效果。')
             try:
-                rows,plan_sha=propose(task,payload.dependency)
+                rows,plan_sha=propose(task,payload.dependency,payload.continuation_order_id)
                 path=h.artifact_path(task);folder=(h.DATA_ROOT/task['id']).resolve()
                 if path.is_symlink() or path.resolve().parent!=folder or folder.parent!=h.DATA_ROOT.resolve():raise ValueError()
                 with path.open('rb') as stream:source=stream.read(2_000_001)
@@ -74,7 +87,9 @@ def register(h):
             except (ValueError,KeyError,TypeError,UnicodeError,OSError,RecursionError):
                 raise HTTPException(422,'当前完整计划/成果不是可确认的售后模板，或合成表及绑定不匹配；原内容保持，不返回部分样例。') from None
             return {'schema_version':1,'task_id':item_id,'revision':task['revision'],'request_nonce':str(payload.request_nonce),
-                'dependency':payload.dependency,'artifact_sha256':sha,'plan_sha256':plan_sha,'rows':rows,'note':NOTE,
+                'dependency':payload.dependency,'artifact_sha256':sha,'plan_sha256':plan_sha,'rows':rows,
+                'continuation_order_id':payload.continuation_order_id,
+                'note':NOTE+('本次另含缺号后仅补所选订单号的两轮样例：同一会话共两次Service请求，每轮可能调用分类/提取模型并收费；记忆已声明不等于实际理解通过，不增加次数或费用上限。' if payload.continuation_order_id is not None else ''),
                 'verification':'declared_mock_order_case_drafts_only','task_changed':False,'network_requested':False,
                 'model_called':False,'code_executed':False,'business_verified':False}
     h.app.include_router(router)

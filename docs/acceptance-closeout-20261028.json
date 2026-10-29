@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "date": "2026-10-28",
-  "runtime_build": "0.354.0-b00d7d8eae337c029251",
+  "runtime_build": "0.355.0-2737a3da0a7775be88ae",
   "baseline": "docs/requirements-v1.0.md",
   "baseline_sha256": "7ab6d186c77a3091764de32612314d56442351ba17c824bbd908856cc71ffe62",
   "review_completed": true,
@@ -218,10 +218,11 @@
       "scenario": "连续对话信息不完整",
       "expected": "按规则追问，验证上下文行为。",
       "verdict": "复杂对话缺参及上下文质量未验收",
-      "observed": "早期两轮真实技术链及隔离上下文/缺参检查",
+      "observed": "早期两轮真实技术链及隔离上下文/缺参检查；223增加明确选合成订单的缺号→补号两轮草稿正常追加保存，32后端/6界面隔离通过，未实际试跑",
       "remaining_or_limit": "代表真实连续会话含指代/缺信息，须观察追问及上下文隔离；Workflow单次问答不替代Chatflow",
       "evidence": [
-        "docs/acceptance-at15-record.md"
+        "docs/acceptance-at15-record.md",
+        "docs/after-sales-continuation.md"
       ],
       "full_business_accepted": false,
       "review_actor": "agent_delegated"
