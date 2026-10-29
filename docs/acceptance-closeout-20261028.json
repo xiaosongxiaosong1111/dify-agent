@@ -379,5 +379,19 @@
   ],
   "last_update_backlog": 217,
   "last_update_scope": "2026-10-29仅按217实际回执补五项及固定C1，原20项结论不重审；未新增模型或运行，真实操作仅本批已声明范围。",
-  "fixed_public_workflow_c1_evidence_complete": true
+  "fixed_public_workflow_c1_evidence_complete": true,
+  "latest_real_attempt": {
+    "backlog": 226,
+    "case": "Chatflow manual template first FAQ",
+    "state": "failed_rule_stopped",
+    "new_sierra_models": 0,
+    "dify_reads": 13,
+    "dify_logins": 1,
+    "new_apps_publications_keys_each": 1,
+    "service_requests": 1,
+    "native_trace_read": false,
+    "old18_kept": true,
+    "total_tasks": 19,
+    "evidence": "docs/chatflow-order-platform-live-result-20261029.md"
+  }
 }
