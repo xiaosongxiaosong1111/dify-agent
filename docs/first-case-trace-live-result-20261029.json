@@ -1,0 +1,106 @@
+{
+  "backlog": 228,
+  "batch_id": "first-case-trace376",
+  "state": "diagnostic_complete_no_retest",
+  "human_question_ref": "call_88f2d09849de46aeb7d3bf8b71f6a314 q0",
+  "counts": {
+    "reads": 10,
+    "login": 1
+  },
+  "physical_http": 11,
+  "new_model_task_resource_service": 0,
+  "task_id": "62bb060f-b7fa-4397-acb0-ba931c7dbfb2",
+  "revision": 5,
+  "local_run_id": "f7576baa-61f4-43b2-80d9-4ad0609c897f",
+  "native_run_id": "8ce750c7-9abd-4d08-8180-23bba648b2e7",
+  "source_graph_matched": true,
+  "graph_digest": "1594f148949470e1ffe471356c9890ad4f06ce9883962d6d3b22cb6bcc37bd0b",
+  "executed_node_ids": [
+    "start",
+    "intent",
+    "retrieve",
+    "collect_docs",
+    "check_hit",
+    "grounded_answer",
+    "faq_answer"
+  ],
+  "retrieval_result_count": 2,
+  "dataset": {
+    "indexing_technique": "economy",
+    "document_count": 2,
+    "available_document_count": null,
+    "permission": "only_me",
+    "error_present": false
+  },
+  "document_page": {
+    "page": 1,
+    "limit": 2,
+    "returned": 2,
+    "has_more": true,
+    "total": 2
+  },
+  "documents": [
+    {
+      "id": "173e6b9e-c022-447b-a337-2a47d630c201",
+      "saved_metadata": {
+        "indexing_status": "completed",
+        "enabled": true,
+        "archived": false,
+        "word_count": 95,
+        "segment_count": null,
+        "error_present": false
+      },
+      "indexing": {
+        "indexing_status": "completed",
+        "completed_segments": 1,
+        "total_segments": 1,
+        "error_present": false
+      }
+    },
+    {
+      "id": "b719416c-76fc-492f-b3b1-2dbab170155e",
+      "saved_metadata": {
+        "indexing_status": "completed",
+        "enabled": true,
+        "archived": false,
+        "word_count": 121,
+        "segment_count": null,
+        "error_present": false
+      },
+      "indexing": {
+        "indexing_status": "completed",
+        "completed_segments": 1,
+        "total_segments": 1,
+        "error_present": false
+      }
+    }
+  ],
+  "diagnostics_appended": 1,
+  "original_state_kept": true,
+  "original_rule_failed_kept": true,
+  "protected_tasks": 19,
+  "old_consumed_evidence_kept": 287,
+  "business_retested": false,
+  "business_verified": false,
+  "conservative_upper": {
+    "model": 30,
+    "reads": 701,
+    "login": 39,
+    "resources_each": 14,
+    "service": 36
+  },
+  "model_estimate_book_upper_usd": "0.755473652",
+  "six_settled_estimate_usd": "0.132110088",
+  "runtime": "0.356.0-5476d30269eac2811387",
+  "pid": 35272,
+  "evidence_sha256": {
+    "plan.json": "d85d57bbf982218f6008d70c89b7960be797414bdc3ebac9139d91802f07b356",
+    "manifest.json": "bdb4c34b811e6604a25a830549eb91e5e57d86c75276355970dbe668b9761d06",
+    "approval.json": "eeed7e488a966b9284440cd7cf8a84cb96c3e8bc766fae25488e371554313596",
+    "attempt.json": "2744670eabe507dc1dfed0fbccd60ea38f03ad95325fd594434f009c5da27ba9",
+    "worker-started.json": "54109c7cbaddee0313815b85c11c0c7b261b7e3df52fc702cf68d606789d3d8d",
+    "live-output/progress.json": "15dcdfee256f19cf9d750563bbea8bc4ced0caabfad1821621d31fd3afa3be82",
+    "post-read-data-snapshot.json": "ad8f3fe26426dc07dbf44f33a9ffc784a8f0c571383d7453937a7b8f0e9192e6"
+  },
+  "protection_baseline": "work/first-case-trace376/post-read-data-snapshot.json"
+}
