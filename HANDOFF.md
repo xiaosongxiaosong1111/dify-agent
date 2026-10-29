@@ -1,6 +1,8 @@
-# HANDOFF — Sierra（239新384完整方案/失败轮诊断例外冻结，待直接范围；360/22Task）
+# HANDOFF — Sierra（239已实现，240待新384完整范围及有限失败诊断批准；360/22Task）
 
 ## 1. 当前状态
+
+- 239实现d54082b已验收关闭，240 need-user：384新完整方案含拟明确失败轮单报告/4GET封存例外，57门禁/17公开全链/冻结入口过，15条目plan d6d51074/manifest2eb35bb6，无新approval/attempt/真实HTTP；等待全部新范围及例外直接批准。
 
 - 237按call_04cbd9d61092473791ace6e2ce29a0b1 q0新直接批准唯一执行382并消费：33读1登录/Task1/资源各1/Service7/搭建模型0，共44 HTTP。前五例/带业务守卫轨迹过，缺号首轮固定追问过，同会话补号返回范围说明而failed即停；22Task原21/346消费及密文资产保持。安全结果docs/guarded-chatflow-live-result-20261029.md/json。
 
@@ -28,7 +30,7 @@
 3. 239新独立384完整方案本机已完成：固定360/19节点19边/接续分类、业务守卫及原22/367消费保护。57门禁/17完整公开全链真实HTTP0；work/continuation-chatflow384，15条目+manifest，plan d6d510749bd035480f22eac84e883a7e4a22b83ac55556e27742f12e8ee57592 / manifest2eb35bb615d54fcc88ef8c4d900a74a1fa69d01603c4fbdf49844f2d616b3239。源tools/continuation-chatflow384、测试backend/tests/test_continuation_batch_boundary.py、proof work/continuation-chatflow384-local/rehearsal-proof.json，无approval/attempt。安全方案docs/continuation-chatflow-plan-20261029.md及preflightJSON含三个失败捕获公开结果。
 4. 新方案拟明确失败诊断例外：仅Service执行成功但业务规则failed，立即停后续发布/Key/Service/外部写入，只允许唯一已失败轮最多4管理GET（原消息→native详情→节点→当前发布）/1本机报告，然后封存。严格单消息/会话/顺序，禁止其它GET/外部写入/登录/Service，诊断失败不重试；技术/认证/来源异常立即停。此例外尚未批准，绝不应用旧382或任何旧消费包，必须新直接答复绑定最终failure_diagnostic_policy及摘要。
 5. 拟完整新增Task1/资源各2/12启动14Service/逐轮轨迹双ZIP，128管理读含失败例外4GET/1登录，0Sierra模型/新库，Task45分钟/整批60分钟，Dify新估0.10USD非账单硬限/宿主未知。拟保守读取1085→1213、登录42→43、资源20→22、Service78→92，主模型30/账本0.755473652不增；原22/旧unknown/费用和余槽不退借。原全部期望保持，两版只两处无答案文案加商品型号，业务守卫/接续配置保持；不是模型自主规划/全§11/25签收。
-6. 先提交239完整方案/日志/README/状态/本交接，取得实现commit后关闭239、新增240 need-user并推main，再统一询问全部新范围和明确失败诊断例外。新直接答复前不生成approval/attempt/live，旧批准不适用；批准后先核原22/367旧证据/冻结源、360运行归属/Docker，再唯一执行。当前预检无登录/DifyHTTP。不按端口杀进程，不抄聊天密码/输出提交秘密。
+6. 239实现d54082b已提交完整方案/日志/README/状态/交接并验收关闭，240 need-user；推main后统一询问全部新范围和明确失败诊断例外。新直接答复前不生成approval/attempt/live，旧批准不适用；批准后先核原22/367旧证据/冻结源、360运行归属/Docker，再唯一执行。当前预检无登录/DifyHTTP。不按端口杀进程，不抄聊天密码/输出提交秘密。
 7. 保护基线work/order-continuation383/post-deploy-data-snapshot.json（22Task/授权新Key和认证），不误用旧21保护。服务App4f568de2...旧Key加密归档；382余95读/资源1/7Service、380余95/1/8、378余115/1/13、375余105/1/13及费用不退借，376无剩余。原§11完整连续会话/修改版双交付仍缺实际证据。
 8. 未观察实际Codex不足，持续实质推进；不足立即停尽力整份交接，不重试/换号/购买/重置券，不造微任务。若只剩新副作用授权则准确记录等待，不谎称额度耗尽。Claude318失败/用量未知无恢复证据，不形式重试/冒充审查，本轮根代理。只读必要文件/历史编号，不全量/通读290KB历史/另起18760；单次sierra已触发删除，每push先日志/适用README/状态/整份交接，排除work/data/模型原文/秘密，原GitHub main自主提交推送。
 
