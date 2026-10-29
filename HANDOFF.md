@@ -16,7 +16,7 @@
 
 ## 3. 下一步
 
-1. 224逐轮诊断已开发、定向验收并部署0.356.0-5476d30269eac2811387/289文件/PID35272，待实现commit后done并关闭/push。原355固定快照已复现：接口拒绝turn_index且只选末轮/失败轮，无法诊断首轮。现显式选已保存唯一轮次，默认旧自动行为保持；切轮只看所属报告，不自动远端读取/全部采集，整体结果/unknown和成绩保持，首轮不借后续错误，成功轮及旧报告不自动准备修复。源run_diagnostics.py/RunDiagnosticPanel.tsx，docs/diagnostic-turn-selection.md及result JSON。
+1. 224逐轮诊断已开发、定向验收并部署0.356.0-5476d30269eac2811387/289文件/PID35272，实现ad2c150，实际验收完成后224 done，关闭及日志提交后push。原355固定快照已复现：接口拒绝turn_index且只选末轮/失败轮，无法诊断首轮。现显式选已保存唯一轮次，默认旧自动行为保持；切轮只看所属报告，不自动远端读取/全部采集，整体结果/unknown和成绩保持，首轮不借后续错误，成功轮及旧报告不自动准备修复。源run_diagnostics.py/RunDiagnosticPanel.tsx，docs/diagnostic-turn-selection.md及result JSON。
 2. 124项相关后端、类型检查/正式构建、5公开临时Store界面及视觉通过：两轮分别读/切换无请求/回看、整体失败中首轮成功、未知待核对轮保持、重复轮拒绝、变源409。辅助脚本先后遗漏展开摘要/标题全值及正常保存的updated_at/state_sequence，已修并严格核预期保存次数；失败日志保留，非真实批失败。实际r17只GET核单轮Workflow不误显示逐轮控件，原四运行/两样例不变，模型Dify0，真实Chatflow新轨迹未出站。
 3. 本轮原355服务未运行，原start恢复355/PID35660并核health200、289源快照及原18保持；之后核其项目Python/固定快照归属，仅原stop/start部署356，health/前端200、289全文件匹配。最新保护基线work/turn-diagnostic374/post-deploy-data-snapshot.json，原18/账本密文资产/全部消费包保持，与372基线只server.pid变化。C1仍r17/run_completed/两确认true/plan_stale=false/App9b73f33e.../4次已满，禁止第五次或旧批重放。
 4. 用户继续开发，优先原§11 Chatflow售后订单链的具体可复现缺口；旧有限复核结论只代表当时范围，不称代码全完。224提交后再按既定需求核实有意义下一项并入BACKLOG，一次一项，不因完成小模块停或为耗额度造微任务。221历史正文/222消息映射/223两轮草稿及固定Workflow C1/批量C2保持；原25语义质量/原Chatflow订单实际链和逐轮轨迹仍未验收，六组扩展不自动开发。
