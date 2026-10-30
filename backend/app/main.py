@@ -85,7 +85,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.364.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.365.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1281,6 +1281,8 @@ def report(item_id: str):
     evidence_note = (f"当前修订有匹配的真实导入记录；成功运行返回 {successful_runs} 次，已声明必选样例 {summary['required']['passed']} / {summary['required']['total']} 通过。完整业务覆盖仍需确认。" if imported else "当前修订尚无匹配的真实导入记录；编译产物只代表静态校验，不能证明真实运行或业务覆盖。")
     lines = [f"# {task['name']} · 交付说明", "", f"目标 Dify：{TARGET_DIFY_VERSION}；DSL：{DSL_VERSION}", f"类型：{task['app_type']}；版本：r{task['revision']}", f"状态：{task['status']}。{compilation_note}", evidence_note, "", "## 确认需求", ""]
     lines.extend(f"- {k}：{v}" for k, v in task["requirements"].items())
+    from .delivery_history import render as delivery_history_lines
+    lines += ['', *delivery_history_lines(task)]
     from .planning_decisions import history as planning_question_history
     lines += ['', '## 规划澄清问题（未确认）', '', '只导出已保存的结构化问题；旧记录没有结构化清单时不猜测补齐。模型问题和建议不是用户决定，输入修订变化后须重新复核。', json.dumps(planning_question_history(task),ensure_ascii=False,indent=2)]
     lines += ["", "## 集中配置方案记录", json.dumps(configuration_proposals.state(task),ensure_ascii=False,indent=2), "方案采纳只更新本地配置；目录快照和建议不证明真实调用或交付成功。"]
