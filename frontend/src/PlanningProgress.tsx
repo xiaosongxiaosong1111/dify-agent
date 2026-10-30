@@ -17,7 +17,7 @@ export type PlanningRun = {
   planning_tools?:{tool_name:string;registered_dispatches_started:number;max_model_http_requests:number;max_local_queries:number;target_runtime_verified:boolean};
   tool_receipts?:{name:string;node_types:string[];status:string;result_sha256?:string;result_bytes?:number;provenance?:Record<string,unknown>;message?:string;followup_prepared:boolean;final_text_received:boolean}[];
   attempts: { phase?:string;provider_id?:string;model?:string;number: number; status: string; usage: unknown; cost_basis?: string; estimated_cost_usd?: number;
-    reserved_cost_usd?: number; deterministic_fixes?: string[]; diagnostics?: string[] }[];
+    reserved_cost_usd?: number; deterministic_fixes?: string[]; diagnostics?: string[]; response_excerpt?: string; response_truncated?: boolean }[];
 };
 
 const labels: Record<string, string> = {
@@ -52,7 +52,9 @@ export default function PlanningProgress({ run, generating, onPause, onRefresh, 
         {run.attempts.map(a => <div className="planning-attempt" key={a.number}><b>调用 {a.number} · {labels[a.status] || a.status}</b>
           {a.phase&&<small>{a.phase==='light'?'轻量阶段':'单次主模型阶段'} · {a.model}；记录可含未派发的预检，不等于HTTP次数。</small>}<small>{a.cost_basis === 'reserved_unknown_usage' ? '用量未知，按预留估算计入' : a.cost_basis === 'reported_usage' ? '按返回用量估算' : '调用前费用预检'} · {usdText(a.estimated_cost_usd ?? a.reserved_cost_usd ?? null)}</small>
           {a.deterministic_fixes?.map((fix, i) => <p key={i}>格式修正：{fix}</p>)}
+          {a.diagnostics?.map((diagnostic, i) => <p key={i}>本次问题：{diagnostic}</p>)}
           {a.usage ? <pre>{JSON.stringify(a.usage, null, 2)}</pre> : <p className="hint">未记录可用的供应商用量，不按零用量处理。</p>}
+          {typeof a.response_excerpt==='string'?<details><summary>本次响应片段（只读）</summary><p className="hint">展开仅查看本次原记录，不修改草稿、确认或触发调用。</p>{a.response_excerpt?<pre>{a.response_excerpt}</pre>:<p className="hint">本次返回文本为空。</p>}{a.response_truncated&&<p className="hint">本次片段已截断，不能作为完整计划使用。</p>}</details>:<p className="hint">本次未保留响应片段，不以最后一次响应补齐旧记录。</p>}
         </div>)}
       </details>
       {['paused', 'interrupted'].includes(run.status) && (run.last_candidate || run.last_response_excerpt) && <details><summary>查看保留候选（原规划记录）</summary><pre>{run.last_candidate ? JSON.stringify(run.last_candidate, null, 2) : run.last_response_excerpt}</pre>{run.response_truncated && <p className="hint">文本预览已截断；不能当作完整计划导入。</p>}</details>}

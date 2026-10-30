@@ -345,6 +345,7 @@ async def draft_plan(task, provider, messages, settings, operation, invoke, vali
                 attempt['finish_reason'] = e.finish_reason
             stop("provider_error" if isinstance(e, ProviderError) else "time_limit", str(e) if isinstance(e, ProviderError) else "模型请求超过本轮时间上限，费用用量可能未知；请核对后再继续。")
         operation.update(estimated_cost_usd=float(spent), elapsed_seconds=round(clock() - started, 3))
+        attempt.update(response_excerpt=text[:16000], response_truncated=len(text) > 16000)
         operation["last_response_excerpt"] = text[:16000]
         operation["response_truncated"] = len(text) > 16000
         checkpoint()
