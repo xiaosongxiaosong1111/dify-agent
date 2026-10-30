@@ -10,7 +10,7 @@
 
 - 264独立本机实际复核原401图并手工采纳，图22节点23边不改；业务配置仅binding order_lookup→lookup，另resource_plan限定独立零外部。Task49fdee89-a30f-4e32-ab90-ea3aeb447734/r6/draft_ready/plan_source=manual，五文件正常ZIP SHA6144d6572796fe210130d3b73dc10a937c8092c40762d95c5c86dfebbd11d2f1，DSL419babf971943925264e70b5fd412ca086a68400bc5c615300e17adc9d868265。0新模型/Dify/费用/凭据读取/生产写入，五库504保持。root-review.json为真实代理有限静态内容复核，非人类或平台/自主签收；原401仍失败。新work/offline-candidate405及512索引+自身513文件、local-data-snapshot需继续保护，索引SHA8fd9ddd71cddff47ae932498f95a017d545755d013903553f5e83c0c78ec4183。264记录d6a2904已推且验收过，已关闭；265为首pending。
 
-- 265已完成406单版原图平台包78门禁/20公开全链、六数据根513与372/PID38308/291快照及Docker只读预检，15文件plan be1ad0221044eb1e45a237f179937bf10503fc2a4929442556da184ee2b00e6d / manifest9aeb16ec39dfafa250fe3c7b67fdf29a0105e1e2e8725a60376bbf2676cee7b5；canonical validate过，0真实HTTP/未解密，无approval/attempt/worker-started/live-output。仅拟新资源范围，尚未批准；实现待提交后关闭265。docs/reviewed-platform-plan-20261030.md/json。
+- 265已完成406单版原图平台包78门禁/20公开全链、六数据根513与372/PID38308/291快照及Docker只读预检，15文件plan be1ad0221044eb1e45a237f179937bf10503fc2a4929442556da184ee2b00e6d / manifest9aeb16ec39dfafa250fe3c7b67fdf29a0105e1e2e8725a60376bbf2676cee7b5；canonical validate过，0真实HTTP/未解密，无approval/attempt/worker-started/live-output。仅拟新资源范围，尚未批准；实现cfda433已推且验收过，265关闭，266 need-user。docs/reviewed-platform-plan-20261030.md/json。
 
 ## 2. 已有交付与剩余
 
@@ -21,7 +21,7 @@
 
 ## 3. 下一步
 
-1. 265方案/最终冻结已验证，先提交实现再关闭BACKLOG265，设266 need-user；统一仅请求绑定be1ad022/9aeb16ec的新Task1/App发布Key各1/七Service/64管理读1加密登录、唯一业务failed轮最多4GET/1报告及两个状态ID按新Task实例化的完整新直接范围。Task6启动30分钟/整批45分钟，Dify估0.05非账单硬限/宿主未知，Sierra模型0/新库0；拟保守读1405/登录45/资源各25/Service113，模型35/账本1.155473652不变。未新批准不解密或执行，旧401余槽及全部旧费用保持。
+1. 265实现cfda433已推、方案/最终冻结已验收且关闭，266 need-user；统一仅请求一次绑定be1ad022/9aeb16ec的新Task1/App发布Key各1/七Service/64管理读1加密登录、唯一业务failed轮最多4GET/1报告及两个状态ID按新Task实例化的完整新直接范围。Task6启动30分钟/整批45分钟，Dify估0.05非账单硬限/宿主未知，Sierra模型0/新库0；拟保守读1405/登录45/资源各25/Service113，模型35/账本1.155473652不变。未新批准不解密或执行，旧401余槽及全部旧费用保持。
 2. 新Task assistant_provider_id明确为空，避免诊断脱敏读取不需要的搭建模型Key；这只改新Task选择，不改全局/旧Task或原图Dify deepseek-flash/.2/512/thinking=false。模型原图仍22节点23边，264手工配置采纳，非自主主线。公开最初旧执行限额字面值及主Key读取被门禁拦住，已修脚本/明确新Task范围并最终78/20全过；未发生真实调用。
 3. 406新保护基线为prod+391/394/399/401/405六根及work/offline-candidate405/sealed-evidence-sha256.json512条+自身513。旧401保护根work/reviewed-chatflow401：post-production-data-snapshot.json、post-isolated-391-data-snapshot.json、post-isolated-394-data-snapshot.json、post-isolated-399-data-snapshot.json、local-data-snapshot.json；分别核生产/391/394/399/401五库capture。sealed-evidence-sha256.json503条及自身SHA合504文件。后续先核372/PID38308/.venv执行路径/291快照及数据，原start/stop管理部署，不能按端口杀进程；停服原start.ps1并等health200。不全量、不另起18760。
 4. 持续实质开发至实际额度不足/确实完成/有界核对无可行动进展，不因一个模块停。当前未观察Codex额度拒绝；实际不足立停、尽力整份交接，不重试/换号/购买/用重置券。上下文截断不是额度。Claude318失败/用量未知无恢复证据，不形式重试或冒称审查完成。
