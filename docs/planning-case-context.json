@@ -1,0 +1,44 @@
+{
+  "state": "passed",
+  "stage": "after",
+  "runtime": "0.373.0-f8dc99952a3bf70b3b6d",
+  "pid": 35580,
+  "source_files": 292,
+  "added": [
+    "backend/app/planning_case_context.py"
+  ],
+  "changed": [
+    "backend/app/main.py",
+    "docs/workflow-plan-contract.md"
+  ],
+  "frontend_dist_unchanged": true,
+  "production_tasks": 25,
+  "protected_isolated_roots": 5,
+  "protected_evidence_files": 542,
+  "task_settings_fees_credentials_assets_kept": true,
+  "unique_targeted_tests": 104,
+  "actual_saved_case_context": {
+    "source": "current_saved_test_cases",
+    "revision": 7,
+    "case_count": 6,
+    "turn_count": 7,
+    "content_sha256": "261a6595f97a6f931284d65112af0ebd69eb3441ae194aaaf411e17eea6eee9a",
+    "json_bytes": 1782,
+    "projection": "saved case fields and expectation rules; no additional metadata",
+    "ignored_metadata_fields": 0,
+    "truncated": false,
+    "execution_verified": false,
+    "resource_permission_granted": false
+  },
+  "physical_model_dify_http": 0,
+  "human_signoff": false,
+  "business_verified": false,
+  "schema_version": 1,
+  "backlog": 267,
+  "new_case_tests": 19,
+  "related_tests_before_final_additions": 102,
+  "overlapping_new_tests": 17,
+  "old_public_api_counterexamples_failed": 3,
+  "semantic_quality_verified": false,
+  "claude_review_completed": false
+}

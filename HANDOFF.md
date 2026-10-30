@@ -1,12 +1,14 @@
-# HANDOFF — Sierra（406首FAQ完整性失败已封存；先开发267样例上下文）
+# HANDOFF — Sierra（373样例上下文已部署；406失败保持）
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main，372-bd4894413d235c70734e/291/PID38308，health/前端就绪。最新用户call_738034a360664f449e1dea8b8f78d37d q0直接批准406 be1ad022/9aeb16ec完整新增资源/七Service及两个状态ID实例化/唯一业务失败轮4GET例外后，唯一执行并永久消费；不续阶段或借退余槽。
+- 根E:\workSpace\dify-agent/main，373-f8dc99952a3bf70b3b6d/292/PID35580，health/前端就绪。最新用户call_738034a360664f449e1dea8b8f78d37d q0直接批准406 be1ad022/9aeb16ec完整新增资源/七Service及两个状态ID实例化/唯一业务失败轮4GET例外后，唯一执行并永久消费；不续阶段或借退余槽。
 - 实际17管理读/1登录/新Task1/App首次发布Key各1/Service1/搭建模型0，共22HTTP。Taskaedbefb3-36a4-42cb-8f73-19f9f621ed8c/r7/plan_source=manual，App0db381ab-a61f-40e4-8ee4-1198bd12d98d/发布1857ebb4-b3cd-4029-a5af-4963fd987274。新Key已切专用连接，旧Key加密归档，原24Task保持、现25。
 - 首例faq-hit回答“可以退货。政策编号：ZXRET715。”，未含七天/未拆封，原contains判failed。Service及9原生节点均succeeded、执行/当前发布/成果核心图一致，检索2片段且本机保存片段含政策条件。获准4GET已捕获唯一失败轮(native c65eb8a4-3ed2-4219-ab98-2c90c55abe7b/诊断a64e3394...)后停；无后续五例/修改/ZIP，期望不改，不能称检索无命中或节点技术异常。
 - Dify用量1010输入/61输出/1071总，报告报价0 USD不是供应商账单/免费保证。0.05估算及全部旧unknown/预留保持。Sierra模型实际30/账本1.155473652/已观察settled0.166692960非账单不变；实际资源各19/Service58/规则通过50，保守模型35/读1405/登录45/资源各25/Service113生效。
 - 六根实际数据及513旧证据验证保持。406新封存541条，索引SHA7179493baf745669a8f67344adca00bd0f40b2ce0119115032ce01a4c5a936b5，加自身542；work/reviewed-platform406/post-production-data-snapshot.json和post-isolated-391/394/399/401/405-data-snapshot.json为新基线。docs/reviewed-platform-live-result-20261030.md/json。
+
+- 267已补planning_case_context：当前已存样例/输入/预期/接续进入普通和工具规划，来源修订/投影hash留痕，非事实/执行/授权；30项/24000字节、结构/敏感边界在读取Key/创建op/费用前固定拒绝，不静默裁剪。三旧API反例失败后相关102+最终19（17重合）=104唯一过，373/292/PID35580归属保护部署，实际406六例七轮1782字节只读核对过，六根542/凭据费用原失败保持，0新模型Dify。实现待提交后关闭267。docs/planning-case-context.md/json。
 
 ## 2. 已有交付与剩余
 
@@ -17,9 +19,9 @@
 
 ## 3. 下一步
 
-1. 保存并提交406准确回执/日志/全量交接后处理首pending267：正常规划消息目前不含Task.test_cases。先公开正常API复现，再只传当前修订已保存样例的受限输入/预期/必要性/接续与来源摘要，覆盖普通及可选工具规划；不读取旧任务/历史/默认生成样例，不把样例当检索事实来源、执行回执或批准，不硬写政策答案、自动改期望或增加真实调用。超限/无效/敏感内容派发前明确处理，不能默默漏读。注意401生成时还没有本次精确样例，不能把通用漏项当406唯一已证根因，也不能承诺本机改完就质量通过。
+1. 267实现/验证/373部署已完成，先提交实现再关闭BACKLOG267。证据work/planning-cases407/targeted.log（102）、final-cases.log（19，其中17重复，合104唯一）、after-deploy.json；实际406保存六例七轮均进入上下文元数据，未新发模型。不能说修复就证明回答完整性通过。
 2. 406已消费，任何剩余47读取/六Service/费用预留不能自动续阶段、借用或退款，不再调用其execute live。401余1模型槽0.080仍保留、不可自动改授；不再反复发同一原图。只修实质缺口，不全量或无意义耗额度。
-3. 后续保护新25生产Task及391/394/399/401/405五旧隔离的实际capture，核406索引541+自身542文件；所有旧ZIP/原响应/unknown/费用/密文保持。部署先核372/PID38308/.venv执行路径/291不可变快照，原start/stop流程，不按端口杀进程；停服原start.ps1并等health200。不另起18760，Playwright用户绝对模块路径+已安装Chrome headless隔离。
+3. 后续保护新25生产Task及391/394/399/401/405五旧隔离的实际capture，核406索引541+自身542文件；所有旧ZIP/原响应/unknown/费用/密文保持。部署先核373/PID35580/.venv执行路径/292不可变快照，原start/stop流程，不按端口杀进程；停服原start.ps1并等health200。不另起18760，Playwright用户绝对模块路径+已安装Chrome headless隔离。
 4. 持续实质开发至实际Codex额度不足/确实完成/有界核对无可行动进展。当前未观察额度拒绝；实际不足立停、尽力整份交接，不重试/换号/购买/用重置券，上下文截断不是额度。Claude318失败/用量未知无恢复证据，不形式重试/加预算或冒称子审查。
 5. 自主commit/push原GitHub main，每push前CHANGELOG、适用README/状态和整份HANDOFF，排除work/data/原模型正文/ZIP/秘密。Git safe.directory/HTTP1.1、require_escalated，不force或改全局代理/TLS。不通读项目/290KB历史，只读必要当前文件/编号段。
 
