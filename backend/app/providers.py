@@ -113,6 +113,26 @@ class DuplicateJSONFieldError(ValueError):
         super().__init__('模型JSON包含重复字段，未合并或覆盖。')
 
 
+MODEL_JSON_MAX_DEPTH = 60  # Same root-zero depth boundary as manual plan drafts.
+
+
+class JSONStructureLimitError(ValueError):
+    def __init__(self):
+        super().__init__('模型JSON超出本机结构解析上限（根为0，最多60层），未展开或采纳。')
+
+
+def _check_model_json_depth(value):
+    stack = [(value, 0)]
+    while stack:
+        item, depth = stack.pop()
+        if depth > MODEL_JSON_MAX_DEPTH:
+            raise JSONStructureLimitError()
+        if isinstance(item, dict):
+            stack.extend((child, depth + 1) for child in item.values())
+        elif isinstance(item, list):
+            stack.extend((child, depth + 1) for child in item)
+
+
 def _unique_json_object(pairs):
     value = {}
     for key, item in pairs:
@@ -128,10 +148,14 @@ def extract_json(text: str):
         lines = stripped.splitlines()
         stripped = "\n".join(lines[1:-1])
     try:
-        value = json.loads(stripped, object_pairs_hook=_unique_json_object)
-    except json.JSONDecodeError:
-        start, end = stripped.find("{"), stripped.rfind("}")
-        value = json.loads(stripped[start:end + 1], object_pairs_hook=_unique_json_object)
+        try:
+            value = json.loads(stripped, object_pairs_hook=_unique_json_object)
+        except json.JSONDecodeError:
+            start, end = stripped.find("{"), stripped.rfind("}")
+            value = json.loads(stripped[start:end + 1], object_pairs_hook=_unique_json_object)
+    except RecursionError:
+        raise JSONStructureLimitError() from None
     if not isinstance(value, dict):
         raise ValueError("模型结构化结果不是对象。")
+    _check_model_json_depth(value)
     return value
