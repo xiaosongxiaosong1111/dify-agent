@@ -6,7 +6,7 @@
 - 258用户call_40c56ed4c2df4f98829bb4c9cf411249 q0直接批准399完整新范围和唯一JSON语法修复例外后，最终plan308ff951938cf40d1f8067a05b47671f2e1ab818338703e73d8989f4199f2bf1 / manifestc7d570fa44717da857a66af2299612fa2f9ab33e32525a71b3f0e269d26fe7c7唯一执行、永久消费。实际1模型HTTP/0修复，0Dify/资源/运行/登录/生产写入。原JSON7116字符/19节点20边与last_candidate一致，10条Plan字段诊断，不是JSON语法错误，未派发第二次。Task8b9dd8f9-e17a-402e-b5eb-11591cdac612/r3/paused/needs_decision，无模型主动澄清报告、无采用/根proceed复核/构建/ZIP。
 - 399错误为Chatflow开始变量声明传输保留名query；assigner用value_selector而非value数组；parameter-extractor用query_variable_selector而非query数组等。原候选及原文SHAe8553a864ee6c5f7213aac2c3ef752d95ced9a24b2d4bb498077104be08caf7b保留，没有手工改为人工图。结果53f2279已推，docs/bounded-chatflow-live-result-20261030.md/json。第二槽/0.080预留保留，不自动改授、退还或续阶段。
 - 399用量33464输入/2228输出/35692总，缓存命中24704；配置预留0.0527109/settled0.005449824 USD非账单。已观察配置估算合0.159846828（生产6条+三个隔离各1，共9条），实际累计主模型29，保守34/模型估算账本1.075473652，其它边界不变。
-- 259代码/静态例子及界面已完成：新增start/parameter-extractor/Chatflow根层assigner专项规则，Workflow6/Chatflow7共13例；147相关定向、最终文案13重复核、前端类型构建/4隔离界面与视觉过，370归属保护部署，实际服务13例再次编译过。旧模型错误字段仍拒绝，不改原图/放宽编译或冒称真实质量通过。实现待提交，提交后才能关闭队列。
+- 259代码/静态例子及界面已完成：新增start/parameter-extractor/Chatflow根层assigner专项规则，Workflow6/Chatflow7共13例；147相关定向、最终文案13重复核、前端类型构建/4隔离界面与视觉过，370归属保护部署，实际服务13例再次编译过。旧模型错误字段仍拒绝，不改原图/放宽编译或冒称真实质量通过。实现61ce0fa已提交，验收已完成，259关闭。
 - 可选sierra_lookup_node_rules覆盖新类型但仍最多4类/32KB/2模型请求；范围版本2和规则来源变化要求重新核对，旧策略原记录不变，不自动扩展启用。Agent独立方案不收这些Workflow Plan例子。
 
 ## 2. 已有交付与剩余
@@ -20,7 +20,7 @@
 
 ## 3. 下一步
 
-1. 提交259功能、日志/README/状态和此整份交接，实际验收及commit存在后关闭259，再继续既定需求主线。新的可行动核对是采用这三类专项结构例子验证完整候选；不能重复执行399。可先准备独立正常有限JSON修复包，若拟复用399未派发1槽/0.080并增1槽/0.080，则需新的明确改授与增量直接批准（拟保守35/账本1.155473652，当前未批准）；先完成可审查方案，不默认解密/执行，不借其它旧槽。不为耗额度造微任务，不因小模块完成就停。
+1. 259实现61ce0fa已提交且验收过，关闭后继续260独立正常规划新范围准备。新的可行动核对是采用这三类专项结构例子验证完整候选；不能重复执行399。可先准备独立正常有限JSON修复包，若拟复用399未派发1槽/0.080并增1槽/0.080，则需新的明确改授与增量直接批准（拟保守35/账本1.155473652，当前未批准）；先完成可审查方案，不默认解密/执行，不借其它旧槽。不为耗额度造微任务，不因小模块完成就停。
 2. 新保护基线work/node-contract400/production-data-snapshot.json、isolated391-data-snapshot.json、isolated394-data-snapshot.json、isolated399-data-snapshot.json，核四份实际capture；consumed-sha256.json共480文件。继承399 sealed-evidence-sha256.json479条及其自身SHAc1f7c2d5082974a9dfca15e18ca2bd13b4171659aab57a85baa48f18ff5b2851，所有旧ZIP/原响应/费用保持，不能只核快照文件。
 3. 后续部署先核370/PID22968/.venv执行路径/291快照和数据，原start/stop固定快照流程，不按端口杀进程；停服才powershell -ExecutionPolicy Bypass -File .\start.ps1等health200。不全量/不另起18760；Playwright用用户指定绝对模块路径，已安装Chrome可headless隔离，无需下载或读用户配置。
 4. 持续开发至实际额度不足/确实完成/确无可行动进展。此轮未观察额度拒绝；上下文截断不等于额度。实际不足立停，尽力整份交接，不反复重试、换号、购买或用重置券，不绕过审批拒绝。Claude318失败/用量未知无恢复证据，不形式重试/加预算或冒称子审查。
