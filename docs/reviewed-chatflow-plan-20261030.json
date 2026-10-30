@@ -1,0 +1,47 @@
+{
+  "state": "passed_not_approved",
+  "runtime": {
+    "verified_pid": 22968,
+    "runtime_build": "0.370.0-308fe1cec1c33471f170",
+    "source_files_matched": 291
+  },
+  "protected_production_tasks": 24,
+  "protected_old_isolated_roots": 3,
+  "protected_evidence_files": 480,
+  "physical_http": 0,
+  "credentials_decrypted": false,
+  "new_scope": {
+    "regranted_from": "bounded-chatflow399",
+    "regranted_model_slots": 1,
+    "regranted_estimate_usd": "0.080",
+    "new_model_slots": 1,
+    "new_estimate_usd": "0.080",
+    "total_model_slots": 2,
+    "total_estimate_usd": "0.160"
+  },
+  "new_conservative_upper": {
+    "model": 35,
+    "reads": 1341,
+    "login": 44,
+    "import": 24,
+    "publish": 24,
+    "key": 24,
+    "run": 106
+  },
+  "model_book_upper_usd": "1.155473652",
+  "gates_passed": 56,
+  "public_cases": 14,
+  "ledger_counts_and_response_hashes_checked": true,
+  "plan_sha256": "b5662b6585c256b92276657a03628787ea26d859bdb45101e40da77f4c3af940",
+  "manifest_sha256": "664246b639bfc07e21172eb30b56556cc3999c2f05ac8d8f8d5b017e376da5f1",
+  "semantic_reviewed": false,
+  "claude_review_completed": false,
+  "backlog": 260,
+  "authorization_required": true,
+  "public_quotes_usd": {
+    "original:1": "0.0549408",
+    "original:2": "0.0551556"
+  },
+  "billing_hard_cap": false,
+  "human_signoff": false
+}
