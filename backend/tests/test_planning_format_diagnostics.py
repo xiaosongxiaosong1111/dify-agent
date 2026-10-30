@@ -8,6 +8,68 @@ from test_api import client,approved,planning_provider,forbid_api_external_calls
 from app import main
 
 
+def test_json_syntax_diagnostic_locates_extracted_candidate_without_echo_or_repair():
+    text = '{\n  "nodes": [],\n  "edges": []\n  "schema_version": 1\n}'
+    raw = '公开前置说明\n' + text + '\n公开后置说明'
+    result, op, calls, reason = run([(raw, USAGE)], settings={'max_retries':0,'max_minutes':1,'max_cost_usd':1})
+    assert result is None and reason == 'retry_limit' and len(calls) == 1
+    diagnostic = '\n'.join(op['diagnostics'])
+    assert '第4行，第3列' in diagnostic and '候选片段' in diagnostic
+    assert 'schema_version' not in diagnostic and '公开前置说明' not in diagnostic
+    assert op['last_response_excerpt'] == raw and op['attempts'][0]['usage'] == USAGE
+    assert not op.get('last_candidate') and not op.get('decision_report')
+
+
+def test_different_json_error_locations_keep_existing_no_progress_stop_and_usage():
+    one = '{"nodes": [] "edges": []}'
+    two = '{\n  "nodes": []\n  "edges": []}'
+    result, op, calls, reason = run([(one, USAGE), (two, USAGE)])
+    assert result is None and reason == 'no_progress' and len(calls) == 2
+    assert op['attempts'][0]['diagnostics'] != op['attempts'][1]['diagnostics']
+    assert op['last_response_excerpt'] == two and not op.get('last_candidate')
+    assert all(attempt['usage'] == USAGE for attempt in op['attempts'])
+
+
+@pytest.mark.parametrize('text,hint', [('{"a":1 "b":2}', '应为逗号'),
+                                     ('{"a" 1}', '缺少冒号'),
+                                     ('{a:1}', '双引号'),
+                                     ('{"a":}', '缺少有效JSON值'),
+                                     ('{"a":"unclosed}', '字符串未闭合'),
+                                     ('{"a":"x\ny"}', '控制字符'),
+                                     ('{"a":"\\x"}', '字符串转义无效'),
+                                     ('{"a":"\\uQQQQ"}', 'Unicode转义无效')])
+def test_fixed_chinese_reason_never_contains_decoder_document_values(text,hint):
+    from app.planning import _json_syntax_diagnostic
+    with pytest.raises(json.JSONDecodeError) as caught:
+        json.loads(text)
+    diagnostic = _json_syntax_diagnostic(caught.value)
+    assert hint in diagnostic and '从0计字符偏移' in diagnostic
+    assert text not in diagnostic
+
+
+def test_unknown_decoder_message_and_non_decoder_exception_are_not_echoed():
+    from app.planning import _json_syntax_diagnostic
+    error = json.JSONDecodeError('Bearer PRIVATE-SYNTHETIC-VALUE', 'PRIVATE-FIELD', 0)
+    assert 'PRIVATE' not in _json_syntax_diagnostic(error)
+    assert _json_syntax_diagnostic(ValueError('PRIVATE-FIELD')) is None
+
+
+def test_api_json_error_keeps_original_response_old_plan_revision_and_budget(client,monkeypatch):
+    planning_provider(client);t=approved(client);url='/api/tasks/'+t['id']
+    response=client.post(url+'/plan',json={'revision':t['revision'],'plan':base_plan()});assert response.status_code==200
+    before=response.json();raw='{"schema_version":1,"nodes":[] "edges":[]}';calls=[]
+    response=client.patch('/api/settings',json={'max_retries':0});assert response.status_code==200
+    async def fake(*args,**kwargs):calls.append(args[2]);return raw,USAGE
+    monkeypatch.setattr(main,'call_model',fake)
+    response=client.post(url+'/plan/generate',json={'revision':before['revision']});assert response.status_code==422
+    saved=client.get(url).json();op=saved['planning_runs'][-1]
+    assert len(calls)==1 and op['stop_reason']=='retry_limit' and '候选片段' in '\n'.join(op['diagnostics'])
+    assert op['last_response_excerpt']==raw and op['attempts'][0]['usage']==USAGE
+    for key in ('revision','requirements','configuration','workflow_plan','requirements_confirmed','configuration_confirmed','artifact','runs'):
+        assert saved.get(key)==before.get(key),key
+    assert len(main.budgets.get(t['id'])['entries'])==1
+
+
 def boolean_plan(value):
     plan=base_plan();plan['nodes'][0]['config']['variables'].append({'variable':'flag','type':'checkbox','required':True})
     plan['nodes'].append({'id':'check','type':'if-else','title':'检查','config':{'cases':[{'case_id':'yes','logical_operator':'and','conditions':[{'variable_selector':['start','flag'],'varType':'boolean','comparison_operator':'is','value':value}]}]}})

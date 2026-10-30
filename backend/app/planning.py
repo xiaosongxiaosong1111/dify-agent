@@ -18,6 +18,27 @@ RATE_KEYS = {"input_per_million_usd", "output_per_million_usd", "cached_input_pe
 OUTPUT_LIMIT = 6000
 
 
+def _json_syntax_diagnostic(error):
+    """Location in the extracted fragment, never decoder text or response values."""
+    if not isinstance(error, json.JSONDecodeError):
+        return None
+    reasons = {
+        "Expecting ',' delimiter": '分隔符不符合JSON语法，此处应为逗号',
+        "Expecting ':' delimiter": '字段名后缺少冒号',
+        'Expecting property name enclosed in double quotes': '对象字段名须使用双引号',
+        'Expecting value': '此处缺少有效JSON值',
+        'Extra data': 'JSON值之后还有多余内容',
+        'Unterminated string starting at': '字符串未闭合',
+        'Invalid control character at': '字符串含未转义的控制字符',
+        'Invalid \\escape': '字符串转义无效',
+        'Invalid \\uXXXX escape': 'Unicode转义无效',
+    }
+    reason = reasons.get(error.msg, 'JSON语法无效')
+    return (f'JSON候选片段语法错误：第{error.lineno}行，第{error.colno}列'
+            f'（从0计字符偏移{error.pos}）；{reason}。'
+            '位置相对抽取后的候选片段，可能与完整响应不同；未回显或自动修改内容。')
+
+
 def _only_boolean_literal_format_errors(candidate, errors):
     """Classify known root-condition JSON type errors; never rewrite the draft."""
     if not isinstance(candidate, dict) or not isinstance(candidate.get('nodes'), list):
@@ -331,11 +352,16 @@ async def draft_plan(task, provider, messages, settings, operation, invoke, vali
             stop("time_limit", "模型已返回，但本轮时间上限已达到；本次候选未应用。")
         if spent > budget:
             stop("cost_limit", "已返回用量对应的费用估算达到上限，本次候选未应用。单价与估算不是供应商账单保证。")
+        parse_failed = False
         try:
             candidate = extract_json(text)
-        except (ValueError, TypeError):
+        except (ValueError, TypeError) as error:
             candidate = None
             errors = ["返回内容不是可解析的 JSON 计划"]
+            detail = _json_syntax_diagnostic(error)
+            if detail:
+                errors.append(detail)
+            parse_failed = True
             repairable = True
         else:
             if "error" in candidate:
@@ -374,7 +400,8 @@ async def draft_plan(task, provider, messages, settings, operation, invoke, vali
             repairable = bool(errors) and all("Python" in e and "语法" in e for e in errors) and _repairable_python_headers(candidate)
         attempt.update(status="invalid", diagnostics=errors)
         operation["diagnostics"] = errors
-        signature = hashlib.sha256(json.dumps(sorted(errors), ensure_ascii=False).encode()).hexdigest()
+        # Location is display detail, not a change to the existing JSON no-progress rule.
+        signature = hashlib.sha256(json.dumps(sorted(errors[:1] if parse_failed else errors), ensure_ascii=False).encode()).hexdigest()
         checkpoint()
         if previous_error == signature:
             stop("no_progress", "连续两次出现同一问题且未通过校验，停止继续修复并保留候选。")
