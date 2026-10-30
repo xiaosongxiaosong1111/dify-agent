@@ -8,7 +8,7 @@
 - Dify用量1010输入/61输出/1071总，报告报价0 USD不是供应商账单/免费保证。0.05估算及全部旧unknown/预留保持。Sierra模型实际30/账本1.155473652/已观察settled0.166692960非账单不变；实际资源各19/Service58/规则通过50，保守模型35/读1405/登录45/资源各25/Service113生效。
 - 六根实际数据及513旧证据验证保持。406新封存541条，索引SHA7179493baf745669a8f67344adca00bd0f40b2ce0119115032ce01a4c5a936b5，加自身542；work/reviewed-platform406/post-production-data-snapshot.json和post-isolated-391/394/399/401/405-data-snapshot.json为新基线。docs/reviewed-platform-live-result-20261030.md/json。
 
-- 267已补planning_case_context：当前已存样例/输入/预期/接续进入普通和工具规划，来源修订/投影hash留痕，非事实/执行/授权；30项/24000字节、结构/敏感边界在读取Key/创建op/费用前固定拒绝，不静默裁剪。三旧API反例失败后相关102+最终19（17重合）=104唯一过，373/292/PID35580归属保护部署，实际406六例七轮1782字节只读核对过，六根542/凭据费用原失败保持，0新模型Dify。实现30bd304已推且验收过，267关闭；268方案已验证冻结，待实现提交后关闭。docs/planning-case-context.md/json。
+- 267已补planning_case_context：当前已存样例/输入/预期/接续进入普通和工具规划，来源修订/投影hash留痕，非事实/执行/授权；30项/24000字节、结构/敏感边界在读取Key/创建op/费用前固定拒绝，不静默裁剪。三旧API反例失败后相关102+最终19（17重合）=104唯一过，373/292/PID35580归属保护部署，实际406六例七轮1782字节只读核对过，六根542/凭据费用原失败保持，0新模型Dify。实现30bd304已推且验收过，267关闭；268实现2030a9f已推且验收过，已关闭；269 need-user。docs/planning-case-context.md/json。
 
 ## 2. 已有交付与剩余
 
@@ -19,7 +19,7 @@
 
 ## 3. 下一步
 
-1. 268已实现独立408受限重规划包，58专用门禁及12公开协议、373/PID35580/292归属和六根542保护预检过，最终10文件plan 577eb5bb95949b8d73fa5aaae1e8c3207e7990b03e9a446480e863d1cb5db039 / manifest cb13df0242d48ef40ab2fe77acb6f939816b8fc8ce314396cf22a699ef905717。无真实HTTP/Key解密/approval/attempt。先提交实现及日志，再按BACKLOG关闭268并加269 need-user，须取得新直接明确改授才唯一执行。docs/reviewed-planning-plan-20261030.md/json；work/reviewed-planning408-local/rehearsal/proof.json，初版记录rehearsal-initial保留。
+1. 268已实现独立408受限重规划包，58专用门禁及12公开协议、373/PID35580/292归属和六根542保护预检过，最终10文件plan 577eb5bb95949b8d73fa5aaae1e8c3207e7990b03e9a446480e863d1cb5db039 / manifest cb13df0242d48ef40ab2fe77acb6f939816b8fc8ce314396cf22a699ef905717。无真实HTTP/Key解密/approval/attempt。实现2030a9f已提交推送，验收已过，268关闭/269 need-user。须取得新直接明确改授绑定2030a9f方案及最终摘要后才唯一执行；本次关闭提交不改冻结包。docs/reviewed-planning-plan-20261030.md/json；work/reviewed-planning408-local/rehearsal/proof.json，初版记录rehearsal-initial保留。
    仅拟401保留1槽0.080，1HTTP/6000输出/120秒/整批30分钟/根复核5分钟，不增35/1.155473652；公开报价0.06174非实际费用/硬限。隔离work正常保存406原图/六例七轮后补完整性规则，正常replanning_review原图不提前替换；只允许faq_answer两提示文字变化，其它逐项不动。根代理实际核完整候选/原文/来源和不硬写政策事实后同值正常手工采纳静态一包。JSON修复/重试0，任何异常停止，Dify/生产写入0；静态或替身不证明真实语义/业务，未新直接批准不解密。
 2. 406已消费，任何剩余47读取/六Service/费用预留不能自动续阶段、借用或退款，不再调用其execute live。401余1模型槽0.080仍保留、不可自动改授；不再反复发同一原图。只修实质缺口，不全量或无意义耗额度。
 3. 后续保护新25生产Task及391/394/399/401/405五旧隔离的实际capture，核406索引541+自身542文件；所有旧ZIP/原响应/unknown/费用/密文保持。部署先核373/PID35580/.venv执行路径/292不可变快照，原start/stop流程，不按端口杀进程；停服原start.ps1并等health200。不另起18760，Playwright用户绝对模块路径+已安装Chrome headless隔离。
