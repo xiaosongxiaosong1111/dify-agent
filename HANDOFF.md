@@ -21,10 +21,10 @@
 
 ## 3. 下一步
 
-1. 265实现cfda433已推、方案/最终冻结已验收且关闭，266 need-user；统一仅请求一次绑定be1ad022/9aeb16ec的新Task1/App发布Key各1/七Service/64管理读1加密登录、唯一业务failed轮最多4GET/1报告及两个状态ID按新Task实例化的完整新直接范围。Task6启动30分钟/整批45分钟，Dify估0.05非账单硬限/宿主未知，Sierra模型0/新库0；拟保守读1405/登录45/资源各25/Service113，模型35/账本1.155473652不变。未新批准不解密或执行，旧401余槽及全部旧费用保持。
+1. 265实现cfda433已推、方案/最终冻结已验收且关闭，266 need-user；已发送一次绑定be1ad022/9aeb16ec的新Task1/App发布Key各1/七Service/64管理读1加密登录、唯一业务failed轮最多4GET/1报告及两个状态ID按新Task实例化的完整新直接范围确认；当前尚无406直接答复，不重复询问或执行。Task6启动30分钟/整批45分钟，Dify估0.05非账单硬限/宿主未知，Sierra模型0/新库0；拟保守读1405/登录45/资源各25/Service113，模型35/账本1.155473652不变。未新批准不解密或执行，旧401余槽及全部旧费用保持。
 2. 新Task assistant_provider_id明确为空，避免诊断脱敏读取不需要的搭建模型Key；这只改新Task选择，不改全局/旧Task或原图Dify deepseek-flash/.2/512/thinking=false。模型原图仍22节点23边，264手工配置采纳，非自主主线。公开最初旧执行限额字面值及主Key读取被门禁拦住，已修脚本/明确新Task范围并最终78/20全过；未发生真实调用。
 3. 406新保护基线为prod+391/394/399/401/405六根及work/offline-candidate405/sealed-evidence-sha256.json512条+自身513。旧401保护根work/reviewed-chatflow401：post-production-data-snapshot.json、post-isolated-391-data-snapshot.json、post-isolated-394-data-snapshot.json、post-isolated-399-data-snapshot.json、local-data-snapshot.json；分别核生产/391/394/399/401五库capture。sealed-evidence-sha256.json503条及自身SHA合504文件。后续先核372/PID38308/.venv执行路径/291快照及数据，原start/stop管理部署，不能按端口杀进程；停服原start.ps1并等health200。不全量、不另起18760。
-4. 持续实质开发至实际额度不足/确实完成/有界核对无可行动进展，不因一个模块停。当前未观察Codex额度拒绝；实际不足立停、尽力整份交接，不重试/换号/购买/用重置券。上下文截断不是额度。Claude318失败/用量未知无恢复证据，不形式重试或冒称审查完成。
+4. 当前无pending，266待新资源/运行的直接答复；有界核对已实际解决262恢复缺陷和263模型验收漏项，264完成独立静态交付，未再发现有依据的可行动代码缺口。剩余主线质量必须真实平台/模型观察，不能耗额度重跑替身或借旧槽；这里不是项目全部完成或额度耗尽。收到406答复后只按最终冻结范围继续。持续实质开发至实际额度不足/确实完成/有界核对无可行动进展，不因一个模块停。当前未观察Codex额度拒绝；实际不足立停、尽力整份交接，不重试/换号/购买/用重置券。上下文截断不是额度。Claude318失败/用量未知无恢复证据，不形式重试或冒称审查完成。
 5. 重要更新自主commit/push原GitHub main，每push前CHANGELOG、适用README/进度和整份交接，排除work/data/原模型文/秘密。Git safe.directory与HTTP/1.1、require_escalated，不force/改全局代理或TLS。不通读项目/290KB历史，只按必要编号段读取。
 
 ## 4. 账本与凭据
