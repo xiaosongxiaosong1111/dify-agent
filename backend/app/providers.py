@@ -108,16 +108,30 @@ async def call_model(provider: dict, key: str, messages: list[dict], *, max_toke
         raise ProviderError("服务返回格式与所选模型协议不兼容。", usage=reported_usage, finish_reason=finish_reason) from exc
 
 
+class DuplicateJSONFieldError(ValueError):
+    def __init__(self):
+        super().__init__('模型JSON包含重复字段，未合并或覆盖。')
+
+
+def _unique_json_object(pairs):
+    value = {}
+    for key, item in pairs:
+        if key in value:
+            raise DuplicateJSONFieldError()
+        value[key] = item
+    return value
+
+
 def extract_json(text: str):
     stripped = text.strip()
     if stripped.startswith("```"):
         lines = stripped.splitlines()
         stripped = "\n".join(lines[1:-1])
     try:
-        value = json.loads(stripped)
+        value = json.loads(stripped, object_pairs_hook=_unique_json_object)
     except json.JSONDecodeError:
         start, end = stripped.find("{"), stripped.rfind("}")
-        value = json.loads(stripped[start:end + 1])
+        value = json.loads(stripped[start:end + 1], object_pairs_hook=_unique_json_object)
     if not isinstance(value, dict):
         raise ValueError("模型结构化结果不是对象。")
     return value

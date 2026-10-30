@@ -12,7 +12,7 @@ import time
 import tokenize
 from decimal import Decimal
 
-from .providers import ProviderError, extract_json
+from .providers import ProviderError, DuplicateJSONFieldError, extract_json
 
 RATE_KEYS = {"input_per_million_usd", "output_per_million_usd", "cached_input_per_million_usd"}
 OUTPUT_LIMIT = 6000
@@ -20,6 +20,8 @@ OUTPUT_LIMIT = 6000
 
 def _json_syntax_diagnostic(error):
     """Location in the extracted fragment, never decoder text or response values."""
+    if isinstance(error, DuplicateJSONFieldError):
+        return 'JSON候选对象含重复字段，含义有歧义；未用后值覆盖前值，也未合并或自动选择字段内容。'
     if not isinstance(error, json.JSONDecodeError):
         return None
     reasons = {
@@ -353,6 +355,7 @@ async def draft_plan(task, provider, messages, settings, operation, invoke, vali
         if spent > budget:
             stop("cost_limit", "已返回用量对应的费用估算达到上限，本次候选未应用。单价与估算不是供应商账单保证。")
         parse_failed = False
+        duplicate_fields = False
         try:
             candidate = extract_json(text)
         except (ValueError, TypeError) as error:
@@ -362,7 +365,8 @@ async def draft_plan(task, provider, messages, settings, operation, invoke, vali
             if detail:
                 errors.append(detail)
             parse_failed = True
-            repairable = True
+            duplicate_fields = isinstance(error, DuplicateJSONFieldError)
+            repairable = not duplicate_fields
         else:
             if "error" in candidate:
                 from .planning_decisions import summarize
@@ -407,6 +411,8 @@ async def draft_plan(task, provider, messages, settings, operation, invoke, vali
             stop("no_progress", "连续两次出现同一问题且未通过校验，停止继续修复并保留候选。")
         previous_error = signature
         if not repairable:
+            if duplicate_fields:
+                stop('invalid_plan_format', '模型JSON含重复字段，无法无歧义选择其含义；这是候选格式错误，不是新的业务选择。原响应、诊断和用量已保留，未合并、覆盖、采纳或追加模型修复调用。请明确整理无重复字段的新草稿后重新核对，原已确认方案不变。')
             if _only_boolean_literal_format_errors(candidate, errors):
                 stop("invalid_plan_format", '模型候选的条件布尔值使用了JSON字符串"true"／"false"，不符合布尔类型契约。这是候选格式错误，不是新的业务选择；原候选与诊断已保留，未自动转换、采纳或追加模型调用。请在新草稿中明确更正类型后重新核对，原已确认方案不变。')
             stop("needs_decision", "此问题涉及图结构、资源、业务配置或不支持的语法修复，需要人工确认；明确的单个语句头冒号由本机修复，其余保留候选，不自动修改已确认方案或追加模型修复请求。")
