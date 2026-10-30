@@ -8,7 +8,7 @@
 - 401封存索引503条，SHA76fd9960bfb066cc74f2c3be85c1d6c30532ad8e6a2d1ef8ac420498c1ac971d，加索引自身共504旧文件；24生产和391/394/399旧隔离、480旧证据/密文/费用保持，新临时secrets空。后续需保护五库实际capture，不只核快照文件。
 - 262旧快照materials=null恢复使intake500已最小修复并合入main；82相关定向再次过，371/291/PID11544归属保护部署及health/五库504过，前端字节不变。实现cbc730a已推且验收过，262关闭；263已修并部署372，17新场景/相关112通过，五库504/原401草案及费用保持，未新真实调用；实现a2dec32已推且验收过，263关闭；264为首pending独立零外部接入位置复核。docs/history-null-materials.md/json。
 
-- 264独立本机实际复核原401图并手工采纳，图22节点23边不改；业务配置仅binding order_lookup→lookup，另resource_plan限定独立零外部。Task49fdee89-a30f-4e32-ab90-ea3aeb447734/r6/draft_ready/plan_source=manual，五文件正常ZIP SHA6144d6572796fe210130d3b73dc10a937c8092c40762d95c5c86dfebbd11d2f1，DSL419babf971943925264e70b5fd412ca086a68400bc5c615300e17adc9d868265。0新模型/Dify/费用/凭据读取/生产写入，五库504保持。root-review.json为真实代理有限静态内容复核，非人类或平台/自主签收；原401仍失败。新work/offline-candidate405及512索引+自身513文件、local-data-snapshot需继续保护，索引SHA8fd9ddd71cddff47ae932498f95a017d545755d013903553f5e83c0c78ec4183。264待提交后关闭。
+- 264独立本机实际复核原401图并手工采纳，图22节点23边不改；业务配置仅binding order_lookup→lookup，另resource_plan限定独立零外部。Task49fdee89-a30f-4e32-ab90-ea3aeb447734/r6/draft_ready/plan_source=manual，五文件正常ZIP SHA6144d6572796fe210130d3b73dc10a937c8092c40762d95c5c86dfebbd11d2f1，DSL419babf971943925264e70b5fd412ca086a68400bc5c615300e17adc9d868265。0新模型/Dify/费用/凭据读取/生产写入，五库504保持。root-review.json为真实代理有限静态内容复核，非人类或平台/自主签收；原401仍失败。新work/offline-candidate405及512索引+自身513文件、local-data-snapshot需继续保护，索引SHA8fd9ddd71cddff47ae932498f95a017d545755d013903553f5e83c0c78ec4183。264记录d6a2904已推且验收过，已关闭；265为首pending。
 
 ## 2. 已有交付与剩余
 
@@ -19,8 +19,8 @@
 
 ## 3. 下一步
 
-1. 264本机独立手工采纳静态包已经完成，先提交准确记录后关闭BACKLOG264。实际图未改，但人工明确校正配置且plan_source=manual，不当401续阶段或模型自主通过。末尾两条审计夹具假设（空预算政策记录/ZIP文件名）已只读核正，没有重做Task或构建。docs/offline-candidate-review-20261030.md/json。
-2. 后续仍以既定主线质量为目的，不为额度造微任务。可在新可审查范围内准备这份图的单版平台核对，不必再发同一图给模型；新增App/Key/运行等均须新具体直接范围，当前没有授权。不能改授/借用401剩余槽或旧平台失败预留，也不把人工固定386的结果套给该图。原401失败/费用和264新本机数据分别保持。
+1. 264本机独立静态包记录d6a2904已推并验收，已关闭；265首pending准备独立单版平台方案。实际图未改，但人工明确校正配置且plan_source=manual，不当401续阶段或模型自主通过。末尾两条审计夹具假设（空预算政策记录/ZIP文件名）已只读核正，没有重做Task或构建。docs/offline-candidate-review-20261030.md/json。
+2. 265拟复用386正常发布/轨迹链，固定264同值原模型图/人工配置，单版六例六启动七Service；拟全新Task1/App发布Key各1/64管理读1登录，整批45分钟Task30分钟，Dify估0.05非账单硬限/宿主未知，0搭建模型/新库。保守拟读1405/登录45/资源25/Service113，模型35/账本1.155473652不增。仅业务failed唯一轮最多4GET诊断例外计64内，技术异常即停不重试。先完成执行器、严格门禁/公开全链、六个数据根及513保护与最终冻结，再统一请求新直接范围。不要重复发原图给模型；新增App/Key/运行等均须新具体直接范围，当前没有授权。不能改授/借用401剩余槽或旧平台失败预留，也不把人工固定386的结果套给该图。原401失败/费用和264新本机数据分别保持。
 3. 新保护根work/reviewed-chatflow401：post-production-data-snapshot.json、post-isolated-391-data-snapshot.json、post-isolated-394-data-snapshot.json、post-isolated-399-data-snapshot.json、local-data-snapshot.json；分别核生产/391/394/399/401五库capture。sealed-evidence-sha256.json503条及自身SHA合504文件。后续先核372/PID38308/.venv执行路径/291快照及数据，原start/stop管理部署，不能按端口杀进程；停服原start.ps1并等health200。不全量、不另起18760。
 4. 持续实质开发至实际额度不足/确实完成/有界核对无可行动进展，不因一个模块停。当前未观察Codex额度拒绝；实际不足立停、尽力整份交接，不重试/换号/购买/用重置券。上下文截断不是额度。Claude318失败/用量未知无恢复证据，不形式重试或冒称审查完成。
 5. 重要更新自主commit/push原GitHub main，每push前CHANGELOG、适用README/进度和整份交接，排除work/data/原模型文/秘密。Git safe.directory与HTTP/1.1、require_escalated，不force/改全局代理或TLS。不通读项目/290KB历史，只按必要编号段读取。
