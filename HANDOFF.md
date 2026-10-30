@@ -1,4 +1,4 @@
-# HANDOFF — Sierra（372已部署；262恢复与263候选绑定验收已修）
+# HANDOFF — Sierra（372已部署；264独立手工采纳原模型图得到静态包）
 
 ## 1. 当前状态
 
@@ -7,6 +7,8 @@
 - 原响应7472字符/22节点23边，SHA518b17298851e2cb1f999c233fab4c133f2b1fe0b86adfdf073155bb165abbdf，Task076f7195-d2fd-4ba9-9ef5-29c34f136387/r4。用量35623/2256/37879，缓存命中22272；reserve0.0549408/settled0.006846132非账单。已观察五库10条settled合0.166692960，实际累计模型30，不能当全部供应商账单。
 - 401封存索引503条，SHA76fd9960bfb066cc74f2c3be85c1d6c30532ad8e6a2d1ef8ac420498c1ac971d，加索引自身共504旧文件；24生产和391/394/399旧隔离、480旧证据/密文/费用保持，新临时secrets空。后续需保护五库实际capture，不只核快照文件。
 - 262旧快照materials=null恢复使intake500已最小修复并合入main；82相关定向再次过，371/291/PID11544归属保护部署及health/五库504过，前端字节不变。实现cbc730a已推且验收过，262关闭；263已修并部署372，17新场景/相关112通过，五库504/原401草案及费用保持，未新真实调用；实现a2dec32已推且验收过，263关闭；264为首pending独立零外部接入位置复核。docs/history-null-materials.md/json。
+
+- 264独立本机实际复核原401图并手工采纳，图22节点23边不改；业务配置仅binding order_lookup→lookup，另resource_plan限定独立零外部。Task49fdee89-a30f-4e32-ab90-ea3aeb447734/r6/draft_ready/plan_source=manual，五文件正常ZIP SHA6144d6572796fe210130d3b73dc10a937c8092c40762d95c5c86dfebbd11d2f1，DSL419babf971943925264e70b5fd412ca086a68400bc5c615300e17adc9d868265。0新模型/Dify/费用/凭据读取/生产写入，五库504保持。root-review.json为真实代理有限静态内容复核，非人类或平台/自主签收；原401仍失败。新work/offline-candidate405及512索引+自身513文件、local-data-snapshot需继续保护，索引SHA8fd9ddd71cddff47ae932498f95a017d545755d013903553f5e83c0c78ec4183。264待提交后关闭。
 
 ## 2. 已有交付与剩余
 
@@ -17,8 +19,8 @@
 
 ## 3. 下一步
 
-1. 263已经完成正常/工具候选模拟绑定门禁、17新场景/相关112定向和372归属保护部署；实现a2dec32已推并验收、已关闭263，按264继续独立本机实际候选复核。没有新增真实HTTP，不改401原model草案/succeeded或费用。当前核对work/planning-binding404/targeted-final.log、after-deploy.json，说明docs/planning-mock-bindings.md/json。
-2. 264首pending：原图22节点/7472字符只读逐项复核，在全新work隔离任务仅明确修配置绑定order_lookup→lookup，可正常手工采纳同值原模型图/内容复核/构建静态ZIP。不得解密、新模型/Dify/生产写入或复用旧槽，不改401原数据；明确人工配置修正、手工采纳，不能声称模型自主、401续阶段或平台业务通过。若原图其它业务问题则拒绝不改图。不能因一个模块就停止；原401第二槽保留、不重放或自动再发。可先只读核原模型候选与当前配置的准确差异和业务结构，任何独立零外部本机核对都须单列人工配置调整/来源，不把失败批拼接成通过；未有具体新直接范围不可派发模型/Dify。
+1. 264本机独立手工采纳静态包已经完成，先提交准确记录后关闭BACKLOG264。实际图未改，但人工明确校正配置且plan_source=manual，不当401续阶段或模型自主通过。末尾两条审计夹具假设（空预算政策记录/ZIP文件名）已只读核正，没有重做Task或构建。docs/offline-candidate-review-20261030.md/json。
+2. 后续仍以既定主线质量为目的，不为额度造微任务。可在新可审查范围内准备这份图的单版平台核对，不必再发同一图给模型；新增App/Key/运行等均须新具体直接范围，当前没有授权。不能改授/借用401剩余槽或旧平台失败预留，也不把人工固定386的结果套给该图。原401失败/费用和264新本机数据分别保持。
 3. 新保护根work/reviewed-chatflow401：post-production-data-snapshot.json、post-isolated-391-data-snapshot.json、post-isolated-394-data-snapshot.json、post-isolated-399-data-snapshot.json、local-data-snapshot.json；分别核生产/391/394/399/401五库capture。sealed-evidence-sha256.json503条及自身SHA合504文件。后续先核372/PID38308/.venv执行路径/291快照及数据，原start/stop管理部署，不能按端口杀进程；停服原start.ps1并等health200。不全量、不另起18760。
 4. 持续实质开发至实际额度不足/确实完成/有界核对无可行动进展，不因一个模块停。当前未观察Codex额度拒绝；实际不足立停、尽力整份交接，不重试/换号/购买/用重置券。上下文截断不是额度。Claude318失败/用量未知无恢复证据，不形式重试或冒称审查完成。
 5. 重要更新自主commit/push原GitHub main，每push前CHANGELOG、适用README/进度和整份交接，排除work/data/原模型文/秘密。Git safe.directory与HTTP/1.1、require_escalated，不force/改全局代理或TLS。不通读项目/290KB历史，只按必要编号段读取。

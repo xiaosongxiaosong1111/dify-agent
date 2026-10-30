@@ -1,0 +1,15 @@
+# 原模型图的独立本机人工采纳与静态交付（第264）
+
+401已失败封存，本项不续跑它、不复用剩余槽，也不解密或请求模型。根代理按既有常规委托实际读7472字符原响应、22节点/23边、全部代码/状态/分支及需求，决定只作独立静态采纳。原Plan摘要1c7fd3e3d672f2d7b228453945f2379defcceaf265be72399fcea46e491fd5c4保持，没有手工改成另一张图。
+
+新work任务只做两项明确配置调整：模拟接入node_id由不存在的order_lookup改选实际公开合成查询节点lookup；resource_plan改为本独立任务0模型/0外部的人工采纳静态范围，不继承401旧资源文字或任何预留。其它需求/配置/原图保持。决定者记agent_delegated，非伪造人类回答。
+
+正常API新建隔离Task49fdee89-a30f-4e32-ab90-ea3aeb447734，经两次相应内容复核、原图同值手工保存、需求/配置确认和构建，r6/draft_ready。plan_source=manual，无模型操作记录或运行记录，无provider和secret副本。预算ready正常产生1条空政策记录，费用条目0；不是复制401模型费用。生产24Task和五库/504旧证据保持，0模型/Dify/资源/运行/登录/生产写入/凭据读取。
+
+正常原始ZIP位于work/offline-candidate405/delivery.zip，SHA6144d6572796fe210130d3b73dc10a937c8092c40762d95c5c86dfebbd11d2f1，含dify-advanced-chat-r6.yaml、report-r6.md、integration-guide.md、README.md和manifest.json。DSL SHA419babf971943925264e70b5fd412ca086a68400bc5c615300e17adc9d868265，和正常保存成果字节一致，manifest全部文件摘要/长度通过。所有network_requested/platform_checked/business_verified=false。
+
+静态内容复核包括：先读取旧登记/消费位再消费、仅等待且明确编号绕分类、提取单成功条件后独立非空/类型检查、唯一合成表与固定未命中、空检索直接回复/有片段仅据context回答、.2/512/thinking=false及5轮记忆。未执行代码、分类/提取/回答模型或六例。原分类first_class回退为faq，准确性和失败回退体验仍未运行验收；两状态说明不能替代“两个位不同才等待”的实际算法。
+
+本机API/ZIP完成一次。末尾审计起初误要求不存在预算政策记录、又误用磁盘artifact文件名读取ZIP成员；只读核得空政策无费用、ZIP使用自身正常导出文件名后完成审计，没有重做Task或构建。新512文件索引及自身共513保护；索引SHA8fd9ddd71cddff47ae932498f95a017d545755d013903553f5e83c0c78ec4183，保留新本机状态和原401数据。[机器回执](offline-candidate-review-20261030.json)。
+
+这是一份来自原模型图、经人工配置校正及手工采纳的静态成果，不能称401通过、纯模型自主交付、真实Dify业务通过或人类总体签收。下一步真实平台观察须先有具体新资源范围，旧401不能继续。
