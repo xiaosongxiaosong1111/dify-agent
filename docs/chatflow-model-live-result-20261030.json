@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "backlog": 248,
+  "batch": "chatflow-model391",
+  "state": "model_clarification_stopped_sealed",
+  "question_ref": "call_ac21869f169642a9aba41302e8517ebf q0",
+  "physical_model_http": 1,
+  "model_stage_counts": {
+    "original": 1,
+    "modified": 0
+  },
+  "dify_http": 0,
+  "production_writes": 0,
+  "isolated_task_id": "a96b97fa-355e-4860-a1cb-259dd7344b8d",
+  "isolated_revision": 3,
+  "planning_status": "paused",
+  "planning_stop_reason": "needs_decision",
+  "clarification_questions": 5,
+  "clarification_summary": [
+    "模型认为先消费和缺号再登记可能违反同变量唯一writer，但没有区分两标记各自的写入目标。",
+    "模型要求确认分类前补号预分流；公开输入同时保留先分类的一般描述和已明确的补号例外，后续需写清优先级，旧输入不改。"
+  ],
+  "root_assessment": "没有有效流程候选，未作proceed复核、采纳或构建；停止边界正常。后续只改本机规则资料/澄清新方案，不能重放本批。",
+  "model_candidate_saved": false,
+  "root_reviews": 0,
+  "static_deliveries": 0,
+  "production_tasks_kept": 24,
+  "protected_old_files": 415,
+  "production_data_secrets_assets_kept": true,
+  "isolated_secrets_persisted": false,
+  "usage": {
+    "prompt_tokens": 31081,
+    "completion_tokens": 1357,
+    "total_tokens": 32438,
+    "prompt_cache_hit_tokens": 3456,
+    "prompt_cache_miss_tokens": 27625,
+    "prompt_tokens_details": {
+      "cached_tokens": 3456
+    }
+  },
+  "configured_reserved_usd": "0.0497529",
+  "configured_settled_usd": "0.009936636",
+  "is_provider_bill": false,
+  "fee_ledger_id": "5fb63fe1-fa52-42ae-897e-08e8480ee0ec",
+  "old_production_settled_usd": "0.132110088",
+  "combined_observed_configured_settled_usd": "0.142046724",
+  "model_book_upper_usd": "0.915473652",
+  "conservative_model_upper": 32,
+  "actual_cumulative_model_http": 27,
+  "other_conservative_upper": {
+    "reads": 1341,
+    "login": 44,
+    "import": 24,
+    "publish": 24,
+    "key": 24,
+    "run": 106
+  },
+  "unstarted_model_slot_held": 1,
+  "unstarted_slot_estimate_usd": "0.080",
+  "old_reservations_kept": true,
+  "runtime": "0.363.0-337d1119bd845a02a18b",
+  "business_verified": false,
+  "human_signoff": false,
+  "claude_review_completed": false,
+  "sealed_evidence_files": 434,
+  "receipt_sha256": {
+    "plan.json": "fead789c87e141e993ed452c73e55f8828bc230c77699186ef01d3ceb3ad2107",
+    "manifest.json": "18d9a17cb9a6311c6bf107eed797c86e808c5f72007a2907855e2d7b1d15ea95",
+    "approval.json": "b1b9b79da4dcb93694a79f0e4f82d29adfa92521be17bf04a9f914003cd506c9",
+    "attempt.json": "5976e07b3a5213840302a94e3568d40f3bfcf84e703fa360fd0a3b866c8784be",
+    "live-output/progress.json": "dd8a71cdcc6f2231fba831706b05de74b5d4111a69a1a40c7f673cb62ea62d7e",
+    "local-task-audit.json": "9af38845ae75a38e7b2c57ecfc3a699fa512e74b084e6d7265b3b05304b33708",
+    "post-production-data-snapshot.json": "7fd9cef77cb9d6e39d97eed3e5cf95136dec7e6f9a776c137ac7227e4313c7a9",
+    "local-data-snapshot.json": "6a45bfa99456facd6a961519124097c28bca5ed1a37888735f2e4aa74d952817",
+    "sealed-evidence-sha256.json": "567b871107fe0b01f53eff920f4ceb673dcaceb04c78be7110b24ab422a9a1f6"
+  }
+}
