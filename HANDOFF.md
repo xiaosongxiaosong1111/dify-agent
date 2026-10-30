@@ -1,11 +1,11 @@
-# HANDOFF — Sierra（248/391首次模型澄清封存；249规划资料一致性待修）
+# HANDOFF — Sierra（248/391首次模型澄清封存；249资料修复364已部署）
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main，实际运行0.363.0-337d1119bd845a02a18b/290文件/PID20300，最近预检health200。原24生产Task、配置/密文资产/费用保持；391只在work隔离数据写1Task。
+- 根E:\workSpace\dify-agent/main，实际运行0.364.0-c5fb61ba84fb18287d88/290文件/PID24720，最近预检health200。原24生产Task、配置/密文资产/费用保持；391只在work隔离数据写1Task。
 - 248用户call_ac21869f169642a9aba41302e8517ebf q0直接批准后，391最终plan fead789c87e141e993ed452c73e55f8828bc230c77699186ef01d3ceb3ad2107 / manifest18d9a17cb9a6311c6bf107eed797c86e808c5f72007a2907855e2d7b1d15ea95唯一执行，永久消费。实际模型HTTP1/修改0，Dify/资源/运行/登录/生产写入0。没有有效候选、proceed复核、采纳或ZIP。首规划paused/needs_decision，返回5项澄清；执行器按原规则停止，不重试或续阶段。实际回执docs/chatflow-model-live-result-20261030.md/json。
 - 隔离Task a96b97fa-355e-4860-a1cb-259dd7344b8d/r3，原返回/输入/费用保留，secrets表空，Key只内存复用。用量31081输入/1357输出/32438总，配置估算settled 0.009936636 USD（非账单），预留0.0497529；生产6条settled 0.132110088不变，合并已观察配置估算0.142046724。第二槽和0.080估算保留，不能自动改授。模型实际累计27/保守32，账本上界0.915473652。
-- 模型把两个不同标记的各自writer误判为同变量多写；原公开输入又同时一般性写先分类及补号预分流例外，存在优先级表述歧义。旧输入不改。下一只修本机资料：node_guidance检索例子绑定context却未引用363必需占位；契约补清每变量writer及明确需求可先分流。不是降低编译门禁或强行接受候选。
+- 模型把两个不同标记的各自writer误判为同变量多写；原公开输入又同时一般性写先分类及补号预分流例外，存在优先级表述歧义。旧输入不改。249已修node_guidance检索例子和规则，契约补清每变量writer及明确需求可先分流；原有两模式示例先失败，98定向/实际服务8示例编译过。不降低编译门禁或强行接受候选。
 - 247实现6c5aa2a/关闭e0ebacd已推，45门禁/9公开协议/冻结预检过；协议替身不等于真实模型通过。246实现e494070/关闭3143753已推：通用上下文双向门禁，156定向及363保护部署/386旧双版原生一致性过；上轮额度拒绝后的未提交已恢复核对补交。
 - 245接口替换指南5d47c5b/0cd750d已推，26定向/362部署/现有r13导出过，补充包work/integration-guide389/modified-with-guide.zip，旧386双ZIP保持。只导出结构契约/待补资料/复验步骤，不接真实接口。
 
@@ -18,9 +18,9 @@
 
 ## 3. 下一步
 
-1. 本次将248实际结果/费用/保护证据提交推送，BACKLOG248 blocked（未完成双版目标），249 pending。按249先用现有test_node_guidance复现两模式检索示例编译失败；只修提供给模型的例子及上下文规则，说明不同变量各有唯一writer、用户明确允许时可分类前分流。读最少相关代码/定向检查，保留严格同变量多writer拒绝；不改391冻结source/work副本/输入，不执行已消费live。
-2. 新保护基线work/chatflow-model391/post-production-data-snapshot.json（生产24）；local-data-snapshot.json（隔离Task/settled/原返回对象）；sealed-evidence-sha256.json共434条，索引自身SHA567b871107fe0b01f53eff920f4ceb673dcaceb04c78be7110b24ab422a9a1f6，后续需核435文件和两份实际数据capture。不要只核快照文件而忽略隔离费用对象。旧work/llm-context390/consumed-sha256.json415条及所有旧ZIP不改。
-3. 修改需要部署时，先核363实际所属PID20300/.venv执行路径/290快照与数据，再用原start/stop脚本固定快照部署，不按端口杀进程；停服才原start.ps1等health200。验证限改动相关，不全量，不另起18760。Playwright若需要用用户指定绝对模块路径。
+1. 248实际结果04c6fbb已提交推送并blocked；249代码、98定向、364保护部署和实际服务8示例编译验收已完成，提交后再关闭。接着按既定需求做有限缺口核查；若只有真实模型质量待观察，准备明确新方案，不造代码缺陷或重放391。旧五项澄清中模拟未命中文案、片段不足用提示判定、分流优先级/状态转移可按既有委托明确后写进新输入，旧输入/返回不变。
+2. 新部署保护基线work/planning-guide392/post-deploy-data-snapshot.json（生产24）及isolated-391-data-snapshot.json（隔离Task/settled/原返回对象）；其consumed-sha256.json共435条，继承391；sealed-evidence-sha256.json共434条，索引自身SHA567b871107fe0b01f53eff920f4ceb673dcaceb04c78be7110b24ab422a9a1f6，后续需核435文件和两份实际数据capture。不要只核快照文件而忽略隔离费用对象。旧work/llm-context390/consumed-sha256.json415条及所有旧ZIP不改。
+3. 修改需要部署时，先核364实际所属PID24720/.venv执行路径/290快照与数据，再用原start/stop脚本固定快照部署，不按端口杀进程；停服才原start.ps1等health200。验证限改动相关，不全量，不另起18760。Playwright若需要用用户指定绝对模块路径。
 4. 新模型或Dify副作用仍需可审查新方案及直接范围批准；391剩槽、386余48读及所有旧预留不得自动退借或续阶段。不再重复人工固定图。历史预览/恢复此前已核无owner覆盖，不造修复任务。
 5. 持续实质开发直到实际额度不足/完成/确无可行动进展；当前上下文截断不等于额度拒绝。实际不足立停，尽力整份交接，不重试/换号/购买/用券/绕过审批拒绝。Claude318失败/用量未知无恢复证据，不能为形式重试或冒称子审查完成。每push前根CHANGELOG/适用README/状态/整份交接，自主commit/push原GitHub main，排除work/data/原模型文/秘密。
 

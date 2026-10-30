@@ -15,6 +15,7 @@ RULES = {
         '问题来源须是明确的文字变量；检索 result 是对象数组，不能把它当问题文字直接继续检索。',
         'dataset_source=task 继承当前配置；node 必须提供明确非空的 dataset_ids，空选择不回退。示例库ID仅为占位。',
         '分数阈值与重排须明确选择；开启重排需要独立供应商和型号，不继承回答模型。检索无命中与检索失败分别处理。',
+        '回答LLM须用context_variable_selector绑定检索result，并在system_prompt或user_prompt中精确引用{{#context#}}；只有绑定不会把资料自动插入提示。',
     ],
     'if-else': [
         '每个case须有独立case_id、逻辑关系和类型正确的条件，并连接每个case及false出口。',
@@ -29,7 +30,7 @@ RULES = {
     'llm': [
         'system_prompt或user_prompt至少有一项非空；引用须来自已声明且当前路径可用的变量。',
         '未指定独立model时继承任务模型；独立型号及完整参数需逐项核对资源、规则、插件与费用。',
-        '仅据检索资料回答时使用context_variable_selector绑定检索结果，不能把验收期望或政策事实硬编码为补充资料。',
+        '仅据检索资料回答时使用context_variable_selector绑定检索结果，并在system_prompt或user_prompt中引用{{#context#}}；占位也必须绑定来源，不能把验收期望或政策事实硬编码为补充资料。',
     ],
 }
 LIMITS = {
@@ -69,6 +70,7 @@ def _example(kind, mode):
         elif kind == 'knowledge-retrieval':
             retrieve = {'id':'retrieve','type':kind,'config':{'query_variable_selector':query,'dataset_source':'node','dataset_ids':['EXAMPLE_DATASET_ID'],'top_k':3,'score_threshold':None,'reranking_enable':False}}
             llm['config']['context_variable_selector'] = ['retrieve','result']
+            llm['config']['system_prompt'] += '\n检索资料：\n{{#context#}}'
             nodes = [start,retrieve,llm,terminal('done','reply','text')]
         else:
             nodes = [start,llm,terminal('done','reply','text')]

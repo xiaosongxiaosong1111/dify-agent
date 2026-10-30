@@ -12,6 +12,33 @@ def scalar_plan(kind='number',value=0):
     return p
 
 
+@pytest.mark.parametrize('same_target', [False, True])
+def test_single_writer_is_per_variable_across_serial_root_assigners(same_target):
+    # Public contract illustration: independent state targets may share a path.
+    p = scalar_plan('boolean', False)
+    p['conversation_variables'][0]['name'] = 'flag_a'
+    p['conversation_variables'].append({**p['conversation_variables'][0], 'name': 'flag_b'})
+    first = p['nodes'][1]
+    first['config']['items'][0]['variable_selector'] = ['conversation', 'flag_a']
+    second = copy.deepcopy(first)
+    second['id'] = 'write_b'
+    second['config']['items'][0].update(variable_selector=['conversation', 'flag_a' if same_target else 'flag_b'], value=True)
+    p['nodes'].insert(2, second)
+    p['nodes'][-1]['config']['answer'] = '状态：{{#conversation.flag_a#}} / {{#conversation.flag_b#}}'
+    p['edges'] = [{'source': a, 'target': b} for a, b in [('start', 'remember'), ('remember', 'write_b'), ('write_b', 'answer')]]
+    before = copy.deepcopy(p)
+    text, checked = compile_workflow_plan(task(p))
+    assert checked['valid'] is not same_target, checked
+    assert p == before
+    if same_target:
+        assert any('多个' in error and '写入' in error for error in checked['errors']), checked
+    else:
+        native = yaml.safe_load(text)
+        assert validate_preserved(native)['valid']
+        writers = [n['data']['items'][0]['variable_selector'] for n in native['workflow']['graph']['nodes'] if n['data']['type'] == 'assigner']
+        assert writers == [['conversation', 'flag_a'], ['conversation', 'flag_b']]
+
+
 @pytest.mark.parametrize('kind,value,native_type',[('number',0,'float'),('number',1.5,'float'),('number',-2,'float'),('boolean',False,'boolean'),('boolean',True,'boolean')])
 def test_declared_scalar_type_and_false_zero_survive_native_and_manual_preservation(kind,value,native_type):
     p=scalar_plan(kind,value);text,checked=compile_workflow_plan(task(p));assert checked['valid'],checked

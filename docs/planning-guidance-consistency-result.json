@@ -1,0 +1,26 @@
+{
+  "stage": "after",
+  "state": "passed",
+  "runtime": "0.364.0-c5fb61ba84fb18287d88",
+  "source_files": 290,
+  "changed_runtime_files": [
+    "backend/app/main.py",
+    "backend/app/node_guidance.py",
+    "docs/workflow-plan-contract.md"
+  ],
+  "protected_production_tasks": 24,
+  "isolated_failed_task_and_settled_kept": true,
+  "protected_evidence_files": 435,
+  "secrets_assets_and_production_ledger_kept": true,
+  "isolated_secrets_empty": true,
+  "served_synthetic_examples_compiled": 8,
+  "new_real_model_dify_http": 0,
+  "claude_review_completed": false,
+  "backlog": 249,
+  "baseline_existing_example_failures": 2,
+  "targeted_passed": 98,
+  "full_suite": false,
+  "business_verified": false,
+  "human_signoff": false,
+  "verified_pid": 24720
+}
