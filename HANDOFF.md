@@ -1,4 +1,4 @@
-# HANDOFF — Sierra（370已部署；260/401独立规划包冻结待新范围）
+# HANDOFF — Sierra（401新范围待答复；262恢复缺陷隔离修复待合入）
 
 ## 1. 当前状态
 
@@ -11,6 +11,8 @@
 
 - 260已完成401独立正常规划执行器及56门禁/14公开协议，逐场费用条数/响应SHA/七类规则来源、四库480保护与370归属过；10文件plan b5662b6585c256b92276657a03628787ea26d859bdb45101e40da77f4c3af940 / manifest664246b639bfc07e21172eb30b56556cc3999c2f05ac8d8f8d5b017e376da5f1，canonical validate过，0真实HTTP/未解密，无approval/attempt。仅拟399剩余1槽/0.080明确改授加新1槽/0.080，保守35/账本1.155473652尚未批准。docs/reviewed-chatflow-plan-20261030.md/json。实现8464304已提交推送并验收，260关闭，261 need-user。
 
+- 有界核对版本/恢复后，262实际复现旧快照materials=null预览200/恢复200而intake500。独立checkout E:\workSpace\dify-agent\work\restore-null402最小修复：select拒绝显式非列表materials，旧缺字段沿用/空列表及test_cases兼容保持。旧反例先失败，恢复/历史正文/节点差异82过；3437b33及CHANGELOG已推codex/restore-null-materials，未合入main/部署，待261冻结依赖解决。模型Dify0，生产数据未改。
+
 ## 2. 已有交付与剩余
 
 - 256逐次规划响应已部署369，1e59020/关闭2faa326已推：各正常返回单独最多16000字符/独立截断/只读展开，旧记录不回填。113唯一后端、类型构建/4隔离界面及视觉过。
@@ -22,11 +24,12 @@
 
 ## 3. 下一步
 
-1. 260实现8464304已提交推送且验收，已关闭；261 need-user。最终401包已具体可审查，只请求一次绑定b5662b65/664246b6的新增1槽及399剩余1槽明确改授/唯一JSON语法修复例外：最多2HTTP/各6000输出/120秒/0.080，合0.160非账单硬限；拟保守34→35/账本1.075473652→1.155473652，其它上界不变。未新直接批准不解密或执行，旧399批准不覆盖本批。若批准只执行work/reviewed-chatflow401/execute.py live一次；实际候选/全部原文/正常修正须根代理在5分钟内完整核对，拒绝不改图冒充成功。任何非限定语法异常即停，不重放或借其它旧槽。
-2. 新保护基线work/node-contract400/production-data-snapshot.json、isolated391-data-snapshot.json、isolated394-data-snapshot.json、isolated399-data-snapshot.json，核四份实际capture；consumed-sha256.json共480文件。继承399 sealed-evidence-sha256.json479条及其自身SHAc1f7c2d5082974a9dfca15e18ca2bd13b4171659aab57a85baa48f18ff5b2851，所有旧ZIP/原响应/费用保持，不能只核快照文件。
-3. 后续部署先核370/PID22968/.venv执行路径/291快照和数据，原start/stop固定快照流程，不按端口杀进程；停服才powershell -ExecutionPolicy Bypass -File .\start.ps1等health200。不全量/不另起18760；Playwright用用户指定绝对模块路径，已安装Chrome可headless隔离，无需下载或读用户配置。
-4. 持续开发至实际额度不足/确实完成/确无可行动进展。此轮未观察额度拒绝；上下文截断不等于额度。实际不足立停，尽力整份交接，不反复重试、换号、购买或用重置券，不绕过审批拒绝。Claude318失败/用量未知无恢复证据，不形式重试/加预算或冒称子审查。
-5. 重要更新自主commit/push原GitHub main，每push前根CHANGELOG、适用README、状态和整份交接，排除work/data/原模型文/秘密。Git safe.directory=E:/workSpace/dify-agent、require_escalated、HTTP/1.1，不force/改全局代理或TLS。AGENTS常规委托限既有明确资源/费用。
+1. 260实现8464304已提交推送且验收，已关闭；261 need-user。最终401包已具体可审查，已发出一次绑定b5662b65/664246b6的新增1槽及399剩余1槽明确改授/唯一JSON语法修复例外确认，当前尚无401新直接答复，不重复问；待确认的范围为：最多2HTTP/各6000输出/120秒/0.080，合0.160非账单硬限；拟保守34→35/账本1.075473652→1.155473652，其它上界不变。未新直接批准不解密或执行，旧399批准不覆盖本批。若批准只执行work/reviewed-chatflow401/execute.py live一次；实际候选/全部原文/正常修正须根代理在5分钟内完整核对，拒绝不改图冒充成功。任何非限定语法异常即停，不重放或借其它旧槽。
+2. 262 blocked依赖261：独立修复3437b33已推codex/restore-null-materials，82相关定向过，work/reviewed-chatflow401-local/restore-before.log、restore-after.log及restore-null-reproduction.json为证据。无需为普通修复另问许可；为保留已发问401冻结源暂不合入/部署。261已执行封存或明确不执行后，可从独立worktree取3437b33合入main，处理CHANGELOG已同步的重复，按实际版本更新并四库/480证据保护部署，验证新旧合法历史兼容后再关闭262。不要删除未合入工作副本，不把隔离修复当线上修复。
+3. 新保护基线work/node-contract400/production-data-snapshot.json、isolated391-data-snapshot.json、isolated394-data-snapshot.json、isolated399-data-snapshot.json，核四份实际capture；consumed-sha256.json共480文件。继承399 sealed-evidence-sha256.json479条及其自身SHAc1f7c2d5082974a9dfca15e18ca2bd13b4171659aab57a85baa48f18ff5b2851，所有旧ZIP/原响应/费用保持，不能只核快照文件。
+4. 后续部署先核370/PID22968/.venv执行路径/291快照和数据，原start/stop固定快照流程，不按端口杀进程；停服才powershell -ExecutionPolicy Bypass -File .\start.ps1等health200。不全量/不另起18760；Playwright用用户指定绝对模块路径，已安装Chrome可headless隔离，无需下载或读用户配置。
+5. 持续开发至实际额度不足/确实完成/确无可行动进展。此轮未观察额度拒绝；上下文截断不等于额度。当前普通队列已无pending，261待新增直接范围，262隔离代码完成但因261冻结依赖尚不能合入部署；有界核对已找到并处理实质恢复缺口，停止位置是待范围答复而非额度耗尽/全项目完成。实际不足立停，尽力整份交接，不反复重试、换号、购买或用重置券，不绕过审批拒绝。Claude318失败/用量未知无恢复证据，不形式重试/加预算或冒称子审查。
+6. 重要更新自主commit/push原GitHub main，每push前根CHANGELOG、适用README、状态和整份交接，排除work/data/原模型文/秘密。Git safe.directory=E:/workSpace/dify-agent、require_escalated、HTTP/1.1，不force/改全局代理或TLS。AGENTS常规委托限既有明确资源/费用。
 
 ## 4. 账本与凭据边界
 
