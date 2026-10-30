@@ -1,0 +1,27 @@
+{
+  "state": "passed",
+  "stage": "after",
+  "runtime": "0.371.0-a3ad86e02420254d830a",
+  "process": {
+    "verified_pid": 11544,
+    "runtime_build": "0.371.0-a3ad86e02420254d830a",
+    "source_files_matched": 291
+  },
+  "protected_production_tasks": 24,
+  "protected_isolated_roots": 4,
+  "protected_evidence_files": 504,
+  "task_settings_credentials_fees_assets_kept": true,
+  "changed_backend_files": [
+    "main.py",
+    "version_restore.py"
+  ],
+  "frontend_dist_unchanged": true,
+  "targeted_tests": 82,
+  "physical_model_dify_http": 0,
+  "schema_version": 1,
+  "backlog": 262,
+  "old_counterexample_failed": true,
+  "root_reviewed_fix_commit": "3437b33",
+  "business_verified": false,
+  "human_signoff": false
+}

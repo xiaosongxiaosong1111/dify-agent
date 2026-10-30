@@ -153,6 +153,20 @@ def test_legacy_missing_materials_is_preserved_and_intake_not_weakened(client):
     assert result['materials'] == task['materials'] and result['intake_required'] is True
 
 
+def test_null_historical_materials_cannot_restore_a_task_that_breaks_intake(client):
+    task, version = seeded(client)
+    payload = restore_payload(client, task['id'], version['id'])
+    task['versions'][0]['materials'] = None
+    main.store.put('task', task['id'], task)
+    before = copy.deepcopy(main.store.get('task', task['id']))
+    response = read(client, task, version)
+    assert response.status_code == 422
+    assert 'review_token' not in response.text
+    assert client.post(f"/api/tasks/{task['id']}/restore", json=payload).status_code == 422
+    assert main.store.get('task', task['id']) == before
+    assert client.get(f"/api/tasks/{task['id']}/intake").status_code == 200
+
+
 @pytest.mark.parametrize('bad', ['missing', 'duplicate', 'malformed', 'oversize', 'nan'])
 def test_bad_snapshots_do_not_return_partial_or_usable_preview(client, bad):
     task, version = seeded(client)

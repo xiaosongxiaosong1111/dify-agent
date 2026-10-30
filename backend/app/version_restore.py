@@ -67,7 +67,9 @@ def select(task, version_id):
         raise HTTPException(422, '历史需求、配置或环境结构无效；未恢复。')
     if any(version.get(k) is not None and not isinstance(version[k], dict) for k in ('workflow_plan', 'agent_plan', 'coverage_review', 'conflict_review', 'intake_review')):
         raise HTTPException(422, '历史流程或检查结构无效；未恢复。')
-    if any(k in version and version[k] is not None and not isinstance(version[k], list) for k in ('materials', 'test_cases')):
+    # Missing legacy materials keep the current list; explicit null cannot be
+    # restored because the normal intake flow requires a material list.
+    if ('materials' in version and not isinstance(version['materials'], list)) or (version.get('test_cases') is not None and not isinstance(version['test_cases'], list)):
         raise HTTPException(422, '历史材料或样例结构无效；未恢复。')
     return version
 
