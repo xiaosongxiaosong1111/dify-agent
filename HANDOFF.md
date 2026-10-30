@@ -32,7 +32,7 @@
 
 ## 3. 下一步
 
-1. 256实现1e59020/关闭2faa326已推，369/113唯一后端/构建/4界面及视觉过。257新tools/bounded-chatflow399已45门禁/14公开协议/费用条目和原文摘要、369/PID17696/291源码、三库457预检过，10文件最终308ff951/c7d570fa冻结；真实HTTP0/未解密/无approval、attempt、worker。实现提交后关闭，258 need-user：一次取得全新最多2模型/0.160估算及仅完整已知用量JSON语法的一次修复例外、内存Key复用的新直接批准，模型34/账本1.075473652是拟议，当前仍32/0.915473652。其它Dify/写入/资源/运行/登录0，旧槽不借退，不续旧391/394；不能把继续开发当此新付费范围批准。根代理须读review-source-original.json的候选/代码/normal attempts及所有本批model-response-N.txt原文/摘要后实际复核再agent_delegated proceed。允许正常可判定冒号修正并留痕，不称原始文本逐字未改；和JSON共用max_retries1。
+1. 256实现1e59020/关闭2faa326已推，369/113唯一后端/构建/4界面及视觉过。257新tools/bounded-chatflow399已45门禁/14公开协议/费用条目和原文摘要、369/PID17696/291源码、三库457预检过，10文件最终308ff951/c7d570fa冻结；真实HTTP0/未解密/无approval、attempt、worker。实现947b7f6已提交并关闭，258 need-user：一次取得全新最多2模型/0.160估算及仅完整已知用量JSON语法的一次修复例外、内存Key复用的新直接批准，模型34/账本1.075473652是拟议，当前仍32/0.915473652。其它Dify/写入/资源/运行/登录0，旧槽不借退，不续旧391/394；不能把继续开发当此新付费范围批准。根代理须读review-source-original.json的候选/代码/normal attempts及所有本批model-response-N.txt原文/摘要后实际复核再agent_delegated proceed。允许正常可判定冒号修正并留痕，不称原始文本逐字未改；和JSON共用max_retries1。
 2. 最新部署保护work/planning-attempt398/production-data-snapshot.json、isolated391-data-snapshot.json、isolated394-data-snapshot.json，需核三份实际capture；consumed-sha256.json457条继承394封存456和索引自身。原394索引SHA3a3a8b2fd4ee0f03c442c258ce21ed719e9291b214303376e9935412a3eb9a4a，所有旧ZIP/失败/费用保持。
 3. 修改需要部署时，先核369实际所属PID17696/.venv执行路径/291快照与数据，再用原start/stop脚本固定快照部署，不按端口杀进程；停服才原start.ps1等health200。验证限改动相关，不全量，不另起18760。Playwright若需要用用户指定绝对模块路径。
 4. 新模型或Dify副作用仍需可审查新方案及直接范围批准；391剩槽已明确改授394并消费；386余48读及所有其它旧预留不得自动退借或续阶段。不再重复人工固定图。历史预览/恢复此前已核无owner覆盖，不造修复任务。
