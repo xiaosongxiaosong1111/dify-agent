@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "backlog": 247,
+  "batch": "chatflow-model391",
+  "state": "frozen_not_approved",
+  "plan_sha256": "fead789c87e141e993ed452c73e55f8828bc230c77699186ef01d3ceb3ad2107",
+  "manifest_sha256": "18d9a17cb9a6311c6bf107eed797c86e808c5f72007a2907855e2d7b1d15ea95",
+  "frozen_files": 10,
+  "runtime": {
+    "verified_pid": 20300,
+    "runtime_build": "0.363.0-337d1119bd845a02a18b",
+    "source_files_matched": 290
+  },
+  "production_tasks_kept": 24,
+  "protected_evidence_files": 415,
+  "gate_tests_passed": 45,
+  "public_protocol_cases": 9,
+  "source_bound_proof_sha256": "7d4ba3b860ec7394fc4e8c69789878c17f6f2b862e56154f87f107e03efdbdb0",
+  "public_estimates": {
+    "original": "0.0497529",
+    "modified": "0.0552864"
+  },
+  "policy": {
+    "max_model_http": 2,
+    "per_stage": 1,
+    "output_tokens": 6000,
+    "timeout_seconds": 120,
+    "wall_seconds": 1800,
+    "review_seconds": 300,
+    "root_review_required": true,
+    "production_writes": false,
+    "dify_http": 0,
+    "no_retry": true,
+    "per_call_reserve_usd": "0.080",
+    "total_estimate_usd": "0.160",
+    "model_book_upper_usd": "0.915473652"
+  },
+  "new_conservative_upper": {
+    "model": 32,
+    "reads": 1341,
+    "login": 44,
+    "import": 24,
+    "publish": 24,
+    "key": 24,
+    "run": 106
+  },
+  "production_writes": 0,
+  "dify_http": 0,
+  "physical_model_http": 0,
+  "credential_decrypted": false,
+  "credential_copy_persisted": false,
+  "approval_present": false,
+  "attempt_present": false,
+  "real_model_quality_verified": false,
+  "human_signoff": false,
+  "claude_review_completed": false
+}
