@@ -1,4 +1,4 @@
-# HANDOFF — Sierra（248/391首次模型澄清封存；251独立单次规划方案冻结待明确改授）
+# HANDOFF — Sierra（248/391首次模型澄清封存；252/394无效JSON封存；253安全格式诊断待修）
 
 ## 1. 当前状态
 
@@ -11,7 +11,7 @@
 
 - 250新增交付历史索引已部署365，44定向/现有r13单GET核同修订确认时间、沿用及原DSL字节过。保存补充包work/delivery-history393/modified-with-history.zip SHA30adb001b4778369784eec67b2872aaf2bd80e951fa48e5df58c9d90edf387ec，不改旧包或确认/任务。实现1065afb已提交，验收已完成，250关闭。
 
-- 251新tools/clarified-chatflow394已准备：33门禁/8公开协议、365/PID17620/291源码及24生产/391隔离费用/436文件预检过，真实HTTP0/未解密/无approval、attempt、worker。10文件plan faede36fb192334de3f0564d099a0b3c8cb760de70bfcaa02b2a94b5bd91feb9 / manifest40241f236033514b3ca1f6fefb3263838a340bf52981d46752e1cb9c8847314c冻结。拟只明确改授391未派发1槽/0.080，32及0.915473652不增。公开输入按代理委托明确状态算法/优先级/模拟未命中/资料不足，不能叫模型自主发现算法；真实模型候选须根代理读代码复核/原样采用/一静态包，0Dify。新直接批准前不得live。
+- 以下251记录为执行前冻结情况，现已按新直接改授执行并消费，状态以第3节为准。251新tools/clarified-chatflow394已准备：33门禁/8公开协议、365/PID17620/291源码及24生产/391隔离费用/436文件预检过，真实HTTP0/未解密/无approval、attempt、worker。10文件plan faede36fb192334de3f0564d099a0b3c8cb760de70bfcaa02b2a94b5bd91feb9 / manifest40241f236033514b3ca1f6fefb3263838a340bf52981d46752e1cb9c8847314c冻结。拟只明确改授391未派发1槽/0.080，32及0.915473652不增。公开输入按代理委托明确状态算法/优先级/模拟未命中/资料不足，不能叫模型自主发现算法；真实模型候选须根代理读代码复核/原样采用/一静态包，0Dify。新直接批准前不得live。
 
 ## 2. 已有交付与剩余
 
@@ -22,15 +22,15 @@
 
 ## 3. 下一步
 
-1. 250实现1065afb/关闭a71fdb0已推。251单次规划新方案/33门禁8公开协议/最终冻结实际过，实现60c6b54已提交并关闭，252 need-user：一次取得绑定faede36f/40241f23的391剩余1模型槽及0.080明确改授、只读Key内存复用批准，再唯一execute live。没有新直接批准，不解密或execute；当前未批准。394-before-eof-unapproved是继承尾空行修正前的未批准包，未解密/attempt，不执行；最终faede36f/40241f23才可申请。根代理须实际读review-source-original.json完整候选/代码后逐项记agent_delegated复核，不读不填proceed。异常/澄清/未知用量/截断等即整批停，不重试。只核一份已澄清算法静态原候选，不含访谈/修改/平台。
-2. 新部署保护基线work/delivery-history393/post-deploy-data-snapshot.json（生产24）及isolated-391-data-snapshot.json（隔离Task/settled/原返回对象）；其consumed-sha256.json共436条（435旧证据+新历史补充ZIP），继承391；sealed-evidence-sha256.json共434条，索引自身SHA567b871107fe0b01f53eff920f4ceb673dcaceb04c78be7110b24ab422a9a1f6，后续需核436文件和两份实际数据capture。不要只核快照文件而忽略隔离费用对象。旧work/llm-context390/consumed-sha256.json415条及所有旧ZIP不改。
+1. 252已获用户call_3d382f1f3b1c4f86986442f1b7fcb1ae q0直接明确改授，最终faede36f/40241f23唯一执行并永久消费；实际1模型返回7268字符图形JSON形态文本但第1行2133列分隔符无效，无解析后候选/复核/采纳/ZIP。Task a224a650-451b-4325-9b03-77ed435e923c/r3/paused/retry_limit/max_retries0，没截断/没追加调用。252结果提交后blocked；253 pending：先公开反例，再仅提供安全中文JSON语法位置，不改提取接受范围/候选/重试/无进展行为；严禁重放394或手改原响应当模型通过。
+2. 新保护基线work/clarified-chatflow394/post-production-data-snapshot.json（生产24）、post-isolated-391-data-snapshot.json（391失败/费用）和local-data-snapshot.json（394失败/费用）。sealed-evidence-sha256.json共456条，索引自身SHA3a3a8b2fd4ee0f03c442c258ce21ed719e9291b214303376e9935412a3eb9a4a；后续需核457文件和三份实际数据capture，不只核快照。继承旧435及250新补充ZIP=436证据，旧391/386索引和所有ZIP均保持。
 3. 修改需要部署时，先核365实际所属PID17620/.venv执行路径/291快照与数据，再用原start/stop脚本固定快照部署，不按端口杀进程；停服才原start.ps1等health200。验证限改动相关，不全量，不另起18760。Playwright若需要用用户指定绝对模块路径。
-4. 新模型或Dify副作用仍需可审查新方案及直接范围批准；391剩槽、386余48读及所有旧预留不得自动退借或续阶段。不再重复人工固定图。历史预览/恢复此前已核无owner覆盖，不造修复任务。
+4. 新模型或Dify副作用仍需可审查新方案及直接范围批准；391剩槽已明确改授394并消费；386余48读及所有其它旧预留不得自动退借或续阶段。不再重复人工固定图。历史预览/恢复此前已核无owner覆盖，不造修复任务。
 5. 持续实质开发直到实际额度不足/完成/确无可行动进展；当前上下文截断不等于额度拒绝。实际不足立停，尽力整份交接，不重试/换号/购买/用券/绕过审批拒绝。Claude318失败/用量未知无恢复证据，不能为形式重试或冒称子审查完成。每push前根CHANGELOG/适用README/状态/整份交接，自主commit/push原GitHub main，排除work/data/原模型文/秘密。
 
 ## 4. 账本、凭据及边界
 
-- 保守模型32/管理读取1341/登录44/App发布Key各24/Service106；模型估算总上界0.915473652非账单硬限。实际累计主模型27/资源各18/Service57/逐次规则命中50。生产六settled和391隔离settled分开；旧95 unknown0.0188541、四槽0.20、旧剩包0.109785948及115/121/198/206/209/213费用保持，旧unknown不清零/预留不退借。391第二槽0.080保留。
+- 保守模型32/管理读取1341/登录44/App发布Key各24/Service106；模型估算总上界0.915473652非账单硬限。实际累计主模型28/资源各18/Service57/逐次规则命中50。生产六settled和391/394两隔离settled分开，合已观察配置估算0.154397004（8条跨库记录）；旧95 unknown0.0188541、四槽0.20、旧剩包0.109785948及115/121/198/206/209/213费用保持，旧unknown不清零/预留不退借。391第二槽0.080已明确改授394并消费，本批剩余0；394settled 0.01235028，未花差额不自动退借。
 - 专用环境202bfb35-2f92-47c1-bc1b-eac32082181d/原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17；现服务App3f17cfaa...，此前41b5dc01/14fcba5c/4f568de2/6cf78b7d/57082fe4/aa4a052e/9b73f33e/e4785b06/1cb02319/4682e8b8等Key加密留档。只复用保存的加密资料，不抄聊天密码，不输出提交任何凭据。
 - 全局模型9513f594-c256-46b7-882a-35d9871bf9d0/deepseek-flash及配置价保持；Dify thinking=false/0.2/512，FAQd12cf081-5c52-41e3-b869-e94e6f8d37b1/TopK3/无阈值不重排。不建库或覆盖旧App。
 
