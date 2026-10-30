@@ -1,0 +1,34 @@
+{
+  "state": "passed",
+  "stage": "after",
+  "runtime": "0.372.0-bd4894413d235c70734e",
+  "process": {
+    "verified_pid": 38308,
+    "runtime_build": "0.372.0-bd4894413d235c70734e",
+    "source_files_matched": 291
+  },
+  "protected_production_tasks": 24,
+  "protected_isolated_roots": 4,
+  "protected_evidence_files": 504,
+  "task_settings_credentials_fees_assets_kept": true,
+  "changed_files": [
+    "main.py",
+    "mock_handoffs.py",
+    "workflow_plan.py",
+    "workflow-plan-contract.md"
+  ],
+  "frontend_dist_unchanged": true,
+  "targeted_tests": 112,
+  "physical_model_dify_http": 0,
+  "schema_version": 1,
+  "backlog": 263,
+  "new_api_cases": 17,
+  "old_api_counterexamples_failed": 6,
+  "old401_readonly_binding_rejected": true,
+  "old401_task_and_fee_unchanged": true,
+  "automatic_rebinding": false,
+  "extra_model_repair": false,
+  "business_verified": false,
+  "human_signoff": false,
+  "claude_review_completed": false
+}

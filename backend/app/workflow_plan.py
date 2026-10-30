@@ -954,6 +954,19 @@ def _native_node(node: dict, x: int) -> dict:
     }
 
 
+def compiled_node_ids(task: dict, plan: dict) -> set[str]:
+    """IDs for an already validated candidate, including emitted container nodes."""
+    result = {node['id'] for node in plan_nodes(plan)}
+    start_id = next(node['id'] for node in plan['nodes'] if node['type'] in ROOT_ENTRY_TYPES)
+    for node in plan['nodes']:
+        if node['type'] not in {'iteration', 'loop'}:
+            continue
+        internal = {**node, '_task_config': task.get('configuration', {}), '_mode': task['app_type'], '_start_id': start_id}
+        emitted = native_iteration(internal, 0, _native_node) if node['type'] == 'iteration' else native_loop(internal, 0, _native_node)
+        result.update(row['id'] for row in emitted[0])
+    return result
+
+
 def compile_workflow_plan(task: dict) -> tuple[str, dict]:
     plan = task.get("workflow_plan") if isinstance(task, dict) else None
     validation = validate_plan(task, plan)

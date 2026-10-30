@@ -1,12 +1,12 @@
-# HANDOFF — Sierra（401已消费封存；先合入262，再修263）
+# HANDOFF — Sierra（372已部署；262恢复与263候选绑定验收已修）
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main，实际371-a3ad86e02420254d830a/291文件/PID11544。用户call_f13cb3cdda5f4d8b91f2d78ab3c72a90 q0已直接批准401 b5662b65/664246b6：399剩余1槽0.080明确改授加新1槽0.080，最多2HTTP/唯一完整已知用量JSON语法修复。保守35/账本1.155473652生效，其它上界不变。
+- 根E:\workSpace\dify-agent/main，实际372-bd4894413d235c70734e/291文件/PID38308。用户call_f13cb3cdda5f4d8b91f2d78ab3c72a90 q0已直接批准401 b5662b65/664246b6：399剩余1槽0.080明确改授加新1槽0.080，最多2HTTP/唯一完整已知用量JSON语法修复。保守35/账本1.155473652生效，其它上界不变。
 - 401唯一执行并永久消费：实际1模型HTTP，正常Plan valid/succeeded，原model草案保存r4；完整静态编译因配置模拟绑定order_lookup不存在（图节点lookup）失败，即停。不是JSON语法问题，0修复/根proceed复核/复核后显式采用/构建/ZIP/Dify资源运行登录/生产写入。不改图或配置冒充通过、不续阶段，第二槽0.080保留。docs/reviewed-chatflow-live-result-20261030.md/json。
 - 原响应7472字符/22节点23边，SHA518b17298851e2cb1f999c233fab4c133f2b1fe0b86adfdf073155bb165abbdf，Task076f7195-d2fd-4ba9-9ef5-29c34f136387/r4。用量35623/2256/37879，缓存命中22272；reserve0.0549408/settled0.006846132非账单。已观察五库10条settled合0.166692960，实际累计模型30，不能当全部供应商账单。
 - 401封存索引503条，SHA76fd9960bfb066cc74f2c3be85c1d6c30532ad8e6a2d1ef8ac420498c1ac971d，加索引自身共504旧文件；24生产和391/394/399旧隔离、480旧证据/密文/费用保持，新临时secrets空。后续需保护五库实际capture，不只核快照文件。
-- 262旧快照materials=null恢复使intake500已最小修复并合入main；82相关定向再次过，371/291/PID11544归属保护部署及health/五库504过，前端字节不变。实现cbc730a已推且验收过，262关闭；首pending263修正常规划验收漏掉模拟绑定。docs/history-null-materials.md/json。
+- 262旧快照materials=null恢复使intake500已最小修复并合入main；82相关定向再次过，371/291/PID11544归属保护部署及health/五库504过，前端字节不变。实现cbc730a已推且验收过，262关闭；263已修并部署372，17新场景/相关112通过，五库504/原401草案及费用保持，未新真实调用；实现待提交再关闭。docs/history-null-materials.md/json。
 
 ## 2. 已有交付与剩余
 
@@ -17,9 +17,9 @@
 
 ## 3. 下一步
 
-1. 262实现cbc730a已推、部署371，82定向/归属/五库504验收过，已关闭；现在首pending263。独立3437b33已推codex/restore-null-materials；主线相同两代码已取入，工作副本仍保留，不再重复套补丁。后验误用401固定370检查已修本机脚本，重新只读验证过，不是产品回退/重启重试。
-2. 然后263：正常模型候选验收漏过mock_dependency_bindings与图ID一致性。先公开API反例，复用现有编译门禁/当前配置，保留拒绝候选/已知费用和旧图，不自动重绑或清空配置。0真实模型Dify，不重放401，不为非语法问题借剩余槽。
-3. 新保护根work/reviewed-chatflow401：post-production-data-snapshot.json、post-isolated-391-data-snapshot.json、post-isolated-394-data-snapshot.json、post-isolated-399-data-snapshot.json、local-data-snapshot.json；分别核生产/391/394/399/401五库capture。sealed-evidence-sha256.json503条及自身SHA合504文件。后续先核371/PID11544/.venv执行路径/291快照及数据，原start/stop管理部署，不能按端口杀进程；停服原start.ps1并等health200。不全量、不另起18760。
+1. 263已经完成正常/工具候选模拟绑定门禁、17新场景/相关112定向和372归属保护部署；先提交实现再关闭BACKLOG263。没有新增真实HTTP，不改401原model草案/succeeded或费用。当前核对work/planning-binding404/targeted-final.log、after-deploy.json，说明docs/planning-mock-bindings.md/json。
+2. 队列清空后仍需按既定需求做有界核对，不能因一个模块就停止；原401第二槽保留、不重放或自动再发。可先只读核原模型候选与当前配置的准确差异和业务结构，任何独立零外部本机核对都须单列人工配置调整/来源，不把失败批拼接成通过；未有具体新直接范围不可派发模型/Dify。
+3. 新保护根work/reviewed-chatflow401：post-production-data-snapshot.json、post-isolated-391-data-snapshot.json、post-isolated-394-data-snapshot.json、post-isolated-399-data-snapshot.json、local-data-snapshot.json；分别核生产/391/394/399/401五库capture。sealed-evidence-sha256.json503条及自身SHA合504文件。后续先核372/PID38308/.venv执行路径/291快照及数据，原start/stop管理部署，不能按端口杀进程；停服原start.ps1并等health200。不全量、不另起18760。
 4. 持续实质开发至实际额度不足/确实完成/有界核对无可行动进展，不因一个模块停。当前未观察Codex额度拒绝；实际不足立停、尽力整份交接，不重试/换号/购买/用重置券。上下文截断不是额度。Claude318失败/用量未知无恢复证据，不形式重试或冒称审查完成。
 5. 重要更新自主commit/push原GitHub main，每push前CHANGELOG、适用README/进度和整份交接，排除work/data/原模型文/秘密。Git safe.directory与HTTP/1.1、require_escalated，不force/改全局代理或TLS。不通读项目/290KB历史，只按必要编号段读取。
 

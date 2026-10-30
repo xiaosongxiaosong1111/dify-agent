@@ -85,7 +85,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.371.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.372.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -665,6 +665,7 @@ async def generate_plan(item_id: str, payload: Revision):
     prompt += '\n先核对requirements、configuration和已提供的准入结论。明确的业务规则若可用当前契约无歧义实现，直接生成待复核草稿；比较器或节点连接等不改变业务含义的实现细节不重复索要同一业务确认。实际缺少资源值、相互冲突、会改变业务/费用/用户体验的取舍或能力不支持仍返回error/needs_decision；不据此猜答案或取消澄清。sierra_runtime_entry仅说明Sierra已有本机入口行为，不代表Dify直接入口、已发布应用或任何节点路径已验证。不得把字符串empty比较视为trim空白的保证；用户若要求Dify直接入口也拒绝空白，须单独实现并验证或明确说明边界。'
     if task["app_type"] in {"workflow", "advanced-chat"}:
         prompt += '\n检索事实来源边界：用户要求回答提示只使用检索资料时，需求中介绍的知识库内容、政策事实和验收期望只用于理解要检索什么及如何验收，不能作为额外事实硬编码到LLM的system_prompt、user_prompt、模板或代码中。即使它们在requirements.rules中、内容真实、或声称与检索冲突时以检索为准，也不能作为“资料补充”绕过唯一检索来源。该限制不禁止角色、行为指令、字段名、用户指定的无命中固定回复或检索变量绑定；用户明确允许独立静态事实来源时按其范围处理，若同时存在只检索与静态来源的冲突则返回needs_decision，不猜优先级。不要擅改已保存候选或用删除需求来满足检查。'
+    prompt += '\nconfiguration.mock_dependency_bindings是当前明确声明的模拟接入位置：每项node_id必须存在于本次完整计划（Agent仅agent.system_prompt）且dependency仍对应mock_dependencies。保留对应节点ID和依赖范围；不能删除待办、重命名接入节点或自动重绑来通过检查。无法满足当前声明时返回error/needs_decision，说明需要重新核对的位置；不要把草稿当真实接入。'
     prompt += '\nnode_guidance是按当前类型和固定目标版本检索的首批专项规则。示例是合成结构，不是执行授权、业务决定或当前配置；不得采纳占位模型/知识库ID、覆盖已确认要求或自动替换现有图。未匹配/缺条目不等于节点不支持，能力范围和完整契约仍须核对；静态示例不证明模型或Dify运行成功。'
     sierra_runtime_entry = workflow_runtime_entry(task)
     snippets, remaining = [], 24000
@@ -702,11 +703,20 @@ async def generate_plan(item_id: str, payload: Revision):
     async def invoke(call_messages, timeout):
         return await budgets.call(item_id,payload.revision,'plan',provider,key,call_messages,operation_id=operation['id'],max_tokens=6000,timeout=timeout,json_mode=provider.get("protocol")!='anthropic')
 
+    def validate_candidate(plan):
+        result = validate_plan(task, plan)
+        if result['valid']:
+            from .mock_handoffs import validate_locations
+            from .workflow_plan import compiled_node_ids
+            nodes = {'agent.system_prompt'} if task['app_type'] == 'agent' else compiled_node_ids(task, plan)
+            validate_locations(task, nodes, result)
+        return result
+
     try:
         if tool_context:
             from .planning_tools import run as tool_plan
-            plan=await tool_plan(sys.modules[__name__],task,provider,key,messages,settings,operation,tool_context,lambda p:validate_plan(task,p),checkpoint,guard)
-        else:plan = await draft_plan(task, provider, messages, settings, operation, invoke, lambda p: validate_plan(task, p), checkpoint, guard)
+            plan=await tool_plan(sys.modules[__name__],task,provider,key,messages,settings,operation,tool_context,validate_candidate,checkpoint,guard)
+        else:plan = await draft_plan(task, provider, messages, settings, operation, invoke, validate_candidate, checkpoint, guard)
         with store.lock:
             guard()
             from .acceptance import same_json

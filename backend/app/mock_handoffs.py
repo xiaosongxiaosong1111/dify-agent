@@ -21,22 +21,19 @@ def handoff_note(bindings):
         f"- {item['dependency']}；位置：{item['node_id']}；接入待办：{item['replacement_todo']}" for item in bindings)
 
 
-def apply_to_export(task, dsl, validation):
+def validate_locations(task, nodes, validation):
+    """Use the same declared-location check for candidates and final exports."""
     cfg = task.get('configuration') or {}
     bindings = cfg.get('mock_dependency_bindings', [])
     try:
         validate_bindings(bindings)
     except ValueError as exc:
         validation['errors'].append(str(exc)); validation['valid'] = False
-        return
+        return []
     declarations = cfg.get('mock_dependencies', [])
     if not isinstance(declarations, list):
         declarations = [str(declarations)]
     declarations = [str(value) for value in declarations if str(value).strip()]
-    if task.get('app_type') == 'agent':
-        nodes = {'agent.system_prompt'}
-    else:
-        nodes = {node['id'] for node in dsl['workflow']['graph']['nodes']}
     for index, item in enumerate(bindings, 1):
         if item['dependency'] not in declarations:
             validation['errors'].append(f'模拟依赖接入待办第{index}项不再对应当前声明；请明确移除旧待办或恢复原声明。')
@@ -44,10 +41,16 @@ def apply_to_export(task, dsl, validation):
             validation['errors'].append(f'模拟依赖接入待办第{index}项的节点在当前成果中不存在；请重新选择位置。')
     if validation['errors']:
         validation['valid'] = False
-        return
+        return []
     if any(value not in {item['dependency'] for item in bindings} for value in declarations):
         validation['warnings'].append('部分模拟依赖尚未填写节点位置和逐项接入待办；原声明保留，不能视为已交付真实服务。')
-    if not bindings:
+    return bindings
+
+
+def apply_to_export(task, dsl, validation):
+    nodes = {'agent.system_prompt'} if task.get('app_type') == 'agent' else {node['id'] for node in dsl['workflow']['graph']['nodes']}
+    bindings = validate_locations(task, nodes, validation)
+    if not validation['valid'] or not bindings:
         return
     note = handoff_note(bindings)
     dsl['app']['description'] += note
