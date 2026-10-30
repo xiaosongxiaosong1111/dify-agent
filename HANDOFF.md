@@ -22,7 +22,7 @@
 
 ## 3. 下一步
 
-1. 250实现1065afb/关闭a71fdb0已推。251单次规划新方案/33门禁8公开协议/最终冻结实际过，实现提交后关闭，252 need-user：一次取得绑定faede36f/40241f23的391剩余1模型槽及0.080明确改授、只读Key内存复用批准，再唯一execute live。没有新直接批准，不解密或execute；当前未批准。394-before-eof-unapproved是继承尾空行修正前的未批准包，未解密/attempt，不执行；最终faede36f/40241f23才可申请。根代理须实际读review-source-original.json完整候选/代码后逐项记agent_delegated复核，不读不填proceed。异常/澄清/未知用量/截断等即整批停，不重试。只核一份已澄清算法静态原候选，不含访谈/修改/平台。
+1. 250实现1065afb/关闭a71fdb0已推。251单次规划新方案/33门禁8公开协议/最终冻结实际过，实现60c6b54已提交并关闭，252 need-user：一次取得绑定faede36f/40241f23的391剩余1模型槽及0.080明确改授、只读Key内存复用批准，再唯一execute live。没有新直接批准，不解密或execute；当前未批准。394-before-eof-unapproved是继承尾空行修正前的未批准包，未解密/attempt，不执行；最终faede36f/40241f23才可申请。根代理须实际读review-source-original.json完整候选/代码后逐项记agent_delegated复核，不读不填proceed。异常/澄清/未知用量/截断等即整批停，不重试。只核一份已澄清算法静态原候选，不含访谈/修改/平台。
 2. 新部署保护基线work/delivery-history393/post-deploy-data-snapshot.json（生产24）及isolated-391-data-snapshot.json（隔离Task/settled/原返回对象）；其consumed-sha256.json共436条（435旧证据+新历史补充ZIP），继承391；sealed-evidence-sha256.json共434条，索引自身SHA567b871107fe0b01f53eff920f4ceb673dcaceb04c78be7110b24ab422a9a1f6，后续需核436文件和两份实际数据capture。不要只核快照文件而忽略隔离费用对象。旧work/llm-context390/consumed-sha256.json415条及所有旧ZIP不改。
 3. 修改需要部署时，先核365实际所属PID17620/.venv执行路径/291快照与数据，再用原start/stop脚本固定快照部署，不按端口杀进程；停服才原start.ps1等health200。验证限改动相关，不全量，不另起18760。Playwright若需要用用户指定绝对模块路径。
 4. 新模型或Dify副作用仍需可审查新方案及直接范围批准；391剩槽、386余48读及所有旧预留不得自动退借或续阶段。不再重复人工固定图。历史预览/恢复此前已核无owner覆盖，不造修复任务。
