@@ -1,4 +1,4 @@
-# HANDOFF — Sierra（248/391首次模型澄清封存；250交付历史365已部署）
+# HANDOFF — Sierra（248/391首次模型澄清封存；251独立单次规划方案冻结待明确改授）
 
 ## 1. 当前状态
 
@@ -11,6 +11,8 @@
 
 - 250新增交付历史索引已部署365，44定向/现有r13单GET核同修订确认时间、沿用及原DSL字节过。保存补充包work/delivery-history393/modified-with-history.zip SHA30adb001b4778369784eec67b2872aaf2bd80e951fa48e5df58c9d90edf387ec，不改旧包或确认/任务。实现1065afb已提交，验收已完成，250关闭。
 
+- 251新tools/clarified-chatflow394已准备：33门禁/8公开协议、365/PID17620/291源码及24生产/391隔离费用/436文件预检过，真实HTTP0/未解密/无approval、attempt、worker。10文件plan faede36fb192334de3f0564d099a0b3c8cb760de70bfcaa02b2a94b5bd91feb9 / manifest40241f236033514b3ca1f6fefb3263838a340bf52981d46752e1cb9c8847314c冻结。拟只明确改授391未派发1槽/0.080，32及0.915473652不增。公开输入按代理委托明确状态算法/优先级/模拟未命中/资料不足，不能叫模型自主发现算法；真实模型候选须根代理读代码复核/原样采用/一静态包，0Dify。新直接批准前不得live。
+
 ## 2. 已有交付与剩余
 
 - 243/386人工Chatflow两版六例及补号接续、14原生轨迹、双ZIP真实通过：0搭建模型/80管理读1登录/Task1/资源各2/14Service，共101HTTP。Task0623a2ae-e668-438d-8390-cb09d46c68db/r13/run_completed，12/12启动满；原r7 App41b5dc01-04cb-49ff-8512-9ff99073250e，修改r13 App3f17cfaa-8f94-4126-8083-995c6d92be73。修改Key切连接，旧Key加密留档；原23Task不改。无答案例为有检索片段但不足后LLM兜底，不是空检索。平台0报价非免费/账单保证。
@@ -20,7 +22,7 @@
 
 ## 3. 下一步
 
-1. 248实际结果04c6fbb已推/blocked；249实现4a73b2b/关闭be34858已推。250按原6.3新增交付报告版本修改/确认索引，原缺失反例已失败，44定向/365部署/现有r13本机下载核对过；实现1065afb已提交并关闭，再从既定需求有限核实具体缺口，不造微任务或重放391。旧五项澄清尚需新方案明确优先级/状态转移/模拟未命中文案/资料不足策略；本续跑没有新外部范围。
+1. 250实现1065afb/关闭a71fdb0已推。251单次规划新方案/33门禁8公开协议/最终冻结实际过，实现提交后关闭，252 need-user：一次取得绑定faede36f/40241f23的391剩余1模型槽及0.080明确改授、只读Key内存复用批准，再唯一execute live。没有新直接批准，不解密或execute；当前未批准。394-before-eof-unapproved是继承尾空行修正前的未批准包，未解密/attempt，不执行；最终faede36f/40241f23才可申请。根代理须实际读review-source-original.json完整候选/代码后逐项记agent_delegated复核，不读不填proceed。异常/澄清/未知用量/截断等即整批停，不重试。只核一份已澄清算法静态原候选，不含访谈/修改/平台。
 2. 新部署保护基线work/delivery-history393/post-deploy-data-snapshot.json（生产24）及isolated-391-data-snapshot.json（隔离Task/settled/原返回对象）；其consumed-sha256.json共436条（435旧证据+新历史补充ZIP），继承391；sealed-evidence-sha256.json共434条，索引自身SHA567b871107fe0b01f53eff920f4ceb673dcaceb04c78be7110b24ab422a9a1f6，后续需核436文件和两份实际数据capture。不要只核快照文件而忽略隔离费用对象。旧work/llm-context390/consumed-sha256.json415条及所有旧ZIP不改。
 3. 修改需要部署时，先核365实际所属PID17620/.venv执行路径/291快照与数据，再用原start/stop脚本固定快照部署，不按端口杀进程；停服才原start.ps1等health200。验证限改动相关，不全量，不另起18760。Playwright若需要用用户指定绝对模块路径。
 4. 新模型或Dify副作用仍需可审查新方案及直接范围批准；391剩槽、386余48读及所有旧预留不得自动退借或续阶段。不再重复人工固定图。历史预览/恢复此前已核无owner覆盖，不造修复任务。
