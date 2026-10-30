@@ -1,4 +1,4 @@
-# HANDOFF — Sierra（248/391首次模型澄清封存；252/394无效JSON封存；257正常有限JSON修复方案冻结待批准）
+# HANDOFF — Sierra（248/391首次模型澄清封存；252/394无效JSON封存；258/399字段错误封存；259专项节点规则待补）
 
 ## 1. 当前状态
 
@@ -32,15 +32,15 @@
 
 ## 3. 下一步
 
-1. 256实现1e59020/关闭2faa326已推，369/113唯一后端/构建/4界面及视觉过。257新tools/bounded-chatflow399已45门禁/14公开协议/费用条目和原文摘要、369/PID17696/291源码、三库457预检过，10文件最终308ff951/c7d570fa冻结；真实HTTP0/未解密/无approval、attempt、worker。实现947b7f6已提交并关闭，258 need-user：一次取得全新最多2模型/0.160估算及仅完整已知用量JSON语法的一次修复例外、内存Key复用的新直接批准，模型34/账本1.075473652是拟议，当前仍32/0.915473652。其它Dify/写入/资源/运行/登录0，旧槽不借退，不续旧391/394；不能把继续开发当此新付费范围批准。根代理须读review-source-original.json的候选/代码/normal attempts及所有本批model-response-N.txt原文/摘要后实际复核再agent_delegated proceed。允许正常可判定冒号修正并留痕，不称原始文本逐字未改；和JSON共用max_retries1。
-2. 最新部署保护work/planning-attempt398/production-data-snapshot.json、isolated391-data-snapshot.json、isolated394-data-snapshot.json，需核三份实际capture；consumed-sha256.json457条继承394封存456和索引自身。原394索引SHA3a3a8b2fd4ee0f03c442c258ce21ed719e9291b214303376e9935412a3eb9a4a，所有旧ZIP/失败/费用保持。
+1. 258已用户call_40c56ed4c2df4f98829bb4c9cf411249 q0直接批准，399最终308ff951/c7d570fa唯一执行并永久消费。实际1模型返回7116字符完整JSON/19节点20边，last_candidate与原文一致，但10条Plan字段诊断（Chatflow query开始变量、assigner value_selector、提取query_variable_selector等），非JSON语法，不派发第二次。Task8b9dd8f9-e17a-402e-b5eb-11591cdac612/r3/paused/needs_decision，无采用/根复核/构建/ZIP。原文SHAe8553a864ee6c5f7213aac2c3ef752d95ced9a24b2d4bb498077104be08caf7b。结果提交后258 blocked；259 pending：补开始/提取/赋值专项规则与可编译合成例子及界面/正常模型上下文来源，不改原候选/放宽编译/重放旧包，0新模型Dify。
+2. 新保护work/bounded-chatflow399/post-production-data-snapshot.json、post-isolated-391-data-snapshot.json、post-isolated-394-data-snapshot.json及local-data-snapshot.json，需核四份实际capture。sealed-evidence-sha256.json479条，索引自身SHAc1f7c2d5082974a9dfca15e18ca2bd13b4171659aab57a85baa48f18ff5b2851，后续共480文件。继承旧457、所有失败/费用/ZIP，不能只核快照文件。
 3. 修改需要部署时，先核369实际所属PID17696/.venv执行路径/291快照与数据，再用原start/stop脚本固定快照部署，不按端口杀进程；停服才原start.ps1等health200。验证限改动相关，不全量，不另起18760。Playwright若需要用用户指定绝对模块路径。
 4. 新模型或Dify副作用仍需可审查新方案及直接范围批准；391剩槽已明确改授394并消费；386余48读及所有其它旧预留不得自动退借或续阶段。不再重复人工固定图。历史预览/恢复此前已核无owner覆盖，不造修复任务。
 5. 持续实质开发直到实际额度不足/完成/确无可行动进展；当前上下文截断不等于额度拒绝。实际不足立停，尽力整份交接，不重试/换号/购买/用券/绕过审批拒绝。Claude318失败/用量未知无恢复证据，不能为形式重试或冒称子审查完成。每push前根CHANGELOG/适用README/状态/整份交接，自主commit/push原GitHub main，排除work/data/原模型文/秘密。
 
 ## 4. 账本、凭据及边界
 
-- 保守模型32/管理读取1341/登录44/App发布Key各24/Service106；模型估算总上界0.915473652非账单硬限。实际累计主模型28/资源各18/Service57/逐次规则命中50。生产六settled和391/394两隔离settled分开，合已观察配置估算0.154397004（8条跨库记录）；旧95 unknown0.0188541、四槽0.20、旧剩包0.109785948及115/121/198/206/209/213费用保持，旧unknown不清零/预留不退借。391第二槽0.080已明确改授394并消费，本批剩余0；394settled 0.01235028，未花差额不自动退借。
+- 保守模型34/管理读取1341/登录44/App发布Key各24/Service106；模型估算总上界1.075473652非账单硬限。实际累计主模型29/资源各18/Service57/逐次规则命中50。生产六settled和391/394/399三隔离settled分开，合已观察配置估算0.159846828（9条跨库记录）；旧95 unknown0.0188541、四槽0.20、旧剩包0.109785948及115/121/198/206/209/213费用保持，旧unknown不清零/预留不退借。391第二槽0.080已明确改授394并消费；394settled 0.01235028。399新直接两槽仅用1，settled0.005449824，第二槽/0.080保留；不自动退借或续阶段。
 - 专用环境202bfb35-2f92-47c1-bc1b-eac32082181d/原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17；现服务App3f17cfaa...，此前41b5dc01/14fcba5c/4f568de2/6cf78b7d/57082fe4/aa4a052e/9b73f33e/e4785b06/1cb02319/4682e8b8等Key加密留档。只复用保存的加密资料，不抄聊天密码，不输出提交任何凭据。
 - 全局模型9513f594-c256-46b7-882a-35d9871bf9d0/deepseek-flash及配置价保持；Dify thinking=false/0.2/512，FAQd12cf081-5c52-41e3-b869-e94e6f8d37b1/TopK3/无阈值不重排。不建库或覆盖旧App。
 
