@@ -18,7 +18,9 @@ def test_readonly_versioned_guidance_has_independent_static_examples(client, mod
     assert value['app_type'] == mode and value['target_dify_version'] == '1.17.1'
     assert value['verification'] == 'static_guidance' and value['target_dsl_version'] == '0.7.0'
     assert value['complete_catalog'] is False and value['runtime_verified'] is False
-    assert {row['node_type'] for row in value['items']} == {'code', 'if-else', 'knowledge-retrieval', 'llm'}
+    expected = {'code', 'if-else', 'knowledge-retrieval', 'llm', 'start', 'parameter-extractor'}
+    if mode == 'advanced-chat':expected.add('assigner')
+    assert {row['node_type'] for row in value['items']} == expected
     from app.workflow_plan import compile_workflow_plan
     for row in value['items']:
         assert row['rules'] and row['sources'] and row['limitations']

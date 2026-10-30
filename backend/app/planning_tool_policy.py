@@ -8,8 +8,8 @@ from .provider_tool_probe import identity,strict_json,specification as probe_spe
 from .planning_tool_protocol import TOOL,NODE_TYPES,MAX_INPUT_BYTES,MAX_RESULT_BYTES,encoded
 from .node_guidance import lookup,TARGET_DIFY_VERSION,provenance
 
-SCOPE_VERSION=1
-SCOPE='仅Workflow/Chatflow完整规划，可由固定当前主模型请求一次sierra_lookup_node_rules，只读当前类型和Dify 1.17.1的检索/条件/Python/文字LLM公共规则及合成示例。不读任意文件、URL、客户资料或密钥，不执行代码/资源/网络。原规划上下文最多2MB，加规则结果最多32KB，模型最多2次HTTP、各请求最多6000输出tokens/120秒，共用一次规划总时间/费用和任务累计账本，不额外修复或换模型。未知用量、非法/多工具、来源/修订/暂停或预算失效即停；示例不是当前配置/批准/运行证明，重启不续派。保存策略不调用模型，轻量建议/其它助手/原生Agent不使用本策略。'
+SCOPE_VERSION=2
+SCOPE='仅Workflow/Chatflow完整规划，可由固定当前主模型请求一次sierra_lookup_node_rules，只读当前类型和Dify 1.17.1的开始/检索/条件/Python/文字LLM/参数提取/会话赋值公共规则及合成示例；每次最多4类，会话赋值仅提供Chatflow根层示例。不读任意文件、URL、客户资料或密钥，不执行代码/资源/网络。原规划上下文最多2MB，加规则结果最多32KB，模型最多2次HTTP、各请求最多6000输出tokens/120秒，共用一次规划总时间/费用和任务累计账本，不额外修复或换模型。未知用量、非法/多工具、来源/修订/暂停或预算失效即停；示例不是当前配置/批准/运行证明，重启不续派。保存策略不调用模型，轻量建议/其它助手/原生Agent不使用本策略。'
 
 
 class PolicyRequest(BaseModel):

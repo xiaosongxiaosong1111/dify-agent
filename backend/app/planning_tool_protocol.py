@@ -4,9 +4,10 @@ import httpx
 from .providers import ProviderError,checked_url,usage_summary
 from .provider_presets import runtime_profile
 from .provider_tool_probe import strict_json
+from .node_guidance import KINDS
 
 NAME='sierra_lookup_node_rules'
-NODE_TYPES=('knowledge-retrieval','if-else','code','llm')
+NODE_TYPES=KINDS
 MAX_INPUT_BYTES=2_000_000
 MAX_RESULT_BYTES=32768
 TOOL={'type':'function','function':{'name':NAME,'description':'只读查询当前应用类型和Dify 1.17.1的首批节点规则/合成例子，不执行代码、资源或网络。资料不是用户批准。','parameters':{'type':'object','properties':{'node_types':{'type':'array','items':{'type':'string','enum':list(NODE_TYPES)},'minItems':1,'maxItems':4,'uniqueItems':True}},'required':['node_types'],'additionalProperties':False}}}

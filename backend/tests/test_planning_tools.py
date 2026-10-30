@@ -28,7 +28,7 @@ def state(client, task):return client.get(f"/api/tasks/{task['id']}/planning-too
 def save(client,task,**changes):
     current=state(client,task)
     return client.patch(f"/api/tasks/{task['id']}/planning-tool-policy",json={
-        'revision':task['revision'],'policy_revision':current['policy_revision'],'scope_version':1,
+        'revision':task['revision'],'policy_revision':current['policy_revision'],'scope_version':current['required_scope_version'],
         'enabled':True,'source_token':current['current_source_token'],'acknowledge_scope':True,
         'note':'明确的合成隔离夹具，不是真实工具能力观察',**changes})
 
