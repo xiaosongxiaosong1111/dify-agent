@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main，实际381-2d0dfdc5085197425ed1/293/PID6388，health/前端200/CIM执行文件及不可变快照匹配。290历史需求/配置/DSL引用恢复前结构保护已实现，99新/相关207及十二根733保护部署过；先实现提交再关闭队列。289材料操作修订1411bd2/851e02e及330/4UI结果保持。
+- 根E:\workSpace\dify-agent/main，实际381-2d0dfdc5085197425ed1/293/PID6388，health/前端200/CIM执行文件及不可变快照匹配。290历史需求/配置/DSL引用恢复前结构保护已实现，99新/相关207及十二根733保护部署过；实现6051ee2、290已关闭。289材料操作修订1411bd2/851e02e及330/4UI结果保持。
 - 420明确改授后初始手工准入实际过，新Task0cdddd51-4893-43ec-a239-7f59f74c437a/r4。一次原版规划1568字符有效澄清JSON/5问题、op paused/needs_decision，无图或ZIP。模型混未来版本并引用不存在当前案例的clarify期望；权威案例/已确认状态算法和lookup不改。286回执ceac35d已推，旧包不回答后续澄清或续阶段。
 - 新费用settled0.008243568非账单，累计观察settled0.214071000，实际模型36/保守43/模型估算账本1.955473652；420用一余一未派发modified槽，不自动续用或角色改授。旧414两槽/unknown/settled及其它预留保持，原418两槽已改授420不重复计新增。
 - 现26生产Task；基线work/reviewed-spec-planning420/post-production-data-snapshot.json及post-391/394/399/401/405/408/409/414/416/418/420-data-snapshot.json，十二根实际capture核同。732+自身733封存，索引c9d9ef645118610e0fce61f5aed8deeb3e30f7e56b17d2c58511a25e5eef04e0，包含全部700旧证据。密文/费用/素材资产保持，新隔离无秘密副本。
@@ -20,7 +20,7 @@
 ## 3. 下一步
 
 1. 用户2026-11-02 call_ae41b2d065e34bd8b5f5afeb812663cc/q0选择“暂不继续真实调用”。422未授权，approval/attempt/worker-started/live-output均不存在；authorization-deferred.json保持。普通继续开发/自动唤醒不能恢复真实模型/Dify授权；既有本机编程、隔离验证、commit/push委托保持。
-2. 290历史恢复结构已完成：八标准需求文字、配置类型/容器和DSL引用/保留对象在预览/恢复前核对，坏值422且无变更，旧文字附加项/空项/旧配置值保持，不判业务有效。99新（94旧反例失败/5兼容）及相关207通过；381-2d0dfdc5085197425ed1/293/PID6388最终部署，十二根capture/733封存/原26密文费用保持，模型Dify0、前端不变。work/history-requirements424/verified-complete.log及before/after-deploy.json；需求阶段154/381-fb340b154d104ad209b0回执保留requirements-only-*，不冒称当时已验证配置部分。docs/history-restore-structure.md/json。实现提交存在后关闭290并自主推送，再核正常配置输入的类型保护，避免新编辑产生同类坏状态。
+2. 290历史恢复结构已完成：八标准需求文字、配置类型/容器和DSL引用/保留对象在预览/恢复前核对，坏值422且无变更，旧文字附加项/空项/旧配置值保持，不判业务有效。99新（94旧反例失败/5兼容）及相关207通过；381-2d0dfdc5085197425ed1/293/PID6388最终部署，十二根capture/733封存/原26密文费用保持，模型Dify0、前端不变。work/history-requirements424/verified-complete.log及before/after-deploy.json；需求阶段154/381-fb340b154d104ad209b0回执保留requirements-only-*，不冒称当时已验证配置部分。docs/history-restore-structure.md/json。实现6051ee2及实际验收存在，290已关闭；自主推送后再核正常配置输入的类型保护，避免新编辑产生同类坏状态。
 3. BACKLOG288 need-user暂缓。422冻结10文件plan55c181188073561236be1fbb2e62df4d8d01bfcb702748ce014514578ad3ca3c / manifeste2d4f3e1e46132018b0c0df3573e5ecfc994b6b47231fb5d016dec79397b8d53；287实现8aa7304及82定向/13协议过。仅拟420未派发modified一槽/0.100角色改授新original当前版一次，43/1.955473652不增，未获新直接恢复及角色改授不解密派发；不是模型访谈或双版通过。
 4. 420/418/416/414及全部消费包保持stopped，不回答后续澄清续阶段或修复重发。420一次澄清无图/包，错误引用不在当前案例的期望不采纳；权威案例/状态算法/lookup不改，不迎合模型。未来业务与批次说明已隔离，但未证明能消除幻觉。
 5. 部署使用381当前快照，核saved PID/CIM执行文件/所属快照后原start/stop，不按端口杀进程；停服原start等health200。所有后续核十二根实际capture/733封存，不只比摘要；基线work/reviewed-spec-planning420，索引c9d9ef645118610e0fce61f5aed8deeb3e30f7e56b17d2c58511a25e5eef04e0。work/history-requirements424/verify.py已适配十二根和完整381，旧419十一根脚本不能充当新保护。
