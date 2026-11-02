@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（410单版新图六例七轮已通过）
+# HANDOFF — Sierra（375历史列表完整性修复已部署）
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main，实际0.374.0-fd1d9147a557103e2af2/292/PID35748，health/前端200/CIM执行路径及不可变快照匹配。Docker已恢复，16个原容器就绪，不建容器。功能271节点逐项保留误判修复cdff64c/关闭5d05c03；410方案01cba60/关闭6e7e5de已推。
+- 根E:\workSpace\dify-agent/main，实际0.375.0-279a8d7c11188195b3ae/292/PID28944，health/前端200/CIM执行路径及不可变快照匹配。Docker已恢复，16个原容器就绪，不建容器。功能271节点逐项保留误判修复cdff64c/关闭5d05c03；410方案01cba60/关闭6e7e5de已推。
 - 用户call_61f3d2cc93ee45aab6ea4007cb21786e q0已直接批准410全部新增范围/限定状态ID/失败轮例外；dd6b547b/8abdf625唯一执行passed并消费。实际41管理GET/1登录/App导入首次发布Key各1/7Service/0搭建模型，共52HTTP；未触发失败诊断。
 - 新生产Task4a357641-c408-42d9-be36-8c735e0a78a2/r7/manual，App9faf2792-08e2-48cf-afd0-050b34035fed。六必需样例/七轮均passed，七原生轨迹所有观察节点succeeded且匹配发布/执行/成果核心图，补号同会话且绕过分类，经提取/成功/非空守卫/查询。FAQ首答明确“签收后七天内、商品未拆封；政策编号ZXRET715；可申请退货”。无答案例为有片段但不足由LLM返回固定文案，不是空检索；空检索路径本批未观察。
 - 正常ZIP52d2e374f47eef6888a972003f4571d006a965c2ca8423204f5188c32978890d，work/complete-answer410/live-output/original.zip，五成员摘要/字节及保存DSL同值通过，三个静态flags仍false；真实运行证据单列，非总体签收。源图SHAf7ac6d10dd986fffbfbe410ded616d4956ec7253d70fdf194ee49f3c1e39435c不改，来自408实际模型只改系统提示、409独立代理实际复核/同值手工采纳，不冒充自主模糊访谈/双版完成。
@@ -19,9 +19,9 @@
 
 ## 3. 下一步
 
-1. 273本次唯一执行/只读审计验收过，实际回执8f2ad28已推，273已关闭；当前无pending。已对原§11及新结果相关AT项有界核对，无新的已确认代码缺陷，尚未观察的质量/边界仍保留，现有已批准真实范围完成，不造微任务或自动扩大。证据work/complete-answer410/attempt.json/live-output/progress.json/receipt.json/audit-result.py/七轨迹/原始ZIP及606文件索引。无新模型/管理读取/运行需要补做，旧例外未用不自动借退。不要再执行410 execute live。
-2. 本批未暴露新代码缺陷；有界核对原§11及AT-01/10/13/19/22后，剩余为未观察的自主访谈/两版质量、资料冲突与版本/中断等边界，并非已经确认的新代码缺口。普通队列空不当全项目完成；后续只有核实具体可开发问题才入队，不编造微任务或重复人工固定图。新真实模型/平台范围须先完成具体可审查方案并取得直接授权，现有已批准范围已完成，不自动扩大。
-3. 后续保护原26生产Task及八根实际capture、410封存606+自身607，所有旧App/候选/原文/ZIP/unknown/费用/凭据保持。374/PID35748/.venv/292快照归属后用原start/stop，不按端口杀；停服原start并等health200。不另起18760；Playwright使用用户固定绝对模块路径和已安装Chrome headless。
+1. 274已确认历史恢复缺少列表项结构/身份检查：materials=[null]恢复200后/intake500。新增21场景18旧反例失败，修复后相关119过；预览/恢复前拒绝非对象/空或重复ID及parsed材料无名称正文，旧最小ID项/额外元数据/缺字段当前合法列表保持，不自动修补。375-279a8d7c11188195b3ae/292/PID28944归属/旧374快照/八根607保护部署过。证据work/history-collections412/before.log/targeted.log/prepared-runtime.json/before-deploy.json/after-deploy.json及docs/history-collection-integrity.md/json；先提交实现/日志，再关闭274继续有证据的实质缺口。新增真实模型/Dify0，原26任务/费用/密文/410回执保持。
+2. 410本批未暴露新代码缺陷；后续274源码核对已实际复现恢复入口缺陷并修复。对原§11及AT-01/10/13/19/22后，剩余为未观察的自主访谈/两版质量、资料冲突与版本/中断等边界，并非已经确认的新代码缺口。普通队列空不当全项目完成；后续只有核实具体可开发问题才入队，不编造微任务或重复人工固定图。新真实模型/平台范围须先完成具体可审查方案并取得直接授权，现有已批准范围已完成，不自动扩大。
+3. 后续保护原26生产Task及八根实际capture、410封存606+自身607，所有旧App/候选/原文/ZIP/unknown/费用/凭据保持。375/PID28944/.venv/292快照归属后用原start/stop，不按端口杀；停服原start并等health200。不另起18760；Playwright使用用户固定绝对模块路径和已安装Chrome headless。
 4. 持续实质开发至实际额度不足/确实完成/有界核对无可行动进展；未观察Codex不足，不伪称额度耗尽。实际不足立停尽力整份交接，不重试/换号/购买/重置券；上下文截断不是额度。Claude318无恢复证据不形式重试/加预算。不通读项目或290KB历史，按编号必要段/报错文件。
 5. 自主commit/push原GitHub main，每push前CHANGELOG、适用README/状态及整份交接；排除work/data/模型原文/ZIP/秘密。Git safe.directory/HTTP1.1和必要require_escalated，不force/改全局代理TLS。
 

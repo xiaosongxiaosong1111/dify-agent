@@ -1,0 +1,26 @@
+{
+  "state": "passed",
+  "stage": "after",
+  "runtime": "0.375.0-279a8d7c11188195b3ae",
+  "pid": 28944,
+  "files": 292,
+  "changed": [
+    "backend/app/main.py",
+    "backend/app/version_restore.py"
+  ],
+  "protected_data_roots": 8,
+  "protected_evidence_files": 607,
+  "original_tasks": 26,
+  "frontend_unchanged": true,
+  "task_settings_credentials_fees_kept": true,
+  "actual_saved_source": null,
+  "targeted_tests": 119,
+  "physical_model_dify_http": 0,
+  "business_verified": false,
+  "backlog": 274,
+  "new_regression_cases": 21,
+  "old_failures_reproduced": 18,
+  "old_restore_status": 200,
+  "old_intake_status": 500,
+  "verification": "local_history_restore_collection_integrity_only"
+}

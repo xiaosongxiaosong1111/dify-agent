@@ -56,6 +56,26 @@ def projection(item):
     return {k: {'present': k in item, 'value': item.get(k)} for k in RESTORED_KEYS}
 
 
+def validate_collection(rows, *, materials=False):
+    message = ('历史材料项目或标识无效，或已解析材料缺少正文；未恢复。' if materials
+               else '历史样例项目或标识无效；未恢复。')
+    if not isinstance(rows, list):
+        raise HTTPException(422, message)
+    identities = set()
+    for row in rows:
+        if (not isinstance(row, dict) or not isinstance(row.get('id'), str)
+                or not row['id'].strip() or row['id'] in identities):
+            raise HTTPException(422, message)
+        identities.add(row['id'])
+        if materials:
+            if 'name' in row and not isinstance(row['name'], str):
+                raise HTTPException(422, message)
+            if row.get('status') == 'parsed' and (
+                    not isinstance(row.get('name'), str)
+                    or not isinstance(row.get('text'), str) or not row['text'].strip()):
+                raise HTTPException(422, message)
+
+
 def select(task, version_id):
     rows = [v for v in task.get('versions', []) if isinstance(v, dict) and v.get('id') == version_id]
     if len(rows) != 1:
@@ -71,6 +91,10 @@ def select(task, version_id):
     # restored because the normal intake flow requires a material list.
     if ('materials' in version and not isinstance(version['materials'], list)) or (version.get('test_cases') is not None and not isinstance(version['test_cases'], list)):
         raise HTTPException(422, '历史材料或样例结构无效；未恢复。')
+    # Validate the effective legacy fallback too, before preview or mutation.
+    # Preserve compatible old rows and extra metadata rather than repairing them.
+    validate_collection(version.get('materials', task.get('materials', [])), materials=True)
+    validate_collection(version.get('test_cases') or [])
     return version
 
 
