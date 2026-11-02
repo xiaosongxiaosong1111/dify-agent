@@ -1,0 +1,13 @@
+# 408单次受限重规划：模型返回后复核等待超时
+
+用户直接批准call_37a2efb6cae44b089a9bdae6cbb7dc4b第0项后，577eb5bb/cb13df02冻结包已唯一执行，401最后保留槽及0.080预留明确改授并消费。实际只有1次模型HTTP，Dify/生产写入0，不重试或补写过期复核。
+
+模型返回7611字符有效完整JSON，原文SHA c1cbc058476f4bcef1a2421dcca0a868f4ad1a80969b63957467ff62988e2b8b，候选Plan SHA f7ac6d10dd986fffbfbe410ded616d4956ec7253d70fdf194ee49f3c1e39435c。22节点23边中仅faq_answer.config.system_prompt文字改变，无确定性修补；包含回答适用条件、政策编号和结论的通用要求，检索绑定及其它字段保持。六例七轮确实进入本次消息。
+
+正常产品操作暂停于replanning_review，原正式图保持。批次执行器等根代理复核300.906秒后停止；没有复核回执、候选采纳或ZIP，模型原候选和费用均保留。上次未及时完成根复核是执行流程未完成，不能把有效模型候选说成模型格式失败，也不能将批次改成passed。新一轮本机人工复核和静态采纳必须独立记录，不续旧408阶段或补写旧review-original.json。
+
+隔离Task45f17a44-2ed0-450e-b8f0-6dc0e3be3bad/r9保留原图；op仍paused/replanning_review，attempt valid/reported_usage。用量41586输入、2340输出、43926总（cache hit128），配置预留0.06174、settled0.015246168 USD，非供应商账单或硬限。主模型实际31、保守35、估算账本1.155473652不增；已观察settled合0.181939128 USD，旧unknown及预留不退借。401余槽已用完，406余47读/六Service仍保留。
+
+生产25Task、五旧隔离根、542旧证据保持，408隔离secret行0。11月2日核对时后端已停止，按原start.ps1恢复373/292文件/PID13276，health200且归属/不可变快照匹配，没有重放外部操作。新封存568文件及自身共569，索引SHA9d90a735dbe13bcf60c118626ea9427676f9ecfe0c8a098f4ed8b70a8ca1ee91；七根capture为后续基线。[机器回执](reviewed-planning-live-result-20261102.json)。
+
+这证明一次受限真实重规划返回了符合静态差异门禁的候选，未证明静态交付完成、回答真实质量、平台验收或人类总体签收。完整模型原文只留本机，不提交Git。
