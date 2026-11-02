@@ -20,7 +20,7 @@
 ## 3. 下一步
 
 1. 274历史列表恢复500修复a40f654/关闭7305813已推，119定向/375保护验收过。275为当前pending，所选单轮样例缺完整预检已确认：旧坏预期200且1替身Service；现Key/运行/派发前核集合身份和所选完整规则，坏样例固定422、未知404、合法旧最小项保留，不自动补输入/期望。相关顺序来源摘要又查到内部state_sequence随首例正常检查点递增而误拒第二例，仅排除此执行元数据，原业务/Key/成果/策略和精确前缀保持。
-   15新场景确认12旧失败3兼容，最终运行相关126+Chatflow/Agent多轮43=169过。补测取消初轮失败，测试替身重复传本机直连transport/20ms启动竞态已修，产品取消逻辑未改。部署动作初轮未等补测通过的疏漏已记录，未冒称当时169过；最终43过后只读核同一376-57d49ddcad74036f8ec8/292/PID11544、原26/八根607/密文费用保持，未重复部署/真实请求。证据work/saved-case-preflight413/before-final.log/targeted.log/sequence-debug.log/final.log/conversation.log/conversation-final.log/conversation-verified.log/after-deploy-before-test-verification.json/after-deploy.json（test_logs_verified=true）及docs/saved-case-run-preflight.md/json。先提交实现及日志，再关闭275继续有证据功能；未观察实际Codex不足。
+   15新场景确认12旧失败3兼容，最终运行相关126+Chatflow/Agent多轮43=169过。补测取消初轮失败，测试替身重复传本机直连transport/20ms启动竞态已修，产品取消逻辑未改。部署动作初轮未等补测通过的疏漏已记录，未冒称当时169过；最终43过后只读核同一376-57d49ddcad74036f8ec8/292/PID11544、原26/八根607/密文费用保持，未重复部署/真实请求。证据work/saved-case-preflight413/before-final.log/targeted.log/sequence-debug.log/final.log/conversation.log/conversation-final.log/conversation-verified.log/after-deploy-before-test-verification.json/after-deploy.json（test_logs_verified=true）及docs/saved-case-run-preflight.md/json。实现4fbc05c已推且169定向/最终376保护验收过，275关闭，继续有证据功能；未观察实际Codex不足。
 
 2. 410本批未暴露新代码缺陷；后续274源码核对已实际复现恢复入口缺陷并修复。对原§11及AT-01/10/13/19/22后，剩余为未观察的自主访谈/两版质量、资料冲突与版本/中断等边界，并非已经确认的新代码缺口。普通队列空不当全项目完成；后续只有核实具体可开发问题才入队，不编造微任务或重复人工固定图。新真实模型/平台范围须先完成具体可审查方案并取得直接授权，现有已批准范围已完成，不自动扩大。
 3. 后续保护原26生产Task及八根实际capture、410封存606+自身607，所有旧App/候选/原文/ZIP/unknown/费用/凭据保持。376/PID11544/.venv/292快照归属后用原start/stop，不按端口杀；停服原start并等health200。不另起18760；Playwright使用用户固定绝对模块路径和已安装Chrome headless。
