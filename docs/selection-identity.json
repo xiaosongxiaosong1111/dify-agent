@@ -2,7 +2,7 @@
   "backlog": 291,
   "runtime": "0.382.0-23ec2316cb16ac8a8a95",
   "pid": 21484,
-  "state": "implemented_verified_deployed",
+  "state": "done",
   "new_tests": 38,
   "before_failed": 30,
   "before_passed": 8,
@@ -14,5 +14,6 @@
   "model_dify_http": 0,
   "real_calls_deferred": true,
   "business_verified": false,
-  "evidence": "work/selection-identity425"
+  "evidence": "work/selection-identity425",
+  "implementation_commit": "203d0dc"
 }
