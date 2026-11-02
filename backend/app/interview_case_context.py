@@ -12,6 +12,8 @@ def current(task):
 
 
 def sources(task):
+    if not task.get('test_cases'):
+        return {}
     try:
         value=current(task)
     except HTTPException:

@@ -17,7 +17,7 @@ def model_review_outline(task):
         'required_check_topics':[row['id'] for row in topics(task)],
         'topic_rule':'required_check_topics和intake_standard是更新前标准；checks必须按requirements_patch合并后的候选逐项返回。候选正文即使是拟议或needs_input，触发新专项也须增加对应检查；不添加未触发主题或为凑清单新增业务。',
         'conditional_check_topics':[{'id':key,'label':SPECIAL[key][0],'text_pattern':pattern} for key,pattern in PATTERNS.items()],
-        'candidate_topic_rule':'conditional_check_topics仅为可触发的ID目录，不是全选清单；按候选需求及原需求用户消息匹配，当前图触发的主题也保留。检索或知识库触发retrieval，不能仅因knowledge已检查而省略。例：原8个基础主题，候选新增知识库检索则须9行，含retrieval；仍有缺口可标needs_input，不用建议自证complete。外部接口匹配需排除sierra_runtime_entry明确的本机空值/错误返回契约说明；真实业务接口仍需external。',
+        'candidate_topic_rule':'conditional_check_topics仅为可触发的ID目录，不是全选清单；按候选需求及原需求用户消息匹配，当前图触发的主题也保留。知识库、检索、根据资料回答或资料问答触发retrieval，不能仅因knowledge已检查而省略；查询订单或订单查询触发external，仅要求核对资源范围、接口或明确模拟条件，不表示资源存在或已批准。例：原8个基础主题，候选新增知识库检索则须9行，含retrieval；仍有缺口可标needs_input，不用建议自证complete。外部接口匹配需排除sierra_runtime_entry明确的本机空值/错误返回契约说明；真实业务接口仍需external。',
         'prebuild_review_rule':'“先整理草案和逐项核对，待我/用户确认再搭建”及省略连接词的“先整理草案逐项核对，待用户确认后再搭建”是本次搭建前草案复核，不因此新增batch；逐项处理业务数据、核对订单、多条、数组、批量或已有迭代图仍必须检查batch，不能省略真实业务。',
         'plan_preservation_rule':'“其余节点、字段、模型参数等须逐项保持”仅约束现有流程的修改范围，不因此新增业务batch；此例外须明确从节点或节点ID起列流程属性，并以保持/保留结束。其它业务字段、订单逐项处理、数组、多条、批量或已有迭代仍触发batch；原话和原始证据保留。',
         'material_sources':[{'id':m['id'],'name':m['name']} for m in task.get('materials',[]) if m.get('status')=='parsed'],
@@ -29,7 +29,7 @@ def model_review_outline(task):
 
 BASE={'goal':('目标与范围','本次为谁解决什么问题？必须完成和不包含的功能是什么？'),'audience':('目标用户','谁使用应用，已有知识和使用方式是什么？'),'input':('输入说明','输入的字段／形式、必填条件和缺失时的处理是什么？'),'output':('输出说明','输出内容、结构、接收对象和交付方式是什么？'),'rules':('业务规则','关键分类、分支、计算、生成规则和不可违反的约束是什么？'),'knowledge':('资料与依赖','使用什么资料、库和接口？哪些可用、待补、模拟或不适用？'),'exceptions':('异常处理','输入不完整、无结果、调用失败时分别怎么处理？'),'tests':('验收场景','请给正常、关键分支和异常输入，以及各自期望结果。')}
 SPECIAL={'memory':('对话上下文','是否记住上下文，参考多少轮？指代不清时是否追问？'),'dialogue':('对话行为','开场白／建议问题是什么？何时追问、结束或给出人工指引？'),'agent_tools':('Agent 行为边界','使用纯文本、知识检索还是自定义工具？工具失败怎么处理？'),'batch':('批量处理','如何分项、保留顺序／重复项？一项失败是否停整批，如何汇总？'),'retrieval':('知识检索','资料范围、选库依据、无资料／无命中行为及引用要求是什么？'),'external':('外部接口','接口输入输出、认证条件、可用性及失败行为是什么？是否明确接受模拟？'),'trigger':('自动触发','何时触发，输入来源和输出去向是什么？现有触发能力是否具备？'),'human':('人工参与','谁审核／补充，如何交接？通过、拒绝、超时各如何处理？')}
-PATTERNS={'batch':r'批量|逐项|多条|数组|\bbatch\b|\biteration\b','retrieval':r'知识库|检索|引用来源|\brag\b','external':r'接口|\bapi\b|\bhttps?\b|外部系统|数据库','trigger':r'自动触发|定时|触发器|webhook|定期执行','human':r'人工审核|人工审批|人工参与|人工补充|审批流程'}
+PATTERNS={'batch':r'批量|逐项|多条|数组|\bbatch\b|\biteration\b','retrieval':r'知识库|检索|引用来源|根据资料回答|资料问答|\brag\b','external':r'接口|\bapi\b|\bhttps?\b|外部系统|数据库|查询订单|订单查询','trigger':r'自动触发|定时|触发器|webhook|定期执行','human':r'人工审核|人工审批|人工参与|人工补充|审批流程'}
 SPECIAL['loop_policy']=('循环停止与保护','初始状态和每轮更新是什么？停止条件、最大轮次、进度字段／依据、连续无进展与次数耗尽时如何处理？初始即达到目标时返回什么？')
 PATTERNS['loop_policy']=r'循环|反复改写|反复修正|\bloop\b'
 SPECIAL['document_processing']=('文件获取与解析','文件来自哪里、是什么格式及如何取得权限？扫描件／无文件／空文字／坏文件如何处理？目标Dify是否配置外部解析服务，文件出站、额外费用和人工替代步骤是否已经明确接受？')

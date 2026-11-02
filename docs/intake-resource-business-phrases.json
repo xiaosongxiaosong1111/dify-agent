@@ -1,0 +1,33 @@
+{
+  "backlog": 281,
+  "state": "deployed_targeted_verified",
+  "new_test_scenarios": 19,
+  "related_tests_passed": 146,
+  "full_suite_run": false,
+  "runtime": "0.378.0-3f71a320b40afcec120e",
+  "runtime_files": 293,
+  "pid": 30724,
+  "health_status": 200,
+  "frontend_status": 200,
+  "new_retrieval_phrases": ["根据资料回答", "资料问答"],
+  "new_external_phrases": ["查询订单", "订单查询"],
+  "resource_availability_assumed": false,
+  "unknown_or_missing_topics_still_rejected": true,
+  "no_case_source_pure_validation_compatibility_kept": true,
+  "old_416_response_pure_contract_check": {
+    "old_required_topics": 10,
+    "new_required_topics": 12,
+    "old_rejected": true,
+    "new_contract_valid": true,
+    "candidate_applied": false,
+    "live_batch_still_stopped": true
+  },
+  "original_production_tasks_kept": 26,
+  "protected_data_roots": 10,
+  "protected_evidence_files": 667,
+  "credentials_and_fees_kept": true,
+  "new_physical_model_dify_http": 0,
+  "frontend_unchanged": true,
+  "full_business_accepted": false,
+  "human_signoff": false
+}
