@@ -19,8 +19,8 @@
 
 ## 3. 下一步
 
-1. 当前287 pending本机方案已完成：422只生成当前修订单版，业务requirements/configuration不再混“修改版/两版/商品型号”的未来批次说明，冻结/第一次预算和派发前校验；原六例七轮及完整文案/对话配置保持。新workTask代理正常手工准入后一次模型当前图规划、两根实际复核、同值采纳单静态ZIP，原版无旧图/模板。不保证消除模型错误引用，不声称模型完整访谈或双版通过。
-2. 82定向/13最终源绑定公开协议、379及十二根733源/快照/PID保护过。work/current-revision-planning422冻结10文件：plan55c181188073561236be1fbb2e62df4d8d01bfcb702748ce014514578ad3ca3c，manifeste2d4f3e1e46132018b0c0df3573e5ecfc994b6b47231fb5d016dec79397b8d53；docs/current-revision-planning-plan-20261102.md/json。真实模型/Dify/解密/approval/attempt均0。实现提交和实际验收存在后关闭287，真实改授另列need-user。
+1. 287实现8aa7304及82定向/13最终协议、379十二根733保护验收过，已关闭：422只生成当前修订单版，业务requirements/configuration不再混“修改版/两版/商品型号”的未来批次说明，冻结/第一次预算和派发前校验；原六例七轮及完整文案/对话配置保持。新workTask代理正常手工准入后一次模型当前图规划、两根实际复核、同值采纳单静态ZIP，原版无旧图/模板。不保证消除模型错误引用，不声称模型完整访谈或双版通过。
+2. 82定向/13最终源绑定公开协议、379及十二根733源/快照/PID保护过。work/current-revision-planning422冻结10文件：plan55c181188073561236be1fbb2e62df4d8d01bfcb702748ce014514578ad3ca3c，manifeste2d4f3e1e46132018b0c0df3573e5ecfc994b6b47231fb5d016dec79397b8d53；docs/current-revision-planning-plan-20261102.md/json。真实模型/Dify/解密/approval/attempt均0。实现提交和实际验收均存在，真实改授另列288 need-user，未获新直接角色改授不执行。
 3. 422仅拟把420未派发modified一槽/0.100明确角色改授新批original当前版一次，0新槽/累计估算上界，43/1.955473652保持（非账单硬限，实际调用仍计费）。源attempt SHA9969e06b97f978c489de9c23716f9de791ff35d271acbabba99d815968c8c66f、original1/modified0已核。一次6000输出/120秒/≤0.100、两根复核各300秒、异常整批停无JSON修复/重试/续阶段，生产/Dify/资源/运行/登录/新库0，未新直接角色改授不解密派发。
 4. 286 blocked保持，420澄清原文b1864572dec44b14bea7f1321093f8fceac9ddaa1eaece2e9be008472d38344f。当前cases SHA261a6595f97a6f931284d65112af0ebd69eb3441ae194aaaf411e17eea6eee9a/existing_plan_context=null边界过，模型引用不符，不能更改原期望迎合。只确认输入里混入双版流程，未证明幻觉根因；旧420不改包重跑。418/416/414及所有消费包各自事实保持。
 5. 所有后续核十二根实际capture/733封存/原26及密文费用，不只比摘要文件。379/PID16872归属后原start/stop部署，不按端口杀；停服原start等health200，不另起18760，Playwright固定用户绝对模块路径。
