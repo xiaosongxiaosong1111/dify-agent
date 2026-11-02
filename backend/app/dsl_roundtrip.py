@@ -15,8 +15,14 @@ def digest(value):
     return hashlib.sha256(json.dumps(value,ensure_ascii=False,sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest()
 
 
+def _utf8(value):
+    try:return value.encode('utf-8')
+    except UnicodeError:
+        raise ValueError('DSL 文字或对象键的编码无法完整核对，请重新导出；未替换字符或保存引用。') from None
+
+
 def load_document(content):
-    if not isinstance(content,str) or len(content.encode('utf-8'))>MAX_BYTES:
+    if not isinstance(content,str) or len(_utf8(content))>MAX_BYTES:
         raise ValueError('DSL 须为最多 2 MB 的 YAML 文本。')
     class StrictLoader(yaml.SafeLoader): pass
     def mapping(loader,node,deep=False):
@@ -24,6 +30,7 @@ def load_document(content):
         for key,value in node.value:
             k=loader.construct_object(key,deep=deep)
             if not isinstance(k,str) or k in out:raise ValueError('DSL 对象键须为不重复的字符串。')
+            _utf8(k)
             out[k]=loader.construct_object(value,deep=deep)
         return out
     StrictLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,mapping)
@@ -39,15 +46,20 @@ def load_document(content):
             for child in (value.values() if isinstance(value,dict) else value):check(child,depth+1)
         elif value is not None and type(value) not in (str,int,float,bool):raise ValueError('DSL 包含非 JSON 值。')
         elif type(value) is float and not math.isfinite(value):raise ValueError('DSL 不接受非有限数字。')
-        elif isinstance(value,str) and (re.search(r'\bsk-[a-zA-Z0-9_-]{16,}',value) or re.search(r'(?i)\bBearer\s+[A-Za-z0-9_.-]{16,}',value)):
-            raise ValueError('DSL 疑似包含明文密钥，请在 Dify 中用不包含密钥的方式导出。')
+        elif isinstance(value,str):
+            _utf8(value)
+            if re.search(r'\bsk-[a-zA-Z0-9_-]{16,}',value) or re.search(r'(?i)\bBearer\s+[A-Za-z0-9_.-]{16,}',value):
+                raise ValueError('DSL 疑似包含明文密钥，请在 Dify 中用不包含密钥的方式导出。')
     check(root)
     if not isinstance(root,dict):raise ValueError('DSL 须为 YAML 对象。')
     if _contains_secret_key(root):raise ValueError('DSL 含密钥字段，不能进入引用、差异或成果。')
     workflow=root.get('workflow') or {}
-    for value in workflow.get('environment_variables',[]) if isinstance(workflow,dict) else []:
-        if isinstance(value,dict) and value.get('value_type')=='secret' and value.get('value'):
-            raise ValueError('DSL 环境变量含明文秘密，请重新无密钥导出。')
+    variables=workflow.get('environment_variables',[]) if isinstance(workflow,dict) else []
+    if not isinstance(variables,list) or any(not isinstance(value,dict) for value in variables):
+        raise ValueError('DSL 环境变量须为可逐项核对的对象列表，请重新导出；未保存引用。')
+    for value in variables:
+        if value.get('value_type')=='secret' and value.get('value')!='':
+            raise ValueError('DSL 秘密环境变量须为明确空字符串，请重新无密钥导出；未保存引用。')
     graph=workflow.get('graph',{}) if isinstance(workflow,dict) else {}
     from .http_auth_reference import secret_declarations,has_authenticated_http
     declared_secrets=secret_declarations(root) if has_authenticated_http(root) else {}
