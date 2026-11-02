@@ -19,9 +19,9 @@
 
 ## 3. 下一步
 
-1. 当前281 pending实现和378部署均已完成，19新/146相关定向、旧416原文纯契约检查及十根667前后保护验收过。只改intake四个业务表达及同源模型说明、空案例来源兼容和main版本；严格主题/来源拒绝未放宽，未把资源条件当资源已有。实现提交存在且验收过后关闭281。docs/intake-resource-business-phrases.md/json；work/resource-phrases417/verified.log、old-response-contract.json、before-deploy.json、after-deploy.json。
+1. 281实现46a293b，实际验收过，已关闭；378部署均已完成，19新/146相关定向、旧416原文纯契约检查及十根667前后保护验收过。只改intake四个业务表达及同源模型说明、空案例来源兼容和main版本；严格主题/来源拒绝未放宽，未把资源条件当资源已有。实现提交和验收均存在，不重复此项。docs/intake-resource-business-phrases.md/json；work/resource-phrases417/verified.log、old-response-contract.json、before-deploy.json、after-deploy.json。
 2. 280 blocked：416唯一1模型首访因12/10主题不匹配拒绝，整个批已消费，原文/拒绝/费用/空需求/无图保持。新378规则只读检查原文契约有效，不是原批实际复核/采纳通过；不得补迟到review、应用候选后续跑或重放。旧414失败及余两个槽也不变。若后续真实主线需新独立方案和明确次数/费用或改授，先完成可审查本机方案，不自动用416余三个槽。
-3. 当前剩余是尚未观察的自主访谈/完整规划/双版质量及资料冲突、版本迁移/中断等边界。普通队列空先有界核对原需求的具体可开发缺口；没有证据不造微任务、不重复人工固定图、不扩大真实批。未声称项目完成或额度用尽。
+3. 关闭281后已有限核对本轮相关准入/来源/模型契约及既定remaining-work：没有进一步已确认的实质代码缺陷；剩余是尚未观察的自主访谈/完整规划/双版质量及资料冲突、版本迁移/中断等边界。普通队列空先有界核对原需求的具体可开发缺口；没有证据不造微任务、不重复人工固定图、不扩大真实批。未声称项目完成或额度用尽。
 4. 全部后续工作保护原26及十根实际capture/667封存/密文资产unknown账本；378/PID30724/.venv执行文件和快照归属后原start/stop部署，不按端口杀。停服原start等health200，不另起18760；Playwright固定用户绝对模块路径。
 5. 持续实质开发至实际额度不足/确实完成/有界核对无可行动进展；当前未观察Codex不足，上下文截断不是额度，实际不足立停尽力整份交接，不重试/换号/购买/重置券。Claude318失败用量未知无恢复证据不形式重试/加预算/冒称子审查。不通读项目或290KB历史，不跑全量。
 6. 自主commit/push原GitHub main，每次push前根CHANGELOG/适用README/状态及整份交接，排除work/data/供应商原文/ZIP/秘密。所有旧真实请求/资源/费用/失败不重试边界继续有效，Git safe.directory/HTTP1.1必要require_escalated，不force/改全局代理TLS。
