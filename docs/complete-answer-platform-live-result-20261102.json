@@ -1,0 +1,303 @@
+{
+  "schema_version": 1,
+  "backlog": 273,
+  "batch_id": "complete-answer410",
+  "state": "single_modified_graph_six_cases_seven_turns_passed",
+  "consumed": true,
+  "no_replay": true,
+  "question_ref": "call_61f3d2cc93ee45aab6ea4007cb21786e q0",
+  "physical_http": 52,
+  "dispatch_counts": {
+    "model": 0,
+    "reads": 41,
+    "login": 1,
+    "import": 1,
+    "publish": 1,
+    "key": 1,
+    "run": 7
+  },
+  "new_tasks": 1,
+  "task_id": "4a357641-c408-42d9-be36-8c735e0a78a2",
+  "revision": 7,
+  "app_id": "9faf2792-08e2-48cf-afd0-050b34035fed",
+  "published_workflow_id": "e041a41f-e506-4acd-acee-dffc41146ef7",
+  "source_model_plan_sha256": "f7ac6d10dd986fffbfbe410ded616d4956ec7253d70fdf194ee49f3c1e39435c",
+  "source_graph_changed": false,
+  "adoption_source": "manual",
+  "changed_from_failed_406": [
+    "faq_answer.config.system_prompt"
+  ],
+  "cases": [
+    {
+      "id": "faq-hit",
+      "run_id": "a454ea0e-f57e-4f71-8c5a-59f613ce9e75",
+      "evaluation": "passed",
+      "answer": "可以退货。适用条件：签收后七天内、商品未拆封；政策编号：ZXRET715；结论：可申请退货。",
+      "turns": [],
+      "native_trace_ids": [
+        "cb028cdd-d861-40f6-9f63-d38a6f300522"
+      ]
+    },
+    {
+      "id": "faq-no-answer",
+      "run_id": "08fd9559-4921-4c04-9ccd-fa8bc8d1bf51",
+      "evaluation": "passed",
+      "answer": "知识库暂无相关信息，请联系人工客服，并提供订单号。",
+      "turns": [],
+      "native_trace_ids": [
+        "b650aa13-40cc-4edc-a045-24fef7a89a24"
+      ]
+    },
+    {
+      "id": "clarify",
+      "run_id": "57253d1f-de5d-4f62-8835-11eb818d8529",
+      "evaluation": "passed",
+      "answer": "目前只支持售后资料问答和模拟订单查询，请说明您的诉求。",
+      "turns": [],
+      "native_trace_ids": [
+        "992a900c-92e9-4a75-8241-66cde7839ca3"
+      ]
+    },
+    {
+      "id": "order-found",
+      "run_id": "9c6b1894-781c-4245-9cea-d1994ce2383e",
+      "evaluation": "passed",
+      "answer": "模拟订单查询（非真实订单）：合成样例：已发货。",
+      "turns": [],
+      "native_trace_ids": [
+        "38257925-f7dc-4d2f-b623-b449a801e1c8"
+      ]
+    },
+    {
+      "id": "order-not-found",
+      "run_id": "9584a241-eb5e-4b1e-855d-b20c79aac1c6",
+      "evaluation": "passed",
+      "answer": "模拟订单查询（非真实订单）：未找到该模拟订单，请核对订单号。",
+      "turns": [],
+      "native_trace_ids": [
+        "1e1de5c4-e8c0-4dc0-a5e2-dddda6f66b38"
+      ]
+    },
+    {
+      "id": "missing-then-order",
+      "run_id": "9fcc8ce3-f379-406c-b7cd-1477b8833613",
+      "evaluation": "passed",
+      "answer": "模拟订单查询（非真实订单）：合成样例：已发货。",
+      "turns": [
+        {
+          "index": 1,
+          "evaluation": "passed",
+          "answer": "订单查询目前为模拟，请提供订单号。"
+        },
+        {
+          "index": 2,
+          "evaluation": "passed",
+          "answer": "模拟订单查询（非真实订单）：合成样例：已发货。"
+        }
+      ],
+      "native_trace_ids": [
+        "0cffa132-8897-409d-8135-14f91fbba265",
+        "1c85da78-65dd-4f0d-aee5-674a752cc7df"
+      ]
+    }
+  ],
+  "all_current_required_passed": true,
+  "native_traces": [
+    {
+      "version": "original",
+      "case_id": "faq-hit",
+      "turn": 1,
+      "native_run_id": "cb028cdd-d861-40f6-9f63-d38a6f300522",
+      "node_ids": [
+        "answer_faq",
+        "classify",
+        "consume",
+        "faq_answer",
+        "gate",
+        "hits",
+        "precheck",
+        "retrieve",
+        "start"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "faq-no-answer",
+      "turn": 1,
+      "native_run_id": "b650aa13-40cc-4edc-a045-24fef7a89a24",
+      "node_ids": [
+        "answer_faq",
+        "classify",
+        "consume",
+        "faq_answer",
+        "gate",
+        "hits",
+        "precheck",
+        "retrieve",
+        "start"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "clarify",
+      "turn": 1,
+      "native_run_id": "992a900c-92e9-4a75-8241-66cde7839ca3",
+      "node_ids": [
+        "answer_scope",
+        "classify",
+        "consume",
+        "gate",
+        "out_of_scope",
+        "precheck",
+        "start"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "order-found",
+      "turn": 1,
+      "native_run_id": "38257925-f7dc-4d2f-b623-b449a801e1c8",
+      "node_ids": [
+        "answer_order",
+        "classify",
+        "consume",
+        "extract_order",
+        "gate",
+        "lookup",
+        "order_check",
+        "order_guard",
+        "precheck",
+        "start",
+        "valid_guard"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "order-not-found",
+      "turn": 1,
+      "native_run_id": "1e1de5c4-e8c0-4dc0-a5e2-dddda6f66b38",
+      "node_ids": [
+        "answer_order",
+        "classify",
+        "consume",
+        "extract_order",
+        "gate",
+        "lookup",
+        "order_check",
+        "order_guard",
+        "precheck",
+        "start",
+        "valid_guard"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "missing-then-order",
+      "turn": 1,
+      "native_run_id": "0cffa132-8897-409d-8135-14f91fbba265",
+      "node_ids": [
+        "answer_missing",
+        "ask_order",
+        "classify",
+        "consume",
+        "extract_order",
+        "gate",
+        "order_check",
+        "order_guard",
+        "precheck",
+        "request",
+        "start",
+        "valid_guard"
+      ],
+      "source_graph_matched": true
+    },
+    {
+      "version": "original",
+      "case_id": "missing-then-order",
+      "turn": 2,
+      "native_run_id": "1c85da78-65dd-4f0d-aee5-674a752cc7df",
+      "node_ids": [
+        "answer_order",
+        "consume",
+        "extract_order",
+        "gate",
+        "lookup",
+        "order_check",
+        "order_guard",
+        "precheck",
+        "start",
+        "valid_guard"
+      ],
+      "source_graph_matched": true
+    }
+  ],
+  "all_observed_nodes_succeeded": true,
+  "same_conversation_followup_verified": true,
+  "followup_bypasses_classifier": true,
+  "no_answer_route": "retrieved_fragments_insufficient_answer_llm_fallback",
+  "empty_retrieval_route_observed": false,
+  "failure_diagnostic_exception_used": false,
+  "static_zip_sha256": "52d2e374f47eef6888a972003f4571d006a965c2ca8423204f5188c32978890d",
+  "artifact_sha256": "6c428f12cfe3ae626491ab0725837a2abbb413cfe1b85cbd0b36932748463311",
+  "zip_members": [
+    "dify-advanced-chat-r7.yaml",
+    "report-r7.md",
+    "integration-guide.md",
+    "README.md",
+    "manifest.json"
+  ],
+  "static_manifest_flags_false": true,
+  "production_task_count": 26,
+  "old_production_tasks_kept": 25,
+  "protected_old_isolated_roots": 7,
+  "protected_old_files": 575,
+  "old_credentials_settings_assets_fees_kept": true,
+  "dedicated_new_key_bound": true,
+  "previous_key_encrypted_archive_recorded": true,
+  "dify_usage": {
+    "execution_count": 7,
+    "record_count": 7,
+    "duplicate_record_count": 0,
+    "known_total_tokens": 7677,
+    "known_amounts_by_currency": {
+      "USD": "0"
+    },
+    "unknown_cost_count": 0,
+    "unknown_token_count": 0
+  },
+  "dify_report_is_provider_bill": false,
+  "estimated_new_dify_usd_kept": "0.05",
+  "actual_cumulative_sierra_model_http": 31,
+  "actual_cumulative_app_publish_key_each": 20,
+  "actual_cumulative_service_requests": 65,
+  "actual_cumulative_rule_passes": 57,
+  "conservative_upper": {
+    "model": 35,
+    "reads": 1469,
+    "login": 46,
+    "import": 26,
+    "publish": 26,
+    "key": 26,
+    "run": 120
+  },
+  "model_estimate_book_upper_usd": "1.155473652",
+  "observed_configured_model_settled_usd": "0.181939128",
+  "all_old_unknown_reservations_kept": true,
+  "old_406_failure_and_408_stopped_kept": true,
+  "model_autonomous_mainline_passed": false,
+  "full_business_accepted": false,
+  "human_signoff": false,
+  "claude_review_completed": false,
+  "runtime": {
+    "verified_pid": 35748,
+    "runtime_build": "0.374.0-fd1d9147a557103e2af2",
+    "source_files_matched": 292
+  },
+  "sealed_evidence_files": 606,
+  "sealed_index_sha256": "bd060b5a1a0124eee2635eb9dc5487707f5ccb6bd40a1697cd0a01ed2ce4151a"
+}
