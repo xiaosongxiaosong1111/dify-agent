@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "task_name": "Sierra明确售后需求双规划静态交付",
+  "requirements": {
+    "goal": "为内部演示用户提供售后资料问答及合成订单查询Chatflow，仅使用公开合成资料和订单，不接入客户数据。",
+    "audience": "内部开发和演示用户；不接入真实客户或真实订单系统。",
+    "input": "每次一个必填query文字；新样例新会话，缺少订单号时追问，下一轮只补明确订单号。",
+    "output": "输出answer文字；订单回复明确标为模拟。缺号逐字回复：订单查询目前为模拟，请提供订单号。 范围外逐字回复：目前只支持售后资料问答和模拟订单查询，请说明您的诉求。 资料无答案逐字回复：知识库暂无相关信息，请联系人工客服，并提供订单号。 订单命中最终完整逐字回复：模拟订单查询（非真实订单）：合成样例：已发货。 其它有效订单号最终完整逐字回复：模拟订单查询（非真实订单）：未找到该模拟订单，请核对订单号。模拟前缀属于完整答复且只出现一次，原样保留六例七轮对应期望。",
+    "rules": "优先级：先按下述已明确的每会话等待状态与本轮编号格式做确定预分流；命中才绕过分类。其余输入再分类资料问答、订单查询或范围外。资料支路先检索；空结果直接固定无答案回复，有片段才调用回答模型且只依据片段；片段不足仍用同一无答案文字，不编造政策。订单支路只提取明确订单号，提取失败不查询而追问；成功才查询唯一合成表。记忆明确启用最近5轮；同一缺号追问后补DEMO-001须仍走订单支路，不猜其它单号；不同样例不复用会话。 提取成功后另行验证业务单号为非空文字，空白用原固定追问且不查询；类型错误停止，不把required或成功标识当业务有效保证。 结合本会话历史：前轮订单追问后仅补编号仍属订单；无订单上下文时孤立编号不自动当订单，明确的新资料或范围外不沿用旧订单。 两个每会话boolean登记/消费标记初始false，不同表示等待；每轮先消费，仅等待且原格式编号绕过分类进入原提取/非空守卫，缺号再登记，新话题仍分类。不保存单号或敏感信息，不跨会话共享。 两个每会话状态order_wait_requested和order_wait_consumed均为boolean，初值false、未更新保留；不相等表示等待，不跨会话。补号格式为1至64位、首位字母数字、其余字母数字下划线或连字符，仅等待时绕过分类仍走原提取及非空检查；每状态唯一根writer，不放松。 代理按既有委托明确状态算法（不是让模型自主发现算法）：入口代码先读取旧requested和旧consumed，保存is_followup=(两者不等且本轮整个输入符合原编号正则)、consume_value=旧requested、next_request=not旧requested。随后唯一consume根assigner只写consumed=入口代码consume_value，每轮均执行；requested由缺号路径的唯一request根assigner写成入口代码next_request，其余路径不写requested。两节点各写一个不同状态，同轮缺号允许先consume后request，不是同一变量两写。不猜另一种计数或constant-true方案。缺号追问前登记，新话题先消费后正常分类；补号仍须经过原提取器及业务非空守卫。 明确用无网络code节点查询唯一公开合成表，DEMO-001的最终完整逐字回复为“模拟订单查询（非真实订单）：合成样例：已发货。”；其它有效编号最终完整逐字回复为“模拟订单查询（非真实订单）：未找到该模拟订单，请核对订单号。”，模拟前缀恰好一次，内部表值不含前缀，不记录或持久保存订单号。资料片段是否足够由回答提示约束：仅据片段、缺信息或冲突时逐字回复已给定无答案文字；不新增判定模型、不以片段数或检索分数阈值替代语义判断，也不改变TopK3/无阈值/不重排。原编号正则为ASCII [A-Za-z0-9][A-Za-z0-9_-]{0,63}，去除输入前后空白后全匹配。 对本批资料政策问答，答复必须同时说明适用条件、政策编号及结论，全部事实仅从检索返回取；资料不足仍使用原固定无答案文案，不把用户问题或验收expected当事实来源，不硬写政策事实。 对话行为由代理按既有委托明确：开场白沿用已保存的“内部公开演示：订单为合成模拟，非真实订单。”，建议问题保持空数组，不补新文案；此声明不是人类新答复或模型访谈通过。",
+    "knowledge": "复用公开合成FAQ d12cf081-5c52-41e3-b869-e94e6f8d37b1，TopK3、无阈值、不重排。订单接口缺少，明确采用订单查询模拟，唯一合成表DEMO-001=合成样例：已发货。分类/提取/回答模型deepseek-flash，thinking=false、温度0.2、最大输出512。 合成表值是内部数据，最终答复以output的完整逐字文字为准，模拟前缀恰好一次。",
+    "exceptions": "技术调用失败停止，不冒充无命中或提取失败；未知不重跑。无答案可来自空检索或有片段但不足，分别记录轨迹，不把后者称作空检索。转人工只是文字，不创建人工服务或外部接口。",
+    "tests": "原版使用当前保存六例七轮及全部原期望；修改版只将无答案文案增加商品型号那一项期望同步更新，其余输入/期望/接续保持；两版仅静态交付，不执行Dify，不继承旧外部范围。"
+  },
+  "configuration": {
+    "assistant_provider_id": "9513f594-c256-46b7-882a-35d9871bf9d0",
+    "dify_model_provider": "langgenius/deepseek/deepseek",
+    "dify_model": "deepseek-flash",
+    "temperature": 0.2,
+    "max_tokens": 512,
+    "model_parameters": {
+      "thinking": false
+    },
+    "opening_statement": "内部公开演示：订单为合成模拟，非真实订单。",
+    "suggested_questions": [],
+    "conversation_memory": true,
+    "memory_turns": 5,
+    "dataset_ids": [
+      "d12cf081-5c52-41e3-b869-e94e6f8d37b1"
+    ],
+    "retrieval_top_k": 3,
+    "mock_dependencies": [
+      "订单查询模拟"
+    ],
+    "mock_dependency_bindings": [
+      {
+        "node_id": "lookup",
+        "dependency": "订单查询模拟",
+        "replacement_todo": "真实订单接口的地址、认证、字段与失败策略补齐后，另行确认接入并替换此模拟节点；本批不连接真实订单。"
+      }
+    ],
+    "resource_plan": "本独立批仅两次规划及双版静态包，单次预留≤0.100 USD、合≤0.200；Dify/生产写入/资源/运行/登录/新库0。原费用与消费记录保持，非供应商账单硬限。"
+  },
+  "inputs": {
+    "source_text": "",
+    "dependency": "订单查询模拟",
+    "records_text": "{\"DEMO-001\":\"合成样例：已发货。\"}",
+    "no_hit_reply": "知识库暂无相关信息，请联系人工客服，并提供订单号。",
+    "missing_order_reply": "订单查询目前为模拟，请提供订单号。",
+    "clarify_reply": "目前只支持售后资料问答和模拟订单查询，请说明您的诉求。"
+  },
+  "cases": [
+    {
+      "id": "faq-hit",
+      "name": "资料政策命中",
+      "input": {
+        "query": "ZXRET715在签收后七天内且未拆封，能否退货？请给出政策编号。"
+      },
+      "expectation": {
+        "mode": "contains",
+        "target": "answer",
+        "expected": [
+          "ZXRET715",
+          "七天",
+          "未拆封"
+        ]
+      },
+      "required": true
+    },
+    {
+      "id": "faq-no-answer",
+      "name": "资料无相关答案",
+      "input": {
+        "query": "请查询售后资料中的政策编号 ZXUNLISTED90371。"
+      },
+      "expectation": {
+        "mode": "equals",
+        "target": "answer",
+        "expected": "知识库暂无相关信息，请联系人工客服，并提供订单号。"
+      },
+      "required": true
+    },
+    {
+      "id": "clarify",
+      "name": "范围外请求澄清",
+      "input": {
+        "query": "请帮我预订去火星的机票。"
+      },
+      "expectation": {
+        "mode": "equals",
+        "target": "answer",
+        "expected": "目前只支持售后资料问答和模拟订单查询，请说明您的诉求。"
+      },
+      "required": true
+    },
+    {
+      "id": "order-found",
+      "name": "模拟订单存在",
+      "input": {
+        "query": "查询订单 DEMO-001"
+      },
+      "expectation": {
+        "mode": "equals",
+        "target": "answer",
+        "expected": "模拟订单查询（非真实订单）：合成样例：已发货。"
+      },
+      "required": true
+    },
+    {
+      "id": "order-not-found",
+      "name": "模拟订单不存在",
+      "input": {
+        "query": "查询订单 UNLISTED-DEMO"
+      },
+      "expectation": {
+        "mode": "equals",
+        "target": "answer",
+        "expected": "模拟订单查询（非真实订单）：未找到该模拟订单，请核对订单号。"
+      },
+      "required": true
+    },
+    {
+      "id": "missing-then-order",
+      "name": "先缺号再补号的同会话",
+      "input": {
+        "query": "我想查询订单状态，但尚未提供订单号。"
+      },
+      "expectation": {
+        "mode": "equals",
+        "target": "answer",
+        "expected": "订单查询目前为模拟，请提供订单号。"
+      },
+      "followups": [
+        {
+          "input": {
+            "query": "DEMO-001"
+          },
+          "expectation": {
+            "mode": "equals",
+            "target": "answer",
+            "expected": "模拟订单查询（非真实订单）：合成样例：已发货。"
+          }
+        }
+      ],
+      "required": true
+    }
+  ],
+  "scope_note": "复核后同值原模型图，人工明确配置/手工采纳；新独立单版平台观察，0搭建模型，不是401续阶段或自主访谈/规划/修改全链。",
+  "provider_id": "9513f594-c256-46b7-882a-35d9871bf9d0",
+  "vague_message": "帮我做一个电商售后助手，能根据资料回答售后问题并查询订单。",
+  "changed_no_hit_reply": "知识库暂无相关信息，请联系人工客服，并提供订单号和商品型号。",
+  "delegated_clarifications": {
+    "actor": "agent_delegated",
+    "order_responses": "保留原案例的完整模拟前缀/最终回复，前缀恰好一次，不改期望",
+    "dialogue": "沿用保存开场白与空建议问题，不新增文案",
+    "model_interview_verified": false,
+    "human_signoff": false,
+    "decision_basis": "standing delegated routine decisions in AGENTS.md"
+  }
+}
