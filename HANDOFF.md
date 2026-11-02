@@ -19,13 +19,13 @@
 
 ## 3. 下一步
 
-1. 274历史列表恢复500修复a40f654/关闭7305813已推，119定向/375保护验收过。275为当前pending，所选单轮样例缺完整预检已确认：旧坏预期200且1替身Service；现Key/运行/派发前核集合身份和所选完整规则，坏样例固定422、未知404、合法旧最小项保留，不自动补输入/期望。相关顺序来源摘要又查到内部state_sequence随首例正常检查点递增而误拒第二例，仅排除此执行元数据，原业务/Key/成果/策略和精确前缀保持。
-   15新场景确认12旧失败3兼容，最终运行相关126+Chatflow/Agent多轮43=169过。补测取消初轮失败，测试替身重复传本机直连transport/20ms启动竞态已修，产品取消逻辑未改。部署动作初轮未等补测通过的疏漏已记录，未冒称当时169过；最终43过后只读核同一376-57d49ddcad74036f8ec8/292/PID11544、原26/八根607/密文费用保持，未重复部署/真实请求。证据work/saved-case-preflight413/before-final.log/targeted.log/sequence-debug.log/final.log/conversation.log/conversation-final.log/conversation-verified.log/after-deploy-before-test-verification.json/after-deploy.json（test_logs_verified=true）及docs/saved-case-run-preflight.md/json。实现4fbc05c已推且169定向/最终376保护验收过，275关闭，继续有证据功能；未观察实际Codex不足。
-
-2. 410本批未暴露新代码缺陷；后续274源码核对已实际复现恢复入口缺陷并修复。对原§11及AT-01/10/13/19/22后，剩余为未观察的自主访谈/两版质量、资料冲突与版本/中断等边界，并非已经确认的新代码缺口。普通队列空不当全项目完成；后续只有核实具体可开发问题才入队，不编造微任务或重复人工固定图。新真实模型/平台范围须先完成具体可审查方案并取得直接授权，现有已批准范围已完成，不自动扩大。
-3. 后续保护原26生产Task及八根实际capture、410封存606+自身607，所有旧App/候选/原文/ZIP/unknown/费用/凭据保持。376/PID11544/.venv/292快照归属后用原start/stop，不按端口杀；停服原start并等health200。不另起18760；Playwright使用用户固定绝对模块路径和已安装Chrome headless。
-4. 持续实质开发至实际额度不足/确实完成/有界核对无可行动进展；未观察Codex不足，不伪称额度耗尽。实际不足立停尽力整份交接，不重试/换号/购买/重置券；上下文截断不是额度。Claude318无恢复证据不形式重试/加预算。不通读项目或290KB历史，按编号必要段/报错文件。
-5. 自主commit/push原GitHub main，每push前CHANGELOG、适用README/状态及整份交接；排除work/data/模型原文/ZIP/秘密。Git safe.directory/HTTP1.1和必要require_escalated，不force/改全局代理TLS。
+1. 274历史列表恢复修复a40f654/关闭7305813已推，119定向/375保护验收过；275所选样例派发前预检和顺序来源内部序号误判修复4fbc05c/关闭3558f6d已推，最终126+43=169定向及376保护核对过。坏单轮预期原200/一次替身派发，现Key/记录/派发前422；首例正常state_sequence变化不再误拒第二例，业务/Key/成果/策略与精确前缀不放宽。部署前置补测未通过的疏漏及原失败日志保持，最终43通过后只读重核同一376，work/saved-case-preflight413/after-deploy.json的test_logs_verified=true；未重复部署或真实请求。
+2. 当前276准备自主Chatflow剩余主线，414已完成完整本机方案：全新work空Task，模糊访谈→明确公开补充后二访→原版规划→无答案文案仅增加商品型号后重规划，四处根代理来源绑定实际复核/原候选同值手工采纳/双静态ZIP。真实原版模型不接收旧图或模板；公开替身才使用409图。状态算法/资料/模拟订单由代理明确给定，不称模型自主发现或全业务验收。
+3. 61专用/相关99定向及18公开协议通过。累计0.400任务预算在首调用前走正常budget接口，每阶段必须完整已知用量才复核/继续；未知、澄清、坏JSON、截断、越界、拒绝/超时/其它异常整批停，不修复、不重试/续阶段。早期替身预算遗漏及失败目录保留，未改产品预算语义。最终proof=work/autonomous-chatflow414-local/rehearsal-final2/proof.json；真实HTTP/解密/approval/attempt均0。
+4. work/autonomous-chatflow414冻结10文件，plan=746a1c2985bdd4fe629541d03bccabae50b4ea1025579be8452eb50fc37b7578，manifest=19d48fa66c8dbe99e7e07bbe8ee7d58c3fc8ba9f53aaaefad4049de70f75c32e。固定方案docs/autonomous-chatflow-plan-20261102.md/json。拟新增4模型槽35→39，每次6000输出/120秒/预留≤0.100，合≤0.400非账单硬限，模型账本1.155473652→1.555473652；旧unknown/settled/槽/费用不借退。Dify/生产写入/资源/运行/登录/新库0，其它累计上界不增。须一次新的直接批准绑定以上最终摘要后才可唯一execute.py live；当前只冻结未授权，不能自批或沿用旧授权。
+5. 原26生产Task及七旧隔离根=八根实际capture、410封存606+自身607保持，376-57d49ddcad74036f8ec8/292/PID11544归属和快照已核。本批仅工具/测试/文档，不部署产品新版本。Claude318失败/用量未知无恢复证据不形式重试/加预算/假称子审查。保存旧App/候选/原文/ZIP/密文/账本；停服原start并等health200，先核PID和快照归属，禁止按端口杀进程。
+6. 276实现提交后再依据实际验收和提交号关闭，另列真实414为need-user；没有新的直接答复就不执行。队列空先有界核对既定需求的可开发实质缺口，不造微任务、不重复410固定图。持续至实际Codex不足/确实完成/确无可行动进展；目前未观察不足，不伪称额度耗尽，上下文截断不是额度。实际不足立即停尽力整份交接，不重试/换号/购买/重置券。
+7. 自主commit/push原GitHub main，每次push前CHANGELOG/适用README和状态/整份交接；排除work/data/模型原文/ZIP/秘密。不通读项目或290KB历史，按编号和直接关联文件；不跑全量。Git safe.directory/HTTP1.1和必要require_escalated，不force/改全局代理TLS。
 
 ## 4. 账本与凭据
 
