@@ -2,7 +2,7 @@
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main，实际380-384251a00989ea6e2429/293/PID8232，health/前端200/CIM执行文件及不可变快照匹配。289单份材料PATCH/DELETE修订保护已实现、330定向/4UI/构建和十二根733保护部署过；实现提交后再关闭队列。原379访谈JSON定位及旧284结果保持。
+- 根E:\workSpace\dify-agent/main，实际380-384251a00989ea6e2429/293/PID8232，health/前端200/CIM执行文件及不可变快照匹配。289单份材料PATCH/DELETE修订保护已实现、330定向/4UI/构建和十二根733保护部署过；实现1411bd2、289已关闭。原379访谈JSON定位及旧284结果保持。
 - 420明确改授后初始手工准入实际过，新Task0cdddd51-4893-43ec-a239-7f59f74c437a/r4。一次原版规划1568字符有效澄清JSON/5问题、op paused/needs_decision，无图或ZIP。模型混未来版本并引用不存在当前案例的clarify期望；权威案例/已确认状态算法和lookup不改。286回执ceac35d已推，旧包不回答后续澄清或续阶段。
 - 新费用settled0.008243568非账单，累计观察settled0.214071000，实际模型36/保守43/模型估算账本1.955473652；420用一余一未派发modified槽，不自动续用或角色改授。旧414两槽/unknown/settled及其它预留保持，原418两槽已改授420不重复计新增。
 - 现26生产Task；基线work/reviewed-spec-planning420/post-production-data-snapshot.json及post-391/394/399/401/405/408/409/414/416/418/420-data-snapshot.json，十二根实际capture核同。732+自身733封存，索引c9d9ef645118610e0fce61f5aed8deeb3e30f7e56b17d2c58511a25e5eef04e0，包含全部700旧证据。密文/费用/素材资产保持，新隔离无秘密副本。
@@ -20,7 +20,7 @@
 ## 3. 下一步
 
 1. 用户2026-11-02 call_ae41b2d065e34bd8b5f5afeb812663cc/q0选择“暂不继续真实调用”。422未授权，approval/attempt/worker-started/live-output均不存在；authorization-deferred.json保持。普通继续开发/自动唤醒不能恢复真实模型/Dify授权；既有本机编程、隔离验证、commit/push委托保持。
-2. 289材料PATCH/DELETE来源修订已完成：锁内校验早于失效/写入，旧页409/缺失非法422，前端编辑绑定打开时任务/修订，409保留编辑。新增20（旧18失败/2兼容）及相关330、前端构建/4UI通过；两旧夹具改上传回执。380-384251a00989ea6e2429/293/PID8232已原脚本部署，实际十二根capture/733封存/原26密文费用保持，模型Dify0。work/material-revision423；docs/material-source-revision.md/json。实现提交存在后关闭289并自主推送，然后按既定需求有界核对新的实质本机缺口。
+2. 289材料PATCH/DELETE来源修订已完成：锁内校验早于失效/写入，旧页409/缺失非法422，前端编辑绑定打开时任务/修订，409保留编辑。新增20（旧18失败/2兼容）及相关330、前端构建/4UI通过；两旧夹具改上传回执。380-384251a00989ea6e2429/293/PID8232已原脚本部署，实际十二根capture/733封存/原26密文费用保持，模型Dify0。work/material-revision423；docs/material-source-revision.md/json。实现1411bd2及实际验收已存在，289已关闭；自主推送后按既定需求有界核对新的实质本机缺口。
 3. BACKLOG288 need-user暂缓。422冻结10文件plan55c181188073561236be1fbb2e62df4d8d01bfcb702748ce014514578ad3ca3c / manifeste2d4f3e1e46132018b0c0df3573e5ecfc994b6b47231fb5d016dec79397b8d53；287实现8aa7304及82定向/13协议过。仅拟420未派发modified一槽/0.100角色改授新original当前版一次，43/1.955473652不增，未获新直接恢复及角色改授不解密派发；不是模型访谈或双版通过。
 4. 420/418/416/414及全部消费包保持stopped，不回答后续澄清续阶段或修复重发。420一次澄清无图/包，错误引用不在当前案例的期望不采纳；权威案例/状态算法/lookup不改，不迎合模型。未来业务与批次说明已隔离，但未证明能消除幻觉。
 5. 部署使用380当前快照，核saved PID/CIM执行文件/所属快照后原start/stop，不按端口杀进程；停服原start等health200。所有后续核十二根实际capture/733封存，不只比摘要；基线work/reviewed-spec-planning420，索引c9d9ef645118610e0fce61f5aed8deeb3e30f7e56b17d2c58511a25e5eef04e0。work/material-revision423/verify.py已适配十二根和380，旧419十一根脚本不能充当新保护。

@@ -3,7 +3,7 @@
   "version": "0.380.0",
   "runtime": "0.380.0-384251a00989ea6e2429",
   "pid": 8232,
-  "state": "implemented_verified_deployed",
+  "state": "done",
   "before": {
     "failed": 18,
     "passed": 2
@@ -17,5 +17,6 @@
   "model_dify_http": 0,
   "real_calls_deferred": true,
   "business_verified": false,
-  "evidence": "work/material-revision423"
+  "evidence": "work/material-revision423",
+  "implementation_commit": "1411bd2"
 }
