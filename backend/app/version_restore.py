@@ -1,7 +1,7 @@
 """Local history comparison and a revision-bound restore decision.
 
 Only field names, counts and fixed labels leave this comparison. Snapshots remain
-the authority; the preview neither evaluates their validity nor touches Dify.
+the authority; the preview checks restore structure, not business validity or Dify.
 """
 import copy
 import hashlib
@@ -76,6 +76,34 @@ def validate_collection(rows, *, materials=False):
                 raise HTTPException(422, message)
 
 
+def validate_configuration_structure(configuration):
+    """Preserve legacy values; check containers/types, not current business limits."""
+    valid = True
+    for key in ('dataset_ids', 'mock_dependencies', 'suggested_questions'):
+        if key in configuration:
+            values = configuration[key]
+            valid = valid and isinstance(values, list) and all(isinstance(v, str) for v in values)
+    for key in ('dify_model_provider', 'dify_model', 'resource_plan', 'opening_statement'):
+        if key in configuration:
+            valid = valid and isinstance(configuration[key], str)
+    for key in ('max_tokens', 'retrieval_top_k', 'memory_turns'):
+        if key in configuration:
+            valid = valid and type(configuration[key]) is int
+    if 'temperature' in configuration:
+        valid = valid and type(configuration['temperature']) in (int, float)
+    if 'conversation_memory' in configuration:
+        valid = valid and type(configuration['conversation_memory']) is bool
+    if 'assistant_provider_id' in configuration:
+        valid = valid and (configuration['assistant_provider_id'] is None or isinstance(configuration['assistant_provider_id'], str))
+    if 'model_parameters' in configuration:
+        valid = valid and isinstance(configuration['model_parameters'], dict)
+    if 'mock_dependency_bindings' in configuration:
+        values = configuration['mock_dependency_bindings']
+        valid = valid and isinstance(values, list) and all(isinstance(v, dict) for v in values)
+    if not valid:
+        raise HTTPException(422, '历史配置的文字、列表、参数或开关结构无效；未返回可确认预览，也未恢复。')
+
+
 def select(task, version_id):
     rows = [v for v in task.get('versions', []) if isinstance(v, dict) and v.get('id') == version_id]
     if len(rows) != 1:
@@ -85,8 +113,14 @@ def select(task, version_id):
         raise HTTPException(422, '历史快照缺少恢复所需字段；未返回可确认预览，也未恢复。')
     if any(not isinstance(version[k], dict) for k in ('requirements', 'configuration')) or not (version['environment_id'] is None or isinstance(version['environment_id'], str)):
         raise HTTPException(422, '历史需求、配置或环境结构无效；未恢复。')
-    if any(version.get(k) is not None and not isinstance(version[k], dict) for k in ('workflow_plan', 'agent_plan', 'coverage_review', 'conflict_review', 'intake_review')):
-        raise HTTPException(422, '历史流程或检查结构无效；未恢复。')
+    requirements = version['requirements']
+    if (not REQ.keys() <= requirements.keys()
+            or any(not isinstance(key, str) or not isinstance(value, str)
+                   for key, value in requirements.items())):
+        raise HTTPException(422, '历史需求缺少标准说明字段或存在非文字内容；未返回可确认预览，也未恢复。')
+    validate_configuration_structure(version['configuration'])
+    if any(version.get(k) is not None and not isinstance(version[k], dict) for k in ('workflow_plan', 'agent_plan', 'dsl_reference', 'dsl_overlay', 'coverage_review', 'conflict_review', 'intake_review')):
+        raise HTTPException(422, '历史流程、DSL引用或检查结构无效；未恢复。')
     # Missing legacy materials keep the current list; explicit null cannot be
     # restored because the normal intake flow requires a material list.
     if ('materials' in version and not isinstance(version['materials'], list)) or (version.get('test_cases') is not None and not isinstance(version['test_cases'], list)):
