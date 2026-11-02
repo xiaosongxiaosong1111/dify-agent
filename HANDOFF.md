@@ -19,7 +19,7 @@
 
 ## 3. 下一步
 
-1. 271实际修复410本机全链发现的准入误判：现有节点/明确流程属性须逐项保持不应当业务batch，窄过滤且原话/证据保持；混合订单逐项、数组、多条、批量和已有迭代仍触发。6旧反例失败后12新/相关106过，374-fd1d9147a557103e2af2/292/PID35748归属/八根575保护部署，实际409源无batch。证据work/plan-preservation411/before.log/targeted.log/before-deploy.json/after-deploy.json及docs/intake-plan-preservation.md/json。先提交实现再关闭271，272接续410方案，不丢未提交tools/complete-answer410和backend/tests/test_complete_answer_platform_boundary.py。
+1. 271实际修复410本机全链发现的准入误判：现有节点/明确流程属性须逐项保持不应当业务batch，窄过滤且原话/证据保持；混合订单逐项、数组、多条、批量和已有迭代仍触发。6旧反例失败后12新/相关106过，374-fd1d9147a557103e2af2/292/PID35748归属/八根575保护部署，实际409源无batch。证据work/plan-preservation411/before.log/targeted.log/before-deploy.json/after-deploy.json及docs/intake-plan-preservation.md/json。cdff64c实现已推且验收过，271关闭，272为首pending接续410方案，不丢未提交tools/complete-answer410和backend/tests/test_complete_answer_platform_boundary.py。
    410仅本机准备：83门禁已过，首20协议在新需求“逐项保持”触发batch而执行器缺该答案时报错，旧记录work/complete-answer410-local/rehearsal保留。先把410运行版本/快照固定更新到374-fd1d9147a557103e2af2，再用修复后的正常准入跑新隔离20场景/源绑定proof、八根575及最终冻结，不改旧406或408。拟新Task1/App发布Key各1/六启动七Service/64GET/1加密登录，45分钟整批/Task30分钟/估0.05非账单硬限，搭建模型0/新库0，Dify内部仍调用模型；新保守读1469/登录46/资源26/Service120，模型35/账本1.155473652不增，唯一业务失败轮≤4GET后封存。未新直接批准不解密或派发。
 2. 原408/401/406及全部旧包已消费，不补过期复核、不重试/续阶段。406余47GET/六Service等及所有旧unknown/预留保持，不借退；401余槽已用完。后续真实模型或平台必须有具体新直接范围，常规可逆本机开发/复核/静态采纳已有委托无需重复问。
 3. 后续保护生产+391/394/399/401/405/408/409共八根实际capture及409索引574+自身575，不只核快照文件hash；原25生产Task、模型配置、凭据、费用、旧原文/ZIP/失败全部保持。374/PID35748/.venv/292快照归属核对后用原start/stop，不按端口杀；停服原start并等health200。不另起18760，Playwright固定绝对模块路径及已安装Chrome headless。
