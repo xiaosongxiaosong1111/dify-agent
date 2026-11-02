@@ -99,6 +99,9 @@ async def call_model(provider: dict, key: str, messages: list[dict], *, max_toke
         if not isinstance(text, str) or not text.strip():
             message = "模型达到输出上限但没有返回正文；已保留可用用量，请核对规划模型的思考模式或输出限制。" if finish_reason == 'length' else "模型未返回可用文本；可能仅返回工具调用或不支持当前请求。"
             raise ProviderError(message, usage=reported_usage, finish_reason=finish_reason)
+        try:text.encode('utf-8')
+        except UnicodeError:
+            raise ProviderError('模型返回文字编码无法完整核对；未替换、保存或采纳正文，已保留可确认用量，没有自动重试。', usage=reported_usage, finish_reason=finish_reason) from None
         return text, reported_usage
     except httpx.TimeoutException as exc:
         raise ProviderError("模型请求超时。本次未自动重试，请检查服务或调整执行上限。") from exc
@@ -119,6 +122,11 @@ MODEL_JSON_MAX_DEPTH = 60  # Same root-zero depth boundary as manual plan drafts
 class JSONStructureLimitError(ValueError):
     def __init__(self):
         super().__init__('模型JSON超出本机结构解析上限（根为0，最多60层），未展开或采纳。')
+
+
+class JSONValueIntegrityError(ValueError):
+    def __init__(self):
+        super().__init__('模型JSON含非有限数或无法完整编码的文字或键，未替换、舍入或采纳。')
 
 
 def _check_model_json_depth(value):
@@ -158,4 +166,12 @@ def extract_json(text: str):
     if not isinstance(value, dict):
         raise ValueError("模型结构化结果不是对象。")
     _check_model_json_depth(value)
+    try:
+        # Validate the decoded values too; JSON escapes can hide bad Unicode.
+        # The original object is returned unchanged, never this serialization.
+        json.dumps(value, ensure_ascii=False, allow_nan=False).encode('utf-8')
+    except (ValueError, UnicodeError, OverflowError):
+        raise JSONValueIntegrityError() from None
+    except RecursionError:
+        raise JSONStructureLimitError() from None
     return value

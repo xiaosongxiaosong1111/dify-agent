@@ -12,7 +12,7 @@ import time
 import tokenize
 from decimal import Decimal
 
-from .providers import ProviderError, DuplicateJSONFieldError, JSONStructureLimitError, extract_json
+from .providers import ProviderError, DuplicateJSONFieldError, JSONStructureLimitError, JSONValueIntegrityError, extract_json
 
 RATE_KEYS = {"input_per_million_usd", "output_per_million_usd", "cached_input_per_million_usd"}
 OUTPUT_LIMIT = 6000
@@ -24,6 +24,8 @@ def _json_syntax_diagnostic(error):
         return 'JSON候选对象含重复字段，含义有歧义；未用后值覆盖前值，也未合并或自动选择字段内容。'
     if isinstance(error, JSONStructureLimitError):
         return 'JSON候选超出本机结构解析上限（根为0，最多60层），未截断、展开或采纳，也未追加模型调用。'
+    if isinstance(error, JSONValueIntegrityError):
+        return 'JSON候选含非有限数或无法完整编码的文字／键；未替换、舍入、采纳或追加模型调用。'
     if not isinstance(error, json.JSONDecodeError):
         return None
     reasons = {
@@ -360,6 +362,7 @@ async def draft_plan(task, provider, messages, settings, operation, invoke, vali
         parse_failed = False
         duplicate_fields = False
         structure_limited = False
+        invalid_values = False
         try:
             candidate = extract_json(text)
         except (ValueError, TypeError) as error:
@@ -371,7 +374,8 @@ async def draft_plan(task, provider, messages, settings, operation, invoke, vali
             parse_failed = True
             duplicate_fields = isinstance(error, DuplicateJSONFieldError)
             structure_limited = isinstance(error, JSONStructureLimitError)
-            repairable = not (duplicate_fields or structure_limited)
+            invalid_values = isinstance(error, JSONValueIntegrityError)
+            repairable = not (duplicate_fields or structure_limited or invalid_values)
         else:
             if "error" in candidate:
                 from .planning_decisions import summarize
@@ -416,6 +420,8 @@ async def draft_plan(task, provider, messages, settings, operation, invoke, vali
             stop("no_progress", "连续两次出现同一问题且未通过校验，停止继续修复并保留候选。")
         previous_error = signature
         if not repairable:
+            if invalid_values:
+                stop('invalid_plan_format', errors[-1]+' 原响应与已记录用量已保留，原已确认方案不变。')
             if structure_limited:
                 stop('invalid_plan_format', '模型JSON超出本机结构解析上限（根为0，最多60层）；原响应、诊断与已记录用量已保留，未截断为较小方案、采纳或追加模型修复调用。请缩小本次结构范围后重新核对，原已确认方案不变。')
             if duplicate_fields:
