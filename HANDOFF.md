@@ -20,10 +20,10 @@
 ## 3. 下一步
 
 1. 284实现a56f0dc/关闭055ba40已推，16新/126相关及379-8a7d82953ed4021341dc/293/PID16872十一根700保护验收过。正常/流式访谈安全格式位置已上线，旧418不补写失败/不修JSON/不重发。本轮后续仅新工具/测试/文档，不部署新产品版本或新增真实请求。
-2. 当前285 pending本机方案已完成：420代理按委托保留六例七轮原期望，明确完整模拟订单答复/前缀恰好一次、沿用当前开场白/空建议问题。全新workTask正常保存需求/配置/案例，经根实际完整核对和agent_delegated手工准入（明记本批没有模型访谈），再原/修改各一次模型规划，原候选同值正常采纳/双静态ZIP，三处源绑定根复核。原版无旧图/模板，修改严格只无答案完整文案增加商品型号，其余图和案例不变。
+2. 285实现09259ee及79定向/16最终协议、379十一根700保护验收过，已关闭：420代理按委托保留六例七轮原期望，明确完整模拟订单答复/前缀恰好一次、沿用当前开场白/空建议问题。全新workTask正常保存需求/配置/案例，经根实际完整核对和agent_delegated手工准入（明记本批没有模型访谈），再原/修改各一次模型规划，原候选同值正常采纳/双静态ZIP，三处源绑定根复核。原版无旧图/模板，修改严格只无答案完整文案增加商品型号，其余图和案例不变。
 3. 79定向/16最终源绑定公开协议及379归属/十一根700保护过。work/reviewed-spec-planning420冻结10文件：plan20c6788dc900afec027742e1761129758f49efc40c06cfe7398e86d7d9d50f74，manifestd7c2a3529c823f1bd895aae1723770441be449151a741f88f0d907c44341a9b1；docs/reviewed-spec-planning-plan-20261102.md/json。真实模型/Dify/解密/approval/attempt均0，未批准旧包work/reviewed-spec-planning420-before-intake-note-unapproved仅存档不执行。首轮决策元数据误用authorization触发保护的零派发失败记录保持，已改decision_basis未放宽保护。
 4. 420仅拟明确改授418未派发original/modified两槽及0.200预留，各6000输出/120秒/≤0.100，0新槽/累计估算上界，保守43/模型账本1.955473652保持（非账单硬限，实际两调用仍计费）；原418消费attempt SHAc5b2ec9fcc4190562b2447a34a6b317e8a2dbb484c0b2862e41cb6aea9b6990d，已用访谈1/两规划0。生产/Dify/资源/运行/登录/新库0，旧unknown/settled及414两余槽保持。必须新直接明确改授绑定最终摘要才能唯一执行，不沿用418答复；模型完整访谈仍未通过，不以手工准入替代其验收。
-5. 实现提交和实际验收存在后关闭285，真实改授另列need-user。原26/十一根基线work/recovered-chatflow418/post-production-data-snapshot.json和post-391/394/399/401/405/408/409/414/416/418-data-snapshot.json及699+自身700封存保护，索引d175a8ee5c52d6b34ccda524454ddd7d3395525c66078be4d30dc27da80ea94c；实际capture逐根核，不只比摘要文件本身。418/416/414已消费失败不互相改判/重放。
+5. 285实现提交和实际验收均存在，真实改授另列286 need-user，未获新直接答复不执行。原26/十一根基线work/recovered-chatflow418/post-production-data-snapshot.json和post-391/394/399/401/405/408/409/414/416/418-data-snapshot.json及699+自身700封存保护，索引d175a8ee5c52d6b34ccda524454ddd7d3395525c66078be4d30dc27da80ea94c；实际capture逐根核，不只比摘要文件本身。418/416/414已消费失败不互相改判/重放。
 6. 持续实质开发至实际Codex不足/确实完成/有界核对无可行动进展；当前未观察不足，不造微任务或重复固定图。实际不足立停尽力整份交接，不重试/换号/购买/重置券。Claude318失败/用量未知无恢复证据不形式重试/加预算/冒称子审查。不通读项目/290KB历史，不跑全量。
 7. 自主commit/push原GitHub main，每push前根CHANGELOG/适用README/状态及整份交接，排除work/data/原模型原文/ZIP/秘密。保留旧请求/资源/费用/失败边界，固定快照及PID归属后原start/stop部署，不按端口杀；后端停服原start等health200。Git safe.directory/HTTP1.1必要require_escalated，不force/改全局代理TLS。
 
