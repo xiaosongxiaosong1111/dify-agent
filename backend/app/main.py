@@ -85,7 +85,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.381.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.382.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -194,8 +194,15 @@ def env_snapshot(env):
     return out
 
 
+def selection_id(value, label):
+    if value is not None and not isinstance(value, str):
+        raise HTTPException(422, f"{label}选择须为文字标识或空值，请重新选择；未修改或派发。")
+    return value
+
+
 def environment(task):
-    env = store.get("environment", task.get("environment_id") or "")
+    selected = selection_id(task.get("environment_id"), "目标 Dify 环境")
+    env = store.get("environment", selected or "")
     if not env:
         raise HTTPException(422, "请先选择已配置的目标 Dify 环境；当前仍可生成待验证文件。")
     if env.get("version") != TARGET_DIFY_VERSION:
@@ -346,6 +353,7 @@ def read_task(item_id: str, message_window:str|None=None, workspace_view:str|Non
 
 
 def validate_config(config):
+    selection_id(config.get("assistant_provider_id"), "助手模型服务")
     if "conversation_memory" in config and not isinstance(config["conversation_memory"],bool):
         raise HTTPException(422,"对话记忆开关须为布尔值。")
     if "memory_turns" in config and (isinstance(config["memory_turns"],bool) or not isinstance(config["memory_turns"],int) or not 1<=config["memory_turns"]<=50):
@@ -407,7 +415,7 @@ def patch_task(item_id: str, payload: dict):
                 raise HTTPException(422, "名称不能为空。")
             changes["name"] = payload["name"].strip()[:100]
         if "environment_id" in payload:
-            selected = payload["environment_id"]
+            selected = selection_id(payload["environment_id"], "目标 Dify 环境")
             if selected and not store.get("environment", selected):
                 raise HTTPException(422, "目标环境不存在。")
             changes["environment_id"] = selected
@@ -513,7 +521,7 @@ def workflow_runtime_entry(task):
 
 
 def main_provider(task):
-    selected = task["configuration"].get("assistant_provider_id")
+    selected = selection_id(task["configuration"].get("assistant_provider_id"), "助手模型服务")
     if selected:
         provider = store.get("provider", selected)
     else:
@@ -839,8 +847,8 @@ async def send_message(item_id: str, payload: Message):
         if message_requests.replay(sys.modules[__name__],task,payload):return task
         require_idle(task)
         if payload.revision is not None:require_revision(task,payload.revision)
+        provider_id = selection_id(task["configuration"].get("assistant_provider_id"), "助手模型服务")
         providers = store.list("provider")
-        provider_id = task["configuration"].get("assistant_provider_id")
         if provider_id:
             provider = store.get("provider", provider_id)
         else:

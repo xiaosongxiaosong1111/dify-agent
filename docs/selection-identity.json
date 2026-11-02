@@ -1,0 +1,18 @@
+{
+  "backlog": 291,
+  "runtime": "0.382.0-23ec2316cb16ac8a8a95",
+  "pid": 21484,
+  "state": "implemented_verified_deployed",
+  "new_tests": 38,
+  "before_failed": 30,
+  "before_passed": 8,
+  "related_tests": 225,
+  "protected_data_roots": 12,
+  "protected_evidence_files": 733,
+  "production_tasks": 26,
+  "frontend_unchanged": true,
+  "model_dify_http": 0,
+  "real_calls_deferred": true,
+  "business_verified": false,
+  "evidence": "work/selection-identity425"
+}
