@@ -2,7 +2,7 @@
   "backlog": 293,
   "runtime": "0.384.0-19391a2a527f00e96c23",
   "pid": 40672,
-  "state": "implemented_verified_deployed",
+  "state": "done",
   "new_tests": 49,
   "before_failed": 46,
   "before_passed": 3,
@@ -14,5 +14,6 @@
   "model_dify_http": 0,
   "real_calls_deferred": true,
   "business_verified": false,
-  "evidence": "work/model-json-values427"
+  "evidence": "work/model-json-values427",
+  "implementation_commit": "432973b"
 }
