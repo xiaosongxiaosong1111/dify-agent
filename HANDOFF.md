@@ -19,7 +19,7 @@
 
 ## 3. 下一步
 
-1. 274已确认历史恢复缺少列表项结构/身份检查：materials=[null]恢复200后/intake500。新增21场景18旧反例失败，修复后相关119过；预览/恢复前拒绝非对象/空或重复ID及parsed材料无名称正文，旧最小ID项/额外元数据/缺字段当前合法列表保持，不自动修补。375-279a8d7c11188195b3ae/292/PID28944归属/旧374快照/八根607保护部署过。证据work/history-collections412/before.log/targeted.log/prepared-runtime.json/before-deploy.json/after-deploy.json及docs/history-collection-integrity.md/json；先提交实现/日志，再关闭274继续有证据的实质缺口。新增真实模型/Dify0，原26任务/费用/密文/410回执保持。
+1. 274已确认历史恢复缺少列表项结构/身份检查：materials=[null]恢复200后/intake500。新增21场景18旧反例失败，修复后相关119过；预览/恢复前拒绝非对象/空或重复ID及parsed材料无名称正文，旧最小ID项/额外元数据/缺字段当前合法列表保持，不自动修补。375-279a8d7c11188195b3ae/292/PID28944归属/旧374快照/八根607保护部署过。证据work/history-collections412/before.log/targeted.log/prepared-runtime.json/before-deploy.json/after-deploy.json及docs/history-collection-integrity.md/json；实现a40f654已推且验收过，274关闭，继续有证据的实质缺口。新增真实模型/Dify0，原26任务/费用/密文/410回执保持。
 2. 410本批未暴露新代码缺陷；后续274源码核对已实际复现恢复入口缺陷并修复。对原§11及AT-01/10/13/19/22后，剩余为未观察的自主访谈/两版质量、资料冲突与版本/中断等边界，并非已经确认的新代码缺口。普通队列空不当全项目完成；后续只有核实具体可开发问题才入队，不编造微任务或重复人工固定图。新真实模型/平台范围须先完成具体可审查方案并取得直接授权，现有已批准范围已完成，不自动扩大。
 3. 后续保护原26生产Task及八根实际capture、410封存606+自身607，所有旧App/候选/原文/ZIP/unknown/费用/凭据保持。375/PID28944/.venv/292快照归属后用原start/stop，不按端口杀；停服原start并等health200。不另起18760；Playwright使用用户固定绝对模块路径和已安装Chrome headless。
 4. 持续实质开发至实际额度不足/确实完成/有界核对无可行动进展；未观察Codex不足，不伪称额度耗尽。实际不足立停尽力整份交接，不重试/换号/购买/重置券；上下文截断不是额度。Claude318无恢复证据不形式重试/加预算。不通读项目或290KB历史，按编号必要段/报错文件。
