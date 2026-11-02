@@ -179,22 +179,32 @@ def test_restart_preserves_checkpoint_marks_pending_unknown_and_never_reissues(c
 
 def test_chain_time_limit_cancels_native_stream_attempts_remote_stop_and_keeps_partial(tmp_path,monkeypatch):
     from app.storage import Store
-    from app import agent_stream
+    from app import agent_stream,conversation_cases
+    from types import SimpleNamespace
     import json
     store=Store(tmp_path);store.set_secret('env','service_api_key','unit-key')
     adapter=DifyClient({'id':'env','base_url':'http://127.0.0.1:8080'},store);paths=[];original=httpx.AsyncClient
+    timers=[]
+    def timeout_after_metadata(seconds):
+        timer=asyncio.timeout(None);timers.append(timer);return timer
+    monkeypatch.setattr(conversation_cases,'asyncio',SimpleNamespace(timeout=timeout_after_metadata))
     class SlowStream(httpx.AsyncByteStream):
         async def __aiter__(self):
             yield ('data: '+json.dumps({'event':'agent_message','answer':'部分','conversation_id':'c','task_id':'t'})+'\n\n').encode()
-            await asyncio.sleep(1)
+            # Expire after the adapter has consumed the task ID, independent
+            # of Windows startup/scheduling latency before the first event.
+            timers[-1].reschedule(asyncio.get_running_loop().time())
+            await asyncio.Future()
     def handler(req):
         paths.append(req.url.path)
         if req.url.path.endswith('/stop'):return httpx.Response(200,json={'result':'success'})
         return httpx.Response(200,headers={'content-type':'text/event-stream'},stream=SlowStream())
-    monkeypatch.setattr(agent_stream.httpx,'AsyncClient',lambda **kwargs:original(transport=httpx.MockTransport(handler),**kwargs))
+    # The stop adapter supplies its loopback transport; override it in the
+    # test client options rather than passing transport twice.
+    monkeypatch.setattr(agent_stream.httpx,'AsyncClient',lambda **kwargs:original(**{**kwargs,'transport':httpx.MockTransport(handler)}))
     async def send(values,cid,remaining):return await adapter.run_agent(values['query'],conversation_id=cid,seconds=remaining+1)
     with pytest.raises(DifyError,match='结果可能未知') as error:
-        asyncio.run(execute_conversation(case(),send,lambda result:None,lambda:False,seconds=.02))
+        asyncio.run(execute_conversation(case(),send,lambda result:None,lambda:False,seconds=2))
     assert paths==['/v1/chat-messages','/v1/chat-messages/t/stop']
     assert error.value.result['pending_turn']['result']['answer']=='部分' and error.value.result['pending_turn']['result']['stop_acknowledged']
 

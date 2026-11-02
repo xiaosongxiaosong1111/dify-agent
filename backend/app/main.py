@@ -85,7 +85,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.375.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.376.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1600,6 +1600,25 @@ async def import_task(item_id: str, payload: Revision):
 @run_input_router.post("/api/tasks/{item_id}/run")
 async def run_task(item_id: str, payload: RunRequest):
     task = get_task(item_id)
+    case = None
+    if payload.case_id:
+        # Legacy snapshots may preserve incomplete cases for read-only review.
+        # Validate before coverage/source checks, Key reads or run admission.
+        saved = task.get('test_cases')
+        invalid = '已保存的验收样例结构或身份无效，请先修正并重新保存；未试跑。'
+        if not isinstance(saved, list) or any(
+                not isinstance(row, dict) or not isinstance(row.get('id'), str)
+                or not row['id'].strip() for row in saved):
+            raise HTTPException(422, invalid)
+        identities = [row['id'] for row in saved]
+        if len(set(identities)) != len(identities):
+            raise HTTPException(422, invalid)
+        case = next((row for row in saved if row['id'] == payload.case_id), None)
+        if case is None:
+            raise HTTPException(404, '选定的验收样例不存在。')
+        from .evaluation import validate_test_cases
+        if not validate_test_cases([case], task['app_type'])['valid']:
+            raise HTTPException(422, invalid)
     require_manual_entry_runtime(task)
     require_dsl_preservation(task)
     require_coverage(task)
@@ -1610,7 +1629,6 @@ async def run_task(item_id: str, payload: RunRequest):
         raise HTTPException(422, "当前版本尚未真实导入。")
     if env.get("service_app_id") != task["dify_app_id"]:
         raise HTTPException(422, "请在环境设置中填写运行 API Key 对应的应用 ID，且必须与本次导入应用一致。导入草稿需先在 Dify 确认发布；不能拿其他应用 Key 的成功结果当本任务试跑。")
-    case = None
     runtime_context={}
     if payload.sequence is not None:
         if not payload.case_id or payload.input or payload.conversation_from_run_id:
@@ -1630,17 +1648,9 @@ async def run_task(item_id: str, payload: RunRequest):
         conversation_context = {"source_run_id":source["id"],"conversation_id":cid,"revision":task["revision"],"environment_id":task["environment_id"]}
     if payload.case_id:
         from .acceptance import same_json
-        case = next((c for c in task["test_cases"] if c["id"] == payload.case_id), None)
-        if not case:
-            raise HTTPException(404, "选定的验收样例不存在。")
         if payload.input and not same_json(payload.input, case["input"]):
             raise HTTPException(422, "实际输入与选定样例不一致，不能把修改后的输入计为此样例通过。")
         inputs = case["input"]
-        if case.get('followups'):
-            from .evaluation import validate_test_cases
-            checked = validate_test_cases([case], task['app_type'])
-            if not checked['valid']:
-                raise HTTPException(422, '多轮样例不符合当前应用约束：' + '; '.join(checked['errors']))
     if task["app_type"] == "agent":
         allowed = {"query", "conversation_id"} if conversation_context else {"query"}
         if not isinstance(inputs.get("query"), str) or not inputs["query"].strip() or set(inputs) != allowed:

@@ -1,0 +1,29 @@
+{
+  "state": "passed",
+  "stage": "after",
+  "runtime": "0.376.0-57d49ddcad74036f8ec8",
+  "pid": 11544,
+  "files": 292,
+  "changed": [
+    "backend/app/case_sequence.py",
+    "backend/app/main.py"
+  ],
+  "protected_data_roots": 8,
+  "protected_evidence_files": 607,
+  "original_tasks": 26,
+  "frontend_unchanged": true,
+  "task_settings_credentials_fees_kept": true,
+  "actual_saved_source": null,
+  "targeted_tests": 169,
+  "test_logs_verified": true,
+  "physical_model_dify_http": 0,
+  "business_verified": false,
+  "backlog": 275,
+  "new_regression_cases": 15,
+  "confirmed_old_failures": 12,
+  "old_invalid_expectation_status": 200,
+  "old_synthetic_service_calls": 1,
+  "preflight_synthetic_service_calls": 0,
+  "sequence_internal_marker_fix": true,
+  "cancellation_test_adapter_fixed": true
+}

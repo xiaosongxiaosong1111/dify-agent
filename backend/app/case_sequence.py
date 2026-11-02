@@ -74,7 +74,9 @@ class CaseSequence:
         with h.store.connect() as conn:
             secret=conn.execute('SELECT value FROM secrets WHERE id=?',(env['id']+':service_api_key',)).fetchone()
         secret_sha=hashlib.sha256(bytes(secret[0])).hexdigest() if secret else None
-        base={k:v for k,v in task.items() if k not in {'runs','status','updated_at'}}
+        # Normal run checkpoints increment state_sequence without changing the
+        # reviewed source. Exact run count/prefix/ownership is checked below.
+        base={k:v for k,v in task.items() if k not in {'runs','status','updated_at','state_sequence'}}
         binding={'task':base,'environment':env,'key_cipher_sha':secret_sha,'artifact_bytes_sha':hashlib.sha256(content).hexdigest(),
                  'policy':h.store.get('execution_limits',task['id']),'settings':h.get_settings(),
                  'case_ids':case_ids,'start_count':start_count,'prior_records':task['runs'][:start_count]}
