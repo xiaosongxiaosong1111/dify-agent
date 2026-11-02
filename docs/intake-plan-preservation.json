@@ -1,0 +1,28 @@
+{
+  "state": "passed",
+  "stage": "after",
+  "runtime": "0.374.0-fd1d9147a557103e2af2",
+  "pid": 35748,
+  "files": 292,
+  "changed": [
+    "backend/app/intake.py",
+    "backend/app/main.py",
+    "docs/intake-model-contract.md"
+  ],
+  "protected_data_roots": 8,
+  "protected_evidence_files": 575,
+  "original_tasks": 25,
+  "frontend_unchanged": true,
+  "task_settings_credentials_fees_kept": true,
+  "actual_saved_source": {
+    "saved_task": "25ae7940-021c-4106-8779-d6e3668ededc",
+    "batch_topic": false
+  },
+  "targeted_tests": 106,
+  "physical_model_dify_http": 0,
+  "business_verified": false,
+  "backlog": 271,
+  "new_regression_cases": 12,
+  "old_failures_reproduced": 6,
+  "scope": "Explicit existing-node preservation instruction is not business batch processing; actual item/array/iteration requirements remain."
+}
