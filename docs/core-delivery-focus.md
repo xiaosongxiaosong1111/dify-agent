@@ -1,6 +1,8 @@
 # Sierra核心交付顺序（2026-10-29）
 
-当前运行0.378.0-3f71a320b40afcec120e，权威队列docs/BACKLOG.md，交接HANDOFF.md；不从版本号或测试数量推算完成百分比。
+当前运行0.379.0-8a7d82953ed4021341dc，权威队列docs/BACKLOG.md，交接HANDOFF.md；不从版本号或测试数量推算完成百分比。
+
+418保存首访独立复核/正常采用实际通过，明确访谈1模型JSON无效停止，无规划/双包；284已补访谈安全格式定位并部署379，126定向过，旧失败不回写。当前实际35模型/保守43/估算账本1.955473652；下一步不能自动使用余两槽。[回执](recovered-chatflow-live-result-20261102.md)、[反馈功能](interview-format-diagnostics.md)。
 
 416新批首访12项/标准10项拒绝后停止，未采纳/续阶段。281现补常见资料问答/订单查询表达的必要条件核对，19新/146相关及378保护部署过，旧原文纯契约有效但旧失败不改判、真实质量仍待观察。[回执](complete-intake-chatflow-live-result-20261102.md)、[功能](intake-resource-business-phrases.md)。
 

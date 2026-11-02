@@ -29,7 +29,7 @@ from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, ConfigD
 
 from .storage import Store
 from .providers import call_model, checked_url, extract_json, ProviderError
-from .planning import draft_plan, PlanningStopped, validate_pricing
+from .planning import draft_plan, PlanningStopped, validate_pricing, _json_syntax_diagnostic
 from .dify import DifyClient, DifyError
 from .workflow_waiting import DifyPaused,receipt as paused_receipt,WorkflowWaiting
 from .model_parameters import validate_model_parameters, needs_task_model
@@ -85,7 +85,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.378.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.379.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -924,7 +924,8 @@ async def send_message(item_id: str, payload: Message):
         with store.lock:
             current=get_task(item_id)
             if current.get('active_interview_id')==interview_id:current.pop('active_interview_id',None)
-            note=("模型需求检查未通过："+str(exc)+" 本次候选未应用，没有更新需求，未自动重试；本次调用用量已记入预算。") if isinstance(exc,ReviewContractError) else str(exc) if isinstance(exc,(ProviderError,PlanningStopped)) else "模型返回了不符合约定的结构，本次没有更新需求。请检查候选或手动编辑。"
+            format_detail=_json_syntax_diagnostic(exc) if payload.mode=="review" else None
+            note=(format_detail+" 本次访谈没有更新需求，未自动修补或重发；本次调用用量已记入预算。") if format_detail else ("模型需求检查未通过："+str(exc)+" 本次候选未应用，没有更新需求，未自动重试；本次调用用量已记入预算。") if isinstance(exc,ReviewContractError) else str(exc) if isinstance(exc,(ProviderError,PlanningStopped)) else "模型返回了不符合约定的结构，本次没有更新需求。请检查候选或手动编辑。"
             stopped=isinstance(exc,PlanningStopped)
             try:budgets.ready(item_id)
             except PlanningStopped as budget_error:stopped=True;note+=" "+str(budget_error)
