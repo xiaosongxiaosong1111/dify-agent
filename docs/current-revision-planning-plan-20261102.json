@@ -1,6 +1,6 @@
 {
   "batch_id": "current-revision-planning422",
-  "state": "frozen_not_approved",
+  "state": "frozen_deferred_by_user",
   "source_batch": "reviewed-spec-planning420",
   "source_phase": "modified",
   "target_phase": "original",
@@ -38,5 +38,8 @@
   "full_business_accepted": false,
   "human_signoff": false,
   "plan_sha256": "55c181188073561236be1fbb2e62df4d8d01bfcb702748ce014514578ad3ca3c",
-  "manifest_sha256": "e2d4f3e1e46132018b0c0df3573e5ecfc994b6b47231fb5d016dec79397b8d53"
+  "manifest_sha256": "e2d4f3e1e46132018b0c0df3573e5ecfc994b6b47231fb5d016dec79397b8d53",
+  "direct_user_deferred": true,
+  "deferred_question_ref": "call_ae41b2d065e34bd8b5f5afeb812663cc/question0",
+  "deferred_reply": "暂不继续真实调用"
 }
