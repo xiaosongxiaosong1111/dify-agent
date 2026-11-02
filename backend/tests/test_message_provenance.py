@@ -99,7 +99,7 @@ def test_planning_snippets_also_directly_bind_identifiers_and_hashes(client,monk
     ids=[]
     for text in (b'FIRST',b'SECOND'):
         task,m=upload(client,task,'same.txt',text);ids.append(m['id'])
-        task=client.patch(f"/api/tasks/{task['id']}/materials/{m['id']}",json={'reference_mode':'borrow'}).json()
+        task=client.patch(f"/api/tasks/{task['id']}/materials/{m['id']}",json={'revision':task['revision'],'reference_mode':'borrow'}).json()
     async def fake(*args,**kwargs):
         ctx=json.loads(args[2][1]['content']);assert [m['id'] for m in ctx['reference_materials']]==ids
         assert all(len(m['source_sha256'])==64 for m in ctx['reference_materials'])

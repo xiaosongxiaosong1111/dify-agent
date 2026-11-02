@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（379访谈安全JSON定位已部署）
+# HANDOFF — Sierra（380材料操作来源修订已部署）
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main，实际379-8a7d82953ed4021341dc/293/PID16872，health/前端200/CIM执行文件及不可变快照匹配。284安全访谈JSON定位a56f0dc/关闭055ba40已推126定向/保护验收过；本轮后续仅工具/测试/文档，不部署新版本。
+- 根E:\workSpace\dify-agent/main，实际380-384251a00989ea6e2429/293/PID8232，health/前端200/CIM执行文件及不可变快照匹配。289单份材料PATCH/DELETE修订保护已实现、330定向/4UI/构建和十二根733保护部署过；实现提交后再关闭队列。原379访谈JSON定位及旧284结果保持。
 - 420明确改授后初始手工准入实际过，新Task0cdddd51-4893-43ec-a239-7f59f74c437a/r4。一次原版规划1568字符有效澄清JSON/5问题、op paused/needs_decision，无图或ZIP。模型混未来版本并引用不存在当前案例的clarify期望；权威案例/已确认状态算法和lookup不改。286回执ceac35d已推，旧包不回答后续澄清或续阶段。
 - 新费用settled0.008243568非账单，累计观察settled0.214071000，实际模型36/保守43/模型估算账本1.955473652；420用一余一未派发modified槽，不自动续用或角色改授。旧414两槽/unknown/settled及其它预留保持，原418两槽已改授420不重复计新增。
 - 现26生产Task；基线work/reviewed-spec-planning420/post-production-data-snapshot.json及post-391/394/399/401/405/408/409/414/416/418/420-data-snapshot.json，十二根实际capture核同。732+自身733封存，索引c9d9ef645118610e0fce61f5aed8deeb3e30f7e56b17d2c58511a25e5eef04e0，包含全部700旧证据。密文/费用/素材资产保持，新隔离无秘密副本。
@@ -19,15 +19,13 @@
 
 ## 3. 下一步
 
-- 最新用户决定：2026-11-02 call_ae41b2d065e34bd8b5f5afeb812663cc/q0选择“暂不继续真实调用”。422明确未授权，approval/attempt/worker-started/live-output均不存在，未解密或派发。work/current-revision-planning422/authorization-deferred.json记录原答复；方案摘要不改，剩余一槽/0.100及所有旧预留保持。后续真实模型/Dify批次须新的明确恢复授权，普通继续开发/自动唤醒不能覆盖这项决定；既有本机编程、隔离验证、commit/push委托保持。
-
-1. 287实现8aa7304及82定向/13最终协议、379十二根733保护验收过，已关闭：422只生成当前修订单版，业务requirements/configuration不再混“修改版/两版/商品型号”的未来批次说明，冻结/第一次预算和派发前校验；原六例七轮及完整文案/对话配置保持。新workTask代理正常手工准入后一次模型当前图规划、两根实际复核、同值采纳单静态ZIP，原版无旧图/模板。不保证消除模型错误引用，不声称模型完整访谈或双版通过。
-2. 82定向/13最终源绑定公开协议、379及十二根733源/快照/PID保护过。work/current-revision-planning422冻结10文件：plan55c181188073561236be1fbb2e62df4d8d01bfcb702748ce014514578ad3ca3c，manifeste2d4f3e1e46132018b0c0df3573e5ecfc994b6b47231fb5d016dec79397b8d53；docs/current-revision-planning-plan-20261102.md/json。真实模型/Dify/解密/approval/attempt均0。实现提交和实际验收均存在，真实改授另列288 need-user，未获新直接角色改授不执行。
-3. 422仅拟把420未派发modified一槽/0.100明确角色改授新批original当前版一次，0新槽/累计估算上界，43/1.955473652保持（非账单硬限，实际调用仍计费）。源attempt SHA9969e06b97f978c489de9c23716f9de791ff35d271acbabba99d815968c8c66f、original1/modified0已核。一次6000输出/120秒/≤0.100、两根复核各300秒、异常整批停无JSON修复/重试/续阶段，生产/Dify/资源/运行/登录/新库0，未新直接角色改授不解密派发。
-4. 286 blocked保持，420澄清原文b1864572dec44b14bea7f1321093f8fceac9ddaa1eaece2e9be008472d38344f。当前cases SHA261a6595f97a6f931284d65112af0ebd69eb3441ae194aaaf411e17eea6eee9a/existing_plan_context=null边界过，模型引用不符，不能更改原期望迎合。只确认输入里混入双版流程，未证明幻觉根因；旧420不改包重跑。418/416/414及所有消费包各自事实保持。
-5. 所有后续核十二根实际capture/733封存/原26及密文费用，不只比摘要文件。379/PID16872归属后原start/stop部署，不按端口杀；停服原start等health200，不另起18760，Playwright固定用户绝对模块路径。
-6. 持续实质开发至实际Codex不足/确实完成/有界核对无可行动进展；当前未观察不足，不造微任务或重复固定图。实际不足立停尽力整份交接，不重试/换号/购买/重置券。Claude318无恢复证据不形式重试/加预算/冒称子审查，不通读项目/290KB历史，不跑全量。
-7. 自主commit/push原GitHub main，每push前根CHANGELOG/适用README/状态及整份交接，排除work/data/模型原文/ZIP/秘密。保留所有旧真实资源/次数/费用/失败边界，Git safe.directory/HTTP1.1必要require_escalated，不force/改全局代理TLS。
+1. 用户2026-11-02 call_ae41b2d065e34bd8b5f5afeb812663cc/q0选择“暂不继续真实调用”。422未授权，approval/attempt/worker-started/live-output均不存在；authorization-deferred.json保持。普通继续开发/自动唤醒不能恢复真实模型/Dify授权；既有本机编程、隔离验证、commit/push委托保持。
+2. 289材料PATCH/DELETE来源修订已完成：锁内校验早于失效/写入，旧页409/缺失非法422，前端编辑绑定打开时任务/修订，409保留编辑。新增20（旧18失败/2兼容）及相关330、前端构建/4UI通过；两旧夹具改上传回执。380-384251a00989ea6e2429/293/PID8232已原脚本部署，实际十二根capture/733封存/原26密文费用保持，模型Dify0。work/material-revision423；docs/material-source-revision.md/json。实现提交存在后关闭289并自主推送，然后按既定需求有界核对新的实质本机缺口。
+3. BACKLOG288 need-user暂缓。422冻结10文件plan55c181188073561236be1fbb2e62df4d8d01bfcb702748ce014514578ad3ca3c / manifeste2d4f3e1e46132018b0c0df3573e5ecfc994b6b47231fb5d016dec79397b8d53；287实现8aa7304及82定向/13协议过。仅拟420未派发modified一槽/0.100角色改授新original当前版一次，43/1.955473652不增，未获新直接恢复及角色改授不解密派发；不是模型访谈或双版通过。
+4. 420/418/416/414及全部消费包保持stopped，不回答后续澄清续阶段或修复重发。420一次澄清无图/包，错误引用不在当前案例的期望不采纳；权威案例/状态算法/lookup不改，不迎合模型。未来业务与批次说明已隔离，但未证明能消除幻觉。
+5. 部署使用380当前快照，核saved PID/CIM执行文件/所属快照后原start/stop，不按端口杀进程；停服原start等health200。所有后续核十二根实际capture/733封存，不只比摘要；基线work/reviewed-spec-planning420，索引c9d9ef645118610e0fce61f5aed8deeb3e30f7e56b17d2c58511a25e5eef04e0。work/material-revision423/verify.py已适配十二根和380，旧419十一根脚本不能充当新保护。
+6. 持续实质开发至实际Codex不足/确实完成/有界核对无可行动进展；当前未观察不足，不造微任务。实际不足立停尽力整份交接，不重试/换号/购买/重置券。Claude318失败/用量未知无恢复证据，不形式重试/加预算/冒称子审查。不通读项目/290KB历史，不跑全量。
+7. 每次push前根CHANGELOG/适用README/状态及整份交接，重要成果自主commit/push原GitHub main，排除work/data/原文/ZIP/秘密。保留旧真实资源/次数/费用/失败边界，Git safe.directory/HTTP1.1必要require_escalated，不force/改全局代理TLS。
 
 ## 4. 账本与凭据
 

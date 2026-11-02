@@ -72,7 +72,7 @@ def test_valid_package_at_limits_still_uses_original_extraction(client,monkeypat
 def test_over_limit_requires_explicit_source_correction_and_keeps_old_error(client,monkeypatch):
     monkeypatch.setattr(material_documents,'MAX_DOCX_PART_BYTES',32)
     task=approved(client);saved,m=upload(client,task,'rules.docx',synthetic_package([('private-part',b'x'*33)]))
-    saved=client.patch(f"/api/tasks/{task['id']}/materials/{m['id']}",json={'reference_mode':'borrow'}).json()
+    saved=client.patch(f"/api/tasks/{task['id']}/materials/{m['id']}",json={'revision':saved['revision'],'reference_mode':'borrow'}).json()
     assert client.post(f"/api/tasks/{task['id']}/confirm",json={'kind':'requirements','revision':saved['revision']}).status_code==422
     corrected=client.post(f"/api/tasks/{task['id']}/materials/{m['id']}/text",json={'revision':saved['revision'],'source_sha256':m['sha256'],'text':'公开人工提供的规则','coverage_note':'只提供规则，不是原文件已经解析','acknowledge_manual_source':True})
     assert corrected.status_code==200,corrected.text

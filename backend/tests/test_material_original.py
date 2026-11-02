@@ -76,7 +76,7 @@ def test_download_rechecks_after_successful_probe_and_binds_revision(client):
 
 def test_deleted_material_does_not_expose_retained_audit_file(client):
     task,material=upload(client,create(client),'original.txt',b'original')
-    response=client.delete(f"/api/tasks/{task['id']}/materials/{material['id']}")
+    response=client.delete(f"/api/tasks/{task['id']}/materials/{material['id']}", params={'revision':task['revision']})
     task=response.json();assert source(task,material).exists()
     assert client.get(endpoint(task,material)).status_code==404
     assert client.get(endpoint(task,material,True)).status_code==404

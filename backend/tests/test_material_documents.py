@@ -43,7 +43,7 @@ def test_mixed_pdf_is_not_complete_keeps_partial_text_and_unread_page_numbers(cl
     assert '[第 1 页]' in m['partial_text'] and 'FIRST-PAGE' in m['partial_text'] and 'THIRD-PAGE' in m['partial_text']
     assert '第2页' in m['error'] and ('material',m['id']) not in sources(saved)
     assert not source_metadata(m)['source_file_parsed']
-    saved=client.patch(f"/api/tasks/{task['id']}/materials/{m['id']}",json={'reference_mode':'borrow'}).json()
+    saved=client.patch(f"/api/tasks/{task['id']}/materials/{m['id']}",json={'revision':saved['revision'],'reference_mode':'borrow'}).json()
     assert client.post(f"/api/tasks/{task['id']}/confirm",json={'kind':'requirements','revision':saved['revision']}).status_code==422
     path=main.DATA_ROOT/task['id']/'materials'/(m['id']+'.pdf')
     assert path.read_bytes()==raw and m['sha256']==hashlib.sha256(raw).hexdigest()

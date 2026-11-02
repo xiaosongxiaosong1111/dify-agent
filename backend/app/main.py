@@ -85,7 +85,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.379.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.380.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1030,11 +1030,20 @@ async def upload_material(item_id: str, file: UploadFile = File(...), expected_r
         return save_task(task)
 
 
+def require_material_revision(task, revision):
+    if type(revision) is not int or not 1 <= revision <= 9007199254740991:
+        raise HTTPException(422, "材料操作须携带明确的正整数来源修订，请刷新材料页面。")
+    require_revision(task, revision)
+
+
 @app.delete("/api/tasks/{item_id}/materials/{material_id}")
-def remove_material(item_id: str, material_id: str):
+def remove_material(item_id: str, material_id: str, revision: str | None = None):
+    if revision is None or not re.fullmatch(r'[1-9][0-9]{0,15}', revision):
+        raise HTTPException(422, "材料操作须携带明确的正整数来源修订，请刷新材料页面。")
     with store.lock:
         task = get_task(item_id)
         require_idle(task)
+        require_material_revision(task, int(revision))
         if not any(m["id"] == material_id for m in task["materials"]):
             raise HTTPException(404, "材料不存在。")
         invalidate(task, "移除材料前保存")
@@ -1054,6 +1063,7 @@ def update_material(item_id: str, material_id: str, payload: dict):
     with store.lock:
         task = get_task(item_id)
         require_idle(task)
+        require_material_revision(task, payload.get('revision'))
         material = next((m for m in task["materials"] if m["id"] == material_id), None)
         if not material:
             raise HTTPException(404, "材料不存在。")

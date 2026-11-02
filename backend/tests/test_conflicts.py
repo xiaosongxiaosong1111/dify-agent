@@ -150,7 +150,7 @@ def document_and_reference(client):
  response=client.post(f"/api/tasks/{task['id']}/materials",files={'file':('退款政策.md',document.encode('utf-8'),'text/markdown')})
  assert response.status_code==200,response.text
  task=response.json();doc=task['materials'][-1]
- response=client.patch(f"/api/tasks/{task['id']}/materials/{doc['id']}",json={'reference_mode':'borrow'})
+ response=client.patch(f"/api/tasks/{task['id']}/materials/{doc['id']}",json={'revision':task['revision'],'reference_mode':'borrow'})
  assert response.status_code==200,response.text
  task=response.json();fixture=copy.deepcopy(task)
  fixture['workflow_plan']=plan("def main(query):\n    # 退款期限为 30 天；其他规则保留。\n    return {'result': query}\n")
@@ -248,7 +248,7 @@ def test_at03_material_changes_invalidate_confirmed_resolution(client,change):
  if change=='document_added':
   response=client.post(f"/api/tasks/{task['id']}/materials",files={'file':('政策补充.md','退款期限重新待定。'.encode('utf-8'),'text/markdown')})
  else:
-  response=client.patch(f"/api/tasks/{task['id']}/materials/{task['materials'][1]['id']}",json={'reference_mode':'preserve','preserve_items':'保留退款规则'})
+  response=client.patch(f"/api/tasks/{task['id']}/materials/{task['materials'][1]['id']}",json={'revision':task['revision'],'reference_mode':'preserve','preserve_items':'保留退款规则'})
  assert response.status_code==200,response.text
  changed=response.json();before=copy.deepcopy(changed)
  assert changed['revision']==task['revision']+1 and not changed['requirements_confirmed']
@@ -297,7 +297,7 @@ def business_documents(client,reverse=False,same_material=False):
   assert response.status_code==200,response.text
   task=response.json();material=task['materials'][-1]
   assert material['status']=='parsed' and material['text']==text
-  response=client.patch(f"/api/tasks/{task['id']}/materials/{material['id']}",json={'reference_mode':'borrow'})
+  response=client.patch(f"/api/tasks/{task['id']}/materials/{material['id']}",json={'revision':task['revision'],'reference_mode':'borrow'})
   assert response.status_code==200,response.text
   task=response.json()
  candidate=review(task)

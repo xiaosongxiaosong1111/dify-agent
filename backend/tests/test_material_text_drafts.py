@@ -33,7 +33,7 @@ def test_cas_failure_and_deleted_tombstone_prevent_old_client_aba_overwrite(clie
 
 def test_task_revision_change_retains_source_bound_text_but_requires_current_revision_for_writes(client):
     task,m=unread(client);url=path(task,m);client.put(url,json=body(task,m))
-    revised=client.patch(f"/api/tasks/{task['id']}/materials/{m['id']}",json={'reference_mode':'borrow'}).json()
+    revised=client.patch(f"/api/tasks/{task['id']}/materials/{m['id']}",json={'revision':task['revision'],'reference_mode':'borrow'}).json()
     state=client.get(url).json();assert state['revision_changed'] and state['can_restore_text']
     assert client.put(url,json=body(task,m,1)).status_code==409
     assert client.put(url,json=body(revised,m,1,coverage_note='补充范围')).status_code==200

@@ -294,10 +294,10 @@ def test_at04_uploaded_reference_without_choice_is_questioned_and_blocked(client
     mid = task['materials'][0]['id']
     for payload in ({}, {'reference_mode': None}, {'reference_mode': ''}, {'reference_mode': 'automatic'},
                     {'reference_mode': 'preserve', 'preserve_items': ' \n '}):
-        response = client.patch(f"/api/tasks/{task['id']}/materials/{mid}", json=payload)
+        response = client.patch(f"/api/tasks/{task['id']}/materials/{mid}", json={**payload, 'revision':task['revision']})
         assert response.status_code == 422, response.text
         assert main.get_task(task['id']) == before
-    response = client.patch(f"/api/tasks/{task['id']}/materials/{mid}", json={'reference_mode': 'borrow'})
+    response = client.patch(f"/api/tasks/{task['id']}/materials/{mid}", json={'revision':task['revision'],'reference_mode': 'borrow'})
     assert response.status_code == 200, response.text
     selected = response.json()
     assert selected['materials'][0]['reference_mode'] == 'borrow'
@@ -321,7 +321,7 @@ def test_at04_changing_choice_invalidates_approvals_and_never_falls_back(client,
     assert task['artifact']['verification'] == 'static_only'
     mid = task['materials'][0]['id']
     response = client.patch(f"/api/tasks/{task['id']}/materials/{mid}",
-                            json={'reference_mode': mode, 'preserve_items': '保留代码规则' if mode == 'preserve' else ''})
+                            json={'revision':task['revision'],'reference_mode': mode, 'preserve_items': '保留代码规则' if mode == 'preserve' else ''})
     assert response.status_code == 200, response.text
     changed = response.json()
     assert changed['revision'] == task['revision'] + 1

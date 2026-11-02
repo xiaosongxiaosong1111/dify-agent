@@ -56,7 +56,7 @@ def test_reading_current_preview_marks_changed_binding_without_rewriting_preview
     elif change=='price':client.patch('/api/providers/'+p['id'],json={'pricing':{'input_per_million_usd':2,'output_per_million_usd':3}})
     elif change=='model':client.patch('/api/providers/'+p['id'],json={'model':'different-fixture'})
     elif change=='source':(main.DATA_ROOT/t['id']/'materials'/(m['id']+'.png')).write_bytes(b'changed')
-    elif change=='task_revision':client.patch(f"/api/tasks/{t['id']}/materials/{m['id']}",json={'reference_mode':'borrow'})
+    elif change=='task_revision':client.patch(f"/api/tasks/{t['id']}/materials/{m['id']}",json={'revision':t['revision'],'reference_mode':'borrow'})
     elif change=='settings':client.patch('/api/settings',json={'max_cost_usd':.2})
     elif change=='budget_policy':
         budget=main.budgets.get(t['id']);budget['policy_revision']+=1;main.store.put('task_budget',t['id'],budget)

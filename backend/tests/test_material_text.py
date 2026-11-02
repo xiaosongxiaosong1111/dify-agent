@@ -76,7 +76,7 @@ def test_interview_receives_user_source_marker_not_a_claim_of_image_reading(clie
 
 def test_existing_preserve_decision_is_kept_and_blocks_automatic_borrow_planning(client):
     planning_provider(client);task,m=unread(client)
-    task=client.patch(f"/api/tasks/{task['id']}/materials/{m['id']}",json={'reference_mode':'preserve','preserve_items':'指定主流程与右侧分支'}).json()
+    task=client.patch(f"/api/tasks/{task['id']}/materials/{m['id']}",json={'revision':task['revision'],'reference_mode':'preserve','preserve_items':'指定主流程与右侧分支'}).json()
     task=client.post(f"/api/tasks/{task['id']}/materials/{m['id']}/text",json=payload(task,m)).json()
     assert task['materials'][0]['reference_mode']=='preserve'
     assert task['materials'][0]['preserve_items']=='指定主流程与右侧分支'

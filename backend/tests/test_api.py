@@ -159,8 +159,8 @@ def test_material_extraction_and_reference_gate(client):
     assert material["text"] == "保修一年" and material["status"] == "parsed"
     assert not result["requirements_confirmed"]
     assert client.post(f"/api/tasks/{tid}/confirm", json={"kind": "requirements", "revision": result["revision"]}).status_code == 422
-    assert client.patch(f"/api/tasks/{tid}/materials/{material['id']}", json={"reference_mode": "preserve"}).status_code == 422
-    result = client.patch(f"/api/tasks/{tid}/materials/{material['id']}", json={"reference_mode": "preserve", "preserve_items": "保修期限"}).json()
+    assert client.patch(f"/api/tasks/{tid}/materials/{material['id']}", json={'revision':result['revision'],"reference_mode": "preserve"}).status_code == 422
+    result = client.patch(f"/api/tasks/{tid}/materials/{material['id']}", json={'revision':result['revision'],"reference_mode": "preserve", "preserve_items": "保修期限"}).json()
     assert client.post(f"/api/tasks/{tid}/confirm", json={"kind": "requirements", "revision": result["revision"]}).status_code == 200
 
 
@@ -170,7 +170,7 @@ def test_unparsed_material_can_be_removed(client):
     result = client.post(f"/api/tasks/{tid}/materials", files={"file": ("flow.png", b"not-an-image", "image/png")}).json()
     material = result["materials"][0]
     assert material["status"] == "needs_input" and material["error"]
-    result = client.delete(f"/api/tasks/{tid}/materials/{material['id']}").json()
+    result = client.delete(f"/api/tasks/{tid}/materials/{material['id']}", params={'revision':result['revision']}).json()
     assert not result["materials"]
 
 
@@ -178,7 +178,7 @@ def test_strict_reference_is_not_silently_ignored(client):
     task = approved(client)
     tid = task["id"]
     task = client.post(f"/api/tasks/{tid}/materials", files={"file": ("ref.txt", b"important reference", "text/plain")}).json()
-    task = client.patch(f"/api/tasks/{tid}/materials/{task['materials'][0]['id']}", json={"reference_mode": "replicate"}).json()
+    task = client.patch(f"/api/tasks/{tid}/materials/{task['materials'][0]['id']}", json={'revision':task['revision'],"reference_mode": "replicate"}).json()
     assert client.post(f"/api/tasks/{tid}/confirm", json={"kind": "requirements", "revision": task["revision"]}).status_code == 200
     assert client.post(f"/api/tasks/{tid}/confirm", json={"kind": "configuration", "revision": task["revision"]}).status_code == 200
     response = client.post(f"/api/tasks/{tid}/build", json={"revision": task["revision"]})

@@ -57,7 +57,7 @@ def test_valid_sources_keep_original_text_and_never_reserialize(client,name,text
 def test_bad_structured_material_blocks_confirmation_and_can_be_replaced_explicitly(client):
     task=approved(client);task,m=upload(client,task,'rules.json',b'{"private-marker": [}')
     assert m['status']=='needs_input' and 'private-marker' not in m['error']
-    task=client.patch(f"/api/tasks/{task['id']}/materials/{m['id']}",json={'reference_mode':'borrow'}).json()
+    task=client.patch(f"/api/tasks/{task['id']}/materials/{m['id']}",json={'revision':task['revision'],'reference_mode':'borrow'}).json()
     assert client.post(f"/api/tasks/{task['id']}/confirm",json={'kind':'requirements','revision':task['revision']}).status_code==422
     reply=client.post(f"/api/tasks/{task['id']}/materials/{m['id']}/text",json={'revision':task['revision'],'source_sha256':m['sha256'],'text':'用户提供的修正说明','coverage_note':'只解释业务要求，不是原JSON已修好','acknowledge_manual_source':True})
     assert reply.status_code==200,reply.text
