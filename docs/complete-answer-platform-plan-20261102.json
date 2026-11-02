@@ -1,0 +1,88 @@
+{
+  "state": "frozen_not_approved",
+  "backlog": 272,
+  "batch_id": "complete-answer410",
+  "plan_sha256": "dd6b547b6e2bfe517da727a093d361bb8be88a6b063fd447465741f449b89a93",
+  "manifest_sha256": "8abdf625a1c33c71025cda09f38aa614ef5331bf517bda2ddb1881d7822c40c9",
+  "frozen_files": 15,
+  "targeted_boundary_tests": 83,
+  "public_protocol_cases": 20,
+  "physical_model_dify_http": 0,
+  "key_decrypted": false,
+  "approval_created": false,
+  "attempt_created": false,
+  "protected_production_tasks": 25,
+  "protected_data_roots": 8,
+  "protected_evidence_files": 575,
+  "source_model_plan_sha256": "f7ac6d10dd986fffbfbe410ded616d4956ec7253d70fdf194ee49f3c1e39435c",
+  "source_review_sha256": "2d3f2a0e0ca10dd8217a41de92047ad6a28990bf697804be3c03475e196c59a3",
+  "runtime": {
+    "verified_pid": 35748,
+    "runtime_build": "0.374.0-fd1d9147a557103e2af2",
+    "source_files_matched": 292
+  },
+  "local_docker_readiness": {
+    "applicable": true,
+    "ready": true,
+    "compose_project": "dify-local",
+    "required_containers": 16,
+    "healthy_services": [
+      "api",
+      "db_postgres",
+      "local_sandbox",
+      "redis",
+      "sandbox"
+    ],
+    "dify_http_requests": 0,
+    "login_verified": false,
+    "business_verified": false
+  },
+  "limits": {
+    "new_tasks": 1,
+    "model": 0,
+    "reads": 64,
+    "login": 1,
+    "import": 1,
+    "publish": 1,
+    "key": 1,
+    "run": 7
+  },
+  "proposed_upper": {
+    "model": 35,
+    "reads": 1469,
+    "login": 46,
+    "import": 26,
+    "publish": 26,
+    "key": 26,
+    "run": 120
+  },
+  "estimated_new_dify_usd": "0.05",
+  "estimate_is_bill_hard_cap": false,
+  "host_cost_unknown": true,
+  "failure_policy": {
+    "business_rule_failure_only": true,
+    "max_reports": 1,
+    "max_management_reads": 4,
+    "post_failure_service_requests": 0,
+    "post_failure_remote_writes": 0,
+    "stop_after_capture": true
+  },
+  "state_policy": {
+    "names": [
+      "order_wait_requested",
+      "order_wait_consumed"
+    ],
+    "type": "boolean",
+    "initial_values": [
+      false,
+      false
+    ],
+    "owner_ids": "uuid5:sierra:conversation:{task_id}:{name}",
+    "only_declaration_ids_change": true,
+    "followup_bypasses_classifier": true,
+    "explicit_post_plan_review": true
+  },
+  "model_autonomous_mainline_verified": false,
+  "business_verified": false,
+  "human_signoff": false
+}

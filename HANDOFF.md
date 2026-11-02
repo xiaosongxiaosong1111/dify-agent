@@ -1,4 +1,4 @@
-# HANDOFF — Sierra（408已消费；374准入误判已修；410平台方案待完成）
+# HANDOFF — Sierra（408已消费；374准入误判已修；410已冻结待新范围）
 
 ## 1. 当前状态
 
@@ -19,8 +19,9 @@
 
 ## 3. 下一步
 
-1. 271实际修复410本机全链发现的准入误判：现有节点/明确流程属性须逐项保持不应当业务batch，窄过滤且原话/证据保持；混合订单逐项、数组、多条、批量和已有迭代仍触发。6旧反例失败后12新/相关106过，374-fd1d9147a557103e2af2/292/PID35748归属/八根575保护部署，实际409源无batch。证据work/plan-preservation411/before.log/targeted.log/before-deploy.json/after-deploy.json及docs/intake-plan-preservation.md/json。cdff64c实现已推且验收过，271关闭，272为首pending接续410方案，不丢未提交tools/complete-answer410和backend/tests/test_complete_answer_platform_boundary.py。
-   410仅本机准备：83门禁已过，首20协议在新需求“逐项保持”触发batch而执行器缺该答案时报错，旧记录work/complete-answer410-local/rehearsal保留。先把410运行版本/快照固定更新到374-fd1d9147a557103e2af2，再用修复后的正常准入跑新隔离20场景/源绑定proof、八根575及最终冻结，不改旧406或408。拟新Task1/App发布Key各1/六启动七Service/64GET/1加密登录，45分钟整批/Task30分钟/估0.05非账单硬限，搭建模型0/新库0，Dify内部仍调用模型；新保守读1469/登录46/资源26/Service120，模型35/账本1.155473652不增，唯一业务失败轮≤4GET后封存。未新直接批准不解密或派发。
+1. 271准入误判修复cdff64c/关闭5d05c03已推，106定向及374/八根575保护部署过。272现已准备410新图单版平台方案，83门禁/最终20公开协议、374-fd1d9147a557103e2af2/292/PID35748和八根575预检通过，15文件plan dd6b547b6e2bfe517da727a093d361bb8be88a6b063fd447465741f449b89a93 / manifest 8abdf625a1c33c71025cda09f38aa614ef5331bf517bda2ddb1881d7822c40c9。先提交实现/日志，再关闭272加273 need-user；未获新直接批准不解密/登录/派发，无approval/attempt。docs/complete-answer-platform-plan-20261102.md/json，work/complete-answer410-local/rehearsal-final/proof.json及rehearsal-proof.json；首轮失败保留。
+   410固定409已复核原候选f7ac6d10/原文c1cbc058/根复核2d3f2a0e和六例七轮/原期望，图不改，只新资源文字/验收执行说明，零搭建模型。拟新Task1/App首次发布Key各1/六启动七Service/七轨迹/一包，64GET/1加密登录，45分钟整批/Task30分钟，估0.05非账单硬限/宿主未知；新保守读1469/登录46/资源各26/Service120，模型35/账本1.155473652不增。两个false状态ID只按新Task实例化，唯一Service成功但业务failed轮最多4GET/1诊断后封存，技术异常即停；旧范围不借退。
+   Docker原停止，已按既有环境启动授权恢复com.docker.service和E:\workSpace\DockerDesktop\Docker Desktop.exe（隐藏），引擎就绪/16原容器全部通过local_readiness，只读未发Dify请求、不建容器。执行前仍以当时实际就绪为准，不因恢复Docker消费外部批。
 2. 原408/401/406及全部旧包已消费，不补过期复核、不重试/续阶段。406余47GET/六Service等及所有旧unknown/预留保持，不借退；401余槽已用完。后续真实模型或平台必须有具体新直接范围，常规可逆本机开发/复核/静态采纳已有委托无需重复问。
 3. 后续保护生产+391/394/399/401/405/408/409共八根实际capture及409索引574+自身575，不只核快照文件hash；原25生产Task、模型配置、凭据、费用、旧原文/ZIP/失败全部保持。374/PID35748/.venv/292快照归属核对后用原start/stop，不按端口杀；停服原start并等health200。不另起18760，Playwright固定绝对模块路径及已安装Chrome headless。
 4. 持续实质开发至实际额度不足/确实完成/有界核对无可行动进展；不造微任务或反复准备同样范围，不全量/通读项目/290KB历史。未观察Codex额度拒绝；实际不足立停尽力整份交接，不重试/换号/购买/重置券。Claude318无恢复证据不形式重试/加预算。
