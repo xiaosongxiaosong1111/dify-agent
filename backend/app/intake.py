@@ -110,6 +110,9 @@ def context(task):
     if delegated:value['agent_declared_answers']=delegated
     from .iteration_outcomes import has_protocol,semantic_digest
     if has_protocol(task.get('workflow_plan')):value['batch_plan_scope']={'semantic_sha256':semantic_digest(task['workflow_plan']),'verification':'draft_protocol_markers_only'}
+    from .interview_case_context import review_binding
+    binding=review_binding(task)
+    if binding is not None:value['saved_case_sources']=binding
     return value
 
 def model_sources(task):
@@ -125,6 +128,8 @@ def sources(task):
     result={('requirement',key):value for key,value in task['requirements'].items() if value.strip()}
     result.update({('message',str(i)):m.get('content','') for i,m in enumerate(task.get('messages',[])) if requirement_user(m)})
     result.update({('material',m['id']):m.get('text','') for m in task.get('materials',[]) if m.get('status')=='parsed'})
+    from .interview_case_context import sources as case_sources
+    result.update(case_sources(task))
     records=task.get('intake_history',[])+([task['intake_review']] if task.get('intake_review') else [])
     for i,record in enumerate(records):
         if record.get('source')=='user_declared':result.update({('decision',f'{i}:{key}'):value for key,value in record.get('answers',{}).items()})

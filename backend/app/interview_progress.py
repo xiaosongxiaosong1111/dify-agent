@@ -27,11 +27,12 @@ class InterviewProgress:
             if time.monotonic()-counter['last_saved']<.25:return
             counter['last_saved']=time.monotonic();self._update(record,'receiving_response');self.h.store.put('interview_operation',item_id,record)
 
-    def context(self,item_id,summary):
+    def context(self,item_id,summary,*,acceptance_cases=None):
         with self.h.store.lock:
             record=self.h.store.get('interview_operation',item_id)
             if record and record.get('status')=='running':
                 record['context_summary']=copy.deepcopy(summary)
+                if acceptance_cases is not None:record['acceptance_cases']=copy.deepcopy(acceptance_cases)
                 self.h.store.put('interview_operation',item_id,record)
 
     def _update(self,record,phase):
