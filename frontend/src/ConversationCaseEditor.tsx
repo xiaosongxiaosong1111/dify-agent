@@ -1,6 +1,6 @@
 import {Plus, Trash2} from 'lucide-react';
 import type {ExpectationMode} from './AcceptancePanel';
-export type TurnDraft={inputText:string;mode:ExpectationMode;target:string;expectedText:string;description:string};
+export type TurnDraft={inputText:string;mode:ExpectationMode;target:string;expectedText:string;description:string;keywordJson?:boolean};
 export const newTurnDraft=():TurnDraft=>({inputText:'{\n  "query": ""\n}',mode:'contains',target:'answer',expectedText:'',description:''});
 const modes=[['contains','包含关键词'],['equals','严格等值'],['json_schema','完整对象 Schema'],['json_keys','包含 JSON 字段'],['manual','人工复核']];
 export default function ConversationCaseEditor({turns,onChange}: {turns:TurnDraft[];onChange:(turns:TurnDraft[])=>void}){
@@ -13,7 +13,8 @@ export default function ConversationCaseEditor({turns,onChange}: {turns:TurnDraf
    <label className="field"><span>{label}检查方式</span><select aria-label={`${label}检查方式`} value={t.mode} onChange={e=>update(index,{mode:e.target.value as ExpectationMode})}>{modes.map(([v,n])=><option key={v} value={v}>{n}</option>)}</select></label>
    {t.mode==='manual'?<label className="field"><span>{label}人工判断标准</span><textarea aria-label={`${label}人工判断标准`} value={t.description} onChange={e=>update(index,{description:e.target.value})}/></label>:<>
     <label className="field"><span>{label}输出路径</span><input aria-label={`${label}输出路径`} value={t.target} onChange={e=>update(index,{target:e.target.value})}/></label>
-    <label className="field"><span>{label}{t.mode==='json_schema'?'完整对象Schema JSON':t.mode==='equals'?'期望值 JSON':t.mode==='json_keys'?'必含字段（每行一项）':'必含关键词（每行一项）'}</span><textarea aria-label={`${label}预期`} value={t.expectedText} placeholder={t.mode==='equals'?'"上一轮的编号"':'需要命中的内容'} onChange={e=>update(index,{expectedText:e.target.value})}/></label>
+    <label className="field"><span>{label}{t.mode==='json_schema'?'完整对象Schema JSON':t.mode==='equals'?'期望值 JSON':t.keywordJson?'关键词／字段规则 JSON（保留原格式）':t.mode==='json_keys'?'必含字段（每行一项）':'必含关键词（每行一项）'}</span><textarea aria-label={`${label}预期`} value={t.expectedText} placeholder={t.mode==='equals'?'"上一轮的编号"':'需要命中的内容'} onChange={e=>update(index,{expectedText:e.target.value})}/></label>
+    {t.keywordJson&&['contains','json_keys'].includes(t.mode)&&<p className="hint">按JSON原样编辑，保留原字符串／列表类型及关键词内部的空格和换行，不拆成多项。</p>}
    </>}
   </div>})}
   <button className="secondary full" type="button" disabled={turns.length>=9} onClick={()=>onChange([...turns,newTurnDraft()])}><Plus size={14}/>追加对话轮次</button>

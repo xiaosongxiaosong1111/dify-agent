@@ -22,7 +22,7 @@ export type TestCase = {
 };
 export type CaseDraft = {
   id: string; name: string; inputText: string; required: boolean;
-  mode: ExpectationMode; target: string; expectedText: string; description: string; followups?:TurnDraft[];
+  mode: ExpectationMode; target: string; expectedText: string; description: string; keywordJson?:boolean; followups?:TurnDraft[];
 };
 export type AcceptanceSummary = {
   revision: number;
@@ -57,13 +57,17 @@ export function newCaseDraft(appType: string): CaseDraft {
     mode: 'contains', target: appType === 'workflow' ? 'result' : 'answer', expectedText: '', description: '' };
 }
 
+function expectedDraft(expectation:TestCase['expectation']):{expectedText:string;keywordJson?:boolean}{
+  const value=expectation.expected;
+  if(['contains','json_keys'].includes(expectation.mode)&&!(Array.isArray(value)&&value.length>0&&value.every(x=>typeof x==='string'&&x.length>0&&x.trim()===x&&!/[\r\n]/.test(x))))return {expectedText:JSON.stringify(value,null,2)??'',keywordJson:true};
+  return {expectedText:expectation.mode==='json_schema'&&typeof value==='string'?value:['equals','json_schema'].includes(expectation.mode)?JSON.stringify(value,null,2):Array.isArray(value)?value.join('\n'):String(value??'')};
+}
 export function casesToDrafts(cases: TestCase[]): CaseDraft[] {
   return cases.map(c => ({ id: c.id, name: c.name, inputText: JSON.stringify(c.input, null, 2),
     required: c.required !== false, mode: c.expectation.mode, target: c.expectation.target || '',
     description: c.expectation.description || '',
-    expectedText: c.expectation.mode === 'json_schema' && typeof c.expectation.expected === 'string' ? c.expectation.expected : ['equals','json_schema'].includes(c.expectation.mode) ? JSON.stringify(c.expectation.expected, null, 2) :
-      Array.isArray(c.expectation.expected) ? c.expectation.expected.join('\n') : String(c.expectation.expected ?? ''),
-    followups:c.followups?.map(t=>({inputText:JSON.stringify(t.input,null,2),mode:t.expectation.mode,target:t.expectation.target||'answer',description:t.expectation.description||'',expectedText:t.expectation.mode==='json_schema'&&typeof t.expectation.expected==='string'?t.expectation.expected:['equals','json_schema'].includes(t.expectation.mode)?JSON.stringify(t.expectation.expected,null,2):Array.isArray(t.expectation.expected)?t.expectation.expected.join('\n'):String(t.expectation.expected??'')})) }));
+    ...expectedDraft(c.expectation),
+    followups:c.followups?.map(t=>({inputText:JSON.stringify(t.input,null,2),mode:t.expectation.mode,target:t.expectation.target||'answer',description:t.expectation.description||'',...expectedDraft(t.expectation)})) }));
 }
 
 function draftToTurn(c:TurnDraft,prefix:string):{input:Record<string,unknown>;expectation:TestCase['expectation']}{
@@ -73,10 +77,10 @@ function draftToTurn(c:TurnDraft,prefix:string):{input:Record<string,unknown>;ex
     const expectation: TestCase['expectation'] = { mode: c.mode };
     if (c.mode === 'manual') {
       if (!c.description.trim()) throw Error(`${prefix}需要填写人工判断标准。`);
-      expectation.description = c.description.trim();
+      expectation.description = c.description;
     } else {
       if (!c.target.trim()) throw Error(`${prefix}需要填写待检查的输出路径。`);
-      expectation.target = c.target.trim();
+      expectation.target = c.target;
       if(c.mode==='json_schema'){
         if(!c.expectedText.trim())throw Error(`${prefix}需要填写完整对象Schema。`);
         expectation.expected=c.expectedText;
@@ -84,6 +88,11 @@ function draftToTurn(c:TurnDraft,prefix:string):{input:Record<string,unknown>;ex
         // Validate the original grammar before wrapping; do not accept extra members.
         try { JSON.parse(c.expectedText); } catch { throw Error(`${prefix}的期望值必须是有效 JSON，文本请用双引号包裹。`); }
         try { expectation.expected = parseRunInputText(`{"expected":${c.expectedText}}`).expected; } catch(e) { throw Error(`${prefix}的期望值：${e instanceof Error?e.message:'JSON原文无法完整核对，未保存。'}`); }
+      } else if(c.keywordJson){
+        let value:unknown;
+        try{JSON.parse(c.expectedText);value=parseRunInputText(`{"expected":${c.expectedText}}`).expected}catch{throw Error(`${prefix}的关键词或字段规则须为完整JSON，未拆行、裁剪或保存。`)}
+        if(!(c.mode==='contains'&&typeof value==='string'&&value.length>0)&&!(Array.isArray(value)&&value.length>0&&value.every(x=>typeof x==='string'&&x.length>0)))throw Error(`${prefix}的规则须为非空文字${c.mode==='contains'?'或文字列表':'列表'}；保留JSON类型、空格和换行，未自动转换。`);
+        expectation.expected=value;
       } else {
         const entries = c.expectedText.split('\n').map(s => s.trim()).filter(Boolean);
         if (!entries.length) throw Error(`${prefix}需要至少一项关键词或字段。`);
@@ -129,8 +138,9 @@ export function AcceptancePanel({ taskId,revision,artifactStamp,drafts, appType,
       <label className="field"><span>检查方式</span><select aria-label="检查方式" value={c.mode} onChange={e => update(c.id, { mode: e.target.value as ExpectationMode })}>{modes.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}</select></label>
       {c.mode === 'manual' ? <label className="field"><span>人工判断标准</span><textarea aria-label="人工判断标准" value={c.description} placeholder="描述需要人工检查的具体行为" onChange={e => update(c.id, { description: e.target.value })}/></label> : <>
         <label className="field"><span>输出路径</span><input value={c.target} placeholder={appType === 'advanced-chat' ? 'answer' : 'result 或 data.summary'} onChange={e => update(c.id, { target: e.target.value })}/></label>
-        <label className="field"><span>{c.mode === 'json_schema' ? '完整对象 Schema JSON' : c.mode === 'equals' ? '期望值 JSON' : c.mode === 'json_keys' ? '必含字段（每行一项）' : '必含关键词（每行一项）'}</span><textarea aria-label={c.mode === 'json_schema' ? '完整对象 Schema JSON' : c.mode === 'equals' ? '期望值 JSON' : c.mode === 'json_keys' ? '必含字段（每行一项）' : '必含关键词（每行一项）'} spellCheck={false} value={c.expectedText} placeholder={c.mode === 'json_schema' ? '明确闭合对象Schema，不自动补字段' : c.mode === 'equals' ? '"保修一年" 或 {"ok":true}' : c.mode === 'json_keys' ? 'summary\nconfidence' : '一年\n人工客服'} onChange={e => update(c.id, { expectedText: e.target.value })}/></label>
+        <label className="field"><span>{c.mode === 'json_schema' ? '完整对象 Schema JSON' : c.mode === 'equals' ? '期望值 JSON' : c.keywordJson ? '关键词／字段规则 JSON（保留原格式）' : c.mode === 'json_keys' ? '必含字段（每行一项）' : '必含关键词（每行一项）'}</span><textarea aria-label={c.mode === 'json_schema' ? '完整对象 Schema JSON' : c.mode === 'equals' ? '期望值 JSON' : c.keywordJson ? '关键词／字段规则 JSON（保留原格式）' : c.mode === 'json_keys' ? '必含字段（每行一项）' : '必含关键词（每行一项）'} spellCheck={false} value={c.expectedText} placeholder={c.mode === 'json_schema' ? '明确闭合对象Schema，不自动补字段' : c.mode === 'equals' ? '"保修一年" 或 {"ok":true}' : c.mode === 'json_keys' ? 'summary\nconfidence' : '一年\n人工客服'} onChange={e => update(c.id, { expectedText: e.target.value })}/></label>
       </>}
+      {c.keywordJson&&['contains','json_keys'].includes(c.mode)&&<p className="hint">按JSON原样编辑，保留原字符串／列表类型及关键词内部的空格和换行，不拆成多项；仅修改名称等字段不会改变原匹配规则。</p>}
       {c.mode==='json_schema'&&<p className="hint">核对返回对象或严格JSON对象文字的完整Schema（必填、类型、额外字段、范围）。不修复JSON、不补默认；不证明Dify入口强制、模型事实正确或客户业务通过。仅已适配闭合对象子集；对象及Schema各64000字节，整数须在无损范围内。Schema文字保留重复键，保存时后台明确拒绝。</p>}
       {['advanced-chat','agent'].includes(appType)&&<ConversationCaseEditor turns={c.followups||[]} onChange={followups=>update(c.id,{followups})}/>}
       <div className="case-actions"><label className="case-required"><input type="checkbox" checked={c.required} onChange={e => update(c.id, { required: e.target.checked })}/>必选验收样例</label><button className="secondary" type="button" onClick={() => onChange(drafts.filter(x => x.id !== c.id))}><Trash2 size={14}/>移除样例 {i + 1}</button></div>
