@@ -1,7 +1,7 @@
 {
   "backlog": 300,
   "date": "2026-11-03",
-  "state": "verified_pending_commit",
+  "state": "done",
   "runtime": "0.391.0-ac015cf10b8f643a71c5",
   "pid": 26928,
   "runtime_files": 294,
@@ -20,5 +20,6 @@
   "model_dify_http": 0,
   "real_calls_deferred": true,
   "business_verified": false,
-  "evidence": "work/case-json-editor434"
+  "evidence": "work/case-json-editor434",
+  "implementation_commit": "a757ca9"
 }
