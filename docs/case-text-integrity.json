@@ -1,7 +1,7 @@
 {
   "backlog": 299,
   "date": "2026-11-03",
-  "state": "verified_pending_commit",
+  "state": "done",
   "runtime": "0.390.0-39fe2ff2222b46fd9d6d",
   "pid": 9900,
   "new_tests": 16,
@@ -15,5 +15,6 @@
   "model_dify_http": 0,
   "real_calls_deferred": true,
   "business_verified": false,
-  "evidence": "work/case-text-integrity433"
+  "evidence": "work/case-text-integrity433",
+  "implementation_commit": "752c977"
 }
