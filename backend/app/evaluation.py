@@ -27,7 +27,11 @@ def _json_value_error(value: Any, *, depth: int = 0, budget: list[int] | None = 
         return "JSON值包含过多元素"
     if depth > _MAX_JSON_DEPTH:
         return "JSON值嵌套过深"
-    if value is None or type(value) in (bool, int, str):
+    if value is None or type(value) in (bool, int):
+        return None
+    if type(value) is str:
+        try:value.encode('utf-8')
+        except UnicodeError:return '文字编码无法完整核对，未替换字符'
         return None
     if type(value) is float:
         return None if math.isfinite(value) else "数字必须是有限值"
@@ -41,6 +45,8 @@ def _json_value_error(value: Any, *, depth: int = 0, budget: list[int] | None = 
         for key, child in value.items():
             if type(key) is not str:
                 return "对象键必须是字符串"
+            try:key.encode('utf-8')
+            except UnicodeError:return '对象键编码无法完整核对，未替换字符'
             error = _json_value_error(child, depth=depth + 1, budget=budget)
             if error:
                 return error
@@ -51,6 +57,9 @@ def _json_value_error(value: Any, *, depth: int = 0, budget: list[int] | None = 
 def _expectation_error(expectation: Any, label: str) -> str | None:
     if type(expectation) is not dict:
         return f"{label}必须是对象"
+    value_error = _json_value_error(expectation)
+    if value_error:
+        return f"{label}{value_error}"
     mode = expectation.get("mode")
     if not isinstance(mode, str) or mode not in _MODES:
         return f"{label}.mode必须是contains、equals、json_keys、json_schema或manual"
@@ -195,6 +204,7 @@ def _preview(value: Any) -> tuple[Any, bool]:
     """Bound returned output size after adjudication, preserving JSON shape."""
     try:
         serialized = json.dumps(value, ensure_ascii=False, allow_nan=False, separators=(",", ":"))
+        serialized.encode('utf-8')
     except (TypeError, ValueError, RecursionError):
         return {"preview_unavailable": True}, True
     if len(serialized) <= _MAX_PREVIEW_CHARS:
