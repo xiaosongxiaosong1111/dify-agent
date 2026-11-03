@@ -9,6 +9,7 @@ import { CheckCircle2, Plus, Trash2 } from 'lucide-react';
 import ConversationCaseEditor, {type TurnDraft} from './ConversationCaseEditor';
 import ConversationCaseResult from './ConversationCaseResult';
 import CaseJsonEditor from './CaseJsonEditor';
+import SavedRunJsonPanel from './SavedRunJsonPanel';
 import RunDiagnosticPanel, {type Diagnostic} from './RunDiagnosticPanel';
 import RunComparisonPanel from './RunComparisonPanel';
 import SavedRunInputCopy,{type InputCopyDraft} from './SavedRunInputCopy';
@@ -195,6 +196,7 @@ export function RunHistory({ currentAppId, runs, revision, busy, hasUnsaved, rea
     <ConversationCaseResult value={run.result}/>
     {taskId&&run.kind==='run'&&run.app_type==='workflow'&&<IterationResults taskId={taskId} revision={revision} run={run} currentAppId={currentAppId} blocked={busy||hasUnsaved}/>}
     <b>实际返回结果</b><RecordedJson value={run.result ?? run.output ?? run.input} scope={JSON.stringify([taskId,revision,run.id,'result'])} label="实际返回结果"/>
+    {taskId&&<SavedRunJsonPanel key={`${taskId}:${run.id}`} taskId={taskId} revision={revision} runId={run.id} scope={JSON.stringify([run.kind,run.status,run.revision,run.app_type,run.app_id,run.environment_id])}/>}
     {run.evaluation && <div className={`validation ${run.evaluation.status === 'passed' ? 'ok' : 'bad'}`}><b>{stateNames[run.evaluation.status] || run.evaluation.status}</b><p>{run.evaluation.details}</p></div>}
     {taskId&&reportActivity&&onUpdated&&<RunDiagnosticPanel currentAppId={currentAppId} taskId={taskId} revision={revision} run={run} blocked={busy||hasUnsaved} onActivity={onActivity} onUpdated={onUpdated} onLocateNode={onLocateNode} onPrepareRun={onPrepareRun}/>}
     {run.manual_review && <div className="callout"><b>人工确认{run.manual_review.decision === 'passed' ? '通过' : '未通过'}</b><p>{run.manual_review.reason}</p><small>{new Date(run.manual_review.created_at).toLocaleString('zh-CN')}</small></div>}
