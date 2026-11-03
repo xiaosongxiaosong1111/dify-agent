@@ -1,7 +1,7 @@
 {
   "backlog": 301,
   "date": "2026-11-03",
-  "state": "verified_pending_commit",
+  "state": "done",
   "runtime": "0.392.0-841987788734066ba66a",
   "pid": 5428,
   "runtime_files": 295,
@@ -16,5 +16,6 @@
   "model_dify_http": 0,
   "real_calls_deferred": true,
   "business_verified": false,
-  "evidence": "work/run-record-json435"
+  "evidence": "work/run-record-json435",
+  "implementation_commit": "9d83bd0"
 }
