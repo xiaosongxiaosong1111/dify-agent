@@ -1,4 +1,4 @@
-import asyncio,base64,copy,json,time,uuid
+import asyncio,base64,copy,hashlib,json,time,uuid
 import pytest,yaml
 from test_api import client,approved,create_env
 from test_file_inputs import plan
@@ -14,7 +14,11 @@ APP=str(uuid.uuid4());REMOTE=str(uuid.uuid4());OWNER=str(uuid.uuid4())
 
 def ready(client,kind='file'):
  env=create_env(client);client.patch(f"/api/environments/{env['id']}",json={'service_app_id':APP,'service_api_key':'fixture-service-key'})
- t=approved(client,env_id=env['id']);t=client.post(f"/api/tasks/{t['id']}/build",json={'revision':t['revision']}).json();main.artifact_path(t).write_text(compile_workflow_plan(plan_task(plan(kind)))[0],encoding='utf-8');t['dify_app_id']=APP;main.save_task(t);return t,env
+ t=approved(client,env_id=env['id']);t=client.post(f"/api/tasks/{t['id']}/build",json={'revision':t['revision']}).json()
+ content,validation=compile_workflow_plan(plan_task(plan(kind)));path=main.artifact_path(t);path.write_text(content,encoding='utf-8')
+ # This native-file fixture is a recorded build, including its exact file bytes.
+ t['artifact'].update(sha256=hashlib.sha256(path.read_bytes()).hexdigest(),validation=validation)
+ t['dify_app_id']=APP;main.save_task(t);return t,env
 
 
 def prepare(client,t,**patch):return client.post(f"/api/tasks/{t['id']}/runtime-files/prepare",content=json.dumps({'revision':t['revision'],'variable':'document','filename':'sample.txt','content_base64':base64.b64encode(CONTENT).decode(),**patch},ensure_ascii=True),headers={'content-type':'application/json'})

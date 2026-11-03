@@ -60,5 +60,6 @@ def test_final_bytes_change_during_read_is_rejected(client,monkeypatch):
  monkeypatch.setattr(module,'read_bytes',change);assert get(client,t).status_code==409
 
 def test_malformed_source_returns_safe_complete_failure_not_partial_suggestions(client):
- t=built(client,root());main.artifact_path(t).write_text('private-sentinel: [broken',encoding='utf-8')
+ t=built(client,root());path=main.artifact_path(t);path.write_text('private-sentinel: [broken',encoding='utf-8')
+ t['artifact']['sha256']=hashlib.sha256(path.read_bytes()).hexdigest();main.store.put('task',t['id'],t)
  r=get(client,t);assert r.status_code==422 and 'private-sentinel' not in r.text

@@ -56,7 +56,8 @@ def register(h):
             if mode not in {'workflow', 'advanced-chat', 'agent'}:
                 raise HTTPException(422, '当前应用类型没有可打包的DSL，不改变用户选择。')
             folder = (h.DATA_ROOT / task['id']).resolve()
-            path = h.artifact_path(task)
+            # Keep the existing credential-scan-before-hash order for this bundle.
+            path = h.artifact_path(task, verify=False)
             if path.is_symlink() or path.resolve().parent != folder or folder.parent != h.DATA_ROOT.resolve():
                 raise HTTPException(422, '成果路径不属于当前任务，未读取或打包。')
             try:

@@ -65,7 +65,9 @@ def test_source_change_during_read_refuses_old_candidate(client,monkeypatch):
 
 
 def test_invalid_file_private_raw_is_not_returned(client):
- t=built(client);main.artifact_path(t).write_text('private-document-sentinel: [not-finished',encoding='utf-8');r=get(client,t);assert r.status_code==422 and 'private-document-sentinel' not in r.text
+ t=built(client);path=main.artifact_path(t);path.write_text('private-document-sentinel: [not-finished',encoding='utf-8')
+ t['artifact']['sha256']=hashlib.sha256(path.read_bytes()).hexdigest();main.store.put('task',t['id'],t)
+ r=get(client,t);assert r.status_code==422 and 'private-document-sentinel' not in r.text
 
 @pytest.mark.parametrize('kind',['nodes','outputs','duplicate-id','schedule'])
 def test_complete_limits_no_partial_candidate(kind):

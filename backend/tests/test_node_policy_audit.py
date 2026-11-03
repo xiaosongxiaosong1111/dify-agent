@@ -7,7 +7,9 @@ from app.node_policy_audit import audit
 
 def built(client,root=None):
  t=approved(client);response=client.post(f"/api/tasks/{t['id']}/build",json={'revision':t['revision']});assert response.status_code==200,response.text;t=response.json()
- if root is not None:main.artifact_path(t).write_text(yaml.safe_dump(root,allow_unicode=True),encoding='utf-8')
+ if root is not None:
+  path=main.artifact_path(t);path.write_text(yaml.safe_dump(root,allow_unicode=True),encoding='utf-8')
+  t['artifact']['sha256']=hashlib.sha256(path.read_bytes()).hexdigest();main.store.put('task',t['id'],t)
  return t
 
 def get(client,t):return client.get(f"/api/tasks/{t['id']}/node-policy-audit",params={'revision':t['revision']})
@@ -62,7 +64,8 @@ def test_revision_and_unbuilt_and_type_gates(client):
 
 @pytest.mark.parametrize('raw',[b'private-yaml-sentinel: [',b'private-encoding-sentinel: \xff',b'a'*2_000_001],ids=['invalid-yaml','invalid-encoding','oversized'])
 def test_invalid_or_oversized_source_returns_no_raw_or_partial_success(client,raw):
- t=built(client);main.artifact_path(t).write_bytes(raw);response=get(client,t)
+ t=built(client);path=main.artifact_path(t);path.write_bytes(raw)
+ t['artifact']['sha256']=hashlib.sha256(raw).hexdigest();main.store.put('task',t['id'],t);response=get(client,t)
  assert response.status_code==422 and 'nodes' not in response.json() and 'private-' not in response.text
 
 

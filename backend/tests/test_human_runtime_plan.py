@@ -1,4 +1,4 @@
-import copy,json,uuid
+import copy,hashlib,json,uuid
 import pytest,yaml
 from test_api import client,approved,create_env
 from test_human_review import plan
@@ -43,6 +43,7 @@ def test_unadapted_scope_never_silently_omitted_or_claimed_free(client,change):
     elif change=='extra_channel':nodes[1]['data']['delivery_methods'].append({'id':str(uuid.uuid4()),'type':'email','enabled':False,'config':{}})
     else:nodes[0]['data']['variables'][0]['type']='number'
     path.write_text(yaml.safe_dump(root,allow_unicode=True),encoding='utf-8')
+    task['artifact']['sha256']=hashlib.sha256(path.read_bytes()).hexdigest();main.store.put('task',task['id'],task)
     response=prepare(client,task);assert response.status_code==422 and not main.store.list('human_runtime_plan')
 
 
@@ -60,6 +61,8 @@ def test_public_history_bound_to_task_and_no_private_future_fields(client):
 
 def test_frozen_plan_remains_history_when_artifact_changed_and_new_plan_differs(client):
     task,env=setup(client);p=prepare(client,task).json();path=main.artifact_path(task);root=yaml.safe_load(path.read_text(encoding='utf-8'));root['workflow']['graph']['nodes'][2]['data']['template']='新批准结果';path.write_text(yaml.safe_dump(root,allow_unicode=True),encoding='utf-8')
+    assert prepare(client,task).status_code==409
+    task['artifact']['sha256']=hashlib.sha256(path.read_bytes()).hexdigest();main.store.put('task',task['id'],task)
     newer=prepare(client,task).json();assert newer['artifact_sha256']!=p['artifact_sha256'] and newer['resource_token']!=p['resource_token']
     rows=client.get(f"/api/tasks/{task['id']}/human-runtime").json()['records'];assert rows[1]['artifact_sha256']==p['artifact_sha256']
 
@@ -71,9 +74,11 @@ def test_native_string_length_choice_and_required_not_defaulted(client,kind,valu
     row=root['workflow']['graph']['nodes'][0]['data']['variables'][0];row.update(type=kind,max_length=3)
     if kind=='select':row.update(options=['allowed'],default=default)
     path.write_text(yaml.safe_dump(root,allow_unicode=True),encoding='utf-8')
+    task['artifact']['sha256']=hashlib.sha256(path.read_bytes()).hexdigest();main.store.put('task',task['id'],task)
     assert prepare(client,task,input={} if value is None else {'query':value}).status_code==422
     assert not main.store.list('human_runtime_plan')
 
 def test_yaml_escaped_environment_credential_rejected_without_echo(client):
     task,env=setup(client);path=main.artifact_path(task);text=path.read_text(encoding='utf-8').replace('已批准','"\\u0074est-console"');path.write_text(text,encoding='utf-8')
+    task['artifact']['sha256']=hashlib.sha256(path.read_bytes()).hexdigest();main.store.put('task',task['id'],task)
     response=prepare(client,task);assert response.status_code==422 and 'test-console' not in response.text and main.store.list('human_runtime_plan')==[]

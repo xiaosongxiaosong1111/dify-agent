@@ -1,4 +1,4 @@
-import copy,json,uuid,yaml
+import copy,hashlib,json,uuid,yaml
 import pytest
 from test_api import client
 from test_schedule_observation import setup,APP,PUBLISHED,TRIGGER
@@ -73,7 +73,8 @@ def test_unadapted_content_refused_not_removed(client,change):
  elif change=='secret':nodes[1]['data']['template']='sk-private-not-for-outbound-0123456789'
  elif change=='model':nodes[1]['data']['type']='llm'
  else:nodes[2]['data']['outputs'][0]['variable']='another'
- main.artifact_path(t).write_text(yaml.safe_dump(root,allow_unicode=True),encoding='utf-8')
+ path=main.artifact_path(t);path.write_text(yaml.safe_dump(root,allow_unicode=True),encoding='utf-8')
+ t['artifact']['sha256']=hashlib.sha256(path.read_bytes()).hexdigest();main.store.put('task',t['id'],t)
  assert prepare(client,t).status_code==422 and main.store.list('schedule_publication')==[]
 
 def test_recover_never_republishes_or_stops(client):
@@ -84,6 +85,7 @@ def test_recover_never_republishes_or_stops(client):
 def test_escaped_saved_credential_not_published_or_returned(client):
  t,env,root=setup(client);path=main.artifact_path(t);text=path.read_text(encoding='utf-8')
  text=text.replace('定时技术固定结果','"\\u0074est-console"');path.write_text(text,encoding='utf-8')
+ t['artifact']['sha256']=hashlib.sha256(path.read_bytes()).hexdigest();main.store.put('task',t['id'],t)
  response=prepare(client,t);assert response.status_code==422 and 'test-console' not in response.text and main.store.list('schedule_publication')==[]
 
 @pytest.mark.parametrize('change',['revision','credentials'])

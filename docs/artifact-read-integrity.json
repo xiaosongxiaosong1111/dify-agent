@@ -1,0 +1,23 @@
+{
+  "backlog": 294,
+  "date": "2026-11-03",
+  "runtime": "0.385.0-5af2e6752dc6d19a16f6",
+  "pid": 25476,
+  "state": "implemented_verified_deployed",
+  "new_tests": 27,
+  "initial_reproduced_cases": 25,
+  "before_failed": 23,
+  "before_passed": 2,
+  "related_test_groups": [
+    216,
+    248
+  ],
+  "frontend_unchanged": true,
+  "protected_data_roots": 12,
+  "protected_evidence_files": 733,
+  "production_tasks": 26,
+  "model_dify_http": 0,
+  "real_calls_deferred": true,
+  "business_verified": false,
+  "evidence": "work/artifact-read-integrity428"
+}

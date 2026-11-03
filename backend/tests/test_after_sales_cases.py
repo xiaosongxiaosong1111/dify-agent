@@ -66,7 +66,7 @@ def test_changed_artifact_bytes_stale_revision_unknown_dependency_and_duplicate_
     raw=json.dumps(payload)[:-1]+',"dependency":"订单查询模拟"}'
     assert client.post('/api/tasks/'+task['id']+'/after-sales-cases-preview',content=raw,headers={'Content-Type':'application/json'}).status_code==422
     path=main.artifact_path(task);path.write_bytes(path.read_bytes()+b'\n# manual artifact edit\n')
-    assert call(client,task).status_code==422
+    assert call(client,task).status_code==409
 
 
 def test_selected_rows_can_save_as_new_unverified_cases_without_old_result_reuse(client):

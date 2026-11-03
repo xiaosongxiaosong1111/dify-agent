@@ -85,7 +85,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.384.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.385.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1265,20 +1265,72 @@ def build(item_id: str, payload: Revision):
         return save_task(task)
 
 
-def artifact_path(task):
+def artifact_path(task, *, verify=True):
     artifact = task.get("artifact")
-    if not artifact or artifact["revision"] != task["revision"]:
+    if not isinstance(artifact, dict) or artifact.get("revision") != task["revision"]:
         raise HTTPException(404, "当前版本尚未生成文件，请确认方案后生成。")
-    path = DATA_ROOT / task["id"] / artifact["filename"]
-    if not path.exists():
+    filename = artifact.get('filename')
+    if not isinstance(filename, str) or not filename:
+        raise HTTPException(422, '成果文件身份无法核对，请重新构建；未读取其他文件。')
+    try:
+        root = DATA_ROOT.resolve(); folder = root / task['id']
+        path = folder / filename
+        if folder.parent != root or folder.resolve() != folder or path.is_symlink() or path.resolve().parent != folder:
+            raise HTTPException(422, '成果路径不属于当前任务，未读取其他文件。')
+        path = path.resolve()
+        exists = path.is_file()
+    except (OSError, ValueError, RuntimeError, TypeError):
+        raise HTTPException(422, '成果路径无法安全核对，请重新构建；未读取其他文件。') from None
+    if not exists:
         raise HTTPException(404, "成果文件缺失，请重新生成。")
+    if verify:
+        _artifact_bytes_at(task, path)
     return path
+
+
+def _artifact_bytes_at(task, path):
+    from .dsl_roundtrip import MAX_BYTES
+    try:
+        with path.open('rb') as source:
+            raw = source.read(MAX_BYTES + 1)
+    except OSError:
+        raise HTTPException(404, '当前成果不可读取，请核对文件后重新生成。') from None
+    if not raw or len(raw) > MAX_BYTES:
+        raise HTTPException(422, '成果为空或超过当前2MB读取范围，请核对原文件并拆分后重新构建；未返回部分内容。')
+    recorded = task['artifact'].get('sha256')
+    if recorded is not None and recorded != hashlib.sha256(raw).hexdigest():
+        raise HTTPException(409, '成果内容已偏离本次构建记录，请核对修改后的DSL并重新构建；未修补文件或沿用旧校验。')
+    return raw
+
+
+def artifact_bytes(task):
+    return _artifact_bytes_at(task, artifact_path(task, verify=False))
+
+
+def _decode_artifact(raw):
+    try:return raw.decode('utf-8').replace('\r\n', '\n').replace('\r', '\n')
+    except UnicodeError:
+        raise HTTPException(422, '成果文字编码无法核对，请重新构建；未替换字符或当作当前DSL。') from None
+
+
+def artifact_text(task):
+    return _decode_artifact(artifact_bytes(task))
 
 
 @app.get("/api/tasks/{item_id}/dsl")
 def read_dsl(item_id: str):
     task = get_task(item_id)
-    return {"content": artifact_path(task).read_text(encoding="utf-8"), "revision": task["revision"], "validation": task["artifact"]["validation"]}
+    raw = artifact_bytes(task)
+    legacy = task['artifact'].get('sha256') is None
+    note = ('旧成果没有构建摘要，仅核对本次读取字节；不能反推从构建起未变化，保存的静态校验不证明当前字节已重验。' if legacy
+            else '当前读取字节与已保存构建摘要一致；不代表Dify导入或业务已验证。')
+    validation = copy.deepcopy(task['artifact'].get('validation'))
+    if legacy and isinstance(validation, dict) and isinstance(validation.get('warnings', []), list):
+        validation['warnings'] = [*validation.get('warnings', []), note]
+    return {"content": _decode_artifact(raw), "revision": task["revision"], "validation": validation,
+            'artifact_sha256': hashlib.sha256(raw).hexdigest(),
+            'artifact_integrity_basis': 'legacy_export_bytes_only' if legacy else 'recorded_build_sha256',
+            'artifact_integrity_note': note}
 
 
 @app.get('/api/tasks/{item_id}/run-input-schema')
@@ -1287,7 +1339,7 @@ def read_run_input_schema(item_id: str):
         task=get_task(item_id)
         from .dsl_roundtrip import parse
         from .start_inputs import form_schema
-        content=artifact_path(task).read_text(encoding='utf-8')
+        content=artifact_text(task)
         try:value=form_schema(parse(content,task['app_type']))
         except ValueError as exc:raise HTTPException(422,str(exc)) from exc
         return {**value,'revision':task['revision'],'source_sha256':hashlib.sha256(content.encode('utf-8')).hexdigest()}
@@ -1296,7 +1348,11 @@ def read_run_input_schema(item_id: str):
 @app.get("/api/tasks/{item_id}/artifact")
 def download_artifact(item_id: str):
     task = get_task(item_id)
-    return FileResponse(artifact_path(task), media_type="application/yaml", filename=f"dify-{task['app_type']}-r{task['revision']}.yaml")
+    raw = artifact_bytes(task)
+    return Response(raw, media_type="application/yaml", headers={
+        'Content-Disposition': f'attachment; filename="dify-{task["app_type"]}-r{task["revision"]}.yaml"',
+        'Cache-Control': 'no-store', 'X-Sierra-Revision': str(task['revision']),
+        'X-Sierra-Artifact-Integrity': 'legacy_export_bytes_only' if task['artifact'].get('sha256') is None else 'recorded_build_sha256'})
 
 
 @app.get('/api/tasks/{item_id}/execution-costs')
@@ -1319,7 +1375,8 @@ def report(item_id: str):
     from .file_cases import summary as file_case_summary
     summary = summarize_acceptance(task,file_case_summary(sys.modules[__name__],task))
     evidence_note = (f"当前修订有匹配的真实导入记录；成功运行返回 {successful_runs} 次，已声明必选样例 {summary['required']['passed']} / {summary['required']['total']} 通过。完整业务覆盖仍需确认。" if imported else "当前修订尚无匹配的真实导入记录；编译产物只代表静态校验，不能证明真实运行或业务覆盖。")
-    lines = [f"# {task['name']} · 交付说明", "", f"目标 Dify：{TARGET_DIFY_VERSION}；DSL：{DSL_VERSION}", f"类型：{task['app_type']}；版本：r{task['revision']}", f"状态：{task['status']}。{compilation_note}", evidence_note, "", "## 确认需求", ""]
+    lines = [f"# {task['name']} · 交付说明", "", f"目标 Dify：{TARGET_DIFY_VERSION}；DSL：{DSL_VERSION}", f"类型：{task['app_type']}；版本：r{task['revision']}", f"状态：{task['status']}。{compilation_note}", evidence_note,
+             "静态检查来自已保存的构建记录；本报告未重新读取并核对成果文件。下载和派发另行核对当前字节，不能以本报告替代文件一致性检查。", "", "## 确认需求", ""]
     lines.extend(f"- {k}：{v}" for k, v in task["requirements"].items())
     from .delivery_history import render as delivery_history_lines
     lines += ['', *delivery_history_lines(task)]
@@ -1461,13 +1518,13 @@ async def external_action(item_id, revision, kind, operation, *, inputs=None, te
         if not task["configuration_confirmed"] or not task["requirements_confirmed"]:
             raise HTTPException(422, "当前版本尚未确认需求、配置和资源操作。")
         env = environment(task)
-        artifact_path(task)
+        artifact_bytes(task)
         if kind=='run':workflow_waiting.require_no_waiting(task,env)
         if task['app_type'] in {'workflow','advanced-chat'}:
             from .dsl_roundtrip import parse
             from .extraction_safety import require_native_success
             try:
-                final_content=artifact_path(task).read_text(encoding='utf-8')
+                final_content=artifact_text(task)
                 final_root=parse(final_content,task['app_type'])
                 require_native_success(final_root)
                 from .body_http import require_native_reads
@@ -1565,7 +1622,7 @@ async def external_action(item_id, revision, kind, operation, *, inputs=None, te
             current["dify_app_id"] = result.get("app_id")
             from .dsl_roundtrip import parse
             try:
-                baseline=compile_current(task)[0] if task.get('dsl_overlay') else artifact_path(task).read_text(encoding='utf-8')
+                baseline=compile_current(task)[0] if task.get('dsl_overlay') else artifact_text(task)
                 target['dsl_baseline']=parse(baseline,task['app_type']);target['baseline_kind']='generation_proposal'
             except (ValueError,OSError,HTTPException):target['baseline_unavailable']=True
         if current["status"] != "paused":
@@ -1587,7 +1644,7 @@ def require_manual_entry_runtime(task):
     if task.get('app_type')=='workflow' and (task.get('artifact') or {}).get('revision')==task.get('revision'):
         from .dsl_roundtrip import parse
         try:
-            root=parse(artifact_path(task).read_text(encoding='utf-8'),task['app_type'])
+            root=parse(artifact_text(task),task['app_type'])
         except (ValueError,OSError) as exc:raise HTTPException(422,'无法核对最终入口：'+str(exc)) from exc
         if any(n.get('data',{}).get('type')=='human-input' for n in root['workflow']['graph']['nodes']):raise HTTPException(422,HUMAN_LIMIT)
         if any(n.get('data',{}).get('type')=='trigger-schedule' for n in root['workflow']['graph']['nodes']):raise HTTPException(422,RUNTIME_LIMIT)
@@ -1600,7 +1657,7 @@ async def import_task(item_id: str, payload: Revision):
     if checked_task.get('dsl_reference'):
         from .dsl_roundtrip import digest,parse
         try:
-            preserved_content=artifact_path(checked_task).read_text(encoding='utf-8')
+            preserved_content=artifact_text(checked_task)
             if digest(parse(preserved_content,checked_task['app_type']))!=checked_task['dsl_overlay']['digest']:raise ValueError('构建文件与已确认合并值不一致，请重新核对，不能导入未确认修改。')
         except (ValueError,OSError) as exc:raise HTTPException(422,str(exc)) from exc
     async def operation(task, env):
@@ -1611,7 +1668,7 @@ async def import_task(item_id: str, payload: Revision):
                 try:latest=parse(await DifyClient(env,store).export_dsl(reference['source_app_id']),task['app_type'])
                 except (DifyError,ValueError) as exc:raise DifyError('导入前无法核对源 Dify 编辑草稿；本次未创建应用，请重新读取并检查来源。') from exc
                 if digest(latest)!=digest(reference['current']):raise DifyError('源 Dify 编辑草稿又有变化，本次未创建应用；请重新读取、分析并确认保留方案。')
-        content=preserved_content if preserved_content is not None else artifact_path(task).read_text(encoding='utf-8')
+        content=preserved_content if preserved_content is not None else artifact_text(task)
         name=task['name']
         if task.get('dsl_reference'):
             from .dsl_roundtrip import parse

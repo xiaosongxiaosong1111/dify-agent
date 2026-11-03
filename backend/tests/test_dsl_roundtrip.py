@@ -192,7 +192,7 @@ def test_confirmed_file_tampering_blocks_import_before_any_dispatch(client,monke
     main.artifact_path(task).write_text(yaml.safe_dump(root),encoding='utf-8')
     async def forbidden(*args):pytest.fail('Unapproved artifact dispatched')
     monkeypatch.setattr(DifyClient,'import_new',forbidden)
-    response=client.post(f"/api/tasks/{task['id']}/import",json={'revision':task['revision']});assert response.status_code==422 and len(main.get_task(task['id'])['runs'])==1
+    response=client.post(f"/api/tasks/{task['id']}/import",json={'revision':task['revision']});assert response.status_code==409 and len(main.get_task(task['id'])['runs'])==1
 
 
 def confirm_and_build(client, task):

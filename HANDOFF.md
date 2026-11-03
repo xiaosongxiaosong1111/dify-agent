@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（384模型返回完整性已部署）
+# HANDOFF — Sierra（385成果读取一致性已部署）
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main，实际384-19391a2a527f00e96c23/293/PID40672，health/前端200/CIM执行文件及不可变快照匹配。293模型原文/JSON值完整性已实现，49新/相关162及十二根733保护部署过，实现432973b、293已关闭。292 DSL输入a422c31/642172e及161、291选择203d0dc/6482343及225、290历史恢复6051ee2/9372f94及207、289材料330/4UI保持。
+- 根E:\workSpace\dify-agent/main，实际385-5af2e6752dc6d19a16f6/293/PID25476，health/前端200/CIM执行文件及不可变快照匹配。294成果归属/摘要读取已实现，27新、两组216/248及十二根733保护部署过，先实现提交再关闭。293模型返回432973b/8f8e4c2及162、292 DSL输入及161、291选择及225、290历史恢复及207、289材料330/4UI保持。
 - 420明确改授后初始手工准入实际过，新Task0cdddd51-4893-43ec-a239-7f59f74c437a/r4。一次原版规划1568字符有效澄清JSON/5问题、op paused/needs_decision，无图或ZIP。模型混未来版本并引用不存在当前案例的clarify期望；权威案例/已确认状态算法和lookup不改。286回执ceac35d已推，旧包不回答后续澄清或续阶段。
 - 新费用settled0.008243568非账单，累计观察settled0.214071000，实际模型36/保守43/模型估算账本1.955473652；420用一余一未派发modified槽，不自动续用或角色改授。旧414两槽/unknown/settled及其它预留保持，原418两槽已改授420不重复计新增。
 - 现26生产Task；基线work/reviewed-spec-planning420/post-production-data-snapshot.json及post-391/394/399/401/405/408/409/414/416/418/420-data-snapshot.json，十二根实际capture核同。732+自身733封存，索引c9d9ef645118610e0fce61f5aed8deeb3e30f7e56b17d2c58511a25e5eef04e0，包含全部700旧证据。密文/费用/素材资产保持，新隔离无秘密副本。
@@ -20,11 +20,12 @@
 ## 3. 下一步
 
 1. 用户2026-11-02 call_ae41b2d065e34bd8b5f5afeb812663cc/q0选择“暂不继续真实调用”。422未授权，approval/attempt/worker-started/live-output均不存在；authorization-deferred.json保持。普通继续开发/自动唤醒不能恢复真实模型/Dify授权；既有本机编程、隔离验证、commit/push委托保持。
-2. 293模型返回完整性已实现：解析后的非有限数/坏编码文字键拒绝不改值，规划invalid_plan_format单次停不追加修复；正常/流式访谈不应用补丁且诊断一致。非流式OpenAI/Anthropic坏原文安全ProviderError、已知用量正常settled，不存不完整正文。49新（旧46失败/3兼容）及相关162最终通过，384-19391a2a527f00e96c23/293/PID40672保护部署过，十二根capture/733封存/原26密文费用保持，真实模型Dify0、前端不变。work/model-json-values427；docs/model-result-integrity.md/json。实现432973b及实际验收已存在，293已关闭。290—293四项本机修复与日志齐全，自主推送。随后有界核对规划澄清、消息回执重放、手工JSONcodec和流异常处理，未确认下一具体缺陷；普通pending暂空，38历史blocked及288暂缓保持。未观察实际Codex不足，不以耗额度为目的继续造微任务。后续若有具体缺陷可继续本机开发；真实质量/迁移/中断等代表场景仍受明确暂缓约束，普通继续不恢复。
-   292 a422c31/642172e及161、291 203d0dc/6482343及225、290 6051ee2/9372f94及207保持。290需求阶段154/381-fb340b154d104ad209b0回执仍保留work/history-requirements424/requirements-only-*，不改称当时已测配置。
+2. 294成果读取已实现：共用归属/摘要检查，文件漂移409，坏身份/链接越界拒绝，读取2MB上限；独立下载同份核对原字节，主DSL/表单/导入使用核对文字且保持换行契约。旧无摘要只标当时字节/只读警告，不回写；报告保留可读入口并说明只读保存构建记录。27新（最初25旧23失败/2过，后补报告/实测文件链接）及两组216/248通过，385-5af2e6752dc6d19a16f6/293/PID25476原脚本保护部署过，十二根capture/733封存/原26密文费用保持，真实模型Dify0、前端不变。work/artifact-read-integrity428；docs/artifact-read-integrity.md/json。实现提交存在后关闭294并自主推送，再按既定需求有界核对具体缺口；不重放旧批或造耗额任务。
+   原生测试夹具补自身字节绑定，篡改用例保留旧摘要改明确409；共享HTTP替身对loopback显式transport重复只改替身，生产连接策略不动。旧失败/部分中断日志保留，最终只认verified-complete216与caller-verified248；初版反例禁止网络断言的清理错误未发生真实HTTP，一次相邻测试断言误改已纠正。
+   293 432973b/8f8e4c2、292 a422c31/642172e、291 203d0dc/6482343、290 6051ee2/9372f94保持。290阶段154/381-fb340b154d104ad209b0回执保留work/history-requirements424/requirements-only-*，不改称当时已测配置。
 3. BACKLOG288 need-user暂缓。422冻结10文件plan55c181188073561236be1fbb2e62df4d8d01bfcb702748ce014514578ad3ca3c / manifeste2d4f3e1e46132018b0c0df3573e5ecfc994b6b47231fb5d016dec79397b8d53；287实现8aa7304及82定向/13协议过。仅拟420未派发modified一槽/0.100角色改授新original当前版一次，43/1.955473652不增，未获新直接恢复及角色改授不解密派发；不是模型访谈或双版通过。
 4. 420/418/416/414及全部消费包保持stopped，不回答后续澄清续阶段或修复重发。420一次澄清无图/包，错误引用不在当前案例的期望不采纳；权威案例/状态算法/lookup不改，不迎合模型。未来业务与批次说明已隔离，但未证明能消除幻觉。
-5. 部署使用384当前快照，核saved PID/CIM执行文件/所属快照后原start/stop，不按端口杀进程；停服原start等health200。所有后续核十二根实际capture/733封存，不只比摘要；基线work/reviewed-spec-planning420，索引c9d9ef645118610e0fce61f5aed8deeb3e30f7e56b17d2c58511a25e5eef04e0。work/model-json-values427/verify.py已适配十二根和384，旧419十一根脚本不能充当新保护。
+5. 部署使用385当前快照，核saved PID/CIM执行文件/所属快照后原start/stop，不按端口杀进程；停服原start等health200。所有后续核十二根实际capture/733封存，不只比摘要；基线work/reviewed-spec-planning420，索引c9d9ef645118610e0fce61f5aed8deeb3e30f7e56b17d2c58511a25e5eef04e0。work/artifact-read-integrity428/verify.py已适配十二根和385，旧419十一根脚本不能充当新保护。
 6. 持续实质开发至实际Codex不足/确实完成/有界核对无可行动进展；当前未观察不足，不造微任务。实际不足立停尽力整份交接，不重试/换号/购买/重置券。Claude318失败/用量未知无恢复证据，不形式重试/加预算/冒称子审查。不通读项目/290KB历史，不跑全量。
 7. 每次push前根CHANGELOG/适用README/状态及整份交接，重要成果自主commit/push原GitHub main，排除work/data/原文/ZIP/秘密。保留旧真实资源/次数/费用/失败边界，Git safe.directory/HTTP1.1必要require_escalated，不force/改全局代理TLS。
 

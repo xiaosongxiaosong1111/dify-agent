@@ -11,7 +11,10 @@ from app.storage import Store
 
 def transport_client(monkeypatch, module, handler):
     original = httpx.AsyncClient
-    monkeypatch.setattr(module.httpx, "AsyncClient", lambda **kwargs: original(transport=httpx.MockTransport(handler), **kwargs))
+    def local_client(**kwargs):
+        kwargs['transport'] = httpx.MockTransport(handler)
+        return original(**kwargs)
+    monkeypatch.setattr(module.httpx, "AsyncClient", local_client)
 
 
 def test_openai_compatible_payload_and_usage(monkeypatch):

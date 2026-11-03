@@ -161,6 +161,11 @@ def test_automatic_trigger_cannot_enter_manual_publication(client, monkeypatch):
     root = parse(main.artifact_path(task).read_text('utf-8'), 'workflow')
     root['workflow']['graph']['nodes'][0]['data']['type'] = 'trigger-webhook'
     import yaml
-    main.artifact_path(task).write_text(yaml.safe_dump(root, allow_unicode=True), encoding='utf-8')
+    path = main.artifact_path(task)
+    path.write_text(yaml.safe_dump(root, allow_unicode=True), encoding='utf-8')
+    # Bind this intentional native fixture to test the trigger-entry guard.
+    import hashlib
+    task['artifact']['sha256'] = hashlib.sha256(path.read_bytes()).hexdigest()
+    main.store.put('task', task['id'], task)
     r = prepare(client, task); assert r.status_code == 422 and writes(state) == 0
     assert not state['calls']
