@@ -85,7 +85,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.385.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.386.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1129,11 +1129,31 @@ def baseline_for(task, app_id):
                 original,_=compile_current(task)
                 return parse(original,task['app_type']),'旧保留导入按当前未变更修订的生成建议恢复比较基线；既有保留修改继续保护。'
             return copy.deepcopy(run['dsl_baseline']),'来自对应导入时保存的生成建议；已保留修改继续参与比较，平台导出规范化差异仍需复核。'
-        artifact=next((v.get('artifact') for v in reversed(task['versions']) if v.get('revision')==run['revision'] and v.get('artifact')),None)
-        if task.get('artifact') and task['artifact']['revision']==run['revision']:artifact=task['artifact']
-        if not artifact:raise ValueError('历史生成基线缺失，不能猜测人工修改；请保留当前 DSL 等待核对。')
+        def recorded_time(value):
+            if not isinstance(value,str):return None
+            try:
+                parsed=datetime.fromisoformat(value.replace('Z','+00:00'))
+                return parsed if parsed.tzinfo is not None and parsed.utcoffset() is not None else None
+            except (ValueError,OverflowError):return None
+        imported_at=recorded_time(run.get('created_at'))
+        versions=task.get('versions',[])
+        if imported_at is None or not isinstance(versions,list) or type(run.get('revision')) is not int or run['revision']<1:
+            raise ValueError('旧导入缺少可核对的原生成记录或时间，不能靠当前文件猜测基线；请保留当前DSL并核对原始生成记录。')
+        candidates=[task.get('artifact')]+[v.get('artifact') for v in reversed(versions) if isinstance(v,dict) and v.get('revision')==run['revision']]
+        artifact=None
+        for candidate in candidates:
+            if not isinstance(candidate,dict) or type(candidate.get('revision')) is not int or candidate['revision']!=run['revision']:continue
+            created=recorded_time(candidate.get('created_at'));checksum=candidate.get('sha256')
+            if created is not None and created<=imported_at and isinstance(checksum,str) and re.fullmatch('[a-f0-9]{64}',checksum):
+                artifact=candidate;break
+        if artifact is None:
+            raise ValueError('历史生成基线缺少导入前的构建时间或摘要，不能使用后续重建文件推断人工差异；请保留当前DSL并核对原始生成记录。')
         from .dsl_roundtrip import parse
-        return parse((DATA_ROOT/task['id']/artifact['filename']).read_text(encoding='utf-8'),task['app_type']),'旧任务基线来自对应导入修订的历史生成文件；不能把平台规范化差异都视为人工修改。'
+        historical={**task,'revision':run['revision'],'artifact':artifact}
+        try:content=artifact_text(historical)
+        except HTTPException:
+            raise ValueError('旧导入的生成文件无法按保存归属和摘要核对；不能推断人工差异，请保留当前DSL并核对原始生成记录。') from None
+        return parse(content,task['app_type']),'旧任务基线来自原修订、导入前保存且已核对构建摘要的生成文件；不证明当时平台导入的原始字节，所有差异仍须复核。'
     from .dsl_roundtrip import parse
     content,validation=compile_current(task)
     if not validation.get('valid'):raise ValueError('当前生成方案无法提供有效比较基线。')
