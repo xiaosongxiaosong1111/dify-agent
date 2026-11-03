@@ -8,6 +8,7 @@ import {sameJson} from './caseSetTransport';
 import { CheckCircle2, Plus, Trash2 } from 'lucide-react';
 import ConversationCaseEditor, {type TurnDraft} from './ConversationCaseEditor';
 import ConversationCaseResult from './ConversationCaseResult';
+import CaseJsonEditor from './CaseJsonEditor';
 import RunDiagnosticPanel, {type Diagnostic} from './RunDiagnosticPanel';
 import RunComparisonPanel from './RunComparisonPanel';
 import SavedRunInputCopy,{type InputCopyDraft} from './SavedRunInputCopy';
@@ -110,20 +111,26 @@ export function draftsToCases(drafts:CaseDraft[]):TestCase[]{
    if(followups.length>9)throw Error('每个多轮样例最多 10 轮。');
    for(const turn of [first,...followups])if(typeof turn.input.query!=='string'||!turn.input.query.trim()||'conversation_id' in turn.input)throw Error(`${prefix}每轮须有非空 query，不能手填 conversation_id。`);
   }
-  return {id:c.id,name:c.name.trim(),required:c.required,...first,...(followups.length?{followups}:{})};
+  return {id:c.id,name:c.name,required:c.required,...first,...(followups.length?{followups}:{})};
  });
 }
 
-export function AcceptancePanel({ taskId,revision,artifactStamp,drafts, appType, dirty, busy, canSave, onChange, onSave, onDiscard, summary,mockDependencies=[] }: {
+export function AcceptancePanel({ taskId,revision,artifactStamp,drafts,savedCases,appType,dirty,busy:operationBusy,canSave,onChange,onSave,onDiscard,onRawDirty,onRawSaved,onActivity,summary,mockDependencies=[] }: {
   mockDependencies?:string[];
   taskId:string;revision:number;artifactStamp:string;
   drafts: CaseDraft[]; appType: string; dirty: boolean; busy: boolean; canSave: boolean;
+  savedCases:TestCase[];onRawDirty:(dirty:boolean)=>void;onRawSaved:(value:unknown)=>void;onActivity:(label:string)=>void;
   onChange: (drafts: CaseDraft[]) => void; onSave: () => void; onDiscard: () => void;
   summary: AcceptanceSummary | null;
 }) {
+  const [rawDirty,setRawDirty]=useState(false),[safety,setSafety]=useState<{id:string;revision:number;safe:boolean;reason:string}|null>(null);
+  const structuredReady=safety?.id===taskId&&safety.revision===revision&&safety.safe===true;
+  const busy=operationBusy||rawDirty||!structuredReady;
   const update = (id: string, patch: Partial<CaseDraft>) => onChange(drafts.map(c => c.id === id ? { ...c, ...patch } : c));
   return <section className="acceptance-panel">
     <div className="paneltitle"><CheckCircle2 size={17}/><span><b>验收样例</b><small>定义输入、预期和关键分支</small></span></div>
+    <CaseJsonEditor key={taskId} taskId={taskId} revision={revision} appType={appType} cases={savedCases} structuredDirty={dirty&&!rawDirty} disabled={operationBusy||!canSave} onSafety={(safe,reason)=>setSafety({id:taskId,revision,safe,reason})} onDirty={value=>{setRawDirty(value);onRawDirty(value)}} onSaved={onRawSaved} onActivity={onActivity}/>
+    {!structuredReady&&<p className="callout amber" role="status">{safety?.id===taskId&&safety.revision===revision?safety.reason:'正在核对保存来源，普通表单暂不可编辑。'}</p>}
     <CaseSetPanel taskId={taskId} revision={revision} appType={appType} draftScope={JSON.stringify(drafts)} disabled={busy||!canSave} onAppend={rows=>{if(rows.some(row=>drafts.some(d=>d.id===row.id)))return false;const added=casesToDrafts(rows);try{if(!sameJson(draftsToCases(added),rows))return false}catch{return false}onChange([...drafts,...added]);return true}}/>
     <div className="callout">保存样例后需要重新确认需求与配置；已有流程计划也需复核。关键词或结构通过只证明已声明的规则。</div><p className="hint">首轮、追问输入和严格等值期望会核对完整JSON原文；重复字段或数值舍入会阻止保存并保留草稿，不自动选最后一项、转成文字或null。长编号若需精确保留，请先明确采用文本方案。</p>
     {appType==='advanced-chat'&&<AfterSalesCaseDrafts taskId={taskId} revision={revision} scope={artifactStamp} dependencies={mockDependencies} disabled={busy||!canSave||dirty} onAppend={rows=>{
@@ -131,7 +138,7 @@ export function AcceptancePanel({ taskId,revision,artifactStamp,drafts, appType,
       if(duplicate)return false;
       onChange([...drafts,...casesToDrafts(rows.map(row=>({id:crypto.randomUUID(),name:row.name,input:row.input,expectation:row.expectation,required:true,...(row.followups?{followups:row.followups}:{})})))]);return true;
     }}/>}
-    {drafts.map((c, i) => <fieldset className="case-card" key={c.id} disabled={busy}>
+    {structuredReady&&drafts.map((c, i) => <fieldset className="case-card" key={c.id} disabled={busy}>
       <legend>样例 {i + 1}</legend>
       <label className="field"><span>场景名称</span><input value={c.name} placeholder="例如：知识库无结果时说明不足" onChange={e => update(c.id, { name: e.target.value })}/></label>
       <label className="field"><span>样例输入 JSON</span><textarea aria-label="样例输入 JSON" className="json case-input" spellCheck={false} value={c.inputText} onChange={e => update(c.id, { inputText: e.target.value })}/></label>
