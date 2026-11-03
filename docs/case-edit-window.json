@@ -1,0 +1,22 @@
+{
+  "backlog": 303,
+  "date": "2026-11-03",
+  "state": "verified_pending_commit",
+  "runtime": "0.394.0-25a6abd36a15663a1571",
+  "pid": 11564,
+  "runtime_files": 296,
+  "before_rendered_cards": 45,
+  "after_window_limit": 10,
+  "editor_checks": 20,
+  "ui_checks": 5,
+  "actual_temp_api_saved_cases": 45,
+  "backend_changed": "version metadata only",
+  "frontend_build": "passed",
+  "protected_data_roots": 12,
+  "protected_evidence_files": 733,
+  "production_tasks": 26,
+  "model_dify_http": 0,
+  "real_calls_deferred": true,
+  "business_verified": false,
+  "evidence": "work/case-edit-window437"
+}

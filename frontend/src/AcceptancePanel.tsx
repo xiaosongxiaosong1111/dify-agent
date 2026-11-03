@@ -127,20 +127,25 @@ export function AcceptancePanel({ taskId,revision,artifactStamp,drafts,savedCase
   const [rawDirty,setRawDirty]=useState(false),[safety,setSafety]=useState<{id:string;revision:number;safe:boolean;reason:string}|null>(null);
   const structuredReady=safety?.id===taskId&&safety.revision===revision&&safety.safe===true;
   const busy=operationBusy||rawDirty||!structuredReady;
+  const [caseWindow,setCaseWindow]=useState<{taskId:string;anchor:string|null}>({taskId,anchor:null});
+  const caseAnchor=caseWindow.taskId===taskId?caseWindow.anchor:null,anchorIndex=caseAnchor?drafts.findIndex(c=>c.id===caseAnchor):0,anchorLost=!!caseAnchor&&anchorIndex<0,caseStart=Math.max(0,anchorIndex),visibleCases=drafts.slice(caseStart,caseStart+10);
+  const moveCases=(start:number)=>setCaseWindow({taskId,anchor:start<=0?null:drafts[start]?.id??null});
+  const appendCases=(added:CaseDraft[])=>{if(!added.length)return;onChange([...drafts,...added]);setCaseWindow({taskId,anchor:added[0].id})};
   const update = (id: string, patch: Partial<CaseDraft>) => onChange(drafts.map(c => c.id === id ? { ...c, ...patch } : c));
   return <section className="acceptance-panel">
     <div className="paneltitle"><CheckCircle2 size={17}/><span><b>验收样例</b><small>定义输入、预期和关键分支</small></span></div>
     <CaseJsonEditor key={taskId} taskId={taskId} revision={revision} appType={appType} cases={savedCases} structuredDirty={dirty&&!rawDirty} disabled={operationBusy||!canSave} onSafety={(safe,reason)=>setSafety({id:taskId,revision,safe,reason})} onDirty={value=>{setRawDirty(value);onRawDirty(value)}} onSaved={onRawSaved} onActivity={onActivity}/>
     {!structuredReady&&<p className="callout amber" role="status">{safety?.id===taskId&&safety.revision===revision?safety.reason:'正在核对保存来源，普通表单暂不可编辑。'}</p>}
-    <CaseSetPanel taskId={taskId} revision={revision} appType={appType} draftScope={JSON.stringify(drafts)} disabled={busy||!canSave} onAppend={rows=>{if(rows.some(row=>drafts.some(d=>d.id===row.id)))return false;const added=casesToDrafts(rows);try{if(!sameJson(draftsToCases(added),rows))return false}catch{return false}onChange([...drafts,...added]);return true}}/>
+    <CaseSetPanel taskId={taskId} revision={revision} appType={appType} draftScope={JSON.stringify(drafts)} disabled={busy||!canSave} onAppend={rows=>{if(rows.some(row=>drafts.some(d=>d.id===row.id)))return false;const added=casesToDrafts(rows);try{if(!sameJson(draftsToCases(added),rows))return false}catch{return false}appendCases(added);return true}}/>
     <div className="callout">保存样例后需要重新确认需求与配置；已有流程计划也需复核。关键词或结构通过只证明已声明的规则。</div><p className="hint">首轮、追问输入和严格等值期望会核对完整JSON原文；重复字段或数值舍入会阻止保存并保留草稿，不自动选最后一项、转成文字或null。长编号若需精确保留，请先明确采用文本方案。</p>
     {appType==='advanced-chat'&&<AfterSalesCaseDrafts taskId={taskId} revision={revision} scope={artifactStamp} dependencies={mockDependencies} disabled={busy||!canSave||dirty} onAppend={rows=>{
       const duplicate=rows.some(row=>drafts.some(d=>{try{return sameJson(draftToTurn(d,'原样例'),{input:row.input,expectation:row.expectation})&&sameJson((d.followups||[]).map((t,i)=>draftToTurn(t,`原样例第${i+2}轮`)),row.followups||[])}catch{return false}}));
       if(duplicate)return false;
-      onChange([...drafts,...casesToDrafts(rows.map(row=>({id:crypto.randomUUID(),name:row.name,input:row.input,expectation:row.expectation,required:true,...(row.followups?{followups:row.followups}:{})})))]);return true;
+      appendCases(casesToDrafts(rows.map(row=>({id:crypto.randomUUID(),name:row.name,input:row.input,expectation:row.expectation,required:true,...(row.followups?{followups:row.followups}:{})}))));return true;
     }}/>}
-    {structuredReady&&drafts.map((c, i) => <fieldset className="case-card" key={c.id} disabled={busy}>
-      <legend>样例 {i + 1}</legend>
+    {structuredReady&&drafts.length>0&&<section className="case-edit-window configuration-proposal"><b>样例编辑分组</b><p role="status">共{drafts.length}个样例，当前第{caseStart+1}—{caseStart+visibleCases.length}个，每组最多10项。</p><p className="hint">换组不会保存或丢弃编辑；未显示的草稿仍保留，保存和撤销都作用于整组样例。新增或追加后定位到新样例。</p>{anchorLost&&<p role="status">原组首样例已移除，已显示首组；其他编辑保持。</p>}<div className="actions"><button className="secondary" disabled={busy||caseStart===0&&!anchorLost} onClick={()=>moveCases(0)}>首组样例</button><button className="secondary" disabled={busy||caseStart===0} onClick={()=>moveCases(Math.max(0,caseStart-10))}>前10个样例</button><button className="secondary" disabled={busy||caseStart+10>=drafts.length} onClick={()=>moveCases(caseStart+10)}>后10个样例</button><button className="secondary" disabled={busy||caseStart>=Math.floor((drafts.length-1)/10)*10} onClick={()=>moveCases(Math.floor((drafts.length-1)/10)*10)}>末组样例</button></div></section>}
+    {structuredReady&&visibleCases.map((c, i) => <fieldset className="case-card" key={c.id} disabled={busy}>
+      <legend>样例 {caseStart+i+1}</legend>
       <label className="field"><span>场景名称</span><input value={c.name} placeholder="例如：知识库无结果时说明不足" onChange={e => update(c.id, { name: e.target.value })}/></label>
       <label className="field"><span>样例输入 JSON</span><textarea aria-label="样例输入 JSON" className="json case-input" spellCheck={false} value={c.inputText} onChange={e => update(c.id, { inputText: e.target.value })}/></label>
       <label className="field"><span>检查方式</span><select aria-label="检查方式" value={c.mode} onChange={e => update(c.id, { mode: e.target.value as ExpectationMode })}>{modes.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}</select></label>
@@ -151,11 +156,11 @@ export function AcceptancePanel({ taskId,revision,artifactStamp,drafts,savedCase
       {c.keywordJson&&['contains','json_keys'].includes(c.mode)&&<p className="hint">按JSON原样编辑，保留原字符串／列表类型及关键词内部的空格和换行，不拆成多项；仅修改名称等字段不会改变原匹配规则。</p>}
       {c.mode==='json_schema'&&<p className="hint">核对返回对象或严格JSON对象文字的完整Schema（必填、类型、额外字段、范围）。不修复JSON、不补默认；不证明Dify入口强制、模型事实正确或客户业务通过。仅已适配闭合对象子集；对象及Schema各64000字节，整数须在无损范围内。Schema文字保留重复键，保存时后台明确拒绝。</p>}
       {['advanced-chat','agent'].includes(appType)&&<ConversationCaseEditor turns={c.followups||[]} onChange={followups=>update(c.id,{followups})}/>}
-      <div className="case-actions"><label className="case-required"><input type="checkbox" checked={c.required} onChange={e => update(c.id, { required: e.target.checked })}/>必选验收样例</label><button className="secondary" type="button" onClick={() => onChange(drafts.filter(x => x.id !== c.id))}><Trash2 size={14}/>移除样例 {i + 1}</button></div>
+      <div className="case-actions"><label className="case-required"><input type="checkbox" checked={c.required} onChange={e => update(c.id, { required: e.target.checked })}/>必选验收样例</label><button className="secondary" type="button" onClick={() => onChange(drafts.filter(x => x.id !== c.id))}><Trash2 size={14}/>移除样例 {caseStart+i+1}</button></div>
     </fieldset>)}
     {!drafts.length && <div className="empty-small bordered">还没有验收样例。建议覆盖正常输入、无检索结果、异常和关键业务分支。</div>}
-    {appType==='workflow'&&<LazySchemaCaseTemplates taskId={taskId} revision={revision} artifactStamp={artifactStamp} disabled={busy||!canSave} onCreate={(target,schema)=>onChange([...drafts,{...newCaseDraft(appType),name:`结构验收 ${target}`,inputText:'{}',mode:'json_schema',target,expectedText:typeof schema==='string'?schema:JSON.stringify(schema,null,2)}])}/>}
-    <button className="secondary full" disabled={busy} onClick={() => onChange([...drafts, newCaseDraft(appType)])}><Plus size={14}/>新增验收样例</button>
+    {appType==='workflow'&&<LazySchemaCaseTemplates taskId={taskId} revision={revision} artifactStamp={artifactStamp} disabled={busy||!canSave} onCreate={(target,schema)=>appendCases([{...newCaseDraft(appType),name:`结构验收 ${target}`,inputText:'{}',mode:'json_schema',target,expectedText:typeof schema==='string'?schema:JSON.stringify(schema,null,2)}])}/>}
+    <button className="secondary full" disabled={busy} onClick={() => appendCases([newCaseDraft(appType)])}><Plus size={14}/>新增验收样例</button>
     {dirty && <div className="callout amber">验收样例有未保存编辑。构建、导入和运行暂时不可用，切换面板会保留草稿。</div>}
     <div className="actions"><button className="primary" disabled={!dirty || busy || !canSave} onClick={onSave}>保存验收样例</button><button className="secondary" disabled={!dirty || busy} onClick={onDiscard}>撤销样例编辑</button></div>
     {summary && <div className="acceptance-summary">
