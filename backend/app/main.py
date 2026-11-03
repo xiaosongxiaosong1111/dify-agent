@@ -85,7 +85,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.387.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.388.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1106,6 +1106,30 @@ def require_dsl_preservation(task):
     reference_for(task)
 
 
+def preserved_file_text(task):
+    """The semantic digest does not authorize reading a foreign file."""
+    from .dsl_roundtrip import MAX_BYTES
+    filename = task['dsl_overlay'].get('filename')
+    if not isinstance(filename, str) or not filename or any(c in filename for c in ('/', '\\', '\x00')) or Path(filename).name != filename:
+        raise HTTPException(422, '已确认保留文件的身份无法核对，请重新分析并确认；未读取其他文件。')
+    try:
+        root = DATA_ROOT.resolve(); folder = root / task['id']; path = folder / filename
+        if folder.parent != root or folder.resolve() != folder or path.is_symlink() or path.resolve().parent != folder:
+            raise HTTPException(422, '已确认保留文件不属于当前任务，请重新分析并确认；未读取其他文件。')
+        if not path.is_file():
+            raise HTTPException(422, '已确认保留文件缺失或不可读取，请核对后重新分析；未生成新成果。')
+        with path.open('rb') as source:
+            raw = source.read(MAX_BYTES + 1)
+    except (OSError, ValueError, RuntimeError, TypeError):
+        raise HTTPException(422, '已确认保留文件无法安全读取，请核对后重新分析；未生成新成果。') from None
+    if not raw or len(raw) > MAX_BYTES:
+        raise HTTPException(422, '已确认保留文件为空或超过当前2MB范围，请拆分后重新分析；未截断或生成新成果。')
+    try:
+        return raw.decode('utf-8').replace('\r\n', '\n').replace('\r', '\n')
+    except UnicodeError:
+        raise HTTPException(422, '已确认保留文件编码无法完整核对，请重新导出并分析；未替换字符或生成新成果。') from None
+
+
 def reference_for(task):
     meta=task.get('dsl_reference')
     record=store.get('dsl_reference',meta['id']) if meta else None
@@ -1264,7 +1288,7 @@ def build(item_id: str, payload: Revision):
         require_intake(task)
         try:
             if task.get('dsl_reference'):
-                overlay=task['dsl_overlay'];content=(DATA_ROOT/task['id']/overlay['filename']).read_text(encoding='utf-8')
+                overlay=task['dsl_overlay'];content=preserved_file_text(task)
                 from .dsl_roundtrip import digest,parse
                 if digest(parse(content,task['app_type']))!=overlay['digest']:raise ValueError('已确认合并文件内容变化，请重新分析并确认。')
                 validation=copy.deepcopy(overlay['validation'])

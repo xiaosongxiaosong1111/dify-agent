@@ -54,16 +54,16 @@ def final_root(task):
     if not task.get("dsl_reference"):
         return None, None
     overlay = task.get("dsl_overlay")
-    if not overlay or overlay.get("revision") != task["revision"]:
+    if not isinstance(overlay, dict) or not overlay or overlay.get("revision") != task["revision"]:
         return None, "有实际 DSL 引用时须先按当前修订确认保留文件，再检查覆盖；不能只核对生成建议。"
     try:
-        from .main import DATA_ROOT
+        from .main import preserved_file_text
         from .dsl_roundtrip import parse, digest as dsl_digest
-        root = parse((DATA_ROOT / task["id"] / overlay["filename"]).read_text(encoding="utf-8"), task["app_type"])
+        root = parse(preserved_file_text(task), task["app_type"])
         if dsl_digest(root) != overlay["digest"]:
             return None, "实际保留文件已变化，请重新分析保留与覆盖。"
         return root, None
-    except (ValueError, OSError, KeyError):
+    except (HTTPException, ValueError, OSError, KeyError):
         return None, "无法读取当前确认的最终 DSL，覆盖检查不能沿用生成建议。"
 
 
