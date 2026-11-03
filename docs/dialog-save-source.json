@@ -1,12 +1,12 @@
 {
   "backlog": 309,
   "date": "2026-11-04",
-  "state": "done",
-  "runtime": "0.400.0-251f527a3c9b75c630f6",
-  "pid": 40620,
+  "state": "verified_pending_commit",
+  "runtime": "0.401.0-0f0187b8ce9ebdfaa4e1",
+  "pid": 4228,
   "runtime_files": 296,
-  "new_delayed_ui_checks": 8,
-  "total_related_ui_checks": 29,
+  "new_delayed_ui_checks": 18,
+  "total_related_ui_checks": 39,
   "frontend_build": "passed",
   "backend_changed": "version metadata only",
   "closing_cancels_dispatched_save": false,
@@ -16,6 +16,14 @@
   "model_dify_http": 0,
   "real_calls_deferred": true,
   "business_verified": false,
-  "evidence": "work/dialog-save-source443",
-  "implementation_commit": "9670807"
+  "evidence": [
+    "work/dialog-save-source443",
+    "work/dialog-save-source444"
+  ],
+  "supplement_ui_checks": 10,
+  "initial_implementation_commit": "9670807",
+  "initial_closure_commit": "b8ac470",
+  "initial_runtime": "0.400.0-251f527a3c9b75c630f6",
+  "isolated_supplement_login_requests": 3,
+  "physical_login_requests": 0
 }
