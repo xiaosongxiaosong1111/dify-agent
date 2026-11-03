@@ -1,8 +1,8 @@
-# HANDOFF — Sierra（运行386旧导入基线保护已部署）
+# HANDOFF — Sierra（运行387历史正文独立只读已部署）
 
 ## 1. 当前状态
 
-- 根E:\workSpace\dify-agent/main，实际0.386.0-ac32a95415e7136c38af/293/PID20220，health/前端200/CIM执行文件及不可变快照匹配。295旧导入基线已实现，18新/101相关及十二根733保护部署过，实现c09a6cf、295已关闭。294 007fbc0/210f950及216/248、293—289结果保持。这里运行386与旧真实批386不同，旧批消费/满次不重放。
+- 根E:\workSpace\dify-agent/main，实际0.387.0-b8578f0422a4018fd1e6/293/PID36968，health/前端200/CIM执行文件及不可变快照匹配。296历史独立只读14新/199相关、5UI/构建及十二根733保护部署过，待实现提交再关闭。295旧导入基线已实现，18新/101相关及十二根733保护部署过，实现c09a6cf、295已关闭。294 007fbc0/210f950及216/248、293—289结果保持。这里运行386与旧真实批386不同，旧批消费/满次不重放。
 - 420明确改授后初始手工准入实际过，新Task0cdddd51-4893-43ec-a239-7f59f74c437a/r4。一次原版规划1568字符有效澄清JSON/5问题、op paused/needs_decision，无图或ZIP。模型混未来版本并引用不存在当前案例的clarify期望；权威案例/已确认状态算法和lookup不改。286回执ceac35d已推，旧包不回答后续澄清或续阶段。
 - 新费用settled0.008243568非账单，累计观察settled0.214071000，实际模型36/保守43/模型估算账本1.955473652；420用一余一未派发modified槽，不自动续用或角色改授。旧414两槽/unknown/settled及其它预留保持，原418两槽已改授420不重复计新增。
 - 现26生产Task；基线work/reviewed-spec-planning420/post-production-data-snapshot.json及post-391/394/399/401/405/408/409/414/416/418/420-data-snapshot.json，十二根实际capture核同。732+自身733封存，索引c9d9ef645118610e0fce61f5aed8deeb3e30f7e56b17d2c58511a25e5eef04e0，包含全部700旧证据。密文/费用/素材资产保持，新隔离无秘密副本。
@@ -20,12 +20,12 @@
 ## 3. 下一步
 
 1. 用户2026-11-02 call_ae41b2d065e34bd8b5f5afeb812663cc/q0选择“暂不继续真实调用”。422未授权，approval/attempt/worker-started/live-output均不存在；authorization-deferred.json保持。普通继续开发/自动唤醒不能恢复真实模型/Dify授权；既有本机编程、隔离验证、commit/push委托保持。
-2. 295旧文件基线已实现：内联导入基线优先；文件回退须原整数修订、导入前明确构建时间与摘要，并经同Task/有界原字节核对；缺证据/后建/漂移/越界停止，不改Task/当前DSL，不把已核对旧生成记录冒称原平台字节证明。18新（先行16旧14失败/2过）及101相关过；运行386-ac32a95415e7136c38af/293/PID20220保护部署，十二根capture/733封存/原26密文费用保持，模型Dify0/前端不变。work/legacy-import-baseline429；docs/legacy-import-baseline.md/json。实现c09a6cf及实际验收已存在，295已关闭；自主推送后继续首pending296。
-   随后首pending296：version_content复用恢复select、VersionContentPanel只在恢复预览后显示，坏历史快照连安全只读核对被挡。做独立只读历史索引和入口、唯一ID查找与恢复校验分开；恢复严格select/来源确认不放宽。建议只读令牌单独域绑定Task/已存当前修订/VersionID及五白名单分区可读描述/内容摘要，不当restore_token；老正文接口令牌保兼容。索引逐分区完整2MB UTF8/秘密扫描，不补当前值，不输出超限/坏编码/秘密正文；未知/缺失明确。UI每版本独立只读，不覆盖草稿/确认，不调用模型。先本机API/界面定向，仍禁止真实调用。
-   294 007fbc0/210f950及216/248、293 432973b/8f8e4c2、292 a422c31/642172e、291 203d0dc/6482343、290 6051ee2/9372f94保持。290阶段154/381-fb340b154d104ad209b0回执保留work/history-requirements424/requirements-only-*。
+2. 296已实现并受控部署：select_saved仅唯一定位保存快照，恢复select严格结构守卫保持；只读索引独立域绑定任务/当前已存修订/VersionID/五分区可读状态及摘要，不授予恢复。按页正文完整安全扫描，缺失/超限/坏编码/秘密不部分返回或补当前值，旧正文恢复比较令牌兼容。UI每项独立只读，未保存草稿保留，拒绝错任务/摘要。14旧反例先失败，最终199相关后端/5UI/构建/视觉过，0真实模型Dify，原26/十二根733保持。work/history-read-independence430；docs/history-read-independence.md/json。完成实现提交后才能关闭296，再有界核对FR-40/41等既定需求的实际可开发缺口；无缺口如实记录，不造耗额任务。
+   295 c09a6cf/397f512及18新/101相关保持，运行386属于旧部署，旧真实批386仍消费/满次不重放。294 007fbc0/210f950及216/248、293—289均保持。
+
 3. BACKLOG288 need-user暂缓。422冻结10文件plan55c181188073561236be1fbb2e62df4d8d01bfcb702748ce014514578ad3ca3c / manifeste2d4f3e1e46132018b0c0df3573e5ecfc994b6b47231fb5d016dec79397b8d53；287实现8aa7304及82定向/13协议过。仅拟420未派发modified一槽/0.100角色改授新original当前版一次，43/1.955473652不增，未获新直接恢复及角色改授不解密派发；不是模型访谈或双版通过。
 4. 420/418/416/414及全部消费包保持stopped，不回答后续澄清续阶段或修复重发。420一次澄清无图/包，错误引用不在当前案例的期望不采纳；权威案例/状态算法/lookup不改，不迎合模型。未来业务与批次说明已隔离，但未证明能消除幻觉。
-5. 部署使用运行386当前快照，核saved PID/CIM执行文件/所属快照后原start/stop，不按端口杀进程；停服原start等health200。所有后续核十二根实际capture/733封存，不只比摘要；基线work/reviewed-spec-planning420，索引c9d9ef645118610e0fce61f5aed8deeb3e30f7e56b17d2c58511a25e5eef04e0。work/legacy-import-baseline429/verify.py已适配十二根和运行386，旧419十一根脚本不能充当新保护。
+5. 部署使用运行387当前快照，核saved PID/CIM执行文件/所属快照后原start/stop，不按端口杀进程；停服原start等health200。所有后续核十二根实际capture/733封存，不只比摘要；基线work/reviewed-spec-planning420，索引c9d9ef645118610e0fce61f5aed8deeb3e30f7e56b17d2c58511a25e5eef04e0。work/history-read-independence430/verify.py已适配十二根和运行387，旧419十一根脚本不能充当新保护。
 6. 持续实质开发至实际Codex不足/确实完成/有界核对无可行动进展；当前未观察不足，不造微任务。实际不足立停尽力整份交接，不重试/换号/购买/重置券。Claude318失败/用量未知无恢复证据，不形式重试/加预算/冒称子审查。不通读项目/290KB历史，不跑全量。
 7. 每次push前根CHANGELOG/适用README/状态及整份交接，重要成果自主commit/push原GitHub main，排除work/data/原文/ZIP/秘密。保留旧真实资源/次数/费用/失败边界，Git safe.directory/HTTP1.1必要require_escalated，不force/改全局代理TLS。
 

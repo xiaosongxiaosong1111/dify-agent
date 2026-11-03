@@ -104,11 +104,18 @@ def validate_configuration_structure(configuration):
         raise HTTPException(422, '历史配置的文字、列表、参数或开关结构无效；未返回可确认预览，也未恢复。')
 
 
-def select(task, version_id):
-    rows = [v for v in task.get('versions', []) if isinstance(v, dict) and v.get('id') == version_id]
+def select_saved(task, version_id):
+    versions = task.get('versions', [])
+    if not isinstance(versions, list):
+        raise HTTPException(422, '历史快照列表结构无法核对；未读取或恢复。')
+    rows = [v for v in versions if isinstance(v, dict) and v.get('id') == version_id]
     if len(rows) != 1:
-        raise HTTPException(404, '历史快照不存在或不能唯一定位；未恢复。')
-    version = rows[0]
+        raise HTTPException(404, '历史快照不存在或不能唯一定位；未读取或恢复。')
+    return rows[0]
+
+
+def select(task, version_id):
+    version = select_saved(task, version_id)
     if any(k not in version for k in ('requirements', 'configuration', 'environment_id')):
         raise HTTPException(422, '历史快照缺少恢复所需字段；未返回可确认预览，也未恢复。')
     if any(not isinstance(version[k], dict) for k in ('requirements', 'configuration')) or not (version['environment_id'] is None or isinstance(version['environment_id'], str)):
