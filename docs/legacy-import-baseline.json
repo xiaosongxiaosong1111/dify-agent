@@ -3,7 +3,7 @@
   "date": "2026-11-03",
   "runtime": "0.386.0-ac32a95415e7136c38af",
   "pid": 20220,
-  "state": "implemented_verified_deployed",
+  "state": "done",
   "new_tests": 18,
   "initial_reproduced_cases": 16,
   "before_failed": 14,
@@ -16,5 +16,6 @@
   "model_dify_http": 0,
   "real_calls_deferred": true,
   "business_verified": false,
-  "evidence": "work/legacy-import-baseline429"
+  "evidence": "work/legacy-import-baseline429",
+  "implementation_commit": "c09a6cf"
 }
