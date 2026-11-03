@@ -22,7 +22,7 @@
 
 1. 用户2026-11-02 call_ae41b2d065e34bd8b5f5afeb812663cc/q0选择“暂不继续真实调用”。422未授权，approval/attempt/worker-started/live-output均不存在；authorization-deferred.json保持。普通继续开发/自动唤醒不能恢复真实模型/Dify授权；既有本机编程、隔离验证、commit/push委托保持。
 2. 302独立未确认样例JSON草稿已实现并保护部署393-ea879c5ee2d6a3a3f8e1/296/PID6428。新增case_json_drafts后端及CaseJsonDraftPanel，半成品安全文字单独存case_json_draft，不进入正式样例/模型，不改Task/确认/预算；任务/保存修订/类型/来源绑定，单调草稿CAS与删除墓碑，409保留文字并要求重读。重开不自动载入，主动复制到编辑框仍未采用；替换已有编辑和旧来源参考须明确确认，正式保存仍走原当前来源/JSON/样例校验。
-   15新API/67相关、8UI/构建/视觉及实际临时API Task未变通过，work/case-json-draft436；docs/case-json-draft.md/json；十二根733/原26密文费用保持，真实模型Dify0。初次测试14项入口缺失失败及2项Windows PYTEST_CURRENT_TEST超长参数编号夹具错误，已改短编号后最终67全过；保留before/first-api原错误，不冒称前次全过。实现提交后关闭302，随后自动核对既定需求的下一实质缺口；可先核大样例集普通编辑绘制/草稿保持，不造耗额任务。
+   15新API/67相关、8UI/构建/视觉及实际临时API Task未变通过，work/case-json-draft436；docs/case-json-draft.md/json；十二根733/原26密文费用保持，真实模型Dify0。初次测试14项入口缺失失败及2项Windows PYTEST_CURRENT_TEST超长参数编号夹具错误，已改短编号后最终67全过；保留before/first-api原错误，不冒称前次全过。实现08ef675及验收已存在，302关闭，随后自动核对既定需求的下一实质缺口；可先核大样例集普通编辑绘制/草稿保持，不造耗额任务。
    301 9d83bd0/5f161da及16新API/85相关/10UI/392部署保持。上轮实际额度拒绝命令未执行不改判，本轮命令实际通过；未再触发不足，实际不足立即停，不重试/绕过/换号/购买。300 a757ca9/7dbace4及20API/20编辑/6UI/135，299 752c977/2d90ed6及115、298 ffb57ac/5c8ae37及99、297—289保持。运行版本与旧同编号真实包不同，所有旧消费/费用保持不重放。
 
 3. BACKLOG288 need-user暂缓。422冻结10文件plan55c181188073561236be1fbb2e62df4d8d01bfcb702748ce014514578ad3ca3c / manifeste2d4f3e1e46132018b0c0df3573e5ecfc994b6b47231fb5d016dec79397b8d53；287实现8aa7304及82定向/13协议过。仅拟420未派发modified一槽/0.100角色改授新original当前版一次，43/1.955473652不增，未获新直接恢复及角色改授不解密派发；不是模型访谈或双版通过。
