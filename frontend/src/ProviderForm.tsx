@@ -41,7 +41,7 @@ export default function ProviderForm({initial,busy,load,save}:Props){
   }
   await save(body);setKey('');
  }catch(e){setError(e instanceof Error?e.message:'保存失败，请检查配置。')}};
- return <form id="provider-form" className="modal-body provider-form" onSubmit={submit}>
+ return <form id="provider-form" className="modal-body provider-form" onSubmit={submit}><fieldset disabled={busy} style={{border:0,padding:0,margin:0,minWidth:0}}>
   <p className="provider-intro">选服务商、选型号，填入 API Key 即可。用于本工作台的需求访谈与 DSL 规划。</p>
   {initial.id&&<p className="hint">编辑来源版本 {initial.configuration_revision??0}；保存前会核对来源。其它页面改过配置时会拒绝旧页，当前输入保留；请另存文字后关闭编辑，在模型列表重新读取再打开核对，不自动重读或测试。</p>}
   <div className="provider-step"><span>1</span><b>选择服务商</b></div>
@@ -64,5 +64,5 @@ export default function ProviderForm({initial,busy,load,save}:Props){
   </details>
   <p className="provider-key-note"><ShieldCheck size={15}/>Key 在本机后台加密保存，不写入浏览器存储。保存不会自动发起付费模型调用。</p>
   {error&&<div className="callout amber" role="alert">{error}</div>}
- </form>;
+ </fieldset></form>;
 }
