@@ -85,7 +85,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.392.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.393.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -2590,3 +2590,6 @@ register_case_json_editor(sys.modules[__name__])
 
 from .run_record_content import register as register_run_record_content
 register_run_record_content(sys.modules[__name__])
+
+from .case_json_drafts import register as register_case_json_drafts
+register_case_json_drafts(sys.modules[__name__])
