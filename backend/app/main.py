@@ -85,7 +85,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.397.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.398.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -2022,24 +2022,33 @@ def create_environment(payload: dict):
 
 @app.patch("/api/environments/{item_id}")
 def patch_environment(item_id: str, payload: dict):
-    env = store.get("environment", item_id)
-    if not env:
-        raise HTTPException(404, "环境不存在。")
-    if environment_busy(item_id):
-        raise HTTPException(409, "该环境正在执行任务或知识库准备，暂不能修改。")
-    public = save_environment(payload, env)
-    # Application-specific runtime credentials are added AFTER import. Changing
-    # them must not delete the imported app binding. Connection identity changes do.
-    identity_changed = any(k in payload and payload[k].strip().rstrip("/") != str(env.get(k, "")).rstrip("/") for k in ("base_url", "version"))
-    if identity_changed:
-        with store.lock:
-            for task in store.list("task"):
-                if task["environment_id"] == item_id:
-                    invalidate(task, "目标环境变化前保存", preserve_requirements=True)
-                    if task.get("workflow_plan") or task.get("agent_plan"):
-                        task["plan_stale"] = True
-                    save_task(task)
-    return public
+    with store.lock:
+        env = store.get("environment", item_id)
+        if not env:
+            raise HTTPException(404, "环境不存在。")
+        if 'expected_connection_revision' in payload:
+            expected = payload['expected_connection_revision']
+            if expected is not None and (not isinstance(expected, str) or not expected.strip() or len(expected) > 200):
+                raise HTTPException(422, '环境编辑来源须为有效连接标识或明确空值。')
+            current = env.get('connection_revision')
+            if ('connection_revision' in env and (not isinstance(current, str) or not current.strip() or len(current) > 200)) or expected != current:
+                raise HTTPException(409, '环境配置已变化，本次未保存；请另存所需文字后关闭编辑，在环境列表重新读取再打开核对。')
+            payload = {k: v for k, v in payload.items() if k != 'expected_connection_revision'}
+        if environment_busy(item_id):
+            raise HTTPException(409, "该环境正在执行任务或知识库准备，暂不能修改。")
+        public = save_environment(payload, env)
+        # Application-specific runtime credentials are added AFTER import. Changing
+        # them must not delete the imported app binding. Connection identity changes do.
+        identity_changed = any(k in payload and payload[k].strip().rstrip("/") != str(env.get(k, "")).rstrip("/") for k in ("base_url", "version"))
+        if identity_changed:
+            with store.lock:
+                for task in store.list("task"):
+                    if task["environment_id"] == item_id:
+                        invalidate(task, "目标环境变化前保存", preserve_requirements=True)
+                        if task.get("workflow_plan") or task.get("agent_plan"):
+                            task["plan_stale"] = True
+                        save_task(task)
+        return public
 
 
 def environment_busy(item_id):
