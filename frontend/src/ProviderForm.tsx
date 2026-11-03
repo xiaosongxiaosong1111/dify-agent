@@ -5,7 +5,7 @@ type Pricing={input_per_million_usd:number;output_per_million_usd:number;cached_
 type Choice={id:string;label:string;model:string;description:string;note:string;pricing:Pricing;request_profile:string};
 type Vendor={id:string;name:string;mark:string;base_url:string;protocol:string;source_url:string;pricing_basis:string;models:Choice[]};
 export type ProviderCatalog={verified_at:string;vendors:Vendor[];availability:string};
-type Initial={id?:string;name?:string;provider?:string;base_url?:string;model?:string;role?:string;protocol?:string;has_api_key?:boolean;preset_id?:string;pricing?:Pricing|null;pricing_note?:string};
+type Initial={id?:string;name?:string;provider?:string;base_url?:string;model?:string;role?:string;protocol?:string;has_api_key?:boolean;preset_id?:string;pricing?:Pricing|null;pricing_note?:string;configuration_revision?:number};
 type Props={initial:Initial;busy:boolean;load:()=>Promise<ProviderCatalog>;save:(body:Record<string,unknown>)=>Promise<void>};
 const sameOrigin=(a:string,b:string)=>{try{return new URL(a).origin===new URL(b).origin}catch{return false}};
 const sameIdentity=(initial:Initial,v:Vendor,m:Choice)=>initial.provider===v.id&&initial.base_url?.replace(/\/$/,'')===v.base_url.replace(/\/$/,'')&&initial.model===m.model&&initial.protocol===v.protocol;
@@ -43,6 +43,7 @@ export default function ProviderForm({initial,busy,load,save}:Props){
  }catch(e){setError(e instanceof Error?e.message:'保存失败，请检查配置。')}};
  return <form id="provider-form" className="modal-body provider-form" onSubmit={submit}>
   <p className="provider-intro">选服务商、选型号，填入 API Key 即可。用于本工作台的需求访谈与 DSL 规划。</p>
+  {initial.id&&<p className="hint">编辑来源版本 {initial.configuration_revision??0}；保存前会核对来源。其它页面改过配置时会拒绝旧页，当前输入保留；请另存文字后关闭编辑，在模型列表重新读取再打开核对，不自动重读或测试。</p>}
   <div className="provider-step"><span>1</span><b>选择服务商</b></div>
   {loading&&<p className="hint">正在读取常用模型...</p>}
   {loadError&&<div className="callout amber">无法读取预设列表：{loadError}<button type="button" className="secondary" onClick={()=>setRetry(x=>x+1)}>重新读取</button></div>}

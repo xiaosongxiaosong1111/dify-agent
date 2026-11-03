@@ -85,7 +85,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.396.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.397.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1942,6 +1942,14 @@ def patch_provider(item_id: str, payload: dict):
         provider = store.get("provider", item_id)
         if not provider:
             raise HTTPException(404, "模型配置不存在。")
+        if 'expected_configuration_revision' in payload:
+            expected = payload['expected_configuration_revision']
+            if type(expected) is not int or not 0 <= expected <= 9007199254740991:
+                raise HTTPException(422, '模型编辑来源版本须为非负安全整数。')
+            current = provider.get('configuration_revision', 0)
+            if type(current) is not int or not 0 <= current <= 9007199254740991 or current != expected:
+                raise HTTPException(409, '模型配置已变化，本次未保存；请另存所需文字后关闭编辑，在模型列表重新读取再打开核对。')
+            payload = {k: v for k, v in payload.items() if k != 'expected_configuration_revision'}
         return save_provider(payload, provider)
 
 
