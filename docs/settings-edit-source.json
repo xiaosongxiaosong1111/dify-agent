@@ -1,7 +1,7 @@
 {
   "backlog": 310,
   "date": "2026-11-04",
-  "state": "verified_pending_commit",
+  "state": "done",
   "runtime": "0.402.0-33297c94364bfbfb7ea4",
   "pid": 12432,
   "runtime_files": 296,
@@ -31,5 +31,6 @@
   "model_dify_http": 0,
   "real_calls_deferred": true,
   "business_verified": false,
-  "evidence": "work/settings-edit-source445"
+  "evidence": "work/settings-edit-source445",
+  "implementation_commit": "ab2f150"
 }
