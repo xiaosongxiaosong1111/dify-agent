@@ -85,7 +85,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.408.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.409.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"], expose_headers=["X-Sierra-Settings-Source"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1655,7 +1655,9 @@ async def external_action(item_id, revision, kind, operation, *, inputs=None, te
         with store.lock:
             current = get_task(item_id)
             target = next(r for r in current["runs"] if r["id"] == record["id"])
-            target.update(status="unknown" if "结果可能未知" in str(exc) else "failed", error=str(exc), completed_at=now())
+            unknown = exc.outcome_unknown or "结果可能未知" in str(exc)
+            target.update(status="unknown" if unknown else "failed", outcome_unknown=unknown, error=str(exc), completed_at=now())
+            if exc.code is not None:target['error_code']=exc.code
             if exc.result is not None:
                 target["result"] = copy.deepcopy(exc.result)
             if exc.http_status is not None:target['http_status']=exc.http_status

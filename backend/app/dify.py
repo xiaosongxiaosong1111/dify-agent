@@ -9,13 +9,14 @@ from .providers import checked_url
 
 
 class DifyError(ValueError):
-    def __init__(self, message, *, result=None, http_status=None, code=None):
+    def __init__(self, message, *, result=None, http_status=None, code=None, outcome_unknown=False):
         super().__init__(message)
         # A successful HTTP response can still describe a failed workflow.
         # Keep that known result separately; never append bodies to public errors.
         self.result = result
         self.http_status = http_status
         self.code = code
+        self.outcome_unknown = outcome_unknown is True
 
 
 class DifyClient:
@@ -95,13 +96,18 @@ class DifyClient:
                 return {}
             return response.json()
         except httpx.TimeoutException as exc:
-            raise DifyError("Dify 请求超时。外部写入结果可能未知，请先核对，不要直接重复创建。", code="console_timeout") from exc
+            raise DifyError("Dify 请求超时。外部写入结果可能未知，请先核对，不要直接重复创建。", code="console_timeout", outcome_unknown=method.upper() not in {'GET', 'HEAD', 'OPTIONS'}) from exc
         except httpx.RequestError as exc:
+            uncertain_write = method.upper() not in {'GET', 'HEAD', 'OPTIONS'} and isinstance(exc, (httpx.ReadError, httpx.WriteError, httpx.RemoteProtocolError))
+            if uncertain_write:
+                raise DifyError('Dify 写请求的响应读取或传输中断，结果可能未知；请先核对远端状态，不要直接重复派发。', code='console_unreachable', outcome_unknown=True) from exc
             raise DifyError("无法连接目标 Dify 环境。可以继续生成待验证 DSL。", code="console_unreachable") from exc
         except ValueError as exc:
             if isinstance(exc, DifyError):
                 raise
-            raise DifyError("Dify 返回的内容不是预期 JSON，可能是登录页面或接口不兼容。", code="console_response_invalid") from exc
+            uncertain_write = method.upper() not in {'GET', 'HEAD', 'OPTIONS'}
+            message = 'Dify 写请求返回的内容不是预期JSON，结果可能未知；请核对远端状态，不要直接重复派发。' if uncertain_write else 'Dify 返回的内容不是预期 JSON，可能是登录页面或接口不兼容。'
+            raise DifyError(message, code="console_response_invalid", outcome_unknown=uncertain_write) from exc
 
     async def login(self, email: str, password: str):
         """Authenticate once and verify console access before returning transient tokens."""
