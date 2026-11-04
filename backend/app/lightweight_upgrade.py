@@ -5,8 +5,6 @@ from fastapi import HTTPException
 from .assistant_routing import stamp
 from .planning import draft_plan,PlanningStopped,reserve_cost
 
-PARSE_ERROR='返回内容不是可解析的 JSON 计划'
-
 
 def interrupt_phases(operation):
     """Startup only: describe unfinished phases, never resume or reconcile usage."""
@@ -73,7 +71,7 @@ async def run(h,task,provider,key,messages,settings,operation,context,validate,c
     try:return await phase('light',provider,key,light_limits)
     except PlanningStopped as exc:
         first=phases[-1] if phases else None
-        if not first or exc.reason!='retry_limit' or first.get('diagnostics')!=[PARSE_ERROR] or len(first['attempts'])!=1 or first['attempts'][0].get('status')!='invalid' or first['attempts'][0].get('cost_basis')!='reported_usage':raise
+        if not first or exc.reason!='retry_limit' or len(first['attempts'])!=1 or first['attempts'][0].get('failure_kind')!='json_syntax' or first['attempts'][0].get('status')!='invalid' or first['attempts'][0].get('cost_basis')!='reported_usage':raise
     source_guard();spent,entries=known_spend()
     if len(entries)!=1:raise PlanningStopped('call_limit','首阶段调用记录不满足一次上界，未追加升级。')
     remaining=settings['max_minutes']*60-(clock()-started)

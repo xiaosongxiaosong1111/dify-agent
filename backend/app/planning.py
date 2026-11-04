@@ -367,6 +367,10 @@ async def draft_plan(task, provider, messages, settings, operation, invoke, vali
             candidate = extract_json(text)
         except (ValueError, TypeError) as error:
             candidate = None
+            if isinstance(error, json.JSONDecodeError):
+                # Machine classification belongs to this parse attempt, never to
+                # mutable display diagnostics or a model-supplied candidate.
+                attempt['failure_kind'] = 'json_syntax'
             errors = ["返回内容不是可解析的 JSON 计划"]
             detail = _json_syntax_diagnostic(error)
             if detail:
