@@ -1,7 +1,7 @@
 {
   "backlog": 318,
   "date": "2026-11-04",
-  "state": "verified_pending_commit",
+  "state": "done",
   "runtime": "0.410.0-42176e0f3a8196820d18",
   "pid": 10796,
   "runtime_files": 296,
@@ -16,5 +16,6 @@
   "model_dify_http": 0,
   "real_calls_deferred": true,
   "business_verified": false,
-  "evidence": "work/import-receipt453"
+  "evidence": "work/import-receipt453",
+  "implementation_commit": "b553e1c"
 }
