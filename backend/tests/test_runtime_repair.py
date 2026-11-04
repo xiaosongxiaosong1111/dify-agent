@@ -1,4 +1,4 @@
-import copy
+import copy,hashlib
 import pytest
 from test_api import client
 from test_dsl_roundtrip import prepared,APP
@@ -11,7 +11,7 @@ CODE='def main(query: str) -> dict:\n    return {"result": re.sub(r"\\s+", " ", 
 
 def ready(client):
  task,_=prepared(client);task['workflow_plan']['nodes'][1]['config']['code']=CODE
- content,_=main.compile_current(task);main.artifact_path(task).write_text(content,encoding='utf-8');proof=artifact(main,task)
+ content,_=main.compile_current(task);path=main.artifact_path(task);path.write_text(content,encoding='utf-8');task['artifact']['sha256']=hashlib.sha256(path.read_bytes()).hexdigest();proof=artifact(main,task)
  env=main.store.get('environment',task['environment_id'])
  run={'id':'failed-re-run','kind':'run','revision':task['revision'],'status':'failed','environment_id':env['id'],'environment_binding':binding(env),'app_id':APP,'app_type':'workflow','error':"NameError: name 're' is not defined"}
  report={'id':'re-diagnostic','source_revision':task['revision'],'captured_at_revision':task['revision'],'remote_status':'failed','app_id':APP,'current_source':True,'trace_state':'read','source_hash':source_hash(run),'truncated':False,'source_graph':{'matched':True,'artifact':proof,'execution':proof,'published':proof},'nodes':[{'id':'execution','node_id':'code','node_type':'code','status':'failed','error':run['error']}]}

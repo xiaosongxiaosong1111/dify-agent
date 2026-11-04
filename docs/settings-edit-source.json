@@ -1,0 +1,35 @@
+{
+  "backlog": 310,
+  "date": "2026-11-04",
+  "state": "verified_pending_commit",
+  "runtime": "0.402.0-33297c94364bfbfb7ea4",
+  "pid": 12432,
+  "runtime_files": 296,
+  "new_api_checks": 22,
+  "related_api_checks": 148,
+  "new_ui_checks": 7,
+  "total_related_ui_checks": 25,
+  "initial_new_checks": {
+    "failed": 5,
+    "compatible": 16
+  },
+  "huge_integer_old_overflow_reproduced": true,
+  "initial_related": {
+    "passed": 82,
+    "failed": 11
+  },
+  "baseline_401_fixture_failure_reproduced": true,
+  "fixture_first_fix": {
+    "passed": 85,
+    "failed": 63
+  },
+  "frontend_build": "passed",
+  "legacy_unbound_api_compatible": true,
+  "protected_data_roots": 12,
+  "protected_evidence_files": 733,
+  "production_tasks": 26,
+  "model_dify_http": 0,
+  "real_calls_deferred": true,
+  "business_verified": false,
+  "evidence": "work/settings-edit-source445"
+}

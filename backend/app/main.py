@@ -85,8 +85,8 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.401.0", lifespan=lifespan)
-app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"])
+app = FastAPI(title="Sierra 本机工作台", version="0.402.0", lifespan=lifespan)
+app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"], expose_headers=["X-Sierra-Settings-Source"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
 CONFIG_DEFAULT = {"assistant_provider_id": None, "dify_model_provider": "", "dify_model": "", "temperature": 0.2, "max_tokens": 2048, "model_parameters": {}, "opening_statement": "", "suggested_questions": [], "conversation_memory": False, "memory_turns": 5, "dataset_ids": [], "retrieval_top_k": 3, "mock_dependencies": [], "mock_dependency_bindings": [], "resource_plan": "只创建新的应用，不覆盖已有应用或知识库。"}
@@ -2286,24 +2286,61 @@ def read_node_guidance(app_type: str, dify_version: str = TARGET_DIFY_VERSION, n
     return lookup(app_type, None if node_types is None else node_types.split(','), dify_version)
 
 
+def settings_source_token(settings):
+    try:
+        if not isinstance(settings, dict) or set(settings) != {'max_retries', 'max_minutes', 'max_cost_usd'}:
+            raise ValueError()
+        for key, value in settings.items():
+            if type(value) not in (int, float) or not math.isfinite(value) or (value < 0 if key == 'max_retries' else value <= 0):
+                raise ValueError()
+            if key == 'max_retries' and (type(value) is not int or value > 10):
+                raise ValueError()
+        text = json.dumps(settings, sort_keys=True, separators=(',', ':'), ensure_ascii=True, allow_nan=False)
+    except (TypeError, ValueError, OverflowError):
+        raise HTTPException(422, '已保存执行规则无法安全核对，未修改原设置；请核对本机配置。')
+    return hashlib.sha256(b'sierra.execution-settings.v1\0' + text.encode('ascii')).hexdigest()
+
+
 @app.get("/api/settings")
-def get_settings():
-    return store.get("settings", "execution") or {"max_retries": 3, "max_minutes": 10, "max_cost_usd": 1.0}
+def get_settings(response: Response = None):
+    settings = store.get("settings", "execution") or {"max_retries": 3, "max_minutes": 10, "max_cost_usd": 1.0}
+    if response is not None:
+        response.headers['X-Sierra-Settings-Source'] = settings_source_token(settings)
+        response.headers['Cache-Control'] = 'no-store'
+    return settings
 
 
 @app.patch("/api/settings")
-def patch_settings(payload: dict):
-    settings = get_settings()
-    if set(payload) - set(settings):
-        raise HTTPException(422, "未知执行上限。")
-    for key, value in payload.items():
-        if not isinstance(value, (int, float)) or isinstance(value, bool) or not math.isfinite(value) or (value < 0 if key == "max_retries" else value <= 0):
-            raise HTTPException(422, "执行上限必须为正数。")
-        if key == "max_retries" and (not isinstance(value, int) or value > 10):
-            raise HTTPException(422, "修复上限必须为 0—10 的整数，0 表示不自动修复。")
-        settings[key] = value
-    store.put("settings", "execution", settings)
-    return settings
+def patch_settings(payload: dict, response: Response = None):
+    with store.lock:
+        settings = get_settings()
+        current_source = settings_source_token(settings)
+        if 'expected_source_token' in payload:
+            source = payload['expected_source_token']
+            if not isinstance(source, str) or not re.fullmatch('[a-f0-9]{64}', source):
+                raise HTTPException(422, '执行规则保存来源须为有效摘要。')
+            if source != current_source:
+                raise HTTPException(409, '执行规则已变化，本次未保存；当前输入保留，请明确重新读取已保存规则后再核对。')
+            payload = {k: v for k, v in payload.items() if k != 'expected_source_token'}
+        if set(payload) - set(settings):
+            raise HTTPException(422, "未知执行上限。")
+        updated = dict(settings)
+        for key, value in payload.items():
+            try:
+                finite = type(value) in (int, float) and math.isfinite(value)
+            except OverflowError:
+                finite = False
+            if not finite or (value < 0 if key == "max_retries" else value <= 0):
+                raise HTTPException(422, "执行上限必须为有限有效数值；修复次数可为0，时间与费用须为正数。")
+            if key == "max_retries" and (type(value) is not int or value > 10):
+                raise HTTPException(422, "修复上限必须为 0—10 的整数，0 表示不自动修复。")
+            updated[key] = value
+        new_source = settings_source_token(updated)
+        store.put("settings", "execution", updated)
+        if response is not None:
+            response.headers['X-Sierra-Settings-Source'] = new_source
+            response.headers['Cache-Control'] = 'no-store'
+        return updated
 
 
 @app.get("/api/health")
