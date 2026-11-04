@@ -1,0 +1,20 @@
+{
+  "backlog": 318,
+  "date": "2026-11-04",
+  "state": "verified_pending_commit",
+  "runtime": "0.410.0-42176e0f3a8196820d18",
+  "pid": 10796,
+  "runtime_files": 296,
+  "new_api_checks": 29,
+  "initial_before_failed": 20,
+  "initial_before_compatible": 5,
+  "targeted_api_checks": 68,
+  "frontend_unchanged": true,
+  "protected_data_roots": 12,
+  "protected_evidence_files": 733,
+  "production_tasks": 26,
+  "model_dify_http": 0,
+  "real_calls_deferred": true,
+  "business_verified": false,
+  "evidence": "work/import-receipt453"
+}

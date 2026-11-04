@@ -85,7 +85,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.409.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.410.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"], expose_headers=["X-Sierra-Settings-Source"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1736,8 +1736,20 @@ async def import_task(item_id: str, payload: Revision):
             from .dsl_roundtrip import parse
             name=parse(content,task['app_type'])['app'].get('name') or name
         result = await DifyClient(env, store).import_new(content, name)
-        if result.get("status") not in {"completed", "completed-with-warnings"} or not result.get("app_id"):
-            raise DifyError("Dify 未确认导入完成。返回状态：" + str(result.get("status", "unknown")) + "。请在实例中核对版本或依赖，不自动确认不兼容导入。")
+        receipt_error = DifyError('Dify 导入回执结构或App标识无法核对，结果可能未知；未采用App绑定，请先核对实例，不能直接重复创建。', code='import_response_invalid', outcome_unknown=True)
+        if not isinstance(result, dict) or not isinstance(result.get('status'), str):
+            raise receipt_error
+        if result['status'] not in {'completed', 'completed-with-warnings'}:
+            if result['status'] == 'failed':
+                raise DifyError('Dify 未确认导入完成。请在实例中核对版本或依赖，不自动确认不兼容导入。')
+            raise receipt_error
+        app_id = result.get('app_id')
+        valid_id = isinstance(app_id, str) and 1 <= len(app_id) <= 200 and not any(c.isspace() or ord(c) < 32 or ord(c) == 127 for c in app_id)
+        if valid_id:
+            try:app_id.encode('utf-8')
+            except UnicodeError:valid_id = False
+        if not valid_id:
+            raise receipt_error
         return result
     return await external_action(item_id, payload.revision, "import", operation)
 
