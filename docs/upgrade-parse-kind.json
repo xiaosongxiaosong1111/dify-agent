@@ -1,7 +1,7 @@
 {
   "backlog": 316,
   "date": "2026-11-04",
-  "state": "verified_pending_commit",
+  "state": "done",
   "runtime": "0.408.0-5ab389a4949b168c8eb8",
   "pid": 23904,
   "runtime_files": 296,
@@ -17,5 +17,6 @@
   "model_dify_http": 0,
   "real_calls_deferred": true,
   "business_verified": false,
-  "evidence": "work/upgrade-parse-kind451"
+  "evidence": "work/upgrade-parse-kind451",
+  "implementation_commit": "e65cc22"
 }
