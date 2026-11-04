@@ -1,3 +1,4 @@
+import useUnsavedExit from './useUnsavedExit';
 import { taskNameText } from './TaskNameValues';
 import { executionRuleFields, executionRuleLabels, executionRuleText, executionRuleNumber, type ExecutionRuleKey } from './ExecutionRuleValues';
 import { filterSavedTasks, type TaskTypeFilter } from './taskListFilter';
@@ -115,7 +116,8 @@ export default function App(){
  for(const field of executionRuleFields){try{ruleParsed[field]=executionRuleNumber(field,settingsNumbers[field])}catch(e){ruleNumberErrors[field]=errText(e)}}
  const ruleNumbersPending=executionRuleFields.some(field=>!!ruleNumberErrors[field]||ruleParsed[field]!==settings[field]);
  const changeRuleNumber=(field:ExecutionRuleKey,raw:string)=>{ruleEditGeneration.current++;setError('');setSettingsNumbers(previous=>({...previous,[field]:raw}));try{const value=executionRuleNumber(field,raw);setSettings(previous=>({...previous,[field]:value}))}catch{/* Unfinished input never becomes a value or default. */}};
- const acceptSettings=(value:Settings)=>{settingsGeneration.current++;ruleSavedGeneration.current=ruleEditGeneration.current;setSettings(value);setSettingsNumbers(executionRuleText(value))};
+ const savedRuleNumbers=useRef(executionRuleText(settings));
+ const acceptSettings=(value:Settings)=>{savedRuleNumbers.current=executionRuleText(value);settingsGeneration.current++;ruleSavedGeneration.current=ruleEditGeneration.current;setSettings(value);setSettingsNumbers(executionRuleText(value))};
  const [settingsReadAck,setSettingsReadAck]=useState(false);useEffect(()=>{setSettingsReadAck(false)},[modal]);
  const [newEnvironment,setNewEnvironment]=useState('');
  const openNewTask=()=>{setNewName('新建 Dify 应用');setNewType('');setNewEnvironment('');setError('');setModal('new')};
@@ -136,8 +138,8 @@ export default function App(){
  const filteredTasks=filterSavedTasks(tasks,taskQuery,taskTypeFilter);
  const taskFilterActive=!!taskQuery.trim()||taskTypeFilter!=='all';
  const [taskLoading,setTaskLoading]=useState<string|null>(null);const taskSelection=useRef({generation:0,target:null as string|null});const busy=busyState||(taskLoading?'正在读取任务':'');
- const {text:msg,setText:setMsg,mode:chatMode,setMode:setChatMode,hasDraft:hasChatDraft,clearSent:clearSentChat}=useConversationDraft(task?.id||null);
- const [runInput,setRunInput,hasRunDraft]=useTaskRunDraft(task?.id||null);
+ const {text:msg,setText:setMsg,mode:chatMode,setMode:setChatMode,hasDraft:hasChatDraft,clearSent:clearSentChat,hasAnyDraft:hasAnyChatDraft}=useConversationDraft(task?.id||null);
+ const [runInput,setRunInput,hasRunDraft,hasAnyRunDraft]=useTaskRunDraft(task?.id||null);
  const [runNumberDraft,setRunNumberDraft]=useState({scope:'',pending:false});
  const placeChatDraft=(text:string,mode:'review'|'discussion')=>{if(!task||!text.trim())return false;if(msg.trim()){setNotice('对话框已有未发送文字；请先发送、另存或清空，再放入建议。');return false}setChatMode(mode);setMsg(text);setNotice('文字已放入当前任务的对话框，尚未发送；请核对本次对话方式。');return true};
  const [configurationProposalDirty,setConfigurationProposalDirty]=useState(false);
@@ -208,6 +210,7 @@ export default function App(){
  const taskDraftUnsaved=manualModelNumbers.pending||!!task&&(savedTask.current.id!==task.id||savedTask.current.signature!==taskSignature(task));
  const hasOtherUnsaved=executionLimitsDirty||taskDraftUnsaved||planDirty||caseDirty||coverageDirty||conflictDirty||planningToolDirty||routingDirty||roundtripDirty||budgetDirty||intakeDirty||configurationProposalDirty||caseProposalDirty||referenceDslDirty;
  const hasUnsaved=hasOtherUnsaved||topicResolutionDirty;
+ useUnsavedExit(hasUnsaved||hasAnyChatDraft||hasAnyRunDraft||executionRuleFields.some(field=>settingsNumbers[field]!==savedRuleNumbers.current[field]));
  const workingDraftRef=useRef(hasUnsaved);workingDraftRef.current=hasUnsaved;
  const sourceStillCurrent=(id:string,generation:number)=>savedTask.current.id===id&&taskSelection.current.target===id&&taskSelection.current.generation===generation;
  const workspaceHasDraft=()=>workingDraftRef.current||planDirtyRef.current||caseDirtyRef.current;

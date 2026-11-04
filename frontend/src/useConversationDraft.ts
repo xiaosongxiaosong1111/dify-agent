@@ -19,5 +19,5 @@ export default function useConversationDraft(taskId:string|null){
   if(!taskId)return;
   setDrafts(previous=>{const old=previous.get(taskId);if(!old||old.mode!==mode||old.text.trim()!==content.trim()||originalText!==undefined&&old.text!==originalText)return previous;const next=new Map(previous);if(mode==='review')next.delete(taskId);else next.set(taskId,{...old,text:''});return next});
  },[taskId]);
- return {text:current.text,mode:current.mode,setText,setMode,hasDraft,clearSent};
+ return {text:current.text,mode:current.mode,setText,setMode,hasDraft,clearSent,hasAnyDraft:[...drafts.values()].some(draft=>!!draft.text.trim())};
 }
