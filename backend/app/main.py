@@ -85,7 +85,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.406.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.407.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"], expose_headers=["X-Sierra-Settings-Source"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -1970,13 +1970,28 @@ def patch_provider(item_id: str, payload: dict):
 
 
 @app.delete("/api/providers/{item_id}")
-def delete_provider(item_id: str):
+def delete_provider(item_id: str, payload: dict | None = None):
     with store.lock:
+        expected = None
+        if payload is not None:
+            if set(payload) != {'expected_configuration_revision'}:
+                raise HTTPException(422, '模型删除须只提供列表来源版本；请重新读取模型列表后核对。')
+            expected = payload['expected_configuration_revision']
+            if type(expected) is not int or not 0 <= expected <= 9007199254740991:
+                raise HTTPException(422, '模型删除来源版本须为非负安全整数。')
+            provider = store.get('provider', item_id)
+            if not provider:
+                raise HTTPException(404, '模型配置已不存在，请重新读取模型列表核对。')
+            current = provider.get('configuration_revision', 0)
+            if type(current) is not int or not 0 <= current <= 9007199254740991 or current != expected:
+                raise HTTPException(409, '模型配置已变化，本次未删除；请重新读取模型列表，核对最新配置后再决定。')
         if any(p.get('enabled') and (p.get('light_provider_id')==item_id or (p.get('upgrade') or {}).get('enabled') and (p.get('upgrade') or {}).get('main_provider_id')==item_id) for p in store.list('assistant_routing')):raise HTTPException(409,'该模型被验收建议轻量/升级路由引用，请先明确关闭或更换相关任务路由。')
         if any(e.get('status')=='reserved' and e.get('provider_id')==item_id for ledger in store.list('task_budget') for e in ledger.get('entries',[])):raise HTTPException(409,'该模型调用尚未结算，暂不能删除。')
         if any(t["configuration"].get("assistant_provider_id") == item_id or any(r.get("status") in {"running", "ready_to_confirm"} and r.get("provider_id") == item_id for r in t.get("planning_runs", [])) for t in store.list("task")):
             raise HTTPException(409, "该模型已被任务引用，请先更换任务模型配置。")
         store.delete("provider", item_id)
+        if expected is not None:
+            return {'ok': True, 'deleted_id': item_id, 'configuration_revision': expected}
         return {"ok": True}
 
 

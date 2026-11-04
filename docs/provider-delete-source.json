@@ -1,0 +1,23 @@
+{
+  "backlog": 315,
+  "date": "2026-11-04",
+  "state": "verified_pending_commit",
+  "runtime": "0.407.0-1e13ef2afd18bdc17a2e",
+  "pid": 26216,
+  "runtime_files": 296,
+  "new_api_checks": 22,
+  "related_api_checks": 108,
+  "new_ui_checks": 8,
+  "related_ui_checks": 22,
+  "total_ui_checks": 30,
+  "frontend_build": "passed",
+  "known_unrelated_upgrade_failures": 9,
+  "baseline_upgrade_passed": 31,
+  "protected_data_roots": 12,
+  "protected_evidence_files": 733,
+  "production_tasks": 26,
+  "model_dify_http": 0,
+  "real_calls_deferred": true,
+  "business_verified": false,
+  "evidence": "work/provider-delete-source450"
+}
