@@ -25,7 +25,7 @@ from .material_documents import PartialDocument,extract_pdf,extract_docx
 from fastapi.responses import FileResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, ConfigDict
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, ConfigDict, field_validator
 
 from .storage import Store
 from .providers import call_model, checked_url, extract_json, ProviderError
@@ -85,7 +85,7 @@ async def lifespan(application):
     yield
 
 
-app = FastAPI(title="Sierra 本机工作台", version="0.403.0", lifespan=lifespan)
+app = FastAPI(title="Sierra 本机工作台", version="0.404.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8765", "http://localhost:8765"], allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["Content-Type"], expose_headers=["X-Sierra-Settings-Source"])
 
 REQ_KEYS = ("goal", "audience", "input", "output", "rules", "knowledge", "exceptions", "tests")
@@ -210,10 +210,28 @@ def environment(task):
     return env
 
 
+def checked_task_name(value):
+    if not isinstance(value, str):
+        raise HTTPException(422, '任务名称必须为文本。')
+    name = value.strip()
+    if not name or len(name) > 100:
+        raise HTTPException(422, '任务名称须为1—100个字符（首尾空白不计），当前输入未截断或保存。')
+    try:
+        name.encode('utf-8')
+    except UnicodeEncodeError:
+        raise HTTPException(422, '任务名称含无法保存的文字编码，请明确修正；未保存或替换字符。') from None
+    return name
+
+
 class NewTask(BaseModel):
     name: str = Field(min_length=1, max_length=100)
     app_type: str
     environment_id: str | None = None
+
+    @field_validator('name', mode='before')
+    @classmethod
+    def validate_name(cls, value):
+        return checked_task_name(value)
 
 
 class Confirmation(BaseModel):
@@ -411,9 +429,7 @@ def patch_task(item_id: str, payload: dict):
                     raise HTTPException(422, "非空计划请通过计划保存接口进行结构校验。")
                 changes[plan_key] = None
         if "name" in payload:
-            if not isinstance(payload["name"], str) or not payload["name"].strip():
-                raise HTTPException(422, "名称不能为空。")
-            changes["name"] = payload["name"].strip()[:100]
+            changes["name"] = checked_task_name(payload["name"])
         if "environment_id" in payload:
             selected = selection_id(payload["environment_id"], "目标 Dify 环境")
             if selected and not store.get("environment", selected):
