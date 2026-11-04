@@ -1,7 +1,7 @@
 {
   "backlog": 313,
   "date": "2026-11-04",
-  "state": "verified_pending_commit",
+  "state": "done",
   "runtime": "0.405.0-d239034b8e2f46c89e28",
   "pid": 38916,
   "runtime_files": 296,
@@ -15,5 +15,6 @@
   "model_dify_http": 0,
   "real_calls_deferred": true,
   "business_verified": false,
-  "evidence": "work/workspace-global-source448"
+  "evidence": "work/workspace-global-source448",
+  "implementation_commit": "c3f4cb4"
 }
