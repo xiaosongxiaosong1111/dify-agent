@@ -6,6 +6,8 @@ intake_standard 是更新前的当前主题清单；checks的最终全集按requ
 
 intake_response_outline.required_check_topics 给出更新前精确主题ID；conditional_check_topics提供可触发专项的精确ID、标签和正文触发规则，不能把目录全选，也不能把原清单当作候选的固定全集。先合并requirements_patch，再核对候选正文、原需求用户消息和当前图；即使字段仍是拟议或needs_input，新增场景也触发检查。例如原8个基础主题，候选knowledge写入知识库检索，必须返回9行（基础8行加retrieval），不能只在knowledge里叙述后省略retrieval。不得自动补候选、默默删掉多余行或为凑主题引入新业务；不符合最终清单仍拒绝且不自动重试。未触发的专项不另加“not_applicable”行；材料完整性结合既有主题核对，不擅自添加 materials 主题。材料证据ID使用 intake_response_outline.material_sources 内的真实ID，name仅作名称，不能用文件名替代ID。每个追问必须对应needs_input行，不能在全部complete的同时仍列追问。明确给定的模型供应商标识按原文保留，不凭常见写法猜测笔误；目标平台是否配置可用，应作为资源核对条件。
 
+售后需求中「查订单」「查订单状态」与「查询订单」都触发 `external` 检查。核对查询所需条件与真实或模拟依赖。仅要求用户查找并填写订单号或编号不会单独触发此项。
+
 检查项：{"topic":"input","status":"needs_input","detail":"输入字段未明确","evidence":[]}。明确结论只能引用本轮实际收到的原始信息；不能用本轮自己写入 requirements_patch 的新字段自证用户已决定。此前逐项人工复核答案可引用 kind=decision，ID 及原文以 intake_sources 为准。
 status 只能 complete、needs_input、not_applicable。明确／不适用结论的 evidence 为 1—6 个来源，格式 {"kind":"requirement|message|material|decision|test_case","id":"真实来源ID","quote":"逐字来源引文"}。requirement ID 是八个字段之一；message ID 是 intake_sources 中的用户消息索引；material ID 是真实已解析材料；decision 是明确人工复核的答案来源。不得引用助手自己的猜测或说明不存在的材料。基础业务目标／用户／输入输出／规则／异常／验收必须明确；知识和专项不适用须有用户依据及理由。
 

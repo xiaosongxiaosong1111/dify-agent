@@ -7,7 +7,10 @@ from app import main
 from app.intake import topics,model_review_outline,validate_review,ReviewContractError,sources
 
 
-@pytest.mark.parametrize('phrase,topic',[('根据资料回答售后问题','retrieval'),('资料问答','retrieval'),('查询订单','external'),('订单查询','external')])
+@pytest.mark.parametrize('phrase,topic',[
+    ('根据资料回答售后问题','retrieval'),('资料问答','retrieval'),
+    ('查询订单','external'),('订单查询','external'),('帮顾客查订单','external'),('可以查订单状态','external'),
+])
 @pytest.mark.parametrize('source',['requirement','message'])
 def test_explicit_business_expression_requires_resource_condition_review(phrase,topic,source):
     t={'app_type':'workflow','requirements':{k:'' for k in REQ},'messages':[]}
@@ -16,7 +19,10 @@ def test_explicit_business_expression_requires_resource_condition_review(phrase,
     assert topic in {x['id'] for x in topics(t)}
     assert topic in model_review_outline(t)['required_check_topics']
 
-@pytest.mark.parametrize('goal',['把单条文本转成大写。','整理订单字段的显示名称。','统计订单数量，不连接其它资源。','阅读资料后整理本地文字，不做问答。'])
+@pytest.mark.parametrize('goal',[
+    '把单条文本转成大写。','整理订单字段的显示名称。','统计订单数量，不连接其它资源。','阅读资料后整理本地文字，不做问答。',
+    '请用户在购买记录里查订单号再填写。','请用户自行查订单编号再填写。',
+])
 def test_general_text_or_order_noun_does_not_invent_retrieval_or_external_need(goal):
     t={'app_type':'workflow','requirements':{**{k:'' for k in REQ},'goal':goal},'messages':[]}
     assert not {'retrieval','external'} & {x['id'] for x in topics(t)}
