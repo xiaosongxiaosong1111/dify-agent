@@ -604,3 +604,5 @@
 | 322 | 多轮试跑保留适配器错误归类 | 第二轮仅携结构化未知结果标记且文案不含特定字眼时，应保留错误代码和未知状态，禁止同修订盲目重发。明确失败仍为失败。运行 `python -m pytest backend/tests/test_conversation_cases.py backend/tests/test_dify_write_outcome.py -q`。 | codex | done | 实现 c1a82b7。两项先失败后通过，相关 60 通过，改动模块覆盖率 91%。未知回执阻止重发，明确失败保留错误代码和 HTTP 状态。真实调用均为 0。 |
 
 | 323 | 锁定试跑请求前复核运行 Key 对应的 App | 同修订预检与加锁间改绑环境的运行 Key 至另一 App 时，必须在读取运行 Key、创建试跑记录或派发前拒绝。合法当前配对可正常试跑。运行 `python -m pytest backend/tests/test_conversation.py backend/tests/test_task_runtime_key.py backend/tests/test_failure_watch.py -q`。 | codex | done | 实现 4a858a0。隔离竞态原 200/派发，修复后 422/零派发且正确配对可继续。150 项相关、15 项旧原生提取安全测试通过。真实调用均为 0。 |
+
+| 324 | 续聊和人工复核只采用当前 App 的保存记录 | 同修订同环境的其他 App 或缺 App 归属记录保留在历史，不能续聊或追加当前人工复核。有效当前 App 仍可用。运行 `python -m pytest backend/tests/test_conversation.py backend/tests/test_agent_conversation.py backend/tests/test_api.py -k 'not test_api or manual_review or automatic_checks_cannot' -q` 和前端构建。 | codex | done | 实现 880b6cd。续聊旧 App 或缺归属零派发，旧人工复核 409，合法可用。144 项相关后端、前端构建和 Edge 隔离检查通过。真实调用均为 0。 |
