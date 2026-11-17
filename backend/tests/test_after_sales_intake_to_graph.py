@@ -1,15 +1,18 @@
 import copy
 import json
+from uuid import uuid4
 
 import pytest
 import yaml
 
-from test_api import client, forbid_api_external_calls, planning_provider
+from test_api import client, create_env, forbid_api_external_calls, planning_provider
 from test_after_sales_starter import context, inputs
 from test_delivery_bundle import bundle, unpack
+from test_workflow_publication import confirm as confirm_publish, prepare as prepare_publish
 from app import main
 from app.after_sales_starter import prepare
 from app.intake import BASE
+from app.mock_order import PREFIX
 
 
 OPENING = '我想做一个售后问答助手'
@@ -24,13 +27,31 @@ REQUIREMENTS = {
     'tests': '命中按资料回答；无命中提示人工；缺号时追问，同一会话补 DEMO-001 后返回模拟发货记录。',
 }
 
+FAQ_ANSWER = '公开退货政策：签收七天内且未拆封可退货。'
+ORDER_ANSWER = PREFIX + '合成样例：已发货。'
+
+
+def acceptance_cases():
+    def turn(query, answer, mode='equals'):
+        return {'input': {'query': query}, 'expectation': {'mode': mode, 'target': 'answer', 'expected': answer}}
+    def case(case_id, query, answer, mode='equals'):
+        return {'id': case_id, 'name': case_id, **turn(query, answer, mode)}
+    order = case('missing-order', '查订单', inputs()['missing_order_reply'])
+    order['followups'] = [turn('DEMO-001', ORDER_ANSWER)]
+    return [case('faq', '退货政策是什么？', FAQ_ANSWER), case('no-hit', '有没有维修资料？', '相关', 'contains'), order]
+
 
 @pytest.fixture
-def original_chatflow(client, monkeypatch):
+def original_chatflow(client, monkeypatch, request):
     planning_provider(client)
-    task = client.post('/api/tasks', json={'name': '隔离售后问答', 'app_type': 'advanced-chat'}).json()
+    env_id = create_env(client)['id'] if getattr(request, 'param', False) else None
+    task = client.post('/api/tasks', json={'name': '隔离售后问答', 'app_type': 'advanced-chat', 'environment_id': env_id}).json()
     url = f"/api/tasks/{task['id']}"
     assert task['intake_required'] and not any(task['requirements'].values())
+    if env_id:
+        response = client.post(f'{url}/test-cases', json={'revision': task['revision'], 'cases': acceptance_cases()})
+        assert response.status_code == 200, response.text
+        task = response.json()
     requirements = REQUIREMENTS
     answer = '\n'.join(requirements.values())
     cfg = context()['configuration']
@@ -127,6 +148,7 @@ def checked_delivery(client, task, reply):
     assert response.headers['x-sierra-revision'] == str(revision)
     assert f"r{revision}-delivery.zip" in response.headers['content-disposition']
     assert (manifest['task_id'], manifest['revision'], manifest['app_type']) == (task['id'], revision, 'advanced-chat')
+    assert manifest['app_id'] == task['dify_app_id'] and manifest['environment_id'] == task['environment_id']
     assert manifest['artifact_verification'] == 'static_only'
     assert manifest['mock_dependencies'] == task['configuration']['mock_dependencies']
     assert all(manifest[field] is False for field in ('platform_checked', 'business_verified', 'network_requested', 'task_changed'))
@@ -135,6 +157,11 @@ def checked_delivery(client, task, reply):
     report = files[f'report-r{revision}.md'].decode()
     assert f"类型：advanced-chat；版本：r{revision}" in report
     assert f"- exceptions：{task['requirements']['exceptions']}" in report
+    if task['dify_app_id']:
+        assert f"当前应用标识：{task['dify_app_id']}" in report
+        assert '成功运行返回 3 次，已声明必选样例 3 / 3 通过' in report
+        current_cases = report.split('## 当前修订的样例汇总', 1)[1].split('```json\n', 1)[1].split('\n```', 1)[0]
+        assert json.loads(current_cases) == client.get(f"/api/tasks/{task['id']}/acceptance").json()
     graph = yaml.safe_load(files[name])['workflow']['graph']
     nodes = {node['id']: node['data'] for node in graph['nodes']}
     assert nodes['no_hit']['template'] == reply
@@ -142,12 +169,91 @@ def checked_delivery(client, task, reply):
     return files[name], manifest
 
 
+def run_with_substitute_platform(client, monkeypatch, task, no_hit_reply):
+    url = f"/api/tasks/{task['id']}"
+    revision = {'revision': task['revision']}
+    app_id = str(uuid4())
+    publish_path = f'/console/api/apps/{app_id}/workflows/publish'
+    root = yaml.safe_load(main.artifact_path(task).read_bytes())
+    draft = root['workflow'] | {'hash': 'fixture-draft'}
+    published = None
+    turns = []
+    replies = [FAQ_ANSWER, no_hit_reply, inputs()['missing_order_reply'], ORDER_ANSWER]
+    queries = [case['input']['query'] for case in task['test_cases']] + ['DEMO-001']
+
+    async def request(self, method, path, *, credential, **kwargs):
+        nonlocal published
+        assert self.env['id'] == task['environment_id']
+        if path == '/console/api/apps/imports':
+            assert (method, credential) == ('POST', 'console_token')
+            assert yaml.safe_load(kwargs['json']['yaml_content']) == root
+            return {'status': 'completed', 'app_id': app_id}
+        if path == '/v1/chat-messages':
+            assert (method, credential) == ('POST', 'service_api_key')
+            assert published and self.env['service_app_id'] == app_id
+            index = len(turns)
+            body = kwargs['json']
+            cid = f"{app_id}-order" if index >= 2 else f"{app_id}-{index}"
+            assert body['query'] == queries[index] and body['inputs'] == {}
+            assert body.get('conversation_id') == (cid if index == 3 else None)
+            turns.append(body['query'])
+            return {'answer': replies[index], 'conversation_id': cid}
+        assert credential == 'console_token'
+        if path == publish_path:
+            if method == 'POST':
+                assert published is None
+                published = draft | {'id': str(uuid4())}
+                return {'result': 'success'}
+            assert method == 'GET'
+            return published
+        assert method == 'GET'
+        if path == f'/console/api/apps/{app_id}/workflows/draft':
+            return draft
+        assert path == f'/console/api/apps/{app_id}'
+        return {'id': app_id, 'mode': 'advanced-chat'}
+
+    monkeypatch.setattr(main.DifyClient, 'request', request)
+    imported = client.post(f'{url}/import', json=revision)
+    assert imported.status_code == 200, imported.text
+    current = imported.json()
+    assert current['dify_app_id'] == app_id
+    proposal = prepare_publish(client, current)
+    assert proposal.status_code == 200, proposal.text
+    result = confirm_publish(client, current, proposal.json())
+    assert result.status_code == 200 and result.json()['state'] == 'succeeded', result.text
+    assert client.patch(f"/api/environments/{task['environment_id']}", json={
+        'service_app_id': app_id, 'service_api_key': 'isolated-runtime-key',
+    }).status_code == 200
+    accepted = client.get(f'{url}/acceptance').json()
+    assert accepted['required']['not_run'] == 3 and all(row['run_id'] is None for row in accepted['cases'])
+
+    run_ids = []
+    for case, reply in zip(task['test_cases'], replies[:3], strict=True):
+        run_response = client.post(f'{url}/run', json={**revision, 'case_id': case['id']})
+        assert run_response.status_code == 200, run_response.text
+        current = run_response.json()
+        run = current['runs'][-1]
+        assert (run['app_id'], run['revision'], run['environment_id']) == (app_id, task['revision'], task['environment_id'])
+        assert run['evaluation']['status'] == 'passed'
+        result = run['result']['turns'][0]['result'] if case.get('followups') else run['result']
+        assert result['answer'] == reply
+        run_ids.append(run['id'])
+
+    accepted = client.get(f'{url}/acceptance').json()
+    assert accepted['required']['passed'] == 3 and [row['run_id'] for row in accepted['cases']] == run_ids
+    assert turns == queries
+    return current
+
+
+@pytest.mark.parametrize('original_chatflow', [False, True], indirect=True, ids=['static', 'with-runtime'])
 def test_natural_language_edit_preserves_original_and_binds_both_delivery_bundles(client, monkeypatch, original_chatflow):
     original = original_chatflow
     url = f"/api/tasks/{original['id']}"
     old_reply = inputs()['no_hit_reply']
     new_reply = '暂未找到与问题相关的资料，请提交售后工单。'
     request = f'请把无命中和资料不足的固定回复都改成「{new_reply}」。其余规则和分支保持。'
+    if original['environment_id']:
+        original = run_with_substitute_platform(client, monkeypatch, original, old_reply)
     original_dsl, original_manifest = checked_delivery(client, original, old_reply)
     old_plan = original['workflow_plan']
     new_plan = copy.deepcopy(old_plan)
@@ -216,6 +322,11 @@ def test_natural_language_edit_preserves_original_and_binds_both_delivery_bundle
     assert response.status_code == 200, response.text
     revised = response.json()
 
+    assert not revised['dify_app_id'] and revised['runs'] == original['runs']
+    if revised['environment_id']:
+        revised = run_with_substitute_platform(client, monkeypatch, revised, new_reply)
+        assert revised['dify_app_id'] != original['dify_app_id']
+        assert revised['runs'][:len(original['runs'])] == original['runs']
     revised_dsl, revised_manifest = checked_delivery(client, revised, new_reply)
     assert revised_dsl != original_dsl and revised_manifest['revision'] > original_manifest['revision']
     assert main.artifact_path(original).read_bytes() == original_dsl
@@ -227,4 +338,4 @@ def test_natural_language_edit_preserves_original_and_binds_both_delivery_bundle
             ('requirements', revised['revision'], draft['revision']),
             ('configuration', revised['revision'], None)} <= confirmations
     assert bundle(client, original).status_code == 409
-    assert not revised['dify_app_id'] and not revised['runs'] and calls == ['interview', 'plan']
+    assert calls == ['interview', 'plan']

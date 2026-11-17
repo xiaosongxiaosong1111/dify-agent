@@ -91,7 +91,7 @@ def test_continuation_keeps_whole_source_and_confirmation_guards(client, change)
     if change == 'plan': task['workflow_plan']['nodes'][0]['title'] = '人工改动'
     if change == 'configuration': task['configuration_confirmed'] = False
     main.store.put('task', task['id'], task)
-    assert call(client, task, continuation_order_id='DEMO-001').status_code == 422
+    assert call(client, task, continuation_order_id='DEMO-001').status_code == (409 if change == 'artifact' else 422)
 
 
 def test_ten_records_plus_one_selected_continuation_is_bounded_to_thirteen_rows(client):
