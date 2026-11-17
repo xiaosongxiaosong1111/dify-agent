@@ -608,3 +608,5 @@
 | 324 | 续聊和人工复核只采用当前 App 的保存记录 | 同修订同环境的其他 App 或缺 App 归属记录保留在历史，不能续聊或追加当前人工复核。有效当前 App 仍可用。运行 `python -m pytest backend/tests/test_conversation.py backend/tests/test_agent_conversation.py backend/tests/test_api.py -k 'not test_api or manual_review or automatic_checks_cannot' -q` 和前端构建。 | codex | done | 实现 880b6cd。续聊旧 App 或缺归属零派发，旧人工复核 409，合法可用。144 项相关后端、前端构建和 Edge 隔离检查通过。真实调用均为 0。 |
 
 | 325 | 空任务双版本试跑与交付全链本机隔离回归 | 原版、改版各以不同替身 App 完成导入、明确发布、配对 Key、试跑和同修订交付。知识命中、无命中、缺号续聊样例各归当前 App 和修订。运行 `python -m pytest backend/tests/test_after_sales_intake_to_graph.py -q`。 | codex | done | 回归 146cb45。r5/r7 各三例四轮，新版试跑前 0/3，各自交付报告与验收摘要一致，原版 DSL 及试跑记录保留。最终 164 项定向通过，未部署，真实调用均为 0。 |
+
+| 326 | 修复新机锁定依赖安装与版本预检 | 全新虚拟环境只装 `backend/requirements-lock.txt` 即可导入结构化输入校验，运行 `python -m pytest backend/tests/test_json_inputs.py backend/tests/test_after_sales_intake_to_graph.py -q`。安装脚本检查实际使用的 Python 版本并按构建工具要求核对 Node.js。 | codex | done | 实现 7f77c9e。清洁环境先复现缺少 jsonschema。修复后 Python 3.12 锁文件 142 项通过，Python 3.11 正式安装、前端构建及 50 项重点通过。Node.js 六个预检边界通过。新增接手说明，真实调用均为 0。 |
