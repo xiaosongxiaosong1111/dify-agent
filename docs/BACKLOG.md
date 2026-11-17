@@ -598,3 +598,5 @@
 | 319 | 售后 Chatflow 连续对话改版保留累计需求差异 | 需求 §11：连续修改无答案回复和缺订单号追问后，隔离访谈与规划 API 应将旧图、过期前需求基线和两项差异交给模型。改图候选仍需明确采纳。运行 `python -m pytest backend/tests/test_replanning_context.py backend/tests/test_replanning_context_api.py -q`，使用临时数据与替身模型 | codex | done | 实现 6eddb7d。隔离 API 先复现 r5 漏首轮差异，修复后使用 r4，两个字段均进入规划上下文，变更候选等待明确采纳。150 项定向通过，改动模块语句及分支覆盖率 100%。未部署，真实模型与 Dify 调用均为 0。 |
 
 | 320 | 售后 Chatflow 识别口语「查订单」的依赖专项 | 需求 §11：空任务从「我想做一个售后问答助手」开始，用本机隔离 API 验证追问、确认「查订单」采用模拟、成功规划及静态 DSL。仅要求用户查找订单号时不增加专项。运行 `python -m pytest backend/tests/test_after_sales_intake_to_graph.py backend/tests/test_intake_business_resource_phrases.py -q` | codex | done | 实现 893e399。原版第二轮漏算 external，修复后确认需求、保存替身规划并构建 23 节点、24 条边的 DSL。定向用例 26 通过，相关回归共 159 项通过，准入模块综合覆盖率 95%。未部署，真实模型与 Dify 调用均为 0。 |
+
+| 321 | 空任务售后 Chatflow 改版与两版交付包绑定 | 需求 §11：原版构建先下载 ZIP，按自然语言修改无命中提示，明确采纳候选及重新确认后构建并下载新版。验证原图、原文件和确认历史保留，两份 ZIP 的任务、修订、报告及 DSL 字节与摘要匹配。运行 `python -m pytest backend/tests/test_after_sales_intake_to_graph.py backend/tests/test_delivery_bundle.py -q`。 | codex | done | 回归 1899dd6。r4/r6 双 ZIP 逐成员摘要匹配，原版图、确认和文件保留。旧修订请求 409，未构建改版 422。122 项定向通过，Windows 符号链接测试跳过 1 项。现有运行时代码通过核对，未部署，真实模型与 Dify 调用均为 0。 |
