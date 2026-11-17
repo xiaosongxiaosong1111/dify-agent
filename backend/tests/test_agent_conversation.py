@@ -8,6 +8,7 @@ from app.dify import DifyClient, DifyError
 
 def source_record(task):
     return {'id':'source','kind':'run','status':'success','revision':task['revision'],'environment_id':task['environment_id'],
+            'app_id':task['dify_app_id'],
             'result':{'answer':'第一轮','conversation_id':'conversation-1','terminal':True}}
 
 
@@ -30,7 +31,7 @@ def test_native_free_followup_dispatches_saved_conversation_and_keeps_provenance
     assert client.get(f"/api/tasks/{task['id']}/acceptance").json()['required']['passed']==0
 
 
-@pytest.mark.parametrize('mismatch',['revision','environment','failed','unknown','foreign_task','fixed_case','bad_id'])
+@pytest.mark.parametrize('mismatch',['revision','environment','failed','unknown','foreign_task','fixed_case','bad_id','app','missing_app'])
 def test_invalid_native_source_never_dispatches(client,monkeypatch,mismatch):
     task=runtime_task(client);record=source_record(task)
     if mismatch=='revision':record['revision']-=1
@@ -38,6 +39,8 @@ def test_invalid_native_source_never_dispatches(client,monkeypatch,mismatch):
     if mismatch in {'failed','unknown'}:record['status']=mismatch
     if mismatch=='fixed_case':record['test_case']={'id':'fixed'}
     if mismatch=='bad_id':record['result']['conversation_id']='bad/id'
+    if mismatch=='app':record['app_id']='different-fixture-app'
+    if mismatch=='missing_app':record.pop('app_id')
     if mismatch!='foreign_task':task['runs'].append(record)
     main.save_task(task)
     async def forbidden(*args,**kwargs):pytest.fail('Invalid source dispatched')

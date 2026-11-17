@@ -584,6 +584,24 @@ def test_automatic_checks_cannot_be_manually_overridden(client, monkeypatch):
     assert response.status_code == 422 and "自动检查规则" in response.text
 
 
+@pytest.mark.parametrize('source_app', [None, 'different-fixture-app'])
+def test_manual_review_cannot_reuse_another_or_unidentified_app(client, monkeypatch, source_app):
+    task = completed_case_run(client, monkeypatch)
+    run = task['runs'][-1]
+    if source_app is None:
+        run.pop('app_id')
+    else:
+        run['app_id'] = source_app
+    main.save_task(task)
+    path = f"/api/tasks/{task['id']}"
+    before = main.get_task(task['id'])
+    response = client.post(f"{path}/runs/{run['id']}/review",
+                           json={'revision':task['revision'],'decision':'passed','reason':'隔离人工复核'})
+    assert response.status_code == 409
+    assert client.get(path).json() == before
+    assert client.get(f'{path}/acceptance').json()['required']['not_run'] == 1
+
+
 def test_identical_cases_do_not_invalidate_confirmations(client):
     t = approved(client)
     response = client.post(f"/api/tasks/{t['id']}/test-cases", json={"revision": t["revision"], "cases": []})

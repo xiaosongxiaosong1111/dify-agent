@@ -806,7 +806,7 @@ def acceptance_summary(item_id: str):
 
 @app.post("/api/tasks/{item_id}/runs/{run_id}/review")
 def review_run(item_id: str, run_id: str, payload: ManualReviewRequest):
-    from .acceptance import matches_case
+    from .acceptance import matches_case, matches_current_app
     if payload.decision not in {"passed", "failed"} or not payload.reason.strip():
         raise HTTPException(422, "人工意见须明确选择通过或不通过，并填写理由。")
     with store.lock:
@@ -816,8 +816,9 @@ def review_run(item_id: str, run_id: str, payload: ManualReviewRequest):
         run = next((r for r in task["runs"] if r["id"] == run_id), None)
         if not run:
             raise HTTPException(404, "运行记录不存在。")
-        if run.get("revision") != task["revision"] or run.get("environment_id") != task.get("environment_id"):
-            raise HTTPException(409, "此记录属于旧修订或其他环境，不能计入当前验收。")
+        if (run.get("revision") != task["revision"] or run.get("environment_id") != task.get("environment_id")
+                or not matches_current_app(task, run)):
+            raise HTTPException(409, "此记录的修订、环境或 App 归属与当前任务不匹配，不能人工复核或计入当前验收。")
         case = next((c for c in task["test_cases"] if c["id"] == (run.get("test_case") or {}).get("id")), None)
         if run.get("kind") != "run" or run.get("status") != "success" or not case or not matches_case(case, run):
             raise HTTPException(422, "只可复核已成功返回且与当前样例匹配的运行记录。")
@@ -1575,6 +1576,19 @@ def recover_external_actions():
                 save_task(task)
 
 
+def saved_conversation_id(task, run_id):
+    from .acceptance import matches_current_app
+    source = next((r for r in task["runs"] if r["id"] == run_id), None)
+    result = source.get("result") if source else None
+    cid = result.get("conversation_id") if isinstance(result, dict) else None
+    if (not source or source.get("test_case") or source.get("kind") != "run" or source.get("status") != "success"
+            or source.get("revision") != task["revision"] or source.get("environment_id") != task.get("environment_id")
+            or not matches_current_app(task, source) or not isinstance(cid, str) or not cid or len(cid) > 128
+            or any(c not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_' for c in cid)):
+        raise HTTPException(422, "会话来源须为当前任务、修订、环境及 App 中成功返回的自由试跑记录。")
+    return cid
+
+
 async def external_action(item_id, revision, kind, operation, *, inputs=None, test_case=None, conversation_context=None, runtime_context=None):
     service_snapshot=None;custom_artifact_sha=None;file_proof=None
     with store.lock:
@@ -1607,6 +1621,8 @@ async def external_action(item_id, revision, kind, operation, *, inputs=None, te
             raise HTTPException(409, "已有结果未知的操作，请先到 Dify 核对，禁止盲目重复执行。")
         if kind=='run':
             require_runtime_pair(task, env)
+            if conversation_context and saved_conversation_id(task, conversation_context['source_run_id']) != conversation_context['conversation_id']:
+                raise HTTPException(422, "会话来源已变化，未派发；请重新选择当前记录或开始新会话。")
             if task['app_type'] in {'workflow','advanced-chat'}:
                 from .start_inputs import preflight,form_schema
                 custom_chat=task['app_type']=='advanced-chat' and len(form_schema(final_root)['fields'])>1
@@ -1800,13 +1816,9 @@ async def run_task(item_id: str, payload: RunRequest):
     if payload.conversation_from_run_id:
         if task["app_type"] not in {"advanced-chat", "agent"} or payload.case_id or "conversation_id" in inputs:
             raise HTTPException(422,"复用已保存会话仅适用于 Chatflow／原生 Agent 自由试跑，不能混入固定样例或另一个 conversation_id。")
-        source = next((r for r in task["runs"] if r["id"]==payload.conversation_from_run_id),None)
-        result = source.get("result") if source else None
-        cid = result.get("conversation_id") if isinstance(result,dict) else None
-        if not source or source.get("test_case") or source.get("kind")!="run" or source.get("status")!="success" or source.get("revision")!=task["revision"] or source.get("environment_id")!=task.get("environment_id") or not isinstance(cid,str) or not cid or len(cid)>128 or any(c not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_' for c in cid):
-            raise HTTPException(422,"会话来源须为当前任务、修订及环境中成功返回的对话记录。")
+        cid = saved_conversation_id(task, payload.conversation_from_run_id)
         inputs = {**inputs,"conversation_id":cid}
-        conversation_context = {"source_run_id":source["id"],"conversation_id":cid,"revision":task["revision"],"environment_id":task["environment_id"]}
+        conversation_context = {"source_run_id":payload.conversation_from_run_id,"conversation_id":cid,"revision":task["revision"],"environment_id":task["environment_id"]}
     if payload.case_id:
         from .acceptance import same_json
         if payload.input and not same_json(payload.input, case["input"]):

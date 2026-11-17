@@ -125,7 +125,7 @@ def stream_call(tmp_path, monkeypatch, events, *, stop=False, status=200, conten
         observed.append((req.url.path, json.loads(req.content)))
         if req.url.path.endswith('/stop'): return httpx.Response(200, json={'result': 'success'})
         return httpx.Response(status, headers={'content-type': content_type}, text=sse(events))
-    monkeypatch.setattr(agent_stream.httpx, 'AsyncClient', lambda **kwargs: original(transport=httpx.MockTransport(handler), **kwargs))
+    monkeypatch.setattr(agent_stream.httpx, 'AsyncClient', lambda **kwargs: original(**(kwargs | {'transport': httpx.MockTransport(handler)})))
     return adapter, observed, lambda: asyncio.run(adapter.run_agent('联调', should_stop=lambda: stop))
 
 

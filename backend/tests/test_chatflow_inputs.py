@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import pytest
 import yaml
 from test_api import client
@@ -29,7 +30,10 @@ def native():
 
 def runtime(client):
     t,_=prepared(client)
-    main.artifact_path(t).write_text(yaml.safe_dump(native(),allow_unicode=True),encoding='utf-8')
+    path=main.artifact_path(t)
+    path.write_text(yaml.safe_dump(native(),allow_unicode=True),encoding='utf-8')
+    t['artifact']['sha256']=hashlib.sha256(path.read_bytes()).hexdigest()
+    main.save_task(t)
     return t
 
 

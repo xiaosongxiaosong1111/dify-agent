@@ -6,7 +6,7 @@
 
 原生 Agent 首轮仅接受 `input={query:string}`。追问同样提供 query，并在运行请求顶层提供 `conversation_from_run_id`。后端从本任务已保存记录解析实际 conversation_id，放入 Dify 请求顶层，不放入应用 inputs。前端在“运行”的“自由试跑会话上下文”中明确选择新会话或来源。
 
-来源必须是同任务、当前修订、当前环境的成功自由试跑，不能使用固定验收样例、失败／未知／旧修订记录。不得同时指定 case_id 或手填另一 conversation_id；变量与文件输入明确拒绝。后台在派发前检查来源及输入，非法请求不产生运行调用。Workflow 不提供此入口。
+来源必须是匹配当前任务、修订、环境和 App 的成功自由试跑。固定验收样例与失败、未知、旧修订、缺少 App 归属的记录不能续聊。不得同时指定 case_id 或手填另一 conversation_id；变量与文件输入明确拒绝。后台在派发前检查来源及输入，非法请求不产生运行调用。Workflow 不提供此入口。
 
 运行记录保留实际输入及 conversation_context：source_run_id、conversation_id、revision、environment_id。复用同一会话当前已有历史，不回退到来源记录时间、不建立分叉。任务修改及环境变更使旧来源失效。重复选择较早记录仍续接同一实际会话。
 

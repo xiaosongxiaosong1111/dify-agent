@@ -156,7 +156,7 @@ Persistent, explicitly confirmed knowledge jobs support economy and conditional 
 
 ## Chatflow 连续自由试跑
 
-运行请求可包含 `conversation_from_run_id`，不能与 `case_id` 或另一个 `input.conversation_id` 混用。来源限定为同任务当前修订／环境的成功 Chatflow 自由试跑；固定样例记录不可作为来源。结果保留 `conversation_context`。配置新增 `conversation_memory`（默认 false）、`memory_turns`（1—50，默认 5）。详见 [对话记忆契约](conversation-memory-contract.md)。
+运行请求可包含 `conversation_from_run_id`，不能与 `case_id` 或另一个 `input.conversation_id` 混用。来源限定为同任务当前修订、环境和 App 的成功 Chatflow 自由试跑。固定样例和缺少 App 归属的旧记录不能用于续聊。另一个 App 或缺少 App 归属的记录也不能新增当前验收的人工复核。结果保留 `conversation_context`。配置新增 `conversation_memory`（默认 false）、`memory_turns`（1—50，默认 5）。详见 [对话记忆契约](conversation-memory-contract.md)。
 
 ## 0.7.0 Native Agent
 

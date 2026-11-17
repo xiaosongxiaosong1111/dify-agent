@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import json
 import pytest
 from test_api import client
@@ -50,7 +51,10 @@ def test_source_target_credentials_artifact_and_receipt_binding_cannot_be_reused
     elif change=='address':
         env=main.store.get('environment',task['environment_id']);env['base_url']='http://127.0.0.1:9999';main.store.put('environment',env['id'],env)
     elif change=='artifact':
-        path=main.artifact_path(task);path.write_text(path.read_text(encoding='utf-8')+'\n',encoding='utf-8')
+        path=main.artifact_path(task);path.write_bytes(path.read_bytes()+b'\n# changed artifact\n')
+        current=main.get_task(task['id'])
+        current['artifact']['sha256']=hashlib.sha256(path.read_bytes()).hexdigest()
+        main.save_task(current)
     elif change=='missing_proof':main.store.delete(KIND,source)
     elif change=='proof_type':
         proof=main.store.get(KIND,source);proof['schema_version']=True;main.store.put(KIND,source,proof)
@@ -117,7 +121,6 @@ def test_fixed_custom_case_keeps_same_captured_key_across_turns_without_free_sou
 
 
 def test_custom_runtime_only_decrypts_service_key_not_console_or_dataset_credentials(client,monkeypatch):
-    import hashlib
     from app.conversation_inputs import credential_stamp
     task=runtime(client);original=main.store.cipher.decrypt;seen=[];expected=credential_stamp(main.store,task['environment_id'])
     def decrypt(blob,*args,**kwargs):seen.append(hashlib.sha256(blob).hexdigest());return original(blob,*args,**kwargs)

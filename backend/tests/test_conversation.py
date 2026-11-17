@@ -53,19 +53,54 @@ def test_free_conversation_uses_current_successful_source_and_records_actual_con
     assert client.get(f"/api/tasks/{task['id']}/acceptance").json()['required']['passed']==0
 
 
-@pytest.mark.parametrize('mismatch',['revision','environment','failed','foreign_task'])
+@pytest.mark.parametrize('mismatch',['revision','environment','failed','foreign_task','app','missing_app'])
 def test_unrelated_or_stale_conversation_never_dispatched(client,monkeypatch,mismatch):
     task,env=prepared(client)
-    record={'id':'source','kind':'run','status':'success','revision':task['revision'],'environment_id':env['id'],'result':{'answer':'回答','conversation_id':'cid'}}
+    record={'id':'source','kind':'run','status':'success','revision':task['revision'],'environment_id':env['id'],
+            'app_id':task['dify_app_id'],'result':{'answer':'回答','conversation_id':'cid'}}
     if mismatch=='revision':record['revision']-=1
     if mismatch=='environment':record['environment_id']='elsewhere'
     if mismatch=='failed':record['status']='failed'
+    if mismatch=='app':record['app_id']='different-fixture-app'
+    if mismatch=='missing_app':record.pop('app_id')
     if mismatch!='foreign_task':task['runs'].append(record)
     main.save_task(task)
-    async def forbidden(*args,**kwargs):pytest.fail('Invalid context must not dispatch')
-    monkeypatch.setattr(main.DifyClient,'run_chatflow',forbidden)
+    calls=[]
+    async def chat(*args,**kwargs):
+        calls.append(1)
+        return {'answer':'公开回执','conversation_id':'cid'}
+    monkeypatch.setattr(main.DifyClient,'run_chatflow',chat)
     result=client.post(f"/api/tasks/{task['id']}/run",json={'revision':task['revision'],'input':{'query':'追问'},'conversation_from_run_id':'source'})
-    assert result.status_code==422
+    assert result.status_code==422 and not calls
+    assert main.get_task(task['id']) == task
+
+
+def test_saved_conversation_changed_before_admission_never_dispatches_followup(client, monkeypatch):
+    task, _ = prepared(client)
+    path = f"/api/tasks/{task['id']}/run"
+    calls = []
+
+    async def chat(self, query, inputs, conversation_id):
+        calls.append(conversation_id)
+        return {'answer': '公开回执', 'conversation_id': 'original-cid'}
+
+    monkeypatch.setattr(main.DifyClient, 'run_chatflow', chat)
+    payload = {'revision': task['revision'], 'input': {'query': '公开请求'}}
+    first = client.post(path, json=payload)
+    assert first.status_code == 200, first.text
+    source_id = first.json()['runs'][-1]['id']
+    external_action = main.external_action
+
+    async def change_source(*args, **kwargs):
+        current = main.get_task(task['id'])
+        current['runs'][-1]['result']['conversation_id'] = 'changed-cid'
+        main.save_task(current)
+        return await external_action(*args, **kwargs)
+
+    monkeypatch.setattr(main, 'external_action', change_source)
+    response = client.post(path, json={**payload, 'conversation_from_run_id': source_id})
+    assert response.status_code == 422 and calls == [None]
+    assert len(main.get_task(task['id'])['runs']) == 1
 
 
 def test_conversation_source_cannot_mix_with_fixed_case_or_other_id(client):

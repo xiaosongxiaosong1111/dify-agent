@@ -10,7 +10,7 @@
 
 ## 复用范围
 
-`POST /api/tasks/{id}/run` 可提交 `conversation_from_run_id`。只允许当前任务、当前修订、当前环境的成功 Chatflow 自由试跑记录（排除固定样例运行），且结果必须有实际 `conversation_id`。不得与固定 `case_id` 或输入中的另一个 `conversation_id` 混用。
+`POST /api/tasks/{id}/run` 可提交 `conversation_from_run_id`。只允许匹配当前任务、修订、环境和 App 的成功 Chatflow 自由试跑记录，且结果必须有实际 `conversation_id`。不得与固定 `case_id` 或输入中的另一个 `conversation_id` 混用。
 
 后端从保存记录解析会话 ID，并在本次记录中保留 `conversation_context`（来源记录 ID、会话 ID、修订、环境）。复用的是同一会话**当前已有历史**，不是回退到来源记录的时间，也不是创建分叉。任务变更或换环境后，旧记录不再可作为来源。固定连续对话样例链已在 0.10.0 单独实现，见 [多轮契约](conversation-cases-contract.md)；自由试跑不计入固定样例通过数。
 
