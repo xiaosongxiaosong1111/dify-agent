@@ -10,15 +10,20 @@ def replanning_context(task):
         return None
     matches = [v for v in reversed(task.get('versions', []))
                if isinstance(v, dict) and same_json(v.get(key),plan)]
-    # Recent snapshots often only differ in name/cases. Find the latest actual
-    # requirements/configuration transition against this exact saved plan.
-    baseline = next((v for v in matches if any(
-        v.get(k) != task.get(k) for k in ('requirements', 'configuration'))),
-        matches[0] if matches else None)
+    stale = bool(task.get('plan_stale'))
+    baseline = None
+    if stale:
+        # Stale snapshots can already contain part of the pending edits.
+        baseline = next((v for v in matches if v.get('plan_stale') is False), None)
+        matches = [v for v in matches if v.get('plan_stale') is None]
+    if baseline is None:
+        baseline = next((v for v in matches if any(
+            v.get(k) != task.get(k) for k in ('requirements', 'configuration'))),
+            matches[0] if matches else None)
     result = {
         'revision': task['revision'],
         'plan': copy.deepcopy(plan),
-        'stale': bool(task.get('plan_stale')),
+        'stale': stale,
         'baseline_available': baseline is not None,
         'verification': 'saved_task_context_not_platform_evidence',
         'note': '以现有完整计划为修改基线，逐项对应当前明确需求；非目标字段保持，不把旧确认或运行证据沿用为本版批准。',

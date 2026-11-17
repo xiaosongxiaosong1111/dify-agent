@@ -45,7 +45,7 @@ def test_foreign_plan_is_not_used_as_history_baseline():
 
 
 def test_same_inputs_can_be_baseline_without_invented_change():
-    task=source();task['versions']=[{**copy.deepcopy(task),'revision':7}]
+    task=source();task['versions']=[{**copy.deepcopy(task),'revision':7,'plan_stale':False}]
     context=replanning_context(task)
     assert context['baseline_revision']==7 and context['changed_requirements_fields']==context['changed_configuration_fields']==[]
 
@@ -60,3 +60,22 @@ def test_boolean_and_number_parameter_do_not_match_as_same_historical_plan():
     task=source();foreign=copy.deepcopy(task['workflow_plan']);foreign['nodes'][0]['config']['model']['completion_params']['thinking']=0
     task['versions']=[{'revision':8,'workflow_plan':foreign,'requirements':{'output':'旧输入'},'configuration':task['configuration']}]
     assert not replanning_context(task)['baseline_available']
+
+
+def test_stale_graph_does_not_treat_a_reverted_intermediate_edit_as_new():
+    task = source('advanced-chat')
+    original = {**copy.deepcopy(task), 'revision': 7, 'plan_stale': False}
+    intermediate = {**original, 'revision': 8, 'plan_stale': True, 'requirements': {'output': '已撤回的改动'}}
+    task['versions'] = [original, intermediate]
+    context = replanning_context(task)
+    assert context['baseline_revision'] == 7
+    assert context['changed_requirements_fields'] == []
+
+
+def test_only_stale_snapshots_leave_prior_inputs_unknown():
+    task = source('advanced-chat')
+    task['versions'] = [{**copy.deepcopy(task), 'revision': 8, 'requirements': {'output': '已经修改过'}}]
+    context = replanning_context(task)
+    assert context['plan'] == task['workflow_plan']
+    assert not context['baseline_available']
+    assert 'previous_requirements' not in context

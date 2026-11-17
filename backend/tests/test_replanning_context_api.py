@@ -1,7 +1,7 @@
 """Actual regeneration messages under isolated provider transport."""
 import copy,json
 import pytest
-from test_api import client,approved,planning_provider
+from test_api import client,approved,planning_provider,forbid_api_external_calls
 from test_workflow_plan import base_plan
 from app import main
 
@@ -49,3 +49,55 @@ def test_saved_graph_and_actual_input_change_reach_regeneration_without_platform
     else:
         assert not current['plan_stale'] and current['revision']==task['revision']+1
     assert current['planning_runs'][-1]['attempts'][0]['usage']['prompt_tokens']==100
+
+
+def test_chatflow_replanning_includes_all_interview_edits_since_graph_became_stale(client, monkeypatch):
+    planning_provider(client)
+    task = approved(client, app_type='advanced-chat')
+    path = f"/api/tasks/{task['id']}"
+    plan = base_plan('advanced-chat')
+    response = client.post(f'{path}/plan', json={'revision': task['revision'], 'plan': plan})
+    assert response.status_code == 200, response.text
+    original = task = response.json()
+    edits = [
+        ('output', '无答案时提示请联系人工客服。'),
+        ('rules', '模拟订单查询缺少订单号时继续追问。'),
+    ]
+    patches = iter(edits)
+    candidate = copy.deepcopy(plan)
+    candidate['nodes'][1]['config']['system_prompt'] = '\n'.join(text for _, text in edits)
+    contexts = []
+
+    async def controlled(provider, key, messages, **kwargs):
+        if messages[1]['content'].startswith('当前任务资料：'):
+            field, text = next(patches)
+            assert text in messages[-1]['content']
+            result = {'message': '已记录本轮改动。', 'requirements_patch': {field: text}}
+        else:
+            contexts.append(json.loads(messages[1]['content']))
+            result = candidate
+        return json.dumps(result, ensure_ascii=False), {'prompt_tokens': 100, 'completion_tokens': 30}
+
+    monkeypatch.setattr(main, 'call_model', controlled)
+    for _, content in edits:
+        response = client.post(f'{path}/messages', json={'revision': task['revision'], 'content': content})
+        assert response.status_code == 200, response.text
+        task = response.json()
+        assert task['plan_stale'] and task['workflow_plan'] == plan
+        assert not task['requirements_confirmed'] and not task['configuration_confirmed']
+
+    response = client.post(f'{path}/plan/generate', json={'revision': task['revision']})
+    assert response.status_code == 422, response.text  # A changed candidate awaits explicit adoption.
+    assert len(contexts) == 1
+    sent = contexts[0]
+    baseline = sent['existing_plan_context']
+    assert baseline['plan'] == plan and baseline['baseline_revision'] == original['revision']
+    assert baseline['previous_requirements'] == original['requirements']
+    assert baseline['changed_requirements_fields'] == ['output', 'rules']
+    assert sent['requirements'] == {**original['requirements'], **dict(edits)}
+
+    saved = client.get(path).json()
+    assert saved['revision'] == task['revision'] and saved['workflow_plan'] == plan
+    assert saved['planning_runs'][-1]['stop_reason'] == 'replanning_review'
+    assert saved['planning_runs'][-1]['last_candidate'] == candidate
+    assert not saved['artifact'] and not saved['runs']
