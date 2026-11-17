@@ -1,9 +1,12 @@
+import copy
 import json
 
+import pytest
 import yaml
 
 from test_api import client, forbid_api_external_calls, planning_provider
 from test_after_sales_starter import context, inputs
+from test_delivery_bundle import bundle, unpack
 from app import main
 from app.after_sales_starter import prepare
 from app.intake import BASE
@@ -22,7 +25,8 @@ REQUIREMENTS = {
 }
 
 
-def test_empty_chatflow_clarifies_colloquial_order_lookup_and_builds_graph(client, monkeypatch):
+@pytest.fixture
+def original_chatflow(client, monkeypatch):
     planning_provider(client)
     task = client.post('/api/tasks', json={'name': '隔离售后问答', 'app_type': 'advanced-chat'}).json()
     url = f"/api/tasks/{task['id']}"
@@ -95,6 +99,13 @@ def test_empty_chatflow_clarifies_colloquial_order_lookup_and_builds_graph(clien
         assert response.status_code == 200, response.text
         task = response.json()
 
+    assert calls == ['interview', 'interview', 'plan']
+    return task
+
+
+def test_empty_chatflow_clarifies_colloquial_order_lookup_and_builds_graph(client, original_chatflow):
+    task = original_chatflow
+    url = f"/api/tasks/{task['id']}"
     document = yaml.safe_load(client.get(f'{url}/dsl').json()['content'])
     graph = document['workflow']['graph']
     assert document['app']['mode'] == 'advanced-chat'
@@ -107,4 +118,113 @@ def test_empty_chatflow_clarifies_colloquial_order_lookup_and_builds_graph(clien
     assert len(graph['nodes']) == 23 and len(graph['edges']) == 24
     assert task['artifact']['validation']['valid'] and task['artifact']['revision'] == task['revision']
     assert not task['dify_app_id'] and not task['runs']
-    assert calls == ['interview', 'interview', 'plan']
+
+
+def checked_delivery(client, task, reply):
+    revision = task['revision']
+    response = bundle(client, task)
+    files, manifest = unpack(response)
+    assert response.headers['x-sierra-revision'] == str(revision)
+    assert f"r{revision}-delivery.zip" in response.headers['content-disposition']
+    assert (manifest['task_id'], manifest['revision'], manifest['app_type']) == (task['id'], revision, 'advanced-chat')
+    assert manifest['artifact_verification'] == 'static_only'
+    assert manifest['mock_dependencies'] == task['configuration']['mock_dependencies']
+    assert all(manifest[field] is False for field in ('platform_checked', 'business_verified', 'network_requested', 'task_changed'))
+    name = f'dify-advanced-chat-r{revision}.yaml'
+    assert manifest['files'][name]['sha256'] == task['artifact']['sha256']
+    report = files[f'report-r{revision}.md'].decode()
+    assert f"类型：advanced-chat；版本：r{revision}" in report
+    assert f"- exceptions：{task['requirements']['exceptions']}" in report
+    graph = yaml.safe_load(files[name])['workflow']['graph']
+    nodes = {node['id']: node['data'] for node in graph['nodes']}
+    assert nodes['no_hit']['template'] == reply
+    assert any(reply in part['text'] for part in nodes['grounded_answer']['prompt_template'])
+    return files[name], manifest
+
+
+def test_natural_language_edit_preserves_original_and_binds_both_delivery_bundles(client, monkeypatch, original_chatflow):
+    original = original_chatflow
+    url = f"/api/tasks/{original['id']}"
+    old_reply = inputs()['no_hit_reply']
+    new_reply = '暂未找到与问题相关的资料，请提交售后工单。'
+    request = f'请把无命中和资料不足的固定回复都改成「{new_reply}」。其余规则和分支保持。'
+    original_dsl, original_manifest = checked_delivery(client, original, old_reply)
+    old_plan = original['workflow_plan']
+    new_plan = copy.deepcopy(old_plan)
+    nodes = {node['id']: node for node in new_plan['nodes']}
+    nodes['no_hit']['config']['template'] = new_reply
+    config = nodes['grounded_answer']['config']
+    assert old_reply in config['system_prompt']
+    config['system_prompt'] = config['system_prompt'].replace(old_reply, new_reply)
+    exceptions = original['requirements']['exceptions'].replace(old_reply, new_reply)
+    calls = []
+
+    async def model(provider, key, messages, **kwargs):
+        prompt = messages[1]['content']
+        if prompt.startswith('当前任务资料：'):
+            context = json.loads(prompt.removeprefix('当前任务资料：'))
+            source = next(row for row in context['intake_sources'] if row['kind'] == 'message' and row['text'] == request)
+            review = copy.deepcopy(context['previous_intake'])
+            for row in review['checks']:
+                if row['topic'] in {'exceptions', 'dialogue'}:
+                    row['evidence'] = [{'kind': 'message', 'id': source['id'], 'quote': new_reply}]
+            result = {'message': '已记录新回复，其余规则保持，请复核。', 'requirements_patch': {'exceptions': exceptions},
+                      'intake_review': review}
+            calls.append('interview')
+        else:
+            context = json.loads(prompt)
+            baseline = context['existing_plan_context']
+            assert baseline['plan'] == old_plan and baseline['baseline_revision'] == original['revision']
+            assert baseline['changed_requirements_fields'] == ['exceptions']
+            assert context['requirements'] == {**original['requirements'], 'exceptions': exceptions}
+            result = new_plan
+            calls.append('plan')
+        return json.dumps(result, ensure_ascii=False), {'prompt_tokens': 100, 'completion_tokens': 30}
+
+    monkeypatch.setattr(main, 'call_model', model)
+    response = client.post(f'{url}/messages', json={'revision': original['revision'], 'content': request})
+    assert response.status_code == 200, response.text
+    draft = response.json()
+    assert draft['revision'] == original['revision'] + 1 and draft['workflow_plan'] == old_plan
+    assert draft['requirements']['exceptions'] == exceptions
+    assert draft['plan_stale'] and not draft['artifact']
+    assert not draft['requirements_confirmed'] and not draft['configuration_confirmed']
+    assert bundle(client, original).status_code == 409 and bundle(client, draft).status_code == 422
+
+    revision = {'revision': draft['revision']}
+    response = client.post(f'{url}/confirm', json={**revision, 'kind': 'requirements'})
+    assert response.status_code == 200, response.text
+    assert client.post(f'{url}/confirm', json={**revision, 'kind': 'configuration'}).status_code == 422
+    assert client.post(f'{url}/plan/generate', json=revision).status_code == 422
+    pending = client.get(url).json()
+    run = pending['planning_runs'][-1]
+    assert run['stop_reason'] == 'replanning_review' and pending['workflow_plan'] == old_plan
+    retained = client.get(f"{url}/planning/{run['id']}/candidate").json()
+    assert json.loads(retained['plan_text']) == new_plan and not retained['formal_plan_changed']
+
+    response = client.post(f'{url}/plan', json={**revision, 'plan_text': retained['plan_text']})
+    assert response.status_code == 200, response.text
+    revised = response.json()
+    assert revised['workflow_plan'] == new_plan and not revised['plan_stale']
+    assert revised['revision'] == draft['revision'] + 1 and revised['requirements_confirmed']
+    assert not revised['configuration_confirmed'] and bundle(client, revised).status_code == 422
+    revision = {'revision': revised['revision']}
+    assert client.post(f'{url}/build', json=revision).status_code == 422
+    response = client.post(f'{url}/confirm', json={**revision, 'kind': 'configuration'})
+    assert response.status_code == 200, response.text
+    response = client.post(f'{url}/build', json=revision)
+    assert response.status_code == 200, response.text
+    revised = response.json()
+
+    revised_dsl, revised_manifest = checked_delivery(client, revised, new_reply)
+    assert revised_dsl != original_dsl and revised_manifest['revision'] > original_manifest['revision']
+    assert main.artifact_path(original).read_bytes() == original_dsl
+    assert any(saved['revision'] == original['revision'] and saved['workflow_plan'] == old_plan
+               and saved['requirements'] == original['requirements']
+               and saved['artifact'] == original['artifact'] for saved in revised['versions'])
+    confirmations = {(row['kind'], row['revision'], row.get('carried_from_revision')) for row in revised['confirmations']}
+    assert {('configuration', original['revision'], None), ('requirements', draft['revision'], None),
+            ('requirements', revised['revision'], draft['revision']),
+            ('configuration', revised['revision'], None)} <= confirmations
+    assert bundle(client, original).status_code == 409
+    assert not revised['dify_app_id'] and not revised['runs'] and calls == ['interview', 'plan']
