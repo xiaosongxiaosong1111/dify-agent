@@ -1,7 +1,8 @@
 import json
+import httpx
 import pytest
 import yaml
-from test_api import client,create_env,approved
+from test_api import client,create_env,approved,forbid_api_external_calls
 from app import main
 from app.dsl import compile_dsl
 from app.workflow_plan import compile_workflow_plan
@@ -69,6 +70,9 @@ def test_unrelated_or_stale_conversation_never_dispatched(client,monkeypatch,mis
 
 def test_conversation_source_cannot_mix_with_fixed_case_or_other_id(client):
     task,env=prepared(client)
+    task['test_cases']=[{'id':'case','name':'隔离样例','input':{'query':'q'},
+                        'expectation':{'mode':'equals','target':'answer','expected':'公开回执'}}]
+    main.save_task(task)
     for payload in ({'case_id':'case'},{'input':{'query':'q','conversation_id':'other'}}):
         result=client.post(f"/api/tasks/{task['id']}/run",json={'revision':task['revision'],'conversation_from_run_id':'source',**payload})
         assert result.status_code==422
@@ -82,3 +86,38 @@ def test_missing_conversation_result_is_unknown_not_success(client,monkeypatch):
     assert result.status_code==502
     current=main.get_task(task['id']);assert current['runs'][-1]['status']=='unknown' and current['runs'][-1]['result']=={'answer':'部分输出'}
     assert client.post(f"/api/tasks/{task['id']}/run",json={'revision':task['revision'],'input':{'query':'q'}}).status_code==409
+
+
+def test_rebinding_runtime_key_before_locked_admission_never_dispatches(client, monkeypatch):
+    task, env = prepared(client)
+    path = f"/api/tasks/{task['id']}/run"
+    payload = {'revision': task['revision'], 'input': {'query': '查订单'}}
+    external_action = main.external_action
+    dispatched = []
+
+    async def rebind_before_admission(*args, **kwargs):
+        async with httpx.AsyncClient(transport=httpx.ASGITransport(app=main.app), base_url='http://test') as api:
+            response = await api.patch(f"/api/environments/{env['id']}", json={
+                'service_app_id': 'different-fixture-app', 'service_api_key': 'different-fixture-key',
+            })
+        assert response.status_code == 200, response.text
+        return await external_action(*args, **kwargs)
+
+    async def chat(self, query, inputs, conversation_id):
+        dispatched.append(self.env['service_app_id'])
+        return {'answer': '隔离试跑', 'conversation_id': 'fixture-conversation'}
+
+    monkeypatch.setattr(main, 'external_action', rebind_before_admission)
+    monkeypatch.setattr(main.DifyClient, 'run_chatflow', chat)
+    response = client.post(path, json=payload)
+    assert response.status_code == 422 and not dispatched
+    assert main.get_task(task['id']) == task
+
+    monkeypatch.setattr(main, 'external_action', external_action)
+    assert client.patch(f"/api/environments/{env['id']}", json={
+        'service_app_id': task['dify_app_id'], 'service_api_key': 'unit-key',
+    }).status_code == 200
+    response = client.post(path, json=payload)
+    assert response.status_code == 200, response.text
+    assert dispatched == [task['dify_app_id']]
+    assert response.json()['runs'][-1]['app_id'] == task['dify_app_id']

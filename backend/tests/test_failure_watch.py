@@ -84,6 +84,7 @@ def test_invalid_decisions_do_not_release_or_leak(client,patch):
 
 def test_dispatch_is_blocked_before_operation_and_one_permission_counts_even_failed_request(client):
  task=repeated(client);calls=[]
+ assert client.patch(f"/api/environments/{task['environment_id']}",json={'service_app_id':task['dify_app_id'],'service_api_key':'isolated-run-key'}).status_code==200
  async def operation(*args):calls.append(1);return {'data':{'status':'succeeded','outputs':{'result':'ok'}}}
  with pytest.raises(HTTPException):asyncio.run(main.external_action(task['id'],task['revision'],'run',operation,inputs={'query':'example'}))
  assert not calls and main.get_task(task['id'])['runs']==task['runs']

@@ -210,6 +210,13 @@ def environment(task):
     return env
 
 
+def require_runtime_pair(task, env):
+    if not task.get("dify_app_id"):
+        raise HTTPException(422, "当前版本尚未真实导入。")
+    if env.get("service_app_id") != task["dify_app_id"]:
+        raise HTTPException(422, "请在环境设置中填写运行 API Key 对应的应用 ID，且必须与本次导入应用一致。导入草稿需先在 Dify 确认发布；不能拿其他应用 Key 的成功结果当本任务试跑。")
+
+
 def checked_task_name(value):
     if not isinstance(value, str):
         raise HTTPException(422, '任务名称必须为文本。')
@@ -1599,6 +1606,7 @@ async def external_action(item_id, revision, kind, operation, *, inputs=None, te
         if any(r["kind"] == kind and r["revision"] == revision and r["status"] in {"pending", "unknown"} for r in task["runs"]):
             raise HTTPException(409, "已有结果未知的操作，请先到 Dify 核对，禁止盲目重复执行。")
         if kind=='run':
+            require_runtime_pair(task, env)
             if task['app_type'] in {'workflow','advanced-chat'}:
                 from .start_inputs import preflight,form_schema
                 custom_chat=task['app_type']=='advanced-chat' and len(form_schema(final_root)['fields'])>1
@@ -1781,11 +1789,7 @@ async def run_task(item_id: str, payload: RunRequest):
     require_coverage(task)
     require_conflicts(task)
     require_intake(task)
-    env = environment(task)
-    if not task.get("dify_app_id"):
-        raise HTTPException(422, "当前版本尚未真实导入。")
-    if env.get("service_app_id") != task["dify_app_id"]:
-        raise HTTPException(422, "请在环境设置中填写运行 API Key 对应的应用 ID，且必须与本次导入应用一致。导入草稿需先在 Dify 确认发布；不能拿其他应用 Key 的成功结果当本任务试跑。")
+    require_runtime_pair(task, environment(task))
     runtime_context={}
     if payload.sequence is not None:
         if not payload.case_id or payload.input or payload.conversation_from_run_id:

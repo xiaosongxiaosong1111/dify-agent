@@ -87,7 +87,10 @@ def test_old_artifact_gate_precedes_operation_pending_and_task_writes(client,kin
     env=create_env(client);saved=approved(client,env_id=env['id']);tid=saved['id']
     saved=client.post(f'/api/tasks/{tid}/build',json={'revision':saved['revision']}).json()
     root=native(root_plan());next(n['data'] for n in root['workflow']['graph']['nodes'] if n['id']=='merge')['variables']=[['extract','order_no'],['failure','output']]
-    main.artifact_path(saved).write_text(yaml.safe_dump(root,allow_unicode=True),encoding='utf-8');before=copy.deepcopy(main.get_task(tid));calls=[]
+    main.artifact_path(saved).write_text(yaml.safe_dump(root,allow_unicode=True),encoding='utf-8')
+    saved['artifact'].pop('sha256')
+    main.save_task(saved)
+    before=copy.deepcopy(main.get_task(tid));calls=[]
     async def operation(*args):calls.append(1);return {}
     with pytest.raises(HTTPException) as exc:asyncio.run(main.external_action(tid,saved['revision'],kind,operation,inputs={'query':'test'} if kind=='run' else None))
     assert exc.value.status_code==422 and '失败分支' in exc.value.detail
