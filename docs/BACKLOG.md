@@ -600,3 +600,5 @@
 | 320 | 售后 Chatflow 识别口语「查订单」的依赖专项 | 需求 §11：空任务从「我想做一个售后问答助手」开始，用本机隔离 API 验证追问、确认「查订单」采用模拟、成功规划及静态 DSL。仅要求用户查找订单号时不增加专项。运行 `python -m pytest backend/tests/test_after_sales_intake_to_graph.py backend/tests/test_intake_business_resource_phrases.py -q` | codex | done | 实现 893e399。原版第二轮漏算 external，修复后确认需求、保存替身规划并构建 23 节点、24 条边的 DSL。定向用例 26 通过，相关回归共 159 项通过，准入模块综合覆盖率 95%。未部署，真实模型与 Dify 调用均为 0。 |
 
 | 321 | 空任务售后 Chatflow 改版与两版交付包绑定 | 需求 §11：原版构建先下载 ZIP，按自然语言修改无命中提示，明确采纳候选及重新确认后构建并下载新版。验证原图、原文件和确认历史保留，两份 ZIP 的任务、修订、报告及 DSL 字节与摘要匹配。运行 `python -m pytest backend/tests/test_after_sales_intake_to_graph.py backend/tests/test_delivery_bundle.py -q`。 | codex | done | 回归 1899dd6。r4/r6 双 ZIP 逐成员摘要匹配，原版图、确认和文件保留。旧修订请求 409，未构建改版 422。122 项定向通过，Windows 符号链接测试跳过 1 项。现有运行时代码通过核对，未部署，真实模型与 Dify 调用均为 0。 |
+
+| 322 | 多轮试跑保留适配器错误归类 | 第二轮仅携结构化未知结果标记且文案不含特定字眼时，应保留错误代码和未知状态，禁止同修订盲目重发。明确失败仍为失败。运行 `python -m pytest backend/tests/test_conversation_cases.py backend/tests/test_dify_write_outcome.py -q`。 | codex | done | 实现 c1a82b7。两项先失败后通过，相关 60 通过，改动模块覆盖率 91%。未知回执阻止重发，明确失败保留错误代码和 HTTP 状态。真实调用均为 0。 |
