@@ -1,4 +1,4 @@
-import copy,json
+import copy,hashlib,json
 import pytest,yaml
 from fastapi import HTTPException
 from test_api import client,approved
@@ -17,6 +17,12 @@ def plan(mode='workflow'):
  p=base_plan(mode);p['nodes'][0]['config']['variables']=[row()];p['nodes'][1]['config']['user_prompt']='{{#start.payload#}}';return p
 def native():
  content,result=compile_workflow_plan(plan_task(plan()));assert result['valid'],result;return yaml.safe_load(content)
+
+def persist_native_artifact(t, root):
+ path=main.artifact_path(t)
+ path.write_text(yaml.safe_dump(root,allow_unicode=True),encoding='utf-8')
+ t['artifact']['sha256']=hashlib.sha256(path.read_bytes()).hexdigest()
+ main.save_task(t)
 
 @pytest.mark.parametrize('raw',[False,True])
 def test_compile_schema_native_final_form_and_manual_preservation(raw):
@@ -85,7 +91,8 @@ def test_case_contract_and_candidates_keep_object_schema(client,value,valid):
 def test_workflow_dispatch_keeps_objects_invalid_preflight_before_budget(client,monkeypatch):
  from test_api import create_env
  env=create_env(client);client.patch(f"/api/environments/{env['id']}",json={'service_app_id':'json-workflow','service_api_key':'fixture-only'})
- t=approved(client,env_id=env['id']);t=client.post(f"/api/tasks/{t['id']}/build",json={'revision':t['revision']}).json();main.artifact_path(t).write_text(yaml.safe_dump(native(),allow_unicode=True),encoding='utf-8');t['dify_app_id']='json-workflow';main.save_task(t);before=copy.deepcopy(main.get_task(t['id']));seen=[]
+ t=approved(client,env_id=env['id']);t=client.post(f"/api/tasks/{t['id']}/build",json={'revision':t['revision']}).json()
+ t['dify_app_id']='json-workflow';persist_native_artifact(t,native());before=copy.deepcopy(main.get_task(t['id']));seen=[]
  async def workflow(self,inputs):seen.append(copy.deepcopy(inputs));return {'data':{'status':'succeeded','outputs':{'result':'ok'}}}
  monkeypatch.setattr(main.DifyClient,'run_workflow',workflow)
  with monkeypatch.context() as m:
@@ -143,6 +150,6 @@ def test_manual_schema_layout_capture_merge_reconfirm_build(client):
 
 def test_final_schema_read_api_uses_artifact_not_stale_plan(client):
  t=approved(client);t=client.post(f"/api/tasks/{t['id']}/build",json={'revision':t['revision']}).json();root=native();r=root['workflow']['graph']['nodes'][0]['data']['variables'][0];r['json_schema']['properties']['count']['maximum']=3
- main.artifact_path(t).write_text(yaml.safe_dump(root,allow_unicode=True),encoding='utf-8');before=copy.deepcopy(main.get_task(t['id']))
+ persist_native_artifact(t,root);before=copy.deepcopy(main.get_task(t['id']))
  response=client.get(f"/api/tasks/{t['id']}/run-input-schema");assert response.status_code==200,response.text
  assert response.json()['fields'][0]['json_schema']['properties']['count']['maximum']==3 and main.get_task(t['id'])==before

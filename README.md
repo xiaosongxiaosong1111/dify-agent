@@ -221,7 +221,7 @@ Sierra 是一个本机运行的 Dify 应用搭建工作台。当前适配目标�
 
 ## 快速启动
 
-Windows 首次使用时，在项目目录运行 `setup.ps1`。它会检查 Python 与 Node.js 版本，在项目内创建或复用 `.venv`、安装 Python 依赖、安装前端依赖并构建页面。脚本不会修改全局 Python 或 Node 环境。Node.js 需为 20.19 或更高版本，Python 需为 3.10 或更高版本。
+Windows 首次使用时，在项目目录运行 `setup.ps1`。它会检查 Python 与 Node.js 版本，在项目内创建或复用 `.venv`、安装 Python 依赖、安装前端依赖并构建页面。脚本不会修改全局 Python 或 Node 环境。使用 Python 3.11+ 和 Node.js 20.19+（限 20.x）或 22.12+。如果现有项目虚拟环境使用 Python 3.10，请先备份或改名 `.venv`，再运行脚本创建新环境。
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
