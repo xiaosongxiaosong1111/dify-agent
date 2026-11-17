@@ -64,7 +64,8 @@ async def execute_conversation(case, send, checkpoint, should_stop, *, seconds):
             raise DifyError('多轮验收调用达到总采集时间上限，当前轮结果可能未知；禁止盲目重跑。', result=result) from exc
         except DifyError as exc:
             result['pending_turn']['result'] = copy.deepcopy(exc.result)
-            raise DifyError(str(exc), result=result, http_status=exc.http_status) from exc
+            raise DifyError(str(exc), result=result, http_status=exc.http_status,
+                            code=exc.code, outcome_unknown=exc.outcome_unknown) from exc
         except Exception as exc:
             raise DifyError('多轮验收调用被意外中断，当前轮结果可能未知；已保留检查点，禁止盲目重跑。', result=result) from exc
         if not isinstance(actual,dict) or not isinstance(actual.get('answer'),str) or not actual['answer'].strip() or not isinstance(actual.get('conversation_id'),str) or not actual['conversation_id'] or (source_cid and actual['conversation_id'] != source_cid):

@@ -83,6 +83,31 @@ def test_middle_interruption_keeps_finished_and_partial_turn_unknown_blocks_retr
     assert request(client,task).status_code==409 and count==2
 
 
+@pytest.mark.parametrize('outcome_unknown', [True, False])
+def test_chatflow_followup_preserves_adapter_error_classification(client, monkeypatch, outcome_unknown):
+    task = prepared(client, 'advanced-chat')
+    calls = []
+
+    async def invoke(self, query, inputs, conversation_id):
+        calls.append(conversation_id)
+        if conversation_id is None:
+            return {'answer': '收到', 'conversation_id': 'c'}
+        raise DifyError('公开替身回执', result={'answer': '部分回执'}, http_status=503,
+                        code='fixture_turn_error', outcome_unknown=outcome_unknown)
+
+    monkeypatch.setattr(DifyClient, 'run_chatflow', invoke)
+    assert request(client, task).status_code == 502
+    run = main.get_task(task['id'])['runs'][-1]
+    assert run['status'] == ('unknown' if outcome_unknown else 'failed')
+    assert run['outcome_unknown'] is outcome_unknown
+    assert run['error_code'] == 'fixture_turn_error' and run['http_status'] == 503
+    assert len(run['result']['turns']) == 1
+    assert run['result']['pending_turn']['result'] == {'answer': '部分回执'}
+    if outcome_unknown:
+        assert request(client, task).status_code == 409
+    assert calls == [None, 'c']
+
+
 def test_pause_between_turns_keeps_known_first_result_without_dispatching_next(client,monkeypatch):
     task=prepared(client,'agent');calls=[]
     async def invoke(*args,**kwargs):
