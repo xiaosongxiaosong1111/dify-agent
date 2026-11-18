@@ -125,6 +125,69 @@ def test_unknown_pending_turn_can_be_selected_without_erasing_unknown(client,mon
     saved=main.get_task(task['id'])['runs'][0];assert saved['status']=='unknown' and saved['result']['pending_turn']==second
 
 
+@pytest.mark.parametrize('index', [None, 2], ids=['automatic', 'explicit'])
+@pytest.mark.parametrize('wrong_source', ['different_conversation', 'missing_conversation', 'missing_saved_source'])
+def test_native_id_cannot_bypass_chatflow_turn_conversation_check(client, monkeypatch, index, wrong_source):
+    task, run = conversation(client)
+    result = run['result']
+    pending = result['turns'].pop()
+    pending['result']['workflow_run_id'] = SECOND
+    result.update(complete=False, pending_turn=pending)
+    run.update(status='unknown', error='补号结果来源未确认')
+    if wrong_source == 'different_conversation':
+        pending['result']['conversation_id'] = OTHER
+    elif wrong_source == 'missing_conversation':
+        pending['result'].pop('conversation_id')
+    else:
+        result.pop('conversation_id')
+    main.save_task(task)
+    before = copy.deepcopy(run)
+    calls = transport(monkeypatch, task)
+
+    response = request(client, task, index, True)
+    assert response.status_code == 200, response.text
+    report = response.json()
+    assert report['selected_turn'] == 2
+    assert report['trace_state'] == 'unavailable' and report['remote_run_id'] is None
+    assert '会话' in report['trace_error']
+    assert not calls and not report['nodes'] and not report['current_source']
+    saved = main.get_task(task['id'])['runs'][0]
+    assert {key: value for key, value in saved.items() if key != 'diagnostics'} == before
+
+
+def test_matching_turn_with_native_id_reads_trace_without_message_lookup(client, monkeypatch):
+    task, run = conversation(client)
+    run['result']['turns'][1]['result']['workflow_run_id'] = SECOND
+    main.save_task(task)
+    calls = transport(monkeypatch, task)
+
+    report = request(client, task, 2, True).json()
+    assert report['trace_state'] == 'read' and report['remote_run_id'] == SECOND
+    assert report['current_source']
+    assert calls == [
+        f'/console/api/apps/{APP}/workflow-runs/{SECOND}',
+        f'/console/api/apps/{APP}/workflow-runs/{SECOND}/node-executions',
+        f'/console/api/apps/{APP}/workflows/publish',
+    ]
+
+
+def test_interrupted_first_turn_can_use_its_own_returned_conversation(client, monkeypatch):
+    task, run = conversation(client)
+    result = run['result']
+    first = result['turns'][0]
+    first['result']['workflow_run_id'] = REMOTE
+    result.update(complete=False, conversation_id='', turns=[], pending_turn=first)
+    run.update(status='unknown', error='首轮返回不完整')
+    main.save_task(task)
+    calls = transport(monkeypatch, task)
+
+    report = request(client, task, 1, True).json()
+    assert report['trace_state'] == 'read' and report['remote_run_id'] == REMOTE
+    assert report['saved_status'] == 'unknown'
+    assert len(calls) == 3 and calls[0].endswith(f'/workflow-runs/{REMOTE}')
+    assert main.get_task(task['id'])['runs'][0]['status'] == 'unknown'
+
+
 def test_missing_selected_result_does_not_use_another_turn_message(client):
     task,run=conversation(client);run['result']['turns'][0]['result']=None;main.save_task(task)
     r=request(client,task,1,True).json();assert r['trace_state']=='unavailable' and r['remote_run_id'] is None

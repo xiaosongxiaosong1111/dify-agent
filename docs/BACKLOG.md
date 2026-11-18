@@ -610,3 +610,5 @@
 | 325 | 空任务双版本试跑与交付全链本机隔离回归 | 原版、改版各以不同替身 App 完成导入、明确发布、配对 Key、试跑和同修订交付。知识命中、无命中、缺号续聊样例各归当前 App 和修订。运行 `python -m pytest backend/tests/test_after_sales_intake_to_graph.py -q`。 | codex | done | 回归 146cb45。r5/r7 各三例四轮，新版试跑前 0/3，各自交付报告与验收摘要一致，原版 DSL 及试跑记录保留。最终 164 项定向通过，未部署，真实调用均为 0。 |
 
 | 326 | 修复新机锁定依赖安装与版本预检 | 全新虚拟环境只装 `backend/requirements-lock.txt` 即可导入结构化输入校验，运行 `python -m pytest backend/tests/test_json_inputs.py backend/tests/test_after_sales_intake_to_graph.py -q`。安装脚本检查实际使用的 Python 版本并按构建工具要求核对 Node.js。 | codex | done | 实现 7f77c9e。清洁环境先复现缺少 jsonschema。修复后 Python 3.12 锁文件 142 项通过，Python 3.11 正式安装、前端构建及 50 项重点通过。Node.js 六个预检边界通过。新增接手说明，真实调用均为 0。 |
+
+| 327 | Chatflow 多轮诊断先核会话，再读取原生运行 | 需求 §11、FR-32/40：自动或显式选择补号轮时，直接原生运行 ID 和消息反查都必须核对同一会话。标识缺失或冲突不读取节点，保留原运行。运行 `python -m pytest backend/tests/test_diagnostic_turn_selection.py backend/tests/test_chatflow_diagnostic_source.py backend/tests/test_run_diagnostics.py backend/tests/test_diagnostic_graph_source.py backend/tests/test_success_diagnostic_view.py backend/tests/test_after_sales_intake_to_graph.py -q`。 | codex | pending | 原版离线复现 6 个反例。 |

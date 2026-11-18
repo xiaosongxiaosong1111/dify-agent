@@ -230,13 +230,22 @@ class DiagnosticsManager:
                 reason=None;message_source=None
                 if run.get('app_type') not in {'workflow','advanced-chat'}:reason='该记录缺少可核对的类型快照，或属于原生 Agent；目前仅可本地诊断。'
                 elif not env or run.get('environment_binding')!=binding(env):reason='历史记录缺少环境绑定或连接已变更；不会把旧记录发往当前实例。'
-                elif not report['remote_run_id']:
+                else:
+                    saved_result = run.get('result')
+                    if (run.get('app_type') == 'advanced-chat' and isinstance(saved_result, dict)
+                            and saved_result.get('conversation_case') is True):
+                        from .chatflow_diagnostic_source import verify_turn_conversation
+                        try:
+                            verify_turn_conversation(selected, saved_result.get('conversation_id'), report['selected_turn'])
+                        except DifyError as exc:
+                            reason = safe_text(str(exc), secrets)
+                            report['remote_run_id'] = None
+                if not reason and not report['remote_run_id']:
                     if run.get('app_type')!='advanced-chat':reason='保存结果没有唯一、合法的 workflow_run_id；不能猜测远端运行。'
                     elif env.get('version')!='1.17.1':reason='消息到原生运行的只读映射仅适配已登记Dify1.17.1；不猜其它版本接口。'
                     else:
                         from .chatflow_diagnostic_source import reference
-                        expected=run.get('result',{}).get('conversation_id') if report['selected_turn'] is not None else None
-                        try:message_source=reference(selected,expected)
+                        try:message_source=reference(selected)
                         except DifyError as exc:reason=safe_text(str(exc),secrets)
                 try:app=str(uuid.UUID(run.get('app_id')))
                 except (ValueError,TypeError,AttributeError):app=None;reason=reason or '运行没有可靠 App ID 快照；不会改用当前应用。'

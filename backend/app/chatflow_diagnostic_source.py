@@ -12,7 +12,23 @@ def identifier(value):
         raise DifyError('Chatflow消息来源标识无效，未猜测远端运行。') from None
 
 
-def reference(result, expected_conversation_id=None):
+def verify_turn_conversation(result, saved_conversation_id, turn_index):
+    if type(turn_index) is not int or turn_index < 1:
+        raise DifyError('无法确定所选对话轮次，不读取原生节点。')
+    try:
+        actual = identifier(result.get('conversation_id'))
+        if turn_index > 1 or saved_conversation_id not in (None, ''):
+            expected = identifier(saved_conversation_id)
+        else:
+            # An interrupted first turn may return an ID before any turn has been saved.
+            expected = actual
+    except DifyError:
+        raise DifyError('所选轮次缺少可核对的会话标识，不读取原生节点。') from None
+    if actual != expected:
+        raise DifyError('所选轮次返回会话与原连续会话不一致，不读取其它会话的节点。')
+
+
+def reference(result):
     if not isinstance(result, dict) or result.get('workflow_run_id') is not None:
         raise DifyError('已有原生运行标识无效，不能用消息查找绕过冲突。')
     if result.get('mode') not in (None, 'advanced-chat'):
@@ -22,8 +38,6 @@ def reference(result, expected_conversation_id=None):
     if not normalized or len(set(normalized)) != 1:
         raise DifyError('保存结果缺少唯一消息ID或消息别名冲突；不能把task_id当消息或原生运行ID。')
     conversation = identifier(result.get('conversation_id'))
-    if expected_conversation_id not in (None, '') and identifier(expected_conversation_id) != conversation:
-        raise DifyError('所选轮次返回会话与原连续会话不一致，不读取其它会话的节点。')
     return {'message_id': normalized[0], 'conversation_id': conversation}
 
 
