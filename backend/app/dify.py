@@ -74,6 +74,12 @@ class DifyClient:
             async with httpx.AsyncClient(timeout=90, follow_redirects=False, **self._client_options()) as client:
                 response = await client.request(method, self.base + path, headers=headers, **kwargs)
             if response.is_error:
+                if (credential == 'service_api_key' and method.upper() == 'POST'
+                        and path == '/v1/chat-messages' and response.status_code in {502, 503, 504}):
+                    raise DifyError(
+                        f"Dify 对话请求收到 HTTP {response.status_code}，结果可能未知。请先核对远端运行，不能直接重复试跑。",
+                        http_status=response.status_code, code='chatflow_gateway_outcome_unknown', outcome_unknown=True,
+                    )
                 if credential == 'console_token' and response.status_code == 401:
                     from .console_reauth import available,refresh
                     current=self.store.get('environment',self.env['id'])

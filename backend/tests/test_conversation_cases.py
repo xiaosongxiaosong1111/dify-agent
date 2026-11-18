@@ -108,6 +108,42 @@ def test_chatflow_followup_preserves_adapter_error_classification(client, monkey
     assert calls == [None, 'c']
 
 
+@pytest.mark.parametrize('http_status', [400, 502, 503, 504])
+def test_chatflow_followup_gateway_response_preserves_unknown_and_blocks_replay(client, monkeypatch, http_status):
+    import json
+
+    task = prepared(client, 'advanced-chat')
+    calls = []
+
+    async def wire(self, outgoing):
+        assert (outgoing.method, outgoing.url.path) == ('POST', '/v1/chat-messages')
+        payload = json.loads(outgoing.content)
+        calls.append(payload)
+        if len(calls) == 1:
+            return httpx.Response(200, json={'answer': '收到', 'conversation_id': 'conversation-one'})
+        return httpx.Response(http_status, text='PRIVATE-SYNTHETIC-GATEWAY-BODY')
+
+    monkeypatch.setattr(httpx.AsyncHTTPTransport, 'handle_async_request', wire)
+    response = request(client, task)
+    assert response.status_code == 502 and 'PRIVATE-SYNTHETIC' not in response.text
+    saved = main.get_task(task['id'])
+    run = saved['runs'][-1]
+    unknown = http_status in {502, 503, 504}
+    assert run['status'] == ('unknown' if unknown else 'failed')
+    assert run['outcome_unknown'] is unknown and run['http_status'] == http_status
+    assert run['error_code'] == ('chatflow_gateway_outcome_unknown' if unknown else 'console_http_error')
+    assert [turn['result']['answer'] for turn in run['result']['turns']] == ['收到']
+    assert run['result']['pending_turn']['index'] == 2
+    assert run['result']['pending_turn']['source_conversation_id'] == 'conversation-one'
+    assert 'evaluation' not in run
+    summary = client.get(f"/api/tasks/{task['id']}/acceptance").json()
+    assert summary['required']['unknown' if unknown else 'failed'] == 1
+    if unknown:
+        assert request(client, task).status_code == 409
+        assert main.get_task(task['id']) == saved
+    assert [call.get('conversation_id') for call in calls] == [None, 'conversation-one']
+
+
 def test_pause_between_turns_keeps_known_first_result_without_dispatching_next(client,monkeypatch):
     task=prepared(client,'agent');calls=[]
     async def invoke(*args,**kwargs):
