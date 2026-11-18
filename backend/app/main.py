@@ -822,6 +822,9 @@ def review_run(item_id: str, run_id: str, payload: ManualReviewRequest):
         case = next((c for c in task["test_cases"] if c["id"] == (run.get("test_case") or {}).get("id")), None)
         if run.get("kind") != "run" or run.get("status") != "success" or not case or not matches_case(case, run):
             raise HTTPException(422, "只可复核已成功返回且与当前样例匹配的运行记录。")
+        from .evaluation import fixed_case_conversation_error
+        if conversation_error := fixed_case_conversation_error(case, task['app_type']):
+            raise HTTPException(422, conversation_error)
         if case.get('followups'):
             from .conversation_cases import evaluate_conversation
             review_evaluation = evaluate_conversation(case, run.get('result'))

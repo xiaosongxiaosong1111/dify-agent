@@ -7,6 +7,7 @@ from fastapi import HTTPException
 from .acceptance import matches_case, matches_current_app
 from .conversation_cases import matched_turns
 from .delivery_bundle import check_text
+from .evaluation import fixed_case_conversation_error
 from .run_diagnostics import safe_text
 
 ANSWER_LIMIT = 4_000
@@ -47,7 +48,7 @@ def replies(task, summary):
     for row in summary['cases'][:len(cases)]:
         case = cases[row['id']]
         run = runs.get(row['run_id'])
-        if not run or not matches_case(case, run):
+        if not run or fixed_case_conversation_error(case, task['app_type']) or not matches_case(case, run):
             continue
         result = run.get('result')
         if case.get('followups'):

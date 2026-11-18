@@ -100,6 +100,13 @@ def _expectation_error(expectation: Any, label: str) -> str | None:
     return None
 
 
+def fixed_case_conversation_error(case: dict, app_type: str | None) -> str | None:
+    values = case.get('input')
+    if app_type == 'advanced-chat' and isinstance(values, dict) and 'conversation_id' in values:
+        return 'Chatflow 固定样例须从新会话开始，请移除输入中的 conversation_id。'
+    return None
+
+
 def validate_test_cases(cases: list, app_type=None) -> dict:
     """Validate a list of named test cases without executing user code."""
     errors: list[str] = []
@@ -131,6 +138,9 @@ def validate_test_cases(cases: list, app_type=None) -> dict:
             error = _json_value_error(case["input"])
             if error:
                 errors.append(f"{label}.input{error}")
+        if 'followups' not in case:
+            if conversation_error := fixed_case_conversation_error(case, app_type):
+                errors.append(f'{label}：{conversation_error}')
         if "required" in case and type(case["required"]) is not bool:
             errors.append(f"{label}.required必须是布尔值")
         error = _expectation_error(case.get("expectation"), f"{label}.expectation")

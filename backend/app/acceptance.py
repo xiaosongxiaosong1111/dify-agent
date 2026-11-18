@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from .evaluation import fixed_case_conversation_error
 
 
 def same_json(left, right) -> bool:
@@ -36,7 +37,9 @@ def summarize_acceptance(task: dict, file_rows=None) -> dict:
                     and matches_current_app(task, r)
                     and (r.get("test_case") or {}).get("id") == case["id"]), None)
         status, method, detail = "not_run", "none", "当前修订尚无与当前App匹配的此样例试跑；旧App或缺少App归属的记录不计入。"
-        if run:
+        if conversation_error := fixed_case_conversation_error(case, task.get('app_type')):
+            status, detail = 'needs_review', conversation_error
+        elif run:
             if not matches_case(case, run):
                 status, detail = "needs_review", "记录的输入或预期与当前样例不一致，不能计为通过。"
             elif run['status'] in {'waiting_platform','platform_finished'}:

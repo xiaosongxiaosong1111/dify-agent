@@ -4,6 +4,8 @@
 
 ## 明确的数据与操作
 
+固定 Chatflow 单轮样例也从新会话开始。输入包含 conversation_id 时，保存及试跑会提示移除此字段。历史样例与原运行可查看，当前汇总会标为待复核，交付报告省略该运行的当前实际回复。
+
 Chatflow 与原生 Agent 的现有单轮样例继续保持 `id/name/required/input/expectation` 结构。需要多轮时，添加 `followups` 数组；每项仅有 `input` 和 `expectation`。后续 1—9 轮，连同首轮最多 10 轮。每轮须有非空 query，不能填写 conversation_id；原生 Agent 每轮只支持 query，Chatflow 可以带其应用输入变量。Workflow 不接受多轮样例。各轮可采用 contains、equals、json_keys 或 manual。
 
 ```json

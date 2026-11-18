@@ -113,6 +113,56 @@ def test_conversation_source_cannot_mix_with_fixed_case_or_other_id(client):
         assert result.status_code==422
 
 
+@pytest.mark.parametrize('entry', ['save', 'run', 'acceptance', 'legacy_empty_followups'])
+def test_single_turn_chatflow_case_cannot_reuse_existing_conversation(client, monkeypatch, entry):
+    task, _ = prepared(client)
+    path = f"/api/tasks/{task['id']}"
+    case = {
+        'id': 'isolated-case', 'name': '单轮公开样例',
+        'input': {'query': '公开问题', 'conversation_id': 'previous-synthetic-conversation'},
+        'expectation': {'mode': 'manual', 'description': '核对公开回答'},
+    }
+    payload = {'revision': task['revision']}
+    calls = []
+
+    async def local_chat(self, query, inputs, conversation_id):
+        calls.append(conversation_id)
+        return {'answer': '公开回答', 'conversation_id': conversation_id or 'fresh-conversation'}
+
+    monkeypatch.setattr(main.DifyClient, 'run_chatflow', local_chat)
+    if entry == 'save':
+        before = main.get_task(task['id'])
+        response = client.post(f'{path}/test-cases', json={**payload, 'cases': [case]})
+        assert response.status_code == 422 and '会话' in response.json()['detail']
+    else:
+        task['test_cases'] = [case]
+        if entry == 'legacy_empty_followups':
+            case['followups'] = []
+        if entry in {'acceptance', 'legacy_empty_followups'}:
+            task['runs'] = [{
+                'id': 'recorded-run', 'kind': 'run', 'status': 'success', 'revision': task['revision'],
+                'environment_id': task['environment_id'], 'app_id': task['dify_app_id'],
+                'input': case['input'], 'test_case': case, 'evaluation': {'mode': 'manual', 'status': 'needs_review'},
+                'manual_review': {'source': 'user', 'decision': 'passed', 'reason': '历史复核'},
+                'result': {'answer': '公开回答', 'conversation_id': 'previous-synthetic-conversation'},
+            }]
+        main.save_task(task)
+        before = main.get_task(task['id'])
+        if entry == 'run':
+            assert client.post(f'{path}/run', json={**payload, 'case_id': case['id']}).status_code == 422
+        else:
+            summary = client.get(f'{path}/acceptance').json()
+            assert summary['required']['needs_review'] == 1 and not summary['all_required_passed']
+            assert summary['cases'][0]['run_id'] == 'recorded-run'
+            assert '会话' in summary['cases'][0]['details']
+            report = client.get(f'{path}/report')
+            assert report.status_code == 200 and '## 当前 Chatflow 样例实际回复' not in report.text
+            review = client.post(f'{path}/runs/recorded-run/review',
+                                 json={**payload, 'decision': 'passed', 'reason': '重新审核'})
+            assert review.status_code == 422 and '会话' in review.json()['detail']
+    assert not calls and main.get_task(task['id']) == before
+
+
 def test_missing_conversation_result_is_unknown_not_success(client,monkeypatch):
     task,env=prepared(client)
     async def malformed(*args,**kwargs):return {'answer':'部分输出'}
