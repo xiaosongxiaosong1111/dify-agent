@@ -121,6 +121,63 @@ def test_no_environment_credentials_or_raw_materials_enter_archive(client, monke
     assert len(files) == 4 and all(b'INTERNAL-RUNTIME-KEY' not in raw for raw in files.values())
 
 
+def test_chatflow_report_exports_only_safe_saved_replies_from_current_attempt(client):
+    task = built(client, 'advanced-chat')
+    task['dify_app_id'] = 'current-synthetic-app'
+    cases = []
+    runs = []
+    markers = {
+        'safe': '来自当前试跑的回答',
+        'secret': 'Bearer SYNTHETICPRETENDKEY01234567890',
+        'oversized': '超限正文' * 1500,
+    }
+    for key, answer in markers.items():
+        case = {'id': key, 'name': key, 'input': {'query': key},
+                'expectation': {'mode': 'manual', 'description': '核对公开合成回答'}}
+        cases.append(case)
+        runs.append({
+            'id': f'run-{key}', 'kind': 'run', 'revision': task['revision'],
+            'environment_id': task['environment_id'], 'app_id': task['dify_app_id'],
+            'status': 'success', 'input': case['input'], 'test_case': case,
+            'result': {'answer': answer, 'metadata': {'wire': '不导出原响应附加字段'}},
+        })
+    cases.append({'id': 'continuation', 'name': '同会话补号', 'input': {'query': '查订单'},
+                  'expectation': {'mode': 'manual', 'description': '首轮需追问'},
+                  'followups': [{'input': {'query': 'DEMO-42'},
+                                 'expectation': {'mode': 'manual', 'description': '核对合成订单'}}]})
+    continuation = cases[-1]
+    runs.append({
+        **runs[0], 'id': 'run-continuation', 'status': 'unknown',
+        'input': continuation['input'], 'test_case': continuation,
+        'result': {'conversation_case': True, 'complete': False, 'conversation_id': 'local-conversation',
+                   'turns': [{'index': 1, 'status': 'success', 'input': continuation['input'],
+                              'expectation': continuation['expectation'], 'source_conversation_id': None,
+                              'result': {'answer': '请提供订单号。', 'conversation_id': 'local-conversation'}}],
+                   'pending_turn': {'index': 2, 'result': {'answer': '未核对的补号正文'}}},
+    })
+    runs.append({**runs[0], 'id': 'foreign-app', 'app_id': 'different-synthetic-app',
+                 'result': {'answer': '旧应用的回复'}})
+    task.update(test_cases=cases, runs=runs)
+    main.store.put('task', task['id'], task)
+    before = main.get_task(task['id'])
+
+    files, _ = unpack(bundle(client, task))
+    report = files[f"report-r{task['revision']}.md"].decode()
+    encoded = report.split('## 当前 Chatflow 样例实际回复', 1)[1].split('```json\n', 1)[1].split('\n```', 1)[0]
+    evidence = json.loads(encoded)
+    assert [row['run_id'] for row in evidence] == ['run-safe', 'run-secret', 'run-oversized', 'run-continuation']
+    assert [row['turns'] for row in evidence] == [
+        [{'index': 1, 'state': 'saved', 'answer': markers['safe']}],
+        [{'index': 1, 'state': 'withheld'}],
+        [{'index': 1, 'state': 'over_limit'}],
+        [{'index': 1, 'state': 'saved', 'answer': '请提供订单号。'}],
+    ]
+    assert evidence[-1]['status'] == 'unknown'
+    assert all(marker not in report for marker in (markers['secret'], '超限正文', '旧应用的回复',
+                                                   '未核对的补号正文', '不导出原响应附加字段'))
+    assert main.get_task(task['id']) == before
+
+
 def test_path_outside_task_is_refused_before_read(client, tmp_path):
     task = built(client); external = tmp_path / 'outside.yaml'; external.write_text('DO-NOT-READ', 'utf-8')
     task['artifact']['filename'] = str(external); main.store.put('task', task['id'], task)

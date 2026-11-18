@@ -162,6 +162,12 @@ def checked_delivery(client, task, reply):
         assert '成功运行返回 3 次，已声明必选样例 3 / 3 通过' in report
         current_cases = report.split('## 当前修订的样例汇总', 1)[1].split('```json\n', 1)[1].split('\n```', 1)[0]
         assert json.loads(current_cases) == client.get(f"/api/tasks/{task['id']}/acceptance").json()
+        reply_json = report.split('## 当前 Chatflow 样例实际回复', 1)[1].split('```json\n', 1)[1].split('\n```', 1)[0]
+        evidence = json.loads(reply_json)
+        assert [item['run_id'] for item in evidence] == [row['run_id'] for row in json.loads(current_cases)['cases']]
+        assert [[turn['answer'] for turn in item['turns']] for item in evidence] == [
+            [FAQ_ANSWER], [reply], [inputs()['missing_order_reply'], ORDER_ANSWER],
+        ]
     graph = yaml.safe_load(files[name])['workflow']['graph']
     nodes = {node['id']: node['data'] for node in graph['nodes']}
     assert nodes['no_hit']['template'] == reply

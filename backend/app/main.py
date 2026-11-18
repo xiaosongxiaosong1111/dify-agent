@@ -1524,6 +1524,12 @@ def report(item_id: str):
         lines += ['', '## 固定文件验收样例', '', json.dumps(file_case_view(sys.modules[__name__],task,file_catalog),ensure_ascii=False,indent=2)]
     if task.get('test_cases') or file_catalog:
         lines += ["", "## 当前修订的样例汇总", "", "仅汇总已声明规则，不自动判定完整业务已验收。", "```json", json.dumps(summary, ensure_ascii=False, indent=2), "```"]
+    if task['app_type'] == 'advanced-chat' and task.get('test_cases'):
+        from .chatflow_case_evidence import NOTE as reply_note, replies
+        saved_replies = replies(task, summary)
+        if saved_replies:
+            lines += ['', '## 当前 Chatflow 样例实际回复', '', reply_note, '```json',
+                      json.dumps(saved_replies, ensure_ascii=False, indent=2), '```']
     lines += ["", "## 费用依据", "", "模型规划估算与实际 Dify 运行费用分开；Dify 插件返回价格为 0 不证明供应商免费，实际账单尚未核对。"]
     from .delivery_next_steps import describe as delivery_todos
     delivery_env = store.get('environment', task['environment_id']) if task.get('environment_id') else None
