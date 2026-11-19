@@ -5,7 +5,7 @@
 - 工作克隆 E:\workSpace\sierra-chatflow-offline，main，origin https://github.com/xiaosongxiaosong1111/dify-agent.git。以 git status、最新 BACKLOG 和运行身份为准，保留未提交修改。
 - 用户指定 $ds：Codex 制定路线、把控需求、验收与返工；持续向 Claude Code / 192.168.0.224 的 deepseek-flash 派发明确任务，直到项目完成或实际不可继续。完整路线 docs/sierra-completion-roadmap-20261119.md。模型不可用或额度不足如实停止，不换账号/模型绕过，不冒称子审查成功。
 - 经用户指定从 CC Switch 当前 Claude provider 仅读并配置技能仓库外忽略文件。开发网关调用已实际成功；不修改全局 Codex/Claude 配置，不输出 Key，不把凭据或客户资料发给子任务。ds 路径 C:\Users\Administrator\.codex\skills\ds\scripts\ds.mjs。
-- 原机 E:\workSpace\dify-agent 已由7cf22b3安全快进至47ceede并启动，http://127.0.0.1:8765 可用。实际固定快照0.410.0-80c5bfb59ee64f3b946b / 297文件 / PID28348；health与页面200，CIM执行文件和源码/快照逐项相符。26任务/10环境/2模型、加密凭据及素材与升级前一致。存有专用环境加密登录、Token和Service Key及模型Key，不等于实时连接已验证。不得用新克隆空数据覆盖。
+- 原机 E:\workSpace\dify-agent 已由7cf22b3安全快进至d16b7b5并启动，http://127.0.0.1:8765 可用。实际固定快照0.410.0-88f593682f0b5eb52500 / 297文件 / PID44428；health与页面200，CIM执行文件和源码/快照逐项相符。26任务/10环境/2模型、加密凭据及素材与升级前一致。存有专用环境加密登录、Token和Service Key及模型Key，不等于实时连接已验证。不得用新克隆空数据覆盖。
 - 原需求 docs/requirements-v1.0.md，首条 Chatflow 目标为模糊需求起步、模型访谈和完整规划、自然语言改版、两版各六例七轮/原生轨迹/交付包。人工386双版、受限模型410单版有历史真实证据，自主双版仍未闭合。
 
 ## 2. 本轮已验收
@@ -14,14 +14,14 @@
 - #332 实现 5b39908、关闭 38901a7：空任务双版各六例七轮，每版七份原生诊断替身，逐字无答案及跨版反例、双 ZIP。DeepSeek 首次输入形状失败后自修，Codex 完整差异复核和独立52项通过。
 - #333 实现623dd45，两脚本 tools/check_after_sales_static_ui.py / .cjs：页面新建、两访谈、原版规划构建下载、自然语言改版、候选明确采纳、完整JSON样例修改、重确认构建和新版下载。Codex 实际执行 passed；r5/r9 清单、报告、DSL摘要与历史原版字节一致。工作证据 work/after-sales-static-ui-eef13c9617a5486dac06f38cbf821e7a，五次模型替身，生产访问/真实模型Dify HTTP为0。公开资源配置和六例样例经本机API预置，非纯页面资源录入，也非真实模型质量证明。DeepSeek CLI 超时但已写出文件，未返回成功JSON；实际结论来自根代理独立验收。实现已提交后登记关闭。
 - 前端 npm ci / npm run build 成功；已有 tools/check_diagnostic_turns_ui.py 五UI通过。Vite体积提示和Starlette弃用提示未阻止通过，不为提示做无关重构。没有重跑全量。
-- #335 DeepSeek已实现冲突清单完整文字检查，Codex独立79项通过（18编码反例和合法中文/表情/组合字符等），原三处500已修为422。仅conflicts.py和新测试；尚待本次保护部署，提交后登记关闭。
+- #335 DeepSeek已实现冲突清单完整文字检查，Codex独立79项通过（18编码反例和合法中文/表情/组合字符等），原三处500已修为422。实现d16b7b5，仅conflicts.py和新测试；保护部署88f593682f0b5eb52500/297/PID44428通过，十二根/733、任务/密文保持，已登记关闭。
 - #334 原机保护部署：依赖检查与6项快照检查、前端构建通过。十二根前后capture及733封存完全一致，证据原work/original-host-upgrade-20261119，真实模型/Dify HTTP为0。记录1de6dab已提交后登记关闭。
 - #319—330 的访谈/改版基线、逐轮未知结果、App归属、诊断来源、交付答复与固定新会话修复见 CHANGELOG 和 BACKLOG；均已提交并定向验证，本轮已接回原机固定快照运行。
 
 ## 3. 下一步
 
 1. 已完成 #333 实现及验收，登记关闭提交；每次 push 前更新根 CHANGELOG、适用 README/状态和整份 HANDOFF，明确路径暂存，推原 main 并核远端哈希。排除 work/data/依赖/ZIP/秘密，不让用户代提交，不force。
-2. P0-D本机部署部分已完成：原Git仅快进，原start启动，当前快照80c5bfb59ee64f3b946b和十二根/733保护通过。后续修改运行文件才重建部署，源和运行哈希必须核对；按原start/stop和CIM归属，不按端口杀进程。真正模型、Console、Service、FAQ库连接可用性尚未实时验证，按第4条真实范围处理。材料冲突旧裁定新鲜度审查未发现新缺陷；根代理另行复现的文字500已入#335并通过79项，下一步保护部署。DeepSeek正核P0-C平台页面接续的必要入口。
+2. P0-D本机部署部分已完成：原Git仅快进，原start启动，当前快照88f593682f0b5eb52500和十二根/733保护通过。后续修改运行文件才重建部署，源和运行哈希必须核对；按原start/stop和CIM归属，不按端口杀进程。真正模型、Console、Service、FAQ库连接可用性尚未实时验证，按第4条真实范围处理。材料冲突旧裁定新鲜度审查未发现新缺陷；根代理另行复现的文字500已入#335并通过79项，已保护部署并关闭。DeepSeek正核P0-C平台页面接续的必要入口。
 3. 有界审查 P0-B 已有访谈/规划失败路径，未确认新生产缺陷；已有格式错误保留旧图及预算覆盖，不重复造测试。P0-C 当前完成静态片段，平台发布/六例七轮的正常页面接续仍待隔离核对；只对复现的实质缺口开发。
 4. 真实产品调用仍遵守2026-11-02 call_ae41b2d065e34bd8b5f5afeb812663cc/q0“暂不继续真实调用”；422未授权，authorization-deferred.json和旧空approval/attempt/worker/live-output状态保持。本轮 $ds 开发委派不自动恢复产品模型/Dify运行或扩大资源预算。安全凭据存在后按产品入口复用，不从聊天抄密码。P0-E先形成当时版本可审查新范围再统一请求恢复/批准，旧包不续跑或借余槽。
 5. 当前外部等待期间持续按路线从原需求核具体可开发缺口，一次登记一个 BACKLOG pending、派发、实际验收、提交关闭，再取下一项。历史 blocked/need-user跳过，普通队列空不表示项目完成。不为耗额度拆微任务，不通读全项目或290KB历史，不跑全量。实际Codex不足立即停并尽力整份交接；未观察不足不假报额度耗尽。
