@@ -1,5 +1,7 @@
 # Sierra
 
+当前开发安排见[完整开发与验收路线](docs/sierra-completion-roadmap-20261119.md)。Codex 负责需求和验收，Claude Code 通过用户指定的 DeepSeek 网关做实现及返工。
+
 Sierra 是本机 Dify 搭建助手：选择应用类型，整理需求和材料，确认配置与流程，再生成 DSL、发布和试跑。目标适配 Dify 1.17.1。
 
 当前源码的 Chatflow 交付报告可对照同版样例预期、保存的逐轮回复及验收结果。操作步骤见[售后 Chatflow 接手说明](docs/sierra-ai-handoff-20261117.md#接通后的真实验收顺序)。

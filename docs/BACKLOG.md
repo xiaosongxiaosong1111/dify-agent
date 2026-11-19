@@ -618,3 +618,5 @@
 | 329 | Chatflow 网关错误保留未知试跑结果 | FR-32/35：Chatflow 收到 HTTP 502/503/504 时保留已完成轮和未知当前轮，阻止同修订盲目重发；明确的 HTTP 400 保持失败。运行 `python -m pytest backend/tests/test_conversation_cases.py backend/tests/test_dify_write_outcome.py backend/tests/test_conversation.py backend/tests/test_after_sales_intake_to_graph.py -q`。 | codex | done | 实现 8605bbf。HTTP 502/503/504 三项先失败后通过，补号轮保持未知、同修订重复请求返回 409、零再次派发。HTTP 400 保持失败。81 项定向通过。E 盘独立克隆，未部署，真实模型和 Dify 调用均为 0。 |
 
 | 330 | 固定 Chatflow 单轮验收从新会话开始 | 需求 §11、FR-32/40。含旧会话输入的固定单轮无法保存或派发，旧记录可以查看，当前汇总和报告不能采为通过依据。运行 `python -m pytest backend/tests/test_conversation.py backend/tests/test_conversation_cases.py backend/tests/test_acceptance.py backend/tests/test_delivery_bundle.py backend/tests/test_after_sales_intake_to_graph.py -q`。 | codex | done | 实现 0161662。旧版允许保存、派发和采用含已有会话的单轮样例。修复后新保存和派发返回 422，旧记录在当前汇总待复核，不能追加当前人工复核或纳入交付回复。104 项定向通过，未部署，真实模型和 Dify 调用均为 0。 |
+
+| 331 | 形成 Sierra 完整开发路线与 DeepSeek 委派验收方式 | 对照需求 §6/§10/§11 写阶段、文件范围、六例七轮、失败处理、实际环境/模型与版本验收和最终交付条件。阅读核路线引用、技能调用和现有状态一致。 | codex | pending | 用户 2026-11-19 明确调用 $ds 并指定 Codex 把控需求和验收，DeepSeek 实现和返工。 |
