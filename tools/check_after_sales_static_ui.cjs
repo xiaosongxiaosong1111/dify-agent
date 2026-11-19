@@ -6,6 +6,7 @@ const crypto = require('node:crypto');
 
 const info = JSON.parse(fs.readFileSync(process.argv[3], 'utf8'));
 const output = info.output;
+const platform = info.platform_mode === true;
 const sha256 = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -67,6 +68,187 @@ async function waitFor(check, what, timeout = 30000) {
       await idle();
     };
 
+    const platformApps = [];
+    const waitPath = async (method, path, action) => {
+      const responsePromise = page.waitForResponse(response =>
+        response.request().method() === method && new URL(response.url()).pathname === path);
+      await action();
+      const response = await responsePromise;
+      assert.equal(response.status(), 200, `${method} ${path} 返回 ${response.status()}`);
+      return response;
+    };
+    const openDetails = async details => {
+      if (!(await details.evaluate(element => element.open))) {
+        await details.locator('summary').first().click();
+      }
+    };
+    const saveExecutionLimits = async () => {
+      const panel = page.locator('.execution-limits-panel');
+      const details = panel.locator('details').first();
+      await openDetails(details);
+      await panel.getByLabel('最多启动试跑批次').fill('12');
+      await panel.getByLabel('累计已记录耗时阈值').fill('45');
+      await panel.getByLabel('执行上限调整原因').fill('隔离替身本批十二次运行，仅本临时任务');
+      await details.getByRole('checkbox').check();
+      const save = panel.getByRole('button', {name: '确认并保存执行上限', exact: true});
+      await waitFor(async () => await save.isEnabled(), '执行上限可保存', 60000);
+      await waitPath('PATCH', `/api/tasks/${taskId}/execution-limits`, () => save.click());
+      await idle();
+    };
+    const platformContinuation = async label => {
+      stage = label + '：真实导入';
+      await chooseStep('构建');
+      const importButton = page.getByRole('button', {name: '真实导入 Dify', exact: true});
+      await waitFor(async () => await importButton.isEnabled(), '导入按钮可用', 60000);
+      const imported = await (await waitPost('/import', () => importButton.click())).json();
+      const appId = imported.dify_app_id;
+      assert.ok(appId, '导入后应有新App ID');
+      assert.ok(!platformApps.includes(appId), '每版导入应是独立新App');
+      platformApps.push(appId);
+      const revision = imported.revision;
+      await idle();
+
+      stage = label + '：明确发布';
+      await chooseStep('运行');
+      const publication = page.locator('.workflow-publication');
+      await publication.waitFor();
+      const prepare = publication.getByRole('button', {name: '读取草稿并准备发布', exact: true});
+      await waitFor(async () => await prepare.isEnabled(), '发布核对按钮可用', 60000);
+      const proposal = await (await waitPost('/workflow-publication/prepare', () => prepare.click())).json();
+      assert.equal(proposal.state, 'ready');
+      assert.equal(proposal.app_id, appId);
+      assert.equal(proposal.revision, revision);
+      await publication.getByLabel('确认发布此App当前草稿', {exact: true}).check();
+      const confirmPublish = publication.getByRole('button', {name: '确认发布当前Chatflow', exact: true});
+      await waitFor(async () => await confirmPublish.isEnabled(), '发布确认按钮可用', 60000);
+      const publicationResult = await (await waitPost('/workflow-publication/confirm',
+        () => confirmPublish.click())).json();
+      assert.equal(publicationResult.state, 'succeeded');
+      assert.ok(publicationResult.workflow_id, '发布应返回工作流ID');
+      await idle();
+
+      stage = label + '：手工登记运行Key';
+      const keyPanel = page.locator('.task-runtime-key');
+      await keyPanel.waitFor();
+      const keyInput = keyPanel.getByLabel('Dify应用运行Key（来自当前App）', {exact: true});
+      await waitFor(async () => await keyInput.isEnabled(), 'Key登记面板可用', 60000);
+      await keyInput.fill(info.public_fixture_runtime_key);
+      await keyPanel.getByLabel('确认将运行Key绑定到以上App', {exact: true}).check();
+      const saveKey = keyPanel.getByRole('button', {name: '加密保存当前App运行Key', exact: true});
+      await waitFor(async () => await saveKey.isEnabled(), 'Key保存按钮可用', 60000);
+      const keyState = await (await waitPost('/runtime-key', () => saveKey.click())).json();
+      assert.equal(keyState.matches_current_app, true);
+      assert.equal(keyState.app_id, appId);
+      await idle();
+
+      stage = label + '：核对本批上限';
+      const preflight = page.locator('.batch-run-preflight');
+      await preflight.waitFor();
+      const readCapacity = async () => {
+        const response = await page.request.get(
+          `${info.base}/api/tasks/${taskId}/execution-limits/preflight?revision=${revision}&requested_runs=6`);
+        assert.equal(response.status(), 200);
+        return response.json();
+      };
+      let capacity = await readCapacity();
+      if (!capacity.limits_allow_requested_runs) {
+        await saveExecutionLimits();
+        const retry = preflight.getByRole('button', {name: '重新核对本批上限', exact: true});
+        await waitFor(async () => await retry.isEnabled(), '上限复核按钮可用', 60000);
+        await retry.click();
+        await waitFor(async () => (await readCapacity()).limits_allow_requested_runs === true,
+          '调整后本批可继续', 60000);
+        capacity = await readCapacity();
+        assert.equal(capacity.limits_allow_requested_runs, true, '调整后本批仍被阻止');
+      }
+
+      stage = label + '：六例七轮试跑';
+      const before = await (await page.request.get(
+        `${info.base}/api/tasks/${taskId}/acceptance`)).json();
+      assert.equal(before.revision, revision);
+      assert.equal(before.required.not_run, 6, '本版首次试跑前应为0/6');
+      const caseSelect = page.locator('select[aria-label="选择试跑样例"]');
+      const runButton = page.getByRole('button', {name: '运行选定验收样例', exact: true});
+      const runsByCase = {};
+      for (const testCase of info.cases) {
+        await caseSelect.selectOption(testCase.id);
+        await waitFor(async () => await runButton.isEnabled(), '试跑按钮可用：' + testCase.name, 120000);
+        const body = await (await waitPost('/run', () => runButton.click())).json();
+        const run = body.runs[body.runs.length - 1];
+        assert.ok(run, '试跑应返回运行记录');
+        assert.equal(run.test_case.id, testCase.id);
+        assert.equal(run.app_id, appId);
+        assert.equal(run.revision, revision);
+        assert.equal(run.environment_id, info.environment_id);
+        assert.equal(run.status, 'success');
+        assert.equal(run.evaluation.status, 'passed');
+        if (testCase.followups && testCase.followups.length) {
+          assert.equal(run.result.turns.length, testCase.followups.length + 1);
+        }
+        runsByCase[testCase.id] = run;
+        await idle();
+      }
+      const after = await (await page.request.get(
+        `${info.base}/api/tasks/${taskId}/acceptance`)).json();
+      assert.equal(after.revision, revision);
+      assert.equal(after.required.passed, 6);
+      assert.equal(after.all_required_passed, true);
+
+      stage = label + '：逐轮诊断';
+      for (const testCase of info.cases) {
+        const run = runsByCase[testCase.id];
+        const details = page.locator(`details[data-run-id="${run.id}"]`);
+        await details.waitFor();
+        await openDetails(details);
+        const panel = details.locator('.run-diagnostic');
+        await panel.waitFor();
+        const turns = testCase.followups && testCase.followups.length ? [1, 2] : [null];
+        const runIds = [];
+        for (const turnIndex of turns) {
+          await openDetails(details);
+          await panel.waitFor();
+          if (turnIndex !== null) {
+            await panel.getByLabel('诊断轮次', {exact: true}).selectOption(String(turnIndex));
+          }
+          const diagnose = panel.getByRole('button', {name: '读取 Dify 节点轨迹并诊断', exact: true});
+          await waitFor(async () => await diagnose.isEnabled(), '诊断按钮可用', 60000);
+          const report = await (await waitPost(`/runs/${run.id}/diagnose`, () => diagnose.click())).json();
+          assert.equal(report.app_id, appId);
+          assert.equal(report.source_revision, revision);
+          assert.equal(report.trace_state, 'read');
+          assert.equal(report.current_source, true);
+          assert.equal(report.source_graph.matched, true);
+          const source = run.result.turns ? run.result.turns[(turnIndex ?? 1) - 1].result : run.result;
+          assert.equal(report.remote_id_resolution.message_id, source.id);
+          assert.equal(report.remote_id_resolution.conversation_id, source.conversation_id);
+          assert.equal(report.remote_id_resolution.workflow_run_id, report.remote_run_id);
+          if (turnIndex === null) {
+            assert.equal(report.selection_mode, undefined);
+          } else {
+            assert.equal(report.selected_turn, turnIndex);
+            assert.equal(report.selection_mode, 'explicit_turn');
+          }
+          runIds.push(report.remote_run_id);
+          await idle();
+        }
+        if (turns.length === 2) assert.notEqual(runIds[0], runIds[1], '两轮原生运行应不同');
+      }
+      const savedTask = await (await page.request.get(`${info.base}/api/tasks/${taskId}`)).json();
+      const revisionRuns = savedTask.runs.filter(run =>
+        run.kind === 'run' && run.revision === revision && run.app_id === appId && run.test_case);
+      assert.equal(revisionRuns.length, 6);
+      assert.equal(revisionRuns.reduce((count, run) => count + (run.diagnostics?.length || 0), 0), 7);
+      const finalAcceptance = await (await page.request.get(
+        `${info.base}/api/tasks/${taskId}/acceptance`)).json();
+      assert.equal(finalAcceptance.required.passed, 6);
+      assert.equal(finalAcceptance.all_required_passed, true);
+
+      stage = label + '：返回构建页';
+      await chooseStep('构建');
+      await idle();
+      return appId;
+    };
+
     stage = '打开本机页面';
     await page.goto(info.base, {waitUntil: 'networkidle'});
 
@@ -75,7 +257,8 @@ async function waitFor(check, what, timeout = 30000) {
     const dialog = page.locator('[data-root-dialog]');
     await dialog.getByLabel('任务名称').fill(info.task_name);
     await dialog.locator('.typecard').filter({hasText: 'Chatflow'}).click();
-    await dialog.getByLabel('新任务目标环境').selectOption('__unbound__');
+    await dialog.getByLabel('新任务目标环境')
+      .selectOption(info.environment_id ? info.environment_id : '__unbound__');
     await dialog.locator('footer').getByRole('button', {name: '创建任务', exact: true}).click();
     await waitFor(async () => await dialog.count() === 0, '新建任务窗口关闭', 60000);
 
@@ -87,7 +270,7 @@ async function waitFor(check, what, timeout = 30000) {
     const created = tasks[0];
     assert.equal(created.name, info.task_name);
     assert.equal(created.app_type, 'advanced-chat');
-    assert.equal(created.environment_id, null);
+    assert.equal(created.environment_id, info.environment_id ?? null);
     taskId = created.id;
     const configured = await page.request.patch(info.base + taskPath(''), {
       data: {configuration: info.configuration, expected_revision: created.revision},
@@ -149,6 +332,8 @@ async function waitFor(check, what, timeout = 30000) {
       await page.locator('.validation').filter({hasText: '静态检查通过'}).count() > 0,
       '原版静态检查通过', 60000);
     await idle();
+
+    if (platform) await platformContinuation('原版');
 
     stage = '下载原版交付包';
     const originalFile = path.join(output, 'original.zip');
@@ -256,6 +441,8 @@ async function waitFor(check, what, timeout = 30000) {
       '改版静态检查通过', 60000);
     await idle();
 
+    if (platform) await platformContinuation('改版');
+
     stage = '下载改版交付包';
     const modifiedFile = path.join(output, 'modified.zip');
     const modifiedBundle = page.locator('.delivery-bundle-download')
@@ -278,11 +465,20 @@ async function waitFor(check, what, timeout = 30000) {
     for (const suffix of ['/messages', '/plan/generate', '/confirm', '/plan', '/build', '/test-cases/editor']) {
       assert.ok(paths.some(value => value.endsWith(suffix)), '界面没有发起 ' + suffix);
     }
+    if (platform) {
+      for (const suffix of ['/import', '/workflow-publication/prepare',
+        '/workflow-publication/confirm', '/runtime-key', '/run', '/diagnose']) {
+        assert.ok(paths.some(value => value.endsWith(suffix)), '界面没有发起 ' + suffix);
+      }
+      assert.equal(platformApps.length, 2);
+      assert.equal(new Set(platformApps).size, 2);
+    }
     assert.deepEqual(pageErrors, []);
     assert.equal(foreign, 0);
     const proof = {
       state: 'passed',
-      ui_flow: 'static_two_revisions',
+      ui_flow: platform ? 'two_revisions_with_substitute_platform' : 'static_two_revisions',
+      platform_mode: platform,
       task_created_from_ui: true,
       preseed_api_requests: ['GET /api/tasks', 'PATCH /api/tasks/{id}', 'POST /api/tasks/{id}/test-cases'],
       ui_posts: [...new Set(paths)],

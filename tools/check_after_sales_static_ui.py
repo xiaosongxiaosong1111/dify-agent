@@ -17,6 +17,7 @@ import tempfile
 import threading
 import time
 import zipfile
+from uuid import uuid4
 
 import yaml
 
@@ -25,6 +26,8 @@ PROJECT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
 parser.add_argument('--output', required=True)
 parser.add_argument('--playwright', required=True)
+parser.add_argument('--platform', action='store_true',
+                    help='用正常页面完成两版导入／发布／Key／试跑／诊断，替身仅在本机')
 args = parser.parse_args()
 output = Path(args.output).resolve()
 assert output.is_relative_to(PROJECT / 'work'), '输出目录必须位于项目 work 下'
@@ -44,9 +47,10 @@ with tempfile.TemporaryDirectory(dir=output, prefix='public-store-') as folder:
     from app.storage import Store
     from app.intake import BASE
     from app.after_sales_starter import prepare
-    from test_api import planning_provider
+    from test_api import planning_provider, create_env
     from test_after_sales_intake_to_graph import (
-        OPENING, REQUIREMENTS, CLARIFY_ANSWER, NEW_NO_HIT_REPLY, acceptance_cases)
+        OPENING, REQUIREMENTS, CLARIFY_ANSWER, NEW_NO_HIT_REPLY, acceptance_cases,
+        answer_for, case_turns, turn_identity)
     from test_after_sales_starter import context, inputs
 
     h.DATA_ROOT = Path(folder)
@@ -79,6 +83,112 @@ with tempfile.TemporaryDirectory(dir=output, prefix='public-store-') as folder:
         tasks = h.store.list('task')
         assert len(tasks) == 1, '临时目录中只能有界面创建的一个任务'
         return tasks[0]
+
+    PUBLIC_KEY = 'sierra-isolated-not-a-real-key'
+    substitute_apps = []
+    substitute_state = {}
+    substitute_service_calls = []
+    substitute_reads = {'messages': [], 'runs': [], 'nodes': []}
+    substitute_events = []
+
+    def app_and_rest(path):
+        parts = path.split('/')
+        assert len(parts) >= 5 and parts[1:4] == ['console', 'api', 'apps'], '未知管理路径：' + path
+        app_id = parts[4]
+        assert app_id in substitute_state, '未知替身App：' + app_id
+        return app_id, parts[5:]
+
+    async def substitute_request(self, method, path, *, credential, secret_owner=None,
+                                 _console_refreshed=False, **kwargs):
+        task = sole_task()
+        assert self.env['id'] == environment_id, '替身请求环境不匹配'
+        if path == '/console/api/apps/imports':
+            assert (method, credential) == ('POST', 'console_token')
+            assert len(substitute_apps) < 2, '本检查只允许两版各一次导入'
+            expected = yaml.safe_load(h.artifact_path(task).read_bytes())
+            root = yaml.safe_load(kwargs['json']['yaml_content'])
+            assert root == expected, '导入内容必须是当前成果DSL'
+            app_id = str(uuid4())
+            assert app_id not in substitute_state
+            graph = root['workflow']['graph']
+            draft = root['workflow'] | {'hash': 'fixture-draft-' + app_id}
+            no_hit = next(node['data']['template'] for node in graph['nodes']
+                          if node['id'] == 'no_hit')
+            substitute_state[app_id] = {
+                'root': root, 'graph': graph, 'draft': draft, 'published': None,
+                'served': {}, 'messages': {}, 'cid': {}, 'revision': task['revision'],
+                'no_hit': no_hit}
+            substitute_apps.append(app_id)
+            return {'status': 'completed', 'app_id': app_id}
+        if path == '/v1/chat-messages':
+            assert (method, credential) == ('POST', 'service_api_key')
+            app_id = self.env.get('service_app_id')
+            assert app_id in substitute_state, '运行Key未绑定到本检查的替身App'
+            app = substitute_state[app_id]
+            assert app['published'] is not None, '未发布替身App不可试跑'
+            assert app['revision'] == task['revision'], '替身试跑修订不匹配'
+            body = kwargs['json']
+            query = body['query']
+            case_id, index = turn_identity(task['test_cases'], query)
+            key = (case_id, index)
+            assert key not in app['served'], '同一轮次不允许重复试跑'
+            assert body.get('inputs') == {}, '样例输入只应包含query'
+            if index == 0:
+                assert body.get('conversation_id') in (None, ''), '首轮不应带旧会话'
+                cid = str(uuid4())
+                app['cid'][case_id] = cid
+            else:
+                assert body.get('conversation_id') == app['cid'].get(case_id), '后续轮必须沿同一会话'
+                cid = app['cid'][case_id]
+            message_id, run_id = str(uuid4()), str(uuid4())
+            app['served'][key] = {'case_id': case_id, 'index': index, 'message_id': message_id,
+                                  'run_id': run_id, 'conversation_id': cid, 'query': query}
+            app['messages'][message_id] = (cid, run_id)
+            substitute_service_calls.append((app_id, query))
+            substitute_events.append(('service', app_id))
+            return {'answer': answer_for(query, app['no_hit']), 'conversation_id': cid,
+                    'id': message_id, 'message_id': message_id}
+        app_id, rest = app_and_rest(path)
+        app = substitute_state[app_id]
+        assert credential == 'console_token'
+        if rest == []:
+            assert method == 'GET'
+            return {'id': app_id, 'mode': 'advanced-chat'}
+        if rest == ['workflows', 'draft']:
+            assert method == 'GET'
+            return app['draft']
+        if rest == ['workflows', 'publish']:
+            if method == 'POST':
+                assert app['published'] is None, '同一App不允许重复发布'
+                app['published'] = app['draft'] | {'id': str(uuid4())}
+                return {'result': 'success'}
+            assert method == 'GET'
+            return app['published']
+        if rest[:1] == ['messages'] and len(rest) == 2:
+            assert method == 'GET'
+            message_id = rest[1]
+            assert message_id in app['messages'], '未知消息ID'
+            cid, run_id = app['messages'][message_id]
+            substitute_reads['messages'].append((app_id, message_id))
+            substitute_events.append(('read', app_id))
+            return {'id': message_id, 'conversation_id': cid,
+                    'workflow_run_id': run_id, 'app_id': app_id}
+        if rest[:1] == ['workflow-runs'] and len(rest) == 3 and rest[2] == 'node-executions':
+            assert method == 'GET'
+            run_id = rest[1]
+            assert run_id in {row['run_id'] for row in app['served'].values()}, '未知运行ID'
+            substitute_reads['nodes'].append((app_id, run_id))
+            llm_node = next(node['id'] for node in app['graph']['nodes']
+                            if node['data']['type'] == 'llm')
+            return {'data': [{'id': str(uuid4()), 'node_id': llm_node, 'node_type': 'llm',
+                              'title': '合成LLM节点', 'status': 'succeeded', 'error': None}]}
+        if rest[:1] == ['workflow-runs'] and len(rest) == 2:
+            assert method == 'GET'
+            run_id = rest[1]
+            assert run_id in {row['run_id'] for row in app['served'].values()}, '未知运行ID'
+            substitute_reads['runs'].append((app_id, run_id))
+            return {'id': run_id, 'status': 'succeeded', 'graph': app['graph']}
+        raise AssertionError(f'未知管理请求：{method} {path}')
 
     def opening_reply():
         question = {'topic': 'goal', 'question': '售后助手要处理哪些问题，还需要查订单吗？',
@@ -168,9 +278,14 @@ with tempfile.TemporaryDirectory(dir=output, prefix='public-store-') as folder:
                 calls.append({'kind': 'plan', 'stage': 'revision', 'revision': task['revision']})
         return json.dumps(result, ensure_ascii=False), {'prompt_tokens': 100, 'completion_tokens': 30}
 
+    environment_id = None
     with TestClient(h.app) as client:
         planning_provider(client)
+        if args.platform:
+            environment_id = create_env(client)['id']
     h.call_model = model
+    if args.platform:
+        h.DifyClient.request = substitute_request
 
     with socket.socket() as sock:
         sock.bind(('127.0.0.1', 0))
@@ -187,6 +302,9 @@ with tempfile.TemporaryDirectory(dir=output, prefix='public-store-') as folder:
         'old_reply': OLD_REPLY,
         'configuration': context()['configuration'],
         'cases': acceptance_cases(),
+        'platform_mode': args.platform,
+        'environment_id': environment_id,
+        'public_fixture_runtime_key': PUBLIC_KEY,
         'assistant_messages': {
             'opening': '售后助手要处理哪些问题，还需要查订单吗？',
             'requirements': '售后范围和模拟条件已记录，请核对确认。',
@@ -220,6 +338,54 @@ with tempfile.TemporaryDirectory(dir=output, prefix='public-store-') as folder:
             assert len(tasks) == 1, '临时 Store 中应只有一个任务'
             task = tasks[0]
             assert task['name'] == TASK_NAME
+
+            if args.platform:
+                imports = [r for r in task['runs'] if r.get('kind') == 'import'
+                           and r.get('status') == 'success']
+                assert len(imports) == 2, '两版各应有一次成功导入'
+                assert len(substitute_apps) == 2 and len(set(substitute_apps)) == 2
+                assert {r['result']['app_id'] for r in imports} == set(substitute_apps)
+                assert len(substitute_service_calls) == 14
+                assert task['dify_app_id'] == substitute_apps[-1]
+                for app_id in substitute_apps:
+                    app = substitute_state[app_id]
+                    revision = app['revision']
+                    runs = [r for r in task['runs'] if r.get('kind') == 'run'
+                            and r.get('revision') == revision and r.get('app_id') == app_id]
+                    assert len(runs) == 6, '每版应有六个样例运行'
+                    assert all(r['status'] == 'success'
+                               and r['evaluation']['status'] == 'passed' for r in runs)
+                    assert all(r['environment_id'] == environment_id for r in runs)
+                    assert len(app['served']) == 7
+                    assert sum(1 for a, _ in substitute_service_calls if a == app_id) == 7
+                    assert len({row['conversation_id'] for row in app['served'].values()}) == 6
+                    diagnostics = [d for run in runs for d in run.get('diagnostics', [])]
+                    assert len(diagnostics) == 7
+                    for run in runs:
+                        turns = case_turns(run['test_case'])
+                        actual = ([t['result']['answer'] for t in run['result']['turns']]
+                                  if run['test_case'].get('followups')
+                                  else [run['result']['answer']])
+                        assert actual == [answer_for(turn['query'], app['no_hit'])
+                                          for turn in turns], '实际回复必须逐字符合该版替身'
+                    for diagnostic in diagnostics:
+                        assert diagnostic['source_revision'] == revision
+                        assert diagnostic['app_id'] == app_id
+                        assert diagnostic['current_source'] is True
+                        assert diagnostic['trace_state'] == 'read'
+                        assert diagnostic['source_graph']['matched'] is True
+                    assert {mid for a, mid in substitute_reads['messages'] if a == app_id} == {
+                        row['message_id'] for row in app['served'].values()}
+                    assert {rid for a, rid in substitute_reads['runs'] if a == app_id} == {
+                        row['run_id'] for row in app['served'].values()}
+                    assert {rid for a, rid in substitute_reads['nodes'] if a == app_id} == {
+                        row['run_id'] for row in app['served'].values()}
+                    first_read = substitute_events.index(('read', app_id))
+                    assert all(kind != 'service' for kind, a in substitute_events[first_read:]
+                               if a == app_id), '诊断不得再次派发Service'
+                assert len({row['conversation_id'] for app_id in substitute_apps
+                            for row in substitute_state[app_id]['served'].values()}) == 12
+
 
             def read_bundle(bundle_path):
                 with zipfile.ZipFile(bundle_path) as archive:
@@ -275,6 +441,26 @@ with tempfile.TemporaryDirectory(dir=output, prefix='public-store-') as folder:
                 assert f'类型：advanced-chat；版本：r{revision}' in report
                 assert f'- exceptions：{exceptions}' in report
                 assert f"- tests：{REQUIREMENTS['tests']}" in report
+
+            if args.platform:
+                original_expected = [[answer_for(turn['query'], OLD_REPLY)
+                                      for turn in case_turns(case)] for case in seeded_cases()]
+                modified_expected = [[answer_for(turn['query'], NEW_NO_HIT_REPLY)
+                                      for turn in case_turns(case)] for case in seeded_cases()]
+                for report, expected, traces in ((original_report, original_expected, 7),
+                                                 (modified_report, modified_expected, 14)):
+                    assert report.count('"trace_state": "read"') == traces
+                    summary = json.loads(report.split('## 当前修订的样例汇总', 1)[1]
+                                         .split('```json\n', 1)[1].split('\n```', 1)[0])
+                    assert summary['required']['passed'] == 6
+                    assert summary['required']['total'] == 6
+                    assert summary['all_required_passed'] is True
+                    replies = json.loads(report.split('## 当前 Chatflow 样例实际回复', 1)[1]
+                                         .split('```json\n', 1)[1].split('\n```', 1)[0])
+                    assert len(replies) == 6 and len(replies[-1]['turns']) == 2
+                    assert [[turn['answer'] for turn in item['turns']]
+                            for item in replies] == expected
+                assert '成功运行返回 6 次，已声明必选样例 6 / 6 通过' in modified_report
 
             versions = task['versions']
             original_version = next(
@@ -337,9 +523,10 @@ with tempfile.TemporaryDirectory(dir=output, prefix='public-store-') as folder:
                 json.dumps(task_summary(task), ensure_ascii=False, indent=2), 'utf-8')
 
             proof = json.loads((output / 'proof.json').read_text('utf-8'))
+            ui_flow = 'two_revisions_with_substitute_platform' if args.platform else 'static_two_revisions'
             proof.update(
                 state='passed',
-                ui_flow='static_two_revisions',
+                ui_flow=ui_flow,
                 task_created_from_ui=True,
                 resource_and_cases_seeded_via_local_api=True,
                 public_temporary_store_only=True,
@@ -351,14 +538,26 @@ with tempfile.TemporaryDirectory(dir=output, prefix='public-store-') as folder:
                 model_capability_not_verified=True,
                 original_artifact_kept=True,
                 zip_revisions=[original_revision, modified_revision],
+                platform_mode=args.platform,
                 platform_checked=False,
                 business_verified=False,
             )
+            if args.platform:
+                proof.update(
+                    substitute_apps=len(substitute_apps),
+                    substitute_service_calls=len(substitute_service_calls),
+                    substitute_diagnostics=sum(len(run.get('diagnostics', []))
+                                               for run in task['runs']),
+                    per_revision_ran_cases=6,
+                    key_binding_via_ui=True,
+                    resources_are_public_substitutes=True,
+                )
             (output / 'proof.json').write_text(
                 json.dumps(proof, ensure_ascii=False, indent=2), 'utf-8')
-            print(json.dumps({'state': 'passed', 'ui_flow': 'static_two_revisions',
+            print(json.dumps({'state': 'passed', 'ui_flow': ui_flow,
                               'simulated_model_calls': len(calls),
-                              'physical_model_dify_http': 0}))
+                              'physical_model_dify_http': 0,
+                              'substitute_service_calls': len(substitute_service_calls)}))
     finally:
         server.should_exit = True
         thread.join(timeout=10)
