@@ -12,7 +12,7 @@ from test_workflow_publication import confirm as confirm_publish, prepare as pre
 from app import main
 from app.after_sales_starter import prepare
 from app.intake import BASE
-from app.mock_order import PREFIX
+from app.mock_order import NOT_FOUND_REPLY, PREFIX
 
 
 OPENING = '我想做一个售后问答助手'
@@ -24,11 +24,43 @@ REQUIREMENTS = {
     'rules': '区分资料咨询和查订单；查订单只查模拟记录。问答模型不接收历史轮次。会话状态只记本会话是否在等待补号，补号后消费等待标记，不跨会话。',
     'knowledge': '使用合成知识库 existing-faq，只按检索到的资料答复。模拟记录 DEMO-001 为已发货。',
     'exceptions': '不开场白，不设建议问题。无命中回复「知识库暂无相关信息，请联系人工客服。」；缺号回复「请提供订单号。」；意图不清回复「请明确咨询资料还是查订单。」',
-    'tests': '命中按资料回答；无命中提示人工；缺号时追问，同一会话补 DEMO-001 后返回模拟发货记录。',
+    'tests': '命中按资料回答；无命中提示人工；范围外请用户明确资料还是查订单；DEMO-001 返回模拟发货记录；DEMO-999 按模拟未找到答复；缺号时追问，同一会话补 DEMO-001 后返回模拟发货记录。',
 }
 
 FAQ_ANSWER = '公开退货政策：签收七天内且未拆封可退货。'
 ORDER_ANSWER = PREFIX + '合成样例：已发货。'
+CLARIFY_ANSWER = '请明确咨询资料还是查订单。'
+OUT_OF_SCOPE_QUERY = '你们能帮忙处理一下吗？'
+ORDER_QUERY_EXISTS = '查询 DEMO-001 订单'
+ORDER_QUERY_NOT_FOUND = '查询 DEMO-999 订单'
+NEW_NO_HIT_REPLY = '暂未找到与问题相关的资料，请提交售后工单。'
+
+
+def case_turns(case):
+    """Normalize each saved turn to its input object; followups hold full turns."""
+    return [case['input'], *[turn['input'] for turn in case.get('followups', [])]]
+
+
+def turn_identity(cases, query):
+    """Map a service query to its saved case and zero-based turn, never a global index."""
+    for case in cases:
+        for index, turn in enumerate(case_turns(case)):
+            if turn['query'] == query:
+                return case['id'], index
+    raise AssertionError('未登记的样例输入：' + query)
+
+
+def answer_for(query, no_hit_reply):
+    """Fixed synthetic business literals; actuals are never copied from expectations."""
+    return {
+        '退货政策是什么？': FAQ_ANSWER,
+        '有没有维修资料？': no_hit_reply,
+        OUT_OF_SCOPE_QUERY: CLARIFY_ANSWER,
+        ORDER_QUERY_EXISTS: ORDER_ANSWER,
+        ORDER_QUERY_NOT_FOUND: NOT_FOUND_REPLY,
+        '查订单': inputs()['missing_order_reply'],
+        'DEMO-001': ORDER_ANSWER,
+    }[query]
 
 
 def acceptance_cases():
@@ -38,7 +70,12 @@ def acceptance_cases():
         return {'id': case_id, 'name': case_id, **turn(query, answer, mode)}
     order = case('missing-order', '查订单', inputs()['missing_order_reply'])
     order['followups'] = [turn('DEMO-001', ORDER_ANSWER)]
-    return [case('faq', '退货政策是什么？', FAQ_ANSWER), case('no-hit', '有没有维修资料？', '相关', 'contains'), order]
+    return [case('faq', '退货政策是什么？', FAQ_ANSWER),
+            case('no-hit', '有没有维修资料？', inputs()['no_hit_reply']),
+            case('out-of-scope', OUT_OF_SCOPE_QUERY, CLARIFY_ANSWER),
+            case('order-exists', ORDER_QUERY_EXISTS, ORDER_ANSWER),
+            case('order-not-found', ORDER_QUERY_NOT_FOUND, NOT_FOUND_REPLY),
+            order]
 
 
 @pytest.fixture
@@ -55,7 +92,7 @@ def original_chatflow(client, monkeypatch, request):
     requirements = REQUIREMENTS
     answer = '\n'.join(requirements.values())
     cfg = context()['configuration']
-    cases = inputs() | {'clarify_reply': '请明确咨询资料还是查订单。'}
+    cases = inputs() | {'clarify_reply': CLARIFY_ANSWER}
     expected = set(BASE) | {'memory', 'dialogue', 'retrieval', 'external', 'conversation_state'}
     calls = []
 
@@ -132,10 +169,11 @@ def test_empty_chatflow_clarifies_colloquial_order_lookup_and_builds_graph(clien
     assert document['app']['mode'] == 'advanced-chat'
     nodes = {node['id']: node['data'] for node in graph['nodes']}
     edges = {(edge['source'], edge['sourceHandle'], edge['target']) for edge in graph['edges']}
-    assert {('intent', 'faq', 'retrieve'), ('intent', 'order', 'extract_order'),
+    assert {('intent', 'clarify', 'clarify'), ('intent', 'faq', 'retrieve'), ('intent', 'order', 'extract_order'),
             ('check_hit', 'false', 'no_hit'), ('request_order_wait', 'source', 'missing_order'),
             ('check_order_value', 'has_order', 'order_lookup')} <= edges
     assert '【模拟订单查询，非真实订单】' in nodes['order_lookup']['code']
+    assert nodes['clarify']['template'] == CLARIFY_ANSWER
     assert len(graph['nodes']) == 23 and len(graph['edges']) == 24
     assert task['artifact']['validation']['valid'] and task['artifact']['revision'] == task['revision']
     assert not task['dify_app_id'] and not task['runs']
@@ -159,15 +197,24 @@ def checked_delivery(client, task, reply):
     assert f"- exceptions：{task['requirements']['exceptions']}" in report
     if task['dify_app_id']:
         assert f"当前应用标识：{task['dify_app_id']}" in report
-        assert '成功运行返回 3 次，已声明必选样例 3 / 3 通过' in report
+        assert '成功运行返回 6 次，已声明必选样例 6 / 6 通过' in report
         current_cases = report.split('## 当前修订的样例汇总', 1)[1].split('```json\n', 1)[1].split('\n```', 1)[0]
         assert json.loads(current_cases) == client.get(f"/api/tasks/{task['id']}/acceptance").json()
+        assert json.loads(current_cases)['required']['passed'] == 6
+        sample_json = report.split('## 验收样例\n', 1)[1].split('```json\n', 1)[1].split('\n```', 1)[0]
+        assert json.loads(sample_json) == task['test_cases']
         reply_json = report.split('## 当前 Chatflow 样例实际回复', 1)[1].split('```json\n', 1)[1].split('\n```', 1)[0]
         evidence = json.loads(reply_json)
         assert [item['run_id'] for item in evidence] == [row['run_id'] for row in json.loads(current_cases)['cases']]
         assert [[turn['answer'] for turn in item['turns']] for item in evidence] == [
-            [FAQ_ANSWER], [reply], [inputs()['missing_order_reply'], ORDER_ANSWER],
+            [FAQ_ANSWER], [reply], [CLARIFY_ANSWER], [ORDER_ANSWER], [NOT_FOUND_REPLY],
+            [inputs()['missing_order_reply'], ORDER_ANSWER],
         ]
+        assert len(evidence) == 6 and len(evidence[-1]['turns']) == 2
+        assert sum(len(run.get('diagnostics', [])) for run in task['runs']
+                   if run.get('revision') == task['revision']) == 7
+        assert report.count('"trace_state": "read"') == sum(
+            len(run.get('diagnostics', [])) for run in task['runs'])
     graph = yaml.safe_load(files[name])['workflow']['graph']
     nodes = {node['id']: node['data'] for node in graph['nodes']}
     assert nodes['no_hit']['template'] == reply
@@ -176,16 +223,25 @@ def checked_delivery(client, task, reply):
 
 
 def run_with_substitute_platform(client, monkeypatch, task, no_hit_reply):
+    """Offline synthetic Chatflow run: seven turns in six isolated cases.
+
+    Reply literals only stand in for a structured native run; assertions prove the
+    saved message/conversation/workflow-run binding and read state, not business.
+    """
     url = f"/api/tasks/{task['id']}"
     revision = {'revision': task['revision']}
     app_id = str(uuid4())
     publish_path = f'/console/api/apps/{app_id}/workflows/publish'
     root = yaml.safe_load(main.artifact_path(task).read_bytes())
+    graph = root['workflow']['graph']
     draft = root['workflow'] | {'hash': 'fixture-draft'}
+    llm_node = next(node['id'] for node in graph['nodes'] if node['data']['type'] == 'llm')
     published = None
-    turns = []
-    replies = [FAQ_ANSWER, no_hit_reply, inputs()['missing_order_reply'], ORDER_ANSWER]
-    queries = [case['input']['query'] for case in task['test_cases']] + ['DEMO-001']
+    calls = []
+    service_calls = []
+    served = {}
+    conversations = {}
+    messages = {}
 
     async def request(self, method, path, *, credential, **kwargs):
         nonlocal published
@@ -197,14 +253,22 @@ def run_with_substitute_platform(client, monkeypatch, task, no_hit_reply):
         if path == '/v1/chat-messages':
             assert (method, credential) == ('POST', 'service_api_key')
             assert published and self.env['service_app_id'] == app_id
-            index = len(turns)
             body = kwargs['json']
-            cid = f"{app_id}-order" if index >= 2 else f"{app_id}-{index}"
-            assert body['query'] == queries[index] and body['inputs'] == {}
-            assert body.get('conversation_id') == (cid if index == 3 else None)
-            turns.append(body['query'])
-            return {'answer': replies[index], 'conversation_id': cid}
+            case_id, index = turn_identity(task['test_cases'], body['query'])
+            assert (case_id, index) not in served
+            cid = conversations.setdefault(case_id, str(uuid4()))
+            assert body['inputs'] == {}
+            assert body.get('conversation_id') == (None if index == 0 else cid)
+            message_id, run_id = str(uuid4()), str(uuid4())
+            served[(case_id, index)] = {'case_id': case_id, 'index': index, 'message_id': message_id,
+                                        'run_id': run_id, 'conversation_id': cid, 'query': body['query']}
+            messages[message_id] = (cid, run_id)
+            service_calls.append(body['query'])
+            return {'answer': answer_for(body['query'], no_hit_reply), 'conversation_id': cid,
+                    'id': message_id, 'message_id': message_id}
         assert credential == 'console_token'
+        assert path.startswith(f'/console/api/apps/{app_id}')
+        calls.append(path)
         if path == publish_path:
             if method == 'POST':
                 assert published is None
@@ -215,6 +279,20 @@ def run_with_substitute_platform(client, monkeypatch, task, no_hit_reply):
         assert method == 'GET'
         if path == f'/console/api/apps/{app_id}/workflows/draft':
             return draft
+        if path.startswith(f'/console/api/apps/{app_id}/messages/'):
+            message_id = path.rsplit('/', 1)[-1]
+            assert message_id in messages
+            cid, run_id = messages[message_id]
+            return {'id': message_id, 'conversation_id': cid, 'workflow_run_id': run_id, 'app_id': app_id}
+        if path.endswith('/node-executions'):
+            run_id = path.split('/')[-2]
+            assert run_id in {row['run_id'] for row in served.values()}
+            return {'data': [{'id': str(uuid4()), 'node_id': llm_node, 'node_type': 'llm',
+                              'title': '合成LLM节点', 'status': 'succeeded', 'error': None}]}
+        if path.startswith(f'/console/api/apps/{app_id}/workflow-runs/'):
+            run_id = path.rsplit('/', 1)[-1]
+            assert run_id in {row['run_id'] for row in served.values()}
+            return {'id': run_id, 'status': 'succeeded', 'graph': graph}
         assert path == f'/console/api/apps/{app_id}'
         return {'id': app_id, 'mode': 'advanced-chat'}
 
@@ -231,23 +309,61 @@ def run_with_substitute_platform(client, monkeypatch, task, no_hit_reply):
         'service_app_id': app_id, 'service_api_key': 'isolated-runtime-key',
     }).status_code == 200
     accepted = client.get(f'{url}/acceptance').json()
-    assert accepted['required']['not_run'] == 3 and all(row['run_id'] is None for row in accepted['cases'])
+    assert accepted['required']['not_run'] == 6 and all(row['run_id'] is None for row in accepted['cases'])
 
     run_ids = []
-    for case, reply in zip(task['test_cases'], replies[:3], strict=True):
+    for case in task['test_cases']:
+        turns = case_turns(case)
         run_response = client.post(f'{url}/run', json={**revision, 'case_id': case['id']})
         assert run_response.status_code == 200, run_response.text
         current = run_response.json()
         run = current['runs'][-1]
         assert (run['app_id'], run['revision'], run['environment_id']) == (app_id, task['revision'], task['environment_id'])
         assert run['evaluation']['status'] == 'passed'
-        result = run['result']['turns'][0]['result'] if case.get('followups') else run['result']
-        assert result['answer'] == reply
+        if case.get('followups'):
+            assert [step['result']['answer'] for step in run['result']['turns']] == [
+                answer_for(turn['query'], no_hit_reply) for turn in turns]
+        else:
+            assert run['result']['answer'] == answer_for(case['input']['query'], no_hit_reply)
         run_ids.append(run['id'])
+        for index in (range(1, len(turns) + 1) if case.get('followups') else [None]):
+            trace = served[(case['id'], 0 if index is None else index - 1)]
+            before, sent = len(calls), len(service_calls)
+            body = {'revision': task['revision'], 'read_remote': True}
+            if index is not None:
+                body['turn_index'] = index
+            diagnostic = client.post(f"{url}/runs/{run['id']}/diagnose", json=body)
+            assert diagnostic.status_code == 200, diagnostic.text
+            report = diagnostic.json()
+            assert len(service_calls) == sent  # Diagnosis never dispatches again.
+            assert calls[before:] == [
+                f'/console/api/apps/{app_id}/messages/{trace["message_id"]}',
+                f'/console/api/apps/{app_id}/workflow-runs/{trace["run_id"]}',
+                f'/console/api/apps/{app_id}/workflow-runs/{trace["run_id"]}/node-executions',
+                publish_path,
+            ]
+            assert (report['app_id'], report['source_revision'], report['remote_run_id']) == (
+                app_id, task['revision'], trace['run_id'])
+            assert report['trace_state'] == 'read' and report['source_graph']['matched'] and report['current_source']
+            assert {key: report['remote_id_resolution'][key] for key in
+                    ('message_id', 'conversation_id', 'workflow_run_id')} == {
+                'message_id': trace['message_id'], 'conversation_id': trace['conversation_id'],
+                'workflow_run_id': trace['run_id']}
+            assert any('重跑' in note for note in report['notes'])
+            if index is not None:
+                assert report['selected_turn'] == index and report['selection_mode'] == 'explicit_turn'
+            else:
+                assert 'selection_mode' not in report
 
     accepted = client.get(f'{url}/acceptance').json()
-    assert accepted['required']['passed'] == 3 and [row['run_id'] for row in accepted['cases']] == run_ids
-    assert turns == queries
+    assert accepted['required']['passed'] == 6 and accepted['all_required_passed']
+    assert [row['run_id'] for row in accepted['cases']] == run_ids
+    assert len(served) == 7 and len(service_calls) == 7
+    current = client.get(url).json()
+    diagnostics = [row for run in current['runs'] if run.get('revision') == task['revision']
+                   for row in run.get('diagnostics', [])]
+    assert len(diagnostics) == 7
+    assert {row['remote_run_id'] for row in diagnostics} == {row['run_id'] for row in served.values()}
     return current
 
 
@@ -256,7 +372,7 @@ def test_natural_language_edit_preserves_original_and_binds_both_delivery_bundle
     original = original_chatflow
     url = f"/api/tasks/{original['id']}"
     old_reply = inputs()['no_hit_reply']
-    new_reply = '暂未找到与问题相关的资料，请提交售后工单。'
+    new_reply = NEW_NO_HIT_REPLY
     request = f'请把无命中和资料不足的固定回复都改成「{new_reply}」。其余规则和分支保持。'
     if original['environment_id']:
         original = run_with_substitute_platform(client, monkeypatch, original, old_reply)
@@ -320,6 +436,34 @@ def test_natural_language_edit_preserves_original_and_binds_both_delivery_bundle
     assert revised['workflow_plan'] == new_plan and not revised['plan_stale']
     assert revised['revision'] == draft['revision'] + 1 and revised['requirements_confirmed']
     assert not revised['configuration_confirmed'] and bundle(client, revised).status_code == 422
+    adopted_revision = revised['revision']
+    saved_revision = None
+    if revised['environment_id']:
+        # The saved no-hit sample must adopt the new literal, not keep the loose old rule.
+        cases = copy.deepcopy(revised['test_cases'])
+        no_hit = next(row for row in cases if row['id'] == 'no-hit')
+        assert no_hit['expectation'] == {'mode': 'equals', 'target': 'answer', 'expected': old_reply}
+        no_hit['expectation']['expected'] = new_reply
+        response = client.post(f'{url}/test-cases', json={'revision': revised['revision'], 'cases': cases})
+        assert response.status_code == 200, response.text
+        revised = response.json()
+        saved_revision = revised['revision']
+        assert saved_revision == adopted_revision + 1 and revised['test_cases'] == cases
+        assert next(row for row in revised['test_cases'] if row['id'] == 'no-hit')['expectation'] == {
+            'mode': 'equals', 'target': 'answer', 'expected': new_reply}
+        assert [row for row in revised['test_cases'] if row['id'] != 'no-hit'] == [
+            row for row in original['test_cases'] if row['id'] != 'no-hit']
+        assert not revised['requirements_confirmed'] and not revised['configuration_confirmed'] and revised['plan_stale']
+        revision = {'revision': saved_revision}
+        response = client.post(f'{url}/confirm', json={**revision, 'kind': 'requirements'})
+        assert response.status_code == 200, response.text
+        revised = response.json()
+        assert revised['requirements_confirmed'] and revised['plan_stale']
+        response = client.post(f'{url}/plan', json={**revision, 'plan_text': retained['plan_text']})
+        assert response.status_code == 200, response.text
+        revised = response.json()
+        assert revised['revision'] == saved_revision + 1 and revised['workflow_plan'] == new_plan
+        assert revised['requirements_confirmed'] and not revised['plan_stale']
     revision = {'revision': revised['revision']}
     assert client.post(f'{url}/build', json=revision).status_code == 422
     response = client.post(f'{url}/confirm', json={**revision, 'kind': 'configuration'})
@@ -333,15 +477,37 @@ def test_natural_language_edit_preserves_original_and_binds_both_delivery_bundle
         revised = run_with_substitute_platform(client, monkeypatch, revised, new_reply)
         assert revised['dify_app_id'] != original['dify_app_id']
         assert revised['runs'][:len(original['runs'])] == original['runs']
+        original_cids = {run['result'].get('conversation_id') for run in original['runs']
+                         if run.get('kind') == 'run' and run.get('revision') == original['revision']}
+        revised_cids = {run['result'].get('conversation_id') for run in revised['runs']
+                        if run.get('kind') == 'run' and run.get('revision') == revised['revision']}
+        assert len(original_cids) == len(revised_cids) == 6 and original_cids.isdisjoint(revised_cids)
     revised_dsl, revised_manifest = checked_delivery(client, revised, new_reply)
     assert revised_dsl != original_dsl and revised_manifest['revision'] > original_manifest['revision']
     assert main.artifact_path(original).read_bytes() == original_dsl
     assert any(saved['revision'] == original['revision'] and saved['workflow_plan'] == old_plan
                and saved['requirements'] == original['requirements']
+               and saved['test_cases'] == original['test_cases']
                and saved['artifact'] == original['artifact'] for saved in revised['versions'])
     confirmations = {(row['kind'], row['revision'], row.get('carried_from_revision')) for row in revised['confirmations']}
-    assert {('configuration', original['revision'], None), ('requirements', draft['revision'], None),
-            ('requirements', revised['revision'], draft['revision']),
-            ('configuration', revised['revision'], None)} <= confirmations
+    expected_confirmations = {('configuration', original['revision'], None),
+                              ('requirements', draft['revision'], None),
+                              ('requirements', adopted_revision, draft['revision']),
+                              ('configuration', revised['revision'], None)}
+    if saved_revision is not None:
+        expected_confirmations |= {('requirements', saved_revision, None),
+                                   ('requirements', revised['revision'], saved_revision)}
+    assert expected_confirmations <= confirmations
     assert bundle(client, original).status_code == 409
     assert calls == ['interview', 'plan']
+
+
+def test_no_hit_equals_expectation_rejects_the_other_versions_reply():
+    from app.evaluation import evaluate_output
+    old, new = inputs()['no_hit_reply'], NEW_NO_HIT_REPLY
+    old_rule = {'mode': 'equals', 'target': 'answer', 'expected': old}
+    new_rule = {'mode': 'equals', 'target': 'answer', 'expected': new}
+    assert evaluate_output({'answer': old}, old_rule)['status'] == 'passed'
+    assert evaluate_output({'answer': new}, new_rule)['status'] == 'passed'
+    assert evaluate_output({'answer': new}, old_rule)['status'] == 'failed'
+    assert evaluate_output({'answer': old}, new_rule)['status'] == 'failed'
