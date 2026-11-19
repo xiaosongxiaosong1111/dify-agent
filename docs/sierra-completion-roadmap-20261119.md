@@ -137,4 +137,4 @@ python -m pytest backend/tests/test_after_sales_intake_to_graph.py backend/tests
 
 ## 本轮执行入口
 
-首项为完整六例七轮离线闭环。先用 ds find 核必要测试片段，Codex 抽查后给出仓库外 do 任务单。接下来按 P0-B/C 已证实缺口推进。真实模型与 Dify 的阶段按当时连接和范围准备，批次许可与工程任务独立记录。本路线会随完成的工作包更新状态和证据，待办编号以 BACKLOG 为准。
+第331项路线已有提交，P0-A 第332项实现为 5b39908。DeepSeek 首次校验发现 followups 输入结构错误，一次自修后通过，Codex 独立复跑 52 项通过。两版各六例七轮、七份诊断替身与双 ZIP 验收完成。下一步先有界核对 P0-B 是否有新的实际缺口，再走 P0-C。真实模型与 Dify 的阶段按当时连接和范围准备，批次许可与工程任务独立记录，待办编号以 BACKLOG 为准。

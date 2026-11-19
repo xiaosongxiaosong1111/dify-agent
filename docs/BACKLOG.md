@@ -621,4 +621,4 @@
 
 | 331 | 形成 Sierra 完整开发路线与 DeepSeek 委派验收方式 | 对照需求 §6/§10/§11 写阶段、文件范围、六例七轮、失败处理、实际环境/模型与版本验收和最终交付条件。阅读核路线引用、技能调用和现有状态一致。 | codex | done | 路线实现 2c1ca04。已核原需求与当前覆盖，用户指定的 CC Switch 当前 deepseek-flash 配置可用，只读侦察已成功。八个工作包、六例七轮及各阶段退出条件已登记。 |
 
-| 332 | 空 Chatflow 六例七轮双版及逐轮诊断离线闭环 | 按路线 P0-A 扩至六例七轮，明确无答案逐字预期、每例会话隔离、两版 App/修订独立、每轮原生轨迹与双 ZIP。运行 python -m pytest backend/tests/test_after_sales_intake_to_graph.py backend/tests/test_delivery_bundle.py backend/tests/test_diagnostic_turn_selection.py -q。 | deepseek / codex验收 | pending | 首轮 find 完成，do 按仓库外任务单执行，仅允许修改本项测试文件。 |
+| 332 | 空 Chatflow 六例七轮双版及逐轮诊断离线闭环 | 按路线 P0-A 扩至六例七轮，明确无答案逐字预期、每例会话隔离、两版 App/修订独立、每轮原生轨迹与双 ZIP。运行 python -m pytest backend/tests/test_after_sales_intake_to_graph.py backend/tests/test_delivery_bundle.py backend/tests/test_diagnostic_turn_selection.py -q。 | deepseek / codex验收 | done | 实现 5b39908。Claude Code/deepseek-flash 按限定文件实现，首轮检查因 followups 输入形状失败，一次自修后通过。Codex 核完整 diff 并独立复跑 52 项通过。两版各六例七轮、七份诊断、双ZIP，逐字无答案及跨版错误回复反例过。真实 Dify 和产品搭建模型调用为零，未部署。 |
