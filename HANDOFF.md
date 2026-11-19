@@ -12,13 +12,13 @@
 
 - #331 完整路线实现 2c1ca04、关闭 9450edd。八个工作包，逐项满足原始25项，不以版本或测试数量宣布完成。
 - #332 实现 5b39908、关闭 38901a7：空任务双版各六例七轮，每版七份原生诊断替身，逐字无答案及跨版反例、双 ZIP。DeepSeek 首次输入形状失败后自修，Codex 完整差异复核和独立52项通过。
-- #333 两脚本 tools/check_after_sales_static_ui.py / .cjs：页面新建、两访谈、原版规划构建下载、自然语言改版、候选明确采纳、完整JSON样例修改、重确认构建和新版下载。Codex 实际执行 passed；r5/r9 清单、报告、DSL摘要与历史原版字节一致。工作证据 work/after-sales-static-ui-eef13c9617a5486dac06f38cbf821e7a，五次模型替身，生产访问/真实模型Dify HTTP为0。公开资源配置和六例样例经本机API预置，非纯页面资源录入，也非真实模型质量证明。DeepSeek CLI 超时但已写出文件，未返回成功JSON；实际结论来自根代理独立验收。实现提交后才关闭队列。
+- #333 实现623dd45，两脚本 tools/check_after_sales_static_ui.py / .cjs：页面新建、两访谈、原版规划构建下载、自然语言改版、候选明确采纳、完整JSON样例修改、重确认构建和新版下载。Codex 实际执行 passed；r5/r9 清单、报告、DSL摘要与历史原版字节一致。工作证据 work/after-sales-static-ui-eef13c9617a5486dac06f38cbf821e7a，五次模型替身，生产访问/真实模型Dify HTTP为0。公开资源配置和六例样例经本机API预置，非纯页面资源录入，也非真实模型质量证明。DeepSeek CLI 超时但已写出文件，未返回成功JSON；实际结论来自根代理独立验收。实现已提交后登记关闭。
 - 前端 npm ci / npm run build 成功；已有 tools/check_diagnostic_turns_ui.py 五UI通过。Vite体积提示和Starlette弃用提示未阻止通过，不为提示做无关重构。没有重跑全量。
 - #319—330 的访谈/改版基线、逐轮未知结果、App归属、诊断来源、交付答复与固定新会话修复见 CHANGELOG 和 BACKLOG；均已提交并定向验证，尚未接回原机运行。
 
 ## 3. 下一步
 
-1. 先完成 #333 实现提交，再登记关闭提交；每次 push 前更新根 CHANGELOG、适用 README/状态和整份 HANDOFF，明确路径暂存，推原 main 并核远端哈希。排除 work/data/依赖/ZIP/秘密，不让用户代提交，不force。
+1. 已完成 #333 实现及验收，登记关闭提交；每次 push 前更新根 CHANGELOG、适用 README/状态和整份 HANDOFF，明确路径暂存，推原 main 并核远端哈希。排除 work/data/依赖/ZIP/秘密，不让用户代提交，不force。
 2. P0-D：DeepSeek 正在只读核原 start/stop、保护部署和运行身份脚本，根代理核原机 Git/数据/保存PID/CIM执行文件/不可变快照。原机升级须先证实无用户改动且可快进；按原start/stop部署，health、runtime、页面版本一致。不得按端口任意杀进程，也不得把旧419十一根核对代替当前十二根733保护。
 3. 有界审查 P0-B 已有访谈/规划失败路径，未确认新生产缺陷；已有格式错误保留旧图及预算覆盖，不重复造测试。P0-C 当前完成静态片段，平台发布/六例七轮的正常页面接续仍待隔离核对；只对复现的实质缺口开发。
 4. 真实产品调用仍遵守2026-11-02 call_ae41b2d065e34bd8b5f5afeb812663cc/q0“暂不继续真实调用”；422未授权，authorization-deferred.json和旧空approval/attempt/worker/live-output状态保持。本轮 $ds 开发委派不自动恢复产品模型/Dify运行或扩大资源预算。安全凭据存在后按产品入口复用，不从聊天抄密码。P0-E先形成当时版本可审查新范围再统一请求恢复/批准，旧包不续跑或借余槽。

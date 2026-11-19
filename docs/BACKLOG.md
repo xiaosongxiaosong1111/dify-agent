@@ -623,4 +623,4 @@
 
 | 332 | 空 Chatflow 六例七轮双版及逐轮诊断离线闭环 | 按路线 P0-A 扩至六例七轮，明确无答案逐字预期、每例会话隔离、两版 App/修订独立、每轮原生轨迹与双 ZIP。运行 python -m pytest backend/tests/test_after_sales_intake_to_graph.py backend/tests/test_delivery_bundle.py backend/tests/test_diagnostic_turn_selection.py -q。 | deepseek / codex验收 | done | 实现 5b39908。Claude Code/deepseek-flash 按限定文件实现，首轮检查因 followups 输入形状失败，一次自修后通过。Codex 核完整 diff 并独立复跑 52 项通过。两版各六例七轮、七份诊断、双ZIP，逐字无答案及跨版错误回复反例过。真实 Dify 和产品搭建模型调用为零，未部署。 |
 
-| 333 | 正常页面完成售后访谈、完整规划和双版静态交付 | 路线 P0-C 首片。从页面创建空 Chatflow，替身访谈和规划，正常确认及构建，明确改版和候选采纳，完整JSON样例更新，两ZIP分别核修订与摘要。运行 tools/check_after_sales_static_ui.py --output work/NEW --playwright 本机绝对路径；不访问真实模型或Dify。 | deepseek / codex验收 | pending | #332完整API闭环已通过，前端构建及已有逐轮诊断5UI场景通过。两新脚本限定委派，原生产代码保持。 |
+| 333 | 正常页面完成售后访谈、完整规划和双版静态交付 | 路线 P0-C 首片。从页面创建空 Chatflow，替身访谈和规划，正常确认及构建，明确改版和候选采纳，完整JSON样例更新，两ZIP分别核修订与摘要。运行 tools/check_after_sales_static_ui.py --output work/NEW --playwright 本机绝对路径；不访问真实模型或Dify。 | deepseek / codex验收 | done | 实现 623dd45。DeepSeek写出两脚本后CLI超时，未返回成功结论；Codex完整复核并实际运行passed，r5/r9双ZIP逐文件摘要/DSL/报告和原版历史字节一致，5次模型替身，0页面错误/外部请求。资源和六例通过本机API预置；未部署，真实模型/Dify及生产数据访问为0。 |

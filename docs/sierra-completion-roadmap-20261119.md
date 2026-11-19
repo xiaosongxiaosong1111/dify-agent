@@ -137,4 +137,4 @@ python -m pytest backend/tests/test_after_sales_intake_to_graph.py backend/tests
 
 ## 本轮执行入口
 
-第331项路线已有提交，P0-A 第332项实现为 5b39908。DeepSeek 首次校验发现 followups 输入结构错误，一次自修后通过，Codex 独立复跑 52 项通过。两版各六例七轮、七份诊断替身与双 ZIP 验收完成。下一步先有界核对 P0-B 是否有新的实际缺口，再走 P0-C。真实模型与 Dify 的阶段按当时连接和范围准备，批次许可与工程任务独立记录，待办编号以 BACKLOG 为准。
+第331项路线与第332项 API 六例七轮已关闭。第333项实现623dd45，Codex验收正常页面静态双版通过，原版r5/改版r9分别下载ZIP，原版保留；配置和六例经本机API预置，模型仍为替身，详见BACKLOG和CHANGELOG。P0-B已有失败保留检查经有界抽查未确认新缺陷，后续继续对实际问题开发。当前核P0-D的原机Git/数据/运行保护和部署路径；P0-C平台发布/试跑的页面接续仍待隔离验证。真实产品模型/Dify仍暂缓，开发DeepSeek委派继续，具体执行与批次授权分开记录。
