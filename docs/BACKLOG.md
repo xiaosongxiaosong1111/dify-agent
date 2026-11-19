@@ -624,3 +624,5 @@
 | 332 | 空 Chatflow 六例七轮双版及逐轮诊断离线闭环 | 按路线 P0-A 扩至六例七轮，明确无答案逐字预期、每例会话隔离、两版 App/修订独立、每轮原生轨迹与双 ZIP。运行 python -m pytest backend/tests/test_after_sales_intake_to_graph.py backend/tests/test_delivery_bundle.py backend/tests/test_diagnostic_turn_selection.py -q。 | deepseek / codex验收 | done | 实现 5b39908。Claude Code/deepseek-flash 按限定文件实现，首轮检查因 followups 输入形状失败，一次自修后通过。Codex 核完整 diff 并独立复跑 52 项通过。两版各六例七轮、七份诊断、双ZIP，逐字无答案及跨版错误回复反例过。真实 Dify 和产品搭建模型调用为零，未部署。 |
 
 | 333 | 正常页面完成售后访谈、完整规划和双版静态交付 | 路线 P0-C 首片。从页面创建空 Chatflow，替身访谈和规划，正常确认及构建，明确改版和候选采纳，完整JSON样例更新，两ZIP分别核修订与摘要。运行 tools/check_after_sales_static_ui.py --output work/NEW --playwright 本机绝对路径；不访问真实模型或Dify。 | deepseek / codex验收 | done | 实现 623dd45。DeepSeek写出两脚本后CLI超时，未返回成功结论；Codex完整复核并实际运行passed，r5/r9双ZIP逐文件摘要/DSL/报告和原版历史字节一致，5次模型替身，0页面错误/外部请求。资源和六例通过本机API预置；未部署，真实模型/Dify及生产数据访问为0。 |
+
+| 334 | 原机安全接回当前源码和固定运行快照 | 路线P0-D本机部署部分。原机干净且仅快进升级，核十二根数据和733旧证据不变；原start等health200，运行manifest/源文件/页面/PID执行文件一致，保留26任务/10环境/2模型。运行定向启动快照检查并实际保护部署。不调用产品模型或Dify。 | deepseek核部署 / codex集成验收 | pending | 已只读实核十二根均与旧基线一致、733旧证据完整，旧PID不存在且health不可用。DeepSeek已只读核start/stop及不可变快照。 |
