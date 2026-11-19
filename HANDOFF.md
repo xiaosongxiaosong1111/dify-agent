@@ -14,7 +14,7 @@
 - #332 实现 5b39908、关闭 38901a7：空任务双版各六例七轮，每版七份原生诊断替身，逐字无答案及跨版反例、双 ZIP。DeepSeek 首次输入形状失败后自修，Codex 完整差异复核和独立52项通过。
 - #333 实现623dd45，两脚本 tools/check_after_sales_static_ui.py / .cjs：页面新建、两访谈、原版规划构建下载、自然语言改版、候选明确采纳、完整JSON样例修改、重确认构建和新版下载。Codex 实际执行 passed；r5/r9 清单、报告、DSL摘要与历史原版字节一致。工作证据 work/after-sales-static-ui-eef13c9617a5486dac06f38cbf821e7a，五次模型替身，生产访问/真实模型Dify HTTP为0。公开资源配置和六例样例经本机API预置，非纯页面资源录入，也非真实模型质量证明。DeepSeek CLI 超时但已写出文件，未返回成功JSON；实际结论来自根代理独立验收。实现已提交后登记关闭。
 - 前端 npm ci / npm run build 成功；已有 tools/check_diagnostic_turns_ui.py 五UI通过。Vite体积提示和Starlette弃用提示未阻止通过，不为提示做无关重构。没有重跑全量。
-- #334 原机保护部署：依赖检查与6项快照检查、前端构建通过。十二根前后capture及733封存完全一致，证据原work/original-host-upgrade-20261119，真实模型/Dify HTTP为0。实现记录提交后登记关闭。
+- #334 原机保护部署：依赖检查与6项快照检查、前端构建通过。十二根前后capture及733封存完全一致，证据原work/original-host-upgrade-20261119，真实模型/Dify HTTP为0。记录1de6dab已提交后登记关闭。
 - #319—330 的访谈/改版基线、逐轮未知结果、App归属、诊断来源、交付答复与固定新会话修复见 CHANGELOG 和 BACKLOG；均已提交并定向验证，本轮已接回原机固定快照运行。
 
 ## 3. 下一步
