@@ -1,6 +1,6 @@
 """Evidence-backed conflict proposals and explicit requirement replacement decisions."""
 from .contract_loading import load_contract
-import copy,re
+import copy,json,re
 from fastapi import HTTPException
 from pydantic import BaseModel,ConfigDict,StrictInt,StrictBool
 from .coverage import digest,SOURCE_FIELDS
@@ -44,6 +44,12 @@ def sources(task):
 
 
 def validate_review(task,review):
+    try:
+        json.dumps(review,ensure_ascii=False,allow_nan=False).encode('utf-8')
+    except UnicodeError:
+        return {'valid':False,'errors':['冲突检查含无法编码的孤立代理字符，请修正文字后重新提交。']}
+    except (ValueError,TypeError,RecursionError):
+        return {'valid':False,'errors':['冲突检查含非有限数值、无效键或过深嵌套，无法完整核对，请修正后重新提交。']}
     errors=[]
     if not isinstance(review,dict) or set(review)!={'schema_version','conflicts','notes'} or type(review.get('schema_version')) is not int or review['schema_version']!=1:
         return {'valid':False,'errors':['冲突检查须包含 schema_version=1、conflicts 和 notes。']}
