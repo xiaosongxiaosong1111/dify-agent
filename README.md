@@ -1,5 +1,7 @@
 # Sierra
 
+真实自主双版的待确认范围见[统一验收方案](docs/autonomous-dual-chatflow-resume-plan-20261120.md)。该方案尚未授权或执行，旧真实调用暂缓保持；开发模型委派与产品真实验收分开记录。
+
 当前开发安排见[完整开发与验收路线](docs/sierra-completion-roadmap-20261119.md)。Codex 负责需求和验收，Claude Code 通过用户指定的 DeepSeek 网关做实现及返工。
 
 Sierra 是本机 Dify 搭建助手：选择应用类型，整理需求和材料，确认配置与流程，再生成 DSL、发布和试跑。目标适配 Dify 1.17.1。
