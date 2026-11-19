@@ -622,3 +622,5 @@
 | 331 | 形成 Sierra 完整开发路线与 DeepSeek 委派验收方式 | 对照需求 §6/§10/§11 写阶段、文件范围、六例七轮、失败处理、实际环境/模型与版本验收和最终交付条件。阅读核路线引用、技能调用和现有状态一致。 | codex | done | 路线实现 2c1ca04。已核原需求与当前覆盖，用户指定的 CC Switch 当前 deepseek-flash 配置可用，只读侦察已成功。八个工作包、六例七轮及各阶段退出条件已登记。 |
 
 | 332 | 空 Chatflow 六例七轮双版及逐轮诊断离线闭环 | 按路线 P0-A 扩至六例七轮，明确无答案逐字预期、每例会话隔离、两版 App/修订独立、每轮原生轨迹与双 ZIP。运行 python -m pytest backend/tests/test_after_sales_intake_to_graph.py backend/tests/test_delivery_bundle.py backend/tests/test_diagnostic_turn_selection.py -q。 | deepseek / codex验收 | done | 实现 5b39908。Claude Code/deepseek-flash 按限定文件实现，首轮检查因 followups 输入形状失败，一次自修后通过。Codex 核完整 diff 并独立复跑 52 项通过。两版各六例七轮、七份诊断、双ZIP，逐字无答案及跨版错误回复反例过。真实 Dify 和产品搭建模型调用为零，未部署。 |
+
+| 333 | 正常页面完成售后访谈、完整规划和双版静态交付 | 路线 P0-C 首片。从页面创建空 Chatflow，替身访谈和规划，正常确认及构建，明确改版和候选采纳，完整JSON样例更新，两ZIP分别核修订与摘要。运行 tools/check_after_sales_static_ui.py --output work/NEW --playwright 本机绝对路径；不访问真实模型或Dify。 | deepseek / codex验收 | pending | #332完整API闭环已通过，前端构建及已有逐轮诊断5UI场景通过。两新脚本限定委派，原生产代码保持。 |
