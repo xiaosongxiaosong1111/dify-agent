@@ -5,7 +5,7 @@
 - 工作克隆 E:\workSpace\sierra-chatflow-offline，main，origin https://github.com/xiaosongxiaosong1111/dify-agent.git。以 git status、最新 BACKLOG 和运行身份为准，保留未提交修改。
 - 用户指定 $ds：Codex 制定路线、把控需求、验收与返工；持续向 Claude Code / 192.168.0.224 的 deepseek-flash 派发明确任务，直到项目完成或实际不可继续。完整路线 docs/sierra-completion-roadmap-20261119.md。模型不可用或额度不足如实停止，不换账号/模型绕过，不冒称子审查成功。
 - 经用户指定从 CC Switch 当前 Claude provider 仅读并配置技能仓库外忽略文件。开发网关调用已实际成功；不修改全局 Codex/Claude 配置，不输出 Key，不把凭据或客户资料发给子任务。ds 路径 C:\Users\Administrator\.codex\skills\ds\scripts\ds.mjs。
-- 原机 E:\workSpace\dify-agent 已由7cf22b3安全快进同步当前main（运行代码含d16b7b5修复）并启动，http://127.0.0.1:8765 可用。实际固定快照0.410.0-687a4ca8b10a2348d29c / 297文件 / PID32984；health与页面200，CIM执行文件和源码/快照逐项相符。26任务/10环境/2模型、加密凭据及素材与升级前一致。存有专用环境加密登录、Token和Service Key及模型Key，不等于实时连接已验证。不得用新克隆空数据覆盖。
+- 原机 E:\workSpace\dify-agent 已由7cf22b3安全快进同步当前main（运行代码含d16b7b5修复）并启动，http://127.0.0.1:8765 可用。实际固定快照0.410.0-4897d627cdeb2686447b / 297文件 / PID37128；health与页面200，CIM执行文件和源码/快照逐项相符。26任务/10环境/2模型、加密凭据及素材与升级前一致。存有专用环境加密登录、Token和Service Key及模型Key，不等于实时连接已验证。不得用新克隆空数据覆盖。
 - 原需求 docs/requirements-v1.0.md，首条 Chatflow 目标为模糊需求起步、模型访谈和完整规划、自然语言改版、两版各六例七轮/原生轨迹/交付包。人工386双版、受限模型410单版有历史真实证据，自主双版仍未闭合。
 
 ## 2. 本轮已验收
@@ -25,8 +25,8 @@
 
 1. 按用户新模式持续执行32项清单docs/deepseek-delivery-checklist-20261120.md：Codex拆任务/具体方案/独立验收/退回修改/集成提交，DeepSeek实际实现；一项关闭再派下一项。原8大包不能代替派单，不能把真实验收受阻变成全部功能开发停摆。只修确认的实质缺口，不重写已有功能、不造等价测试。
 2. #339已完成，实现7740a38。DeepSeek首轮未证实缺陷，根代理用正常API独立复现“rules=不知道”人工200/确认200；给限定方案后DeepSeek修intake.py和新检查。根读完整差异、新文件，旧HEAD核心4失败/1通过，新92项定向通过。只识别九种完整短占位，完整业务句不误判，旧语义/来源/确认规则保持；不代表真实模型质量已过。
-3. 已保护部署0.410.0-687a4ca8b10a2348d29c/297文件/PID32984。原start/stop核保存PID/可执行文件，health/页面200，源码/快照/进程逐一相符；十二根数据、733旧证据、已停止337包24文件、26旧Task和密文/素材前后一致。证据原work/intake339-deployment/{before,after}.json，定向work/intake339-verification。后端当前已含修复，不需要再次部署同片。
-4. 340已完成有界产品链核对，既有实现够用，无新缺陷，不重写/添等价测试。DeepSeek核六字段/只读讨论/采用确认，根独立读UI和应用入口，复用本轮92中的AT02证据；真实建议质量仍待验。341正在收尾：根复现旧task准入false但confirm200；DeepSeek仅main两处复用339，旧main核心4失败/新10通过，待提交和保护部署。兼容通道不强制新访谈，完整规则仍可正常确认。
+3. 当前已保护部署0.410.0-4897d627cdeb2686447b/297文件/PID37128（339后继续含341）。原start/stop核保存PID/可执行文件，health/页面200，源码/快照/进程逐一相符；十二根数据、733旧证据、已停止337包24文件、26旧Task和密文/素材前后一致。证据原work/intake339-deployment和work/confirmation341-deployment的before/after.json，定向work/intake339-verification及work/confirmation341-verification。后端当前已含修复，不需要再次部署同片。
+4. 340已完成有界产品链核对，既有实现够用，无新缺陷，不重写/添等价测试。DeepSeek核六字段/只读讨论/采用确认，根独立读UI和应用入口，复用本轮92中的AT02证据；真实建议质量仍待验。341已完成，实现3c653a5；根旧main核心4失败/新10通过并保护部署。兼容通道不强制新访谈，完整规则仍可正常确认。下一项342 pending，对应清单04连续自然语言改版，核原图基线/两次修改要求/明确采纳和旧版保留，复用#319，不造重复改造。
 5. #337已消费stopped，不重放、不覆盖work/autonomous-dual337、不续阶段。直接批准call_b4c700f1b4d24950a303b16fbe157440/q0仅对应e09376a新337。实际1登录/4GET全200，FAQ文档列表后RuntimeError拒绝，具体分支未记录；模型/新Task/资源/Service全0。plan493122dd/manifest321fc01f，完整摘要见docs/autonomous-dual-chatflow-live-result-20261120.md。#338分页修复181003e仅源码，旧冻结保持；下一真实批须独立新范围与明确改授/批准，未用槽不自动跨批退借。
 6. 专用环境加密登录/原空间明确重连已核；旧Service App9faf2792-08e2-48cf-afd0-050b34035fed未切换。后续真实模型前仍需实际FAQ政策/条件/结论核对和根实际读完整候选，不能模板代替或放宽预期。自主双版仍未完成。12根保护新基线已含337允许的认证Token变化，不回滚它们，不使用11月19旧exact基线误报。
 7. 当前保守模型51/读1597/登录47/资源各28/Service134，模型账本2.755473652非账单硬限，实际产品模型仍36，旧settled0.214071000/unknown/费用/所有槽不变。开发DeepSeek调用独立记录，本轮没有新增产品模型/Dify请求。无实际Codex不足，不假称额度用尽；实际不足即停并尽可能整份交接，不重试换号购买。
