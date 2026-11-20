@@ -24,4 +24,4 @@ POST /api/tasks/{id}/conflicts/dismiss：revision、review_token、conflict_id�
 
 ## 当前验证状态
 
-旧行为已由正常新任务/上传/保存/移除API独立复现，见work/conflicts345-source-removal-proof.json。既有冲突及文字编码67项定向通过。DeepSeek已实现两处产品文件与针对性新检查/实际App工具；Codex独立89项直接相关后端检查、前端构建及实际页面填写说明/明确撤销/查看历史/单独确认通过。原版正常API死路已复现；根另找出嵌套坏文字与未知字段坏文字两个500，交DeepSeek修为完整请求编码检查并复验89通过。最终实际页面证据work/conflicts345-app-ui-final-6b24003cb26f4224b91339e57fd2a62a，源r7→撤销r8，未采用推荐的30天规则。实现待提交和保护部署，不提前关闭任务。全部使用公开临时资料，真实产品模型/Dify请求为0。
+旧行为已由正常新任务/上传/保存/移除API独立复现，见work/conflicts345-source-removal-proof.json。既有冲突及文字编码67项定向通过。DeepSeek已实现两处产品文件与针对性新检查/实际App工具；Codex独立89项直接相关后端检查、前端构建及实际页面填写说明/明确撤销/查看历史/单独确认通过。原版正常API死路已复现；根另找出嵌套坏文字与未知字段坏文字两个500，交DeepSeek修为完整请求编码检查并复验89通过。最终实际页面证据work/conflicts345-app-ui-final-6b24003cb26f4224b91339e57fd2a62a，源r7→撤销r8，未采用推荐的30天规则。实现7c33efd已保护部署0.410.0-7e6f0aefffe51b7f0675（298文件/PID35824），原26任务、十二根及733/337封存24、密文资产保持，关闭345。全部使用公开临时资料，真实产品模型/Dify请求为0。
