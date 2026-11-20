@@ -1,6 +1,6 @@
 # Sierra
 
-真实自主双版的待确认范围见[统一验收方案](docs/autonomous-dual-chatflow-resume-plan-20261120.md)。该方案尚未授权或执行，旧真实调用暂缓保持；开发模型委派与产品真实验收分开记录。
+用户已明确恢复并批准[自主双版验收方案](docs/autonomous-dual-chatflow-resume-plan-20261120.md)这一新批。执行器已通过14种隔离路径和22项边界/复核检查，真实执行前仍须冻结并核验；当前有效模型上限6、零语法修复，旧批不重放。开发模型委派与产品验收分开记录。
 
 当前开发安排见[完整开发与验收路线](docs/sierra-completion-roadmap-20261119.md)。Codex 负责需求和验收，Claude Code 通过用户指定的 DeepSeek 网关做实现及返工。
 
