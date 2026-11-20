@@ -5,7 +5,7 @@
 - 工作克隆 E:\workSpace\sierra-chatflow-offline，main，origin https://github.com/xiaosongxiaosong1111/dify-agent.git。以 git status、最新 BACKLOG 和运行身份为准，保留未提交修改。
 - 用户指定 $ds：Codex 制定路线、把控需求、验收与返工；持续向 Claude Code / 192.168.0.224 的 deepseek-flash 派发明确任务，直到项目完成或实际不可继续。完整路线 docs/sierra-completion-roadmap-20261119.md。模型不可用或额度不足如实停止，不换账号/模型绕过，不冒称子审查成功。
 - 经用户指定从 CC Switch 当前 Claude provider 仅读并配置技能仓库外忽略文件。开发网关调用已实际成功；不修改全局 Codex/Claude 配置，不输出 Key，不把凭据或客户资料发给子任务。ds 路径 C:\Users\Administrator\.codex\skills\ds\scripts\ds.mjs。
-- 原机 E:\workSpace\dify-agent 已由7cf22b3安全快进同步当前main（运行代码含d16b7b5修复）并启动，http://127.0.0.1:8765 可用。实际固定快照0.410.0-088a46541b19739c04fb / 297文件 / PID18472；health与页面200，CIM执行文件和源码/快照逐项相符。26任务/10环境/2模型、加密凭据及素材与升级前一致。存有专用环境加密登录、Token和Service Key及模型Key，不等于实时连接已验证。不得用新克隆空数据覆盖。
+- 原机 E:\workSpace\dify-agent 已由7cf22b3安全快进同步当前main（运行代码含d16b7b5修复）并启动，http://127.0.0.1:8765 可用。实际固定快照0.410.0-6cc366992120da4956f8 / 298文件 / PID5404；health与页面200，CIM执行文件和源码/快照逐项相符。26任务/10环境/2模型、加密凭据及素材与升级前一致。存有专用环境加密登录、Token和Service Key及模型Key，不等于实时连接已验证。不得用新克隆空数据覆盖。
 - 原需求 docs/requirements-v1.0.md，首条 Chatflow 目标为模糊需求起步、模型访谈和完整规划、自然语言改版、两版各六例七轮/原生轨迹/交付包。人工386双版、受限模型410单版有历史真实证据，自主双版仍未闭合。
 
 ## 2. 本轮已验收
@@ -24,10 +24,10 @@
 ## 3. 下一步
 
 1. 用户最新明确：不让Codex接手产品实现；DeepSeek退出先查原因，再重发有具体反馈的小任务，Codex负责派单/设计/独立验收/集成。仍用192.168.0.224:3010的Claude Code网关实际deepseek-flash，不改账号/模型或配置。原后端退出日志sec540正好默认上限，同期网关其它请求成功，TCP核可达，未证实断网/额度；重发后端185秒成功、UI工具适配37秒成功。不把无结果记录input/output0当实际免费。真额度不足仍立即停，不盲目重试；此用户新指令覆盖技能默认根代理接手建议。
-2. #344 doing，对应32项清单06。实质功能已由DeepSeek实现，尚待实现commit和保护部署后关闭。新增reference_preservation.py；API采用/PATCH保存preserve_node_ids，规划前重核原文件归属/SHA及完整策略，候选/配置确认/构建逐项比较。preserve仅精确保留所选根code/template-transform完整配置、不锁连线；replicate对编译器可完整表达的同类型无容器根图比较core和依赖。未选/不支持/上下文超过24000字节明确拒绝，不回退借鉴或线性模板。普通文字仅保存讨论，非任意DSL反解/语义复现，也不升级为业务平台通过。文档docs/reference-material-preservation.md。
+2. #344已完成，对应32项清单06，实现8430520。DeepSeek实现，根实际检查及受管理保护部署后关闭。新增reference_preservation.py；API采用/PATCH保存preserve_node_ids，规划前重核原文件归属/SHA及完整策略，候选/配置确认/构建逐项比较。preserve仅精确保留所选根code/template-transform完整配置、不锁连线；replicate对编译器可完整表达的同类型无容器根图比较core和依赖。未选/不支持/上下文超过24000字节明确拒绝，不回退借鉴或线性模板。普通文字仅保存讨论，非任意DSL反解/语义复现，也不升级为业务平台通过。文档docs/reference-material-preservation.md。
 3. 根代理已审产品差异和新文件，独立96项后端通过；仓库外reference344-api-proof.py旧固定快照两例build422，新正常任务两例配置/build200（保留例可改非所选节点，复现例core完全一致）。组件6例/前端构建及真实App上传、选code、采用、编辑增format、重开回显、重新准入/构建均通过。实际页面证据work/reference344-app-ui-02dd0003d9794d128042ff6f7caa97fa，初始Task/需求/计划API预置，物理产品模型/Dify0。UI工作器313秒成功返回，固定check一次通过；根代理另跑实际页面同样通过，最终两个工具SHA256与独立验收时一致。
-4. 原机仍为0.410.0-088a46541b19739c04fb/297/PID18472，原HEAD b24331c，当前源码新改动未部署。reference344-deployment/before.json已capture，禁止覆盖。接着只提交已审文件，原机clean后快进同步、重构建前端，核保存PID/执行文件/固定快照归属，用原stop/start部署，运行仓库外audit-deployment344.py verify，保护十二根、733旧证据和337封存24、26Task及密文资产。不要按端口杀进程，不跑全量。
-5. 339/7740a38（短未知占位，92定向）、341/3c653a5（旧确认一致性，10定向）、343/b24331c（Word空表/纯图片分隔符，60定向）均已提交并保护部署；340规则建议采用链和342连续改版当前够用，复用92中的AT02及24直接相关证据，无重复开发。344关闭后才将清单07参考DSL结构读成业务流程作为下一345，限定核节点/连接/分支/代码/限制及模型摘录，已有功能不重写、不造等价检查。BACKLOG仍权威，一项关闭再派下一项。
+4. 原机已安全快进8430520并重构建前端，原stop/start前核保存PID/执行文件/固定快照归属，现为0.410.0-6cc366992120da4956f8/298/PID5404。仓库外audit-deployment344.py verify实际passed；health/页面200、源码/快照/进程对应，十二根/733旧证据/337封存24/26Task及密文资产保持。原work/reference344-deployment/before.json和after.json保留，禁止覆盖。关闭文档推送后原机仅快进文档，不重复部署同代码。不按端口杀进程、不跑全量。
+5. 339/7740a38（短未知占位，92定向）、341/3c653a5（旧确认一致性，10定向）、343/b24331c（Word空表/纯图片分隔符，60定向）均已提交并保护部署；340规则建议采用链和342连续改版当前够用，复用92中的AT02及24直接相关证据，无重复开发。下一#345 pending对应清单07材料/DSL/业务事实冲突识别及裁定：只读conflicts.py、ConflictPanel和直接案例，核实际来源/影响/推荐、关键未决阻断和明确采用，不按新旧猜事实；已有功能够用不重写、不造等价检查。BACKLOG仍权威，一项关闭再派下一项。
 6. #337直接批准call_b4c700f1b4d24950a303b16fbe157440/q0后唯一执行stopped，不重放work/autonomous-dual337，不续阶段。实际1登录/4GET全200，FAQ文档列表后RuntimeError拒绝，模型/新Task/资源/Service全0。plan493122dd/manifest321fc01f；#338分页修复181003e只是源码，旧冻结保持。下一真实批须独立新范围与明确改授/批准；此次允许重发开发DeepSeek不扩大真实产品模型/Dify范围。
 7. 专用环境加密资料/原空间已核，旧Service App9faf2792-08e2-48cf-afd0-050b34035fed未切换。后续真实前仍须FAQ政策/条件/结论及完整原模型候选实际复核。自主双版仍未完成。保护基线已含337允许的认证Token变化，不回滚它们、不使用11月19旧exact基线误报。
 8. 保守模型51/读1597/登录47/资源各28/Service134，模型估算账本2.755473652非账单硬限；实际产品模型仍36，旧settled0.214071000/unknown/费用/全部槽保持。开发网关单独记录。本轮零新增产品模型/Dify请求。无实际Codex不足，不假称耗尽；实际不足即停并尽可能整份交接，不换号购买。
