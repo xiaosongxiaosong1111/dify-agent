@@ -69,15 +69,23 @@ def test_adopt_material_preserves_source_plan_and_invalidates(client):
 
 @pytest.mark.parametrize('mode', ['preserve', 'replicate'])
 def test_preserve_replicate_not_silently_borrowed(client, mode):
+    # New behaviour after material-level preservation: explicit non-borrow intents
+    # are recorded and never downgraded. Configuration re-checks the complete
+    # explicit policy; preserve without selected root nodes and replicate without
+    # a complete explicit plan are both refused there.
     task = approved(client); preview(client, task)
     if mode == 'preserve': assert adopt(client, task, reference_mode=mode).status_code == 422
     task = adopt(client, task, reference_mode=mode, preserve_items='保留代码规则').json()
     assert task['materials'][0]['reference_mode'] == mode
-    for kind in ('requirements', 'configuration'):
-        response = client.post(f"/api/tasks/{task['id']}/confirm", json={'kind': kind, 'revision': task['revision']}); assert response.status_code == 200, response.text
-        task = response.json()
+    response = client.post(f"/api/tasks/{task['id']}/confirm", json={'kind': 'requirements', 'revision': task['revision']})
+    assert response.status_code == 200, response.text
+    task = response.json()
+    response = client.post(f"/api/tasks/{task['id']}/confirm", json={'kind': 'configuration', 'revision': task['revision']})
+    assert response.status_code == 422
+    assert ('保留' if mode == 'preserve' else '完整显式流程计划') in response.text
     result = client.post(f"/api/tasks/{task['id']}/build", json={'revision': task['revision']})
-    assert result.status_code == 422 and ('严格复现' in result.text or '保留' in result.text)
+    assert result.status_code == 422
+    assert not main.get_task(task['id'])['artifact']
 
 
 def test_different_source_type_is_reference_only(client):
@@ -328,13 +336,25 @@ def test_at04_changing_choice_invalidates_approvals_and_never_falls_back(client,
     assert changed['materials'][0]['reference_mode'] == mode
     assert not changed['requirements_confirmed'] and not changed['configuration_confirmed'] and not changed['artifact']
     assert client.post(f"/api/tasks/{task['id']}/confirm", json={'revision': task['revision'], 'kind': 'requirements'}).status_code == 409
-    for kind in ('requirements', 'configuration'):
-        response = client.post(f"/api/tasks/{task['id']}/confirm", json={'revision': changed['revision'], 'kind': kind})
-        assert response.status_code == 200, response.text
-        changed = response.json()
+    response = client.post(f"/api/tasks/{task['id']}/confirm", json={'revision': changed['revision'], 'kind': 'requirements'})
+    assert response.status_code == 200, response.text
+    changed = response.json()
+    # Configuration now re-checks the complete explicit policy instead of
+    # silently falling back: preserve without chosen root nodes is refused, and
+    # replicate is refused until a complete explicit plan is saved.
+    response = client.post(f"/api/tasks/{task['id']}/confirm", json={'revision': changed['revision'], 'kind': 'configuration'})
+    assert response.status_code == 422
+    assert ('保留' if mode == 'preserve' else '完整显式流程计划') in response.text
     before = main.get_task(task['id'])
-    for action, message in (('plan/generate', '不会自动改为借鉴'), ('build', '尚未实现指定参考内容保留或严格复现')):
-        response = client.post(f"/api/tasks/{task['id']}/{action}", json={'revision': changed['revision']})
-        assert response.status_code == 422 and message in response.text
-        assert main.get_task(task['id']) == before
-    assert not before['dify_app_id'] and not before['runs']
+    response = client.post(f"/api/tasks/{task['id']}/plan/generate", json={'revision': changed['revision']})
+    assert response.status_code == 422
+    if mode == 'preserve':
+        assert '不会自动改为借鉴' in response.text
+    else:
+        assert '主模型' in response.text
+    current = main.get_task(task['id'])
+    assert current == before and current['materials'][0]['reference_mode'] == mode and not current['planning_runs']
+    response = client.post(f"/api/tasks/{task['id']}/build", json={'revision': changed['revision']})
+    assert response.status_code == 422
+    assert main.get_task(task['id']) == before
+    assert not before['dify_app_id'] and not before['runs'] and not before['artifact']

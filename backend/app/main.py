@@ -42,6 +42,7 @@ from .conflicts import require_ready as require_conflicts,summary as conflict_su
 from .configuration_proposals import ConfigurationManager
 from .case_proposals import CaseProposalManager
 from .reference_dsl import ReferenceDslManager
+from . import reference_preservation
 from .task_budget import TaskBudgetManager
 from .assistant_routing import RoutingManager
 from .intake import IntakeManager, summary as intake_summary, require_ready as require_intake, validate_review as validate_intake, topics as intake_topics, model_sources as intake_model_sources
@@ -508,6 +509,10 @@ def confirm(item_id: str, payload: Confirmation):
                 result = validate_plan(task, task["workflow_plan"])
                 if not result["valid"]:
                     raise HTTPException(422, "流程计划有错误：" + "; ".join(result["errors"]))
+            try:
+                reference_preservation.configuration_check(sys.modules[__name__], task)
+            except reference_preservation.PolicyError as exc:
+                raise HTTPException(422, str(exc)) from exc
             task["configuration_confirmed"] = True
             task["status"] = "ready"
         else:
@@ -672,8 +677,13 @@ async def generate_plan(item_id: str, payload: Revision):
         require_revision(task, payload.revision)
         if any(not v.strip() or v.strip().startswith(("待确认", "待补充", "未知")) for v in task["requirements"].values()):
             raise HTTPException(422, "请先明确八项需求，再生成流程方案。")
-        if any(m.get("status") != "parsed" or m.get("reference_mode") != "borrow" for m in task["materials"]):
-            raise HTTPException(422, "自动规划只支持已解析并确认借鉴的材料；保留或严格复现尚待适配，请先协商范围，不会自动改为借鉴。")
+        if any(m.get("status") != "parsed" or m.get("reference_mode") not in {"borrow", "preserve", "replicate"} for m in task["materials"]):
+            raise HTTPException(422, "材料需成功解析并明确选择参考方式（借鉴、保留指定部分或严格复现）；未选择的不会自动改为借鉴。请先核对材料状态并明确选择。")
+        try:
+            reference_policy = reference_preservation.prepare(sys.modules[__name__], task)
+            reference_context = reference_preservation.model_context(reference_policy)
+        except reference_preservation.PolicyError as exc:
+            raise HTTPException(422, str(exc)) from exc
         from .planning_case_context import current as current_case_context, provenance as case_provenance
         acceptance_cases = current_case_context(task)
         provider = main_provider(task)
@@ -715,7 +725,11 @@ async def generate_plan(item_id: str, payload: Revision):
     if existing_plan_context is not None:
         prompt += " 当前存在existing_plan_context：这是本任务已保存的完整计划及相同计划对应的历史需求／配置。以它为修改基线，只改当前明确变更所需字段；保留无关节点ID、输入类型、提示词、模型独立参数、知识库、分支及连接。不得顺带重排或重建。若必须改变其他结构或无法判断目标范围，返回error/needs_decision明确说明，不自行裁定。旧审批和运行结果不代表本版已获批或已验证。"
     coverage = coverage_summary(task)
-    messages = [{"role": "system", "content": prompt}, {"role": "user", "content": json.dumps({"user_selected_type": task["app_type"], "node_guidance": node_guidance, "acceptance_cases": acceptance_cases, "capability_catalog": compiler_capabilities(task["app_type"]), "requirements": task["requirements"], "configuration": task["configuration"], "existing_plan_context": existing_plan_context, "sierra_runtime_entry": sierra_runtime_entry, "reference_materials": snippets, "intake_assessment": intake_summary(task), "coverage_scope": {"enabled": coverage['enabled'], "confirmed": coverage['confirmed'], "stale": coverage['stale'], "blockers": coverage['blockers'], "items": (task.get("coverage_review") or {}).get("items", [])}}, ensure_ascii=False)}]
+    user_context = {"user_selected_type": task["app_type"], "node_guidance": node_guidance, "acceptance_cases": acceptance_cases, "capability_catalog": compiler_capabilities(task["app_type"]), "requirements": task["requirements"], "configuration": task["configuration"], "existing_plan_context": existing_plan_context, "sierra_runtime_entry": sierra_runtime_entry, "reference_materials": snippets, "intake_assessment": intake_summary(task), "coverage_scope": {"enabled": coverage['enabled'], "confirmed": coverage['confirmed'], "stale": coverage['stale'], "blockers": coverage['blockers'], "items": (task.get("coverage_review") or {}).get("items", [])}}
+    if reference_context is not None:
+        prompt += '\nreference_preservation 是用户确认的本地静态参考策略：preserve 必须逐字保留所列节点的完整配置（不锁连线），replicate 必须与所列完整流程核心（节点、连接、features、变量、依赖）一致。不能凭摘要猜测缺失字段、不能用其它节点或线性模板顶替，也不能声称资源可用或运行已验证；任何不一致都会被本机静态比较拒绝。'
+        user_context["reference_preservation"] = reference_context
+    messages = [{"role": "system", "content": prompt}, {"role": "user", "content": json.dumps(user_context, ensure_ascii=False)}]
 
     def checkpoint():
         with store.lock:
@@ -745,6 +759,12 @@ async def generate_plan(item_id: str, payload: Revision):
             from .workflow_plan import compiled_node_ids
             nodes = {'agent.system_prompt'} if task['app_type'] == 'agent' else compiled_node_ids(task, plan)
             validate_locations(task, nodes, result)
+        if result['valid'] and reference_policy is not None:
+            try:
+                reference_preservation.check_plan(task, reference_policy, plan)
+            except reference_preservation.PolicyError as exc:
+                result['valid'] = False
+                result['errors'] = [*result.get('errors', []), str(exc)]
         return result
 
     try:
@@ -1095,6 +1115,13 @@ def update_material(item_id: str, material_id: str, payload: dict):
     preserve = payload.get("preserve_items", "")
     if not isinstance(preserve, str) or (mode == "preserve" and not preserve.strip()):
         raise HTTPException(422, "请说明必须保留的具体内容。")
+    has_ids = "preserve_node_ids" in payload
+    try:
+        ids = reference_preservation.node_selection(payload.get("preserve_node_ids")) if has_ids else []
+    except reference_preservation.PolicyError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    if mode != "preserve" and ids:
+        raise HTTPException(422, "只有保留指定部分可以选择保留节点；请先切换引用方式。")
     with store.lock:
         task = get_task(item_id)
         require_idle(task)
@@ -1102,8 +1129,19 @@ def update_material(item_id: str, material_id: str, payload: dict):
         material = next((m for m in task["materials"] if m["id"] == material_id), None)
         if not material:
             raise HTTPException(404, "材料不存在。")
+        if mode == "preserve":
+            previous = material.get("reference_mode")
+            kept = material.get("preserve_node_ids") or []
+            ids = ids if has_ids else (kept if previous == "preserve" else [])
+            if ids:
+                try:
+                    ids = reference_preservation.validate_ids_for_material(sys.modules[__name__], task, material, ids)
+                except reference_preservation.PolicyError as exc:
+                    raise HTTPException(422, str(exc)) from exc
+        else:
+            ids = []
         invalidate(task, "变更参考方式前保存")
-        material.update(reference_mode=mode, preserve_items=preserve.strip())
+        material.update(reference_mode=mode, preserve_items=preserve.strip(), preserve_node_ids=ids)
         return save_task(task)
 
 
@@ -1305,8 +1343,10 @@ def build(item_id: str, payload: Revision):
         require_plan_review(task)
         if not task["requirements_confirmed"] or not task["configuration_confirmed"]:
             raise HTTPException(422, "需求、具体配置和资源操作尚未全部确认。")
-        if any(m.get("reference_mode") in {"preserve", "replicate"} for m in task["materials"]):
-            raise HTTPException(422, "当前基础编译器尚未实现指定参考内容保留或严格复现，不能用线性模板替代。可以保留需求等待后续适配；只有你明确同意改为借鉴思路并重新确认，才可按当前能力生成。")
+        try:
+            reference_policy = reference_preservation.prepare(sys.modules[__name__], task)
+        except reference_preservation.PolicyError as exc:
+            raise HTTPException(422, str(exc)) from exc
         if task.get("plan_stale"):
             raise HTTPException(422, "流程计划已过期。请重新规划或人工检查保存，不能用旧流程覆盖新需求。")
         require_dsl_preservation(task)
@@ -1324,6 +1364,13 @@ def build(item_id: str, payload: Revision):
             else:content,validation=compile_current(task)
         except (ValueError,OSError) as exc:
             raise HTTPException(422, str(exc)) from exc
+        if reference_policy is not None:
+            try:
+                report = reference_preservation.check_plan(task, reference_policy, task.get('workflow_plan'), content=content)
+            except reference_preservation.PolicyError as exc:
+                raise HTTPException(422, str(exc)) from exc
+            validation = copy.deepcopy(validation)
+            validation['reference_preservation'] = report
         if not validation.get("valid"):
             raise HTTPException(422, "静态校验未通过：" + "; ".join(validation.get("errors", [])))
         folder = DATA_ROOT / task["id"]

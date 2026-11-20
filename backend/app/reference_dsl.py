@@ -9,10 +9,11 @@ import re
 from pathlib import Path
 
 from fastapi import HTTPException
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 
 from .dsl import DSL_VERSION
-from .dsl_roundtrip import load_document, digest
+from .dsl_roundtrip import load_document, digest, parse
+from . import reference_preservation
 
 LABELS = {'start': '开始', 'llm': '大模型', 'knowledge-retrieval': '知识检索', 'if-else': '条件分支', 'code': '代码', 'template-transform': '模板转换', 'http-request': 'HTTP 请求', 'iteration': '迭代', 'end': '结束', 'answer': '回答', 'iteration-start': '迭代内部开始', 'variable-aggregator': '变量聚合'}
 PLAN_TYPES = set(LABELS) - {'iteration-start'}
@@ -142,6 +143,7 @@ class AdoptRequest(BaseModel):
     preview_token: str
     reference_mode: str
     preserve_items: str = Field(default='', max_length=3000)
+    preserve_node_ids: list[StrictStr] = Field(default_factory=list, max_length=250)
     acknowledge_limits: StrictBool
 
 
@@ -191,6 +193,19 @@ class ReferenceDslManager:
                     raise HTTPException(409, '参考原文的校验值与摘要不一致，请重新上传核对，不加入变动文件。')
                 if any(m.get('sha256') == record['summary']['source']['sha256'] for m in task['materials']):
                     raise HTTPException(409, '相同内容已在材料中，请调整现有参考方式，不重复加入。')
+                try:
+                    selected = reference_preservation.node_selection(payload.preserve_node_ids)
+                except reference_preservation.PolicyError as exc:
+                    raise HTTPException(422, str(exc)) from exc
+                if payload.reference_mode != 'preserve' and selected:
+                    raise HTTPException(422, '只有保留指定部分可以选择保留节点；请先切换参考方式。')
+                if selected:
+                    if task['app_type'] not in reference_preservation.STRICT_APP_TYPES or record['summary']['source']['app_type'] != task['app_type']:
+                        raise HTTPException(422, '保留节点只适用于与当前任务同类型的 Workflow／Chatflow 参考 DSL。')
+                    try:
+                        reference_preservation.validate_selection(parse(record['content'], task['app_type']), selected)
+                    except ValueError as exc:
+                        raise HTTPException(422, str(exc)) from exc
                 mid = str(uuid.uuid4()); summary = record['summary']; folder = h.DATA_ROOT / item_id / 'materials'
                 suffix=Path(summary['source']['filename']).suffix.lower()
                 if suffix and not re.fullmatch(r'\.[a-z0-9]{1,12}',suffix):
@@ -198,7 +213,7 @@ class ReferenceDslManager:
                 folder.mkdir(parents=True, exist_ok=True)
                 (folder / (mid + suffix)).write_bytes(record['content'].encode('utf-8'))
                 h.invalidate(task, '参考 DSL 加入材料前保存')
-                task['materials'].append({'id': mid, 'name': summary['source']['filename'], 'source_kind': 'reference_dsl', 'status': 'parsed', 'error': '', 'size': len(record['content'].encode()), 'sha256': summary['source']['sha256'], 'text': material_text(summary), 'dsl_summary': copy.deepcopy(summary), 'reference_mode': payload.reference_mode, 'preserve_items': payload.preserve_items.strip(), 'created_at': h.now()})
-                task['updated_at'] = h.now(); record.update(status='adopted', material_id=mid, applied_revision=task['revision'], reference_mode=payload.reference_mode, preserve_items=payload.preserve_items.strip(), acknowledge_limits=True, adopted_at=h.now())
+                task['materials'].append({'id': mid, 'name': summary['source']['filename'], 'source_kind': 'reference_dsl', 'status': 'parsed', 'error': '', 'size': len(record['content'].encode()), 'sha256': summary['source']['sha256'], 'text': material_text(summary), 'dsl_summary': copy.deepcopy(summary), 'reference_mode': payload.reference_mode, 'preserve_items': payload.preserve_items.strip(), 'preserve_node_ids': selected, 'created_at': h.now()})
+                task['updated_at'] = h.now(); record.update(status='adopted', material_id=mid, applied_revision=task['revision'], reference_mode=payload.reference_mode, preserve_items=payload.preserve_items.strip(), preserve_node_ids=selected, acknowledge_limits=True, adopted_at=h.now())
                 h.store.put_many([('task', item_id, task), ('reference_dsl_preview', record['id'], record)])
                 return task

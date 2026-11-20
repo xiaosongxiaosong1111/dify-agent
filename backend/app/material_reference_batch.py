@@ -61,8 +61,15 @@ def register(h):
             if not hmac.compare_digest(token,value['review_token']):raise HTTPException(409,'材料、原引用设置或预览方案已变化，未保存旧方案。')
             if not value['changed_count']:raise HTTPException(422,'所选引用设置均未变化，未生成空修订或使确认失效。')
             h.invalidate(task,'批量变更材料引用方式前保存')
-            updates={row['id']:row['after'] for row in value['items']}
+            updates={row['id']:row for row in value['items']}
+            cleared=[]
             for material in task['materials']:
-                if isinstance(material,dict) and material.get('id') in updates:material.update(updates[material['id']])
+                if isinstance(material,dict) and material.get('id') in updates:
+                    row=updates[material['id']]
+                    if row['changed'] and material.get('preserve_node_ids'):
+                        material['preserve_node_ids']=[];cleared.append(material.get('name') or material['id'])
+                    material.update(row['after'])
+            if cleared:
+                task['messages'].append({'role':'assistant','source':'system','content':'批量引用方式已变更，以下材料原有保留节点选择已清空，请在单份材料入口重新选择并核对完整节点配置：'+'、'.join(cleared)+'。','created_at':h.now()})
             return h.save_task(task)
     h.app.include_router(router)
