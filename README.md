@@ -8,6 +8,8 @@ Sierra 是本机 Dify 搭建助手：选择应用类型，整理需求和材料�
 
 需求中的“不知道”“待定”等明确短占位会保留待答状态；完整业务规则中出现这些词不受影响。[准入行为说明](docs/intake-explicit-unknown.md)。
 
+模型地址的端口或IPv6格式错误会在保存前提示；工具测试读取同一修订的地址、模型和Key，编辑期间的旧回执保留原归属。[模型配置与测试一致性](docs/provider-configuration-integrity.md)。
+
 Word空表格或只有图片的表格会提示补充可读文字，正常表格的文字和空列位置保留。[材料读取说明](docs/word-table-readable-text.md)。
 
 参考DSL可明确选择借鉴、保留指定根代码/模板节点，或在支持范围内严格复现流程核心；配置确认及构建精确核对，不符时拒绝，不自动改为借鉴。[参考保留的范围与操作](docs/reference-material-preservation.md)。本项已定向验收并部署，仍属本机静态核对，真实平台与业务结果另验。

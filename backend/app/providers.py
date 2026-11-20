@@ -25,9 +25,15 @@ def usage_summary(value):
 
 
 def checked_url(value: str) -> str:
-    parts = urlsplit(value)
+    try:
+        parts = urlsplit(value)
+        port = parts.port
+    except ValueError:
+        raise ProviderError("服务地址格式无效，请核对主机名、IPv6 地址方括号或数字端口（1-65535）。") from None
     if parts.scheme not in {"http", "https"} or not parts.hostname or parts.username or parts.password:
         raise ProviderError("服务地址必须是有效的 http(s) 地址，不能在地址中包含凭据。")
+    if port is not None and not 1 <= port <= 65535:
+        raise ProviderError("服务地址端口无效，请填写 1-65535 之间的数字端口。")
     if parts.query or parts.fragment:
         raise ProviderError("服务基础地址不能包含查询参数或片段。")
     return value.rstrip("/")

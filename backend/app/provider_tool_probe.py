@@ -161,9 +161,18 @@ class ToolProbeManager:
                 record={'id':request_id,'provider_id':provider_id,'source_token':payload.source_token,'configuration_revision':provider.get('configuration_revision',0),'owner_instance':self.instance,'state':'running','ok':False,'created_at':h.now(),'reserved_estimate_usd':context['estimated_reservation_usd'],'usage':{},'call_status':'pending','tool_execution':False,'max_http_requests':1,'message':'本次工具请求测试进行中；不会执行工具或自动重试。'}
                 h.store.put('provider_tool_probe',request_id,record)
                 self.active.add(provider_id)
+                # Read the plaintext key inside this same locked section so it always belongs to
+                # the approved snapshot above; the key is kept in process memory only, never
+                # stored, hashed, logged or returned. A read failure stays local and is fed to
+                # the existing not_dispatched route below.
+                try:
+                    key=h.store.secret(provider_id,'api_key')
+                    key_failure=None
+                except Exception as exc:
+                    key=None;key_failure=exc
             start=time.monotonic();cancelled=False;dispatched=False
             try:
-                key=h.store.secret(provider_id,'api_key')
+                if key_failure is not None:raise key_failure
                 if not key:raise ValueError('missing credential')
                 dispatched=True;outcome=await request_tool_probe(provider,key)
             except asyncio.CancelledError:
