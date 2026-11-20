@@ -136,7 +136,7 @@ class ConfigurationManager:
     def warnings(self,task,value,snap):
         cfg={**task['configuration'],**value['configuration']};result=[]
         from .iteration import plan_nodes
-        independent=[n['id'] for n in plan_nodes(task.get('workflow_plan') or {}) if n.get('type')=='llm' and isinstance(n.get('config'),dict) and 'model' in n['config']]
+        independent=[n['id'] for n in plan_nodes(task.get('workflow_plan') or {}) if n.get('type') in {'llm','question-classifier','parameter-extractor'} and isinstance(n.get('config'),dict) and 'model' in n['config']]
         if independent:result.append('本配置方案只调整任务默认模型；独立模型节点保持其流程配置，请在流程页另行核对：'+'、'.join(independent))
         retrieval=[n['id'] for n in plan_nodes(task.get('workflow_plan') or {}) if n.get('type')=='knowledge-retrieval']
         if retrieval:result.append('本配置方案只调整任务默认选库／Top K；节点独立选库、阈值及重排保持流程配置，请另行核对：'+'、'.join(retrieval))
@@ -150,6 +150,8 @@ class ConfigurationManager:
     def state(self,task):
         records=[r for r in self.h.store.list('configuration_proposal') if r['task_id']==task['id']];record=records[0] if records else None;snap=self.snapshot(task['id'])
         stale=bool(record and record['context_stamp']!=context_stamp(self.h,task));current=self.snapshot_current(task,snap)
+        # Current proposals may predate widened node warnings; derive a public copy without writing the stored record.
+        if record and record['status']=='proposed' and not stale and current:record=copy.deepcopy(record);record['resource_warnings']=self.warnings(task,record['candidate'],snap)
         diffs=[]
         if record:
             for row in record['candidate']['reasons']:
