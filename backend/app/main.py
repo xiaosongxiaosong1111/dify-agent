@@ -45,7 +45,7 @@ from .reference_dsl import ReferenceDslManager
 from .task_budget import TaskBudgetManager
 from .assistant_routing import RoutingManager
 from .intake import IntakeManager, summary as intake_summary, require_ready as require_intake, validate_review as validate_intake, topics as intake_topics, model_sources as intake_model_sources
-from .intake import ReviewContractError, model_review_outline
+from .intake import ReviewContractError, model_review_outline, unknown_placeholder
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if (PROJECT_ROOT/'runtime-manifest.json').exists() and not os.environ.get('FLOWCRAFT_DATA_DIR','').strip():
@@ -475,7 +475,7 @@ def confirm(item_id: str, payload: Confirmation):
         if payload.kind == "requirements":
             require_conflicts(task)
             require_intake(task)
-            missing = [k for k, v in task["requirements"].items() if not v.strip() or v.strip().startswith(("待补充", "待确认", "未知"))]
+            missing = [k for k, v in task["requirements"].items() if not v.strip() or v.strip().startswith(("待补充", "待确认", "未知")) or unknown_placeholder(v)]
             unresolved = [m["name"] for m in task["materials"] if not m.get("reference_mode") or m.get("status") != "parsed"]
             if missing or unresolved:
                 raise HTTPException(422, "需求尚未齐全。缺失字段：" + (", ".join(missing) or "无") + "；材料需解析并确认参考方式：" + (", ".join(unresolved) or "无") + "。可以明确填写不适用项。")
