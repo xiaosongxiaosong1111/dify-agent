@@ -4,7 +4,7 @@
 
 - DeepSeek实现checked_url解析/端口校验，修端口abc可保存/测试500、越界端口可保存和IPv6括号错误500，合法LAN/IPv6/自定义路径保持。历史坏配置测试受控失败，不改地址或自动重试；同函数环境地址也适用。
 - DeepSeek调查另发现工具测试分锁取配置与Key；Codex两个独立TestClient/假Key实际复现旧地址/旧model混新Key，旧模块两个并发反例真实失败。DeepSeek把Key捕获移入同一配置锁，网络仍在锁外；保留旧回执/配置变更/零派发失败和idempotency。
-- Codex独立129 URL/CRUD/来源/预设、70工具身份/探测（两组部分重合）及19环境编辑通过；产品仅providers.py和provider_tool_probe.py，未改前端/依赖、未用真实模型/Dify/凭据。实现待提交与保护部署，详细边界见provider-configuration-integrity.md。
+- Codex独立129 URL/CRUD/来源/预设、70工具身份/探测（两组部分重合）及19环境编辑通过；产品仅providers.py和provider_tool_probe.py，未改前端/依赖、未用真实模型/Dify/凭据。实现3bde125已保护部署0.410.0-54b2bbbef8b3e21997dc/298/所属PID43424，health/页面200、源码/快照/执行文件一致，十二根/733/337封存24/26Task及密文资产保持；前端未改不重构建，关闭347。详细边界见provider-configuration-integrity.md；下一348核具体配置及理由。
 
 
 ## 2026-11-20 — 第346项：沿用材料来源与旧裁定保护
