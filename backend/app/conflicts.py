@@ -2,7 +2,7 @@
 from .contract_loading import load_contract
 import copy,json,re
 from fastapi import HTTPException
-from pydantic import BaseModel,ConfigDict,StrictInt,StrictBool
+from pydantic import BaseModel,ConfigDict,StrictBool,StrictInt,StrictStr,Field,model_validator
 from .coverage import digest,SOURCE_FIELDS
 
 
@@ -26,6 +26,24 @@ class DecisionRequest(ConfirmRequest):
     acknowledge_replacement:StrictBool
 
 
+class DismissRequest(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    revision:StrictInt
+    review_token:str
+    conflict_id:str
+    reason:StrictStr=Field(max_length=3000)
+    acknowledge_review:StrictBool
+    acknowledge_dismissal:StrictBool
+
+    @model_validator(mode='before')
+    @classmethod
+    def reject_uncodable_payload(cls,data):
+        try:json.dumps(data,ensure_ascii=False,allow_nan=False).encode('utf-8')
+        except UnicodeError:raise HTTPException(422,'撤销请求含无法编码的孤立代理字符，请修正文字后重新提交。') from None
+        except (ValueError,TypeError,RecursionError):raise HTTPException(422,'撤销请求含无法完整编码的数值或结构，请修正后重新提交。') from None
+        return data
+
+
 def context(task):
     return {'app_type':task['app_type'],'requirements':task['requirements'],'materials':task.get('materials',[])}
 
@@ -41,6 +59,22 @@ def sources(task):
             for key,value in version.get('requirements',{}).items():
                 if isinstance(value,str) and value.strip():result[('version',version['id']+':'+key)]=value
     return result
+
+
+def dismissal_candidates(task):
+    record=task.get('conflict_review')
+    review=(record or {}).get('review')
+    rows=(review or {}).get('conflicts')
+    if not isinstance(rows,list):return []
+    present={m.get('id') for m in task.get('materials',[]) if isinstance(m,dict)}
+    candidates=[]
+    for row in rows:
+        if not isinstance(row,dict) or not isinstance(row.get('id'),str):continue
+        refs=row.get('sources')
+        if not isinstance(refs,list):continue
+        missing={ref['id'] for ref in refs if isinstance(ref,dict) and ref.get('kind')=='material' and isinstance(ref.get('id'),str) and ref['id'] not in present}
+        if missing:candidates.append({'conflict_id':row['id'],'missing_material_ids':sorted(missing)})
+    return candidates
 
 
 def validate_review(task,review):
@@ -104,7 +138,7 @@ def summary(task):
     blockers.extend(errors)
     confirmed=bool(enabled and record and not blockers and record.get('confirmation',{}).get('token')==token)
     if enabled and not confirmed and not blockers:blockers.append('尚未明确确认当前已列分歧的处理结果。')
-    return {'enabled':enabled,'record':record,'stale':stale,'confirmed':confirmed,'revision':task['revision'],'review_token':token,'blockers':blockers,'decisions':task.get('conflict_decisions',[]),'verification':'source_quote_and_user_decision_only'}
+    return {'enabled':enabled,'record':record,'stale':stale,'confirmed':confirmed,'revision':task['revision'],'review_token':token,'blockers':blockers,'decisions':task.get('conflict_decisions',[]),'dismissal_candidates':dismissal_candidates(task),'dismissals':task.get('conflict_dismissals',[]),'verification':'source_quote_and_user_decision_only'}
 
 
 def require_ready(task):
@@ -162,6 +196,29 @@ class ConflictManager:
                 task.setdefault('conflict_decisions',[]).append({'conflict':copy.deepcopy(row),'selected_option':copy.deepcopy(option),'before':before,'after':{k:task['requirements'][k] for k in option['requirements_patch']},'source_revision':original_revision,'result_revision':task['revision'],'created_at':h.now()})
                 remaining=[r for r in state['record']['review']['conflicts'] if r['id']!=row['id']]
                 task['conflict_review']={'review':{'schema_version':1,'conflicts':copy.deepcopy(remaining),'notes':'已将明确选择写回需求；剩余分歧须重新核对，未声明已全面消除冲突。'},'source':'user_decision','origin_revision':task['revision'],'context_digest':state['record']['context_digest'] if remaining else digest(context(task)),'created_at':h.now(),'confirmation':{}}
+                return h.save_task(task)
+
+        @h.app.post('/api/tasks/{item_id}/conflicts/dismiss')
+        def dismiss(item_id:str,payload:DismissRequest):
+            with h.store.lock:
+                task=h.get_task(item_id);h.require_idle(task);h.require_revision(task,payload.revision)
+                if payload.acknowledge_review is not True or payload.acknowledge_dismissal is not True:raise HTTPException(422,'请复核其余现行来源，并明确确认只撤销此条来源已删除的失效冲突。')
+                reason=payload.reason
+                try:reason.encode('utf-8')
+                except UnicodeError:raise HTTPException(422,'撤销说明含无法编码的孤立代理字符，请修正文字后重新提交。')
+                if not reason.strip():raise HTTPException(422,'请填写明确的撤销说明；不会自动撤销未决冲突。')
+                state=summary(task)
+                if not state['record']:raise HTTPException(422,'当前没有已保存的冲突检查，不能按来源删除撤销。')
+                if state['review_token']!=payload.review_token:raise HTTPException(409,'来源或清单已变化，请重新检查。')
+                candidates={c['conflict_id']:c['missing_material_ids'] for c in state['dismissal_candidates']}
+                row=next((r for r in state['record']['review']['conflicts'] if r.get('id')==payload.conflict_id),None)
+                if not row:raise HTTPException(422,'请选择本任务当前已保存的失效冲突条目。')
+                if payload.conflict_id not in candidates:raise HTTPException(422,'该冲突未引用已移除的资料，不能按来源删除撤销；请核对现行来源并重新检查。')
+                missing=candidates[payload.conflict_id];original_revision=task['revision']
+                h.invalidate(task,'失效冲突来源删除后明确撤销前保存')
+                task.setdefault('conflict_dismissals',[]).append({'conflict':copy.deepcopy(row),'reason':reason.strip(),'missing_material_ids':copy.deepcopy(missing),'source_revision':original_revision,'result_revision':task['revision'],'created_at':h.now()})
+                remaining=[r for r in state['record']['review']['conflicts'] if r.get('id')!=payload.conflict_id]
+                task['conflict_review']={'review':{'schema_version':1,'conflicts':copy.deepcopy(remaining),'notes':'来源资料已被移除，用户明确撤销了这一行失效冲突；未判定相关事实为假，也不代表所有来源一致。其余未决分歧仍需重新核对。'},'source':'explicit_source_dismissal','origin_revision':task['revision'],'context_digest':state['record']['context_digest'] if remaining else digest(context(task)),'created_at':h.now(),'confirmation':{}}
                 return h.save_task(task)
 
         @h.app.post('/api/tasks/{item_id}/conflicts/generate')
