@@ -46,6 +46,15 @@ SPECIAL['json_input_scope']=('结构化对象输入与强制范围','对象字�
 SPECIAL['batch_outcomes']=('逐项失败与结果合同','当前计划带有逐项结果或汇总生成标识，仍须核对手改代码。是否明确接受六类计算异常作为失败记录继续，index／ok／value／error_category对象数组、原索引与重复项保留，失败值null且不复制异常正文？成功value须明确保留原文字、数值或完整Schema对象类型；对象须核对字段、额外字段禁止和大小限制，不猜Schema。数值不得为布尔、非有限数或超安全范围整数，不能悄悄转文字、舍入或把坏类型当业务失败。输入／输出格式不符、未知、沙箱及超时错误仍终止；若为多代码计算链，还须明确五字段中的failed_stage为1基失败步骤、成功时null，该项后续原计算不执行而只传递失败记录；链正文当前只支持2—8个顺序文字／数值／明确Schema对象计算，每个对象结果步骤须分别核对完整规则，后一步输入沿用前步对象合同，格式错误仍终止，不能扩大到分支或外部副作用；完整有效上游处理图保持，上游原有模型或HTTP仍须核对副作用与费用许可，不能把准备草稿当作执行批准。若有汇总，须明确原完整结果字段及successes／failures／total／succeeded／failed五字段。与旧需求的整批停止或文字数组冲突时先裁定并更新需求，不沿用旧确认；标识不证明代码规则或平台运行正确。')
 PATTERNS['json_input_scope']=r'JSON对象|结构化输入|json_object|输入Schema'
 UNKNOWN=('待补充','待确认','未知','建议：','建议:','草案：','草案:','假设：','假设:')
+UNKNOWN_PLACEHOLDERS=('不知道','不清楚','不确定','未确定','待定','尚未确定','尚未明确','未想好','未提供')
+UNKNOWN_PLACEHOLDER_EDGES='。．.？?！!'
+
+def unknown_placeholder(value):
+    """True only when the whole field is an explicit short placeholder; never a substring hit."""
+    if not isinstance(value,str):return False
+    text=value.strip()
+    while text and text[-1] in UNKNOWN_PLACEHOLDER_EDGES:text=text[:-1].strip()
+    return text in UNKNOWN_PLACEHOLDERS
 
 LOCAL_ENTRY_DECLARATION=re.compile(
     r'Sierra\s*(?:本机|本地)\s*(?:普通\s*)?(?:任务\s*)?(?:试跑\s*)?(?:HTTP\s*)?(?:API\s*)?接口'
@@ -138,7 +147,7 @@ def sources(task):
     return result
 
 def base_gaps(task):
-    gaps=[{'topic':key,'detail':f'{label}尚未明确。','question':question} for key,(label,question) in BASE.items() if not task['requirements'][key].strip() or task['requirements'][key].strip().startswith(UNKNOWN)]
+    gaps=[{'topic':key,'detail':f'{label}尚未明确。','question':question} for key,(label,question) in BASE.items() if not task['requirements'][key].strip() or task['requirements'][key].strip().startswith(UNKNOWN) or unknown_placeholder(task['requirements'][key])]
     gaps += [{'topic':'materials','detail':f'材料“{m.get("name",m["id"])}”需成功解析并确认参考方式。','question':'请补充可读取资料，并明确借鉴、保留指定内容或严格复现。'} for m in task.get('materials',[]) if m.get('status')!='parsed' or not m.get('reference_mode')]
     return gaps
 
@@ -219,6 +228,7 @@ class IntakeManager:
                 if payload.actor_note:inspect_text(payload.actor_note)
                 standard=topics(task);expected={t['id'] for t in standard}
                 if not payload.acknowledge_review or set(payload.answers)!=expected or any(not value.strip() or len(value)>16000 or value.strip().startswith(UNKNOWN) for value in payload.answers.values()):raise HTTPException(422,'请逐项填写明确说明或带理由的不适用说明，并明确接受保存及需求字段替换。')
+                if any(unknown_placeholder(value) for value in payload.answers.values()):raise HTTPException(422,'仍有未明确内容：请逐项填写明确说明或带理由的不适用说明，不能以“不知道”等占位替代确认。')
                 updated=copy.deepcopy(task);updated['requirements'].update({k:payload.answers[k].strip() for k in BASE})
                 if {t['id'] for t in topics(updated)}!=expected:raise HTTPException(422,'填写内容引入了新的专项场景；请先保存到需求说明，重新读取对应标准后再复核。')
                 if base_gaps(updated):raise HTTPException(422,'材料尚未解析或参考方式未确认，不能用人工声明跳过。')

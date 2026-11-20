@@ -23,7 +23,7 @@
 
 ## 3. 下一步
 
-1. 用户2026-11-20明确纠偏：要完整任务清单，Codex逐项派给DeepSeek实现、给具体做法、独立验收并退回修改，通过后派下一项。原8工作包过粗，已展开docs/deepseek-delivery-checklist-20261120.md的32项交付目标（并非32个已证实未开发功能）。优先01—04访谈/规则/准入/改版，再材料/资源/生成；已验17—18指定替身链不重做。真实337停止不等于其它实质本机功能都停；下一张01先有界核已实现行为与可复现缺口，够用则保留推进02，不造缺陷或重复测试。具体子任务仍进唯一BACKLOG队列，下一项339已列pending，对应清单01的有界核缺与修复。
+1. 用户2026-11-20明确纠偏：要完整任务清单，Codex逐项派给DeepSeek实现、给具体做法、独立验收并退回修改，通过后派下一项。原8工作包过粗，已展开docs/deepseek-delivery-checklist-20261120.md的32项交付目标（并非32个已证实未开发功能）。优先01—04访谈/规则/准入/改版，再材料/资源/生成；已验17—18指定替身链不重做。真实337停止不等于其它实质本机功能都停；下一张01先有界核已实现行为与可复现缺口，够用则保留推进02，不造缺陷或重复测试。具体子任务仍进唯一BACKLOG队列，339正在收尾：根复现“不知道”规则可直接确认，DeepSeek已修intake.py+新定向检查，旧基线核心4失败/1通过、新92通过，待提交/保护部署后关闭并派清单02。
 
 2. #337已经唯一执行并stopped，不重放、不覆盖work/autonomous-dual337、不继续旧阶段。直接用户批准call_b4c700f1b4d24950a303b16fbe157440/q0“恢复并批准本批范围”仅覆盖e09376a的新337；这份批准不是后续失败重试或新批授权。
 3. 执行器实现2664eb7；plan493122dd98eece938a53378a352d9b5010192afb191eb3e7783140a544ace4a5，manifest321fc01ffe40917ed43abf3ff5f25535dedba3b4e8bfaee6f2c80621b636067c。validate核运行PID44428/297过。实际1登录/4GET，全部HTTP200；在FAQ文档列表后RuntimeError拒绝，未读片段/未根复核，产品模型、新Task、App/发布/Key/Service全0。精确拒绝分支未记录，不从推断补写根因。证据work/autonomous-dual337/attempt.json、live-output/progress.json、post-stop-audit.json和seal-after-stop.json；脱敏结果docs/autonomous-dual-chatflow-live-result-20261120.md。
