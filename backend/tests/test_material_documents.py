@@ -1,4 +1,5 @@
 """Public synthetic PDF/DOCX bytes exercise the actual multipart parser."""
+import base64
 import io
 import hashlib
 import pytest
@@ -125,3 +126,58 @@ def test_historical_material_without_new_coverage_metadata_keeps_its_scope():
     assert source_metadata(m)['source_file_parsed']
     assert source_metadata(m)['source_coverage_note']=='仅文件文字提取，不据此声称图像、布局、OCR或全部业务含义已读取。'
     assert 'extraction_coverage' not in m
+
+
+ONE_PIXEL_PNG=base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=')
+
+
+def blank_table(picture=False,nested=False):
+    doc=Document();table=doc.add_table(rows=1,cols=2)
+    if nested:table.cell(0,0).add_table(rows=1,cols=2)
+    if picture:table.cell(0,0).paragraphs[0].add_run().add_picture(io.BytesIO(ONE_PIXEL_PNG))
+    out=io.BytesIO();doc.save(out);return out.getvalue()
+
+
+@pytest.mark.parametrize('builder',[
+    lambda:blank_table(),
+    lambda:blank_table(nested=True),
+    lambda:blank_table(picture=True),
+],ids=['empty-two-column','nested-empty','picture-only'])
+def test_blank_word_table_is_not_read_or_usable(client,builder):
+    task=approved(client);raw=builder();saved,m=upload(client,task,'blank-table.docx',raw)
+    assert m['status']=='needs_input' and m['text']=='' and '可读取文本' in m['error']
+    path=main.DATA_ROOT/task['id']/'materials'/(m['id']+'.docx')
+    assert path.read_bytes()==raw and m['sha256']==hashlib.sha256(raw).hexdigest()
+    saved=client.patch(f"/api/tasks/{task['id']}/materials/{m['id']}",json={'revision':saved['revision'],'reference_mode':'borrow'}).json()
+    assert client.post(f"/api/tasks/{task['id']}/confirm",json={'kind':'requirements','revision':saved['revision']}).status_code==422
+    assert ('material',m['id']) not in sources(saved)
+
+
+def table_between_paragraphs():
+    doc=Document();doc.add_paragraph('BEFORE');doc.add_table(rows=1,cols=2);doc.add_paragraph('AFTER')
+    out=io.BytesIO();doc.save(out);return out.getvalue()
+
+
+def table_with_empty_middle():
+    doc=Document();table=doc.add_table(rows=1,cols=3);table.cell(0,0).text='LEFT';table.cell(0,2).text='RIGHT'
+    out=io.BytesIO();doc.save(out);return out.getvalue()
+
+
+def table_with_pipe_text():
+    doc=Document();table=doc.add_table(rows=1,cols=1);table.cell(0,0).text='|'
+    out=io.BytesIO();doc.save(out);return out.getvalue()
+
+
+def test_blank_table_does_not_insert_separator_or_reorder_text(client):
+    task=create(client);_,m=upload(client,task,'order.docx',table_between_paragraphs())
+    assert m['status']=='parsed' and m['text']=='BEFORE\nAFTER'
+
+
+def test_three_column_row_keeps_empty_middle_position(client):
+    task=create(client);_,m=upload(client,task,'spaced.docx',table_with_empty_middle())
+    assert m['status']=='parsed' and m['text']=='LEFT |  | RIGHT'
+
+
+def test_real_pipe_text_in_cell_stays_parsed(client):
+    task=create(client);_,m=upload(client,task,'pipe.docx',table_with_pipe_text())
+    assert m['status']=='parsed' and m['text']=='|'

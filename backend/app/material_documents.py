@@ -59,7 +59,9 @@ def blocks(container):
                 for cell in row.cells:
                     if cell._tc in seen:continue
                     seen.add(cell._tc);cells.append(bounded('\n'.join(blocks(cell))))
-                if cells:yield bounded(' | '.join(cells))
+                # Keep empty cells so real column positions survive; a row whose
+                # cells hold no actual text must not yield separator-only output.
+                if any(cell.strip() for cell in cells):yield bounded(' | '.join(cells))
 
 
 def extract_docx(path):
