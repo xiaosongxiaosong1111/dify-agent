@@ -8,6 +8,7 @@ import asyncio,copy,hashlib,io,json,zipfile
 from pathlib import Path
 from uuid import UUID
 from common import digest,require
+from pagination import document_page,segment_page
 
 DOC_LIMIT=2;SEGMENT_LIMIT=20
 
@@ -146,13 +147,11 @@ def run(api, h, b, fixture, contract, output, mode='success'):
     async def read_faq():
         client=h.DifyClient(env,h.store)
         meta=await client.request('GET','/console/api/datasets/'+dataset,credential='console_token')
-        docs=await client.request('GET','/console/api/datasets/'+dataset+'/documents',credential='console_token',params={'page':1,'limit':DOC_LIMIT})
-        require(isinstance(docs,dict) and isinstance(docs.get('data'),list) and docs['data'] and docs.get('has_more') is False,'FAQ documents truncated or empty')
+        documents=document_page(await client.request('GET','/console/api/datasets/'+dataset+'/documents',credential='console_token',params={'page':1,'limit':DOC_LIMIT}),DOC_LIMIT)
         rows=[]
-        for doc in docs['data'][:DOC_LIMIT]:
-            page=await client.request('GET','/console/api/datasets/'+dataset+'/documents/'+str(doc['id'])+'/segments',credential='console_token',params={'page':1,'limit':SEGMENT_LIMIT})
-            require(isinstance(page,dict) and isinstance(page.get('data'),list) and page['data'] and page.get('has_more') is False,'FAQ segments truncated or empty')
-            for item in page['data']:
+        for doc in documents:
+            page=segment_page(await client.request('GET','/console/api/datasets/'+dataset+'/documents/'+str(doc['id'])+'/segments',credential='console_token',params={'page':1,'limit':SEGMENT_LIMIT}),SEGMENT_LIMIT)
+            for item in page:
                 require(isinstance(item.get('content'),str) and item['content'].strip(),'Empty FAQ segment')
                 rows.append({'document_id':doc['id'],'segment_id':item.get('id'),'content':item['content']})
         return meta,rows

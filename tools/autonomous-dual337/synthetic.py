@@ -127,10 +127,14 @@ class Synthetic(PlatformSynthetic):
         dataset=b.f['configuration']['dataset_ids'][0];prefix='/console/api/datasets/'+dataset
         if path==prefix:return response({'id':dataset,'name':'公开合成FAQ'})
         doc='33333333-3333-4333-8333-333333333333'
-        if path==prefix+'/documents':return response({'data':[{'id':doc,'indexing_status':'completed','name':'公开政策'}],'has_more':False,'total':1})
+        if path==prefix+'/documents':
+            page=int(request.url.params.get('page','1'));limit=int(request.url.params.get('limit','2'));rows=[{'id':doc,'indexing_status':'completed','name':'公开政策'}]
+            return response({'data':rows,'has_more':len(rows)==limit,'total':len(rows),'page':page,'limit':limit})
         if path==prefix+'/documents/'+doc+'/segments':
+            page=int(request.url.params.get('page','1'));limit=int(request.url.params.get('limit','20'))
             text='公开FAQ政策ZXRET715：签收七天内且商品未拆封，允许退货。' if self.mode!='wrong_faq' else '公开但不对应本案的政策。'
-            return response({'data':[{'id':'44444444-4444-4444-8444-444444444444','content':text,'status':'completed','enabled':True}],'has_more':False,'total':1})
+            rows=[{'id':'44444444-4444-4444-8444-444444444444','content':text,'status':'completed','enabled':True}]
+            return response({'data':rows,'total':len(rows),'total_pages':1,'page':page,'limit':limit})
         return await super().__call__(request)
 
     def expectations(self,candidate):

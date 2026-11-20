@@ -4,6 +4,21 @@ from decimal import Decimal
 from pathlib import Path
 from common import PROJECT,LIMITS,capture,known_apps,digest,require,sha
 
+SAFE_FRAMES=('worker.py','journey.py','boundary.py','storage_guard.py','reviews.py','candidate.py','pagination.py')
+
+def failure_location(exc,root):
+    """Only whitelisted package frames: basename, code function name and line."""
+    frames=[]
+    try:
+        root=Path(root).resolve();trace=exc.__traceback__
+        while trace is not None and len(frames)<8:
+            path=Path(trace.tb_frame.f_code.co_filename).resolve()
+            if path.name in SAFE_FRAMES and path.parent==root:
+                frames.append({'file':path.name,'function':trace.tb_frame.f_code.co_name,'line':int(trace.tb_lineno)})
+            trace=trace.tb_next
+    except Exception:return frames
+    return frames
+
 def run(mode,output,plan=None):
     live=mode=='live';root=Path(__file__).resolve().parent;output=Path(output).resolve()
     require(output.is_relative_to(PROJECT/'work') and not output.exists() and not sys.flags.optimize,'New nonoptimized output required')
@@ -104,7 +119,7 @@ def run(mode,output,plan=None):
             with TestClient(h.app) as api:journey(api,h,b,fixture,contract,output,mode)
             require(record.get('state')=='passed','Journey did not complete')
         except BaseException as exc:
-            b.halted=True;record.update(state='stopped',failure_type=type(exc).__name__,phase=b.phase)
+            b.halted=True;record.update(state='stopped',failure_type=type(exc).__name__,phase=b.phase,failure_location=failure_location(exc,root))
             if not live:
                 import traceback
                 record.update(local_public_error=str(exc),local_public_traceback=traceback.format_exc())

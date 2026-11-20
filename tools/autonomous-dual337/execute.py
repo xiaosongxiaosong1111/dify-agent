@@ -3,7 +3,7 @@ import argparse,json,os,sys
 from pathlib import Path
 from common import PROJECT,BATCH_ID,LIMITS,ReadOnly,capture,digest,require,sha
 
-NAMES={'common.py','boundary.py','boundary_checks.py','storage_guard.py','reviews.py','reviews_checks.py','candidate.py','journey.py','worker.py','synthetic.py','runtime_reference.py','execute.py','freeze.py','rehearse.py','README.md','fixture.json','approved_scope.md','plan.json'}
+NAMES={'common.py','boundary.py','boundary_checks.py','storage_guard.py','reviews.py','reviews_checks.py','pagination.py','pagination_checks.py','candidate.py','journey.py','worker.py','synthetic.py','runtime_reference.py','execute.py','freeze.py','rehearse.py','README.md','fixture.json','approved_scope.md','plan.json'}
 UPPER={'model':51,'reads':1597,'login':47,'import':28,'publish':28,'key':28,'run':134}
 def load(path):
     def pairs(rows):
