@@ -23,15 +23,18 @@
 
 ## 3. 下一步
 
-1. #337已经唯一执行并stopped，不重放、不覆盖work/autonomous-dual337、不继续旧阶段。直接用户批准call_b4c700f1b4d24950a303b16fbe157440/q0“恢复并批准本批范围”仅覆盖e09376a的新337；这份批准不是后续失败重试或新批授权。
-2. 执行器实现2664eb7；plan493122dd98eece938a53378a352d9b5010192afb191eb3e7783140a544ace4a5，manifest321fc01ffe40917ed43abf3ff5f25535dedba3b4e8bfaee6f2c80621b636067c。validate核运行PID44428/297过。实际1登录/4GET，全部HTTP200；在FAQ文档列表后RuntimeError拒绝，未读片段/未根复核，产品模型、新Task、App/发布/Key/Service全0。精确拒绝分支未记录，不从推断补写根因。证据work/autonomous-dual337/attempt.json、live-output/progress.json、post-stop-audit.json和seal-after-stop.json；脱敏结果docs/autonomous-dual-chatflow-live-result-20261120.md。
-3. #338已修复并提交181003e：本机Dify Git标签1.17.1/8387590确认文档has_more=len(data)==limit，恰好满页也true；片段协议没有has_more。DeepSeek改纯分页校验、公开替身和白名单安全栈位置；Codex审完整差异/新文件、独立33项分页定位及14路径受影响回归通过，物理HTTP0。未来源码freeze的manifest已补两个新纯函数/检查文件。旧冻结包保持原字节，不能用新源码覆写来续跑。
-4. 当前普通pending0，337blocked。自主双版核心目标仍未闭合；下一真实主线应先做独立新范围，明确处理337未派发的模型/Task/资源/Service/读取及费用，统一取得直接改授或新范围批准后才新冻结。未用范围不自动退借，不能因为本批无模型/资源就视为未消费。可先提出只读FAQ事实核对或新的完整独立主线，但此交接没有授予它们；不增加登录或自动续接。
-5. 后续模型前仍须读取实际FAQ确认政策编号/条件/结论，根代理实际审每份访谈/规划原文与来源，agent_delegated不冒充真人签收。两版无答案固定文案仍按原方案两处同步修改，其余完整图严格不变；不能用模板代替实际原模型候选或放宽预期。有效6模型/零修复是已消费337的执行设置，不给新批隐式授权。
-6. 结束本机审计26Task/10环境/2provider，十一旧隔离根和733证据完全保持；仅专用env认证状态和console_token/csrf_token密文及一条saved_console_reconnect回执为本批允许变化。旧26Task、模型/预算/其它密文、素材保持，旧Service App9faf2792-08e2-48cf-afd0-050b34035fed未切换。不要拿旧exact数据基线误报授权Token变化或回滚它。
-7. Dify原十五容器已恢复，api1.17.1 healthy，实际登录和原工作空间核过；FAQ内容、模型和双版链尚未验收。Sierra快照0.410.0-88f593682f0b5eb52500/297/PID44428不变，源码本轮只执行器和文档，无后端运行文件改动，不需要重启。原机应安全快进同步最新main，保留所有work/data。只用原start/stop核归属，不按端口杀进程。
-8. 派发后新保守上界模型51/读1597/登录47/资源各28/Service134，模型估算账本2.755473652；实际产品模型仍36，旧settled0.214071000未增。旧失败/unknown/槽/费用保持，非账单硬限，不推定宿主免费。没有观察到Codex额度不足；若后续无实质本机缺口且真实范围待授权，如实说明，不造微任务或声称全项目完成。
-9. 持续使用用户指定ds：Codex路线/验收/返工，Claude Code网关192.168.0.224实际deepseek-flash实现；第338正常汇报并一次check通过，Codex另独立验收。只发必要代码，不发凭据/客户资料/整库。每次push前根CHANGELOG、适用README/状态和整份交接，明确暂存、自主push核远端；不通读项目或290KB历史、不跑全量。实际额度不足即停并尽可能整份交接，不重试换号购买。
+1. 用户2026-11-20明确纠偏：要完整任务清单，Codex逐项派给DeepSeek实现、给具体做法、独立验收并退回修改，通过后派下一项。原8工作包过粗，已展开docs/deepseek-delivery-checklist-20261120.md的32项交付目标（并非32个已证实未开发功能）。优先01—04访谈/规则/准入/改版，再材料/资源/生成；已验17—18指定替身链不重做。真实337停止不等于其它实质本机功能都停；下一张01先有界核已实现行为与可复现缺口，够用则保留推进02，不造缺陷或重复测试。具体子任务仍进唯一BACKLOG队列，下一项339已列pending，对应清单01的有界核缺与修复。
+
+2. #337已经唯一执行并stopped，不重放、不覆盖work/autonomous-dual337、不继续旧阶段。直接用户批准call_b4c700f1b4d24950a303b16fbe157440/q0“恢复并批准本批范围”仅覆盖e09376a的新337；这份批准不是后续失败重试或新批授权。
+3. 执行器实现2664eb7；plan493122dd98eece938a53378a352d9b5010192afb191eb3e7783140a544ace4a5，manifest321fc01ffe40917ed43abf3ff5f25535dedba3b4e8bfaee6f2c80621b636067c。validate核运行PID44428/297过。实际1登录/4GET，全部HTTP200；在FAQ文档列表后RuntimeError拒绝，未读片段/未根复核，产品模型、新Task、App/发布/Key/Service全0。精确拒绝分支未记录，不从推断补写根因。证据work/autonomous-dual337/attempt.json、live-output/progress.json、post-stop-audit.json和seal-after-stop.json；脱敏结果docs/autonomous-dual-chatflow-live-result-20261120.md。
+4. #338已修复并提交181003e：本机Dify Git标签1.17.1/8387590确认文档has_more=len(data)==limit，恰好满页也true；片段协议没有has_more。DeepSeek改纯分页校验、公开替身和白名单安全栈位置；Codex审完整差异/新文件、独立33项分页定位及14路径受影响回归通过，物理HTTP0。未来源码freeze的manifest已补两个新纯函数/检查文件。旧冻结包保持原字节，不能用新源码覆写来续跑。
+5. 337blocked，但不把普通队列空等同功能全部完成，也不因此阻止01—16等本机事项逐项核缺补开发。自主双版核心目标仍未闭合；下一真实主线应先做独立新范围，明确处理337未派发的模型/Task/资源/Service/读取及费用，统一取得直接改授或新范围批准后才新冻结。未用范围不自动退借，不能因为本批无模型/资源就视为未消费。可先提出只读FAQ事实核对或新的完整独立主线，但此交接没有授予它们；不增加登录或自动续接。
+6. 后续模型前仍须读取实际FAQ确认政策编号/条件/结论，根代理实际审每份访谈/规划原文与来源，agent_delegated不冒充真人签收。两版无答案固定文案仍按原方案两处同步修改，其余完整图严格不变；不能用模板代替实际原模型候选或放宽预期。有效6模型/零修复是已消费337的执行设置，不给新批隐式授权。
+7. 结束本机审计26Task/10环境/2provider，十一旧隔离根和733证据完全保持；仅专用env认证状态和console_token/csrf_token密文及一条saved_console_reconnect回执为本批允许变化。旧26Task、模型/预算/其它密文、素材保持，旧Service App9faf2792-08e2-48cf-afd0-050b34035fed未切换。不要拿旧exact数据基线误报授权Token变化或回滚它。
+8. Dify原十五容器已恢复，api1.17.1 healthy，实际登录和原工作空间核过；FAQ内容、模型和双版链尚未验收。Sierra快照0.410.0-88f593682f0b5eb52500/297/PID44428不变，源码本轮只执行器和文档，无后端运行文件改动，不需要重启。原机应安全快进同步最新main，保留所有work/data。只用原start/stop核归属，不按端口杀进程。
+9. 派发后新保守上界模型51/读1597/登录47/资源各28/Service134，模型估算账本2.755473652；实际产品模型仍36，旧settled0.214071000未增。旧失败/unknown/槽/费用保持，非账单硬限，不推定宿主免费。没有观察到Codex额度不足；若后续无实质本机缺口且真实范围待授权，如实说明，不造微任务或声称全项目完成。
+10. 持续使用用户指定ds：Codex路线/验收/返工，Claude Code网关192.168.0.224实际deepseek-flash实现；第338正常汇报并一次check通过，Codex另独立验收。只发必要代码，不发凭据/客户资料/整库。每次push前根CHANGELOG、适用README/状态和整份交接，明确暂存、自主push核远端；不通读项目或290KB历史、不跑全量。实际额度不足即停并尽可能整份交接，不重试换号购买。
+
 
 ## 4. 账本与凭据
 

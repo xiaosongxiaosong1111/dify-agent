@@ -2,7 +2,7 @@
 
 用户批准的[自主双版新批](docs/autonomous-dual-chatflow-live-result-20261120.md)已唯一执行并停止：1次登录、4次管理读取，模型/新Task/资源/运行均0。已修执行器的Dify 1.17.1分页兼容并通过定向隔离检查；自主双版仍未完成，旧批不重放，剩余范围不自动跨批复用。
 
-当前开发安排见[完整开发与验收路线](docs/sierra-completion-roadmap-20261119.md)。Codex 负责需求和验收，Claude Code 通过用户指定的 DeepSeek 网关做实现及返工。
+逐项派单见[32项完整交付清单](docs/deepseek-delivery-checklist-20261120.md)，总体目标见[完整路线](docs/sierra-completion-roadmap-20261119.md)。Codex负责拆任务、给方案、独立验收与具体返工；Claude Code通过指定DeepSeek网关实现。一项通过再推进下一项，已有实现不重写，真实验收受阻不停止其它实质本机开发。
 
 Sierra 是本机 Dify 搭建助手：选择应用类型，整理需求和材料，确认配置与流程，再生成 DSL、发布和试跑。目标适配 Dify 1.17.1。
 
