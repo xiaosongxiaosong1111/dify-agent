@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'runtime-process.ps1')
 $ProjectRoot = [System.IO.Path]::GetFullPath($PSScriptRoot).TrimEnd('\')
 $BackendPath = [System.IO.Path]::GetFullPath((Join-Path $ProjectRoot 'backend'))
@@ -44,15 +44,15 @@ function Remove-OwnedProcess([int]$ProcessId) {
 }
 
 if (-not (Test-Path -LiteralPath $PythonPath -PathType Leaf)) {
-    Write-Error 'Project Python environment is missing. Run .\setup.ps1 first.'
+    Write-Error '项目 Python 环境缺失。请先运行 .\setup.ps1。'
     exit 1
 }
 if (-not (Test-Path -LiteralPath (Join-Path $ProjectRoot 'frontend\dist\index.html') -PathType Leaf)) {
-    Write-Error 'Built frontend is missing. Run .\setup.ps1 first.'
+    Write-Error '已构建的前端缺失。请先运行 .\setup.ps1。'
     exit 1
 }
 if (-not (Test-Path -LiteralPath (Join-Path $BackendPath 'app\main.py') -PathType Leaf)) {
-    Write-Error 'Backend entry point is missing from this project.'
+    Write-Error '本项目缺少后端入口文件。'
     exit 1
 }
 New-Item -ItemType Directory -Force -Path $DataPath | Out-Null
@@ -64,23 +64,23 @@ if (Test-Path -LiteralPath $PidPath -PathType Leaf) {
         try {
             $Health = Invoke-WebRequest -Uri $HealthUrl -UseBasicParsing -TimeoutSec 3
             if ($Health.StatusCode -eq 200) {
-                Write-Host 'Sierra is already running at http://127.0.0.1:8765/'
+                Write-Host 'Sierra 已在 http://127.0.0.1:8765/ 运行'
                 exit 0
             }
         } catch { }
-        Write-Error 'A Sierra process is already running but its health check failed. Review data/server.err.log before taking action.'
+        Write-Error 'Sierra 进程已在运行，但健康检查失败。请在处理前查看 data/server.err.log。'
         exit 1
     }
     Remove-Item -LiteralPath $PidPath -Force
 }
 
 if (-not (Test-PortAvailable)) {
-    Write-Error 'Port 8765 on 127.0.0.1 is already in use. Sierra did not start and no process was stopped. Check the other application or configure it to release the port.'
+    Write-Error '127.0.0.1 上的 8765 端口已被占用。Sierra 未启动，也未停止任何进程。请检查占用该端口的其他应用，或将其配置为释放该端口。'
     exit 1
 }
 
 $RuntimeJson = & $PythonPath (Join-Path $ProjectRoot 'tools\prepare_runtime.py') --project-root $ProjectRoot
-if ($LASTEXITCODE -ne 0) { throw 'Runtime snapshot preparation failed; no backend was started.' }
+if ($LASTEXITCODE -ne 0) { throw '运行快照准备失败；未启动后端。' }
 $Runtime = $RuntimeJson | ConvertFrom-Json
 $BackendPath = [string]$Runtime.backend_path
 $OriginalDataSetting = $env:FLOWCRAFT_DATA_DIR
@@ -90,7 +90,7 @@ $ArgumentList = "-m uvicorn app.main:app --app-dir `"$BackendPath`" --host 127.0
 try {
     $ServerProcess = Start-Process -FilePath $PythonPath -ArgumentList $ArgumentList -WorkingDirectory $ProjectRoot -WindowStyle Hidden -PassThru -RedirectStandardOutput $StdoutPath -RedirectStandardError $StderrPath
 } catch {
-    Write-Error "Could not start the local backend: $($_.Exception.Message)"
+    Write-Error "无法启动本地后端：$($_.Exception.Message)"
     exit 1
 } finally {
     if ($null -eq $OriginalDataSetting) { Remove-Item Env:FLOWCRAFT_DATA_DIR -ErrorAction SilentlyContinue } else { $env:FLOWCRAFT_DATA_DIR = $OriginalDataSetting }
@@ -98,7 +98,7 @@ try {
 
 Start-Sleep -Milliseconds 500
 if (-not (Test-OwnedServer $ServerProcess.Id)) {
-    Write-Error 'Started process identity could not be verified against this project path; no PID file was written.'
+    Write-Error '无法根据本项目路径验证已启动进程的身份；未写入 PID 文件。'
     exit 1
 }
 Set-Content -LiteralPath $PidPath -Value ([string]$ServerProcess.Id) -Encoding ASCII
@@ -116,11 +116,11 @@ for ($Attempt = 0; $Attempt -lt 20; $Attempt++) {
 if (-not $Healthy) {
     Remove-OwnedProcess $ServerProcess.Id
     Remove-Item -LiteralPath $PidPath -Force -ErrorAction SilentlyContinue
-    Write-Error 'Backend did not pass the health check. Review data/server.err.log and data/server.out.log. Any cleanup was limited to the process started by this script.'
+    Write-Error '后端未通过健康检查。请查看 data/server.err.log 和 data/server.out.log。清理范围仅限本脚本启动的进程。'
     exit 1
 }
 
-Write-Host 'Sierra is running at http://127.0.0.1:8765/'
-Write-Host 'Health check: http://127.0.0.1:8765/api/health'
+Write-Host 'Sierra 正在 http://127.0.0.1:8765/ 运行'
+Write-Host '健康检查：http://127.0.0.1:8765/api/health'
 
-Write-Host ('Runtime snapshot: ' + $Runtime.build_id)
+Write-Host ('运行快照：' + $Runtime.build_id)

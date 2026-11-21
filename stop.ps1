@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'runtime-process.ps1')
 $ProjectRoot = [System.IO.Path]::GetFullPath($PSScriptRoot).TrimEnd('\')
 $BackendPath = [System.IO.Path]::GetFullPath((Join-Path $ProjectRoot 'backend'))
@@ -20,7 +20,7 @@ function Test-OwnedServer([int]$ProcessId) {
 }
 
 if (-not (Test-Path -LiteralPath $PidPath -PathType Leaf)) {
-    Write-Host 'No Sierra PID file was found; nothing was stopped.'
+    Write-Host '未找到 Sierra PID 文件；未停止任何进程。'
     exit 0
 }
 
@@ -28,16 +28,16 @@ $SavedPidText = (Get-Content -LiteralPath $PidPath -Raw).Trim()
 $SavedPid = 0
 if (-not [int]::TryParse($SavedPidText, [ref]$SavedPid) -or $SavedPid -lt 1) {
     Remove-Item -LiteralPath $PidPath -Force
-    Write-Host 'Removed an invalid Sierra PID file; no process was stopped.'
+    Write-Host '已移除无效的 Sierra PID 文件；未停止任何进程。'
     exit 0
 }
 
 if (-not (Test-OwnedServer $SavedPid)) {
     Remove-Item -LiteralPath $PidPath -Force
-    Write-Host 'The saved PID does not match this project command line; no process was stopped.'
+    Write-Host '保存的 PID 与本项目命令行不匹配；未停止任何进程。'
     exit 0
 }
 
 Stop-Process -Id $SavedPid -Force
 Remove-Item -LiteralPath $PidPath -Force -ErrorAction SilentlyContinue
-Write-Host 'Sierra backend stopped.'
+Write-Host 'Sierra 后端已停止。'

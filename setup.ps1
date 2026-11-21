@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 $ProjectRoot = [System.IO.Path]::GetFullPath($PSScriptRoot)
 $BackendRequirements = Join-Path $ProjectRoot 'backend\requirements.txt'
 $BackendLock = Join-Path $ProjectRoot 'backend\requirements-lock.txt'
@@ -33,69 +33,69 @@ function Get-PythonCommand {
 function Assert-PythonVersion([string]$PythonPath, [string[]]$Prefix) {
     $VersionText = & $PythonPath @Prefix --version 2>&1 | Out-String
     if ($LASTEXITCODE -ne 0 -or $VersionText -notmatch 'Python\s+(\d+)\.(\d+)') {
-        Stop-WithMessage 'Could not read the Python version. Install Python 3.11 or newer and run setup.ps1 again.'
+        Stop-WithMessage '无法读取 Python 版本。请安装 Python 3.11 或更高版本，然后重新运行 setup.ps1。'
     }
     $Major = [int]$Matches[1]
     $Minor = [int]$Matches[2]
     if ($Major -lt 3 -or ($Major -eq 3 -and $Minor -lt 11)) {
-        Stop-WithMessage "Python 3.11 or newer is required; found $($VersionText.Trim()) at $PythonPath. No global environment was changed."
+        Stop-WithMessage "需要 Python 3.11 或更高版本；发现 $($VersionText.Trim())（位置：$PythonPath）。未更改全局环境。"
     }
 }
 
 if (-not (Test-Path -LiteralPath $BackendRequirements -PathType Leaf)) {
-    Stop-WithMessage "Missing backend requirements file: $BackendRequirements"
+    Stop-WithMessage "缺少后端依赖文件：$BackendRequirements"
 }
 
 $NodeCommand = Get-Command 'node.exe' -ErrorAction SilentlyContinue
 if (-not $NodeCommand) { $NodeCommand = Get-Command 'node' -ErrorAction SilentlyContinue }
 if (-not $NodeCommand) {
-    Stop-WithMessage 'Install Node.js 20.19+ within 20.x, or 22.12+, reopen PowerShell, and run setup.ps1 again.'
+    Stop-WithMessage '请安装 20.x 内的 Node.js 20.19+，或 22.12+，重新打开 PowerShell，然后再次运行 setup.ps1。'
 }
 $NodeVersionText = & $NodeCommand.Source --version 2>&1 | Out-String
 if ($LASTEXITCODE -ne 0 -or $NodeVersionText -notmatch 'v(\d+)\.(\d+)\.(\d+)') {
-    Stop-WithMessage 'Could not read the Node.js version. Install Node.js 20.19+ within 20.x, or 22.12+ and run setup.ps1 again.'
+    Stop-WithMessage '无法读取 Node.js 版本。请安装 20.x 内的 Node.js 20.19+，或 22.12+，然后重新运行 setup.ps1。'
 }
 $NodeMajor = [int]$Matches[1]
 $NodeMinor = [int]$Matches[2]
 if (-not (($NodeMajor -eq 20 -and $NodeMinor -ge 19) -or ($NodeMajor -eq 22 -and $NodeMinor -ge 12) -or $NodeMajor -gt 22)) {
-    Stop-WithMessage "Node.js 20.19+ within 20.x, or 22.12+ is required; found $($NodeVersionText.Trim()). No global environment was changed."
+    Stop-WithMessage "需要 20.x 内的 Node.js 20.19+ 或 22.12+；发现 $($NodeVersionText.Trim())。未更改全局环境。"
 }
 $NpmCommand = Get-Command 'npm.cmd' -ErrorAction SilentlyContinue
 if (-not $NpmCommand) { $NpmCommand = Get-Command 'npm' -ErrorAction SilentlyContinue }
-if (-not $NpmCommand) { Stop-WithMessage 'npm was not found with Node.js. Reinstall Node.js including npm, then retry.' }
+if (-not $NpmCommand) { Stop-WithMessage 'Node.js 中未找到 npm。请重新安装包含 npm 的 Node.js，然后重试。' }
 
 if (-not (Test-Path -LiteralPath $VenvPython -PathType Leaf)) {
     $PythonCommand = Get-PythonCommand
     if (-not $PythonCommand) {
-        Stop-WithMessage 'Python 3.11 or newer was not found. Install Python or the Python Launcher, then run setup.ps1 again.'
+        Stop-WithMessage '未找到 Python 3.11 或更高版本。请安装 Python 或 Python Launcher，然后重新运行 setup.ps1。'
     }
     Assert-PythonVersion $PythonCommand.Path $PythonCommand.Prefix
-    Write-Host 'Creating the project-local Python virtual environment...'
+    Write-Host '正在创建项目本地 Python 虚拟环境...'
     $CreateVenvArguments = @()
     $CreateVenvArguments += $PythonCommand.Prefix
     $CreateVenvArguments += @('-m', 'venv', (Join-Path $ProjectRoot '.venv'))
     & $PythonCommand.Path @CreateVenvArguments
-    if ($LASTEXITCODE -ne 0) { Stop-WithMessage 'Failed to create .venv. Check the Python installation and write access to the project directory.' }
+    if ($LASTEXITCODE -ne 0) { Stop-WithMessage '创建 .venv 失败。请检查 Python 安装及项目目录的写入权限。' }
 }
 
 Assert-PythonVersion $VenvPython @()
-Write-Host 'Installing backend requirements into .venv...'
+Write-Host '正在将后端依赖安装到 .venv...'
 & $VenvPython -m pip install -r $BackendRequirements
-if ($LASTEXITCODE -ne 0) { Stop-WithMessage 'Backend dependency installation failed. Check network access and retry setup.ps1; global Python packages were not changed.' }
+if ($LASTEXITCODE -ne 0) { Stop-WithMessage '后端依赖安装失败。请检查网络访问并重试 setup.ps1；未更改全局 Python 包。' }
 
 if (-not (Test-Path -LiteralPath (Join-Path $FrontendPath 'package-lock.json') -PathType Leaf)) {
-    Stop-WithMessage 'Missing frontend/package-lock.json; cannot install reproducible frontend dependencies.'
+    Stop-WithMessage '缺少 frontend/package-lock.json；无法安装可复现的前端依赖。'
 }
-Write-Host 'Installing frontend dependencies with npm ci...'
+Write-Host '正在使用 npm ci 安装前端依赖...'
 Push-Location $FrontendPath
 try {
     & $NpmCommand.Source ci
-    if ($LASTEXITCODE -ne 0) { Stop-WithMessage 'Frontend dependency installation failed. Check network access and retry setup.ps1.' }
-    Write-Host 'Building frontend/dist...'
+    if ($LASTEXITCODE -ne 0) { Stop-WithMessage '前端依赖安装失败。请检查网络访问并重试 setup.ps1。' }
+    Write-Host '正在构建 frontend/dist...'
     & $NpmCommand.Source run build
-    if ($LASTEXITCODE -ne 0) { Stop-WithMessage 'Frontend build failed. Review the build output, correct the source issue, and retry setup.ps1.' }
+    if ($LASTEXITCODE -ne 0) { Stop-WithMessage '前端构建失败。请查看构建输出，修正源码问题，然后重试 setup.ps1。' }
 } finally {
     Pop-Location
 }
 
-Write-Host 'Setup completed. Run .\start.ps1 or double-click start.cmd.'
+Write-Host '安装完成。请运行 .\start.ps1 或双击 start.cmd。'
