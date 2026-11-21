@@ -263,7 +263,10 @@ def validate_preserved(root,parallel_reviews=None,loop_reviews=None):
             if not changed:break
         nodes=[node for node in nodes if not raw_nodes[node['id']].get('parentId')]
         for raw in scope_graph['edges']:
-            if not raw_nodes[raw['source']].get('parentId'):edges.append({'source':raw['source'],'target':raw['target'],'source_handle':raw.get('sourceHandle','source')})
+            if not raw_nodes[raw['source']].get('parentId'):
+                edge={'source':raw['source'],'target':raw['target'],'source_handle':raw.get('sourceHandle','source')}
+                if 'targetHandle' in raw:edge['targetHandle']=raw['targetHandle']
+                edges.append(edge)
         features=root['workflow'].get('features') or {}
         if (features.get('file_upload') or {}).get('enabled'):raise ValueError('文件输入的保留合并尚未适配，请保留完整文件并先明确条件。')
         from .conversation_state import preserved as conversation_preserved

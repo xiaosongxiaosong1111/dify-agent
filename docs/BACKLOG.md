@@ -671,4 +671,4 @@
 
 | 356 | 交付清单24：加密登录续接与自然令牌到期 | 核同空间/来源绑定、过期续接、失败停止和写入不重放，区分明确重连与自然到期；命令：pytest test_dify_reauth.py -k "workspace or failed_auto or 401_refresh or two_concurrent or expired_token"。 | deepseek复核 / codex派单验收 | done | 记录5b4b11d。根14关键定向过/19未选，DS源码未报新可复现缺口，复用349/351认证检查，无产品修改/等价新测试/真实登录/重复部署。docs/login-renewal-review-20261121.md；真实自然到期缺观察，不当缺代码或已现场验收。 |
 
-| 357 | 交付清单25：最新DSL与平台人工修改保留 | DeepSeek有界核读取最新Dify草稿/实际来源、失败不回退旧图、合并冲突及保留代码/布局等到最终成果；复用344/353/355相关证据，不重复实现。只修根正常入口实质复现，相关roundtrip来源检查，不操作生产或真实外部。 | deepseek核实现 / codex派单验收 | pending | 356已关闭，FR39/40/41、AT18继续；当前真实手改往返及自主主线仍未据替身签收。 |
+| 357 | 交付清单25：最新DSL与平台人工修改保留 | DeepSeek有界核读取最新Dify草稿/实际来源、失败不回退旧图、合并冲突及保留代码/布局等到最终成果；复用344/353/355相关证据，不重复实现。只修根正常入口实质复现，相关roundtrip来源检查，不操作生产或真实外部。 | deepseek核实现 / codex派单验收 | doing | DS只读未报实证新缺口，根抽查发现native targetHandle投影丢失：false/list值正常参考→预览/采用/确认/build均200并保留非法DSL；work/dsl357-preserved-target-proof.json。现有14来源定向过未覆盖，已派仅dsl_roundtrip.py/新preserved_target_handles回归，原文件/不支持来源保留。DS旧App来源疑点已由根正常API证实（新App成功→编辑需求→再读取却导出最老reference App），work/dsl-next-app-source-repro.json；当前357先完成、下一358独立处理，不混修；无真实HTTP。 |

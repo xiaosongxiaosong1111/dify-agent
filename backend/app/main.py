@@ -1357,10 +1357,15 @@ def build(item_id: str, payload: Revision):
             if task.get('dsl_reference'):
                 overlay=task['dsl_overlay'];content=preserved_file_text(task)
                 from .dsl_roundtrip import digest,parse
-                if digest(parse(content,task['app_type']))!=overlay['digest']:raise ValueError('已确认合并文件内容变化，请重新分析并确认。')
+                root=parse(content,task['app_type'])
+                if digest(root)!=overlay['digest']:raise ValueError('已确认合并文件内容变化，请重新分析并确认。')
                 validation=copy.deepcopy(overlay['validation'])
+                if task['app_type'] in {'workflow','advanced-chat'}:
+                    from .dsl_roundtrip import validate_preserved
+                    validation=validate_preserved(root,overlay.get('parallel_reviews'),overlay.get('loop_reviews'))
+                    if not validation['valid']:raise ValueError('已确认保留文件未通过当前静态校验：'+'；'.join(validation['errors']))
                 from .mock_handoffs import verify_preserved
-                verify_preserved(task, parse(content, task['app_type']), validation)
+                verify_preserved(task, root, validation)
             else:content,validation=compile_current(task)
         except (ValueError,OSError) as exc:
             raise HTTPException(422, str(exc)) from exc

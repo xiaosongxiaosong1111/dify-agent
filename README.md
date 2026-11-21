@@ -18,6 +18,8 @@ Sierra 是本机 Dify 搭建助手：选择应用类型，整理需求和材料�
 
 Word空表格或只有图片的表格会提示补充可读文字，正常表格的文字和空列位置保留。[材料读取说明](docs/word-table-readable-text.md)。
 
+保留原生DSL时会把实际目标端口纳入校验；已确认文件再次构建也会按当前规则核对，旧“通过”缓存不替代检查。[原生保留与构建](docs/preserved-target-handles.md)。
+
 导入前核对Dify草稿时收到暂停，会在后续创建前停止；用户可明确再次发起，已送出的写入仍按真实回执记录。[暂停检查点](docs/import-pause-preflight.md)。
 
 完整流程会核对每条边的入口和出口；不支持或互相冲突的端口在保存前提示，不会生成冒称通过的DSL。[根图端口范围](docs/root-edge-handle-validation.md)。
