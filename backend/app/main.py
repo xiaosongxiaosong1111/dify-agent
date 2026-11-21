@@ -1207,9 +1207,9 @@ def reference_for(task):
     return record
 
 
-def baseline_for(task, app_id):
+def baseline_for(task, app_id, selected_run=None):
     if app_id:
-        run=next((r for r in reversed(task['runs']) if r.get('kind')=='import' and r.get('status')=='success' and r.get('environment_id')==task.get('environment_id') and (r.get('result') or {}).get('app_id')==app_id),None)
+        run=selected_run if selected_run is not None else next((r for r in reversed(task['runs']) if isinstance(r,dict) and r.get('kind')=='import' and r.get('status')=='success' and r.get('environment_id')==task.get('environment_id') and _import_receipt_app_id(r)==app_id),None)
         if not run:raise ValueError('没有匹配源应用和环境的真实导入基线。')
         if run.get('dsl_baseline'):
             if run.get('baseline_kind')!='generation_proposal' and task.get('dsl_overlay') and task['dsl_overlay'].get('revision')==run['revision']:
@@ -1249,6 +1249,69 @@ def baseline_for(task, app_id):
     return parse(content,task['app_type']),'手动文件使用本次生成方案作为比较基线，没有历史 Dify 导入来源或实时性证据。'
 
 
+def _import_receipt_app_id(run):
+    result=run.get('result')
+    value=result.get('app_id') if isinstance(result,dict) else None
+    if not isinstance(value,str) or not value or len(value)>200:return None
+    if any(c.isspace() or ord(c)<32 or ord(c)==127 for c in value):return None
+    try:value.encode('utf-8')
+    except UnicodeError:return None
+    return value
+
+
+def _receipt_in_scope(task,run,bind):
+    return (run.get('environment_id')==task.get('environment_id')
+            and run.get('app_type')==task['app_type']
+            and run.get('environment_binding')==bind)
+
+
+def _check_newer_receipts(task,runs,bind,start):
+    for index,run in runs:
+        if index<=start:continue
+        if not _receipt_in_scope(task,run,bind):
+            raise ValueError('较新的导入记录来源环境、版本或应用类型不一致；不能自动沿用旧来源，请先核对或上传实际文件。')
+        if run.get('outcome_unknown') is True:
+            raise ValueError('最新导入结果标记为未知或未结算；不能自动沿用旧来源，请先核对或上传实际文件。')
+        if run.get('status')=='success':
+            if _import_receipt_app_id(run):raise ValueError('导入来源记录在读取前出现更新，请重新读取。')
+            raise ValueError('最新导入成功回执缺少可核对的应用标识；不能沿用旧来源。')
+        if run.get('status')=='failed' and run.get('outcome_unknown') is False:continue
+        raise ValueError('最新导入结果状态未知或未结算；不能自动沿用旧来源，请先核对或上传实际文件。')
+
+
+def latest_import_source(task,env):
+    """Latest trustworthy same-task/environment/type import receipt for an online read."""
+    from .run_diagnostics import binding
+    bind=binding(env)
+    runs=[(index,run) for index,run in enumerate(task.get('runs',[])) if isinstance(run,dict) and run.get('kind')=='import']
+    trusted=None;trusted_index=-1
+    for index,run in runs:
+        if _receipt_in_scope(task,run,bind) and run.get('status')=='success' and run.get('outcome_unknown') is not True and _import_receipt_app_id(run):
+            trusted=run;trusted_index=index
+    if trusted is not None:
+        _check_newer_receipts(task,runs,bind,trusted_index)
+        return _import_receipt_app_id(trusted),trusted
+    reference_app=(task.get('dsl_reference') or {}).get('source_app_id')
+    if not isinstance(reference_app,str) or not reference_app:return None,None
+    reference_for(task)
+    matched=-1
+    for index,run in runs:
+        if run.get('environment_id')!=task.get('environment_id') or run.get('status')!='success':continue
+        if run.get('outcome_unknown') is True:continue
+        if run.get('app_type') not in (None,task['app_type']):continue
+        if run.get('environment_binding') not in (None,bind):continue
+        if _import_receipt_app_id(run)!=reference_app:continue
+        matched=index
+    _check_newer_receipts(task,runs,bind,matched)
+    return reference_app,None
+
+
+def _source_identity(run,app_id):
+    if run is None:return ('app',app_id)
+    from .dsl_roundtrip import digest
+    return ('receipt',run.get('id'),run.get('status'),run.get('environment_binding'),app_id,digest(run.get('dsl_baseline')))
+
+
 @app.post('/api/tasks/{item_id}/dsl-reference')
 async def capture_dsl_reference(item_id:str,payload:DslReferenceRequest):
     from .dsl_roundtrip import parse
@@ -1256,9 +1319,22 @@ async def capture_dsl_reference(item_id:str,payload:DslReferenceRequest):
         task=copy.deepcopy(get_task(item_id));require_idle(task);require_revision(task,payload.revision)
         prior=(task.get('dsl_reference') or {}).get('id')
         origin_fingerprint=dsl_source_fingerprint(task)
-        app_id=task.get('dify_app_id') or (task.get('dsl_reference') or {}).get('source_app_id')
-        try:base,note=baseline_for(task,app_id if payload.content is None else app_id)
+        selected_run=None;source_identity=None
+        if payload.content is None and not task.get('dify_app_id'):
+            try:app_id,selected_run=latest_import_source(task,environment(task)) if task.get('environment_id') else ((task.get('dsl_reference') or {}).get('source_app_id'),None)
+            except ValueError as exc:raise HTTPException(422,str(exc)) from exc
+        else:app_id=task.get('dify_app_id') or (task.get('dsl_reference') or {}).get('source_app_id')
+        try:base,note=baseline_for(task,app_id if payload.content is None else app_id,selected_run)
         except (ValueError,OSError) as exc:raise HTTPException(422,str(exc)) from exc
+        if selected_run is not None:
+            from .dsl import DSL_VERSION
+            if (not isinstance(base,dict) or base.get('kind')!='app' or base.get('version')!=DSL_VERSION
+                    or not isinstance(base.get('app'),dict) or base['app'].get('mode')!=task['app_type']):
+                raise HTTPException(422,'所选最新导入回执的生成基线不完整或应用类型不符；未读取外部草稿，请核对原始记录或上传实际文件。')
+        if payload.content is None:
+            prior_app=(task.get('dsl_reference') or {}).get('source_app_id')
+            if prior_app and app_id and prior_app!=app_id:note+=' 本次按任务最新可信导入记录选择较新的应用来源；旧引用保留但不作为本次来源。'
+            source_identity=_source_identity(selected_run,app_id)
     env=None
     if payload.content is None:
         if not app_id:raise HTTPException(422,'当前任务没有真实导入应用；可上传当前实际导出的 YAML 文件，不能假造源 App ID。')
@@ -1273,6 +1349,13 @@ async def capture_dsl_reference(item_id:str,payload:DslReferenceRequest):
         latest=get_task(item_id);require_idle(latest);require_revision(latest,payload.revision)
         if latest.get('environment_id')!=task.get('environment_id') or (latest.get('dsl_reference') or {}).get('id')!=prior:raise HTTPException(409,'读取期间来源或环境已变化，请重新读取。')
         if dsl_source_fingerprint(latest)!=origin_fingerprint:raise HTTPException(409,'读取期间来源环境地址或版本已变化，请重新读取；本次未保存引用。')
+        if payload.content is None:
+            try:
+                if latest.get('dify_app_id'):latest_app,latest_run=latest['dify_app_id'],None
+                elif latest.get('environment_id'):latest_app,latest_run=latest_import_source(latest,environment(latest))
+                else:latest_app,latest_run=(latest.get('dsl_reference') or {}).get('source_app_id'),None
+            except ValueError as exc:raise HTTPException(409,'读取期间导入来源或基线已变化，请重新读取；本次未保存引用。') from None
+            if _source_identity(latest_run,latest_app)!=source_identity:raise HTTPException(409,'读取期间导入来源或基线已变化，请重新读取；本次未保存引用。')
         record={'id':str(uuid.uuid4()),'task_id':item_id,'mode':task['app_type'],'environment_id':task.get('environment_id'),'source_app_id':app_id,'source':'dify_draft' if payload.content is None else 'uploaded_file','filename':payload.filename,'created_at':now(),'base':base,'current':current,'baseline_note':note,'environment_fingerprint':origin_fingerprint}
         if record['source']=='uploaded_file':record['baseline_note']+=' 上传文件与源 App 的归属及最新状态未在线核对，不能当作实时 Dify 草稿。'
         metadata={k:v for k,v in record.items() if k not in {'base','current','environment_fingerprint'}}

@@ -673,4 +673,4 @@
 
 | 357 | 清单25局部：原生目标端口与保留构建重核 | 仅修原生targetHandle投影丢失和旧已确认缓存绕过，保留源文件/Agent/容器声明。命令：pytest test_preserved_target_handles.py / test_dsl_roundtrip.py / test_root_edge_handles.py；另Agent/并行/容器/参考和循环的指定构建路径。 | deepseek实现 / codex派单验收 | done | 实现50dce4b。根正常API非法native值采用/build200及旧缓存绕过均复现；DS按两次窄授权实施，根88+1独立过/全差异已核。保护部署c74b0545840c294df3ba/298/PID20012、十二根/733/337封存24/原26密文保持。docs/preserved-target-handles.md；清单25另有已证实连续来源缺口358，不能叫全部已闭合。 |
 
-| 358 | 清单25续：连续改版读取最新成功App来源 | 第二App成功后编辑需求使当前dify_app_id失效，读取应依可信当前环境的最新成功导入来源，不悄悄退回最老reference App；不猜未知/异环境来源，不覆盖旧App。根已正常API复现200导出旧App，先给DS有界查源选择/基线绑定，再限定实施与回归。 | deepseek实现 / codex派单验收 | pending | work/dsl-next-app-source-repro.json：latest_successful_import=新App，current_app=null，reference_source=第一App，实际export第一App；全部合成数据/HTTP0。FR39/40/41、AT18实质剩余，不混改357。 |
+| 358 | 清单25续：连续改版读取最新成功App来源 | 第二App成功后编辑需求使当前dify_app_id失效，读取应依可信当前环境的最新成功导入来源，不悄悄退回最老reference App；不猜未知/异环境来源，不覆盖旧App。根已正常API复现200导出旧App，先给DS有界查源选择/基线绑定，再限定实施与回归。 | deepseek实现 / codex派单验收 | doing | work/dsl-next-app-source-repro.json：latest_successful_import=新App，current_app=null，reference_source=第一App，实际export第一App；全部合成数据/HTTP0。FR39/40/41、AT18实质剩余，不混改357。 |
