@@ -657,4 +657,6 @@
 
 | 349 | 交付清单11：资源发现与目标环境映射 | 同锁核环境来源/捕获角色Token与CSRF，兼容登录续接、不可变快照及无持久环境SDK；变更/删除来源在读Key前拒绝。命令：pytest test_dify_credential_snapshot.py / test_dify_reauth.py / test_console_connection.py / test_dify_loopback_transport.py / test_transports.py / test_dify_write_outcome.py / test_resources.py；另test_schedule_observation.py及test_workflow_environment_mapping.py。 | deepseek实现 / codex派单验收 | done | 实现1bbdc98。根正常API/假Token复现旧地址混新Token及三处边界，DeepSeek首do540秒退出后拆小返工135秒成功，根最终123+39定向通过，全差异复核，未改旧测试/前端/依赖或增产品外部请求。保护部署f45af15d6d328c6d20a9/298/PID28260、十二根/733/337封存24/原26密文保持；docs/dify-credential-source-integrity.md。原映射41过，真实资源质量和自然到期另验。 |
 
-| 350 | 交付清单12：多知识库选择建议 | DeepSeek有界核多库范围/权限/代表问题到具体库建议和理由/确认链；固定FAQ不当选库质量通过。现有功能够用则引用证据，不重写或添等价测试；根只复现实质缺口再限定实现。按直接关联知识库选择测试定向，不访问生产或外部服务。 | deepseek核实现 / codex派单验收 | doing | 349已关闭，依32项清单推进12，不扩大任何真实调用/资源/费用。 |
+| 350 | 交付清单12：多知识库选择建议 | 核范围/代表问题/目录元数据、具体库ID建议和理由及明确采纳；固定FAQ不是选择质量证明。命令：pytest test_configuration_proposals.py -k "dataset or at07 or source_failure or stale_proposal or offline_retained" -q --tb=short。 | deepseek复核 / codex派单验收 | done | 记录d0c52a0。根21项已有定向通过，DeepSeek两次只读复核，only_me缺陷说法经根退回后撤回；可见私库可能合法可用，不加误拦截。现有链够用，无产品改动/等价测试/重复部署，真实模型选库及权限语义质量仍未验；docs/multiple-knowledge-selection-review-20261121.md。 |
+
+| 351 | 交付清单13：原始资料到知识库准备 | DeepSeek有界核可读性/重复和版本/矛盾及分组索引方案，明确确认后创建/上传/索引状态，不伪成功或自动裁事实；根只复现实质缺口再限定实施。复用343/345/346和现有knowledge/material检查，不跑全量，不操作生产或外部。 | deepseek核实现 / codex派单验收 | pending | 350已关闭，依FR20/21/22、AT06/08核资料准备；不扩大任何真实调用、资源或费用。 |
