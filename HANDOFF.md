@@ -5,7 +5,7 @@
 - 工作克隆 E:\workSpace\sierra-chatflow-offline，main，origin https://github.com/xiaosongxiaosong1111/dify-agent.git。以 git status、最新 BACKLOG 和运行身份为准，保留未提交修改。
 - 用户指定 $ds：Codex 制定路线、把控需求、验收与返工；持续向 Claude Code / 192.168.0.224 的 deepseek-flash 派发明确任务，直到项目完成或实际不可继续。完整路线 docs/sierra-completion-roadmap-20261119.md。模型不可用或额度不足如实停止，不换账号/模型绕过，不冒称子审查成功。
 - 经用户指定从 CC Switch 当前 Claude provider 仅读并配置技能仓库外忽略文件。开发网关调用已实际成功；不修改全局 Codex/Claude 配置，不输出 Key，不把凭据或客户资料发给子任务。ds 路径 C:\Users\Administrator\.codex\skills\ds\scripts\ds.mjs。
-- 原机 E:\workSpace\dify-agent 已由7cf22b3安全快进同步当前main（运行代码含d16b7b5修复）并启动，http://127.0.0.1:8765 可用。实际固定快照0.410.0-f45af15d6d328c6d20a9 / 298文件 / PID28260；health与页面200，CIM执行文件和源码/快照逐项相符。26任务/10环境/2模型、加密凭据及素材与升级前一致。存有专用环境加密登录、Token和Service Key及模型Key，不等于实时连接已验证。不得用新克隆空数据覆盖。
+- 原机 E:\workSpace\dify-agent 已由7cf22b3安全快进同步当前main（运行代码含d16b7b5修复）并启动，http://127.0.0.1:8765 可用。实际固定快照0.410.0-d5348d954c69e689f59a / 298文件 / PID41284；health与页面200，CIM执行文件和源码/快照逐项相符。26任务/10环境/2模型、加密凭据及素材与升级前一致。存有专用环境加密登录、Token和Service Key及模型Key，不等于实时连接已验证。不得用新克隆空数据覆盖。
 - 原需求 docs/requirements-v1.0.md，首条 Chatflow 目标为模糊需求起步、模型访谈和完整规划、自然语言改版、两版各六例七轮/原生轨迹/交付包。人工386双版、受限模型410单版有历史真实证据，自主双版仍未闭合。
 
 ## 2. 本轮已验收
@@ -23,14 +23,13 @@
 
 ## 3. 下一步
 
-1. 用户最新明确：产品实现和返工持续交给Claude Code网关192.168.0.224:3010的deepseek-flash，Codex不接手产品代码，只做需求/复现/派单/独立验收/文档/集成。依BACKLOG一次一项，32清单为交付分解而非32个缺失功能；已有功能够用则引用证据继续。
-2. #349已完成，实现1bbdc98。DeepSeek仅改dify.py/新增test_dify_credential_snapshot.py；构造固定身份、同锁核来源/取角色凭据对、锁外网络、续接后重核，不重放原写入，保留不可变快照和stateless SDK。根实际正常API复现旧URL混新Token/CSRF，另三边界反馈返工，最终独立123+39定向通过，全差异已核，无前端/依赖/旧测试改动。docs/dify-credential-source-integrity.md。
-3. 首do540秒退出无最终JSON、缺失用量不当免费，网关TCP可达且未见额度不足。保留代码并发小返工，同DeepSeek会话ba592838-92a3-4c21-a2c4-95357031e192于135秒成功，外部校验一次通过，work/resource349-retry-worker.log。不要把退出当成已证明断网/额度不足，不接手产品代码。
-4. 原机已安全快进实现1bbdc98、核原所属PID后原stop/start部署：0.410.0-f45af15d6d328c6d20a9/298/PID28260，health/页面200、源码/快照/所属执行文件一致。audit-deployment349.py verify通过，原work/resource349-deployment/before/after.json证明十二根/733/337封存24/原26和密文不变；不要覆盖基线或重复部署。关闭文档push后仅同步原机文档。
-5. #350已完成记录d0c52a0，现有多库链21定向过；私有only_me误报已退回撤回，无产品修改，真实选库质量未验。#351 doing：DeepSeek仅knowledge.py/新test_knowledge_unsubmitted_refresh.py修未上传资料误判，真实远端错误优先保留，明确继续不重复资源。根正常API复现，旧模块两回归真实失败；首矩阵67过1失败为349资源目录同源异常误转502，已明确授权同DS仅main三目录environment_changed→409及旧reauth用例请求数更新，无第二次旧连接读取。最终根独立152定向通过，全差异已核，DeepSeek外部68一次通过。work/knowledge351-integration-worker.log；无前端/依赖/产品外部HTTP。docs/knowledge-unsubmitted-refresh.md。下一先提交实现，原机干净快进、核savedPID/执行文件后原stop/start部署；audit-deployment351.py capture已执行，knowledge351-deployment/before.json勿覆盖，verify后方可关闭351并入队352清单14检索/基于资料回答。此前343/345/346材料能力不重做。
-6. #337已消费stopped：直接批准call_b4c700f1b4d24950a303b16fbe157440/q0；1登录/4GET全200，FAQ文档列表后RuntimeError，模型/新Task/资源/Service全0，具体分支未记录。plan493122dd/manifest321fc01f，work/autonomous-dual337永久不改不重放不续阶段。338/181003e分页修复仅源码；允许重发开发DeepSeek不扩大产品模型/Dify范围，新真实批须独立范围/明确改授批准。
-7. 自主售后双版仍未完成；真实前须FAQ政策/条件/结论及完整候选实际复核，不可模板代替或放宽期望。专用连接/空间与当前App保持。保守模型51/读1597/登录47/资源各28/Service134、模型估算账本2.755473652非账单硬限；实际产品模型36，旧settled/unknown/预留均保持，本轮产品真实HTTP0，开发网关单独记录。
-8. 每次push前CHANGELOG、适用README/状态及整份HANDOFF更新；实际检查通过和实现commit存在后标done，再提交关闭、自主push原main核远端。排除work/data/供应商原文/秘密，不通读项目或290KB历史。实际Codex不足立即停、尽可能整份写交接；不重试换号购买，未观察到不足不冒称耗尽。
+1. 用户要求持续委派：产品实现/返工全部交Claude Code网关192.168.0.224:3010的deepseek-flash；Codex负责需求/复现/派单/全差异及独立验收/集成/文档/Git，不接手产品代码。依据BACKLOG一次一项；32清单是交付分解，已有够用不重写。
+2. #351完成，实现1887519。DeepSeek修未上传资料刷新误判未知索引，保留/恢复paused主动继续、真实远端错误优先、沿用已建库/Key/已上传资料。根正常API复现、旧模块两反例真实失败；首矩阵67过1失败是349同源保护在目录第二GET前拒绝却转502，根扩大窄范围给同DS修main三个目录409和旧reauth用例请求数/无后续读取断言。最终根152定向过、全差异已核，DeepSeek外部68一次过，无前端/依赖/产品真实HTTP。docs/knowledge-unsubmitted-refresh.md；work/knowledge351-integration-worker.log。未放宽真实错误或重放规则。
+3. 原机安全快进1887519，核所属PID后原stop/start部署：0.410.0-d5348d954c69e689f59a/298/PID41284，health/页面200、源码/快照/所属执行文件一致。audit-deployment351.py verify已过，knowledge351-deployment/before/after.json证明十二根/733/337封存24/原26和密文保持，勿覆盖。关闭文档push后仅同步原机文档，不重复部署。
+4. 下一#352 pending，清单14检索及基于资料回答：让DeepSeek限定核代表问题与检索证据、正常命中/片段不足/空检索/技术失败、回答依据，不编造政策；只修根可复现实质缺口。固定FAQ和替身不是质量验收，不能重做完整真实批。此前#350记录d0c52a0，21多库定向通过、only_me误报退回撤回，现有够用。#349实现1bbdc98同源捕获123+39通过，随351补目录409；首do540秒退出后小返工135秒成功，不据此称断网或额度不足。所有过往修复与保护回执保留。
+5. #337已消费stopped：直接批准call_b4c700f1b4d24950a303b16fbe157440/q0；1登录/4GET全200，FAQ文档列表后RuntimeError，模型/新Task/资源/Service全0，具体分支未记录。plan493122dd/manifest321fc01f，work/autonomous-dual337永久不改不重放不续阶段。338/181003e分页修复仅源码，开发DS重发不扩大产品调用；新真实批需独立范围/明确改授批准。
+6. 自主售后双版未完成；真实前须FAQ政策/条件/结论和完整候选实际复核，不以模板替代或放宽期望。专用连接/空间/App保持。保守模型51/读1597/登录47/资源各28/Service134、模型估算账本2.755473652非账单硬限；实际产品模型36，旧settled/unknown/预留不退借，开发网关单独记，超时缺失用量不当免费。
+7. 每次push前CHANGELOG、适用README/状态及整份HANDOFF更新；实际验收且实现commit存在后done，再提交关闭push原main核远端。排除work/data/供应商原文/秘密，不通读项目或290KB历史，不能按端口杀进程。实际Codex不足立即停、尽可能写交接；不重试换号购买，未观察到不足不冒称耗尽。
 
 ## 4. 账本与凭据
 

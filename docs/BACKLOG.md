@@ -659,4 +659,6 @@
 
 | 350 | 交付清单12：多知识库选择建议 | 核范围/代表问题/目录元数据、具体库ID建议和理由及明确采纳；固定FAQ不是选择质量证明。命令：pytest test_configuration_proposals.py -k "dataset or at07 or source_failure or stale_proposal or offline_retained" -q --tb=short。 | deepseek复核 / codex派单验收 | done | 记录d0c52a0。根21项已有定向通过，DeepSeek两次只读复核，only_me缺陷说法经根退回后撤回；可见私库可能合法可用，不加误拦截。现有链够用，无产品改动/等价测试/重复部署，真实模型选库及权限语义质量仍未验；docs/multiple-knowledge-selection-review-20261121.md。 |
 
-| 351 | 交付清单13：原始资料到知识库准备 | DeepSeek有界核可读性/重复和版本/矛盾及分组索引方案，明确确认后创建/上传/索引状态，不伪成功或自动裁事实；根只复现实质缺口再限定实施。复用343/345/346和现有knowledge/material检查，不跑全量，不操作生产或外部。 | deepseek核实现 / codex派单验收 | doing | DeepSeek发现建库后暂停再refresh将未上传资料误判未知索引，页面丢继续入口；根正常API/替身独立复现，work/knowledge351-paused-refresh-proof.json，现有55项通过未覆盖。已发仅knowledge.py/新回归的窄方案，保留已建资源、远端真实错误和明确继续；禁止自动重建/上传，不增真实HTTP。 |
+| 351 | 交付清单13：原始资料到知识库准备 | 仅修未上传资料误判未知索引、保留明确继续及真实远端错误；集成保持同源拒绝409/不发旧连接后续读取。命令：pytest test_knowledge_unsubmitted_refresh.py / test_knowledge.py / test_task_knowledge_pause.py / test_knowledge_reauth.py；另349直接认证/资源检查。 | deepseek实现 / codex派单验收 | done | 实现1887519。根正常API/替身复现paused→needs_input，旧模块2反例失败；DeepSeek按方案/集成反馈返工，根最终152定向过，全差异已核。保护部署d5348d954c69e689f59a/298/PID41284、十二根/733/337封存24/原26密文保持，无前端/真实产品HTTP。docs/knowledge-unsubmitted-refresh.md；资料整理和真实检索语义质量未据此签收。 |
+
+| 352 | 交付清单14：检索与基于资料回答 | DeepSeek有界核代表问题、实际检索证据、片段不足/空检索/技术失败区分与回答依据；不编造政策事实，不把固定FAQ与替身当真实质量。根独立复现实质缺口后限定实现；够用则引用已有证据，不重写/等价新增。仅相关retrieval及grounding定向，不操作生产或外部。 | deepseek核实现 / codex派单验收 | pending | 351已关闭，按FR23/30/33、AT13继续；不扩大真实调用/资源/费用。 |
