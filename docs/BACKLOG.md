@@ -659,4 +659,4 @@
 
 | 350 | 交付清单12：多知识库选择建议 | 核范围/代表问题/目录元数据、具体库ID建议和理由及明确采纳；固定FAQ不是选择质量证明。命令：pytest test_configuration_proposals.py -k "dataset or at07 or source_failure or stale_proposal or offline_retained" -q --tb=short。 | deepseek复核 / codex派单验收 | done | 记录d0c52a0。根21项已有定向通过，DeepSeek两次只读复核，only_me缺陷说法经根退回后撤回；可见私库可能合法可用，不加误拦截。现有链够用，无产品改动/等价测试/重复部署，真实模型选库及权限语义质量仍未验；docs/multiple-knowledge-selection-review-20261121.md。 |
 
-| 351 | 交付清单13：原始资料到知识库准备 | DeepSeek有界核可读性/重复和版本/矛盾及分组索引方案，明确确认后创建/上传/索引状态，不伪成功或自动裁事实；根只复现实质缺口再限定实施。复用343/345/346和现有knowledge/material检查，不跑全量，不操作生产或外部。 | deepseek核实现 / codex派单验收 | pending | 350已关闭，依FR20/21/22、AT06/08核资料准备；不扩大任何真实调用、资源或费用。 |
+| 351 | 交付清单13：原始资料到知识库准备 | DeepSeek有界核可读性/重复和版本/矛盾及分组索引方案，明确确认后创建/上传/索引状态，不伪成功或自动裁事实；根只复现实质缺口再限定实施。复用343/345/346和现有knowledge/material检查，不跑全量，不操作生产或外部。 | deepseek核实现 / codex派单验收 | doing | DeepSeek发现建库后暂停再refresh将未上传资料误判未知索引，页面丢继续入口；根正常API/替身独立复现，work/knowledge351-paused-refresh-proof.json，现有55项通过未覆盖。已发仅knowledge.py/新回归的窄方案，保留已建资源、远端真实错误和明确继续；禁止自动重建/上传，不增真实HTTP。 |

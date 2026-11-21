@@ -50,5 +50,6 @@ def test_resource_directory_accepts_only_auth_metadata_refresh(client,monkeypatc
     transport_client(monkeypatch,dify,handler)
     result=client.get(f"/api/environments/{env['id']}/"+endpoint)
     assert result.status_code==(409 if connection_changed else 200),result.text
-    assert len(calls)==1 and len(seen)==(2 if endpoint.startswith('model-parameters') else 1)
+    assert len(calls)==1 and len(seen)==(1 if connection_changed else 2 if endpoint.startswith('model-parameters') else 1)
+    if connection_changed:assert not any(request.url.path.endswith('/parameter-rules') for request in seen)
     assert 'PRIVATE' not in result.text and 'user@test.local' not in result.text

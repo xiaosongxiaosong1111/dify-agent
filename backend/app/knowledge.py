@@ -244,9 +244,12 @@ class KnowledgeManager:
             j['observed_at']=now()
             complete=all(document_ready(d) for d in j['documents'])
             if j['status']=='applied':return
+            submitted=[d for d in j['documents'] if d.get('remote_id')]
+            unsubmitted=[d for d in j['documents'] if not d.get('remote_id')]
             if complete:j.update(status='ready',message='所有资料的实际索引已完成且有可用片段；尚未加入任务配置，也不等于检索效果已验收。')
-            elif any(d.get('indexing',{}).get('indexing_status') not in {'submitted','waiting','parsing','cleaning','splitting','indexing','completed','paused','error'} for d in j['documents']):j.update(status='needs_input',message='Dify 返回未识别的索引状态，不确认可用，请核对实例。')
-            elif any(d.get('indexing',{}).get('indexing_status') in {'error','paused','completed'} and (d['indexing']['indexing_status']!='completed' or not document_ready(d)) for d in j['documents']):j.update(status='needs_input',message='存在索引错误、暂停或无可用片段，请核对 Dify 状态；不切换索引方式或冒充完成。')
+            elif any(d.get('indexing',{}).get('indexing_status') not in {'submitted','waiting','parsing','cleaning','splitting','indexing','completed','paused','error'} for d in submitted):j.update(status='needs_input',message='Dify 返回未识别的索引状态，不确认可用，请核对实例。')
+            elif any(d.get('indexing',{}).get('indexing_status') in {'error','paused','completed'} and (d['indexing']['indexing_status']!='completed' or not document_ready(d)) for d in submitted):j.update(status='needs_input',message='存在索引错误、暂停或无可用片段，请核对 Dify 状态；不切换索引方式或冒充完成。')
+            elif unsubmitted:j.update(status='paused',message=f'仍有{len(unsubmitted)}份资料尚未提交到 Dify；本次只读取已提交资料的实际状态，不自动创建、上传或恢复，也不把未提交资料当作索引失败。继续须主动启动已确认准备。')
             elif j['status']!='paused':
                 try:self.bound(j,check_time=True)
                 except StopProvision as exc:j.update(status='paused',message=str(exc))

@@ -2293,6 +2293,8 @@ async def list_dify_models(item_id: str, model_type: str = "llm"):
     try:
         rows = models_metadata(await DifyClient(env, store).models(model_type), model_type)
     except DifyError as exc:
+        if exc.code == 'environment_changed':
+            raise HTTPException(409, "读取期间环境配置变化，请刷新后重新读取资源。") from exc
         raise HTTPException(502, str(exc)) from exc
     require_resource_connection(env)
     return {"data": rows, "source": "console", "model_type": model_type, "observed_at": now(), "environment_id": item_id, "connection_revision": env.get("connection_revision")}
@@ -2315,6 +2317,8 @@ async def dify_model_parameters(item_id: str, provider: str, model: str):
             raise HTTPException(422, "所选模型不在当前可用 chat 模型目录中，请重新读取并选择。")
         rules = parameter_metadata(await adapter.model_parameters(path, model))
     except DifyError as exc:
+        if exc.code == 'environment_changed':
+            raise HTTPException(409, "读取期间环境配置变化，请刷新后重新读取资源。") from exc
         raise HTTPException(502, str(exc)) from exc
     require_resource_connection(env)
     return {"data": rules, "provider": provider, "model": model, "source": "console", "observed_at": now(), "environment_id": item_id, "connection_revision": env.get("connection_revision")}
@@ -2332,6 +2336,8 @@ async def list_datasets(item_id: str, page: int = 1, limit: int = 100, source: s
         payload = await (adapter.console_datasets(page, limit) if source == "console" else adapter.datasets(page, limit))
         result = datasets_metadata(payload)
     except DifyError as exc:
+        if exc.code == 'environment_changed':
+            raise HTTPException(409, "读取期间环境配置变化，请刷新后重新读取资源。") from exc
         if source == "service" and "HTTP 403" in str(exc):
             raise HTTPException(502, "知识库 Key 无权读取全局目录（HTTP 403）。限定指定知识库的 Key 不能列举整个工作空间；可以切换管理连接读取目录，或保留已知 ID，不会自动扩大 Key 权限。") from exc
         raise HTTPException(502, str(exc)) from exc
