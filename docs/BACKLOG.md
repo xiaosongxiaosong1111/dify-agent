@@ -661,4 +661,6 @@
 
 | 351 | 交付清单13：原始资料到知识库准备 | 仅修未上传资料误判未知索引、保留明确继续及真实远端错误；集成保持同源拒绝409/不发旧连接后续读取。命令：pytest test_knowledge_unsubmitted_refresh.py / test_knowledge.py / test_task_knowledge_pause.py / test_knowledge_reauth.py；另349直接认证/资源检查。 | deepseek实现 / codex派单验收 | done | 实现1887519。根正常API/替身复现paused→needs_input，旧模块2反例失败；DeepSeek按方案/集成反馈返工，根最终152定向过，全差异已核。保护部署d5348d954c69e689f59a/298/PID41284、十二根/733/337封存24/原26密文保持，无前端/真实产品HTTP。docs/knowledge-unsubmitted-refresh.md；资料整理和真实检索语义质量未据此签收。 |
 
-| 352 | 交付清单14：检索与基于资料回答 | DeepSeek有界核代表问题、实际检索证据、片段不足/空检索/技术失败区分与回答依据；不编造政策事实，不把固定FAQ与替身当真实质量。根独立复现实质缺口后限定实现；够用则引用已有证据，不重写/等价新增。仅相关retrieval及grounding定向，不操作生产或外部。 | deepseek核实现 / codex派单验收 | doing | 351已关闭，按FR23/30/33、AT13继续；不扩大真实调用/资源/费用。 |
+| 352 | 交付清单14：检索与基于资料回答 | 核代表问题和检索证据、空结果/返回/不足证据/技术失败及资料回答；命令：pytest test_retrieval_observations.py / test_retrieval_query_source.py / test_dataset_configuration_check.py；另test_after_sales_intake_to_graph.py。 | deepseek复核 / codex派单验收 | done | 记录38f08e4。根90+4定向实际过，DeepSeek只读复核未报新可复现缺口；四态、受限证据、来源绑定和双版逐字无答案/交付保持，无产品修改/等价测试/重复部署。真实片段相关性/模型资料不足判断未验，不宣称自主双版完成；docs/retrieval-grounding-review-20261121.md。 |
+
+| 353 | 交付清单15：完整规划、代码与DSL生成 | DeepSeek有界核用户所选类型和Dify版本、完整图/变量/关键路径/代码样例与实际DSL，能力不足明确而不删功能过关；先定位当前一处实质可复现缺口，再限定实现。复用现有编译及完整售后检查，不通读全项目、不跑全量、不访问生产/外部。 | deepseek核实现 / codex派单验收 | pending | 352已关闭，按FR24—27/30、AT10/12/15继续；不扩大真实调用/资源/费用。 |
