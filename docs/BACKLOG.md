@@ -663,4 +663,6 @@
 
 | 352 | 交付清单14：检索与基于资料回答 | 核代表问题和检索证据、空结果/返回/不足证据/技术失败及资料回答；命令：pytest test_retrieval_observations.py / test_retrieval_query_source.py / test_dataset_configuration_check.py；另test_after_sales_intake_to_graph.py。 | deepseek复核 / codex派单验收 | done | 记录38f08e4。根90+4定向实际过，DeepSeek只读复核未报新可复现缺口；四态、受限证据、来源绑定和双版逐字无答案/交付保持，无产品修改/等价测试/重复部署。真实片段相关性/模型资料不足判断未验，不宣称自主双版完成；docs/retrieval-grounding-review-20261121.md。 |
 
-| 353 | 交付清单15：完整规划、代码与DSL生成 | DeepSeek有界核用户所选类型和Dify版本、完整图/变量/关键路径/代码样例与实际DSL，能力不足明确而不删功能过关；先定位当前一处实质可复现缺口，再限定实现。复用现有编译及完整售后检查，不通读全项目、不跑全量、不访问生产/外部。 | deepseek核实现 / codex派单验收 | doing | DeepSeek定位根图边端口未核对，根正常API三反例save/confirm/build均200且编出非法句柄，work/graph353-edge-proof.json；已有125+4定向过未覆盖。已派仅workflow_plan.py/新root_edge_handles回归，保留合法分支/两种别名/原计划，不增真实HTTP。 |
+| 353 | 交付清单15：完整规划、代码与DSL生成 | 修根图source/target端口与别名契约，保留合法分支/参考往返。命令：pytest test_root_edge_handles.py / test_workflow_plan.py / test_code_entry_contract.py / test_code_samples.py，另分类/人工审核/循环/参考保留及复现指定正常路径。 | deepseek实现 / codex派单验收 | done | 实现304eec0。根正常API三反例旧保存/确认/build200并发射非法DSL；DeepSeek仅workflow_plan.py/新测试修正，根全差异/独立171定向通过。保护部署2273929f3133d7592551/298/PID38184、十二根/733/337封存24/原26密文保持，无前端/真实HTTP；docs/root-edge-handle-validation.md。真实自主候选语义及平台质量未据此签收。 |
+
+| 354 | 交付清单16：应用类型和执行能力边界 | DeepSeek按已有能力矩阵核Workflow/Agent/批量/触发/人工参与已实现与限制，保留用户类型/部分失败策略，不默认全部支持；有界定位一个实质可复现缺口后再限定实现。已有证据够用不重复开发，不跑全量，不操作生产或外部。 | deepseek核实现 / codex派单验收 | pending | 353已关闭，按FR03/17/28、AT05/09/14/16/23推进，17/18既有替身闭环不重做；真实自主19—22仍未闭合。 |
