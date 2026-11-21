@@ -675,4 +675,4 @@
 
 | 358 | 清单25续：连续改版读取最新成功App来源 | 最近可信同环境/类型App与同一回执基线、GET后来源重核；旧ref指纹/畸形结果/unknown不放宽，页面可按成功历史发起只含revision的读取。命令：pytest test_dsl_latest_source.py / test_dsl_roundtrip.py / test_legacy_import_baseline.py / test_dsl_origin_binding.py / test_import_pause_preflight.py；tools/check_dsl_source_history_ui.py --output新目录 --playwright指定绝对路径。 | deepseek并行实现 / codex派单验收 | done | 实现41ac27d。根正常API复现App1/2来源及旧scope/result/unknown错误并反馈返工；最终85定向+真实构建App三UI场景passed，npm build过，旧源/任务/回执保持，所有产品实现由DS。保护部署23c94dbe89553f265c3b/298/PID40660，十二根/733/337封存24/原26密文保持，真实产品HTTP0。docs/latest-dsl-source.md；真实手改/自主模型质量另验。 |
 
-| 359 | 交付清单26：切环境/配置后的重确认和重验证 | DeepSeek有界核来源/目录/逐节点映射、模型/库/参数变化后相关确认及当前运行证据失效，旧预览不能覆盖当前来源。复用349/351/358已验证链，仅修根正常API可复现实质缺口；不重复开发或跑全量，不发真实请求。 | deepseek核实现 / codex派单验收 | pending | 358已关闭，FR18/40/42、AT17/19继续；真实切环境质量仍需独立范围，本机工作不扩大资源/费用。 |
+| 359 | 交付清单26：切环境/配置后的重确认和重验证 | DeepSeek有界核来源/目录/逐节点映射、模型/库/参数变化后相关确认及当前运行证据失效，旧预览不能覆盖当前来源。复用349/351/358已验证链，仅修根正常API可复现实质缺口；不重复开发或跑全量，不发真实请求。 | deepseek核实现 / codex派单验收 | doing | 358已关闭，FR18/40/42、AT17/19继续；真实切环境质量仍需独立范围，本机工作不扩大资源/费用。 |
