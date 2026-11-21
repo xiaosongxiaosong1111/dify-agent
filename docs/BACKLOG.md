@@ -669,4 +669,4 @@
 
 | 355 | 交付清单23：暂停、停止与进程恢复 | 修同次import await源草稿期间暂停后仍自动创建；保留主动新请求和已派发回执，不加通用暂停锁。命令：pytest test_import_pause_preflight.py / test_dsl_roundtrip.py / test_api.py / test_publication_recovery.py / test_workflow_publication.py / test_conversation_cases.py -k "import or pause or restart or recover or unknown"。 | deepseek实现 / codex派单验收 | done | 实现f9c18b9。根拒绝新手动请求误报后复现实际跨暂停写入，DS按窄方案实现、一次新测试预期自修；根82定向过/151未选，全差异已核。保护部署95cb99c5a273e8ab0e6a/298/PID42604、十二根/733/337封存24/原26密文保持，无前端/真实产品HTTP。docs/import-pause-preflight.md；真实外部自然恢复另验。 |
 
-| 356 | 交付清单24：加密登录续接与自然令牌到期 | DeepSeek有界核同空间/来源绑定、过期续接、失败停止和写入不重放，区分明确重连和自然到期；复用349/351直接认证检查，仅修根实质复现，不新增真实登录或读取。 | deepseek核实现 / codex派单验收 | pending | 355已关闭，FR04/18/37、AT17/20/21继续；真实自然过期仍缺观察证据，不等于本机需重写。 |
+| 356 | 交付清单24：加密登录续接与自然令牌到期 | DeepSeek有界核同空间/来源绑定、过期续接、失败停止和写入不重放，区分明确重连和自然到期；复用349/351直接认证检查，仅修根实质复现，不新增真实登录或读取。 | deepseek核实现 / codex派单验收 | doing | 355已关闭，FR04/18/37、AT17/20/21继续；真实自然过期仍缺观察证据，不等于本机需重写。 |
