@@ -663,4 +663,4 @@
 
 | 352 | 交付清单14：检索与基于资料回答 | 核代表问题和检索证据、空结果/返回/不足证据/技术失败及资料回答；命令：pytest test_retrieval_observations.py / test_retrieval_query_source.py / test_dataset_configuration_check.py；另test_after_sales_intake_to_graph.py。 | deepseek复核 / codex派单验收 | done | 记录38f08e4。根90+4定向实际过，DeepSeek只读复核未报新可复现缺口；四态、受限证据、来源绑定和双版逐字无答案/交付保持，无产品修改/等价测试/重复部署。真实片段相关性/模型资料不足判断未验，不宣称自主双版完成；docs/retrieval-grounding-review-20261121.md。 |
 
-| 353 | 交付清单15：完整规划、代码与DSL生成 | DeepSeek有界核用户所选类型和Dify版本、完整图/变量/关键路径/代码样例与实际DSL，能力不足明确而不删功能过关；先定位当前一处实质可复现缺口，再限定实现。复用现有编译及完整售后检查，不通读全项目、不跑全量、不访问生产/外部。 | deepseek核实现 / codex派单验收 | pending | 352已关闭，按FR24—27/30、AT10/12/15继续；不扩大真实调用/资源/费用。 |
+| 353 | 交付清单15：完整规划、代码与DSL生成 | DeepSeek有界核用户所选类型和Dify版本、完整图/变量/关键路径/代码样例与实际DSL，能力不足明确而不删功能过关；先定位当前一处实质可复现缺口，再限定实现。复用现有编译及完整售后检查，不通读全项目、不跑全量、不访问生产/外部。 | deepseek核实现 / codex派单验收 | doing | DeepSeek定位根图边端口未核对，根正常API三反例save/confirm/build均200且编出非法句柄，work/graph353-edge-proof.json；已有125+4定向过未覆盖。已派仅workflow_plan.py/新root_edge_handles回归，保留合法分支/两种别名/原计划，不增真实HTTP。 |

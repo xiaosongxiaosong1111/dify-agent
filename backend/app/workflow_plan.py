@@ -183,6 +183,21 @@ def _task_mode(task: dict) -> str | None:
     return task.get("app_type") if isinstance(task, dict) else None
 
 
+def _edge_handle(edge: dict, index: int, snake: str, camel: str, default: str, errors: list[str]) -> str | None:
+    """Resolve one aliased native handle without changing the caller plan."""
+    present = [(name, edge[name]) for name in (snake, camel) if name in edge]
+    if not present:
+        return default
+    for name, value in present:
+        if not isinstance(value, str):
+            errors.append(f"edges[{index}].{name} 必须是字符串")
+            return None
+    if len(present) == 2 and present[0][1] != present[1][1]:
+        errors.append(f"edges[{index}].{snake} 与 {camel} 不一致")
+        return None
+    return present[0][1]
+
+
 def validate_plan(task: dict, plan: dict, *, _scope_types=None, _scope_file_items=None) -> dict:
     errors: list[str] = []
     warnings: list[str] = []
@@ -523,22 +538,28 @@ def validate_plan(task: dict, plan: dict, *, _scope_types=None, _scope_file_item
             errors.append(f"edges[{i}] 必须是对象")
             continue
         source, target = edge.get("source"), edge.get("target")
-        handle = edge.get("source_handle", edge.get("sourceHandle", "source"))
         if not isinstance(source, str) or not isinstance(target, str):
             errors.append(f"edges[{i}].source 和 target 必须是字符串")
             continue
         if source not in by_id or target not in by_id:
             errors.append(f"边引用不存在节点：{source!r} -> {target!r}")
             continue
-        if not isinstance(handle, str):
-            errors.append(f"edges[{i}].source_handle 必须是字符串")
+        handle = _edge_handle(edge, i, "source_handle", "sourceHandle", "source", errors)
+        target_handle = _edge_handle(edge, i, "target_handle", "targetHandle", "target", errors)
+        if handle is None or target_handle is None:
             continue
+        source_field = "sourceHandle" if "sourceHandle" in edge and "source_handle" not in edge else "source_handle"
+        target_field = "targetHandle" if "targetHandle" in edge and "target_handle" not in edge else "target_handle"
+        if target_handle != "target":
+            errors.append(f"edges[{i}].{target_field} 必须是 target")
         if by_id[source]["type"] == "if-else" and handle not in branch_ids.get(source, {"false"}):
             errors.append(f"if-else {source} 的边 handle {handle!r} 不是已声明 case 或 false")
         if by_id[source]['type']=='question-classifier' and (handle not in branch_ids.get(source,set()) or not {'source_handle','sourceHandle'}&set(edge)):
             errors.append(f'分类 {source} 的边须明确使用已声明类别 id，不能采用默认／未声明出口。')
         if by_id[source]['type']=='human-input' and (handle not in branch_ids.get(source,set()) or not {'source_handle','sourceHandle'}&set(edge)):errors.append('人工审核每条边须明确approve/reject/__timeout出口，不能采用默认或未声明分支。')
         if by_id[source]['type']=='loop' and handle!='source':errors.append('首批循环只能使用 source 出口；不能绕过停止复核或假装已支持失败分支。')
+        if by_id[source]['type'] not in {'if-else','question-classifier','human-input','loop'} and handle != 'source':
+            errors.append(f"edges[{i}].{source_field} 普通节点 {source} 只能使用 source 出口")
         successors[source].append((target, handle))
         predecessors[target].add(source)
 
