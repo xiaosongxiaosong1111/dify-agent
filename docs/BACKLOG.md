@@ -661,4 +661,4 @@
 
 | 351 | 交付清单13：原始资料到知识库准备 | 仅修未上传资料误判未知索引、保留明确继续及真实远端错误；集成保持同源拒绝409/不发旧连接后续读取。命令：pytest test_knowledge_unsubmitted_refresh.py / test_knowledge.py / test_task_knowledge_pause.py / test_knowledge_reauth.py；另349直接认证/资源检查。 | deepseek实现 / codex派单验收 | done | 实现1887519。根正常API/替身复现paused→needs_input，旧模块2反例失败；DeepSeek按方案/集成反馈返工，根最终152定向过，全差异已核。保护部署d5348d954c69e689f59a/298/PID41284、十二根/733/337封存24/原26密文保持，无前端/真实产品HTTP。docs/knowledge-unsubmitted-refresh.md；资料整理和真实检索语义质量未据此签收。 |
 
-| 352 | 交付清单14：检索与基于资料回答 | DeepSeek有界核代表问题、实际检索证据、片段不足/空检索/技术失败区分与回答依据；不编造政策事实，不把固定FAQ与替身当真实质量。根独立复现实质缺口后限定实现；够用则引用已有证据，不重写/等价新增。仅相关retrieval及grounding定向，不操作生产或外部。 | deepseek核实现 / codex派单验收 | pending | 351已关闭，按FR23/30/33、AT13继续；不扩大真实调用/资源/费用。 |
+| 352 | 交付清单14：检索与基于资料回答 | DeepSeek有界核代表问题、实际检索证据、片段不足/空检索/技术失败区分与回答依据；不编造政策事实，不把固定FAQ与替身当真实质量。根独立复现实质缺口后限定实现；够用则引用已有证据，不重写/等价新增。仅相关retrieval及grounding定向，不操作生产或外部。 | deepseek核实现 / codex派单验收 | doing | 351已关闭，按FR23/30/33、AT13继续；不扩大真实调用/资源/费用。 |
