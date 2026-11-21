@@ -1,5 +1,7 @@
 # Sierra 完整开发与验收路线
 
+当前逐条实现/证据/限制见[2026-11-21验收状态矩阵](current-acceptance-status-20261121.md)。以下8包及“已有基础”是路线制定时历史，339—362当前变更与部署以新矩阵、BACKLOG和HANDOFF为准；不重复旧三例整改或旧未部署工作。
+
 2026-11-20用户纠偏：本文件8个大工作包只作总体路线。实际委派粒度已展开为[32项交付清单](deepseek-delivery-checklist-20261120.md)，由Codex逐项给方案/验收/返工，DeepSeek实现。下文“已有基础”及旧执行入口是制定时历史，当前状态以新清单、HANDOFF及BACKLOG为准；不可因337真实失败而停止其它可行动功能任务。
 
 制定日期为 2026-11-19，基线提交为 `0ebafbd`。本路线依据 requirements-v1.0.md 的 §4、§6、§10、§11，及最新 BACKLOG 制定。用户本轮指定 Codex 管需求、方案与验收，Claude Code 使用 CC Switch 当前 DeepSeek 网关承担具体实现与返工。工作目录为 E:\workSpace\sierra-chatflow-offline。
