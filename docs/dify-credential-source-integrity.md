@@ -17,4 +17,4 @@ DifyClient现在固定调用时的环境身份；对可变Store，每次请求�
 - Codex最终独立执行123项：新凭据快照、自然续接、连接、loopback传输、传输/未知写结果及资源目录；另39项调度只读快照和环境映射通过。部分资源映射此前41项已过，不重复算唯一测试总数。
 - 全部使用临时Store、假凭据和替身传输；没有读取生产明文Key，产品模型/Dify物理HTTP为0，没有跑全量或重建前端。实际自然令牌到期、远端权限变动和资源质量仍须独立真实证据。
 
-保护部署基线原机work/resource349-deployment/before.json已经捕获，不覆盖；待实现提交后核所属PID，用原stop/start部署并验证十二数据根、733旧证据、337封存24文件及源码/快照/执行文件。验收通过不自动改授已消费真实批。
+保护部署基线原机work/resource349-deployment/before.json已经捕获，不覆盖；实现1bbdc98提交后已核所属PID，用原stop/start部署并实际verify通过：0.410.0-f45af15d6d328c6d20a9/298/PID28260；十二数据根、733旧证据、337封存24、26Task和密文不变，health/页面200及源码/快照/执行文件一致。原work/resource349-deployment/after.json为最终回执。验收通过不自动改授已消费真实批。
