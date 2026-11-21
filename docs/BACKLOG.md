@@ -679,4 +679,4 @@
 
 | 360 | 交付清单27：版本恢复与历史成果保护 | DeepSeek有界核恢复前保存当前、恢复来源/修订绑定、旧需求/图/包保留和恢复后重新确认/验证；不把旧样例冒充新修订通过、不承诺回滚外部App。根实质复现后限定实施，够用则引用证据，不全量/不生产。 | deepseek核实现 / codex派单验收 | done | 记录805b7f8；DeepSeek只读复核和根152定向实际通过，恢复前快照/令牌/重确认/旧包回执费用保护够用；无产品修改/等价测试/部署，真实外部恢复另验。docs/version-history.md。 |
 
-| 361 | 交付清单28：多任务持续工作与断连草稿 | 限定核切任务/重开/本页未保存编辑的来源隔离，对话流中断可核，Dify断开交待验证成果；不扩浏览器秘密存储或自动重发。FR01/02/04/29/36/38、AT20/22；复用现有证据，有实质缺口再限定DS实施，不全量。 | deepseek核实现 / codex派单验收 | pending | 360关闭后按顺序核App/useConversationDraft/useTaskRunDraft/WorkspaceRecovery等必要段和直接API测试，真实产品HTTP0。 |
+| 361 | 交付清单28：多任务持续工作与断连草稿 | 限定核切任务/重开/本页未保存编辑的来源隔离，对话流中断可核，Dify断开交待验证成果；不扩浏览器秘密存储或自动重发。FR01/02/04/29/36/38、AT20/22；复用现有证据，有实质缺口再限定DS实施，不全量。 | deepseek核实现 / codex派单验收 | doing | 360关闭后按顺序核App/useConversationDraft/useTaskRunDraft/WorkspaceRecovery等必要段和直接API测试，真实产品HTTP0。 |
