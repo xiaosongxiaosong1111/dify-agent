@@ -1744,7 +1744,7 @@ async def external_action(item_id, revision, kind, operation, *, inputs=None, te
             if current["status"] != "paused":
                 current["status"] = "error"
             save_task(current)
-        raise HTTPException(502, str(exc)) from exc
+        raise HTTPException(409 if exc.code == 'import_paused_before_dispatch' else 502, str(exc)) from exc
     with store.lock:
         current = get_task(item_id)
         target = next(r for r in current["runs"] if r["id"] == record["id"])
@@ -1803,6 +1803,7 @@ async def import_task(item_id: str, payload: Revision):
             if digest(parse(preserved_content,checked_task['app_type']))!=checked_task['dsl_overlay']['digest']:raise ValueError('构建文件与已确认合并值不一致，请重新核对，不能导入未确认修改。')
         except (ValueError,OSError) as exc:raise HTTPException(422,str(exc)) from exc
     async def operation(task, env):
+        admitted_generation=task.get('pause_generation',0);admitted_paused=task.get('status')=='paused'
         if task.get('dsl_reference'):
             reference=store.get('dsl_reference',task['dsl_reference']['id'])
             if reference and reference['source']=='dify_draft':
@@ -1815,6 +1816,10 @@ async def import_task(item_id: str, payload: Revision):
         if task.get('dsl_reference'):
             from .dsl_roundtrip import parse
             name=parse(content,task['app_type'])['app'].get('name') or name
+        with store.lock:
+            current=get_task(item_id)
+            if current.get('pause_generation',0)!=admitted_generation or (current.get('status')=='paused' and not admitted_paused):
+                raise DifyError('本已开始的导入在核对来源期间任务被暂停或状态代际变化；本次未创建应用，草稿、修订、原运行记录与已确认来源保留，恢复后须主动重试。',code='import_paused_before_dispatch',outcome_unknown=False)
         result = await DifyClient(env, store).import_new(content, name)
         receipt_error = DifyError('Dify 导入回执结构或App标识无法核对，结果可能未知；未采用App绑定，请先核对实例，不能直接重复创建。', code='import_response_invalid', outcome_unknown=True)
         if not isinstance(result, dict) or not isinstance(result.get('status'), str):
