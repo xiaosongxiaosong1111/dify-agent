@@ -3,7 +3,7 @@
 ## 2026-11-21 — 第357项：原生目标端口无损核对，旧缓存不再替代构建检查
 
 - Codex正常API复现原生targetHandle非法值经合并/build仍200，DS仅修dsl_roundtrip投影；根再复现旧已确认valid=true缓存绕过新校验，明确授权DS补main.build实际原文重核，保留原Agent流程、parallel/loop声明和原文件历史。
-- 根全差异、独立88+1定向通过，真实legacy API构建拒绝与任务/文件不变通过，无前端/依赖/真实产品HTTP。待提交后保护部署；另已证实连续改版读旧App来源，列下一358，不混称全部最新来源完成。docs/preserved-target-handles.md。
+- 根全差异、独立88+1定向通过，真实legacy API构建拒绝与任务/文件不变通过，无前端/依赖/真实产品HTTP。实现50dce4b已保护部署c74b0545840c294df3ba/298/PID20012，十二根/733/337封存24/原26密文保持，health/页面200/源码快照执行文件一致；关闭357。另已证实连续改版读旧App来源，列下一358，不混称全部最新来源完成。docs/preserved-target-handles.md。
 
 ## 2026-11-21 — 第356项：沿用原空间的有界登录续接
 
