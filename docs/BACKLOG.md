@@ -667,4 +667,6 @@
 
 | 354 | 交付清单16：应用类型和执行能力边界 | 按当前能力目录核Workflow/Agent/批量/触发/人工参与的实现和限制，保留类型及限定失败策略。命令：pytest test_capabilities.py / test_public_batch_starter.py；Agent/定时/审核指定类型与限制用例。 | deepseek复核 / codex派单验收 | done | 记录ef92d1f。根39项定向过，DeepSeek未复现新功能缺口，无产品修改/等价测试/重复部署。compiler-capabilities.md补当前范围表，将旧0.90数字单列历史；真实业务质量和19—22自主双版未闭合，不把静态能力当真实结果。 |
 
-| 355 | 交付清单23：暂停、停止与进程恢复 | DeepSeek有界核暂停后派发、已在途与未知写入、重启恢复和明确继续，保留原回执/费用/版本，不自动重试未知外部写入；已有保护够用则引用证据，不重做351。只修根正常入口可复现实质缺口，相关恢复/暂停定向不跑全量，无生产/真实外部。 | deepseek核实现 / codex派单验收 | doing | DeepSeek初报暂停后新手动run/import需锁定被根拒绝（主动继续），重核实际自动跨暂停：导入await源草稿export中暂停后仍import_new；根正常API独立复现HTTP200/新App/run_success/taskpaused，已有56定向过未覆盖。已给同DS仅main导入写前代际/状态守卫和新回归，保留主动继续及已派发回执；无真实HTTP。 |
+| 355 | 交付清单23：暂停、停止与进程恢复 | 修同次import await源草稿期间暂停后仍自动创建；保留主动新请求和已派发回执，不加通用暂停锁。命令：pytest test_import_pause_preflight.py / test_dsl_roundtrip.py / test_api.py / test_publication_recovery.py / test_workflow_publication.py / test_conversation_cases.py -k "import or pause or restart or recover or unknown"。 | deepseek实现 / codex派单验收 | done | 实现f9c18b9。根拒绝新手动请求误报后复现实际跨暂停写入，DS按窄方案实现、一次新测试预期自修；根82定向过/151未选，全差异已核。保护部署95cb99c5a273e8ab0e6a/298/PID42604、十二根/733/337封存24/原26密文保持，无前端/真实产品HTTP。docs/import-pause-preflight.md；真实外部自然恢复另验。 |
+
+| 356 | 交付清单24：加密登录续接与自然令牌到期 | DeepSeek有界核同空间/来源绑定、过期续接、失败停止和写入不重放，区分明确重连和自然到期；复用349/351直接认证检查，仅修根实质复现，不新增真实登录或读取。 | deepseek核实现 / codex派单验收 | pending | 355已关闭，FR04/18/37、AT17/20/21继续；真实自然过期仍缺观察证据，不等于本机需重写。 |

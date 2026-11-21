@@ -10,4 +10,4 @@ DeepSeek仅改main.py写入前检查及特定错误映射，新增test_import_pa
 
 根最终独立82项通过、151未选：新四项和DSL往返/API/发布恢复/多轮的import、pause、restart、recover、unknown定向；前置56已过不重复累计。DeepSeek外部检查经一次新测试预期自修通过（新的主动导入成功应imported，而非仍paused）；产品和旧测试未因此放宽。全差异已核，真实产品模型/DifyHTTP0、临时数据与假导出/导入，无前端/依赖修改、不跑全量。
 
-待实现提交后保护部署；原机work/recovery355-deployment/before.json已捕获，勿覆盖。真实自然到期、重启/断网外部观察和自主售后双版仍未由本次替身证据签收，旧批/费用/预留保持。
+实现f9c18b9已保护部署0.410.0-95cb99c5a273e8ab0e6a/298/PID42604，十二根/733/337封存24/26Task密文保持，health/页面200、源码/快照/所属执行文件一致。原机work/recovery355-deployment/before/after.json为实际回执，勿覆盖。真实自然到期、重启/断网外部观察和自主售后双版仍未由本次替身证据签收，旧批/费用/预留保持。
