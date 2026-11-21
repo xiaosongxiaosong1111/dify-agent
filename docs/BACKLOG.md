@@ -665,4 +665,6 @@
 
 | 353 | 交付清单15：完整规划、代码与DSL生成 | 修根图source/target端口与别名契约，保留合法分支/参考往返。命令：pytest test_root_edge_handles.py / test_workflow_plan.py / test_code_entry_contract.py / test_code_samples.py，另分类/人工审核/循环/参考保留及复现指定正常路径。 | deepseek实现 / codex派单验收 | done | 实现304eec0。根正常API三反例旧保存/确认/build200并发射非法DSL；DeepSeek仅workflow_plan.py/新测试修正，根全差异/独立171定向通过。保护部署2273929f3133d7592551/298/PID38184、十二根/733/337封存24/原26密文保持，无前端/真实HTTP；docs/root-edge-handle-validation.md。真实自主候选语义及平台质量未据此签收。 |
 
-| 354 | 交付清单16：应用类型和执行能力边界 | DeepSeek按已有能力矩阵核Workflow/Agent/批量/触发/人工参与已实现与限制，保留用户类型/部分失败策略，不默认全部支持；有界定位一个实质可复现缺口后再限定实现。已有证据够用不重复开发，不跑全量，不操作生产或外部。 | deepseek核实现 / codex派单验收 | doing | 353已关闭，按FR03/17/28、AT05/09/14/16/23推进，17/18既有替身闭环不重做；真实自主19—22仍未闭合。 |
+| 354 | 交付清单16：应用类型和执行能力边界 | 按当前能力目录核Workflow/Agent/批量/触发/人工参与的实现和限制，保留类型及限定失败策略。命令：pytest test_capabilities.py / test_public_batch_starter.py；Agent/定时/审核指定类型与限制用例。 | deepseek复核 / codex派单验收 | done | 记录ef92d1f。根39项定向过，DeepSeek未复现新功能缺口，无产品修改/等价测试/重复部署。compiler-capabilities.md补当前范围表，将旧0.90数字单列历史；真实业务质量和19—22自主双版未闭合，不把静态能力当真实结果。 |
+
+| 355 | 交付清单23：暂停、停止与进程恢复 | DeepSeek有界核暂停后派发、已在途与未知写入、重启恢复和明确继续，保留原回执/费用/版本，不自动重试未知外部写入；已有保护够用则引用证据，不重做351。只修根正常入口可复现实质缺口，相关恢复/暂停定向不跑全量，无生产/真实外部。 | deepseek核实现 / codex派单验收 | pending | 354已关闭，17/18已有替身闭环不重做，19—22当前真实批337已消费仍blocked；按FR34—38、AT12/13/20/21继续可执行本机功能。 |
