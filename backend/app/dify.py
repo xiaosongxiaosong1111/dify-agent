@@ -5,7 +5,7 @@ import base64
 import ipaddress
 from urllib.parse import urlsplit
 import httpx
-from .providers import checked_url
+from .providers import ProviderError, checked_url
 
 
 class DifyError(ValueError):
@@ -21,11 +21,78 @@ class DifyError(ValueError):
 
 class DifyClient:
     def __init__(self, env, store):
-        self.env = env
+        # Freeze the approved metadata: a caller later mutating its own dict must
+        # not change this adapter's owner, address or source identity.
+        self.env = dict(env)
         self.store = store
-        base = checked_url(env["base_url"])
+        try:
+            base = checked_url(self.env["base_url"])
+        except ProviderError:
+            # Historical saved addresses may be malformed; stay a controlled
+            # diagnostic and never echo the address or read any credential.
+            raise DifyError("环境服务地址格式无效，未读取凭据或发出请求；请在 Sierra 环境配置中核对后重新读取。") from None
         # Environment points to the instance root, not an arbitrary API endpoint.
         self.base = base.rstrip("/")
+        # Capture the approved source now; later edits must never redirect this
+        # adapter or its credentials elsewhere.
+        self._source = (self.base, self.env.get("version"), self.env.get("connection_revision"))
+        getter, locker = self._store_capability("get"), self._store_capability("lock")
+        self._managed = False
+        if callable(getter) and locker is not None:
+            with locker:
+                saved = getter("environment", self.env.get("id"))
+            # A persisted record, or an explicit managed revision, means requests
+            # must keep matching that source. Immutable in-process snapshots and
+            # stateless SDK fixtures (no get/lock) stay on their captured values.
+            self._managed = saved is not None or self.env.get("connection_revision") is not None
+
+    def _store_capability(self, name):
+        return getattr(self.store, name, None) if self.store is not None else None
+
+    def _live_source(self):
+        getter, locker = self._store_capability("get"), self._store_capability("lock")
+        return callable(getter) and locker is not None
+
+    def _same_source(self, current):
+        return bool(current) and (
+            str(current.get("base_url") or "").rstrip("/") == self._source[0]
+            and current.get("version") == self._source[1]
+            and current.get("connection_revision") == self._source[2])
+
+    def _current_environment(self):
+        if not self._managed:
+            return None
+        with self.store.lock:
+            return self.store.get("environment", self.env["id"])
+
+    def _can_refresh(self):
+        return self._managed and callable(self._store_capability("has_secret")) \
+            and callable(self._store_capability("put_with_secrets"))
+
+    def _credentials(self, credential, secret_owner):
+        """Verify the approved source and read its role credential plus CSRF together."""
+        owner = self.env["id"]
+        def read():
+            current = None
+            if self._live_source():
+                # A live store may gain a row after construction; every request
+                # must still match the source this adapter was approved with.
+                current = self.store.get("environment", owner)
+                if current is None:
+                    if self._managed:
+                        raise DifyError("环境配置已变化或已删除，未读取凭据或派发本次请求。", code="environment_changed")
+                elif not self._same_source(current):
+                    raise DifyError("环境配置已变化或已删除，未读取凭据或派发本次请求。", code="environment_changed")
+            elif self._managed:
+                raise DifyError("环境配置已变化或已删除，未读取凭据或派发本次请求。", code="environment_changed")
+            key = self.store.secret(secret_owner or owner, credential)
+            csrf = self.store.secret(owner, "csrf_token") if credential == "console_token" else ""
+            return key, csrf, current
+        locker = self._store_capability("lock")
+        if locker is not None and self._live_source():
+            with locker:
+                return read()
+        return read()
 
     def _client_options(self):
         host = urlsplit(self.base).hostname or ""
@@ -42,21 +109,22 @@ class DifyClient:
     async def request(self, method, path, *, credential, secret_owner=None, _console_refreshed=False, **kwargs):
         if secret_owner is not None and credential != "dataset_api_key":
             raise DifyError("独立资源凭据只允许用于该知识库服务 API。")
-        key = self.store.secret(secret_owner or self.env["id"], credential)
         if credential == 'console_token':
             from .saved_console_reconnect import busy as reconnect_busy
             if reconnect_busy(self.store, self.env['id']):
                 raise DifyError('环境正在明确重新连接，未派发本次管理请求。', code='reconnect_in_progress')
+        key, csrf, current = self._credentials(credential, secret_owner)
+        if credential == 'console_token':
             from .console_connection import expiry
             from .console_reauth import available,refresh
             import time
             expires = expiry(key)
             if not key or (expires is not None and expires <= time.time()):
-                current = self.store.get('environment', self.env['id'])
-                if not _console_refreshed and current and available(self.store,current):
+                if not _console_refreshed and current and self._can_refresh() and available(self.store,current):
                     await refresh(self,key)
                     _console_refreshed=True
-                    key=self.store.secret(self.env['id'],credential)
+                    # Never reuse a token/CSRF half from before the await.
+                    key, csrf, current = self._credentials(credential, secret_owner)
                     expires=expiry(key)
                 if not key or (expires is not None and expires <= time.time()):
                     if current and current.get('console_login_blocked'):
@@ -65,7 +133,6 @@ class DifyClient:
         if not key:
             raise DifyError(f'缺少 {credential} 凭据；管理、应用运行和知识库访问使用不同凭据。')
         headers = {"Authorization": "Bearer " + key}
-        csrf = self.store.secret(self.env["id"], "csrf_token")
         if credential == "console_token" and csrf:
             headers["X-CSRF-Token"] = csrf
             # Dify verifies header AND cookie, including secure host-prefixed deployments.
@@ -82,16 +149,16 @@ class DifyClient:
                     )
                 if credential == 'console_token' and response.status_code == 401:
                     from .console_reauth import available,refresh
-                    current=self.store.get('environment',self.env['id'])
-                    if not _console_refreshed and current and available(self.store,current):
+                    current=self._current_environment()
+                    if not _console_refreshed and current and self._can_refresh() and available(self.store,current):
                         await refresh(self,key)
                         if method.upper()=='GET':
                             return await self.request(method,path,credential=credential,_console_refreshed=True,**kwargs)
                         raise DifyError('Dify 管理请求返回 HTTP 401，已更新管理凭据；原写入未自动重发，请先核对操作状态。',http_status=401)
-                    if _console_refreshed:
+                    if _console_refreshed and self._managed:
                         with self.store.lock:
                             current=self.store.get('environment',self.env['id'])
-                            if (current and all(current.get(k)==self.env.get(k) for k in ('base_url','version','connection_revision'))
+                            if (self._same_source(current)
                                     and self.store.secret(self.env['id'],'console_token')==key and available(self.store,current)):
                                 from .console_failures import record
                                 record(self.store, current, DifyError('fresh token rejected', code='refreshed_token_rejected', http_status=401), automatic=True)

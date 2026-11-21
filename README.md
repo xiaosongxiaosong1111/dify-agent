@@ -10,6 +10,8 @@ Sierra 是本机 Dify 搭建助手：选择应用类型，整理需求和材料�
 
 模型地址的端口或IPv6格式错误会在保存前提示；工具测试读取同一修订的地址、模型和Key，编辑期间的旧回执保留原归属。[模型配置与测试一致性](docs/provider-configuration-integrity.md)。
 
+读取Dify资源时会先核对当前连接，再一起捕获Token和CSRF；环境已变更或删除时提示重新读取，避免向旧地址发送新凭据。[连接与凭据来源](docs/dify-credential-source-integrity.md)。
+
 集中配置方案会列出保持独立模型的LLM、分类器和参数提取器；当前旧候选可读取完整提示，不必再次生成。[配置范围与明确采纳](docs/configuration-proposals.md)。
 
 Word空表格或只有图片的表格会提示补充可读文字，正常表格的文字和空列位置保留。[材料读取说明](docs/word-table-readable-text.md)。
