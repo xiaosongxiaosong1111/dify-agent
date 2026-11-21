@@ -10,6 +10,8 @@ Sierra 是本机 Dify 搭建助手：选择应用类型，整理需求和材料�
 
 需求中的“不知道”“待定”等明确短占位会保留待答状态；完整业务规则中出现这些词不受影响。[准入行为说明](docs/intake-explicit-unknown.md)。
 
+验收建议可选择轻量服务，并明确启用限定JSON格式失败的一次主模型升级，默认关闭；用量和未知估算分别保留，节省效果尚未实测。[当前质量、用量与费用边界](docs/quality-usage-review-20261121.md)。
+
 模型地址的端口或IPv6格式错误会在保存前提示；工具测试读取同一修订的地址、模型和Key，编辑期间的旧回执保留原归属。[模型配置与测试一致性](docs/provider-configuration-integrity.md)。
 
 读取Dify资源时会先核对当前连接，再一起捕获Token和CSRF；环境已变更或删除时提示重新读取，避免向旧地址发送新凭据。[连接与凭据来源](docs/dify-credential-source-integrity.md)。
