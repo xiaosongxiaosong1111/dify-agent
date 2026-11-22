@@ -16,14 +16,14 @@
 
 ## 3. 下一步
 
-1. BACKLOG366 doing，仅本机准备/冻结。新tools/autonomous-dual366/{prepare.py,execute.py,profile.json,checks.py,README.md}及docs/autonomous-dual366-plan-20261121.md已独立审查；实现3b70adf已原机快进并新独立capture，首次pending在stage创建前暴露批内README误选根同名文件；DS限定prepare/checks修正，根新增4反例共66过、实际758摘要核通过。私有audit-mainline366.py及原work/mainline366-freeze-guard/before.json保持，修复提交后原机快进再运行原机venv的prepare.py pending --project-root E:/workSpace/dify-agent，validate-pending及私有check366-derived.py，核21清单/22文件、758旧文件/十二根保持、source_commit和实际plan/manifest摘要。未做完不done。
-2. 原机work/autonomous-dual366尚不存在，批准/attempt/worker-started均未创建；不运行approve/live，不伪造直接答复。只准原机canonical，导入前核pin/源码/快照/CIM；无批准与任何旧消费标记均拒绝。15共享模块仅LF规范化及BATCH_ID/worker计数两元数据差异，原旧源/封存原始sha不变。私有核验E:\workSpace\sierra-delegation\check366-derived.py，canonical pins另在mainline366-canonical-source-pins.json。
-3. 首62检查日志work/mainline366-root-checks-origin.log；三条公开路径及计数work/mainline366-root-local-report.json，其各自输出路径列在该文件。首实现调用540秒可能超时无成功JSON、文件保留，根复现检查失败并反馈修正；文档初启动私有壳引号错误只停已核属子进程再修，不是网关不可达/额度证据。最终代码与文档真实返回检查成功，根不以DS结论替代验收。
-4. 原机pending核实后，另写docs/autonomous-dual366-freeze-result-20261122.md记录源实现commit/完整plan及manifest哈希、保护与验收边界，不再修改已冻结proposal/源码/profile。实现commit和实际验收存在后关闭366，新增367 need-user唯一执行；根CHANGELOG/适用README/状态/整份HANDOFF同步，commit/push原main核远端，原机只安全快进。
-5. 新366拟范围：Task1、App/首次发布/Key各2、两版12启动/14Service/14原生轨迹/双ZIP、管理128GET/加密登录1/新库0、Task45/整批60分钟；产品模型6上界（既有成功序列5，不启第6阶段/JSON修复），各6000输出tokens/120秒/估≤0.100，模型估0.600+Dify估0.100=0.700 USD非账单硬限、宿主未知。新保守57/1725/48/资源各30/Service148/模型账本3.355473652只是拟议，当前仍按第4节，不预增/退借旧槽。未来新Key切专用连接、旧Key加密留档。
-6. 在全部本机材料可审查并推送后，统一请求一次“允许独立366完整新范围”的新直接批准，绑定精确plan/manifest及新call_ID/q0；AGENTS.md既有明确资源费用边界不含新批。没有新答复不生成approval/不派发真实；代理负责内容复核/主动采纳，不伪造人类签收。真实前实际读FAQ政策/条件/结论，模型完整候选按需求核，不用模板或降低预期。任异常整批停不重试；仅Service成功但业务failed的唯一轮≤4GET只读诊断计入128后封存。
-7. 337已消费stopped，旧直接call_b4c700f1b4d24950a303b16fbe157440/q0；实际1登录/4GET全200后FAQ列表RuntimeError，模型/Task/资源/Service0。plan493122dd/manifest321fc01f及原work/autonomous-dual337永久不改/不重放/不续阶段。338分页修复181003e仅隔离33+14过，不自动复用旧批准。
-8. 持续实质工作，一项通过继续下一项；有界核实无可行动缺口且仅剩真实待批准时如实报告，不造微任务/无意义调用。代表材料选库语义、真实迁移/手改/自然到期仍缺证；订单资料未补不当真实接口。实际Codex不足立即停并尽可能写交接，不重试换号购买；当前未观察到不足，不冒称耗尽。开发DS网络退出按用户委托查因/拆小，实际额度不足不能重试。不得通读项目/290KB历史或跑全量。
+1. BACKLOG366本机准备已完成：实现3b70adf、路径修复dde3d12，DS代码会话287ab2d9-9596-462a-9dc3-935025989481/文档a61f9de0-3e5e-4b93-bf21-1c36b48fb066。根66准入和三公开协议路径过；首次原机pending因批内README误选根同名文件在stage前停，DS仅修相对路径+4反例，758旧文件SHA实际核过，不放宽保护/不重放。最终原机pending、validate-pending、独立字节/十二根保护已实际通过，详情docs/autonomous-dual366-freeze-result-20261122.md。
+2. 唯一包原机work/autonomous-dual366，21清单/22文件；source_commit dde3d12268cc80953669fea408fa98ab0cdc3547。plan SHA256 a0dbdd41423f9a3076958201f1d8ae911324e63b04abdae77b0efa2cd7ce3dff；manifest SHA256 dc206134286db2937606989f72dde5619c31e4cf606a787df9a7f854de35cbf6。没有approval/attempt/worker-started，产品模型/Dify/登录/新Task/资源/Service均0。不得覆盖、重建、刷新、重签该包，冻结proposal/profile/源码不再改；后续文档commit可前进。私有check366-derived.py、audit-mainline366.py在E:\workSpace\sierra-delegation；原work/mainline366-freeze-guard/before.json和after.json保护证明勿覆盖。
+3. 下一权威367 need-user：统一请求一次“允许独立366完整新范围”的新实际直接答复，绑定上述完整摘要与新call_ID/q0。先全部材料推送可审查后提问；AGENTS.md既有明确资源费用边界不含本新批，旧337已消费，代理不能代签。无新答复绝不创建approval/attempt或运行live；不重复询问已加密登录。答复后仓库外写真实授权记录，原机venv执行包内approve/validate/唯一live，根逐项核FAQ/完整候选后正常采纳，留代理复核不伪造人类。禁止用模板覆盖模型、降期望或填满槽。
+4. 新366冻结范围Task1、App/首次发布/Key各2、两版12启动/14Service/14轨迹/双ZIP、128GET/1加密登录/新库0、Task45/整批60分钟；产品模型6上界（成功序列5，不启第6阶段/JSON修复），各6000输出tokens/120秒/估≤0.100 USD，模型0.600+Dify0.100=0.700 USD估算非账单硬限、宿主未知。新保守57/1725/48/资源各30/Service148/模型账本3.355473652仅批准且真实派发后记录，当前仍第4节，不退借旧槽。未来新Key切专用连接、旧Key加密留档；任异常整批停不重试，唯一Service成功但业务failed轮≤4GET只读诊断计128后封存。
+5. 原机仍0.410.0-23c94dbe89553f265c3b/298/PID28732、health与页面200，源码/快照/执行文件一致、原26Task/10环境/2provider及密文不变。本轮工具/文档只快进，不构建或重复部署。15共享模块LF规范化且只两元数据变，旧源/数据/封存原始字节保持；733+33724+索引1共758、十二根审计过。三公开路径及计数在克隆work/mainline366-root-local-report.json，路径明列；不是实际业务/模型质量验收。
+6. 337永久消费stopped：直接call_b4c700f1b4d24950a303b16fbe157440/q0；1登录/4GET全200，FAQ列表RuntimeError，模型/Task/资源/Service0，plan493122dd/manifest321fc01f。work/autonomous-dual337不改不重放不续阶段，338/181003e分页33+14隔离通过不自动复用旧批准。
+7. 每次push前CHANGELOG/适用README与状态/整份HANDOFF同步；显式stage排除work/data/供应商原文/秘密，原GitHub main自主commit/push核远端，不让用户代提交。真实前未解密Secret，开发DS不接收凭据/客户数据/整库；实际批准后只复用已存加密资料，不抄聊天密码。
+8. 主线真实自主质量仍未闭合；代表材料选库、真实迁移/手改/自然到期亦缺证，订单接口未补资料不当接入。有界复核和32项清单已推进，不能为耗额度造微任务；若仅剩真实待授权如实报告。当前未观察到Codex不足，不冒称额度耗尽；实际不足立即停尽可能整份交接，不重试/换号/购买。开发DS网络波动按用户委托查因/拆小，不将超时当额度；实际额度不足同样不得重试。不通读项目/290KB历史、不跑全量、不按端口杀进程。
 
 ## 4. 账本与凭据
 
