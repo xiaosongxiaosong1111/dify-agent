@@ -2,6 +2,8 @@
 
 [自主双版366独立方案](docs/autonomous-dual366-plan-20261121.md)获直接批准后已唯一执行并在首次登录停止：登录1次，无HTTP状态；模型、管理读取、新Task和资源运行均0。[本次真实结果与封存](docs/autonomous-dual366-live-result-20261122.md)。未重试，旧任务和凭据保持；自主双版仍未通过。
 
+[连接代码复核](docs/console-connectivity-review-20261122.md)的30项定向检查通过，未发现必须改的产品缺陷，真实传输根因仍未知。下一步仅[一次无凭据HTTP核对](docs/console-http-probe-plan-20261122.md)，尚未批准或执行。
+
 用户批准的[自主双版新批](docs/autonomous-dual-chatflow-live-result-20261120.md)已唯一执行并停止：1次登录、4次管理读取，模型/新Task/资源/运行均0。已修执行器的Dify 1.17.1分页兼容并通过定向隔离检查；自主双版仍未完成，旧批不重放，剩余范围不自动跨批复用。
 
 当前剩余工作和逐条证据见[48条需求与25项验收状态](docs/current-acceptance-status-20261121.md)。本机验收通过与历史真实观察分别列出，当前自主售后双版尚未闭合，不用任务行数计算完成率。
