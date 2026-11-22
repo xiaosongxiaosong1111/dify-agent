@@ -16,18 +16,19 @@
 
 ## 3. 下一步
 
-1. BACKLOG366本机准备已完成：实现3b70adf、路径修复dde3d12，DS代码会话287ab2d9-9596-462a-9dc3-935025989481/文档a61f9de0-3e5e-4b93-bf21-1c36b48fb066。根66准入和三公开协议路径过；首次原机pending因批内README误选根同名文件在stage前停，DS仅修相对路径+4反例，758旧文件SHA实际核过，不放宽保护/不重放。最终原机pending、validate-pending、独立字节/十二根保护已实际通过，详情docs/autonomous-dual366-freeze-result-20261122.md。
-2. 唯一包原机work/autonomous-dual366，21清单/22文件；source_commit dde3d12268cc80953669fea408fa98ab0cdc3547。plan SHA256 a0dbdd41423f9a3076958201f1d8ae911324e63b04abdae77b0efa2cd7ce3dff；manifest SHA256 dc206134286db2937606989f72dde5619c31e4cf606a787df9a7f854de35cbf6。没有approval/attempt/worker-started，产品模型/Dify/登录/新Task/资源/Service均0。不得覆盖、重建、刷新、重签该包，冻结proposal/profile/源码不再改；后续文档commit可前进。私有check366-derived.py、audit-mainline366.py在E:\workSpace\sierra-delegation；原work/mainline366-freeze-guard/before.json和after.json保护证明勿覆盖。
-3. 下一权威367 need-user：统一请求一次“允许独立366完整新范围”的新实际直接答复，绑定上述完整摘要与新call_ID/q0。先全部材料推送可审查后提问；AGENTS.md既有明确资源费用边界不含本新批，旧337已消费，代理不能代签。无新答复绝不创建approval/attempt或运行live；不重复询问已加密登录。答复后仓库外写真实授权记录，原机venv执行包内approve/validate/唯一live，根逐项核FAQ/完整候选后正常采纳，留代理复核不伪造人类。禁止用模板覆盖模型、降期望或填满槽。
-4. 新366冻结范围Task1、App/首次发布/Key各2、两版12启动/14Service/14轨迹/双ZIP、128GET/1加密登录/新库0、Task45/整批60分钟；产品模型6上界（成功序列5，不启第6阶段/JSON修复），各6000输出tokens/120秒/估≤0.100 USD，模型0.600+Dify0.100=0.700 USD估算非账单硬限、宿主未知。新保守57/1725/48/资源各30/Service148/模型账本3.355473652仅批准且真实派发后记录，当前仍第4节，不退借旧槽。未来新Key切专用连接、旧Key加密留档；任异常整批停不重试，唯一Service成功但业务failed轮≤4GET只读诊断计128后封存。
-5. 原机仍0.410.0-23c94dbe89553f265c3b/298/PID28732、health与页面200，源码/快照/执行文件一致、原26Task/10环境/2provider及密文不变。本轮工具/文档只快进，不构建或重复部署。15共享模块LF规范化且只两元数据变，旧源/数据/封存原始字节保持；733+33724+索引1共758、十二根审计过。三公开路径及计数在克隆work/mainline366-root-local-report.json，路径明列；不是实际业务/模型质量验收。
-6. 337永久消费stopped：直接call_b4c700f1b4d24950a303b16fbe157440/q0；1登录/4GET全200，FAQ列表RuntimeError，模型/Task/资源/Service0，plan493122dd/manifest321fc01f。work/autonomous-dual337不改不重放不续阶段，338/181003e分页33+14隔离通过不自动复用旧批准。
-7. 每次push前CHANGELOG/适用README与状态/整份HANDOFF同步；显式stage排除work/data/供应商原文/秘密，原GitHub main自主commit/push核远端，不让用户代提交。真实前未解密Secret，开发DS不接收凭据/客户数据/整库；实际批准后只复用已存加密资料，不抄聊天密码。
-8. 主线真实自主质量仍未闭合；代表材料选库、真实迁移/手改/自然到期亦缺证，订单接口未补资料不当接入。有界复核和32项清单已推进，不能为耗额度造微任务；若仅剩真实待授权如实报告。当前未观察到Codex不足，不冒称额度耗尽；实际不足立即停尽可能整份交接，不重试/换号/购买。开发DS网络波动按用户委托查因/拆小，不将超时当额度；实际额度不足同样不得重试。不通读项目/290KB历史、不跑全量、不按端口杀进程。
+1. 用户新直接答复call_ae6b67f5efb74c0c92f2dff733484166/q0“允许独立366完整新范围”已实际记录，原机approve/validate过，唯一live已经stopped；绝非尚未批准/未执行。首登录POST进入transport但无HTTP状态，安全诊断login_unreachable，管理/模型/Task/资源/Service均0，没有FAQ或候选待复核。367 blocked，旧366 attempt/worker-started永久消费，禁止重试/续阶段。
+2. 原机work/autonomous-dual366：源dde3d12268cc80953669fea408fa98ab0cdc3547，plan a0dbdd41423f9a3076958201f1d8ae911324e63b04abdae77b0efa2cd7ce3dff / manifest dc206134286db2937606989f72dde5619c31e4cf606a787df9a7f854de35cbf6；seal-after-stop.json含26文件，SHA bb6ab4daf437039b71b844748d881752030db17ef9f07cf5602b24cfc6856803。冻结与封存永久不改不重签。真实授权在仓库外autonomous-dual366-direct-authorization.json，不抄聊天密码。
+3. 当前368 doing，仅有界本机与代码核实：DS只读调用work/mainline367-ds-diagnosis.log，cli session96541仍在运行，明确禁止读真实data/work回执/凭据、Bash或HTTP。检查worker/journey/boundary和dify.py/saved_console_reconnect.py/console_failures.py及直接测试，给证据/可复现实质问题；已有诊断够用则不重写/不造等价测试。Root查本机Docker正常/8080监听，失败时间窗nginx无匹配登录记录，独立一次TCP握手成功且应用字节/HTTP/登录0；不能回推失败时网络、HTTP已恢复或密码错误。不追加登录/管理/模型请求、不以此续跑366。
+4. 详细结果docs/autonomous-dual366-live-result-20261122.md；原机work/mainline366-freeze-guard/{before,after,after-live}.json分别保留，after-live独立核十二根/旧758/旧对象除专用环境允许失败标记/全部密文资产保持，仍26Task/10环境/2provider。仅新增saved_console_reconnect与console_connection_failure，新失败记录a186c940-adbc-4f2f-a7c9-619990101530（北京时间12:04:50），原管理凭据未替换、自动登录暂停状态保持。不要跑旧strict全相等审计覆盖原after证明，失败状态是预期新记录。
+5. 本新授权保守上界已登记模型57/读1725/登录48/资源各30/Service148/模型估算3.355473652 USD，实际模型仍36/资源各20/Service65/规则57。未派发6模型/128GET/Task1/资源各2/14Service及0.600模型+0.100 Dify估算包保留，不退借、不将预留算实际收费。若需新真实诊断或独立批，先具体本机可审查方案，再按既有边界取得新范围；不自动生成下一包或借用366余槽。
+6. 366本机准备已完成3b70adf/dde3d12，根66准入、三公开协议路径/原机pending及保护实际过，关闭b883723已推。15共享模块仅LF和两元数据变化，旧337源和证据不改；实际封存后不能重跑任何旧真实包。本机检查不是模型质量/业务通过。
+7. 原机0.410.0-23c94dbe89553f265c3b/298/PID28732，当前实现41ac27d，前置health及CIM执行文件核过；仅文档/工具快进，不重复部署。若后续必要部署，核所属PID/执行文件再用原start/stop，不按端口杀进程，保留所有用户任务配置密文与未提交修改。
+8. 337旧call_b4c700f1b4d24950a303b16fbe157440/q0已消费stopped，1登录/4GET后FAQ列表RuntimeError，model/资源0；原work/autonomous-dual337及493122dd/321fc01f永久不动。338隔离分页修复不自动改授。人工386/受限410/C2历史真结果不替自主19—22；材料选库语义/真实迁移手改/自然到期仍缺证。
+9. 根负责需求/验收/返工，产品实现持续交用户指定$ds/192.168.0.224:3010/deepseek-flash，开发网关与产品范围分开，不发送秘密/客户资料/整库。每次push前CHANGELOG/README/状态/整份HANDOFF同步，显式stage排除work/data/供应商原文，自主commit/push原main核远端；不让用户代提交。不通读项目/290KB历史或全量测试。实际Codex不足即停，未见不足不冒称；不重试换号购买。有界核无可行动进展可如实报告，不为耗额度造微任务。
 
 ## 4. 账本与凭据
 
-- 保守模型51/读1597/登录47/App发布Key各28/Service134，模型估算账本2.755473652非账单硬限；实际模型36/资源各20/Service65/规则通过57，已观察settled0.214071000非完整供应商账单。410 Dify报告金额0不当免费；新估0.05及全部旧unknown/预留不退借。95unknown0.0188541、四槽0.20、旧剩包0.109785948及115/121/198/206/209/213等费用保持。
+- 保守模型57/读1725/登录48/App发布Key各30/Service148，模型估算账本3.355473652非账单硬限；实际模型36/资源各20/Service65/规则通过57，已观察settled0.214071000非完整供应商账单。410 Dify报告金额0不当免费；新估0.05及全部旧unknown/预留不退借。95unknown0.0188541、四槽0.20、旧剩包0.109785948及115/121/198/206/209/213等费用保持。
 - 391余槽改授394用完；399余槽改授401；401最后余槽直接改授408已用完，不再改授。406余47读/六Service、410余23读及未用失败轮例外不自动归还或借用，所有旧消费包永久不重放。
 - 专用环境202bfb35-2f92-47c1-bc1b-eac32082181d/原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17，当前App9faf2792-08e2-48cf-afd0-050b34035fed；旧App（0db381ab/3f17cfaa/41b5dc01等ID前缀）的Key加密留档。全局模型9513f594-c256-46b7-882a-35d9871bf9d0/deepseek-flash，Dify .2/512/thinking=false，FAQd12cf081-5c52-41e3-b869-e94e6f8d37b1 TopK3无阈值不重排。只复用加密凭据，不抄聊天密码/输出提交秘密，不建库/覆盖旧App。
 

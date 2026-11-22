@@ -1,5 +1,8 @@
 # 363 当前需求与验收状态矩阵（2026-11-21）
 
+2026-11-22补充：[独立366真实批](autonomous-dual366-live-result-20261122.md)获新直接批准后首次登录即停，登录1，管理/模型/新Task/资源运行0；未进入自主候选或两版试跑，下表R状态保持。旧337与本366均已消费，禁止重放。
+
+
 - 运行版本：`0.410.0-23c94dbe89553f265c3b`；实现：`41ac27d`。本文件是当日摘要，不覆盖 `docs/acceptance-at01-record.md` 至 `docs/acceptance-at25-record.md`，也不修改旧 `docs/acceptance-mapping.json`。
 - 依据：`docs/requirements-v1.0.md` 的 FR-01—48、AT-01—25、§6/§10/§11；`docs/deepseek-delivery-checklist-20261120.md` 的 32 项；`docs/BACKLOG.md` 339—365；HANDOFF 第 3 节；25 份 acceptance 记录头部。未通读源码、work/data、历史大报告。
 - 级别沿用交付板：L=已有实现或部分本机/历史证据，须核当前项是否够用；O=指定离线/替身范围已验收，不计真实业务完成；R=当前真实链未闭合；U=需要有界核实缺口。级别不是完成率，L/O 不等于验收，R/U 不等于已确认缺陷。

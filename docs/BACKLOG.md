@@ -691,4 +691,6 @@
 
 | 366 | 自主双版真实主线独立批：仅本机准备与冻结 | 复用已修FAQ分页及最新正常产品接口，由DS准备独立执行/冻结方案；保留337消费包/旧账本/原26，不自动借槽或真实派发。核当前源码身份、完整原模型候选逐项复核、两版六例七轮/原生轨迹/双ZIP和一次失败即停。只做必要本机隔离/哈希与可审查方案，超旧边界真实范围统一待直接批准。 | deepseek实施 / codex派单验收 | done | 实现3b70adf/修复dde3d12存在；DS交付/返工，根66准入和三公开协议路径通过，原机pending/validate-pending/独立21清单22文件及758原摘要核通过，十二根/原26密文保持。plan a0dbdd41 / manifest dc206134，未批准/未派发/真实HTTP0；详autonomous-dual366-freeze-result-20261122.md，不等同业务通过。 |
 
-| 367 | 自主双版366：唯一真实整批执行 | 按366冻结方案和精确plan/manifest，新Task1/产品模型最多6/资源各2/14Service及14轨迹双ZIP/128GET/1加密登录；估0.700 USD非账单硬限，旧槽不借退。先获新直接批准再一次执行，实际FAQ与完整候选逐项复核；任异常整批停，唯一失败轮限定只读诊断。 | codex内容把关/唯一批执行 | need-user | 本机材料均已实测并冻结，旧337已消费，新资源/费用超既有明确范围；尚无新直接答复，不生成approval或attempt，不预增账本。固定proposal及结果见autonomous-dual366-freeze-result-20261122.md；plan a0dbdd41 / manifest dc206134。 |
+| 367 | 自主双版366：唯一真实整批执行 | 按366冻结方案和精确plan/manifest，新Task1/产品模型最多6/资源各2/14Service及14轨迹双ZIP/128GET/1加密登录；估0.700 USD非账单硬限，旧槽不借退。先获新直接批准再一次执行，实际FAQ与完整候选逐项复核；任异常整批停，唯一失败轮限定只读诊断。 | codex内容把关/唯一批执行 | blocked | 直接批准call_ae6b67f5efb74c0c92f2dff733484166/q0后approve/validate过、唯一live stopped；登录1/physical1、无HTTP状态，管理/模型/Task/资源/Service0，安全诊断login_unreachable。26封存/原26任务十二根旧758及密文保持，原批不重放/不续阶段，余槽不自动改授。详autonomous-dual366-live-result-20261122.md。 |
+
+| 368 | 366首登录不可达：有界本机与代码核实 | 仅读本机容器/监听/失败状态及相关适配器代码，交DeepSeek只读核实可复现问题；不发HTTP/登录/模型请求，不重放366，不凭当前TCP握手推原根因；若已有诊断足够不造重构或等价测试。 | deepseek代码复核 / codex独立验收 | doing | 根已核登录1/状态null及安全分类login_unreachable；容器/监听在、失败窗无匹配日志、独立TCP无应用字节握手成功。DS调查正在执行，不能据此说连接恢复或账号错误。 |
