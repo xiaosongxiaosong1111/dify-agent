@@ -1,5 +1,7 @@
 # Sierra
 
+HTTP入口恢复后，[自主双版371独立续跑方案](docs/autonomous-dual371-plan-20261122.md)正在完成本机冻结；拟明确改授旧366零派发范围并新增一次加密登录，尚未批准或真实派发。旧批保持封存，自主双版仍待真实验收。
+
 [自主双版366独立方案](docs/autonomous-dual366-plan-20261121.md)获直接批准后已唯一执行并在首次登录停止：登录1次，无HTTP状态；模型、管理读取、新Task和资源运行均0。[本次真实结果与封存](docs/autonomous-dual366-live-result-20261122.md)。未重试，旧任务和凭据保持；自主双版仍未通过。
 
 [连接代码复核](docs/console-connectivity-review-20261122.md)的30项定向检查通过，未发现必须改的产品缺陷，真实传输根因仍未知。[一次无凭据HTTP核对](docs/console-http-probe-result-20261122.md)已获准唯一执行，返回curl52/HTTP000，仍未得到有效HTTP响应；后续[限定恢复已实际执行](docs/console-port-forward-repair-result-20261122.md)：重启同一Nginx容器1次后，容器内和Windows均返回预期无凭据401，当前HTTP入口可达；账号/空间和自主主线仍待独立验证，旧批不重放。

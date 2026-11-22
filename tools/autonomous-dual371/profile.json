@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "batch_id": "autonomous-dual371",
+  "approval_scope": "autonomous-dual371",
+  "approval_phrase": "允许改授366未派发范围并新增1次登录，执行独立371批",
+  "approval_question_suffix": "/q0",
+  "limits": {
+    "new_tasks": 1,
+    "model": 6,
+    "reads": 128,
+    "login": 1,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 14
+  },
+  "new_conservative_upper": {
+    "model": 57,
+    "reads": 1730,
+    "login": 49,
+    "import": 30,
+    "publish": 30,
+    "key": 30,
+    "run": 148
+  },
+  "approved_model_slots": 6,
+  "effective_model_http": 6,
+  "json_repair_http": 0,
+  "per_model_reserve_usd": "0.100",
+  "model_total_usd": "0.600",
+  "model_estimate_book_upper_usd": "3.355473652",
+  "dify_estimate_usd": "0.100",
+  "combined_estimate_usd": "0.700",
+  "billing_hard_cap": false,
+  "wall_seconds": 3600,
+  "task_start_cap": 12,
+  "task_minutes": 45,
+  "runtime_build": "0.410.0-23c94dbe89553f265c3b",
+  "runtime_version": "0.410.0",
+  "runtime_file_count": 298,
+  "runtime_pid_observed": 28732,
+  "source_commit": "f0e7beefb331db0b9c07f24cf19786b85d05b13c",
+  "source_dir": "tools/autonomous-dual337",
+  "source_normalization": "crlf_to_lf",
+  "source_pins": {
+    "common.py": "cdc607e6f303fb6130a01d435fdfe91cd246cde9cef784dabf5ee3a24c0301b1",
+    "boundary.py": "491ca42298b7ce7fa41648aad0fb93e87a25712f7e3be88553cb0b6cec0f8657",
+    "boundary_checks.py": "b68d824b35f3a56c6c01bde7f88ba47464a0781175593f35923fc0125a8df34f",
+    "storage_guard.py": "15ca104b9bd529d2c48961b9e31f1ca16ebe1de2142d867051da956aa318a6cf",
+    "reviews.py": "35dbb57927e43758268b8def3c1b500ffd55dd998111678476ff57402bcbad81",
+    "reviews_checks.py": "8b49a7b033e9b926cf7776bc126707981a910a0fe83f25e8b2714ab09a4bc4b4",
+    "pagination.py": "fcbb434d4da10530af6ef330a10c0cc7694bdf7b2468e94d413b8a4878dd0705",
+    "pagination_checks.py": "ad3d9db215060b44b68d0879502669e736e0d8d5986c80146f55eb59eaeda7c0",
+    "candidate.py": "4b4a32125564d7b119e2e7c1a10720f69642a313e5217a82bf578ab304ea4af9",
+    "journey.py": "62fe98f934f9500551ff6238c28c18306027415b6343448a570c0a7feac77693",
+    "worker.py": "6fdf8f47755e5f994b084da0bcabd81d766f419832ad0d709e8f08e1e44e6f92",
+    "synthetic.py": "725cab174fb09d1989a962cd9bf15ffe85650c98cd33fca70ece09a064ac885d",
+    "runtime_reference.py": "e8a63d072b6ea81b0d24d4bf0a91b19e5eaa76ef9fc448000abd5312535913ee",
+    "rehearse.py": "55c57cb9ad46f1c44523c27f277824e414d01b1b81929898315583113440d053",
+    "fixture.json": "7e6abec8fb6f94c1a0fc2ca542e47fbfed4afc0c763e751f050d3736d0216554"
+  },
+  "expected_counts": {
+    "task": 26,
+    "environment": 10,
+    "provider": 2
+  },
+  "workspace_id": "c3306c18-ceb2-4bee-b2d1-796ce2048f17",
+  "environment_id": "202bfb35-2f92-47c1-bc1b-eac32082181d",
+  "provider_id": "9513f594-c256-46b7-882a-35d9871bf9d0",
+  "provider_model": "deepseek-flash",
+  "provider_protocol": "openai-compatible",
+  "console_version": "1.17.1",
+  "proposal_doc": "docs/autonomous-dual371-plan-20261122.md",
+  "protected_old_count": 733,
+  "protected_337_count": 24,
+  "protected_total_count": 795,
+  "sealed_index_sha256": "c9d9ef645118610e0fce61f5aed8deeb3e30f7e56b17d2c58511a25e5eef04e0",
+  "protected_seals": {
+    "autonomous-dual366": {
+      "path": "work/autonomous-dual366/seal-after-stop.json",
+      "sha256": "bb6ab4daf437039b71b844748d881752030db17ef9f07cf5602b24cfc6856803",
+      "entries": 26
+    },
+    "console-http-probe369": {
+      "path": "work/console-http-probe369/seal.json",
+      "sha256": "9bd03c377eeb064b667c0ab23086b76fc315c939ca2ebb49ed29d045f3f6a972",
+      "entries": 2
+    },
+    "console-port-forward370": {
+      "path": "work/console-port-forward370/seal.json",
+      "sha256": "2cbfb287f9cc38b9e65e6fb28c2f14127350ad5b66465c2b864f10b96c3fff85",
+      "entries": 6
+    }
+  },
+  "isolated_paths": {
+    "391": "work/chatflow-model391/live-output/data",
+    "394": "work/clarified-chatflow394/live-output/data",
+    "399": "work/bounded-chatflow399/live-output/data",
+    "401": "work/reviewed-chatflow401/live-output/data",
+    "405": "work/offline-candidate405/data",
+    "408": "work/reviewed-planning408/live-output/data",
+    "409": "work/offline-candidate409/data",
+    "414": "work/autonomous-chatflow414/live-output/data",
+    "416": "work/autonomous-chatflow416/live-output/data",
+    "418": "work/recovered-chatflow418/live-output/data",
+    "420": "work/reviewed-spec-planning420/live-output/data"
+  }
+}
