@@ -126,6 +126,16 @@ def _hash_map(value):
         result[name.replace('\\','/')]=item
     return result
 
+def _batch_file(base,name):
+    require(isinstance(name,str) and name,'337 sealed path missing')
+    raw=Path(name);require(not raw.is_absolute() and not raw.drive and not raw.root,'337 sealed path absolute')
+    path=(base/name).resolve();require(path.is_relative_to(base) and path!=base and path.is_file(),'337 sealed path escaped')
+    return path
+
+def _batch_sealed(base,name,value):
+    require(_hex(value),'337 sealed hash invalid');path=_batch_file(base,name)
+    require(sha(path)==value,'337 sealed evidence changed');return path
+
 def _history(project,p):
     sealed=project/'work/reviewed-spec-planning420/sealed-evidence-sha256.json'
     require(sha(sealed)==p['sealed_index_sha256'],'Old sealed index changed')
@@ -134,13 +144,12 @@ def _history(project,p):
     for name,value in old.items():
         path=(project/name).resolve()
         require(path.is_relative_to(project/'work') and path.is_file() and sha(path)==value,'Old sealed evidence changed')
-    seal=project/'work/autonomous-dual337/seal-after-stop.json';base=seal.parent
+    seal=project/'work/autonomous-dual337/seal-after-stop.json';base=seal.parent.resolve()
+    require(base.is_relative_to((project/'work').resolve()) and base.is_dir() and not seal.is_symlink(),'337 seal directory changed')
     recent=_hash_map(load(seal));require(len(recent)==p['protected_337_count']==24,'337 seal count changed')
     files=dict(old)
     for name,value in recent.items():
-        candidate=(project/name).resolve()
-        if not candidate.is_file():candidate=(base/name).resolve()
-        require(candidate.is_relative_to(base) and candidate.is_file() and sha(candidate)==value,'337 sealed evidence changed')
+        candidate=_batch_sealed(base,name,value)
         files[candidate.relative_to(project).as_posix()]=value
     files[seal.relative_to(project).as_posix()]=sha(seal)
     require(len(files)==p['protected_total_count']==758,'Total protected count changed')

@@ -57,6 +57,13 @@ def checks():
     rejected(lambda:execute._canonical(execute.PROJECT/'work'/'autonomous-dual337'),'Canonical nonoptimized root required');passed+=1;trace.append('wrong_paths_rejected')
     if execute.PROJECT!=Path(r'E:\workSpace\dify-agent'):
         rejected(lambda:execute._canonical(execute.PROJECT/'work'/execute.BATCH),'Original project only');passed+=1;trace.append('clone_project_rejected')
+    with tempfile.TemporaryDirectory(dir=execute.PROJECT/'work',prefix='autonomous-dual366-seal-') as tmp:
+        root=Path(tmp);batch=root/'batch';batch.mkdir();(root/'README.md').write_bytes(b'project-readme');(batch/'README.md').write_bytes(b'batch-readme')
+        resolved=prepare._batch_sealed(batch.resolve(),'README.md',prepare.sha_bytes(b'batch-readme'));require(resolved==(batch/'README.md').resolve(),'Batch seal resolved outside batch');passed+=1
+        rejected(lambda:prepare._batch_sealed(batch.resolve(),'README.md',prepare.sha_bytes(b'project-readme')),'337 sealed evidence changed');passed+=1
+        rejected(lambda:prepare._batch_sealed(batch.resolve(),'../outside',prepare.sha_bytes(b'batch-readme')),'337 sealed path escaped');passed+=1
+        rejected(lambda:prepare._batch_sealed(batch.resolve(),str(batch/'README.md'),prepare.sha_bytes(b'batch-readme')),'337 sealed path absolute');passed+=1
+    trace.append('sealed_batch_relative')
     with tempfile.TemporaryDirectory(dir=execute.PROJECT/'work',prefix='autonomous-dual366-checks-') as tmp:
         root=Path(tmp);execute.assert_unconsumed(root,include_approval=True);passed+=1
         (root/'attempt.json').write_text('{}','utf-8');rejected(lambda:execute.assert_unconsumed(root),'Consumed package cannot replay');passed+=1
