@@ -1,6 +1,6 @@
 # Sierra
 
-[380单次真实规划](docs/reviewed-planning380-live-result-20261123.md)已取得完整原模型图，根验收发现订单号类型错误被当成缺号。[DeepSeek最小纠正及正常保存](docs/order-type-manual-correction-20261123.md)已完成：当前r8/manual，原r7/model图完整保留，配置未确认，尚未发布或运行。下一步原图静态交付及修改版；自主双版主线仍未闭合。
+[当前原图静态交付](docs/static-delivery384-result-20261123.md)已完成：模型完整图经根审阅、DeepSeek纠正一个订单类型检查，正常保存r8/manual并保留r7/model原图；23节点，静态ZIP含DSL/报告/模拟接口指南等5文件。尚未发布或运行。接下来是商品型号文案改版完整候选及两版真实六例七轮，未把代理纠正当模型自主原样通过。
 
 [规划澄清的最终一致性核对](docs/planning-clarification-consistency.md)已由DeepSeek实现：Workflow/Chatflow输出澄清前核对已给事实，条件充分则返回完整计划；真正业务缺失仍停止。0.412.0已过根58项定向与三类型隔离API核对，并完成原机保护部署；真实模型改善未验证。
 
