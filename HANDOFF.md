@@ -18,7 +18,9 @@
 
 387已保护部署0.413.0-bdb32c6761fe3102d582/298文件/PID43600，原start/stop成功，health/页面200、源快照/CIM/27Task/12数据根/909封存/全部密文资产保持。部署before/preflight/after均独占写在原机work/chatflow-code-sample387-deployment，不能覆盖重跑。私有audit-chatflow-code-sample387-deployment.py已verify过。旧前端dist仅在其部署目录old-dist备份，不删其它文件。实现7dcffdc存在，关闭387，更新日志后自主push。
 
-388已验收、待结果提交后关闭：DS find13545正常0，核现有API普通POST /plan保存为manual（无专门模型采纳来源字段），根完整审读报告与源码后在全新work/reviewed-candidate388/isolated-data副本正常九API操作，r9候选→r10/manual/config确认/静态构建ZIP。候选逐值保持，native workflow仅两文案变化，旧6费用/历史保持，0外部请求/生产写入；27Task/12根/909/原r8 ZIP保持。私有verify-reviewed-candidate388.py已运行一次正常0；report/native-workflow-proof/agent-decision与root.log存在，不覆盖重跑。新DSL494512a150548acd2061f66ead217c1dfa2b2adff192caf6975b09138d4a1f4b，ZIP4be6d04c2e177c68110cd130b5f7ed61671e5b8e5e86507468abf0aad0af3c0e，正式图SHA3940d849与模型候选相同，static_only/business false。385只immutable读复制，未RW打开；生产仍r8。详docs/reviewed-candidate388-static-result-20261124.md。
+388 done，结果提交11ff4b0存在：DS find13545正常0，核现有API普通POST /plan保存为manual（无专门模型采纳来源字段），根完整审读报告与源码后在全新work/reviewed-candidate388/isolated-data副本正常九API操作，r9候选→r10/manual/config确认/静态构建ZIP。候选逐值保持，native workflow仅两文案变化，旧6费用/历史保持，0外部请求/生产写入；27Task/12根/909/原r8 ZIP保持。私有verify-reviewed-candidate388.py已运行一次正常0；report/native-workflow-proof/agent-decision与root.log存在，不覆盖重跑。新DSL494512a150548acd2061f66ead217c1dfa2b2adff192caf6975b09138d4a1f4b，ZIP4be6d04c2e177c68110cd130b5f7ed61671e5b8e5e86507468abf0aad0af3c0e，正式图SHA3940d849与模型候选相同，static_only/business false。385只immutable读复制，未RW打开；生产仍r8。详docs/reviewed-candidate388-static-result-20261124.md。
+
+389 doing：交DS只读调查已有Dify执行段的最小复用，准备两已审静态图零新搭建模型的完整平台方案。拟改授375余116读/资源各2/14Service/Dify估.100，仅新增一次加密登录（50→51）；这是拟议，不是批准或预留扩大。0新Task/库/访谈/规划，原生产r8与385封存保持到新直接范围获准；不重放旧包，不造大框架。先核候选/图/六例七轮、状态声明是否原样可复用及旧策略None，形成可审查本机方案后再问整批范围。
 
 核心剩余：原图已有静态包，改版385完整模型候选已通过限定审阅但未采纳。先核现有候选主动采纳/同版静态交付路径及双版平台执行器的可复用能力，能正常本机推进则一次一项入队交DS，禁止重新付费生成图或造大型框架。两版Dify六例七轮/14轨迹/双ZIP未闭合；若需要真实范围，先完成可审查本机冻结方案，再取得新直接批准。375剩116读/资源各2/14Service/Dify估.100不能自动跨批借用；其模型最后一槽已消费、余0。新平台登录/新模型不能凭持续开发指令扩大。
 
