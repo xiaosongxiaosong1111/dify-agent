@@ -1,6 +1,6 @@
 # Sierra
 
-[0.412完整原图验证准备](docs/reviewed-planning380-plan-20261123.md)已由DeepSeek复用单次执行器完成，根17组定向及独立派生核过；[原机精确冻结与独立保护核验](docs/reviewed-planning380-freeze-result-20261123.md)已通过，下一步仅待一槽/.100 USD的直接改授，尚无新真实模型请求。目标复用已通过访谈与原任务，保存完整图后离线复核。
+[380单次真实规划](docs/reviewed-planning380-live-result-20261123.md)已保存完整23节点原模型图至r7，配置未确认。根验收发现订单号类型错误被当成缺号，暂未接受语义验收；原图和费用已封存，下一步由DeepSeek核现有类型校验及正常候选纠正入口。自主双版主线仍未闭合。
 
 [规划澄清的最终一致性核对](docs/planning-clarification-consistency.md)已由DeepSeek实现：Workflow/Chatflow输出澄清前核对已给事实，条件充分则返回完整计划；真正业务缺失仍停止。0.412.0已过根58项定向与三类型隔离API核对，并完成原机保护部署；真实模型改善未验证。
 
