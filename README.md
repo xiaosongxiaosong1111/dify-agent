@@ -1,10 +1,8 @@
 # Sierra
 
-[单次377真实结果](docs/preserved-planning377-live-result-20261123.md)：获直接批准后1次模型调用返回needs_decision，无完整图，已停止封存，不重试；费用/原历史和874封存保护已核。下一379先由DeepSeek调查为何将已明确规则与等价实现反复作为澄清，保留真正业务问题的停止机制。
+[规划澄清的最终一致性核对](docs/planning-clarification-consistency.md)已由DeepSeek实现：Workflow/Chatflow输出澄清前核对已给事实，条件充分则返回完整计划；真正业务缺失仍停止。0.412.0已过根58项定向与三类型隔离API核对，当前保护部署待完成，真实模型改善未验证。
 
-[单次原规划与耐久候选377](docs/preserved-planning377-plan-20261123.md)由DeepSeek实现，根14组定向检查通过：正常规划保存完整模型图、原文和用量后退出，供随后离线审阅；配置仍未确认，不自动构建、导入或试跑。[原机精确冻结与独立审计](docs/preserved-planning377-freeze-result-20261123.md)也已通过，plan8ef81075/manifest7c9d6c37；尚无新模型授权或真实调用。
-
-[独立375实际结果](docs/autonomous-dual375-live-result-20261123.md)：重连/读取均200，但等根复核超时，模型/资源/运行新增0；已停止封存，不续旧批。[374本机三阶段](docs/reviewed-mainline374-local-design-20261123.md)和[375冻结史](docs/reviewed-mainline375-freeze-result-20261123.md)保留历史证据，不能替代当前自主双版业务验收。
+[单次377真实结果](docs/preserved-planning377-live-result-20261123.md)：1次模型返回needs_decision，无完整图，已停止封存，不重试；实际费用、原历史与874封存保护已核。自主原图→单句改版→双版真实运行仍未闭合。
 
 当前剩余工作和逐条证据见[48条需求与25项验收状态](docs/current-acceptance-status-20261121.md)。本机验收通过与历史真实观察分别列出，当前自主售后双版尚未闭合，不用任务行数计算完成率。
 
