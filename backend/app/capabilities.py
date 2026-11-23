@@ -35,6 +35,7 @@ def catalog(app_type,version):
     result['notes'].append('文字LLM可显式配置有限JSON Schema的结构化对象输出；根及已适配单层容器可引用整个structured_output对象，关闭不删除原schema或下游引用。模型／插件、schema实际约束及业务仍须验证；不推断嵌套字段，不把text当对象。')
     excluded={'answer','assigner'} if app_type=='workflow' else {'end','trigger-schedule','human-input'}
     if app_type=='advanced-chat':result['notes'].append('首批conversation持久状态为按会话独立string/number/boolean（number为原生float），根v2 assigner显式覆盖或number常量加减乘除（除零拒绝，动态结果范围未静态保证）；同变量一个写节点，无根隐式并行/容器赋值；单层容器可只读已声明状态，不是历史摘要/跨用户共享。需验收新会话、同会话多轮与未写分支。')
+    if app_type=='advanced-chat':result['notes'].append('对话状态的直接读取取得该节点执行时的当前值，不是全轮统一冻结；若明确串行图中前驱code先读取并计算标量输出，后继assigner再覆盖状态，前驱已产生的输出不因此被回溯改变。后续条件引用前驱输出时使用该快照，直接引用conversation时使用读取时当前值，不把两者混同。已明确的“先读取快照→消费写入→按快照分支”可同时成立，不能仅因“每轮先消费”与前驱只读并存就重复索要业务确认；真正未明确读取/写入顺序、规则冲突或能力不支持时仍须返回error/needs_decision，不替用户猜算法或确认。原唯一writer、无隐式并行、类型及容器写入约束不变。')
     if app_type=='workflow':result['notes'].append('根LLM结构化对象可先预览严格Schema校验纯代码及连接方案，明确非法对象让整次运行失败后采纳到草稿；不默认补值／重试，改Schema／生成代码／前置连接使旧保护失效。尚未实际Dify沙箱与客户验收。')
     if app_type=='workflow':result['notes'].append('唯一visual定时入口可选小时／日／周／月及UTC／Asia/Shanghai；无虚构query，不能与start共存。支持生成／保留／下载、已有发布图只读证据及人工确认单触发器启停；专用三节点纯文字新建发布后核对并尝试停用已接入；发布可能直接激活，失败可能持续调度，真实自然业务尚未验收，试跑预算不限制后续持续费用，无自动停用，不能以手动run冒充。')
     if app_type=='advanced-chat':excluded.add('human-input')
