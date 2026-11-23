@@ -10,4 +10,4 @@
 
 根复核完整两文件差异，独立运行现有planning_capability_context、after_sales_pending_order、conversation_state与runtime_snapshot四模块，56 passed；覆盖实际规划消息携带当前目录、真正澄清仍暂停并保留、确定性补号/消费及唯一写者和快照规则。未添加只断言字符串的镜像测试或重跑全量，真实模型/Dify请求0。离线契约检查不能证明模型质量改善，旧371仍停止。
 
-固定快照部署与十二根/831旧文件保护结果由交接及更新日志记录；本实现记录时尚待部署，不提前宣称已运行。
+已按所属PID核验后用原stop/start保护部署：0.411.0-90c28f738d4306fbff75/298/PID12020，health和页面200，源码/固定快照/执行文件一致；十二数据根、831旧文件、原27任务及密文资产前后摘要保持。实际本机能力API核Chatflow有新说明、Workflow/Agent不继承。证据原work/state-order373-deployment的before/preflight/after/catalog.json，未复制任务数据进快照、未重新构建未改的前端。
