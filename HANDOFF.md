@@ -18,6 +18,10 @@
 
 ## 3. 下一步
 
+0. 用户最新要求继续，380 doing：DS会话efb6a24e-2075-45eb-ad37-4902a9d00ad7 find85122正常0，首do10531正常0但bootstrap未验收/无据删源保护被根拒，fix1终端70992已正常0/固定check自修2后过。根独立17组固定run_checks过，另AST字面量独立重现81项/审阅1166行派生差异并核四固定SHA一致，源码仅新增tools/reviewed-planning380/{derive.py,run_checks.py,README.md}，后端/旧工具不改。
+0a. 私有方案reviewed-planning380-implementation.md、返工reviewed-planning380-fix1.md；根work/reviewed-planning380-root-check-v1.log保存README误编译失败，v2实际17组过；root-static-review-v1/v2保存前后独立差异。模板五blob已匹配旧ec8d并compile，template-pins.json；固定输出common395c3193/worker c4c80571/tool251df52f/checks0fd7ce4a（完整值在新源DERIVED_SHA）。新源绑定/每门真实重算/未冻结拒绝/工作树保护恢复/resolve前链接检查已核，不把bootstrap当完成。
+0b. 根独立before已执行，私有planning380-before.json、work/reviewed-planning380-before-audit.log：27Task/10env/2provider，r6消息7/版本5/规划2/访谈历史1/确认1/运行0、四settled.023166216、None/缺省/十二根/874/密文保持。不得覆盖重跑exclusive before；原机canonical尚未生成，after尚未执行。私有audit-reviewed-planning380.py待实际最终接口核后使用。
+0c. 当前准备提交实现，再原机只快进工具和文档不重建0.412。复制三个已提交跟踪源到新work/reviewed-planning380，derive --materialize补四派生源，再tool.py pending --derive-commit <实现完整SHA>，根独立after/verify_package/validate_start/derive --check过后才关闭380、请求新一槽/.100改授。公开方案docs/reviewed-planning380-plan-20261123.md，真实新答复尚无，不解密Key、不approve/live/重放377。
 1. 当前378/377真实批已消费stopped；379本机契约一致性修改已验收/部署，不代表真实完整图已过。直接call_653c3204d2c842648bbfaddba3d298b4/q0按原literal明确改授一槽/.100，仓库外E:/workSpace/sierra-delegation/planning377-direct-authorization.json，精确plan8ef81075e59a60b9544e0c188e052c07c3bdd5ba3ae08ecbae2dc93564ec2c9f/manifest7c9d6c37ddbb8076a7ad213cf313b7f86696c5ecd4471b1dfe76b1c12496ac8f。approve/validate过，唯一live65806已结束exit1，不再运行。
 2. 实际1模型/physical1，7.905秒、prompt34291/output829/cachehit28032，returned/已知用量settled0.003040692 USD；0Dify/管理GET/登录/Task/资源/Service/构建/ZIP。原文1811字符完整保存SHAc1a16951caa6aa10e4dcf1df81806e03db7c3b5b472df7b4b469ad0e37705c29，返回error/needs_decision无nodes/edges；Task仍r6/paused，无graph/artifact/App/run，planning_runs现2，预算现4entries/合.023166216。实际产品模型40/累计观察settled.237237216，非完整供应商账单；保守57/1730/50/资源30/Service148/模型估算3.355473652不增。
 3. 根已读完整响应及实际input/output/rules，回复询问不同状态writer串行、提取输入原文、固定文案code还是template，又承认现契约可实现；根判断有已明确规则/等价实现的重复澄清，不接受为完整候选，不忽略error/造图或续阶段。程序停止/保存用量正确。根独立after-live审计核原prefix/三settled/None、其余26/总27Task/十二根/859/所有旧凭据资产全保持。当前task SHA21bbe8fe63be09987795998fa44b91bd889e80999b3d82c5e5fe9a78ffef79e7；budget SHA7305cf1357e476d26feb091d3a3be1e36fa789891335ed9c3c214b57a7eb0765；新operation last_candidate字段缺省，不是必须有null。
@@ -45,4 +49,4 @@
 
 379后有界复核32交付清单19—32：当前真实自主原图/单句改图/双版六例七轮与同版交付未闭合（19/20/22）；21及23—32已有实现/本机和历史证据，部分真实自然到期、外部恢复/迁移和可选质量费用收益仍未观察，不把未观察当代码缺失或已完成。本轮没有核实另一个可立即修改的具体代码缺口，不为耗额度造微任务/测试/批框架。
 
-当前唯一新真实槽已消费，不能回答其问题后续跑/自动借375余两槽。后续若要真实验证0.412，需要独立具体方案与明确新范围；当前没有这样的直接批准。先保留实际失败与本机改动的区别，不宣称Codex额度用尽或全项目验收完成，也不反复加同义提示或付费重试。
+旧377唯一新真实槽已消费，不能回答其问题后续跑/自动借375余两槽。用户最新要求继续后启动380最小复用准备，见第3节，不能把旧“无可行动本机缺口”的检查点当成永久停止请求。后续若要真实验证0.412，需要独立具体方案与明确新范围；当前没有这样的直接批准。先保留实际失败与本机改动的区别，不宣称Codex额度用尽或全项目验收完成，也不反复加同义提示或付费重试。
