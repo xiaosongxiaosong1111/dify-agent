@@ -1,5 +1,7 @@
 # Sierra
 
+[复用访谈的三阶段本机执行器](docs/reviewed-mainline374-local-design-20261123.md)已由DeepSeek实现、根独立验收：保留已有访谈与账本，仅新原规划／单句改版访谈／改规划；12组保护检查、真实Task只读准入与公开完整/停止链过。尚无新真实调用，下一步独立冻结与一次准入，旧371不续跑。
+
 [独立371真实批](docs/autonomous-dual371-live-result-20261123.md)已获准唯一执行：重连、FAQ和两次实际访谈通过，第三次原规划要求澄清状态读写顺序而停止，没有图/App/运行。旧任务与凭据保持；已在[0.411.0规划说明](docs/conversation-state-read-order.md)明确串行状态读取/快照与后继写入；真实模型效果仍待独立验证，旧批不重放。
 
 [自主双版366独立方案](docs/autonomous-dual366-plan-20261121.md)获直接批准后已唯一执行并在首次登录停止：登录1次，无HTTP状态；模型、管理读取、新Task和资源运行均0。[本次真实结果与封存](docs/autonomous-dual366-live-result-20261122.md)。未重试，旧任务和凭据保持；自主双版仍未通过。
