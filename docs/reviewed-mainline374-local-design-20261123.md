@@ -40,4 +40,4 @@ DeepSeek会话60b6cee5-fd0d-4f35-b975-34be24423b05限定交付10文件；前两�
 
 根日志work/reviewed-mainline374-root-{check-v3,sources-v2,rehearsal-v2,early-stop-v2}.log；公开包work/autonomous-dual374-root-public-v2、work/autonomous-dual374-root-rehearsal-v2；DS日志work/reviewed-mainline374-ds-{find,do,fix1,fix2}.log。旧v1及失败日志保留。
 
-本项仅本机执行器验收；没有原机pending/manifest/批准门或真实新增产品调用。下一375补齐精确源pin、831旧封存、实际历史绑定和单次准入后，再统一请求新真实改授范围。
+实现4ac8e32存在后关闭374。本项仅本机执行器验收；没有原机pending/manifest/批准门或真实新增产品调用。下一375补齐精确源pin、831旧封存、实际历史绑定和单次准入后，再统一请求新真实改授范围。
