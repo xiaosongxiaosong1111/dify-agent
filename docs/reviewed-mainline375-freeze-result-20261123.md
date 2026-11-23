@@ -1,6 +1,6 @@
 # 独立375本机与冻结记录
 
-日期：2026-11-23。状态：本机验收完成，原机pending尚未生成，未批准/未真实派发。
+日期：2026-11-23。状态：本机验收与原机精确pending/validate-pending/独立审计均通过，未批准/未真实派发。
 
 ## 实现与独立验收
 
@@ -26,4 +26,13 @@ DeepSeek首do900秒无最终输出退出1，有七文件部分实现，根不作
 work/reviewed-mainline375-root-check-v1.log保留首轮Accepted profile source_commit失败；v2.log是根235通过。work/autonomous-dual375-root-public-v1与root-rehearsal-v1保存公开包/三个子进程，root-sources-v1.log/root-rehearsal-v1.log保留结果。DS日志work/reviewed-mainline375-ds-do.log、ds-fix1.log；root-baseline.json记录独立数据保护摘要，均不入Git。
 
 实现4a05626已存在并快进原机。首轮原机pending在旧runtime_reference硬编码0.410处拒绝0.411（work/reviewed-mainline375-root-pending-v1.log），canonical尚未生成，未创建批准或派发。DS按唯一问题修四文件：runtime helper恰一次版本字面量0.410→0.411，准备前和冻结包用同一派生字节，其余CIM/PID/venv/构建号/哈希保持；根完整差异核过，checks v3实际246通过，新增公开行为真正执行派生helper，旧版本/错构建/归属/执行文件/来源摘要等拒绝。worker/业务旅程未改，不重跑无关全链。修正提交后才重新做原机pending/validate-pending和独立包核验。
-原机最终plan/manifest摘要与独立包来源核验仍未完成。产品仍0.411.0-90c28f738d4306fbff75/298/PID12020，不改产品或重建。旧371不续跑，真实新改授/登录范围没有批准；旧槽/账本保持。
+修正实现6fbd0302c466654123fd284d02879f5e7d1024be存在并快进原机后，pending v2实际成功；execute.py validate-pending实际返回pending_not_approved。首轮失败日志保留，未产生旧375包或真实消费后重放。
+
+最终canonical为E:/workSpace/dify-agent/work/autonomous-dual375，21项清单/22文件：
+- plan SHA256：5b1edcd51cfb54415a3a555089368efe26a8b93ce518cfdf305a794e6af43f97
+- manifest SHA256：b7846299187b00b3f1418923a88e32d3793be92b54150c0ae9b64d13a8c7c405
+- 方案正文保持冻结前字节；其旧时点描述不后改，本记录是当前状态。没有approval/attempt/worker-started/live-output。
+
+根独立私有verify-mainline375-pending.py实际通过：全部包字节/13可信共享源/6已提交LOCAL（含freeze来自prepare）/精确版本派生/范围费用字段；831精确旧映射及每成员SHA；十二根/27Task/10环境/2provider与旧基线一致；Task r6及预算原完整摘要、首访r3/完整r6实际来源/复核匹配，消息前缀与完整访谈需求/配置/cases同当前；实际0.411.0快照298文件双向匹配，CIM PID12020归属/原venv通过，本机runtime/health/页面200。原Scope、费用/unknown保持，没有明文解密、产品模型/Dify请求或批准/消费标记。
+
+私有结果work/reviewed-mainline375-independent-audit-v1.json/.log，pending-v2.log、validate-pending-v1.log；proof使用本机Sierra读取3次，不混作模型/Dify请求。根246最终检查、原始公开三路径及旧首轮失败均保留。实现提交与本项实际验收都存在后才关闭375，下一376仅整批直接新改授待答复，不据本记录自行approve/live。产品仍0.411.0-90c28f738d4306fbff75/298/PID12020，不改产品或重建。旧371不续跑，真实新改授/登录范围没有批准；旧槽/账本保持。

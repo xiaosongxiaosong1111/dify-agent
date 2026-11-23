@@ -1,6 +1,6 @@
 # Sierra
 
-[独立375剩余主线方案](docs/reviewed-mainline375-plan-20261123.md)已完成本机执行器与235条独立定向检查、公开完整/停止链和真实历史只读绑定；[冻结记录](docs/reviewed-mainline375-freeze-result-20261123.md)准确区分已过与待核内容。实现提交后再生成原机待批包，没有新的真实批准或产品调用。
+[独立375剩余主线方案](docs/reviewed-mainline375-plan-20261123.md)已完成本机执行器与235条独立定向检查、公开完整/停止链和真实历史只读绑定；[冻结记录](docs/reviewed-mainline375-freeze-result-20261123.md)准确区分已过与待核内容。原机精确待批包与独立核验已完成，plan5b1edcd5/manifestb7846299；没有新的真实批准或产品调用，下一步只需整批直接改授答复。
 
 [复用访谈的三阶段本机执行器](docs/reviewed-mainline374-local-design-20261123.md)已由DeepSeek实现、根独立验收：保留已有访谈与账本，仅新原规划／单句改版访谈／改规划；12组保护检查、真实Task只读准入与公开完整/停止链过。尚无新真实调用，下一步独立冻结与一次准入，旧371不续跑。
 
