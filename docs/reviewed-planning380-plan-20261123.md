@@ -1,6 +1,6 @@
 # 0.412完整原图独立单规划380：本机准备方案
 
-日期2026-11-23。当前DeepSeek实现及根17组公开定向/独立源派生核验已过，原机精确冻结待完成，未批准、未执行真实请求。用户要求继续未完成的核心交付，目标先取得当前版本的完整原图，保留已经通过的两次访谈及全部失败记录。
+日期2026-11-23。当前DeepSeek实现及根17组公开定向/独立源派生核验已过，原机精确冻结及独立保护审计已通过，未批准、未执行真实请求。用户要求继续未完成的核心交付，目标先取得当前版本的完整原图，保留已经通过的两次访谈及全部失败记录。
 
 ## 复用行为
 
@@ -21,7 +21,7 @@
 - 原机当前0.412.0-4b3c27aad0a80a616364/298文件/观测PID34736，原venv及精确快照归属核对；实际执行时动态重核，不按端口杀进程或重建服务。
 - 当前task SHA21bbe8fe63be09987795998fa44b91bd889e80999b3d82c5e5fe9a78ffef79e7；budget SHA7305cf1357e476d26feb091d3a3be1e36fa789891335ed9c3c214b57a7eb0765；生产27Task/10环境/2provider。
 - 874=旧377 plan.protected_files的859项（plan8ef81075e59a60b9544e0c188e052c07c3bdd5ba3ae08ecbae2dc93564ec2c9f）加其seal-after-stop.json的14包内相对成员与索引1；索引SHA541fe1d45a1ef7b9fa1473a8abef8ff72140761a3c2df5145160b51c7e75e8da。每成员实际SHA和旧377停止/model1/physical1/needs_decision/无完整图均须验证，不能改旧包。
-- 新独立canonical拟E:/workSpace/dify-agent/work/reviewed-planning380；新scope/新直接问答引用/最终plan与manifest一并绑定，拒旧377或375答复。具体冻结身份尚未产生，不请求预先批准空包。
+- 新独立canonical拟E:/workSpace/dify-agent/work/reviewed-planning380；新scope/新直接问答引用/最终plan与manifest一并绑定，拒旧377或375答复。最终精确摘要见[冻结结果](reviewed-planning380-freeze-result-20261123.md)，不请求预先批准空包。
 
 先由DeepSeek给最小派生方案，根决定范围后派单；公开成功/停止和保护/重复拒绝均需真实跑过，不能把静态检查或合成结果当作模型质量已通过。
 
@@ -31,4 +31,4 @@ DeepSeek会话efb6a24e-2075-45eb-ad37-4902a9d00ad7只新增derive.py/run_checks.
 
 根独立固定命令`E:/workSpace/dify-agent/.venv/Scripts/python.exe tools/reviewed-planning380/run_checks.py`完成17组，日志work/reviewed-planning380-root-check-v2.log。正常API合成成功、坏JSON、真正澄清、unknown用量各只一次；旧四账本/两旧澄清/None与历史保持；网络/对象/源/绑定/874/运行/批准/重放和自洽伪造派生摘要都实际拒绝。临时Git只含公开合成文件，物理模型/Dify0。不是全量或真实模型质量。
 
-根另用独立AST字面量解析器重现81处替换、审阅全部1166行实际派生差异，并核四个固定输出SHA一致（work/reviewed-planning380-root-static-review-v2）。原机冻结前独立只读基线已记录：27Task、原r6/四settled/None、十二根/874每SHA/所有旧密文资产保持。新源提交后才进行实际pending、源码提交绑定和独立前后审计；尚无真实执行授权。
+根另用独立AST字面量解析器重现81处替换、审阅全部1166行实际派生差异，并核四个固定输出SHA一致（work/reviewed-planning380-root-static-review-v2）。原机冻结前独立只读基线已记录：27Task、原r6/四settled/None、十二根/874每SHA/所有旧密文资产保持。实现f652665提交后，实际pending、源码提交绑定及独立前后审计均通过，原机七源加plan/manifest共9文件且无消费标记；尚无真实执行授权。
