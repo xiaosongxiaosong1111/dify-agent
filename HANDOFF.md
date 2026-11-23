@@ -14,11 +14,13 @@
 
 ## 3. 下一步与当前任务
 
-第387项doing：FR27实际缺口——原本机样例硬拒Chatflow，已交DS调查并最小实现复用现有受限容器。会话1ca3bd90-16f2-47c5-9787-d8a7f0456402，find92291/do28024正常exit0，CLI修一次测试导入路径后固定check过；根完整差异核过（App严格只有两gate和一app_type来源绑定），147项相关后端、前端构建、5项界面核对通过，其中3真实本机临时容器正常订单/空白/数字输入，2 passed/1 failed-ValueError。Workflow保留、Agent不可见、Chatflow历史可读。27Task/12数据根/909封存/密文资产及原容器ID保持，没有产品模型/Dify请求或镜像拉取。日志work/chatflow-code-sample387-{ds-find,ds-do,root-tests,build,ui}.log，证据work/chatflow-code-sample387/{ui-proof,root-proof}.json与截图。代码为DS实现，根仅独立QA/文档。
+第387项done（实现7dcffdc）：FR27实际缺口——原本机样例硬拒Chatflow，已交DS调查并最小实现复用现有受限容器。会话1ca3bd90-16f2-47c5-9787-d8a7f0456402，find92291/do28024正常exit0，CLI修一次测试导入路径后固定check过；根完整差异核过（App严格只有两gate和一app_type来源绑定），147项相关后端、前端构建、5项界面核对通过，其中3真实本机临时容器正常订单/空白/数字输入，2 passed/1 failed-ValueError。Workflow保留、Agent不可见、Chatflow历史可读。27Task/12数据根/909封存/密文资产及原容器ID保持，没有产品模型/Dify请求或镜像拉取。日志work/chatflow-code-sample387-{ds-find,ds-do,root-tests,build,ui}.log，证据work/chatflow-code-sample387/{ui-proof,root-proof}.json与截图。代码为DS实现，根仅独立QA/文档。
 
-387实现验收完，待本提交后保护部署0.413；部署前原机0.412.0-4b3c27aad0a80a616364/298/PID34736已通过源/快照/执行文件/CIM与health/页面核，原机work/chatflow-code-sample387-deployment/before.json、preflight.json已独占写，不能覆盖重跑。私有audit-chatflow-code-sample387-deployment.py verify在部署后执行。原机先fast-forward已审实现，核安全路径后同步frontend/dist，原stop/start，不能按端口杀进程。新快照/所属PID/数据909核后记录，存在实现commit且验收过再关闭387，更新日志/README/状态后自主push核远端。
+387已保护部署0.413.0-bdb32c6761fe3102d582/298文件/PID43600，原start/stop成功，health/页面200、源快照/CIM/27Task/12数据根/909封存/全部密文资产保持。部署before/preflight/after均独占写在原机work/chatflow-code-sample387-deployment，不能覆盖重跑。私有audit-chatflow-code-sample387-deployment.py已verify过。旧前端dist仅在其部署目录old-dist备份，不删其它文件。实现7dcffdc存在，关闭387，更新日志后自主push。
 
-387后自动推进核心剩余：原图已有静态包，改版385完整模型候选已通过限定审阅但未采纳。先核现有候选主动采纳/同版静态交付路径及双版平台执行器的可复用能力，能正常本机推进则一次一项入队交DS，禁止重新付费生成图或造大型框架。两版Dify六例七轮/14轨迹/双ZIP未闭合；若需要真实范围，先完成可审查本机冻结方案，再取得新直接批准。375剩116读/资源各2/14Service/Dify估.100不能自动跨批借用；其模型最后一槽已消费、余0。新平台登录/新模型不能凭持续开发指令扩大。
+388 doing，当前只读派给DS核正常候选采纳与静态交付API。385 sealed DB不写，只复制到新隔离副本再操作；无新付费/生产写入。
+
+核心剩余：原图已有静态包，改版385完整模型候选已通过限定审阅但未采纳。先核现有候选主动采纳/同版静态交付路径及双版平台执行器的可复用能力，能正常本机推进则一次一项入队交DS，禁止重新付费生成图或造大型框架。两版Dify六例七轮/14轨迹/双ZIP未闭合；若需要真实范围，先完成可审查本机冻结方案，再取得新直接批准。375剩116读/资源各2/14Service/Dify估.100不能自动跨批借用；其模型最后一槽已消费、余0。新平台登录/新模型不能凭持续开发指令扩大。
 
 ## 4. 最新385真实结果与不可再执行的包
 
