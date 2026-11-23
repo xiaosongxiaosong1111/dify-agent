@@ -2,7 +2,7 @@
 
 ## 1. 接手入口（2026-11-23）
 
-- 开发克隆E:\workSpace\sierra-chatflow-offline；原机E:\workSpace\dify-agent；main/origin https://github.com/xiaosongxiaosong1111/dify-agent.git。已推最新0f4e7fc，保留全部用户未提交改动。
+- 开发克隆E:\workSpace\sierra-chatflow-offline；原机E:\workSpace\dify-agent；main/origin https://github.com/xiaosongxiaosong1111/dify-agent.git。本轮实现ec8d7b7已提交并原机同步，精确冻结记录及关闭交接随随后提交一并推原GitHub；最新以git log/origin/main为准，保留全部用户未提交改动。
 - 用户持续指定$ds：Codex需求/方案/派单/独立验收/返工/文档Git；实际Claude Code网关192.168.0.224:3010/deepseek-flash实现，不接手产品代码。技能C:\Users\Administrator\.codex\skills\ds\SKILL.md；配置仓库外，不输出Key。必要片段可以发，凭据/客户资料/整库不可发。网络/超时可按用户指示重发；实际worker预算失败不重试或冒称通过。
 - 原机0.411.0-90c28f738d4306fbff75/298文件/PID12020，后端daaa804；总27Task/10环境/2provider。2026-11-23 health200，原机Git干净0f4e7fc。当前仅工具/文档不重建部署；真正部署须原固定快照及CIM所属PID/venv核后原start/stop，不按端口杀进程。
 - 需求docs/requirements-v1.0.md；路线docs/sierra-completion-roadmap-20261119.md；权威队列docs/BACKLOG.md；状态docs/current-acceptance-status-20261121.md。自主模糊需求→访谈→完整原图→单句改版→双版六例七轮/原生轨迹/同版ZIP尚未闭合；人工386/受限410/C2历史真结果不替代。
@@ -18,12 +18,12 @@
 
 ## 3. 下一步
 
-1. 当前377 doing，仅本机实现/准备，尚无新真实授权。DS find会话6f19d95a-893e-4ccc-919b-131d26e53809已正常返回，确认正常POST /api/tasks/{id}/plan/generate会保存完整模型图/plan_source=model、revision+1/版本/两消息，配置未确认，随后退出；这不是只存未应用草稿，也不是根语义通过。根方案E:/workSpace/sierra-delegation/preserved-planning377-implementation.md；公开docs/preserved-planning377-plan-20261123.md。
-2. 限定tools/preserved-planning377四.py+README；0后端/前端修改、0Dify/登录/新Task/资源/运行/构建，不写execution_limits，原None保持；只正常Task/ledger后缀可变，原需求/config/cases/materials/历史/三settled不变。拟仅明确改授375剩三槽中的一槽和0.100 USD预留，不加累计上界；其他两槽/.200及全部Dify/读取/资源槽继续保留。尚未有该新答复，不创建真实approval/attempt，不读明文Key。
-3. DS首次do终端9734无最终输出/exit1可能超时（CLI外层2），固定check未执行；保留work/preserved-planning377-ds-do.log。根check-v1实际0组失败后返工，fix1终端53703正常0并自修1次通过固定check，修REQUIREMENTS、uuid4、put前sequence、两消息及真实sourcepin；fix2终端53662正常0/固定check一次过，修375相对map27+索引和live-output迟到receipt。固定源pin只含375 derivation.py@6fbd030及374 reuse_policy/storage_guard@4ac8e32。
-4. 根独立check-v3完整14组过，日志work/preserved-planning377-root-check-v3.log；另公开success证据work/preserved-planning377-root-public-v1：model1/physical0/r7/23节点/完整原文13892字符/ledger3+1 settled/None与历史保护。失败/unknown/二次及其他HTTP/对象写入/来源/859实际同形loader/两处receipt/manifest/批准及精确runtime门均过。原机基线E:/workSpace/sierra-delegation/planning377-before.json，根审计脚本audit-planning377.py；859每SHA、原r6/预算及27Task/十二根/密文均只读过。
-5. 最后精确运行身份返工fix3终端1514已正常0、固定check一次过，根14组独立检查含新函数通过，文件已稳定，当前准备提交；只认原venv、uvicorn app.main:app/127.0.0.1:8765和实际--app-dir等于固定0.411/backend，拒旧build/项目backend/相似前缀。根管理员CIM确认当前PID12020合法，未停止部署。提交后原机只快进工具，复制五文件到新work/preserved-planning377，实际pending、独立validate_start/保护审计后才请求新改授；尚未生成377真实包或批准/消费标记。根准备的audit-planning377.py after只读验证实际7文件、已提交源、859/Task/账本/十二根和runtime。
-6. 最终真实单次模型仍须新的直接改授，绑定新plan/manifest/Task与预算/provider/runtime/859。执行器一次正常规划后保存完整原文/图/用量/安全失败原因和结果即退出，根之后离线审，不在线wait300秒。坏JSON/真正澄清/未知用量/任何异常停，不重试修图/升模型/续阶段；有效图仍待根业务验收，不build/ZIP/导入/运行。不得重放375或延长其截止时钟。
+1. 当前377已完成：DS会话6f19d95a-893e-4ccc-919b-131d26e53809实现并按根具体反馈fix1/fix2/fix3；首次do9734无输出/exit1可能超时（外层2），保留改动不算过；之后53703正常0/固定check自修1过、53662正常0/一次过、1514正常0/一次过。根未接手代码。ec8d7b706fb12b98230eb1ec33e14933d5fcb2e9实现存在，根完整差异和14组独立公开定向过，原机仅工具快进未重建。日志work/preserved-planning377-{ds-find,ds-do,ds-fix1,ds-fix2,ds-fix3,root-check-v1,root-check-v2,root-check-v3}.log保留实际失败/修复史。
+2. 唯一原机包E:/workSpace/dify-agent/work/preserved-planning377已pending并独立审计过，五源+plan/manifest共7文件，无approval/attempt/worker-started/live-output。plan SHA8ef81075e59a60b9544e0c188e052c07c3bdd5ba3ae08ecbae2dc93564ec2c9f；manifest SHA7c9d6c37ddbb8076a7ad213cf313b7f86696c5ecd4471b1dfe76b1c12496ac8f。可信375 derivation.py@6fbd030、374 reuse_policy/storage_guard@4ac8e32；五源字节与提交相符，859每SHA/十二根/27Task/旧r6/预算/None/密文资产前后全保持，PID12020原venv/精确0.411快照匹配。公开方案docs/preserved-planning377-plan-20261123.md；精确记录docs/preserved-planning377-freeze-result-20261123.md。
+3. 根14组实际覆盖main API+假transport完整图保存退出、badJSON/真正澄清/unknown各一次停、二次/其他endpoint/Dify/同步/错provider及Task/prefix/预算/对象写入拒绝、来源/manifest/批准/消费、859同形loader逐SHA/越界、两处迟到receipt、精确runtime身份。root-public-v1另有r7/23节点/完整原文13892字/ledger3+1 settled/None保持、退出后可读证据；都是公开合成、不当实际模型质量。根私有E:/workSpace/sierra-delegation/planning377-before.json/audit-planning377.py，克隆work/preserved-planning377-freeze-audit.json和before/after-audit.log；已执行exclusive before/after不能覆盖重跑。
+4. 下一378 need-user：仅拟将已消费375余三槽中的一槽/.100 USD配置价预留明确改授本次独立单规划；最多1HTTP/6000输出tokens/120秒，0修复/重试/后阶段，0Dify/登录/Task/库/资源/build/ZIP/运行。累计57/1730/50/资源各30/Service148/模型估算3.355473652不增；余两槽/.200、116读/资源各2/14Service/Dify估.100继续保留，不退借。尚无新直接答复，不解密Key、不approve/live。
+5. 正常POST /api/tasks/{id}/plan/generate复用现有r6；有效时原生保存workflow_plan/model来源、revision+1/版本/两消息与一新ledger，配置仍未确认。这是模型建议入Task，非仅未应用草稿，也非根已验业务。仅目标Task/ledger可变，原需求/config/cases/materials/history/三settled保持，execution_limits None不写，其他全部资产凭据/859保持。完整原文/usage/图/安全失败原因保存后退出，根随后离线核，不等在线300秒；坏JSON/澄清/静态或未知用量等异常停，不能模板修图/升模型或续旧375。
+6. 新直接答复须绑定上述plan/manifest及one-model scope；冻结要求literal“允许将375剩余一槽及0.100 USD预留明确改授本次单规划批”、新call_ID/q0、authorization_source direct_user_reply、scope preserved-planning377，仓库外批准文件，不能使用旧call_f5b...或当前继续。收到后先只读核源/运行/Task基线、exclusive approve→validate→唯一live，结果耐久退出后再根语义复核。任何旧包/封存不改，不把未用槽自动退借。
 7. 每push前更新根CHANGELOG、适用README/状态与整份HANDOFF，显式stage排除work/data/供应商原文/秘密，自主commit/push原GitHub main并核远端，不让用户代提交。实际Codex额度不足立即停并尽量交接；当前未观察额度不足，不冒称用光，不造微任务。队列暂空先核既定需求具体缺口，不把历史blocked当验收完成。
 
 ## 4. 费用、凭据与保护

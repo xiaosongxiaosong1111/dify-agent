@@ -1,6 +1,6 @@
 # Sierra
 
-[单次原规划与耐久候选377](docs/preserved-planning377-plan-20261123.md)由DeepSeek实现，根14组定向检查通过：正常规划保存完整模型图、原文和用量后退出，供随后离线审阅；配置仍未确认，不自动构建、导入或试跑。当前正在核原机精确冻结，尚无新模型授权或真实调用。
+[单次原规划与耐久候选377](docs/preserved-planning377-plan-20261123.md)由DeepSeek实现，根14组定向检查通过：正常规划保存完整模型图、原文和用量后退出，供随后离线审阅；配置仍未确认，不自动构建、导入或试跑。[原机精确冻结与独立审计](docs/preserved-planning377-freeze-result-20261123.md)也已通过，plan8ef81075/manifest7c9d6c37；尚无新模型授权或真实调用。
 
 [独立375实际结果](docs/autonomous-dual375-live-result-20261123.md)：重连/读取均200，但等根复核超时，模型/资源/运行新增0；已停止封存，不续旧批。[374本机三阶段](docs/reviewed-mainline374-local-design-20261123.md)和[375冻结史](docs/reviewed-mainline375-freeze-result-20261123.md)保留历史证据，不能替代当前自主双版业务验收。
 
