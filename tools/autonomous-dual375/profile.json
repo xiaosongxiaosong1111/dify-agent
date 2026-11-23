@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "batch_id": "autonomous-dual375",
+  "approval_scope": "autonomous-dual375",
+  "approval_phrase": "允许将371剩余范围明确改授375并新增1次登录，执行独立批",
+  "approval_question_suffix": "/q0",
+  "limits": {
+    "new_tasks": 0,
+    "model": 3,
+    "reads": 122,
+    "login": 1,
+    "import": 2,
+    "publish": 2,
+    "key": 2,
+    "run": 14
+  },
+  "new_conservative_upper": {
+    "model": 57,
+    "reads": 1730,
+    "login": 50,
+    "import": 30,
+    "publish": 30,
+    "key": 30,
+    "run": 148
+  },
+  "approved_model_slots": 3,
+  "effective_model_http": 3,
+  "json_repair_http": 0,
+  "per_model_reserve_usd": "0.100",
+  "model_total_usd": "0.300",
+  "model_estimate_book_upper_usd": "3.355473652",
+  "dify_estimate_usd": "0.100",
+  "combined_estimate_usd": "0.400",
+  "billing_hard_cap": false,
+  "wall_seconds": 3600,
+  "task_start_cap": 12,
+  "task_minutes": 45,
+  "runtime_build": "0.411.0-90c28f738d4306fbff75",
+  "runtime_version": "0.411.0",
+  "runtime_file_count": 298,
+  "runtime_pid_observed": 12020,
+  "source_commit": "f0e7beefb331db0b9c07f24cf19786b85d05b13c",
+  "source_dir": "tools/autonomous-dual337",
+  "source_commit_base": "4ac8e3282093fe0ba6a5298fcac9cc279e3e03bf",
+  "source_dir_base": "tools/autonomous-dual374",
+  "source_normalization": "crlf_to_lf",
+  "source_pins": {
+    "tools/autonomous-dual337": {
+      "commit": "f0e7beefb331db0b9c07f24cf19786b85d05b13c",
+      "files": [
+        "common.py",
+        "boundary.py",
+        "candidate.py",
+        "reviews.py",
+        "pagination.py",
+        "runtime_reference.py",
+        "fixture.json"
+      ]
+    },
+    "tools/autonomous-dual374": {
+      "commit": "4ac8e3282093fe0ba6a5298fcac9cc279e3e03bf",
+      "files": [
+        "reuse_policy.py",
+        "storage_guard.py",
+        "synthetic.py",
+        "synthetic_seed.py",
+        "rehearse.py",
+        "journey.py"
+      ]
+    }
+  },
+  "expected_counts": {
+    "task": 27,
+    "environment": 10,
+    "provider": 2
+  },
+  "workspace_id": "c3306c18-ceb2-4bee-b2d1-796ce2048f17",
+  "environment_id": "202bfb35-2f92-47c1-bc1b-eac32082181d",
+  "provider_id": "9513f594-c256-46b7-882a-35d9871bf9d0",
+  "provider_model": "deepseek-flash",
+  "provider_protocol": "openai-compatible",
+  "console_version": "1.17.1",
+  "proposal_doc": "docs/reviewed-mainline375-plan-20261123.md",
+  "target_task_id": "1154f0c0-5e01-4492-b5c7-97bfbbbc2a61",
+  "target_task_revision": 6,
+  "protected_old_count": 733,
+  "protected_337_count": 24,
+  "protected_base_count": 795,
+  "protected_371_entries": 35,
+  "protected_total_count": 831,
+  "sealed_index_sha256": "c9d9ef645118610e0fce61f5aed8deeb3e30f7e56b17d2c58511a25e5eef04e0",
+  "protected_seals": {
+    "autonomous-dual366": {
+      "path": "work/autonomous-dual366/seal-after-stop.json",
+      "sha256": "bb6ab4daf437039b71b844748d881752030db17ef9f07cf5602b24cfc6856803",
+      "entries": 26
+    },
+    "console-http-probe369": {
+      "path": "work/console-http-probe369/seal.json",
+      "sha256": "9bd03c377eeb064b667c0ab23086b76fc315c939ca2ebb49ed29d045f3f6a972",
+      "entries": 2
+    },
+    "console-port-forward370": {
+      "path": "work/console-port-forward370/seal.json",
+      "sha256": "2cbfb287f9cc38b9e65e6fb28c2f14127350ad5b66465c2b864f10b96c3fff85",
+      "entries": 6
+    },
+    "autonomous-dual371": {
+      "path": "work/autonomous-dual371/seal-after-stop.json",
+      "sha256": "d5d248d5a6ac06afffbb67cc664787332db8c9663b7c44e0d075a589c6e93092",
+      "entries": 35
+    }
+  },
+  "isolated_paths": {
+    "391": "work/chatflow-model391/live-output/data",
+    "394": "work/clarified-chatflow394/live-output/data",
+    "399": "work/bounded-chatflow399/live-output/data",
+    "401": "work/reviewed-chatflow401/live-output/data",
+    "405": "work/offline-candidate405/data",
+    "408": "work/reviewed-planning408/live-output/data",
+    "409": "work/offline-candidate409/data",
+    "414": "work/autonomous-chatflow414/live-output/data",
+    "416": "work/autonomous-chatflow416/live-output/data",
+    "418": "work/recovered-chatflow418/live-output/data",
+    "420": "work/reviewed-spec-planning420/live-output/data"
+  }
+}
