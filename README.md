@@ -1,18 +1,8 @@
 # Sierra
 
-[独立375实际结果](docs/autonomous-dual375-live-result-20261123.md)：重连和资料读取均200，但等待根复核超时，模型/资源/运行新增0。已封存且保护核验通过，旧批不续跑。下一步先准备单次完整规划并保存候选供离线复核，不再把图生成前的Dify登录当进展。
+[单次原规划与耐久候选377](docs/preserved-planning377-plan-20261123.md)由DeepSeek实现，根14组定向检查通过：正常规划保存完整模型图、原文和用量后退出，供随后离线审阅；配置仍未确认，不自动构建、导入或试跑。当前正在核原机精确冻结，尚无新模型授权或真实调用。
 
-[独立375剩余主线方案](docs/reviewed-mainline375-plan-20261123.md)已完成本机执行器与235条独立定向检查、公开完整/停止链和真实历史只读绑定；[冻结记录](docs/reviewed-mainline375-freeze-result-20261123.md)准确区分已过与待核内容。原机精确待批包与独立核验已完成，plan5b1edcd5/manifestb7846299；没有新的真实批准或产品调用，下一步只需整批直接改授答复。
-
-[复用访谈的三阶段本机执行器](docs/reviewed-mainline374-local-design-20261123.md)已由DeepSeek实现、根独立验收：保留已有访谈与账本，仅新原规划／单句改版访谈／改规划；12组保护检查、真实Task只读准入与公开完整/停止链过。尚无新真实调用，下一步独立冻结与一次准入，旧371不续跑。
-
-[独立371真实批](docs/autonomous-dual371-live-result-20261123.md)已获准唯一执行：重连、FAQ和两次实际访谈通过，第三次原规划要求澄清状态读写顺序而停止，没有图/App/运行。旧任务与凭据保持；已在[0.411.0规划说明](docs/conversation-state-read-order.md)明确串行状态读取/快照与后继写入；真实模型效果仍待独立验证，旧批不重放。
-
-[自主双版366独立方案](docs/autonomous-dual366-plan-20261121.md)获直接批准后已唯一执行并在首次登录停止：登录1次，无HTTP状态；模型、管理读取、新Task和资源运行均0。[本次真实结果与封存](docs/autonomous-dual366-live-result-20261122.md)。未重试，旧任务和凭据保持；自主双版仍未通过。
-
-[连接代码复核](docs/console-connectivity-review-20261122.md)的30项定向检查通过，未发现必须改的产品缺陷，真实传输根因仍未知。[一次无凭据HTTP核对](docs/console-http-probe-result-20261122.md)已获准唯一执行，返回curl52/HTTP000，仍未得到有效HTTP响应；后续[限定恢复已实际执行](docs/console-port-forward-repair-result-20261122.md)：重启同一Nginx容器1次后，容器内和Windows均返回预期无凭据401，当前HTTP入口可达；账号/空间和自主主线仍待独立验证，旧批不重放。
-
-用户批准的[自主双版新批](docs/autonomous-dual-chatflow-live-result-20261120.md)已唯一执行并停止：1次登录、4次管理读取，模型/新Task/资源/运行均0。已修执行器的Dify 1.17.1分页兼容并通过定向隔离检查；自主双版仍未完成，旧批不重放，剩余范围不自动跨批复用。
+[独立375实际结果](docs/autonomous-dual375-live-result-20261123.md)：重连/读取均200，但等根复核超时，模型/资源/运行新增0；已停止封存，不续旧批。[374本机三阶段](docs/reviewed-mainline374-local-design-20261123.md)和[375冻结史](docs/reviewed-mainline375-freeze-result-20261123.md)保留历史证据，不能替代当前自主双版业务验收。
 
 当前剩余工作和逐条证据见[48条需求与25项验收状态](docs/current-acceptance-status-20261121.md)。本机验收通过与历史真实观察分别列出，当前自主售后双版尚未闭合，不用任务行数计算完成率。
 

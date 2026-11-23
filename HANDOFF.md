@@ -2,47 +2,40 @@
 
 ## 1. 接手入口（2026-11-23）
 
-- 工作克隆 E:\workSpace\sierra-chatflow-offline，main，原机 E:\workSpace\dify-agent；origin https://github.com/xiaosongxiaosong1111/dify-agent.git。保留用户所有任务、配置、凭据及未提交改动。
-- 用户指定持续$ds：Codex掌握需求、派单、独立验收/具体返工、文档和Git；产品实现交Claude Code网关192.168.0.224:3010/deepseek-flash，不接手产品代码。技能 C:\Users\Administrator\.codex\skills\ds\SKILL.md，配置在仓库外忽略文件，不输出凭据。不把开发DS费用混入产品模型账本。
-- 原机固定快照0.411.0-90c28f738d4306fbff75/298文件/PID12020，后端实现daaa804；原26Task保持、当前27Task/10环境/2provider，2026-11-23核health200。工具/文档变更只快进，不重复构建部署。部署必须核CIM所属PID/执行文件后按原start/stop，不按端口杀进程。
-- 原需求docs/requirements-v1.0.md，完整路线docs/sierra-completion-roadmap-20261119.md，最新证据docs/current-acceptance-status-20261121.md。自主模糊需求→访谈→完整图→单句改版→双版六例七轮/原生轨迹/同版ZIP仍未闭合，人工386/受限410/C2历史真结果保留但不替代。
+- 开发克隆E:\workSpace\sierra-chatflow-offline；原机E:\workSpace\dify-agent；main/origin https://github.com/xiaosongxiaosong1111/dify-agent.git。已推最新0f4e7fc，保留全部用户未提交改动。
+- 用户持续指定$ds：Codex需求/方案/派单/独立验收/返工/文档Git；实际Claude Code网关192.168.0.224:3010/deepseek-flash实现，不接手产品代码。技能C:\Users\Administrator\.codex\skills\ds\SKILL.md；配置仓库外，不输出Key。必要片段可以发，凭据/客户资料/整库不可发。网络/超时可按用户指示重发；实际worker预算失败不重试或冒称通过。
+- 原机0.411.0-90c28f738d4306fbff75/298文件/PID12020，后端daaa804；总27Task/10环境/2provider。2026-11-23 health200，原机Git干净0f4e7fc。当前仅工具/文档不重建部署；真正部署须原固定快照及CIM所属PID/venv核后原start/stop，不按端口杀进程。
+- 需求docs/requirements-v1.0.md；路线docs/sierra-completion-roadmap-20261119.md；权威队列docs/BACKLOG.md；状态docs/current-acceptance-status-20261121.md。自主模糊需求→访谈→完整原图→单句改版→双版六例七轮/原生轨迹/同版ZIP尚未闭合；人工386/受限410/C2历史真结果不替代。
 
-## 2. 已验收工作
+## 2. 已完成与当前结果
 
-- 319—358实质修改及当前运行已保护部署；最近358修连续改版读取最近可信App与同回执基线，根85定向/构建和3实际App UI过，十二根/733/337封存24/原26密文保持。原work/source358-deployment与UI证据不覆盖。
-- 359—363、365有界复核已有功能：环境60、版本152、多任务65+20+12及10UI、交付79、FR48/AT25矩阵、质量费用130+15。DS按根反馈纠正旧限制/间接路径等误判，够用不重写；详BACKLOG和各项文档。365记录8523c11/关闭f0e7bee。
-- 364实现e9459d8只修4启动文件中文/BOM/编码；根35消息token其余逻辑保持，干净setup40锁包/npmci/build、8脚本+缺venv和6快照过。临时服务已停、原快照恢复PID28732，work/install364-verification/{before,after,after-final}.json证明保护；不覆盖旧证明。原机已同步。
-- 本轮366本机执行器由DS会话287ab2d9-9596-462a-9dc3-935025989481交付/返工；文档由a61f9de0-3e5e-4b93-bf21-1c36b48fb066并行交付。根66检查和三条公开替身协议过：success模型5/读83/登录1/资源各2/Service14；invalid_model_json在模型1后停、资源0；second_turn_business_failure模型3/读40/资源各1/Service7后唯一失败轮诊断封存，后续改版不派发。物理产品模型/Dify均0，不是平台或模型质量通过。
+- 319—358已有实质修改/部署，359—365有界核已有功能/安装与验收矩阵，保持所有实际边界，不按行数算完成率。具体证据见BACKLOG对应项与docs，不通读项目或290KB历史。
+- 373仅补Chatflow通用串行/快照语义：直接读当前值、前驱输出快照不被后继写入回溯改变；缺失/冲突仍澄清。DS实现daaa804，根56定向过、保护部署0.411/298/PID12020；未真实检验新模型质量。docs/conversation-state-read-order.md。
+- 374 DS实现4ac8e32、根12组/真实r6只读/公开三阶段成功及三失败路径过，复用访谈、不新Task。375最小冻结实现4a05626、精确runtime派生修正6fbd030，根246定向及原机21项22文件/831/十二根/r3与r6访谈/快照CIM核过；6588ac6正式冻结记录。旧源码/包均保持，不能重放。
+- 371实际已消费：模型3/读6/登录1全200，新增Task1154f0c0-5e01-4492-b5c7-97bfbbbc2a61/r6，FAQ和两访谈根实际复核通过，第三原规划needs_decision误疑已明确的状态快照消费顺序，无完整图/App/运行。三settled合0.020125524 USD保留，不补签或续旧阶段。docs/autonomous-dual371-live-result-20261123.md。
+- 376/375实际已消费stopped：直接call_f5b63df1752f441284ac9ee97f031930/q0批准并唯一live（主进程24148已结束Exit1），登录1/读6/physical7均200，模型/Task/资源/Service/ZIP0。13:08:12来源→13:13:12停止300.402秒，waiting_review=faq_read、无回执/stop，RuntimeError，根复核等待超时属时间/代码推断。14:56迟到receipt writer的running断言拒绝，未写任何迟到回执、不续跑；根事后阅读FAQ不等于旧协议已通过。详docs/autonomous-dual375-live-result-20261123.md，提交0f4e7fc已推。
+- 原Task/r6与预算完整相同，execution_limits仍None；另外26/总27Task/十二根/831/资产密文保持，仅批准console_token/csrf正常续接及1重连记录，旧ServiceKey/账号密码不变。私有baseline E:/workSpace/sierra-delegation/autonomous375-preservation-before.json；根证据克隆work/reviewed-mainline375-after-stop-audit.json。375封27成员+索引28，未来859全保护。
 
 ## 3. 下一步
 
-1. 当前377 doing（DS只读调查运行中，work/preserved-planning377-ds-find.log，终端session32686）：仅本机核“复用r6已保存访谈→单次原规划→持久保存候选并退出→根离线验收”的最小方案，优先复用既有model-only代码，不再让图生成前Dify登录/阻塞根复核耗掉批次。先DS只读可行性、再有限实现/隔离检查，真实新范围尚未批准，不改旧375或延长其期限，不造大框架。376已blocked/375已消费不能重放。
-   直接批准call_f5b63df1752f441284ac9ee97f031930/q0已exclusive绑定375并approve/validate后唯一live（主进程24148已结束Exit1）：1登录6GET/physical7全200，13:08:12来源→13:13:12停止相差300.402秒，waiting_review=faq_read，无回执/stop文件，RuntimeError且冻结deadline300，根复核等待超时为代码/时间推断。14:56继续时迟到回执writer的running前置assert拒绝，未写临时/正式receipt，也未续原规划。根虽阅读了实际FAQ，不能补签称旧协议通过；没有模型HTTP、Task/App发布Key/Service/ZIP新增，不说成网络/模型失败。
-   独立after-stop-audit通过：原Task1154f0c0/r6与预算完整相同（原三settled0.020125524）、execution_limits仍None，另26/总27Task/十二根/831/旧资产密文保持，仅许可console_token/csrf正常续接，新增1重连记录。work/autonomous-dual375/seal-after-stop.json封27成员+索引28，SHAe3daff9307529b626b003d081035a601d9cc81f9a2420d88f2ddd6593fb4cdb6，今后831+28=859全部保护，勿覆盖重签。私有E:/workSpace/sierra-delegation/autonomous375-preservation-before.json，审计克隆work/reviewed-mainline375-after-stop-audit.json，主log work/reviewed-mainline375-live.log。docs/autonomous-dual375-live-result-20261123.md是当前实际结果。
-   当前保守模型57/读1730/登录50/资源各30/Service148/模型估算3.355473652，实际模型39/资源20/Service65/规则通过57、累计观察settled0.234196524不增；95unknown等全部旧费用不退借。375余3模型/116GET/资源各2/14Service及未用估算包保留，任何未来改授都需新具体直接答复，不能再借旧371。0.411.0-90c28f738d4306fbff75/298/PID12020未重建，任务/全局设置/密码/旧ServiceKey不变，无新登录/模型授权。
-   原375计划5b1edcd51cfb54415a3a555089368efe26a8b93ce518cfdf305a794e6af43f97、manifestb7846299187b00b3f1418923a88e32d3793be92b54150c0ae9b64d13a8c7c405、实现6fbd030及冻结史保持；方案字节已绑定，不改正文。已读的FAQ/来源与复核无效的事实分开，不把post-stop审读写成新的或历史已通过回执。
+1. 当前377 doing，仅本机实现/准备，尚无新真实授权。DS find会话6f19d95a-893e-4ccc-919b-131d26e53809已正常返回，确认正常POST /api/tasks/{id}/plan/generate会保存完整模型图/plan_source=model、revision+1/版本/两消息，配置未确认，随后退出；这不是只存未应用草稿，也不是根语义通过。根方案E:/workSpace/sierra-delegation/preserved-planning377-implementation.md；公开docs/preserved-planning377-plan-20261123.md。
+2. 限定tools/preserved-planning377四.py+README；0后端/前端修改、0Dify/登录/新Task/资源/运行/构建，不写execution_limits，原None保持；只正常Task/ledger后缀可变，原需求/config/cases/materials/历史/三settled不变。拟仅明确改授375剩三槽中的一槽和0.100 USD预留，不加累计上界；其他两槽/.200及全部Dify/读取/资源槽继续保留。尚未有该新答复，不创建真实approval/attempt，不读明文Key。
+3. DS首次do终端9734无最终输出/exit1可能超时（CLI外层2），固定check未执行；保留work/preserved-planning377-ds-do.log。根check-v1实际0组失败后返工，fix1终端53703正常0并自修1次通过固定check，修REQUIREMENTS、uuid4、put前sequence、两消息及真实sourcepin；fix2终端53662正常0/固定check一次过，修375相对map27+索引和live-output迟到receipt。固定源pin只含375 derivation.py@6fbd030及374 reuse_policy/storage_guard@4ac8e32。
+4. 根独立check-v3完整14组过，日志work/preserved-planning377-root-check-v3.log；另公开success证据work/preserved-planning377-root-public-v1：model1/physical0/r7/23节点/完整原文13892字符/ledger3+1 settled/None与历史保护。失败/unknown/二次及其他HTTP/对象写入/来源/859实际同形loader/两处receipt/manifest/批准及精确runtime门均过。原机基线E:/workSpace/sierra-delegation/planning377-before.json，根审计脚本audit-planning377.py；859每SHA、原r6/预算及27Task/十二根/密文均只读过。
+5. 最后精确运行身份返工fix3终端1514已正常0、固定check一次过，根14组独立检查含新函数通过，文件已稳定，当前准备提交；只认原venv、uvicorn app.main:app/127.0.0.1:8765和实际--app-dir等于固定0.411/backend，拒旧build/项目backend/相似前缀。根管理员CIM确认当前PID12020合法，未停止部署。提交后原机只快进工具，复制五文件到新work/preserved-planning377，实际pending、独立validate_start/保护审计后才请求新改授；尚未生成377真实包或批准/消费标记。根准备的audit-planning377.py after只读验证实际7文件、已提交源、859/Task/账本/十二根和runtime。
+6. 最终真实单次模型仍须新的直接改授，绑定新plan/manifest/Task与预算/provider/runtime/859。执行器一次正常规划后保存完整原文/图/用量/安全失败原因和结果即退出，根之后离线审，不在线wait300秒。坏JSON/真正澄清/未知用量/任何异常停，不重试修图/升模型/续阶段；有效图仍待根业务验收，不build/ZIP/导入/运行。不得重放375或延长其截止时钟。
+7. 每push前更新根CHANGELOG、适用README/状态与整份HANDOFF，显式stage排除work/data/供应商原文/秘密，自主commit/push原GitHub main并核远端，不让用户代提交。实际Codex额度不足立即停并尽量交接；当前未观察额度不足，不冒称用光，不造微任务。队列暂空先核既定需求具体缺口，不把历史blocked当验收完成。
 
-   374已验收且实现4ac8e32存在后关闭。DS会话60b6cee5-fd0d-4f35-b975-34be24423b05限定tools/autonomous-dual374十文件；前两do约540秒无最终输出退出1，保留修改/日志，第三fix2正常返回0/两轮自修固定check过，根另12组行为过。真实Task1154f0c0/r6纯只读准入过，task SHA4285b59a9f63d651d4869893fb460ec273b0c822250664248c36976140b10a84，budget SHAe1ac5db2cc3fca7ec1bde57a2fc5762f95c33b8b63c00fd0aa5a2a6c43306c4b。interview_attempts实际缺省，不是[]/null；旧消息/版本/needs_decision/账本保持，不填字段。execution_limits实际None，未来获准新批才正常API首次12启动/45分钟/None，不改真实数据。
-   最终v2公开源与当前十文件一致；success3模型/83GET/1登录/资源各2/12启动/14Service/14轨迹/双ZIP；badJSON模型1/5读/资源0停；补号二轮失败模型1/40读/App1/Service7后唯一4GET诊断停；另fail_login模型/读/资源0早停，None保持且报告False不冒称已设置。四路径physical0/历史资产保持。9共享文件可信f0e7beef及复制字节同。日志work/reviewed-mainline374-root-{check-v3,sources-v2,rehearsal-v2,early-stop-v2}.log、ds-{find,do,fix1,fix2}.log；包work/autonomous-dual374-root-public-v2与root-rehearsal-v2。旧失败v1不覆盖；docs/reviewed-mainline374-local-design-20261123.md。
-   374自身没有真实入口；其后375精确冻结已完成，当前以第1项376待新直接答复为准。拟明确改授371余3模型/122GET/资源各2/14Service及0.300模型+0.100Dify估算包，仅新登录49→50；无新真实授权，不自动借槽/改真实Task或重放371，不新增访谈/Task。产品运行/831旧封存/全部旧账本凭据保持，本地工具变更不重建部署。
+## 4. 费用、凭据与保护
 
-2. 373已完成：DS会话da715b6f-4a3f-41f0-a1f0-20a438cd900c核无输入丢失/契约矛盾，限定两文件交付，根56现有上下文/补号/状态/快照定向及完整差异过，实现daaa804。只为Chatflow能力说明明确直接读取节点当前值、前驱标量输出快照不被后继覆盖回溯改变，真正缺条件/冲突仍needs_decision，不改用户算法/验证器/调用次数。未添镜像测试/真实请求。docs/conversation-state-read-order.md；日志work/state-order373-ds-find.log、ds-do.log、root-tests.log。
-3. 373已保护部署！原机0.411.0-90c28f738d4306fbff75/298/PID12020，health/页面200，CIM归属/原venv执行文件/源码快照一致，实际capabilities三类型API核仅Chatflow有新note，另两类型不继承。原work/state-order373-deployment/before/preflight/after/catalog.json证明27任务/十二根/831旧文件/所有密文资产保持；旧PID28732已按归属校验用原stop停、新start建快照，前端未改不重建。私有audit-state-order373.py可读，不覆盖已完成证明或重跑其写入动作；未检查新真实模型质量，不把56测试当业务完成。
-4. 371（372 blocked）实际已消费stopped：直接call_f946936e3fa747669cd271019cf87e75/q0，登录1/管理GET6/模型3全200、physical10，新Task1154f0c0/r6无图。FAQ及两访谈根实际复核通过，第三原规划返回error/needs_decision质疑已明确的快照旧值/消费顺序，程序正确暂停/保留decision_report，未App/发布/Key/Service。不得回复模型问题续跑旧批；开发网关恢复不改变消费状态。docs/autonomous-dual371-live-result-20261123.md记录31f2f53。
-5. 原work/autonomous-dual371/seal-after-stop.json封35文件SHA d5d248d5a6ac06afffbb67cc664787332db8c9663b7c44e0d075a589c6e93092，35+索引36加入原795共831。plan085e08bfec218fcd9adb7b79eda19d486b61ebcbf4c29086c9aeadfb47299d7a / manifest1510f5b9cdc6e1c06d0af0884b9e44a6ace0ad660f337e228572d1bfc4a5da9b / source7ed328a及全部旧366/369/370/337封存永久保持，不改不重签不续阶段。源码已升级，旧包本来也不能准入新源。
-6. 原work/autonomous371-freeze-guard/after-live.json核原26Task/十二根/795/资产及旧密文保持，仅批准更新管理Token；当前27Task，旧Service Key/账号密码不变。3settled为0.0034545/0.005911224/0.0107598，合0.020125524 USD（非账单核验），累计观察0.234196524/实际模型39。保守模型57/读1730/登录49/资源各30/Service148/模型估算3.355473652。371余3模型/122读取/资源各2/Service14及旧未用估算范围保持，不能自动跨批改授/归还；旧unknown0.0188541及其它费用全不动。
-7. 原真实Task与预算须先仅读确认状态/修订/完整需求/历史来源，复用方案尚未设计完成，不先修改数据或造新直接批准。真实新范围必须可审查本机材料后统一取得新答复，不逐项重复问已委托内容；当前无需手动登录或提供密码。只复用加密资料，不抄聊天密码/输出提交秘密；今天没追加Dify探测/登录，0.411局部模型质量仍未真实验证。
-8. 根需求/路线/派单/独立验收/具体返工及文档Git，产品实现交用户$ds/192.168.0.224:3010/deepseek-flash，开发网关另计，不给凭据/客户资料/整库、不接手产品代码。每push前CHANGELOG/README/状态/整份HANDOFF更新，显式stage排除work/data/供应商原文，自主push原GitHub main核远端。真实自主19—22仍未闭合，历史386/410/C2不替代；不通读项目/290KB历史、不跑全量。实际Codex不足即停尽可能交接，不重试换号购买；未见不足不冒称耗尽，不造微任务。
+- 保守模型57/读1730/登录50/App发布Key各30/Service148，模型估算账本3.355473652 USD，非供应商账单硬限。实际模型39/资源各20/Service65/规则通过57、累计观察settled0.234196524，不是完整账单；本轮产品模型0无新模型结算，开发DS费用另计。375余3model/.300/116读/资源各2/14Service及Dify估.100保持，未自动改授/退还；不能再从已消费371借。
+- 所有旧unknown/费用/预留保持，95unknown0.0188541、四槽.20、旧剩包.109785948及115/121/198/206/209/213等不动。旧模型391→394、399→401、401→408已消费；422用户曾暂不真实，后有各次精确新批答复，不扩大当前具体范围。
+- 专用环境202bfb35-2f92-47c1-bc1b-eac32082181d/原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17，当前App9faf2792-08e2-48cf-afd0-050b34035fed，旧Key加密留档。全局9513f594-c256-46b7-882a-35d9871bf9d0/deepseek-flash，Dify温度.2/512/thinking=false；FAQd12cf081-5c52-41e3-b869-e94e6f8d37b1 TopK3无阈值不重排。只复用加密资料，不抄聊天密码/输出提交凭据，不覆盖旧App或建库。
+- 原r6完整task SHA4285b59a9f63d651d4869893fb460ec273b0c822250664248c36976140b10a84，budget SHAe1ac5db2cc3fca7ec1bde57a2fc5762f95c33b8b63c00fd0aa5a2a6c43306c4b；paused/requirements确认/config未确认，无graph/artifact/App/runs/materials；messages6/versions5/planning_runs1/intake_history1，interview_attempts实际缺省，execution_limits None。.600预算/policy1/旧三settled.020125524原样保持。
 
-## 4. 账本与凭据
+## 5. 不可重放的历史
 
-- 保守模型57/读1730/登录50/App发布Key各30/Service148，模型估算账本3.355473652非账单硬限；实际模型39/资源各20/Service65/规则通过57，已观察settled0.234196524非完整供应商账单。410 Dify报告金额0不当免费；新估0.05及全部旧unknown/预留不退借。95unknown0.0188541、四槽0.20、旧剩包0.109785948及115/121/198/206/209/213等费用保持。
-- 391余槽改授394用完；399余槽改授401；401最后余槽直接改授408已用完，不再改授。406余47读/六Service、410余23读及未用失败轮例外不自动归还或借用，所有旧消费包永久不重放。
-- 专用环境202bfb35-2f92-47c1-bc1b-eac32082181d/原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17，当前App9faf2792-08e2-48cf-afd0-050b34035fed；旧App（0db381ab/3f17cfaa/41b5dc01等ID前缀）的Key加密留档。全局模型9513f594-c256-46b7-882a-35d9871bf9d0/deepseek-flash，Dify .2/512/thinking=false，FAQd12cf081-5c52-41e3-b869-e94e6f8d37b1 TopK3无阈值不重排。只复用加密凭据，不抄聊天密码/输出提交秘密，不建库/覆盖旧App。
-
-## 5. 历史保护
-
-- 91/95/115/121/124/180/189/192/196/198/202/206/209/213/217及全部消费包永久不重放。350 publication1e5eeaee-aa6b-4ce7-8e4d-e3961f528010仍unknown/write_attempted=true。旧124和C1 Task均4/4满，38612/12满，不追加。
-- 旧批368（不是运行版本）的成功回执及7fea9063/39e79c2c保持，368-before-criteria-sync/365-zero-login-unapproved不执行。375/376/378/380/382/384失败与余槽保持；376只获准10GET，384唯一失败轮4GET后封存，386成功未用诊断例外；不跨批继承例外。
-- 386封存413条索引SHA65e6395d0aebcfea4c51199614dd535293d7eb6b51927a75ba45b536f07a2a4a，原ZIP de5e72648a48d652c8523b782289a47bd75523eb623945c3e7aec56ac6216fe8 / 修改35d5d244911b7de4ca3816d17ee7e9daa9b4db822aeb93a15c3a782d5f440913；指南补充90797671ada215c9d8a0e2ab3e658b3ab1962153308e6f398c8d7e50adcfcc66，历史补充30adb001b4778369784eec67b2872aaf2bd80e951fa48e5df58c9d90edf387ec，全部保持。
-- 不通读项目/290KB work/development-resume.md；历史按编号单段，优先当前HANDOFF第3节/权威BACKLOG和报错直接相关文件。保留无关未提交改动，不把静态或替身结果升级为真实业务通过。
+- 所有91/95/115/121/124/180/189/192/196/198/202/206/209/213/217及后续消费包不重放/续阶段/自动借槽。350 publication1e5eeaee-aa6b-4ce7-8e4d-e3961f528010仍unknown/write_attempted=true。旧124/C1已4/4，386已12/12。旧失败375/376/378/380/382/384与386成功的历史案例编号不等于当前工具/队列编号，均保留各自结果/范围。
+- 733索引c9d9ef64，337封24+索引25→758；366封26+索引27→785，369封2+索引3→788，370封6+索引7→795，371封35+索引36→831，375封27+索引28→859。十二数据根/所有旧封存/资产密文保护，不覆盖重签。
+- 375 plan5b1edcd51cfb54415a3a555089368efe26a8b93ce518cfdf305a794e6af43f97 / manifestb7846299187b00b3f1418923a88e32d3793be92b54150c0ae9b64d13a8c7c405；seal-after-stop.json SHAe3daff9307529b626b003d081035a601d9cc81f9a2420d88f2ddd6593fb4cdb6。371 seal SHA d5d248d5a6ac06afffbb67cc664787332db8c9663b7c44e0d075a589c6e93092，plan085e08bf/manifest1510f5b9。具体旧验收ZIP/哈希见对应冻结/真实结果文档，不重跑旧包获取证据。
+- 不通读项目/290KB work/development-resume.md；只读当前任务、报错文件、必要历史编号；不跑全量、不顺带重构。公开green/静态构建/历史人工图不升级为当前自主真实业务通过。
