@@ -1,6 +1,6 @@
 # Sierra
 
-[规划澄清的最终一致性核对](docs/planning-clarification-consistency.md)已由DeepSeek实现：Workflow/Chatflow输出澄清前核对已给事实，条件充分则返回完整计划；真正业务缺失仍停止。0.412.0已过根58项定向与三类型隔离API核对，当前保护部署待完成，真实模型改善未验证。
+[规划澄清的最终一致性核对](docs/planning-clarification-consistency.md)已由DeepSeek实现：Workflow/Chatflow输出澄清前核对已给事实，条件充分则返回完整计划；真正业务缺失仍停止。0.412.0已过根58项定向与三类型隔离API核对，并完成原机保护部署；真实模型改善未验证。
 
 [单次377真实结果](docs/preserved-planning377-live-result-20261123.md)：1次模型返回needs_decision，无完整图，已停止封存，不重试；实际费用、原历史与874封存保护已核。自主原图→单句改版→双版真实运行仍未闭合。
 

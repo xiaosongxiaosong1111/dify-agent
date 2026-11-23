@@ -2,9 +2,9 @@
 
 ## 1. 接手入口（2026-11-23）
 
-- 开发克隆E:\workSpace\sierra-chatflow-offline；原机E:\workSpace\dify-agent；main/origin https://github.com/xiaosongxiaosong1111/dify-agent.git。本轮实现ec8d7b7已提交并原机同步，精确冻结记录及关闭交接随随后提交一并推原GitHub；最新以git log/origin/main为准，保留全部用户未提交改动。
+- 开发克隆E:\workSpace\sierra-chatflow-offline；原机E:\workSpace\dify-agent；main/origin https://github.com/xiaosongxiaosong1111/dify-agent.git。377实现ec8d7b7与结果8d4578f已推；379实现b1c63f4已提交并原机同步/部署，关闭交接随随后提交一并推原GitHub；最新以git log/origin/main为准，保留全部用户未提交改动。
 - 用户持续指定$ds：Codex需求/方案/派单/独立验收/返工/文档Git；实际Claude Code网关192.168.0.224:3010/deepseek-flash实现，不接手产品代码。技能C:\Users\Administrator\.codex\skills\ds\SKILL.md；配置仓库外，不输出Key。必要片段可以发，凭据/客户资料/整库不可发。网络/超时可按用户指示重发；实际worker预算失败不重试或冒称通过。
-- 原机0.411.0-90c28f738d4306fbff75/298文件/PID12020，后端daaa804；总27Task/10环境/2provider。2026-11-23 health200，原机与开发/远端基线4cae9b1。当前仅工具/文档不重建部署；真正部署须原固定快照及CIM所属PID/venv核后原start/stop，不按端口杀进程。
+- 原机当前0.412.0-4b3c27aad0a80a616364/298文件/PID34736，后端实现b1c63f4；总27Task/10环境/2provider。2026-11-23 health/页面200，379已完成保护部署；最新Git以HEAD/origin/main为准。纯交接/结果文档不重复重建部署；真正部署须原固定快照及CIM所属PID/venv核后原start/stop，不按端口杀进程。
 - 需求docs/requirements-v1.0.md；路线docs/sierra-completion-roadmap-20261119.md；权威队列docs/BACKLOG.md；状态docs/current-acceptance-status-20261121.md。自主模糊需求→访谈→完整原图→单句改版→双版六例七轮/原生轨迹/同版ZIP尚未闭合；人工386/受限410/C2历史真结果不替代。
 
 ## 2. 已完成与当前结果
@@ -18,12 +18,12 @@
 
 ## 3. 下一步
 
-1. 当前378/377真实批已消费stopped，下一379 doing。直接call_653c3204d2c842648bbfaddba3d298b4/q0按原literal明确改授一槽/.100，仓库外E:/workSpace/sierra-delegation/planning377-direct-authorization.json，精确plan8ef81075e59a60b9544e0c188e052c07c3bdd5ba3ae08ecbae2dc93564ec2c9f/manifest7c9d6c37ddbb8076a7ad213cf313b7f86696c5ecd4471b1dfe76b1c12496ac8f。approve/validate过，唯一live65806已结束exit1，不再运行。
+1. 当前378/377真实批已消费stopped；379本机契约一致性修改已验收/部署，不代表真实完整图已过。直接call_653c3204d2c842648bbfaddba3d298b4/q0按原literal明确改授一槽/.100，仓库外E:/workSpace/sierra-delegation/planning377-direct-authorization.json，精确plan8ef81075e59a60b9544e0c188e052c07c3bdd5ba3ae08ecbae2dc93564ec2c9f/manifest7c9d6c37ddbb8076a7ad213cf313b7f86696c5ecd4471b1dfe76b1c12496ac8f。approve/validate过，唯一live65806已结束exit1，不再运行。
 2. 实际1模型/physical1，7.905秒、prompt34291/output829/cachehit28032，returned/已知用量settled0.003040692 USD；0Dify/管理GET/登录/Task/资源/Service/构建/ZIP。原文1811字符完整保存SHAc1a16951caa6aa10e4dcf1df81806e03db7c3b5b472df7b4b469ad0e37705c29，返回error/needs_decision无nodes/edges；Task仍r6/paused，无graph/artifact/App/run，planning_runs现2，预算现4entries/合.023166216。实际产品模型40/累计观察settled.237237216，非完整供应商账单；保守57/1730/50/资源30/Service148/模型估算3.355473652不增。
 3. 根已读完整响应及实际input/output/rules，回复询问不同状态writer串行、提取输入原文、固定文案code还是template，又承认现契约可实现；根判断有已明确规则/等价实现的重复澄清，不接受为完整候选，不忽略error/造图或续阶段。程序停止/保存用量正确。根独立after-live审计核原prefix/三settled/None、其余26/总27Task/十二根/859/所有旧凭据资产全保持。当前task SHA21bbe8fe63be09987795998fa44b91bd889e80999b3d82c5e5fe9a78ffef79e7；budget SHA7305cf1357e476d26feb091d3a3be1e36fa789891335ed9c3c214b57a7eb0765；新operation last_candidate字段缺省，不是必须有null。
 4. 原work/preserved-planning377已一次封14成员+索引15，seal-after-stop.json SHA541fe1d45a1ef7b9fa1473a8abef8ff72140761a3c2df5145160b51c7e75e8da；未来859+15=874全部保护。禁止改旧包/重签/重跑approve或live/回填根成功。根私有audit-planning377-live.py第一次只读因last_candidate缺省索引假设失败，在任何报告/封存写前已停；修为get(None)及实际14文件后审计/封存完成，不能覆盖重跑exclusive输出。
-5. 379 doing：DS会话b9137036调查及do已正常0、固定六文件pytest一次过；根完整两文件差异+58既有定向过，另隔离实际API三类型核新契约只进入Workflow/Chatflow、Agent不继承、合成真缺失各一次暂停、原输入/修订保持，physical0。仅main最初prompt/版本0.412.0和workflow-plan-contract两段，parser/error/编译/业务/重试/全局配置不改，不声称模型质量已解决。日志work/planning-choice379-{ds-find,ds-do,root-tests,context}.log/json。私有planning-choice379-implementation.md及capture-choice379-context.py。待本实现提交及原机保护部署后关闭。
-5a. 部署保护已捕获并preflight过：原机work/planning-choice379-deployment/before.json/preflight.json，27Task无进行中、十二根/874/目标Task和预算SHA/密文资产保持、旧0.411/298/PID12020/原venv与实际快照吻合。私有audit-planning-choice379-deployment.py，新版本需先Git只快进，再核所属PID用原stop/start重建固定快照、health200后verify；不可覆盖重跑exclusive capture/preflight或按端口杀进程。未部署，不能写0.412已运行；无新真实模型/Dify授权。
+5. 379已完成：DS会话b9137036调查及do正常0、固定六文件pytest一次过；根完整两文件差异+58既有定向过，另隔离实际API三类型核新契约只进入Workflow/Chatflow、Agent不继承、合成真缺失各一次暂停、原输入/修订保持，physical0。实现b1c63f4。仅main最初prompt/版本0.412.0和workflow-plan-contract两段，parser/error/编译/业务/重试/全局配置不改，不声称模型质量已解决。日志work/planning-choice379-{ds-find,ds-do,root-tests,context}.log/json；docs/planning-clarification-consistency.md。
+5a. 379已保护部署：原机work/planning-choice379-deployment/before/preflight/after.json均实际过，27Task空闲、十二根/874每SHA/目标Task与预算/密文资产前后保持。旧0.411/298/PID12020已核CIM所属及原venv后按原stop停，原start生成新固定快照0.412.0-4b3c27aad0a80a616364/298/PID34736；health/页面200，源码/快照/执行文件和应用版本一致，前端未改不重建。私有audit-planning-choice379-deployment.py；exclusive输出已存在，不覆盖重跑。未增产品模型/Dify请求，不重放或修改旧377。
 6. 当前377实现ec8d7b7、根14组、冻结及交接4cae9b1保持；真实结果docs/preserved-planning377-live-result-20261123.md，主日志work/preserved-planning377-live.log，根work/preserved-planning377-after-live-audit.json/log，私有baseline E:/workSpace/sierra-delegation/planning377-before.json。375剩两模型槽/.200及116读/资源各2/14Service/Dify估.100仍保留，本槽消费/实际费用单列，不能自动借退差额。未获新产品模型/Dify范围，不继续付费。
 7. 每push前更新根CHANGELOG、适用README/状态与整份HANDOFF，显式stage排除work/data/供应商原文/秘密，自主commit/push原GitHub main并核远端，不让用户代提交。实际Codex额度不足立即停并尽量交接；当前未观察额度不足，不冒称用光，不造微任务。队列暂空先核既定需求具体缺口，不把历史blocked当验收完成。
 
@@ -40,3 +40,9 @@
 - 733索引c9d9ef64，337封24+索引25→758；366封26+索引27→785，369封2+索引3→788，370封6+索引7→795，371封35+索引36→831，375封27+索引28→859，377封14+索引15→874。十二数据根/所有旧封存/资产密文保护，不覆盖重签。
 - 375 plan5b1edcd51cfb54415a3a555089368efe26a8b93ce518cfdf305a794e6af43f97 / manifestb7846299187b00b3f1418923a88e32d3793be92b54150c0ae9b64d13a8c7c405；seal-after-stop.json SHAe3daff9307529b626b003d081035a601d9cc81f9a2420d88f2ddd6593fb4cdb6。371 seal SHA d5d248d5a6ac06afffbb67cc664787332db8c9663b7c44e0d075a589c6e93092，plan085e08bf/manifest1510f5b9。具体旧验收ZIP/哈希见对应冻结/真实结果文档，不重跑旧包获取证据。
 - 不通读项目/290KB work/development-resume.md；只读当前任务、报错文件、必要历史编号；不跑全量、不顺带重构。公开green/静态构建/历史人工图不升级为当前自主真实业务通过。
+
+## 6. 当前剩余与停止边界
+
+379后有界复核32交付清单19—32：当前真实自主原图/单句改图/双版六例七轮与同版交付未闭合（19/20/22）；21及23—32已有实现/本机和历史证据，部分真实自然到期、外部恢复/迁移和可选质量费用收益仍未观察，不把未观察当代码缺失或已完成。本轮没有核实另一个可立即修改的具体代码缺口，不为耗额度造微任务/测试/批框架。
+
+当前唯一新真实槽已消费，不能回答其问题后续跑/自动借375余两槽。后续若要真实验证0.412，需要独立具体方案与明确新范围；当前没有这样的直接批准。先保留实际失败与本机改动的区别，不宣称Codex额度用尽或全项目验收完成，也不反复加同义提示或付费重试。

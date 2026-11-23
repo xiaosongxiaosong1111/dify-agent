@@ -10,4 +10,4 @@ DeepSeek会话b9137036-3e98-49f9-8726-eca6432ed64d调查和实现。仅backend/a
 
 根58项既有定向检查过（入口上下文、能力、澄清、当前契约、重规划API、对话状态规划），不是全量。另用隔离实际API捕获三类型上下文：Workflow/Chatflow收到新契约、Agent不继承；真实缺失的合成error都只一次调用并暂停，原需求/配置/修订保持，物理HTTP0。日志work/planning-choice379-root-tests.log及context.json/log，不提交原始工作数据。
 
-部署前原机0.411.0-90c28f738d4306fbff75/298/PID12020，27任务空闲、十二根/874封存每SHA、Task和预算、凭据资产只读基线与preflight过；保护部署待后续实际记录，不宣称已经上线。真实模型是否遵循新规范尚未验证，本机检查不等于完整图或双版业务通过。
+部署前原机0.411.0-90c28f738d4306fbff75/298/PID12020，27任务空闲、十二根/874封存每SHA、Task和预算、凭据资产只读基线与preflight过；实现b1c63f4存在后按已核所属PID/venv用原stop/start部署，实际新运行0.412.0-4b3c27aad0a80a616364/298/PID34736，health/页面200，源/快照/执行文件一致；after独立核27Task、十二根/874每SHA及全部旧凭据资产与before一致。证据原机work/planning-choice379-deployment/{before,preflight,after}.json，私有audit-planning-choice379-deployment.py，不覆盖重跑其exclusive输出。真实模型是否遵循新规范尚未验证，本机检查不等于完整图或双版业务通过。

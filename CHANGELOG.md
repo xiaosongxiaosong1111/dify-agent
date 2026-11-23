@@ -4,7 +4,7 @@
 
 - DeepSeek先确认已有等价实现原则、输入未丢和error停止正确，再只改最初Workflow/Chatflow提示及契约两段：先对照已给事实，未决必需事项才澄清；条件充分不同时返回error又声称无需澄清。真正业务/资源/冲突/费用体验取舍、原输入和所有编译/确认/费用边界保持。版本0.412.0。
 - 根完整两文件差异及58项既有定向检查通过，另隔离真实API核Workflow/Chatflow收到新契约、Agent不继承，合成真正缺失仍一次暂停，物理HTTP0；没有新增镜像测试或产品模型请求。
-- 原机27Task/十二根/874封存/密文资产基线及旧0.411/298/PID12020 preflight过；保护部署待完成。真实模型遵循度及自主完整图仍未验证，详docs/planning-clarification-consistency.md。
+- 原机27Task/十二根/874封存/密文资产基线及旧0.411/298/PID12020 preflight过；实现b1c63f4后已按归属原stop/start保护部署0.412.0-4b3c27aad0a80a616364/298/PID34736，health/页面200、源快照执行文件一致，27Task/十二根/874/凭据资产前后保持；关闭379。真实模型遵循度及自主完整图仍未验证，详docs/planning-clarification-consistency.md。
 
 ## 2026-11-23 — 第378项：单次377真实调用已停止并封存
 
