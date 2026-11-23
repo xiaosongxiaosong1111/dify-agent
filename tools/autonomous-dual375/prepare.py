@@ -80,7 +80,9 @@ def _runtime_check(project, p, verified, probe):
     try:
         filename = source / 'runtime_reference.py'
         module = _load_module('_dual375_runtime_reference',
-                              verified['runtime_reference.py'], filename)
+                              derivation.derive('runtime_reference.py',
+                                                verified['runtime_reference.py']),
+                              filename)
         return module.runtime_check(probe)
     finally:
         if saved is None:

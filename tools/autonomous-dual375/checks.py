@@ -1,6 +1,7 @@
 """Public negative and wiring checks for 375; no DB, secret, HTTP or real work receipt."""
 import ast
 import copy
+import io
 import json
 import os
 import shutil
@@ -8,6 +9,7 @@ import subprocess
 import sys
 import tempfile
 import types
+import urllib.request
 import uuid
 from pathlib import Path
 from unittest.mock import patch
@@ -232,10 +234,20 @@ def source_checks(profile):
     note = {kw.arg: kw.value for kw in intake[0].keywords}.get('actor_note')
     require(isinstance(note, ast.IfExp), 'Derived actor note is not a live switch')
     passed += 1
+    runtime = derivation.derive('runtime_reference.py', verified['runtime_reference.py'])
+    require(verified['runtime_reference.py'].count(derivation.RUNTIME_VERSION_OLD) == 1
+            and runtime == verified['runtime_reference.py'].replace(
+                derivation.RUNTIME_VERSION_OLD, derivation.RUNTIME_VERSION_NEW)
+            and runtime.count(derivation.RUNTIME_VERSION_NEW) == 1
+            and b"'0.410.0'" not in runtime,
+            'Derived managed runtime helper changed')
+    ast.parse(runtime, filename='runtime_reference.py')
+    compile(runtime, 'runtime_reference.py', 'exec')
+    passed += 1
     for name, raw in verified.items():
         if name.endswith('.py'):
             compile(derivation.derive(name, raw), name, 'exec')
-        if name in {'common.py', 'journey.py'}:
+        if name in {'common.py', 'journey.py', 'runtime_reference.py'}:
             continue
         require(derivation.derive(name, raw) == raw, 'Unapproved source rewrite: ' + name)
         passed += 1
@@ -759,6 +771,111 @@ def environment_checks(profile):
     return passed
 
 
+def runtime_checks(profile):
+    passed = 0
+    verified = derivation.verified_sources(PROJECT, profile['source_pins'])
+    build = profile['runtime_build']
+    with tempfile.TemporaryDirectory(
+            dir=WORK, prefix='autonomous-dual375-runtime-') as tmp:
+        project = Path(tmp).resolve()
+        source = project / derivation.SOURCE_DIR_337
+        source.mkdir(parents=True)
+        (source / 'common.py').write_bytes(verified['common.py'])
+        (project / 'runtime-process.ps1').write_bytes(b'public-runtime-process')
+        folder = project / '.runtime' / 'snapshots' / build
+        (folder / 'backend').mkdir(parents=True)
+        payload = b'public-runtime-file'
+        (project / 'public.txt').write_bytes(payload)
+        (folder / 'public.txt').write_bytes(payload)
+        manifest_path = folder / 'runtime-manifest.json'
+        manifest = {'files': {'public.txt': derivation.sha_bytes(payload)},
+                    'shared_data_copied': False}
+        manifest_path.write_text(json.dumps(manifest), 'utf-8')
+        (project / 'data').mkdir()
+        (project / 'data' / 'server.pid').write_text('12020\n', 'ascii')
+        (project / '.venv' / 'Scripts').mkdir(parents=True)
+        (project / '.venv' / 'Scripts' / 'python.exe').write_bytes(b'public-python')
+        state = {'runtime': {'build_id': build, 'version': '0.411.0', 'file_count': 298},
+                 'process': {'executable': str(project / '.venv' / 'Scripts' / 'python.exe'),
+                             'command': str(folder / 'backend') + ' -m app'},
+                 'returncode': 0}
+
+        class Opener:
+            def open(self, url, timeout=0):
+                require(url == 'http://127.0.0.1:8765/api/runtime',
+                        'Unexpected runtime endpoint')
+                return io.BytesIO(json.dumps(state['runtime']).encode())
+
+        class Result:
+            def __init__(self):
+                self.returncode = state['returncode']
+                self.stdout = json.dumps(state['process']).encode()
+
+        def probe_now():
+            return {'runtime_build': build,
+                    'runtime_manifest_sha256': derivation.sha(manifest_path),
+                    'runtime_process_sha256': derivation.sha(
+                        project / 'runtime-process.ps1')}
+
+        def run(probe=None):
+            return prepare._runtime_check(
+                project, {'source_dir': derivation.SOURCE_DIR_337}, verified,
+                probe or probe_now())
+
+        def reset():
+            state['runtime'] = {'build_id': build, 'version': '0.411.0',
+                                'file_count': 298}
+            state['process'] = {
+                'executable': str(project / '.venv' / 'Scripts' / 'python.exe'),
+                'command': str(folder / 'backend') + ' -m app'}
+            state['returncode'] = 0
+            manifest_path.write_text(json.dumps(manifest), 'utf-8')
+
+        with patch.object(urllib.request, 'build_opener',
+                          side_effect=lambda *a, **kw: Opener()), \
+                patch.object(subprocess, 'run', side_effect=lambda *a, **kw: Result()):
+            value = run()
+            require(value == {'verified_pid': 12020, 'runtime_build': build,
+                              'source_files_matched': 298},
+                    'Derived runtime success changed')
+            passed += 1
+            state['runtime']['version'] = '0.410.0'
+            rejected(run, 'runtime old version')
+            passed += 1
+            state['runtime']['version'] = '1.0.0'
+            rejected(run, 'runtime other version')
+            passed += 1
+            reset()
+            state['runtime']['build_id'] = '0.410.0-other'
+            rejected(run, 'runtime wrong build')
+            passed += 1
+            reset()
+            rejected(lambda: run(dict(probe_now(), runtime_process_sha256=H)),
+                     'runtime helper hash')
+            passed += 1
+            rejected(lambda: run(dict(probe_now(), runtime_manifest_sha256=H)),
+                     'runtime manifest hash')
+            passed += 1
+            manifest_path.write_text(json.dumps(
+                {'files': {'public.txt': H}, 'shared_data_copied': False}), 'utf-8')
+            rejected(run, 'runtime snapshot mismatch')
+            passed += 1
+            reset()
+            state['process']['executable'] = str(project / 'other-python.exe')
+            rejected(run, 'runtime executable')
+            passed += 1
+            reset()
+            state['returncode'] = 1
+            rejected(run, 'runtime ownership')
+            passed += 1
+            reset()
+            state['process']['command'] = str(project) + ' -m app'
+            rejected(run, 'runtime snapshot command')
+            passed += 1
+            reset()
+    return passed
+
+
 def worker_checks(profile):
     passed = 0
     with tempfile.TemporaryDirectory(dir=WORK, prefix='autonomous-dual375-worker-') as tmp:
@@ -815,6 +932,13 @@ def wiring_checks(profile):
         prepare._write_package(stage, profile, proposal, verified, local)
         require(set(path.name for path in stage.iterdir()) ==
                 set(derivation.FROZEN_SOURCE_FILES), 'Written package set changed')
+        passed += 1
+        frozen_runtime = (stage / 'runtime_reference.py').read_bytes()
+        require(frozen_runtime == derivation.derive(
+            'runtime_reference.py', verified['runtime_reference.py'])
+                and b"'0.410.0'" not in frozen_runtime
+                and b"'0.411.0'" in frozen_runtime,
+                'Frozen runtime helper is not the derived version')
         passed += 1
         snapshot = fake_project / '.runtime' / 'snapshots' / profile['runtime_build']
         snapshot.mkdir(parents=True)
@@ -906,6 +1030,8 @@ def main():
     trace.append('git_source_pins_and_exact_derivation')
     total += local_source_checks(profile)
     trace.append('committed_local_sources')
+    total += runtime_checks(profile)
+    trace.append('derived_runtime_helper_behavior')
     total += interview_checks(profile)
     trace.append('sealed_interview_reviews_3_6')
     total += environment_checks(profile)

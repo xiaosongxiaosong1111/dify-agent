@@ -27,7 +27,7 @@
 ## 源 pin 与派生
 
 - `source_pins` 固定为两个可信 Git commit + 精确文件/路径：337 共享源 `f0e7beefb331db0b9c07f24cf19786b85d05b13c`，374 已验收叠加源 `4ac8e3282093fe0ba6a5298fcac9cc279e3e03bf`。读取使用 `git cat-file blob <commit>:<path>`，只源码 CRLF→LF；工作树必须与同一 blob 一致。数据、旧 seal、runtime 原字节不规范化。
-- 337 只复制 `common.py/boundary.py/candidate.py/reviews.py/pagination.py/runtime_reference.py/fixture.json`；374 只复制 `reuse_policy.py/storage_guard.py/synthetic.py/synthetic_seed.py/rehearse.py/journey.py`。`common.py` 只精确改 BATCH_ID/旧 LIMITS/六阶段/0.600；`journey.py` 只精确增加 live 来源/文字/报告标签，不把真实 FAQ 或真实访谈写成 synthetic。
+- 337 只复制 `common.py/boundary.py/candidate.py/reviews.py/pagination.py/runtime_reference.py/fixture.json`；374 只复制 `reuse_policy.py/storage_guard.py/synthetic.py/synthetic_seed.py/rehearse.py/journey.py`。`common.py` 只精确改 BATCH_ID/旧 LIMITS/六阶段/0.600；`journey.py` 只精确增加 live 来源/文字/报告标签，不把真实 FAQ 或真实访谈写成 synthetic；`runtime_reference.py` 只精确把受管 runtime 版本比较 `0.410.0` 改为 `0.411.0`（replace_once 恰一次，其余字节与 f0 pin 不变），不按 profile 传入版本放行。该第三个精确派生不产生真实批准；pending 的实际状态以独立冻结记录为准。
 - 冻结 plan 记录每个源文件的规范 LF SHA-256、包内文件 SHA-256、runtime manifest/process 摘要及 proposal/scope 摘要。
 
 ## 冻结、批准与保护

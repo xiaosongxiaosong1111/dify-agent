@@ -80,6 +80,8 @@ ISOLATED = {
 MODEL_STAGES_OLD = (b"MODEL_STAGES=('first_interview','complete_interview','additional_interview',"
                     b"'original_plan','modified_interview','modified_plan')")
 MODEL_STAGES_NEW = b"MODEL_STAGES=('original_plan','modified_interview','modified_plan')"
+RUNTIME_VERSION_OLD = b"runtime.get('version')=='0.410.0'"
+RUNTIME_VERSION_NEW = b"runtime.get('version')=='0.411.0'"
 
 
 def require(value, message):
@@ -193,11 +195,22 @@ def derive_journey(raw):
     return value
 
 
+def derive_runtime_reference(raw):
+    """Change exactly the managed runtime version literal; every other byte stays pinned."""
+    value = replace_once(raw, RUNTIME_VERSION_OLD, RUNTIME_VERSION_NEW,
+                         'managed runtime version')
+    require(b"'0.410.0'" not in value, 'Derived runtime still names 0.410.0')
+    require(b"'0.411.0'" in value, 'Derived runtime version missing')
+    return value
+
+
 def derive(name, raw):
     if name == 'common.py':
         return derive_common(raw)
     if name == 'journey.py':
         return derive_journey(raw)
+    if name == 'runtime_reference.py':
+        return derive_runtime_reference(raw)
     return raw
 
 
