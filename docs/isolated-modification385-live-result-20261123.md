@@ -1,0 +1,29 @@
+# 385唯一改版调用：完整候选仅两处文案变化
+
+2026-11-23。新直接批准call_3d00360306e848a6bff6357de379a9c6/q0绑定plan6072ca425736389e822b2fd7fe56533f7a4d2fba1171dc15286bf10c44c57792 / manifest69c5502bed2befd6fa6c159f1ec7251a20202719a37b5ba8243af57039d36916，明确改授375最后一模型槽及0.100 USD预留。仓库外planning385-direct-authorization.json保留直接答复。正常approve通过，唯一run终端15261已结束exit0，不重放或续阶段。
+
+## 真实调用与根内容验收
+
+实际模型HTTP1/physical1、10.687秒，prompt42522/output2514/cachehit22912；配置价报价预留0.0630942 USD，已知用量settled0.009037272 USD。没有JSON修复/第二调用/新生产Task/Dify/登录/资源/Service/构建/ZIP。原保守57/1730/50/资源各30/148Service及模型估算账本3.355473652不增；375模型剩余现0，实际低价差额不自动退还。其余116GET/资源各2/14Service/Dify估0.100仍保留，不能自动借用。
+
+模型返回完整8165字符JSON，23节点/24边，SHAf0ac04d146d62404e4a663e1a41db63593f1e9a2cb23410be2b24f56dbb60577；候选SHA3940d8496c6ff7c6dd14ddf3b62fb9deeff556114b81ca65b1d437d22976ede5。根已实际读完整原文/候选，并独立从原r8图构造预期对照，严格JSON类型与所有值核过：
+
+- no_hit_text.config.template由原句改为“知识库暂无相关信息，请联系人工客服并提供商品型号。”。
+- faq_llm.config.system_prompt只在原句所在位置作同一次替换，其余完整检索提示原文保持。
+- 所有其它完整图字段、节点顺序/类型、24条边、会话状态/消费顺序、模拟查询、提取/非空守卫及已纠正的类型错误抛错代码逐值保持。没有借等价实施改变其它字段。
+
+这一次限定的模型单句改版内容审阅通过。旧完整正式图仍保留，变化候选经正常API以replanning_review/paused保存在隔离r9的last_candidate；未自动采纳，不是Dify或完整业务通过，也不把先前r7模型错误和r8人工纠正抹成无错自主原图。
+
+## 保护、费用与封存
+
+根独立audit-isolated-modification385-live.py实际通过：原生产27Task/全部环境/provider/全局设置/五费用、原r8/manual静态artifact/ZIP/确认、全部凭据资产、11旧隔离根及892旧文件完全保持。隔离仅保留正常agent_declared准入、需求确认和本次planning记录；三旧规划与旧intake保留，旧五费用前缀不变，仅新增本次settled，秘密表仍0，模型Key没有复制入库。
+
+隔离预算合计0.046768488包含复制来的旧五条0.037731216，不再计一次新费用；仅本次0.009037272新增。实际产品模型累计42；累计观察settled0.260839488 USD（非完整供应商账单），所有旧unknown和其它预留保持。
+
+根root-review.json为代理限定内容审阅passed_limited_two_text_fields，human_signoff/business_verified/dify_verified均false。work/isolated-modification385-after-live-audit.json/log保存根证据。隔离Task SHAe565b174852b2992314f4770917cf93a7f19a7c3ab5ad9101bcbc53059ca40b0；预算SHA832a13dfe7573320cd141a3ff777291fb726f2b645a48f3c516f99ecdf9903de；生产Task仍df157950695c641990aa4ef3fa2fff130b05c43f150633a1809f08103b17a5c7、budget仍b2472f1c98a48418bded9a9a73c776a14cc0b56bf0a6f04c21d87b2fea94bad0。
+
+本包16成员+seal-after-review.json已一次封存，索引SHA97f93e940d03826930a910be7e6b8a5ad9505da2ba0b4413a7843fa5c6de0b42，未来892+17=909。包括已结束worker的隔离SQLite主文件和本机无秘密Key文件；root用immutable读取证明主DB已包含最终candidate/费用，WAL/SHM是非持久辅助文件不封。**禁止再次以Store/RW打开该已封隔离库**；后续仅immutable只读或复制到另一个新数据目录，不能修改封存或重跑approve/run。供应商原文、模型图及数据库都只在本机，不入Git或发送代码子代理。
+
+## 后续
+
+当前原版静态包已可下载，限定修改版原模型候选也已有真实证据；正式采用修改版和两版Dify六例七轮/原生轨迹仍未完成，需要新可审查整批范围。根另依据FR-27和本次类型反例核到普通产品入口只支持Workflow根代码的本机受限样例，Chatflow被拒；下一387交DeepSeek有界核能否复用既有隔离执行与确认，而非继续造模型调用工具或付费重试。生产任务/旧批保持，不擅自扩模型、Dify或费用。

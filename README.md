@@ -2,7 +2,7 @@
 
 [当前原图静态交付](docs/static-delivery384-result-20261123.md)已完成：模型完整图经根审阅、DeepSeek纠正一个订单类型检查，正常保存r8/manual并保留r7/model原图；23节点，静态ZIP含DSL/报告/模拟接口指南等5文件。尚未发布或运行。接下来是商品型号文案改版完整候选及两版真实六例七轮，未把代理纠正当模型自主原样通过。
 
-[单句改版的隔离方案](docs/isolated-modification385-freeze-result-20261123.md)已完成七组本机检查、原机冻结及独立保护核验，待最后一槽模型调用的明确改授；生产任务与原交付包保持，尚未执行这次改版模型调用。
+[单句改版真实结果](docs/isolated-modification385-live-result-20261123.md)已通过根限定审阅：模型完整候选仅同步两处商品型号文案，其余23节点图逐值保持；生产原版和静态包不动。候选尚未正式采纳或在Dify试跑，两版平台验收仍待完成。
 
 [规划澄清的最终一致性核对](docs/planning-clarification-consistency.md)已由DeepSeek实现：Workflow/Chatflow输出澄清前核对已给事实，条件充分则返回完整计划；真正业务缺失仍停止。0.412.0已过根58项定向与三类型隔离API核对，并完成原机保护部署；真实模型改善未验证。
 
