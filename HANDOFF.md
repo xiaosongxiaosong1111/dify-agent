@@ -1,62 +1,43 @@
-# HANDOFF — Sierra
+# HANDOFF — Sierra（2026-11-24）
 
-## 1. 接手入口（2026-11-23）
+## 1. 工作方式与入口
 
-- 开发克隆E:\workSpace\sierra-chatflow-offline；原机E:\workSpace\dify-agent；main/origin https://github.com/xiaosongxiaosong1111/dify-agent.git。377实现ec8d7b7与结果8d4578f已推；379实现b1c63f4及交接ac33274已推，380实现f652665已原机同步并精确冻结，关闭交接提交后推原GitHub；最新以git log/origin/main为准，保留全部用户未提交改动。
-- 用户持续指定$ds：Codex需求/方案/派单/独立验收/返工/文档Git；实际Claude Code网关192.168.0.224:3010/deepseek-flash实现，不接手产品代码。技能C:\Users\Administrator\.codex\skills\ds\SKILL.md；配置仓库外，不输出Key。必要片段可以发，凭据/客户资料/整库不可发。网络/超时可按用户指示重发；实际worker预算失败不重试或冒称通过。
-- 原机当前0.412.0-4b3c27aad0a80a616364/298文件/PID34736，后端实现b1c63f4；总27Task/10环境/2provider。2026-11-23 health/页面200，379已完成保护部署；最新Git以HEAD/origin/main为准。纯交接/结果文档不重复重建部署；真正部署须原固定快照及CIM所属PID/venv核后原start/stop，不按端口杀进程。
-- 需求docs/requirements-v1.0.md；路线docs/sierra-completion-roadmap-20261119.md；权威队列docs/BACKLOG.md；状态docs/current-acceptance-status-20261121.md。自主模糊需求→访谈→完整原图→单句改版→双版六例七轮/原生轨迹/同版ZIP尚未闭合；人工386/受限410/C2历史真结果不替代。
+开发克隆E:\workSpace\sierra-chatflow-offline，原机E:\workSpace\dify-agent，仓库https://github.com/xiaosongxiaosong1111/dify-agent.git，main，不force。权威队列docs/BACKLOG.md，需求docs/requirements-v1.0.md，路线docs/sierra-completion-roadmap-20261119.md，验收状态docs/current-acceptance-status-20261121.md。仅必要文件/历史编号，不通读项目或290KB历史，不跑全量、不顺带重构。
 
-## 2. 已完成与当前结果
+用户指定持续$ds：Codex需求/派单/独立验收/具体返工/文档Git，实际Claude Code网关192.168.0.224:3010/deepseek-flash实现。技能C:\Users\Administrator\.codex\skills\ds\SKILL.md；配置仓库外，不输出Key。只发必要代码/公开案例，不发凭据、客户资料、整库或供应商原文。网络波动可按用户指示重发，实际worker预算失败不能自动重试。持续开发至实际Codex不足/真正完成/有界复核确无可行动项，不造微任务耗额度；当前没有观察额度不足。实际不足立刻停，尽可能整份更新本文，不重试/换号/购买/重置券。
 
-- 319—358已有实质修改/部署，359—365有界核已有功能/安装与验收矩阵，保持所有实际边界，不按行数算完成率。具体证据见BACKLOG对应项与docs，不通读项目或290KB历史。
-- 373仅补Chatflow通用串行/快照语义：直接读当前值、前驱输出快照不被后继写入回溯改变；缺失/冲突仍澄清。DS实现daaa804，根56定向过、保护部署0.411/298/PID12020；未真实检验新模型质量。docs/conversation-state-read-order.md。
-- 374 DS实现4ac8e32、根12组/真实r6只读/公开三阶段成功及三失败路径过，复用访谈、不新Task。375最小冻结实现4a05626、精确runtime派生修正6fbd030，根246定向及原机21项22文件/831/十二根/r3与r6访谈/快照CIM核过；6588ac6正式冻结记录。旧源码/包均保持，不能重放。
-- 371实际已消费：模型3/读6/登录1全200，新增Task1154f0c0-5e01-4492-b5c7-97bfbbbc2a61/r6，FAQ和两访谈根实际复核通过，第三原规划needs_decision误疑已明确的状态快照消费顺序，无完整图/App/运行。三settled合0.020125524 USD保留，不补签或续旧阶段。docs/autonomous-dual371-live-result-20261123.md。
-- 376/375实际已消费stopped：直接call_f5b63df1752f441284ac9ee97f031930/q0批准并唯一live（主进程24148已结束Exit1），登录1/读6/physical7均200，模型/Task/资源/Service/ZIP0。13:08:12来源→13:13:12停止300.402秒，waiting_review=faq_read、无回执/stop，RuntimeError，根复核等待超时属时间/代码推断。14:56迟到receipt writer的running断言拒绝，未写任何迟到回执、不续跑；根事后阅读FAQ不等于旧协议已通过。详docs/autonomous-dual375-live-result-20261123.md，提交0f4e7fc已推。
-- 原Task/r6与预算完整相同，execution_limits仍None；另外26/总27Task/十二根/831/资产密文保持，仅批准console_token/csrf正常续接及1重连记录，旧ServiceKey/账号密码不变。私有baseline E:/workSpace/sierra-delegation/autonomous375-preservation-before.json；根证据克隆work/reviewed-mainline375-after-stop-audit.json。375封27成员+索引28，未来859全保护。
+## 2. 当前交付事实
 
-## 3. 下一步
+生产27Task/10environment/2provider。目标1154f0c0-5e01-4492-b5c7-97bfbbbc2a61/r8/manual/draft_ready，需求与配置已确认，暂无App/运行。原模型r7完整23节点24边有订单类型错误：非string误作缺号；根实际反例后交DS写纯类型守卫，经正常预览/保存r8/manual，原r7/model与失败原文保持。不得说原模型自主一次原样通过。
 
-0. 381实际380已消费passed技术保存、根语义needs_correction：新直接call_a7ee288e3a8b474b8b8d3dbc99c2f729/q0批准精确plan238551387e26c0bc6f57e82422f60e658116d2fcd7a7c03719cac28d5c228c12/manifestfc0c5cab5408fb83e88a6c625b927168a75c4af35e80335b168faae2fb640496。私有planning380-direct-authorization.json/live-before.json存在，approve/validate过，唯一live86862结束exit0，禁止重放。
-0a. 模型1/physical1、17.423秒，prompt34662/output3472/cachehit0、settled.0145650，原文11745字符/SHA030057216ca0a8c6dda96525bda01e68b6715d0bfcf64b2c2631fde2040ab66b，完整23节点24边原样保存r7/configuration/plan_source=model，配置未确认；messages9/versions6/planning_runs3/confirmations2（新需求确认正常r6继承）/runs0。图SHA858e84c88139d9efab4004581725ef6aad96690bdf363f99e6a73a9ec0cd9ee6。无Dify/登录/新Task/资源/构建运行ZIP。实际模型41/观察settled.251802216，非完整账单；保守57/1730/50/资源30/148/估算3.355473652不增，375余一槽/.100及116读/资源2/14Service/Dify估.100保持，不能自动借退。
-0b. 根读全部响应与需求/配置/六例七轮，状态快照/消费/补号regex/分类、检索context/固定文案已核。实质问题：order_no_blank_check把非string变None再nonblank=false，五例None/0/False/[]/{}实际不抛异常而入缺号追问，违反类型错误停止。root-review.json已记代理needs_correction，非人类或业务签收，原候选未改；不得忽略问题宣称自主完成。详docs/reviewed-planning380-live-result-20261123.md。
-0c. 根私有audit-reviewed-planning380-live.py最终独立通过：另26/全部27Task/十二根/874旧文件/密文资产、原需求配置样例/intake_review/所有历史前缀/四settled和None保持，目标第五settled合.037731216；task SHAcecb0f8b90779cdb0c7961d0a36af3887794e55aaf6fd3b3d2814ba809847741、budget SHAb2472f1c98a48418bded9a9a73c776a14cc0b56bf0a6f04c21d87b2fea94bad0。审计初两次因根确认数量/节点数预估失败，在写任何输出前；修核真实需求确认继承/实际唯一节点数后过，没有重放产品调用。新包17成员+seal-after-review.json SHAa0166d894fefdb95ae4c841e1033e929975452776dcf3d84cd6317d97875bd2c，未来892保护；所有exclusive baseline/audit/seal存在，不覆盖重跑。
-0d. 382关闭：DS只读1ca3bd90正常0，根140既有定向核现有结构/语法入口与预览/manual版本边界过，未证实应补通用语义校验，不堆提示。DS报告PATCH根已纠为实际POST。383同会话do13766正常0、CLI py_compile一次过，根全文审公开函数，9错误型抛错/8文字strip行为及单code字段/整图其它保持，隔离正常POST预览/保存/manual+r7model快照/旧revision409过。证据work/order-type383-local-v3/report.json；v1/v2根壳误用旧874固定门/独立Store初始state_sequence假设已修且失败目录保留，不是产品失败。
-0e. 383已按常规可逆本机修正委托原机正常2POST（preview后plan）保存r8/manual，配置未确认，原r7/model完整图快照/三planning_runs/五账本/需求配置样例全保持。另26/总27Task/十二根/892封存/密文资产独立核过；没有新模型/Dify/登录/资源/构建运行。当前图dd71f629c0d6a1e82d8e88aa424341fbe751369fbe0cedf19a9f1b5f44198c69，Task SHA91cdafcc9a22a643e901753bfbe48757fe84325620fc6ce4f0772a14ecc21bbb、budget仍b2472f1c98a48418bded9a9a73c776a14cc0b56bf0a6f04c21d87b2fea94bad0。私有order-type383-before-apply.json及work/order-type383-applied/{agent-decision,preview,report}.json存在；是代理决定，不伪造直接人类批准。详docs/order-type-manual-correction-20261123.md，不能将人工纠正当模型自主原样通过。
-0f. 384关闭：DS同会话find73800正常0，根隔离0外部/Key解密确认→构建→artifact→bundle过；原机按常规本机委托正常4请求完成r8配置确认及静态成果，不是新的真实资源批准。状态draft_ready/plan_source manual/confirmation true，DSL04175a5b3225232d94767b6b1ff4ab88fcdc5522c7e35b0ee60bb97e6361c397、ZIPcfac1d670ae0643018a4b071a67722f070f16cdb44c43875f9ae0c1c5f68a019，5文件全部摘要核过/3模型deepseek-flash/thinkingfalse/.2/512保持；本机work/static-delivery384-original/{artifact-r8.yaml,sierra-advanced-chat-r8-delivery.zip,report.json,agent-decision.json}。唯一生产新增文件Task/artifact-r8.yaml，追加本修订配置确认/构建快照；原r7model/三planning/五账本/另26/十二根/892/密文保持。当前Task SHAdf157950695c641990aa4ef3fa2fff130b05c43f150633a1809f08103b17a5c7，budget仍b2472f1c98a48418bded9a9a73c776a14cc0b56bf0a6f04c21d87b2fea94bad0，服务0.412不重建。详docs/static-delivery384-result-20261123.md。
-0g. 385已关闭：DS同会话1ca3bd90首do38503可能超时exit2；fix1终端91151正常0但check失败，根root-v2前5组过/假传输重复admit失败。fix2终端69498正常0/CLI过，根v3六组过；根另CLI拒绝exit0反例，fix3终端21743正常0修返回码/README，根v4七组实际过。当前没有在途DS，源码实现9a1ab7f2c8b3342318bd5da6bf8aeab32b476766，原机已快进三工具/文档，不部署0.412；所有DS/root失败日志和私有implementation/fix1/fix2/fix3保留，不重复请求已完成任务。
-0h. 原机canonical E:/workSpace/dify-agent/work/isolated-modification385，prepare --source-commit 9a1ab7f2c8b3342318bd5da6bf8aeab32b476766过。plan6072ca425736389e822b2fd7fe56533f7a4d2fba1171dc15286bf10c44c57792 / manifest69c5502bed2befd6fa6c159f1ec7251a20202719a37b5ba8243af57039d36916；七文件+isolated-data四元数据对象，secrets表0/本机新credential-key不是原Key副本，没有approval/attempt/worker/live。
-0i. 根私有audit-isolated-modification385.py before/after已实际过，私有planning385-before.json、planning385-reviewed-answers.json及work/isolated-modification385-freeze-audit.json exclusive存在，不覆盖重跑。原27Task/10env/2provider、r8/manual静态图/原artifact、五settled、11旧隔离根/892每SHA/全部密文资产前后保持；Git/实际canonical源绑定、manifest、源快照298/完整content与所属venv/PID34736核过。严格克隆仅output/无答案样例预期及显式未确认/旧intake历史变化，原完整图/三规划/版本/费用保持。13主题拟agent准入回答根已全文逐项审，私有回答SHAa4664708c612be80df75d2bd00e986cb619273a8ce80b7680aa389099a395f0c；是代理不是模型新访谈或人类签收。详docs/isolated-modification385-freeze-result-20261123.md。
-0j. 386已执行通过限定内容审阅并封存：新直接call_3d00360306e848a6bff6357de379a9c6/q0批准385精确6072ca42/69c5502b，私有planning385-direct-authorization.json绑定literal/scope/limits/newref；唯一run15261结束exit0，禁止重放。模型1/physical1、10.687秒、prompt42522/output2514/cachehit22912，报价.0630942、settled.009037272。完整8165字符原文f0ac04d146d62404e4a663e1a41db63593f1e9a2cb23410be2b24f56dbb60577，23节点24边候选3940d8496c6ff7c6dd14ddf3b62fb9deeff556114b81ca65b1d437d22976ede5，仅两处无答案文案同步增加“并提供商品型号”；根全文和独立预期/JSON类型比对过，其余完整图（含已修非string抛错代码）原样。是限定modified内容通过，非无错自主原图或Dify业务通过。
-0k. 正常API隔离r9/paused/replanning_review保留完整last_candidate，source intake=agent_declared、原正式r8图仍manual且未替换；未自动采纳/构建/ZIP/生产/Dify/登录/资源/运行。根私有audit-isolated-modification385-live.py独立过，work/isolated-modification385-after-live-audit.json/log；原27Task/r8静态包/五账本/全部密文资产/11旧隔离根/892均保持。隔离新预算6entries中旧5复制不再算费用，仅新.009037272；clone合.046768488。实际产品模型42/累计观察settled.260839488（非完整账单），保守57/1730/50/资源30/148/模型估算3.355473652不增，375模型余槽现0，不自动退差额/借其它槽；余116读/资源2/14Service/Dify估.100仍需具体范围。
-0l. C385 root-review.json为代理passed_limited_two_text_fields，human/business/dify false。新包16成员+seal-after-review.json SHA97f93e940d03826930a910be7e6b8a5ad9505da2ba0b4413a7843fa5c6de0b42，未来909全保护。含isolated-data/SQLite主文件及本机空秘密key，root用immutable读证实主DB含最终候选/预算，WAL/SHM不封。禁止任何Store/RW重新打开已封C385库/覆盖rootreview或seal，后续只immutable只读或复制到新目录。isoTask e565b174852b2992314f4770917cf93a7f19a7c3ab5ad9101bcbc53059ca40b0/budget832a13dfe7573320cd141a3ff777291fb726f2b645a48f3c516f99ecdf9903de；生产Task仍df157950695c641990aa4ef3fa2fff130b05c43f150633a1809f08103b17a5c7/budgetb2472f1c98a48418bded9a9a73c776a14cc0b56bf0a6f04c21d87b2fea94bad0，服务.412/298/PID34736不重建。详docs/isolated-modification385-live-result-20261123.md。
-0m. 下一387 pending：根依据FR27（代码正常/相关异常样例须有结果）和本次类型反例核到code_samples.source硬拒advanced-chat、只Workflow；交DS先有界核可否最小复用现有受限Docker/手填输入/确认到Chatflow根Python及UI。不能通读项目或为凑队列重构，不能开JS/嵌套/Agent/额外import/网络/文件/宿主权限，不读实际会话/上游值、不改原27Task/配置/凭据或任何旧包，不扩模型/Dify费用。若有真实可行缺口再限定实现/针对验收；两版Dify完整六例七轮另需具体新整批范围，模型余槽已0不再付费。
-1. 当前378/377真实批已消费stopped；379本机契约一致性修改已验收/部署，不代表真实完整图已过。直接call_653c3204d2c842648bbfaddba3d298b4/q0按原literal明确改授一槽/.100，仓库外E:/workSpace/sierra-delegation/planning377-direct-authorization.json，精确plan8ef81075e59a60b9544e0c188e052c07c3bdd5ba3ae08ecbae2dc93564ec2c9f/manifest7c9d6c37ddbb8076a7ad213cf313b7f86696c5ecd4471b1dfe76b1c12496ac8f。approve/validate过，唯一live65806已结束exit1，不再运行。
-2. 实际1模型/physical1，7.905秒、prompt34291/output829/cachehit28032，returned/已知用量settled0.003040692 USD；0Dify/管理GET/登录/Task/资源/Service/构建/ZIP。原文1811字符完整保存SHAc1a16951caa6aa10e4dcf1df81806e03db7c3b5b472df7b4b469ad0e37705c29，返回error/needs_decision无nodes/edges；Task仍r6/paused，无graph/artifact/App/run，planning_runs现2，预算现4entries/合.023166216。实际产品模型40/累计观察settled.237237216，非完整供应商账单；保守57/1730/50/资源30/Service148/模型估算3.355473652不增。
-3. 根已读完整响应及实际input/output/rules，回复询问不同状态writer串行、提取输入原文、固定文案code还是template，又承认现契约可实现；根判断有已明确规则/等价实现的重复澄清，不接受为完整候选，不忽略error/造图或续阶段。程序停止/保存用量正确。根独立after-live审计核原prefix/三settled/None、其余26/总27Task/十二根/859/所有旧凭据资产全保持。当前task SHA21bbe8fe63be09987795998fa44b91bd889e80999b3d82c5e5fe9a78ffef79e7；budget SHA7305cf1357e476d26feb091d3a3be1e36fa789891335ed9c3c214b57a7eb0765；新operation last_candidate字段缺省，不是必须有null。
-4. 原work/preserved-planning377已一次封14成员+索引15，seal-after-stop.json SHA541fe1d45a1ef7b9fa1473a8abef8ff72140761a3c2df5145160b51c7e75e8da；未来859+15=874全部保护。禁止改旧包/重签/重跑approve或live/回填根成功。根私有audit-planning377-live.py第一次只读因last_candidate缺省索引假设失败，在任何报告/封存写前已停；修为get(None)及实际14文件后审计/封存完成，不能覆盖重跑exclusive输出。
-5. 379已完成：DS会话b9137036调查及do正常0、固定六文件pytest一次过；根完整两文件差异+58既有定向过，另隔离实际API三类型核新契约只进入Workflow/Chatflow、Agent不继承、合成真缺失各一次暂停、原输入/修订保持，physical0。实现b1c63f4。仅main最初prompt/版本0.412.0和workflow-plan-contract两段，parser/error/编译/业务/重试/全局配置不改，不声称模型质量已解决。日志work/planning-choice379-{ds-find,ds-do,root-tests,context}.log/json；docs/planning-clarification-consistency.md。
-5a. 379已保护部署：原机work/planning-choice379-deployment/before/preflight/after.json均实际过，27Task空闲、十二根/874每SHA/目标Task与预算/密文资产前后保持。旧0.411/298/PID12020已核CIM所属及原venv后按原stop停，原start生成新固定快照0.412.0-4b3c27aad0a80a616364/298/PID34736；health/页面200，源码/快照/执行文件和应用版本一致，前端未改不重建。私有audit-planning-choice379-deployment.py；exclusive输出已存在，不覆盖重跑。未增产品模型/Dify请求，不重放或修改旧377。
-6. 当前377实现ec8d7b7、根14组、冻结及交接4cae9b1保持；真实结果docs/preserved-planning377-live-result-20261123.md，主日志work/preserved-planning377-live.log，根work/preserved-planning377-after-live-audit.json/log，私有baseline E:/workSpace/sierra-delegation/planning377-before.json。375剩两模型槽/.200及116读/资源各2/14Service/Dify估.100仍保留，本槽消费/实际费用单列，不能自动借退差额。未获新产品模型/Dify范围，不继续付费。
-7. 每push前更新根CHANGELOG、适用README/状态与整份HANDOFF，显式stage排除work/data/供应商原文/秘密，自主commit/push原GitHub main并核远端，不让用户代提交。实际Codex额度不足立即停并尽量交接；当前未观察额度不足，不冒称用光，不造微任务。队列暂空先核既定需求具体缺口，不把历史blocked当验收完成。
+原图静态交付384完成，DSL04175a5b3225232d94767b6b1ff4ab88fcdc5522c7e35b0ee60bb97e6361c397，ZIPcfac1d670ae0643018a4b071a67722f070f16cdb44c43875f9ae0c1c5f68a019，5文件摘要逐一核过；本机克隆work/static-delivery384-original/sierra-advanced-chat-r8-delivery.zip。三模型deepseek-flash/thinking=false/.2/512，状态false与记忆配置保持。静态不是平台/业务验收。详docs/static-delivery384-result-20261123.md。
 
-## 4. 费用、凭据与保护
+## 3. 下一步与当前任务
 
-- 保守模型57/读1730/登录50/App发布Key各30/Service148，模型估算账本3.355473652 USD，非供应商账单硬限。实际模型40/资源各20/Service65/规则通过57、累计观察settled0.237237216，不是完整账单；本轮产品模型1/新settled0.003040692，开发DS费用另计。375余2model/.200/116读/资源各2/14Service及Dify估.100保持，未自动改授/退还；不能再从已消费371借。
-- 所有旧unknown/费用/预留保持，95unknown0.0188541、四槽.20、旧剩包.109785948及115/121/198/206/209/213等不动。旧模型391→394、399→401、401→408已消费；422用户曾暂不真实，后有各次精确新批答复，不扩大当前具体范围。
-- 专用环境202bfb35-2f92-47c1-bc1b-eac32082181d/原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17，当前App9faf2792-08e2-48cf-afd0-050b34035fed，旧Key加密留档。全局9513f594-c256-46b7-882a-35d9871bf9d0/deepseek-flash，Dify温度.2/512/thinking=false；FAQd12cf081-5c52-41e3-b869-e94e6f8d37b1 TopK3无阈值不重排。只复用加密资料，不抄聊天密码/输出提交凭据，不覆盖旧App或建库。
-- 旧r6初始task4285b59a/budgete1ac5db2已作为冻结历史保持；当前后缀变化见第3节，仍r6/paused、requirements确认/config未确认，无graph/App/run，interview_attempts缺省和execution_limits None保持。.600预算/policy1/旧三settled.020125524原样保留，加本次一settled。
+第387项doing：FR27实际缺口——原本机样例硬拒Chatflow，已交DS调查并最小实现复用现有受限容器。会话1ca3bd90-16f2-47c5-9787-d8a7f0456402，find92291/do28024正常exit0，CLI修一次测试导入路径后固定check过；根完整差异核过（App严格只有两gate和一app_type来源绑定），147项相关后端、前端构建、5项界面核对通过，其中3真实本机临时容器正常订单/空白/数字输入，2 passed/1 failed-ValueError。Workflow保留、Agent不可见、Chatflow历史可读。27Task/12数据根/909封存/密文资产及原容器ID保持，没有产品模型/Dify请求或镜像拉取。日志work/chatflow-code-sample387-{ds-find,ds-do,root-tests,build,ui}.log，证据work/chatflow-code-sample387/{ui-proof,root-proof}.json与截图。代码为DS实现，根仅独立QA/文档。
 
-## 5. 不可重放的历史
+387实现验收完，待本提交后保护部署0.413；部署前原机0.412.0-4b3c27aad0a80a616364/298/PID34736已通过源/快照/执行文件/CIM与health/页面核，原机work/chatflow-code-sample387-deployment/before.json、preflight.json已独占写，不能覆盖重跑。私有audit-chatflow-code-sample387-deployment.py verify在部署后执行。原机先fast-forward已审实现，核安全路径后同步frontend/dist，原stop/start，不能按端口杀进程。新快照/所属PID/数据909核后记录，存在实现commit且验收过再关闭387，更新日志/README/状态后自主push核远端。
 
-- 所有91/95/115/121/124/180/189/192/196/198/202/206/209/213/217及后续消费包不重放/续阶段/自动借槽。350 publication1e5eeaee-aa6b-4ce7-8e4d-e3961f528010仍unknown/write_attempted=true。旧124/C1已4/4，386已12/12。旧失败375/376/378/380/382/384与386成功的历史案例编号不等于当前工具/队列编号，均保留各自结果/范围。
-- 733索引c9d9ef64，337封24+索引25→758；366封26+索引27→785，369封2+索引3→788，370封6+索引7→795，371封35+索引36→831，375封27+索引28→859，377封14+索引15→874。十二数据根/所有旧封存/资产密文保护，不覆盖重签。
-- 375 plan5b1edcd51cfb54415a3a555089368efe26a8b93ce518cfdf305a794e6af43f97 / manifestb7846299187b00b3f1418923a88e32d3793be92b54150c0ae9b64d13a8c7c405；seal-after-stop.json SHAe3daff9307529b626b003d081035a601d9cc81f9a2420d88f2ddd6593fb4cdb6。371 seal SHA d5d248d5a6ac06afffbb67cc664787332db8c9663b7c44e0d075a589c6e93092，plan085e08bf/manifest1510f5b9。具体旧验收ZIP/哈希见对应冻结/真实结果文档，不重跑旧包获取证据。
-- 不通读项目/290KB work/development-resume.md；只读当前任务、报错文件、必要历史编号；不跑全量、不顺带重构。公开green/静态构建/历史人工图不升级为当前自主真实业务通过。
+387后自动推进核心剩余：原图已有静态包，改版385完整模型候选已通过限定审阅但未采纳。先核现有候选主动采纳/同版静态交付路径及双版平台执行器的可复用能力，能正常本机推进则一次一项入队交DS，禁止重新付费生成图或造大型框架。两版Dify六例七轮/14轨迹/双ZIP未闭合；若需要真实范围，先完成可审查本机冻结方案，再取得新直接批准。375剩116读/资源各2/14Service/Dify估.100不能自动跨批借用；其模型最后一槽已消费、余0。新平台登录/新模型不能凭持续开发指令扩大。
 
-## 6. 当前剩余与停止边界
+## 4. 最新385真实结果与不可再执行的包
 
-379后有界复核32交付清单19—32：当前真实自主原图/单句改图/双版六例七轮与同版交付未闭合（19/20/22）；21及23—32已有实现/本机和历史证据，部分真实自然到期、外部恢复/迁移和可选质量费用收益仍未观察，不把未观察当代码缺失或已完成。本轮没有核实另一个可立即修改的具体代码缺口，不为耗额度造微任务/测试/批框架。
+386已done：用户call_3d00360306e848a6bff6357de379a9c6/q0原话“允许将375剩余一槽及0.100 USD预留明确改授385隔离改版批”，绑定plan6072ca425736389e822b2fd7fe56533f7a4d2fba1171dc15286bf10c44c57792/manifest69c5502bed2befd6fa6c159f1ec7251a20202719a37b5ba8243af57039d36916。唯一live15261正常0：1模型/physical1/10.687秒，prompt42522/output2514/cache22912，配置价预留.0630942/settled.009037272 USD。
 
-旧377唯一新真实槽已消费，不能回答其问题后续跑/自动借375余两槽。用户最新要求继续后启动380最小复用准备，见第3节，不能把旧“无可行动本机缺口”的检查点当成永久停止请求。后续若要真实验证0.412，需要独立具体方案与明确新范围；当前没有这样的直接批准。先保留实际失败与本机改动的区别，不宣称Codex额度用尽或全项目验收完成，也不反复加同义提示或付费重试。
+根读完整8165字符原文和逐值严格预期：只no_hit_text.template与faq_llm.system_prompt同一句无答案文案变为“知识库暂无相关信息，请联系人工客服并提供商品型号。”；其余23节点/24边/类型/代码/参数/状态/顺序保持。raw SHA f0ac04d146d62404e4a663e1a41db63593f1e9a2cb23410be2b24f56dbb60577，candidate3940d8496c6ff7c6dd14ddf3b62fb9deeff556114b81ca65b1d437d22976ede5。限定语义审阅通过，不是人类签收/完整业务/Dify验证。隔离Task r9/paused/replanning_review，last_candidate保留，正式图仍manual原图，未自动采纳。
+
+原机work/isolated-modification385已封16成员+索引，seal SHA97f93e940d03826930a910be7e6b8a5ad9505da2ba0b4413a7843fa5c6de0b42，未来909保护。sealed隔离DB只可immutable只读或复制到新目录，不再Store/RW打开；WAL/SHM不属于持久成员。独立审计work/isolated-modification385-after-live-audit.json/log；私有audit-isolated-modification385-live.py/exclusive基线、approve/run已消费，禁止再运行/覆盖输出/补签或续阶段。docs/isolated-modification385-live-result-20261123.md；结果9aa87c39已推、两克隆同步。
+
+目标生产Task SHA df157950695c641990aa4ef3fa2fff130b05c43f150633a1809f08103b17a5c7；budget b2472f1c98a48418bded9a9a73c776a14cc0b56bf0a6f04c21d87b2fea94bad0，5settled合.037731216/limits None/历史前缀保持。385隔离6费用中5旧复制不能重算新增；新隔离累计.046768488，生产不写本次费用，记录另列。
+
+## 5. 费用、凭据与旧保护
+
+保守模型57/管理GET1730/登录50/App发布Key各30/Service148，模型估算账本3.355473652 USD不增，非账单硬限。实际产品模型42、累计观察settled.260839488，不是完整供应商账单；开发DS另计。375模型剩0，116管理/资源各2/14Service/Dify估.100保持，所有旧unknown/费用/预留不借退。95unknown.0188541及旧四槽/旧剩包等保持。
+
+专用环境202bfb35-2f92-47c1-bc1b-eac32082181d/原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17，现App9faf2792-08e2-48cf-afd0-050b34035fed；旧Key加密留档。全局9513f594-c256-46b7-882a-35d9871bf9d0/deepseek-flash，FAQd12cf081-5c52-41e3-b869-e94e6f8d37b1 TopK3无阈值不重排。只复用已有加密资料，不抄聊天密码，不打印/提交秘密。
+
+旧371/375/377/380/385及所有已消费批禁止重放/续阶段；失败、unknown、原文、用量和旧预留保持。旧历史分别见对应docs，不通读历史。保护序列733→758→785→788→795→831→859→874→892→909；最新385 seal在第4节。12数据根=生产+autonomous-dual375/plan.json所列11隔离根，最新385另由909持久封存保护。每次部署重新按归属/源快照核验，不因旧审计曾过而跳过。
+
+## 6. Git与完成标准
+
+每push前更新根CHANGELOG.md、适用README/状态和整份HANDOFF；明确stage必要文件，排除work/data/秘密/供应商原文，不git add -A。自主commit/push原GitHub main并ls-remote核摘要，不让用户代提交。定向通过与真实平台验收分列；任务队列无pending不是全项目完成，先从既定需求有界查具体缺口，不编造百分比/额度耗尽/新任务。需新外部范围时只请求具体可审查方案，日常本机开发不反复问用户。

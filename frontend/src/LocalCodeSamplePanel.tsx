@@ -41,7 +41,7 @@ export default function LocalCodeSamplePanel({taskId,revision,plan,sourceScope,b
   finally{clearTimeout(timer);if(ticket.current===id){active.current=false;setWorking('');report(false)}}
  }
  return <details className="local-code-sample configuration-proposal"><summary>本机受限Python样例 · 不调用模型或Dify</summary>
-  <p className="hint">仅已保存的Workflow根Python同步main纯计算。开放限定math/json；不支持文件、网络、系统导入、私有属性、动态入口或嵌套节点。输入是你明确填写的JSON参数，不读取真实上游。不会改变原确认、构建或平台成绩。</p>
+  <p className="hint">仅已保存的Workflow/Chatflow根Python同步main纯计算。开放限定math/json；不支持文件、网络、系统导入、私有属性、动态入口或嵌套节点。输入是你明确填写的手工JSON参数，替代sys/会话/上游值，不读取真实值；不执行完整Chatflow，也不是Dify或业务验证。不会改变原确认、构建或平台成绩。</p>
   <fieldset disabled={blocked||!!working}>
    <label className="field"><span>根Python代码节点</span><select aria-label="本机样例代码节点" value={nodeId} onChange={e=>setNodeId(e.target.value)}><option value="">请明确选择已保存节点</option>{choices.map(n=><option value={n.id} key={n.id}>{n.title||n.id} · {n.id}</option>)}</select></label>
    {!choices.length&&<p className="hint">当前没有可选的已保存根Python节点；不会把编辑草稿、JavaScript或容器内节点转换后执行。</p>}

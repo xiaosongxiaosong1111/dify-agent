@@ -16,7 +16,7 @@ def source(h,task_id,node_id,revision,*,idle=True):
  task=h.get_task(task_id);h.require_revision(task,revision)
  if idle:h.require_idle(task)
  if task.get('status')=='paused':raise HTTPException(409,'任务已暂停，请先核对并明确恢复，未执行样例。')
- if task['app_type']!='workflow' or task.get('dsl_reference') is not None or task.get('plan_stale') or not isinstance(task.get('workflow_plan'),dict):raise HTTPException(422,'本批只支持当前已保存、未过期的显式Workflow根Python节点；引用DSL、其他类型或嵌套节点未适配。')
+ if task['app_type'] not in {'workflow','advanced-chat'} or task.get('dsl_reference') is not None or task.get('plan_stale') or not isinstance(task.get('workflow_plan'),dict):raise HTTPException(422,'本批只支持当前已保存、未过期的显式Workflow/Chatflow根Python节点；Agent、引用DSL或其他类型未适配。')
  rows=[n for n in task['workflow_plan'].get('nodes',[]) if n.get('id')==node_id]
  if len(rows)!=1 or rows[0].get('type')!='code':raise HTTPException(422,'请明确选择唯一根代码节点，不进入容器内部或其他节点。')
  cfg=rows[0].get('config')

@@ -1,6 +1,6 @@
 # 根Python节点的本机受限样例（0.343，第183）
 
-流程页新增“本机受限Python样例”。选择当前已保存的根Workflow Python代码节点，逐字核对代码，明确填写参数JSON，先准备方案，再核对隔离/输入并单次执行。输入键须与节点别名完全一致，不读取真实上游、不补默认值，不执行嵌套/JavaScript/引用DSL或过期计划。
+流程页新增“本机受限Python样例”。选择当前已保存的根Workflow/Chatflow Python代码节点，逐字核对代码，明确填写参数JSON，先准备方案，再核对隔离/输入并单次执行。输入键须与节点别名完全一致，不读取真实上游、不补默认值，不执行嵌套/JavaScript/引用DSL或过期计划。
 
 执行和返回单独保存为本机样例回执，不改任务需求/配置确认、成果、原Dify试跑次数或账本。通过仅指实际返回顶层字段和基本JSON类型符合声明，不判定业务准确、JSON Schema深层约束或完整流程正确；目标Dify Sandbox仍需独立真实范围。
 
@@ -11,6 +11,18 @@
 - 固定本机已安装的公开langgenius/dify-api:1.17.1镜像ID/仓库摘要ceede5b9，不自动拉取或替换。只使用其系统Python运行独立worker，覆盖应用启动入口，不启动另一个Dify应用。[1.17.1镜像源码](https://github.com/langgenius/dify/blob/1.17.1/api/Dockerfile)。
 - 一次只执行一个本机样例，临时容器按服务端UUID命名/标签及固定镜像归属；无网络/宿主文件挂载/端口发布，非root65534、只读根文件系统、移除全部capabilities、no-new-privileges，核默认seccomp；128MiB且无额外swap、1 CPU、32进程、计算壁钟3秒/CPU硬限4秒，宿主start等待8秒，打印4KiB，控制CLI另有有界超时。准备和清理不计作“计算8秒内全部完成”。[Docker运行参数](https://docs.docker.com/engine/containers/run/)。
 - Docker CLI只连本机指定管道/套接字，使用新建空认证/代理配置；不读取原Dify容器环境，不继承用户Docker登录或代理到计算容器。用户代码只经容器stdin进入，宿主不exec用户代码；worker有Linux/UID/显式marker检查。容器创建后再核实际隔离参数，结束仅按UUID标签/名称/镜像核归属清自己的资源。
+
+## 0.413 Chatflow 根节点范围
+
+同一套本机受限样例、Worker、Docker、输入/输出合同、源码与修订绑定、一次确认和过期机制也适用于
+`advanced-chat` 的顶层根 Python 代码节点；仍拒绝 Agent、引用 DSL、过期计划、嵌套节点、JavaScript、
+不明确的同步 main、未开放导入及不支持的输出声明。Chatflow 样例只使用用户明确填写的手工 JSON 参数，
+这些值替代真实的 `sys`、`conversation` 和上游值；不解析或读取真实 selector，不写入会话状态，也不执行
+完整 Chatflow、answer/流式路径或 Dify 验证。正常返回可为 `passed`；代码自身抛错时 Worker 返回
+`code_error`，样例必须显示 `failed` 及错误类别，不能算业务通过。
+本轮定向入口仍是 `backend/tests/test_code_samples.py`（新增 Chatflow 正例、手工输入、`code_error/failed`、
+所有权/修订/引用 DSL/过期/JS/嵌套/非法输出/缺 main 反例）；实际定向成绩由根运行固定 check 后记录在
+独立日志/回执中。2026-11-24根独立147项相关后端测试、前端构建和5项界面核对通过；其中3次真实受限本机容器分别验证正常订单号、空白和错误类型（2 passed / 1 failed-ValueError），没有真实模型或Dify请求。27生产任务、12数据根、909封存及原容器ID保持。证据work/chatflow-code-sample387/{ui-proof,root-proof}.json与相关日志（本机，不提交数据）。旧0.343历史成绩保持。
 
 ## 来源、失败与恢复
 

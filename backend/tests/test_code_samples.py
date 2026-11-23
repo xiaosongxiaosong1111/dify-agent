@@ -1,6 +1,7 @@
 import copy,importlib,json,sys,uuid
 from pathlib import Path
 import pytest
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from app.code_sample_policy import validate_code,parse_inputs,output_matches
 from app import code_sample_docker as docker
 
@@ -68,6 +69,16 @@ def prepare(api,t,text='{"x":" a "}'):
 def execute(api,t,row,text='{"x":" a "}',**changes):
  return api[0].post('/api/tasks/'+t['id']+'/code-samples/execute',json={'revision':t['revision'],'proposal_id':row['id'],'review_token':row['review_token'],'input_text':text,'acknowledge_limits':True}|changes)
 
+def chat_task(api,code='def main(x):\n return {"result":x.strip().upper()}',outputs=None,language='python3'):
+ client,main,_=api;t=client.post('/api/tasks',json={'name':'public chat sample','app_type':'advanced-chat'}).json()
+ plan={'schema_version':1,'nodes':[
+  {'id':'start','type':'start','config':{'variables':[]}},
+  {'id':'code','type':'code','config':{'code_language':language,'code':code,'variables':[{'variable':'x','value_selector':['sys','query']}],'outputs':outputs or {'result':{'type':'string','children':None}}}},
+  {'id':'answer','type':'answer','config':{'answer':'{{#code.result#}}'}}],
+  'edges':[{'source':'start','target':'code'},{'source':'code','target':'answer'}]}
+ response=client.post('/api/tasks/'+t['id']+'/plan',json={'revision':t['revision'],'plan_text':json.dumps(plan)});assert response.status_code==200,response.text
+ return response.json()
+
 def test_prepare_and_single_execute_preserve_task_and_confirmations(api):
  t=task(api);before=copy.deepcopy(api[1].store.get('task',t['id']));row=prepare(api,t).json();assert row['state']=='prepared' and row['business_verified'] is False and row['dify_sandbox_verified'] is False and not api[2]
  result=execute(api,t,row);assert result.status_code==200,result.text
@@ -114,6 +125,57 @@ def test_busy_blocks_other_write_and_recover_does_not_execute(api):
  t=task(api);row=prepare(api,t).json();saved=api[1].store.get('code_sample',row['id']);saved['state']='executing';api[1].store.put('code_sample',row['id'],saved)
  assert api[0].patch('/api/tasks/'+t['id'],json={'expected_revision':t['revision'],'requirements':{'goal':'changed'}}).status_code==409
  api[1].code_samples_recover();assert api[1].store.get('code_sample',row['id'])['state']=='unknown' and not api[2]
+
+def test_chatflow_root_code_sample_uses_manual_input_and_passes(api):
+ t=chat_task(api);main=api[1];before=copy.deepcopy(main.store.get('task',t['id']));budget=copy.deepcopy(main.store.get('task_budget',t['id']))
+ row=prepare(api,t,'{"x":" a "}').json()
+ assert row['state']=='prepared' and row['input_sha256']==docker.digest({'x':' a '})
+ result=execute(api,t,row,'{"x":" a "}')
+ assert result.status_code==200 and result.json()['state']=='passed'
+ assert main.store.get('task',t['id'])==before and main.store.get('task_budget',t['id'])==budget
+ assert len(api[2])==1
+ assert execute(api,t,row,'{"x":" a "}').status_code==409
+
+def test_chatflow_code_error_is_failed_not_passed(api,monkeypatch):
+ t=chat_task(api,'def main(x):\n if not isinstance(x,str):\n  raise ValueError("text required")\n return {"result":x.strip()}')
+ before=copy.deepcopy(api[1].store.get('task',t['id']))
+ row=prepare(api,t,'{"x":1}').json();calls=[]
+ def fake(*a,**kw):calls.append(True);return {'status':'code_error','error_category':'ValueError','cleanup_verified':True}
+ monkeypatch.setattr(docker,'execute',fake)
+ result=execute(api,t,row,'{"x":1}')
+ assert result.status_code==200 and result.json()['state']=='failed'
+ assert result.json()['result']['error_category']=='ValueError'
+ assert api[1].store.get('task',t['id'])==before
+ assert execute(api,t,row,'{"x":1}').status_code==409 and len(calls)==1
+
+def test_chatflow_ownership_revision_and_type_rejections(api):
+ t=chat_task(api);row=prepare(api,t,'{"x":" a "}').json();other=chat_task(api)
+ assert execute(api,other,row,'{"x":" a "}').status_code==409
+ assert api[0].patch('/api/tasks/'+t['id'],json={'expected_revision':t['revision'],'requirements':{'goal':'changed'}}).status_code==200
+ assert execute(api,t,row,'{"x":" a "}').status_code==409
+ current=api[0].get('/api/tasks/'+t['id']).json()
+ assert prepare(api,current,'{"x":" a "}').status_code==422
+ assert api[0].patch('/api/tasks/'+t['id'],json={'app_type':'agent'}).status_code==422
+ agent=api[0].post('/api/tasks',json={'name':'agent sample','app_type':'agent'}).json()
+ assert prepare(api,agent,'{"x":" a "}').status_code==422 and not api[2]
+
+def test_chatflow_reference_stale_js_and_output_type_rejected(api):
+ t=chat_task(api);saved=api[1].store.get('task',t['id']);saved['dsl_reference']={'id':'synthetic'};api[1].store.put('task',t['id'],saved)
+ assert prepare(api,t,'{"x":" a "}').status_code==422
+ t=chat_task(api);saved=api[1].store.get('task',t['id']);saved['plan_stale']=True;api[1].store.put('task',t['id'],saved)
+ assert prepare(api,t,'{"x":" a "}').status_code==422
+ t=chat_task(api,code='function main(x){return {result:x}}',language='javascript')
+ assert prepare(api,t,'{"x":" a "}').status_code==422
+ t=chat_task(api,outputs={'result':{'type':'unsupported'}})
+ assert prepare(api,t,'{"x":" a "}').status_code==422 and not api[2]
+
+def test_chatflow_nested_and_missing_main_fixtures_rejected(api):
+ t=chat_task(api);saved=api[1].store.get('task',t['id'])
+ saved['workflow_plan']={'schema_version':1,'nodes':[{'id':'iteration','type':'iteration','config':{'nodes':[{'id':'inner','type':'code','config':{'code_language':'python3','code':'def main(x):\n return {"result":x}','variables':[],'outputs':{'result':{'type':'string'}}}}]}}],'edges':[]}
+ api[1].store.put('task',t['id'],saved);assert prepare(api,t,'{}').status_code==422
+ t=chat_task(api);saved=api[1].store.get('task',t['id'])
+ saved['workflow_plan']={'schema_version':1,'nodes':[{'id':'code','type':'code','config':{'code_language':'python3','code':'def helper(x):\n return {"result":x}','variables':[{'variable':'x','value_selector':['sys','query']}],'outputs':{'result':{'type':'string'}}}}],'edges':[]}
+ api[1].store.put('task',t['id'],saved);assert prepare(api,t,'{"x":"a"}').status_code==422 and not api[2]
 
 def test_missing_docker_refuses_without_host_fallback(api,monkeypatch):
  t=task(api)
