@@ -8,25 +8,25 @@
 
 ## 2. 当前交付事实
 
-生产27Task/10environment/2provider。目标1154f0c0-5e01-4492-b5c7-97bfbbbc2a61/r8/manual/draft_ready，需求与配置已确认，暂无App/运行。原模型r7完整23节点24边有订单类型错误：非string误作缺号；根实际反例后交DS写纯类型守卫，经正常预览/保存r8/manual，原r7/model与失败原文保持。不得说原模型自主一次原样通过。
+生产27Task/10environment/2provider。目标1154f0c0-5e01-4492-b5c7-97bfbbbc2a61/r8/manual/draft_ready，需求与配置已确认，现已绑定本391新App并有1次成功Service记录，原生诊断未完成。原模型r7完整23节点24边有订单类型错误：非string误作缺号；根实际反例后交DS写纯类型守卫，经正常预览/保存r8/manual，原r7/model与失败原文保持。不得说原模型自主一次原样通过。
 
 原图静态交付384完成，DSL04175a5b3225232d94767b6b1ff4ab88fcdc5522c7e35b0ee60bb97e6361c397，ZIPcfac1d670ae0643018a4b071a67722f070f16cdb44c43875f9ae0c1c5f68a019，5文件摘要逐一核过；本机克隆work/static-delivery384-original/sierra-advanced-chat-r8-delivery.zip。三模型deepseek-flash/thinking=false/.2/512，状态false与记忆配置保持。静态不是平台/业务验收。详docs/static-delivery384-result-20261123.md。
 
 ## 3. 下一步与当前任务
 
-当前391 doing，新的直接批准已收到：call_90ac87674e9a4a4eb0fc35ea048b5314/q0原话“允许将375未派发资源明确改授390两份已审图平台收尾批，仅新增一次加密登录”。精确绑定plan1abf2fad718da18bfaa3619485ff82ed33791205f40c8a834198d0133e3b1e38 / manifest505eee5fb777b7cef367886516edb04965e14b515ae3ad29742bcc1ee7a2985d。私有sierra-delegation/reviewed-dual390-direct-authorization.json已保存且validate_approval过。不要再问相同范围或伪造新的原话。当前仍无canonical approval/attempt/worker/live-output，接下来正常approve后唯一run；若执行前状态已变，先停，不重放。
+391已blocked，原独立390整批永久消费：用户call_90ac87674e9a4a4eb0fc35ea048b5314/q0精确批准已保存，approve/run各一次，原空间重连/App/首次发布/Key成功；实际13GET/登录1/import1/pub1/key1/Service1/物理18，Sierra模型/新Task/库0。首例faq-hit技术success、声明contains关键词passed；没有原生轨迹或新交付ZIP，修改版未开始。技术停止，不可重试/续阶段或再用旧approval。根没有继续远端诊断，因为这不是Service业务failed，有限失败轮例外不适用。
 
-392 done：DS find19953正常0、会话4f3cd25c-6e51-4ee1-a02d-0b4e185fdbda，只读核run/manager/Store/transport/停止路径，没有发现必然阻断错误。两项条件性边界根已判：其它Task待恢复写入会被Guard拒，冻结对象比对阻止变更；实际211对象只放内存、新临时目录、只读适配器执行真正lifespan，21读取、写入/秘密/HTTP/直连0，12根909保持。文件异常不完整标记保持封存，不能删除标记重放。没有改390六源或造测试框架。docs/reviewed-run392-result-20261128.md、work/reviewed-run392-{ds-find,root-startup-proof}.log/JSON；私有verify-reviewed-run392-startup.py已执行一次，不覆盖证据。
+根已定位真正原因：普通run_diagnostics接口在读取远端前，为脱敏取当前Task配置assistant_provider_id的api_key；冻结Guard只准Dify专用连接/本批运行Key，拒绝Other credential read forbidden。真实Task确有该provider；根无Key Stub复现拒绝先于解密。实际provider Key未解密、Sierra模型HTTP0。原版App 9242435f-e66f-4292-86ba-0834a495dab7，本机run 836b9394-9260-4d6a-b123-81a629cc6795，消息94cceec5-beb7-40ef-8df9-8629030df20c、会话a3656da5-d4d7-4183-bc30-e9cb8cd5fb17；不可重跑此首例。
 
-本轮391只读前置work/reviewed-run391-preflight.json通过：原机源f9aa9f0/canonical六文件/运行快照/CIM/12根909仍同冻结，无消费标记。原Dify8080未监听，com.docker.service Stopped；根按已验证E:\workSpace\DockerDesktop\com.docker.service和Docker Desktop.exe原安装隐藏启动。原16容器自动恢复，未新建或改容器配置/卷。API c47174454d22镜像langgenius/dify-api:1.17.1，Nginx496717ebcc9a，项目dify-local/原目录E:\workSpace\dify\docker，现API Docker health healthy/8080监听；0额外Dify HTTP探针/登录，不能把Sierra health当Dify就绪。
+根独立只读保护审计已过：其它原对象/非允许密文/资产、11旧隔离根和909封存保持，27Task、原图配置需求案例/旧消息前缀、Sierra5预算全对象不变。新仅授权连接/资源/Key档案/执行策略和目标正常后缀。生产当前r8/manual/run_completed、req/config true、绑定上面新App，limits12启动/45分钟/报价None，已有1启动。Dify该次报告1088+79=1167tokens，total_price="0" USD不是免费或完整账单，不清零原估算。费用/unknown/剩槽保持。
 
-执行范围按docs/reviewed-dual390-platform-plan-20261128.md：明确改授375余116管理GET、App/首次发布/Key各2、12启动/14Service/14原生轨迹/双ZIP及Dify估.100；仅新增登录预留50→51。Sierra搭建模型/新Task/库0，首次正常设12启动/45分钟/报价None，整批60分钟。Dify内部仍调用模型，估算非账单硬限、宿主未知。其它57/1730/资源30/Service148/模型账本3.355473652保持，旧unknown/settled/预留不退借。仅Service技术成功但业务failed唯一轮≤4GET/1诊断后封存（计116内）；其它异常立即停，任意异常不得修复后续阶段或重试本包。
+最新保护926：原机work/reviewed-run391-seal-after-review.json直接16成员（15canonical+根audit），SHA87ed9ec71d7487704d39360d723048d220bb64b81952e91e2ea9237493d2868f，加自身17及旧909共926；索引在canonical外，旧390六源/目录不改。原机work/reviewed-run391-after-live-audit.json，克隆同名JSON/log及seal-summary.json均在；私有audit-reviewed-run391-stopped.py已执行一次，禁止覆盖或重跑。旧385seal仍97f93e94，保持嵌套父证据，未来必须加最新391索引保护，不能只核909。sourcef9aa9f0/plan1abf2fad718da18bfaa3619485ff82ed33791205f40c8a834198d0133e3b1e38/manifest505eee5fb777b7cef367886516edb04965e14b515ae3ad29742bcc1ee7a2985d保持。
 
-390 done：实现f9aa9f07fec1b38107437f8be05e0df821b5e486/冻结交接119b62b已推并原机同步。正常prepare仅1次exit0，原机work/reviewed-dual390有10成员；根首次审计返回类型误断言已只读纠正，未重跑prepare。root-check-v10完整15组、末轮final-fixture相关全链/主题、真实两图23节点编译/两版13topic/7轮和12根909/CIM核过。根内容审阅SHA62fc1955f5ae975b2d09ab8752c7e3625f548c386bc3a73b56c1b008e3e3fe97；root_agent/human_signoff=false不是直接批准，只有上面的新用户答复是资源批准。当前source6不可改、canonical不可手改/重prepare。
+下一393 pending：交DeepSeek修正常诊断与只读脱敏凭据范围，先新独立helper+正常API假Key回归；旧已消费390代码不改、不弱化脱敏、不允许模型请求。根给具体外部方案/独立验收，禁止读取真实提供方Key或继续391。未来独立剩余平台批必须先完整冻结，再新明确批准：现有首例不重跑，只补其原生诊断；余5原版案例与改版7轮共13Service、资源各1、103GET/11启动仍是未派发保留，不自动跨批借用。若需新登录或仅内存provider Key脱敏许可，必须方案明确并由新直接批准覆盖。没有后续真实范围授权。
 
-下一步根用原机E:\workSpace\dify-agent/.venv/Scripts/python.exe tools/reviewed-dual390/tool.py --project E:\workSpace\dify-agent approve --authorization仓库外上述文件，成功后仅run一次。设置PYTHONDONTWRITEBYTECODE=1避免额外canonical缓存成员，Git safe.directory仅本命令用原机P。只复用加密资料，不抄聊天密码、不输出/提交Secret。结束先读attempt/live-output/progress/result或failure及具体counts，严格核全部原生轨迹/两ZIP与数据保护；失败立即封存记录实际状态，不能把原始报告或未知费用清零。重要结果更新README/CHANGELOG/整份交接并提交推送，排除work/data/原文/秘密。
+392 done：DS find19953正常0，会话4f3cd25c-6e51-4ee1-a02d-0b4e185fdbda。源码核入口/Store/transport，无当前必然阻断；根实际211对象仅内存隔离lifespan21读取、写/Secret/HTTP/直连0，12根909保持。doc reviewed-run392-result-20261128.md；这没有覆盖实际所选provider的诊断读取，不能冒称所有凭据路径已通过。根审阅/QA/正常操作与Git，代码交DS。
 
-Sierra当前0.413.0-bdb32c6761fe3102d582/298/PID28040，原27Task目标r8/manual/draft_ready，req/config true、无App/run/limits None仍是执行前状态；以后以实际回执为准。源是380 model+383明确manual类型纠正、修改385 model+388 manual保存，不是从空任务全自主原样通过；两版真实和全自主质量仍未闭合。没有观察Codex额度不足。旧288方案及375/385所有消费包不重放；本次批准不授权其它批或新模型范围。
+本机Docker原停止，根核E:\workSpace\DockerDesktop原服务/安装隐藏启动，原16容器自动恢复；API1.17.1/Docker health healthy/8080监听，没有额外Dify探针HTTP。Sierra仍0.413.0-bdb32c6761fe3102d582/298/PID28040，产品未改版本。Git源f9aa9f0、冻结119b62b、入口/授权交接e46c034已推并原机同步，本结果需按常规更新README/CHANGELOG/整份交接并提交推送。实际未见Codex额度不足；旧288/375/385及本391不重放。
 
 ## 4. 最新385真实结果与不可再执行的包
 
@@ -36,15 +36,15 @@ Sierra当前0.413.0-bdb32c6761fe3102d582/298/PID28040，原27Task目标r8/manual
 
 原机work/isolated-modification385已封16成员+索引，seal SHA97f93e940d03826930a910be7e6b8a5ad9505da2ba0b4413a7843fa5c6de0b42，未来909保护。sealed隔离DB只可immutable只读或复制到新目录，不再Store/RW打开；WAL/SHM不属于持久成员。独立审计work/isolated-modification385-after-live-audit.json/log；私有audit-isolated-modification385-live.py/exclusive基线、approve/run已消费，禁止再运行/覆盖输出/补签或续阶段。docs/isolated-modification385-live-result-20261123.md；结果9aa87c39已推、两克隆同步。
 
-目标生产Task SHA df157950695c641990aa4ef3fa2fff130b05c43f150633a1809f08103b17a5c7；budget b2472f1c98a48418bded9a9a73c776a14cc0b56bf0a6f04c21d87b2fea94bad0，5settled合.037731216/limits None/历史前缀保持。385隔离6费用中5旧复制不能重算新增；新隔离累计.046768488，生产不写本次费用，记录另列。
+执行前目标生产Task SHA df157950695c641990aa4ef3fa2fff130b05c43f150633a1809f08103b17a5c7；budget b2472f1c98a48418bded9a9a73c776a14cc0b56bf0a6f04c21d87b2fea94bad0，5settled合.037731216/limits None/历史前缀保持。385隔离6费用中5旧复制不能重算新增；新隔离累计.046768488，生产不写本次费用，记录另列。
 
 ## 5. 费用、凭据与旧保护
 
-保守模型57/管理GET1730/登录51/App发布Key各30/Service148，模型估算账本3.355473652 USD不增，非账单硬限。实际产品模型42、累计观察settled.260839488，不是完整供应商账单；开发DS另计。375模型剩0，116管理/资源各2/14Service/Dify估.100保持，所有旧unknown/费用/预留不借退。95unknown.0188541及旧四槽/旧剩包等保持。
+保守模型57/管理GET1730/登录51/App发布Key各30/Service148，模型估算账本3.355473652 USD不增，非账单硬限。实际产品模型42、累计观察settled.260839488，不是完整供应商账单；开发DS另计。375模型剩0；391已消费13读/1登录/资源各1/1Service，未派发103管理/资源各1/13Service/11启动及旧Dify估.100保留，所有旧unknown/费用/预留不借退。95unknown.0188541及旧四槽/旧剩包等保持。
 
 专用环境202bfb35-2f92-47c1-bc1b-eac32082181d/原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17，现App9faf2792-08e2-48cf-afd0-050b34035fed；旧Key加密留档。全局9513f594-c256-46b7-882a-35d9871bf9d0/deepseek-flash，FAQd12cf081-5c52-41e3-b869-e94e6f8d37b1 TopK3无阈值不重排。只复用已有加密资料，不抄聊天密码，不打印/提交秘密。
 
-旧371/375/377/380/385及所有已消费批禁止重放/续阶段；失败、unknown、原文、用量和旧预留保持。旧历史分别见对应docs，不通读历史。保护序列733→758→785→788→795→831→859→874→892→909；最新385 seal在第4节。12数据根=生产+autonomous-dual375/plan.json所列11隔离根，最新385另由909持久封存保护。每次部署重新按归属/源快照核验，不因旧审计曾过而跳过。
+旧371/375/377/380/385及所有已消费批禁止重放/续阶段；失败、unknown、原文、用量和旧预留保持。旧历史分别见对应docs，不通读历史。保护序列733→758→785→788→795→831→859→874→892→909→926；最新391 seal与926保护在第3节，旧385父索引在第4节。12数据根=生产+autonomous-dual375/plan.json所列11隔离根，最新385另由909持久封存保护。每次部署重新按归属/源快照核验，不因旧审计曾过而跳过。
 
 ## 6. Git与完成标准
 

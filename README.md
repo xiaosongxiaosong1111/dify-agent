@@ -4,7 +4,7 @@
 
 [当前原图静态交付](docs/static-delivery384-result-20261123.md)已完成：模型完整图经根审阅、DeepSeek纠正一个订单类型检查，正常保存r8/manual并保留r7/model原图；23节点，静态ZIP含DSL/报告/模拟接口指南等5文件。尚未发布或运行。接下来是商品型号文案改版完整候选及两版真实六例七轮，未把代理纠正当模型自主原样通过。
 
-[单句改版模型核对](docs/isolated-modification385-live-result-20261123.md)限定通过后，[在新隔离副本主动保存r10并交付静态ZIP](docs/reviewed-candidate388-static-result-20261124.md)已完成。原r8包保持，两个编译图严格仅两处文案改变。两版Dify六例七轮和原生轨迹尚未验收；普通保存来源manual及原图类型纠正历史如实保留。 [零新搭建模型的收尾设计](docs/reviewed-dual390-local-plan-20261124.md)[本机执行器实现已通过15组定向检查](docs/reviewed-dual390-local-result-20261128.md)，[原机只读冻结和独立保护核验已完成](docs/reviewed-dual390-freeze-result-20261128.md)，[完整真实收尾方案](docs/reviewed-dual390-platform-plan-20261128.md)已收到直接整批批准，当前进入执行；[入口源码与隔离启动核对](docs/reviewed-run392-result-20261128.md)已过，平台结果以本批后续真实回执为准。
+[单句改版模型核对](docs/isolated-modification385-live-result-20261123.md)限定通过后，[在新隔离副本主动保存r10并交付静态ZIP](docs/reviewed-candidate388-static-result-20261124.md)已完成。原r8包保持，两个编译图严格仅两处文案改变。两版Dify六例七轮和原生轨迹尚未验收；普通保存来源manual及原图类型纠正历史如实保留。 [零新搭建模型的收尾设计](docs/reviewed-dual390-local-plan-20261124.md)[本机执行器实现已通过15组定向检查](docs/reviewed-dual390-local-result-20261128.md)，[原机只读冻结和独立保护核验已完成](docs/reviewed-dual390-freeze-result-20261128.md)，[完整真实收尾方案](docs/reviewed-dual390-platform-plan-20261128.md)[本批真实结果](docs/reviewed-run391-live-result-20261128.md)：原版App发布和首例关键词通过，原生诊断准备遇凭据脱敏范围冲突而技术停止，未进入修改版；下一步交DeepSeek修复本机兼容问题，旧批保持封存。
 
 [规划澄清的最终一致性核对](docs/planning-clarification-consistency.md)已由DeepSeek实现：Workflow/Chatflow输出澄清前核对已给事实，条件充分则返回完整计划；真正业务缺失仍停止。0.412.0已过根58项定向与三类型隔离API核对，并完成原机保护部署；真实模型改善未验证。
 
