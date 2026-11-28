@@ -14,17 +14,19 @@
 
 ## 3. 下一步与当前任务
 
-390 done：实现源f9aa9f07fec1b38107437f8be05e0df821b5e486已推GitHub并原机快进；正常prepare执行1次exit0，根独立只读冻结审计通过。六工具来自DeepSeek，会话ebc2ba5b-02c0-42f3-ba8e-7d9916ea3e03；根15组root-check-v10全过，末轮3b3a仅公开fixture修正，root-final-fixture受影响全链/主题复核过，四核心SHA保持。源说明docs/reviewed-dual390-local-result-20261128.md。387/388/389均done，产品仍0.413，无新产品版本或真实平台回执。
+当前391 doing，新的直接批准已收到：call_90ac87674e9a4a4eb0fc35ea048b5314/q0原话“允许将375未派发资源明确改授390两份已审图平台收尾批，仅新增一次加密登录”。精确绑定plan1abf2fad718da18bfaa3619485ff82ed33791205f40c8a834198d0133e3b1e38 / manifest505eee5fb777b7cef367886516edb04965e14b515ae3ad29742bcc1ee7a2985d。私有sierra-delegation/reviewed-dual390-direct-authorization.json已保存且validate_approval过。不要再问相同范围或伪造新的原话。当前仍无canonical approval/attempt/worker/live-output，接下来正常approve后唯一run；若执行前状态已变，先停，不重放。
 
-冻结原机work/reviewed-dual390有10成员；plan 1abf2fad718da18bfaa3619485ff82ed33791205f40c8a834198d0133e3b1e38；manifest 505eee5fb777b7cef367886516edb04965e14b515ae3ad29742bcc1ee7a2985d；根私有内容审阅SHA 62fc1955f5ae975b2d09ab8752c7e3625f548c386bc3a73b56c1b008e3e3fe97，root_agent/standing_delegated_content_review/human_signoff=false，两版13主题与各7轮、实际两图23节点纯编译均核。根内容审阅不是直接副作用批准。原图380 model+383明确manual类型纠正，改图385 model+388 manual保存，不是从空任务全自主原样通过。
+392 done：DS find19953正常0、会话4f3cd25c-6e51-4ee1-a02d-0b4e185fdbda，只读核run/manager/Store/transport/停止路径，没有发现必然阻断错误。两项条件性边界根已判：其它Task待恢复写入会被Guard拒，冻结对象比对阻止变更；实际211对象只放内存、新临时目录、只读适配器执行真正lifespan，21读取、写入/秘密/HTTP/直连0，12根909保持。文件异常不完整标记保持封存，不能删除标记重放。没有改390六源或造测试框架。docs/reviewed-run392-result-20261128.md、work/reviewed-run392-{ds-find,root-startup-proof}.log/JSON；私有verify-reviewed-run392-startup.py已执行一次，不覆盖证据。
 
-根审计第一次把返回dict误断言None而中断，prepare已成功未重跑；后续audit-reviewed-dual390-existing-freeze.py只读核现包完成。work/reviewed-dual390-freeze-root-audit.json和-completed.log是最终证据；首次失败日志/私有freeze-before.json保持，禁止重跑独占生成器或覆写。实际核10成员/源Git六文件/LF/canonical/固定三pin、12旧根/909/目标Task与5预算/运行源快照CIM前后保持，0模型/Dify/登录/资源/Service；无approval/attempt/worker/live-output。正常prepare不再重跑，也不手改canonical。
+本轮391只读前置work/reviewed-run391-preflight.json通过：原机源f9aa9f0/canonical六文件/运行快照/CIM/12根909仍同冻结，无消费标记。原Dify8080未监听，com.docker.service Stopped；根按已验证E:\workSpace\DockerDesktop\com.docker.service和Docker Desktop.exe原安装隐藏启动。原16容器自动恢复，未新建或改容器配置/卷。API c47174454d22镜像langgenius/dify-api:1.17.1，Nginx496717ebcc9a，项目dify-local/原目录E:\workSpace\dify\docker，现API Docker health healthy/8080监听；0额外Dify HTTP探针/登录，不能把Sierra health当Dify就绪。
 
-当前391 need-user：按docs/reviewed-dual390-platform-plan-20261128.md一次请求新的明确改授，批准后才approve并唯一run，禁止先读Secret或改生产策略。拟仅改授375余116GET、App/首次发布/Key各2、12启动/14Service/14原生轨迹/双ZIP、Dify估.100；仅新增登录50→51。Sierra搭建模型/Task/库0，首次正常设12启动/45分钟/None，批60分钟；Dify内部仍调用模型，估算非账单硬限、宿主未知。其它保守57/1730/资源30/Service148/模型账本3.355473652保持，旧unknown/settled/预留不退借。只有技术成功但业务failed唯一轮≤4GET/1诊断后封存（计116内），其它异常立即停不重试。旧375/385等消费包不可续跑。后续直接答复必须绑定此plan/manifest，不伪造用户批准。
+执行范围按docs/reviewed-dual390-platform-plan-20261128.md：明确改授375余116管理GET、App/首次发布/Key各2、12启动/14Service/14原生轨迹/双ZIP及Dify估.100；仅新增登录预留50→51。Sierra搭建模型/新Task/库0，首次正常设12启动/45分钟/报价None，整批60分钟。Dify内部仍调用模型，估算非账单硬限、宿主未知。其它57/1730/资源30/Service148/模型账本3.355473652保持，旧unknown/settled/预留不退借。仅Service技术成功但业务failed唯一轮≤4GET/1诊断后封存（计116内）；其它异常立即停，任意异常不得修复后续阶段或重试本包。
 
-运行原后端曾停，本轮原start.ps1恢复health200；0.413.0-bdb32c6761fe3102d582/298/PID28040，最新只读CIM与源快照核过。两克隆源f9aa9f0同步，最新交接提交以实际Git HEAD/remote核对并正常快进；工具/文档不需重新产品部署。27Task/12根/909保持，生产目标r8/manual/draft_ready/req+config true/无App或runs/limits None，Task与budgetSHA仍第4节值。
+390 done：实现f9aa9f07fec1b38107437f8be05e0df821b5e486/冻结交接119b62b已推并原机同步。正常prepare仅1次exit0，原机work/reviewed-dual390有10成员；根首次审计返回类型误断言已只读纠正，未重跑prepare。root-check-v10完整15组、末轮final-fixture相关全链/主题、真实两图23节点编译/两版13topic/7轮和12根909/CIM核过。根内容审阅SHA62fc1955f5ae975b2d09ab8752c7e3625f548c386bc3a73b56c1b008e3e3fe97；root_agent/human_signoff=false不是直接批准，只有上面的新用户答复是资源批准。当前source6不可改、canonical不可手改/重prepare。
 
-核心未闭合：两份静态ZIP已有，双版Dify六例七轮/14轨迹/双ZIP尚待本391真实批；原图类型纠正意味着全自主原样质量也未完成，不能报全项目完成或编造百分比。没有观察实际Codex额度不足；当前实际下一步依赖新的直接资源授权，不因一项本机工具绿灯就回放旧范围。所有代码已交DS实现，根负责方案/审阅/独立QA/正常操作与Git，不接手实现；仅必要相关文件，不通读历史或跑全量。
+下一步根用原机E:\workSpace\dify-agent/.venv/Scripts/python.exe tools/reviewed-dual390/tool.py --project E:\workSpace\dify-agent approve --authorization仓库外上述文件，成功后仅run一次。设置PYTHONDONTWRITEBYTECODE=1避免额外canonical缓存成员，Git safe.directory仅本命令用原机P。只复用加密资料，不抄聊天密码、不输出/提交Secret。结束先读attempt/live-output/progress/result或failure及具体counts，严格核全部原生轨迹/两ZIP与数据保护；失败立即封存记录实际状态，不能把原始报告或未知费用清零。重要结果更新README/CHANGELOG/整份交接并提交推送，排除work/data/原文/秘密。
+
+Sierra当前0.413.0-bdb32c6761fe3102d582/298/PID28040，原27Task目标r8/manual/draft_ready，req/config true、无App/run/limits None仍是执行前状态；以后以实际回执为准。源是380 model+383明确manual类型纠正、修改385 model+388 manual保存，不是从空任务全自主原样通过；两版真实和全自主质量仍未闭合。没有观察Codex额度不足。旧288方案及375/385所有消费包不重放；本次批准不授权其它批或新模型范围。
 
 ## 4. 最新385真实结果与不可再执行的包
 
@@ -38,7 +40,7 @@
 
 ## 5. 费用、凭据与旧保护
 
-保守模型57/管理GET1730/登录50/App发布Key各30/Service148，模型估算账本3.355473652 USD不增，非账单硬限。实际产品模型42、累计观察settled.260839488，不是完整供应商账单；开发DS另计。375模型剩0，116管理/资源各2/14Service/Dify估.100保持，所有旧unknown/费用/预留不借退。95unknown.0188541及旧四槽/旧剩包等保持。
+保守模型57/管理GET1730/登录51/App发布Key各30/Service148，模型估算账本3.355473652 USD不增，非账单硬限。实际产品模型42、累计观察settled.260839488，不是完整供应商账单；开发DS另计。375模型剩0，116管理/资源各2/14Service/Dify估.100保持，所有旧unknown/费用/预留不借退。95unknown.0188541及旧四槽/旧剩包等保持。
 
 专用环境202bfb35-2f92-47c1-bc1b-eac32082181d/原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17，现App9faf2792-08e2-48cf-afd0-050b34035fed；旧Key加密留档。全局9513f594-c256-46b7-882a-35d9871bf9d0/deepseek-flash，FAQd12cf081-5c52-41e3-b869-e94e6f8d37b1 TopK3无阈值不重排。只复用已有加密资料，不抄聊天密码，不打印/提交秘密。
 
