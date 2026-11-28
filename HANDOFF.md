@@ -14,6 +14,9 @@
 
 ## 3. 下一步与当前任务
 
+当前394 doing：393源bfc0c3b已提交，下一由DS按外部sierra-delegation/reviewed-remaining394-implementation.md新7文件实现独立剩余执行器。公开设计docs/reviewed-remaining394-local-plan-20261128.md；日志work/reviewed-remaining394-ds-do.log。只是本机实现/隔离/源提交/只读冻结，禁止真实approve/run或真实Key读取；旧391已经停止，首例不重跑。拟改授余103GET/资源1/13Service/11启动，新登录1（51→52）与所选助手Key14次仅内存脱敏、增Dify估.100（旧.100保持）尚未直接批准。特别允许旧首例仅追加一份绑定诊断，其余旧run全值不变；原策略12/45/None不重置，926父封存必须全核。先读在途结果，不重派活跃worker；不通读历史/跑全量。
+
+
 391已blocked，原独立390整批永久消费：用户call_90ac87674e9a4a4eb0fc35ea048b5314/q0精确批准已保存，approve/run各一次，原空间重连/App/首次发布/Key成功；实际13GET/登录1/import1/pub1/key1/Service1/物理18，Sierra模型/新Task/库0。首例faq-hit技术success、声明contains关键词passed；没有原生轨迹或新交付ZIP，修改版未开始。技术停止，不可重试/续阶段或再用旧approval。根没有继续远端诊断，因为这不是Service业务failed，有限失败轮例外不适用。
 
 根已定位真正原因：普通run_diagnostics接口在读取远端前，为脱敏取当前Task配置assistant_provider_id的api_key；冻结Guard只准Dify专用连接/本批运行Key，拒绝Other credential read forbidden。真实Task确有该provider；根无Key Stub复现拒绝先于解密。实际provider Key未解密、Sierra模型HTTP0。原版App 9242435f-e66f-4292-86ba-0834a495dab7，本机run 836b9394-9260-4d6a-b123-81a629cc6795，消息94cceec5-beb7-40ef-8df9-8629030df20c、会话a3656da5-d4d7-4183-bc30-e9cb8cd5fb17；不可重跑此首例。
@@ -22,7 +25,7 @@
 
 最新保护926：原机work/reviewed-run391-seal-after-review.json直接16成员（15canonical+根audit），SHA87ed9ec71d7487704d39360d723048d220bb64b81952e91e2ea9237493d2868f，加自身17及旧909共926；索引在canonical外，旧390六源/目录不改。原机work/reviewed-run391-after-live-audit.json，克隆同名JSON/log及seal-summary.json均在；私有audit-reviewed-run391-stopped.py已执行一次，禁止覆盖或重跑。旧385seal仍97f93e94，保持嵌套父证据，未来必须加最新391索引保护，不能只核909。sourcef9aa9f0/plan1abf2fad718da18bfaa3619485ff82ed33791205f40c8a834198d0133e3b1e38/manifest505eee5fb777b7cef367886516edb04965e14b515ae3ad29742bcc1ee7a2985d保持。
 
-393 doing，代码已由DS实现并根验收，待本次源提交存在后关闭：新tools/reviewed_diagnostic_redaction.py/新增unittest/范围文档，未改产品或旧390源。初次do56174在540秒超时exit2无最终报告；根v1十项过但正例类型不实未接收，明确返工fix1终端92462正常0/CLI一次过，会话2e44ab33-2571-4777-8e5e-4e5963f9de9c。根v2真实Chatflow消息映射11项实际过；另私有verify-diagnostic-redaction393-full-chain.py给既有公开双版链选入加密假provider Key，14假Service/14诊断/双ZIP过、恰14次假Key脱敏、上下文清除。work/diagnostic-redaction393-{root-v2,root-full-chain}.log/JSON及protection.json在，旧926/源/包/预算保持，0新真实请求/真实Key读取。完整结果docs/diagnostic-redaction393-result-20261128.md。
+393 done，实际实现源bfc0c3b1e614a32d2212552b2e42d476ab003652已存在并根验收：新tools/reviewed_diagnostic_redaction.py/新增unittest/范围文档，未改产品或旧390源。初次do56174在540秒超时exit2无最终报告；根v1十项过但正例类型不实未接收，明确返工fix1终端92462正常0/CLI一次过，会话2e44ab33-2571-4777-8e5e-4e5963f9de9c。根v2真实Chatflow消息映射11项实际过；另私有verify-diagnostic-redaction393-full-chain.py给既有公开双版链选入加密假provider Key，14假Service/14诊断/双ZIP过、恰14次假Key脱敏、上下文清除。work/diagnostic-redaction393-{root-v2,root-full-chain}.log/JSON及protection.json在，旧926/源/包/预算保持，0新真实请求/真实Key读取。完整结果docs/diagnostic-redaction393-result-20261128.md。
 
 下一步源commit后393标done，新394只本机独立剩余执行器：现有App9242435f-e66f-4292-86ba-0834a495dab7/首例836b9394-9260-4d6a-b123-81a629cc6795不重跑，只补原生轨迹；其余13Service/11启动、资源各1、103GET须新明确改授，Key仅内存脱敏最大14读与是否新登录/新增Dify估算也须新方案明确。旧391.100估算保留不释放，不能因为报告0就退预算。当前没有后续真实授权，helper不等于批准，不可在真实Vault启用。
 
