@@ -14,17 +14,17 @@
 
 ## 3. 下一步与当前任务
 
-390 doing：六文件tools/reviewed-dual390由DeepSeek实现，根完整验收通过，当前待源提交、原机同步及只读冻结，不可approve/run。387实现7dcffdc/关闭0a8513a、388结果11ff4b0、389设计d4d5b65均done，产品保持0.413。两静态包已有，双版真实平台与全自主原样质量未闭合。
+390 done：实现源f9aa9f07fec1b38107437f8be05e0df821b5e486已推GitHub并原机快进；正常prepare执行1次exit0，根独立只读冻结审计通过。六工具来自DeepSeek，会话ebc2ba5b-02c0-42f3-ba8e-7d9916ea3e03；根15组root-check-v10全过，末轮3b3a仅公开fixture修正，root-final-fixture受影响全链/主题复核过，四核心SHA保持。源说明docs/reviewed-dual390-local-result-20261128.md。387/388/389均done，产品仍0.413，无新产品版本或真实平台回执。
 
-本轮DS同会话ebc2ba5b-02c0-42f3-ba8e-7d9916ea3e03：3b1旧超时后3b1a正常修native model比较/真实编译及完整core派生；3b2/2a修旧confirmation/model/interview/None图漏口、预算严格类型和正常API时间误拦。3b3终端26797正常0、CLI自修1次后主题检查过；根root-check-v10完整15组实际全过。3b3a终端20783正常0/CLI一次过，仅修公开fixture兜底/不实说明，根final-fixture受影响正常双版全链和主题复核实际过，四核心SHA保持。日志work/reviewed-dual390-{ds-fix3b*,root-check-v10,root-final-fixture}.log。不能只信DS说未运行或已通过，CLI与根结果分别记；未发现实际额度不足。
+冻结原机work/reviewed-dual390有10成员；plan 1abf2fad718da18bfaa3619485ff82ed33791205f40c8a834198d0133e3b1e38；manifest 505eee5fb777b7cef367886516edb04965e14b515ae3ad29742bcc1ee7a2985d；根私有内容审阅SHA 62fc1955f5ae975b2d09ab8752c7e3625f548c386bc3a73b56c1b008e3e3fe97，root_agent/standing_delegated_content_review/human_signoff=false，两版13主题与各7轮、实际两图23节点纯编译均核。根内容审阅不是直接副作用批准。原图380 model+383明确manual类型纠正，改图385 model+388 manual保存，不是从空任务全自主原样通过。
 
-真实内容根独立只读核过：两图23节点/24边纯编译、三参数拒绝、两版13主题和各7轮trace；生产Task/budget保持。根私有reviewed-dual390-root-review.json已生成，SHA62fc1955f5ae975b2d09ab8752c7e3625f548c386bc3a73b56c1b008e3e3fe97；是根受托内容复核，不是直接副作用批准。生成器prepare-reviewed-dual390-root-review.py已执行一次，不覆盖重跑。私有原回答未发DS。源身份original=380 model+383明确manual类型纠正，modified=385 model+388 manual保存。
+根审计第一次把返回dict误断言None而中断，prepare已成功未重跑；后续audit-reviewed-dual390-existing-freeze.py只读核现包完成。work/reviewed-dual390-freeze-root-audit.json和-completed.log是最终证据；首次失败日志/私有freeze-before.json保持，禁止重跑独占生成器或覆写。实际核10成员/源Git六文件/LF/canonical/固定三pin、12旧根/909/目标Task与5预算/运行源快照CIM前后保持，0模型/Dify/登录/资源/Service；无approval/attempt/worker/live-output。正常prepare不再重跑，也不手改canonical。
 
-原后端已停，原start.ps1恢复health200，0.413.0-bdb32c6761fe3102d582/298/PID28040。今日readonly-components-20261128 JSON/log已真实核12根/909/CIM/源快照/三个Git pin，前后保持，0prepare/approve/run/Dify/Secret。原机Git此前d4d5b65干净，开发及remote a04f673；新源尚待本次提交。产品未改，不需前端重建或部署版本。
+当前391 need-user：按docs/reviewed-dual390-platform-plan-20261128.md一次请求新的明确改授，批准后才approve并唯一run，禁止先读Secret或改生产策略。拟仅改授375余116GET、App/首次发布/Key各2、12启动/14Service/14原生轨迹/双ZIP、Dify估.100；仅新增登录50→51。Sierra搭建模型/Task/库0，首次正常设12启动/45分钟/None，批60分钟；Dify内部仍调用模型，估算非账单硬限、宿主未知。其它保守57/1730/资源30/Service148/模型账本3.355473652保持，旧unknown/settled/预留不退借。只有技术成功但业务failed唯一轮≤4GET/1诊断后封存（计116内），其它异常立即停不重试。旧375/385等消费包不可续跑。后续直接答复必须绑定此plan/manifest，不伪造用户批准。
 
-下一步：源commit后原机干净核验并从开发克隆快进，保持运行快照；以原机正常tool.py prepare --source-commit完整SHA --review私有上述路径，只读创建新work/reviewed-dual390。根独立validate_package/verify_roots_protected/runtime/CIM/909、Task/budget和12根前后对比，并确认无approval/attempt/worker/live-output，冻结结果进docs、README/CHANGELOG及整份交接，推原GitHub main并核remote。只有源commit和实际冻结都存在才将390标done，再建单项need-user请求具体新范围。不要重放旧批、跑全量、覆盖独占输出或把static_only当业务通过。
+运行原后端曾停，本轮原start.ps1恢复health200；0.413.0-bdb32c6761fe3102d582/298/PID28040，最新只读CIM与源快照核过。两克隆源f9aa9f0同步，最新交接提交以实际Git HEAD/remote核对并正常快进；工具/文档不需重新产品部署。27Task/12根/909保持，生产目标r8/manual/draft_ready/req+config true/无App或runs/limits None，Task与budgetSHA仍第4节值。
 
-拟改授375剩116GET、App/首次发布/Key各2、12启动/14Service/14原生轨迹/双ZIP、Dify估.100，仅新增登录50→51；Sierra搭建模型/Task/库0，首次正常设12启动/45分钟/None，批60分钟。Dify内部仍调用模型，估算非账单硬限、宿主未知；旧费用及预留不退借。仅技术成功而业务failed的唯一轮≤4GET/1诊断后封存（计116内），其余异常立即停不重试。当前没有新直接授权，禁止approve/run、读Secret或提前改生产策略。
+核心未闭合：两份静态ZIP已有，双版Dify六例七轮/14轨迹/双ZIP尚待本391真实批；原图类型纠正意味着全自主原样质量也未完成，不能报全项目完成或编造百分比。没有观察实际Codex额度不足；当前实际下一步依赖新的直接资源授权，不因一项本机工具绿灯就回放旧范围。所有代码已交DS实现，根负责方案/审阅/独立QA/正常操作与Git，不接手实现；仅必要相关文件，不通读历史或跑全量。
 
 ## 4. 最新385真实结果与不可再执行的包
 
