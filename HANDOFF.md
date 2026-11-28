@@ -16,17 +16,17 @@ Sierra仍0.413.0-bdb32c6761fe3102d582/298文件/PID28040，后端P/.runtime/snap
 
 ## 3. 下一步与当前任务
 
-394 done：源604e3c4b953a60daff6e80b29c4010ad02329194已提交推送/原机同步，根最终22组、三项独立反例、真实JSON全链和直接tool.run成功/首诊断技术停止隔离均实际通过。正常原机prepare仅1次exit0，独立审计11成员/实际编译/每版13主题/12根926/实际快照与PID28040/Task预算密文保护通过。详docs/reviewed-remaining394-local-result-20261128.md、freeze-result及platform-plan。原机canonical P/work/reviewed-remaining394，plan 190f357228611bcb7ffd87dd7da496709763fab1ab754a785148025d12003a02，manifest 7aeb1bc0b6cdd2e1bcbdd0480c1adb6084d1e86c230d0c3182cd5ad791055d39。
+当前396 doing：DS只读find已正常0完成，会话be969b2a-2444-4283-8293-fd5ec24bd55f，日志D/work/reviewed-order396-ds-find.log，外部任务S/reviewed-order396-find.md，只许公开必要片段S/reviewed-run395-order-route-public-snippets.json与question_classifier.py/dsl.py/dsl_roundtrip.py相关函数。不读真实data/work旧原文，不新发模型/Dify/登录/运行/Key，不改真实Task/旧图/期望。根已核报告及编译证据；下一具体do仅制作分类instruction单字段修正副本/严格保真检查，仍不动真实Task或发新调用。等待状态被非编号下一轮消费是既有代码行为，本次首轮错误不据此顺带修改。用户指定继续DeepSeek，Root不接手实质实现。
 
-当前395 need-user，尚无新的直接批准。新包approval/attempt/worker-started/live-output全无；不得借旧call_90ac或重新执行已消费391。先确认新直接用户回答精确覆盖冻结plan/manifest，再正常approve/run各一次；无批准只做已授权本机任务。拟明确改授391余103GET/资源各1/13Service/11启动，新增登录1（51→52）、所选助手Key最多14次仅内存诊断脱敏/0模型调用、新增Dify估.100 USD（旧391.100完全保持）。模型57/管理1730/资源30/Service148/模型账本3.355473652不增，估算非账单硬限、宿主未知；整批60分钟，原policy1/12启动45分钟/None已有1启动不重置。
+395已经新批准并永久消费：call_0821a5e8b8c64956bc8d63d2acd7901c/q0原话与tool.APPROVAL_PHRASE精确相同，私有S/reviewed-remaining394-direct-authorization.json。正常approve/run各一次exit1，实际26GET/登录1/新Service5及启动5/物理32/助手Key仅内存脱敏6，Sierra模型/新Task/资源0。复用首例未重发；原版前5/6规则和原生要求路径通过，missing-then-order第1轮“我想查询订单状态，但尚未提供订单号。”误走范围外，业务failed；DEMO-001后续轮按正常多轮停止未发。获准唯一4GET诊断captured后封存，修改版未开始，ZIP0。共6实际原生诊断（5成功路径+1失败轮），脱敏/执行图/身份链实机可用，不是完整双版/自主验收。
 
-未来正常顺序：新空间重连→仅给旧首例补一份来源绑定不可删改的诊断，所有版本新Service均须首例原生源核验通过→原版余五例六请求/五启动/原ZIP→正常唯一文案改版、13主题、manual已审图确认构建→修改版新App/发布/Key各1、六例七请求/六启动/七trace/ZIP。总13新Service/11启动、14trace/双ZIP；首例绝不重发，旧字段/其它run保持。新Key切连接旧Key加密归档。任何异常停不重试，只有新Service技术success但业务failed唯一轮≤4GET/1报告计103；技术异常无例外。审批精确文字见平台方案或tool.APPROVAL_PHRASE，不伪造直接回答。
+失败run c571cefa-e2b7-4200-a285-3c19104aa3fd，native914d1531-08a9-4303-92e2-7723a6bff115。实际节点start/entry_probe/consume_wait/pre_route/classify/out_of_scope_text/answer_out_of_scope，source_graph matched、远端succeeded，无ask_order_no/request_wait。根独立证明instruction/query selector/classes ID与名/faq→retrieve、order→extract、out_of_scope→out_of_scope_text逐值编译保留（D/work/reviewed-order396-root-compiler-proof.json），不能直接归咎编译器或虚构模型原因。需核分类文字“本轮给出或明确要求查询订单号”及把“真实订单”列范围外是否排除了自然缺号订单请求，保留不接真实系统/明确模拟等业务要求。
 
-DS会话cc41461a-9633-4755-af50-7e35e0d16d8d；初次do超时保留、fix1检查失败，fix2自修1次21组过，fix3共同物理门、fix4补回原图/实际YAML前置，最终22组。根只整理boundary末尾多余空行，实质代码全部DS。固定check为P/.venv/Scripts/python.exe tools/reviewed-remaining394/checks.py（cwd D）。根独立入口QA前置/审批/HTTP是明确公开替身，实际Guard/journey/JSON/清理执行；成功13假Service/14trace/双ZIP/14假Key/69假GET，停止0新Service/资源/1假Key，保护证据与transport恢复均过，不能当真实业务通过。
+根本机只读审计实际通过并封存：P/work/reviewed-run395-after-live-audit.json，D同名JSON/log；S/audit-reviewed-run395-stopped.py已成功一次，不覆盖输出或重跑。旧其他对象/Provider与运行Key/保存登录凭据密文/资产/原policy/整五项预算/旧消息及首例除唯一诊断完整摘要保持，11根926原样。只console token/csrf密文正常更新及1认证回执。P/work/reviewed-run395-seal-after-review.json直接17map（16canonical+审计）SHA d8711a5a6fe2ed8203856476f0507b4c72db27a91f9fe499d864f62e81764083，加自身18及旧926共944，必须未来逐项核，不能只核数量或再用仅926保护。索引在canonical外，旧包不改。
 
-本机证据D/work/reviewed-remaining394-root-final.log、root-runner-final.log、root-gates-final.log、root-json-v2.log、root-protection-final.json、root-freeze-audit.json/log；原机prepare.log。S/根内容review SHA ad369a1105d7fccd96158fdefb67158509a07aeb186a24599ff7e8d06d47b11a，root_agent/standing_delegated_content_review/human_signoff false，不是外部批准。冻结前独立12根/密文/文件摘要在S/reviewed-remaining394-freeze-before.json，审计脚本audit-reviewed-remaining394-freeze.py已执行成功，不覆盖其输出或重跑prepare。
+当前Task r8/manual/run_completed、req/config true、App9242435f-e66f-4292-86ba-0834a495dab7，SHA 6225fa08b9918d69fa8ac537651aea3d73b00b5a44bef54df2516fd1515f6909；预算b2472f1c98a48418bded9a9a73c776a14cc0b56bf0a6f04c21d87b2fea94bad0，5项不变；环境0e196f559d71b9a542fe905914d0a26220c6ac9dfd466e67af69c7d48cca868b。现有原policy1/12启动45分钟/None已有6启动，不重置。五新Service报告5465tokens/price0非完整账单，旧391.100与新395.100均保留。保守模型57/读1730/登录52/资源30/Service148/模型账本3.355473652不变。剩77GET/资源各1/8Service/6启动/8脱敏读取许可不自动改授，未来若修图须新独立方案/批准，不续跑旧阶段。
 
-当前Task SHA604fe5bbf4c7fd94dc4a9af3f60c31a886b6c1f04cd10715d47e73f51229028d、预算b2472f1c98a48418bded9a9a73c776a14cc0b56bf0a6f04c21d87b2fea94bad0、环境5099deeb4011f872f5ba536b6560844d072c3e2ae982d2e9531d3fd663547dc7，首例source_hash c71de878be3bb493de7a8f658d83cc06a8cbfbf472724b67e6c81acc32c8660e。真实YAML和926保持，0真实Dify请求/Provider Key解密。实际Sierra /api/runtime元数据和CIM已核，不涉及Dify管理读数。
+394实现/冻结done：源604e3c4b953a60daff6e80b29c4010ad02329194，冻结plan190f357228611bcb7ffd87dd7da496709763fab1ab754a785148025d12003a02/manifest7aeb1bc0b6cdd2e1bcbdd0480c1adb6084d1e86c230d0c3182cd5ad791055d39。根22组、三反例、实际run双生命周期隔离、原机11成员/12根926/实际298快照及PID28040审计过。Root只格式化末尾空行，实质DS；会话cc41461a-9633-4755-af50-7e35e0d16d8d。原机canonical P/work/reviewed-remaining394现已stopped且全封存，严禁prepare/approve/run/补签再用。详docs/reviewed-run395-live-result-20261128.md；freeze-before/原根review/QA脚本仍在S。
 
 ## 4. 已消费391及历史保护（绝不重放）
 
@@ -40,7 +40,7 @@ DS会话cc41461a-9633-4755-af50-7e35e0d16d8d；初次do超时保留、fix1检查
 
 ## 5. 费用与凭据
 
-保守模型57/管理1730/登录51/App发布Key各30/Service148，模型估算账本3.355473652 USD。旧模型unknown/settled/所有未派发保留不借退；95unknown.0188541及旧槽保持。385唯一模型新增settled.009037272（配置估算非账单），生产五项账本未写，隔离复制旧五项不重算新增。开发DeepSeek另计。
+保守模型57/管理1730/登录52/App发布Key各30/Service148，模型估算账本3.355473652 USD。旧模型unknown/settled/所有未派发保留不借退；95unknown.0188541及旧槽保持。385唯一模型新增settled.009037272（配置估算非账单），生产五项账本未写，隔离复制旧五项不重算新增。开发DeepSeek另计。
 
 专用环境202bfb35-2f92-47c1-bc1b-eac32082181d，原空间c3306c18-ceb2-4bee-b2d1-796ce2048f17，现运行App9242435f-e66f-4292-86ba-0834a495dab7，runtime标签registered_unverified不是verified，但已有成功Service；不得为了夹具方便改真实标签。旧运行Key已加密留档。只复用本机加密登录资料，不抄聊天密码、不输出或提交秘密。全局9513f594-c256-46b7-882a-35d9871bf9d0/deepseek-flash、FAQ d12cf081-5c52-41e3-b869-e94e6f8d37b1 TopK3/无阈值不重排保持。未来新Key切连接并归档旧Key须新真实批准。
 
