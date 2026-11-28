@@ -1,5 +1,7 @@
 # Sierra
 
+[订单缺号分类说明修正副本](docs/reviewed-order396-result-20261128.md)已通过19项及实际双图静态保真检查，只改分类instruction，未采纳到真实任务。实际效果待新的两版完整验收，旧五例通过不代替新图结果。
+
 [剩余执行器实现/冻结](docs/reviewed-remaining394-freeze-result-20261128.md)后，[395真实批](docs/reviewed-run395-live-result-20261128.md)已唯一执行：原版5/6及原生路径通过，缺号首轮误走范围外，保存失败轨迹后停止；修改版和双ZIP未完成。脱敏适配器实机可用，下一交DeepSeek只读定位分类/路由语义，旧批封存不重跑。
 
 [Chatflow代码样例](docs/local-code-samples.md)现支持已保存的根Python节点：手工JSON替代真实会话/上游，显式确认后在现有受限本机容器运行。正常和代码异常分别留痕；不是完整Chatflow或Dify业务验证。0.413相关147后端测试、构建与5项界面/3真实本机容器核对已过，原机0.413.0已保护部署。

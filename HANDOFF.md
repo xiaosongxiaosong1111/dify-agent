@@ -16,7 +16,11 @@ Sierra仍0.413.0-bdb32c6761fe3102d582/298文件/PID28040，后端P/.runtime/snap
 
 ## 3. 下一步与当前任务
 
-当前396 doing：DS只读find已正常0完成，会话be969b2a-2444-4283-8293-fd5ec24bd55f，日志D/work/reviewed-order396-ds-find.log，外部任务S/reviewed-order396-find.md，只许公开必要片段S/reviewed-run395-order-route-public-snippets.json与question_classifier.py/dsl.py/dsl_roundtrip.py相关函数。不读真实data/work旧原文，不新发模型/Dify/登录/运行/Key，不改真实Task/旧图/期望。根已核报告及编译证据；下一具体do仅制作分类instruction单字段修正副本/严格保真检查，仍不动真实Task或发新调用。等待状态被非编号下一轮消费是既有代码行为，本次首轮错误不据此顺带修改。用户指定继续DeepSeek，Root不接手实质实现。
+396 doing待源提交后关闭：DS find/do正常0，会话be969b2a-2444-4283-8293-fd5ec24bd55f。根19项、真实已存双图/完整原生输出只instruction一字段变化、原双版两文案差异及12根944保持实际过。新tools/reviewed_order_intent396.py为仅copy/json/math纯函数amend_pair，无IO/模型/网络/Store；只纠正普通订单缺号意图与真实系统接入边界，未采纳到真实Task，旧r8/App不改。
+
+新原图2f2cc42643c83dd985e88a4e0bbe5fa931e36665bd2324a644ca0088c6c09f44，新改图a046fd51b72806104db5fa05027b6dc372516e732f6c0f7e6b21d970f5528767，各23节点24边。D/work/reviewed-order396-candidates含四JSON/review.json，标candidate_only；根独立S/verify-reviewed-order396-saved-pair.py已成功一次，不能覆盖或假称真实分类通过。文档docs/reviewed-order396-result-20261128.md和order-intent396-candidate.md；19项fixed命令在结果文档，logs work/reviewed-order396-{ds-find,ds-do,root-tests,root-saved-pair}.log。Root完整读源与报告，实质代码DS。
+
+下一397本机完整新批编排与可审查范围：instruction变化使所有分类案例都需重新验证，不能复用旧五成功当新图成功；两版重新各六例七轮，旧App不覆盖、新App各1。原Task现6启动/原12上限，完整新批12启动将合18；真实14Service/2资源分别超未用8/1，管理77未用也需按实际隔离计数明确改授/新增，一并考虑新登录及仅内存脱敏14。先交DS本机实现/公开隔离/源提交/只读冻结/完整方案，再新直接批准；当前所有真实范围为零，不接续395，不自动借退旧槽/费用。
 
 395已经新批准并永久消费：call_0821a5e8b8c64956bc8d63d2acd7901c/q0原话与tool.APPROVAL_PHRASE精确相同，私有S/reviewed-remaining394-direct-authorization.json。正常approve/run各一次exit1，实际26GET/登录1/新Service5及启动5/物理32/助手Key仅内存脱敏6，Sierra模型/新Task/资源0。复用首例未重发；原版前5/6规则和原生要求路径通过，missing-then-order第1轮“我想查询订单状态，但尚未提供订单号。”误走范围外，业务failed；DEMO-001后续轮按正常多轮停止未发。获准唯一4GET诊断captured后封存，修改版未开始，ZIP0。共6实际原生诊断（5成功路径+1失败轮），脱敏/执行图/身份链实机可用，不是完整双版/自主验收。
 
