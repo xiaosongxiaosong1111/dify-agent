@@ -22,7 +22,11 @@
 
 最新保护926：原机work/reviewed-run391-seal-after-review.json直接16成员（15canonical+根audit），SHA87ed9ec71d7487704d39360d723048d220bb64b81952e91e2ea9237493d2868f，加自身17及旧909共926；索引在canonical外，旧390六源/目录不改。原机work/reviewed-run391-after-live-audit.json，克隆同名JSON/log及seal-summary.json均在；私有audit-reviewed-run391-stopped.py已执行一次，禁止覆盖或重跑。旧385seal仍97f93e94，保持嵌套父证据，未来必须加最新391索引保护，不能只核909。sourcef9aa9f0/plan1abf2fad718da18bfaa3619485ff82ed33791205f40c8a834198d0133e3b1e38/manifest505eee5fb777b7cef367886516edb04965e14b515ae3ad29742bcc1ee7a2985d保持。
 
-下一393 pending：交DeepSeek修正常诊断与只读脱敏凭据范围，先新独立helper+正常API假Key回归；旧已消费390代码不改、不弱化脱敏、不允许模型请求。根给具体外部方案/独立验收，禁止读取真实提供方Key或继续391。未来独立剩余平台批必须先完整冻结，再新明确批准：现有首例不重跑，只补其原生诊断；余5原版案例与改版7轮共13Service、资源各1、103GET/11启动仍是未派发保留，不自动跨批借用。若需新登录或仅内存provider Key脱敏许可，必须方案明确并由新直接批准覆盖。没有后续真实范围授权。
+393 doing，代码已由DS实现并根验收，待本次源提交存在后关闭：新tools/reviewed_diagnostic_redaction.py/新增unittest/范围文档，未改产品或旧390源。初次do56174在540秒超时exit2无最终报告；根v1十项过但正例类型不实未接收，明确返工fix1终端92462正常0/CLI一次过，会话2e44ab33-2571-4777-8e5e-4e5963f9de9c。根v2真实Chatflow消息映射11项实际过；另私有verify-diagnostic-redaction393-full-chain.py给既有公开双版链选入加密假provider Key，14假Service/14诊断/双ZIP过、恰14次假Key脱敏、上下文清除。work/diagnostic-redaction393-{root-v2,root-full-chain}.log/JSON及protection.json在，旧926/源/包/预算保持，0新真实请求/真实Key读取。完整结果docs/diagnostic-redaction393-result-20261128.md。
+
+下一步源commit后393标done，新394只本机独立剩余执行器：现有App9242435f-e66f-4292-86ba-0834a495dab7/首例836b9394-9260-4d6a-b123-81a629cc6795不重跑，只补原生轨迹；其余13Service/11启动、资源各1、103GET须新明确改授，Key仅内存脱敏最大14读与是否新登录/新增Dify估算也须新方案明确。旧391.100估算保留不释放，不能因为报告0就退预算。当前没有后续真实授权，helper不等于批准，不可在真实Vault启用。
+
+
 
 392 done：DS find19953正常0，会话4f3cd25c-6e51-4ee1-a02d-0b4e185fdbda。源码核入口/Store/transport，无当前必然阻断；根实际211对象仅内存隔离lifespan21读取、写/Secret/HTTP/直连0，12根909保持。doc reviewed-run392-result-20261128.md；这没有覆盖实际所选provider的诊断读取，不能冒称所有凭据路径已通过。根审阅/QA/正常操作与Git，代码交DS。
 
