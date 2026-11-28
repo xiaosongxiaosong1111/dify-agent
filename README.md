@@ -1,6 +1,6 @@
 # Sierra
 
-[剩余执行器本机验收](docs/reviewed-remaining394-local-result-20261128.md)已完成：复用已成功首例、补其轨迹后运行余项，22组与独立入口隔离检查通过。未重跑已消费批，未新增真实Dify请求；接下来只读冻结，真实新范围另需直接批准。
+[剩余执行器22组及独立入口验收](docs/reviewed-remaining394-local-result-20261128.md)、[原机只读冻结](docs/reviewed-remaining394-freeze-result-20261128.md)已完成。新方案复用成功首例、仅补其轨迹；旧批保持封存，未新增真实Dify请求。[完整剩余平台范围](docs/reviewed-remaining394-platform-plan-20261128.md)待一次新直接批准，尚不代表两版业务验收。
 
 [Chatflow代码样例](docs/local-code-samples.md)现支持已保存的根Python节点：手工JSON替代真实会话/上游，显式确认后在现有受限本机容器运行。正常和代码异常分别留痕；不是完整Chatflow或Dify业务验证。0.413相关147后端测试、构建与5项界面/3真实本机容器核对已过，原机0.413.0已保护部署。
 
