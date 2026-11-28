@@ -1,8 +1,10 @@
 # Sierra
 
+[剩余执行器本机验收](docs/reviewed-remaining394-local-result-20261128.md)已完成：复用已成功首例、补其轨迹后运行余项，22组与独立入口隔离检查通过。未重跑已消费批，未新增真实Dify请求；接下来只读冻结，真实新范围另需直接批准。
+
 [Chatflow代码样例](docs/local-code-samples.md)现支持已保存的根Python节点：手工JSON替代真实会话/上游，显式确认后在现有受限本机容器运行。正常和代码异常分别留痕；不是完整Chatflow或Dify业务验证。0.413相关147后端测试、构建与5项界面/3真实本机容器核对已过，原机0.413.0已保护部署。
 
-[当前原图静态交付](docs/static-delivery384-result-20261123.md)已完成：模型完整图经根审阅、DeepSeek纠正一个订单类型检查，正常保存r8/manual并保留r7/model原图；23节点，静态ZIP含DSL/报告/模拟接口指南等5文件。尚未发布或运行。接下来是商品型号文案改版完整候选及两版真实六例七轮，未把代理纠正当模型自主原样通过。
+[当前原图静态交付](docs/static-delivery384-result-20261123.md)已完成：模型完整图经根审阅、DeepSeek纠正一个订单类型检查，正常保存r8/manual并保留r7/model原图；23节点，静态ZIP含DSL/报告/模拟接口指南等5文件。现已在独立391批完成原版首次发布和首例关键词规则通过，原生诊断因脱敏范围冲突停止；两版完整六例七轮尚未通过，未把代理纠正当模型自主原样质量。
 
 [单句改版模型核对](docs/isolated-modification385-live-result-20261123.md)限定通过后，[在新隔离副本主动保存r10并交付静态ZIP](docs/reviewed-candidate388-static-result-20261124.md)已完成。原r8包保持，两个编译图严格仅两处文案改变。两版Dify六例七轮和原生轨迹尚未验收；普通保存来源manual及原图类型纠正历史如实保留。 [零新搭建模型的收尾设计](docs/reviewed-dual390-local-plan-20261124.md)[本机执行器实现已通过15组定向检查](docs/reviewed-dual390-local-result-20261128.md)，[原机只读冻结和独立保护核验已完成](docs/reviewed-dual390-freeze-result-20261128.md)，[完整真实收尾方案](docs/reviewed-dual390-platform-plan-20261128.md)[本批真实结果](docs/reviewed-run391-live-result-20261128.md)：原版App发布和首例关键词通过，原生诊断准备遇凭据脱敏范围冲突而技术停止，未进入修改版；[DeepSeek实现的仅内存诊断脱敏适配器](docs/diagnostic-redaction393-result-20261128.md)已过11定向及带所选假Key的公开双版完整链，旧批保持封存；下一步准备独立剩余方案，当前无新真实Key或平台范围授权。
 
