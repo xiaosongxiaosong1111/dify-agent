@@ -1,4 +1,4 @@
-# HANDOFF — Sierra（2026-11-24）
+# HANDOFF — Sierra（2026-11-28）
 
 ## 1. 工作方式与入口
 
@@ -14,15 +14,17 @@
 
 ## 3. 下一步与当前任务
 
-第387项done（实现7dcffdc）：FR27实际缺口——原本机样例硬拒Chatflow，已交DS调查并最小实现复用现有受限容器。会话1ca3bd90-16f2-47c5-9787-d8a7f0456402，find92291/do28024正常exit0，CLI修一次测试导入路径后固定check过；根完整差异核过（App严格只有两gate和一app_type来源绑定），147项相关后端、前端构建、5项界面核对通过，其中3真实本机临时容器正常订单/空白/数字输入，2 passed/1 failed-ValueError。Workflow保留、Agent不可见、Chatflow历史可读。27Task/12数据根/909封存/密文资产及原容器ID保持，没有产品模型/Dify请求或镜像拉取。日志work/chatflow-code-sample387-{ds-find,ds-do,root-tests,build,ui}.log，证据work/chatflow-code-sample387/{ui-proof,root-proof}.json与截图。代码为DS实现，根仅独立QA/文档。
+390 doing：六文件tools/reviewed-dual390由DeepSeek实现，根完整验收通过，当前待源提交、原机同步及只读冻结，不可approve/run。387实现7dcffdc/关闭0a8513a、388结果11ff4b0、389设计d4d5b65均done，产品保持0.413。两静态包已有，双版真实平台与全自主原样质量未闭合。
 
-387已保护部署0.413.0-bdb32c6761fe3102d582/298文件/PID43600，原start/stop成功，health/页面200、源快照/CIM/27Task/12数据根/909封存/全部密文资产保持。部署before/preflight/after均独占写在原机work/chatflow-code-sample387-deployment，不能覆盖重跑。私有audit-chatflow-code-sample387-deployment.py已verify过。旧前端dist仅在其部署目录old-dist备份，不删其它文件。实现7dcffdc存在，关闭387，更新日志后自主push。
+本轮DS同会话ebc2ba5b-02c0-42f3-ba8e-7d9916ea3e03：3b1旧超时后3b1a正常修native model比较/真实编译及完整core派生；3b2/2a修旧confirmation/model/interview/None图漏口、预算严格类型和正常API时间误拦。3b3终端26797正常0、CLI自修1次后主题检查过；根root-check-v10完整15组实际全过。3b3a终端20783正常0/CLI一次过，仅修公开fixture兜底/不实说明，根final-fixture受影响正常双版全链和主题复核实际过，四核心SHA保持。日志work/reviewed-dual390-{ds-fix3b*,root-check-v10,root-final-fixture}.log。不能只信DS说未运行或已通过，CLI与根结果分别记；未发现实际额度不足。
 
-388 done，结果提交11ff4b0存在：DS find13545正常0，核现有API普通POST /plan保存为manual（无专门模型采纳来源字段），根完整审读报告与源码后在全新work/reviewed-candidate388/isolated-data副本正常九API操作，r9候选→r10/manual/config确认/静态构建ZIP。候选逐值保持，native workflow仅两文案变化，旧6费用/历史保持，0外部请求/生产写入；27Task/12根/909/原r8 ZIP保持。私有verify-reviewed-candidate388.py已运行一次正常0；report/native-workflow-proof/agent-decision与root.log存在，不覆盖重跑。新DSL494512a150548acd2061f66ead217c1dfa2b2adff192caf6975b09138d4a1f4b，ZIP4be6d04c2e177c68110cd130b5f7ed61671e5b8e5e86507468abf0aad0af3c0e，正式图SHA3940d849与模型候选相同，static_only/business false。385只immutable读复制，未RW打开；生产仍r8。详docs/reviewed-candidate388-static-result-20261124.md。
+真实内容根独立只读核过：两图23节点/24边纯编译、三参数拒绝、两版13主题和各7轮trace；生产Task/budget保持。根私有reviewed-dual390-root-review.json已生成，SHA62fc1955f5ae975b2d09ab8752c7e3625f548c386bc3a73b56c1b008e3e3fe97；是根受托内容复核，不是直接副作用批准。生成器prepare-reviewed-dual390-root-review.py已执行一次，不覆盖重跑。私有原回答未发DS。源身份original=380 model+383明确manual类型纠正，modified=385 model+388 manual保存。
 
-389 done，设计提交d4d5b65存在：DS find52822正常0，根完整报告和关键源码核过。374/375要求无图/三模型，386要求新Task/旧节点，不能整包执行；根选择386零模型Boundary与374的Dify/动态trace/导出逻辑及原归属冻结规范做窄适配，不设新FAQ管理正文/临场等待阶段，知识命中/无命中仍按原六例真实运行和轨迹验收。具体docs/reviewed-dual390-local-plan-20261124.md；外部实现方案sierra-delegation/reviewed-dual390-implementation.md已写，390 doing：初次DS do38734约540秒exit1/no final（日志deepseek无输出/可能超时及unrecognized_model telemetry，不是已观察quota），保留六文件未验收/未提交。根实际check-v1在合成setup配置确认plan_stale422失败，另两弱probes通过（最终初稿已修DB字节误纳资产）；更强root-valid-source-v1使用真临时Git+六文件/manifest匹配，缺direct source/literal/scope/ref/retry仍进入被根拦截的_production，真实生产/网络0，准入漏口已实际复现。返工1终端5195已正常0，CLI自修1次后过；根独立root-check-v2也过正常双版链/缺canonical CLI。新增首轮业务失败函数未挂main，根另明确调用实际过（root-first-failure-v1），不能说主命令已覆盖失败轮。返工2终端60141约540秒exit1无最终输出，保留补丁；根root-check-v3正常链/首轮失败过，但_strict_map把bool当int拒合法policy；真Git源原漏洞v2已拒绝。根另复现合法quoted Windows app-dir被误拒。串行返工2a终端72457正常0/CLI自修1后过，根root-check-v4六组全过，原quoted命令反例通过。返工2b终端27812正常0/check一次过，根独立root-check-v5六组全过；根actual只读component-proof实际核12原机SQLite根、909真实sealed map、0.413/298源快照与CIM签名，前后captures/每SHA保持，0prepare/approve/run/Dify/model/Secret。日志work/reviewed-dual390-readonly-components.log/proof.json。现返工3a终端32628在途（新精简工作上下文、同网关deepseek-flash，具体session ID等交回；日志work/reviewed-dual390-ds-fix3a.log），固定恢复386零模型物理Boundary与374完整native消息/run/轮次身份链，增any_of合法无答案终端、第二轮失败/技术失败与source派生证明，根尚未验收。下一3b仍须核真实候选来源/正常编译native/core、精确两文案、显式13主题回答/Guard旧历史预算保护，未派。当前六文件均未提交/冻结/批准；不要接实机。先核在途勿重复派。DS脚本实际timeout默认540且到时taskkill整树（技能脚本60/114/134行），两次无最终输出无quota证据，按用户原指示继续同网关未换号/模型。旧initial-review-notes只是初稿点，部分已修，不能当最终结论。根内容事实sierra-delegation/reviewed-dual390-root-content-facts.json已按实际图核14轮路径/无答案OR/补号绕过分类，尚非副作用授权。不修改旧消费包。拟改授375余116读/资源各2/14Service/Dify估.100，仅新增一次加密登录50→51；只是拟议，不能approve/live或读Secret/改生产策略。
+原后端已停，原start.ps1恢复health200，0.413.0-bdb32c6761fe3102d582/298/PID28040。今日readonly-components-20261128 JSON/log已真实核12根/909/CIM/源快照/三个Git pin，前后保持，0prepare/approve/run/Dify/Secret。原机Git此前d4d5b65干净，开发及remote a04f673；新源尚待本次提交。产品未改，不需前端重建或部署版本。
 
-核心剩余：原图已有生产r8静态包，改版385完整模型候选已审并在388新隔离副本明确manual保存r10静态包，生产仍r8。先核现有候选主动采纳/同版静态交付路径及双版平台执行器的可复用能力，能正常本机推进则一次一项入队交DS，禁止重新付费生成图或造大型框架。两版Dify六例七轮/14轨迹/双ZIP未闭合；若需要真实范围，先完成可审查本机冻结方案，再取得新直接批准。375剩116读/资源各2/14Service/Dify估.100不能自动跨批借用；其模型最后一槽已消费、余0。新平台登录/新模型不能凭持续开发指令扩大。
+下一步：源commit后原机干净核验并从开发克隆快进，保持运行快照；以原机正常tool.py prepare --source-commit完整SHA --review私有上述路径，只读创建新work/reviewed-dual390。根独立validate_package/verify_roots_protected/runtime/CIM/909、Task/budget和12根前后对比，并确认无approval/attempt/worker/live-output，冻结结果进docs、README/CHANGELOG及整份交接，推原GitHub main并核remote。只有源commit和实际冻结都存在才将390标done，再建单项need-user请求具体新范围。不要重放旧批、跑全量、覆盖独占输出或把static_only当业务通过。
+
+拟改授375剩116GET、App/首次发布/Key各2、12启动/14Service/14原生轨迹/双ZIP、Dify估.100，仅新增登录50→51；Sierra搭建模型/Task/库0，首次正常设12启动/45分钟/None，批60分钟。Dify内部仍调用模型，估算非账单硬限、宿主未知；旧费用及预留不退借。仅技术成功而业务failed的唯一轮≤4GET/1诊断后封存（计116内），其余异常立即停不重试。当前没有新直接授权，禁止approve/run、读Secret或提前改生产策略。
 
 ## 4. 最新385真实结果与不可再执行的包
 
